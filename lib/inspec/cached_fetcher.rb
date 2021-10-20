@@ -6,9 +6,9 @@ module Inspec
     extend Forwardable
 
     attr_reader :cache, :target, :fetcher
-    def initialize(target, cache)
+    def initialize(target, cache, opts = {})
       @target = target
-      @fetcher = Inspec::Fetcher::Registry.resolve(target)
+      @fetcher = Inspec::Fetcher::Registry.resolve(target, opts)
 
       if @fetcher.nil?
         raise("Could not fetch inspec profile in #{target.inspect}.")

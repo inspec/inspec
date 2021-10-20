@@ -14,7 +14,7 @@ gh_repo = "inspec"
 The Chef InSpec interactive shell is a pry based REPL that can be used to
 quickly run Chef InSpec controls and tests without having to write it to a
 file. Its functionality is similar to [chef-shell](/chef_shell/) as it provides a way
-to exercise the Chef InSpec DSL, its resources, tests, and plugins without
+to exercise the Chef InSpec Language, its resources, tests, and plugins without
 having to create a profile or write a test file. See
 [http://pryrepl.org/](http://pryrepl.org/) for an introduction to what pry is and what it can
 do.
@@ -57,9 +57,9 @@ Use resource packs to share custom resources with other Chef InSpec users.
 A resource pack is a Chef InSpec profile that contains only custom resources and
 no other controls or tests.
 
-For example, the profile in [`examples/profile`](https://github.com/chef/inspec/tree/master/examples/profile)
+For example, the profile in [`examples/profile`](https://github.com/chef/inspec/tree/main/examples/profile)
 in the Chef InSpec GitHub repository defines an
-[`example_config` resource](https://github.com/chef/inspec/blob/master/examples/profile/controls/example.rb).
+[`example_config` resource](https://github.com/chef/inspec/blob/main/examples/profile/controls/example.rb).
 To use these resources within the Chef InSpec shell, you will need to download
 and specify them as a dependency.
 
@@ -94,7 +94,7 @@ inspec> 1 + 2
 inspec> exit
 ```
 
-## Using Chef InSpec DSL in Chef InSpec shell
+## Using Chef InSpec Language in Chef InSpec shell
 
 Chef InSpec shell will automatically evaluate the result of every command as
 if it were a test file. If you type in a Ruby command that is not an
@@ -229,4 +229,50 @@ $ inspec shell --format json -c 'describe file("/Users/test") do it { should exi
     "duration": 0.003171
   }
 }
+```
+
+## Running Chef InSpec Shell With Inputs
+
+With InSpec [profiles that support inputs]({{< relref "inputs/#which-profiles-support-inputs" >}}),
+you can set inputs using the InSpec `shell` command. This allows you to work more consistently with
+InSpec profiles when switching between the `shell` and `exec` commands.
+
+For more details on inputs, see the [inputs reference](/inspec/inputs/).
+
+### Set Inputs with Command-line Options
+
+The `shell` command accepts one or more inputs in the command line as single-quoted YAML or JSON structures.
+
+```bash
+$ inspec shell --input=input_name=input_value
+Welcome to the interactive InSpec Shell
+To find out how to use it, type: help
+
+inspec> control 'my_control' do
+inspec>   describe input('input_name') do
+inspec>     it { should cmp 'input_value' }
+inspec>   end
+inspec> end
+Profile: inspec-shell
+
+  ✔  my_control: input_value
+     ✔  input_value is expected to cmp == "input_value"
+
+Profile Summary: 1 successful control, 0 control failures, 0 controls skipped
+Test Summary: 1 successful, 0 failures, 0 skipped
+inspec> exit
+```
+
+### Set Inputs with YAML File
+
+You can also save inputs and values to one or more YAML files and pass them to `shell` in the command line.
+For example:
+
+```yaml
+input_name: input_value
+another_input: another_value
+```
+
+```bash
+inspec shell --input-file=<path>
 ```

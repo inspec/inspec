@@ -11,7 +11,7 @@ platform = "linux"
     parent = "inspec/resources/os"
 +++
 
-Use the `zfs_dataset` Chef InSpec audit resource to test the ZFS datasets on FreeBSD systems.
+Use the `zfs_dataset` Chef InSpec audit resource to test the ZFS datasets on FreeBSD & Linux (Check [OS Family Details](https://docs.chef.io/inspec/resources/os/#osfamily-helpers) for more details).
 
 ## Availability
 

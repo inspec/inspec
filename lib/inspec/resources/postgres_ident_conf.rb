@@ -5,6 +5,7 @@ module Inspec::Resources
   class PostgresIdentConf < Inspec.resource(1)
     name "postgres_ident_conf"
     supports platform: "unix"
+    supports platform: "windows"
     desc 'Use the postgres_ident_conf InSpec audit resource to test the client
           authentication data is controlled by a pg_ident.conf file.'
     example <<~EXAMPLE
@@ -18,7 +19,7 @@ module Inspec::Resources
     attr_reader :params, :conf_file
 
     def initialize(ident_conf_path = nil)
-      @conf_file = ident_conf_path || File.expand_path("pg_ident.conf", inspec.postgres.conf_dir)
+      @conf_file = ident_conf_path || File.join(inspec.postgres.conf_dir, "pg_ident.conf")
       @content = nil
       @params = nil
       read_content

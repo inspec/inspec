@@ -1,22 +1,250 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.30.0 -->
-## [v4.30.0](https://github.com/inspec/inspec/tree/v4.30.0) (2021-04-05)
+<!-- latest_release 4.47.8 -->
+## [v4.47.8](https://github.com/inspec/inspec/tree/v4.47.8) (2021-10-19)
 
 #### Merged Pull Requests
-- Add timeout option to command resource [#5443](https://github.com/inspec/inspec/pull/5443) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Oracle db session resource fix - when invoking query using os user and db role [#5702](https://github.com/inspec/inspec/pull/5702) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
-<!-- release_rollup since=4.29.3 -->
-### Changes since 4.29.3 release
+<!-- release_rollup since=4.46.13 -->
+### Changes since 4.46.13 release
+
+#### New Features
+- Add support for Cassandra DB [#5683](https://github.com/inspec/inspec/pull/5683) ([Nik08](https://github.com/Nik08)) <!-- 4.47.0 -->
 
 #### Merged Pull Requests
-- Add timeout option to command resource [#5443](https://github.com/inspec/inspec/pull/5443) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.30.0 -->
-- Update inputs.md [#5449](https://github.com/inspec/inspec/pull/5449) ([IanMadd](https://github.com/IanMadd)) <!-- 4.29.5 -->
-- Fix for Deprecation warning and FilterTable::ExceptionCatcher to show exact failure message. [#5441](https://github.com/inspec/inspec/pull/5441) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.29.4 -->
+- Oracle db session resource fix - when invoking query using os user and db role [#5702](https://github.com/inspec/inspec/pull/5702) ([Nik08](https://github.com/Nik08)) <!-- 4.47.8 -->
+- Enable repeatable builds by bundling Gemfile.lock [#5688](https://github.com/inspec/inspec/pull/5688) ([tas50](https://github.com/tas50)) <!-- 4.47.7 -->
+- Fix google_container_node_pool.md [#5696](https://github.com/inspec/inspec/pull/5696) ([pradeepbhadani](https://github.com/pradeepbhadani)) <!-- 4.47.6 -->
+- Renamed Inspec DSL to Inspec Language [#5694](https://github.com/inspec/inspec/pull/5694) ([dishanktiwari2501](https://github.com/dishanktiwari2501)) <!-- 4.47.5 -->
+- Group &amp; User Resources - Resolve name case-sensitivity issue for windows [#5667](https://github.com/inspec/inspec/pull/5667) ([Nik08](https://github.com/Nik08)) <!-- 4.47.4 -->
+- Update GCS Storage class list [#5676](https://github.com/inspec/inspec/pull/5676) ([pradeepbhadani](https://github.com/pradeepbhadani)) <!-- 4.47.3 -->
+- Improvements to the inspec.yml docs [#5679](https://github.com/inspec/inspec/pull/5679) ([tas50](https://github.com/tas50)) <!-- 4.47.2 -->
+- Update the unit test files to use latest versions of OS rather than the older.  [#5681](https://github.com/inspec/inspec/pull/5681) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.47.1 -->
+- Update OpenSSL on macOS to 1.1.1l [#5687](https://github.com/inspec/inspec/pull/5687) ([tas50](https://github.com/tas50)) <!-- 4.47.0 -->
+- Add back Ubuntu 16.04 packages + testing [#5689](https://github.com/inspec/inspec/pull/5689) ([tas50](https://github.com/tas50)) <!-- 4.46.15 -->
+- Replaced /main/ from /master/ [#5678](https://github.com/inspec/inspec/pull/5678) ([dishanktiwari2501](https://github.com/dishanktiwari2501)) <!-- 4.46.14 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.46.13](https://github.com/inspec/inspec/tree/v4.46.13) (2021-09-30)
+
+#### New Features
+- Add support for Sybase databases [#5561](https://github.com/inspec/inspec/pull/5561) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add ibmdb2_conf and ibmdb2_session resource [#5614](https://github.com/inspec/inspec/pull/5614) ([Vasu1105](https://github.com/Vasu1105))
+- adds chrony_conf InSpec resource [#5589](https://github.com/inspec/inspec/pull/5589) ([collinmcneese](https://github.com/collinmcneese))
+
+#### Enhancements
+- Add csv without headers support in csv resource [#5665](https://github.com/inspec/inspec/pull/5665) ([Vasu1105](https://github.com/Vasu1105))
+- Add option in `postgres_session` resource to establish socket connection [#5664](https://github.com/inspec/inspec/pull/5664) ([Nik08](https://github.com/Nik08))
+
+#### Bug Fixes
+- Fix main in expeditor script [#5669](https://github.com/inspec/inspec/pull/5669) ([kagarmoe](https://github.com/kagarmoe))
+- Fix --tags filter for dependent profiles [#5657](https://github.com/inspec/inspec/pull/5657) ([Nik08](https://github.com/Nik08))
+
+#### Merged Pull Requests
+- Add labeler workflow with docs label [#5655](https://github.com/inspec/inspec/pull/5655) ([IanMadd](https://github.com/IanMadd))
+- Docs edits [#5654](https://github.com/inspec/inspec/pull/5654) ([IanMadd](https://github.com/IanMadd))
+- Fix branch name in docs makefile [#5660](https://github.com/inspec/inspec/pull/5660) ([IanMadd](https://github.com/IanMadd))
+- Update inspec check docs for --format option [#5617](https://github.com/inspec/inspec/pull/5617) ([Vasu1105](https://github.com/Vasu1105))
+- Add support for Mssql Conf resource [#5574](https://github.com/inspec/inspec/pull/5574) ([Nik08](https://github.com/Nik08))
+- Add support for Oracle Configuration Resources (Oracle Db Conf &amp; Oracle Listener Conf) [#5573](https://github.com/inspec/inspec/pull/5573) ([Nik08](https://github.com/Nik08))
+- Added missing cli commands in cli doc [#5634](https://github.com/inspec/inspec/pull/5634) ([Nik08](https://github.com/Nik08))
+- Fix google_project_alert_policy Examples in the docs [#5426](https://github.com/inspec/inspec/pull/5426) ([wmetaw](https://github.com/wmetaw))
+- Update code to remove ruby 2.4 support [#5645](https://github.com/inspec/inspec/pull/5645) ([Vasu1105](https://github.com/Vasu1105))
+- Minor docs fixes. [#5662](https://github.com/inspec/inspec/pull/5662) ([IanMadd](https://github.com/IanMadd))
+- Add rocky and almalinux to service resource [#5604](https://github.com/inspec/inspec/pull/5604) ([sspans-sbp](https://github.com/sspans-sbp))
+- Change the deprecation warning to mention inputs [#5668](https://github.com/inspec/inspec/pull/5668) ([damacus](https://github.com/damacus))
+- Build packages for debian 11, macos 12, windows 11/2022 [#5675](https://github.com/inspec/inspec/pull/5675) ([tas50](https://github.com/tas50))
+- Fix --controls option was not working for dependent profile [#5656](https://github.com/inspec/inspec/pull/5656) ([Vasu1105](https://github.com/Vasu1105))
+- Fix opa_cli and opa_api resource unable to verify empty result {} [#5671](https://github.com/inspec/inspec/pull/5671) ([Vasu1105](https://github.com/Vasu1105))
+<!-- latest_stable_release -->
+
+## [v4.41.20](https://github.com/inspec/inspec/tree/v4.41.20) (2021-09-01)
+
+#### Merged Pull Requests
+- Build fix for ruby version 2.5 - HTML Proofer gem installation error  [#5610](https://github.com/inspec/inspec/pull/5610) ([Nik08](https://github.com/Nik08))
+- Fix range based filtering in filter tables [#5598](https://github.com/inspec/inspec/pull/5598) ([Nik08](https://github.com/Nik08))
+- Fix apache_conf issue when Server Root is not present in configuration [#5601](https://github.com/inspec/inspec/pull/5601) ([Nik08](https://github.com/Nik08))
+- Fix `--insecure` not working with profile  [#5600](https://github.com/inspec/inspec/pull/5600) ([Nik08](https://github.com/Nik08))
+- Fix `--chef-license=accept` option to only show license accepted message [#5609](https://github.com/inspec/inspec/pull/5609) ([Nik08](https://github.com/Nik08))
+- Fix postgres_session error Unable to connect to database [#5619](https://github.com/inspec/inspec/pull/5619) ([Vasu1105](https://github.com/Vasu1105))
+- Fix merging of included conf and main conf params in apache conf  [#5623](https://github.com/inspec/inspec/pull/5623) ([Nik08](https://github.com/Nik08))
+- Add aliyun3 support to service resource [#5578](https://github.com/inspec/inspec/pull/5578) ([elsnepal](https://github.com/elsnepal))
+- Fedora runtime support documented [#5628](https://github.com/inspec/inspec/pull/5628) ([Nik08](https://github.com/Nik08))
+- Updated inspec-aws git url to replace branch to master to main [#5637](https://github.com/inspec/inspec/pull/5637) ([Vasu1105](https://github.com/Vasu1105))
+- Replace use of wmic from security_identifier resource as it will be deprecated soon [#5636](https://github.com/inspec/inspec/pull/5636) ([Vasu1105](https://github.com/Vasu1105))
+- Updated security_policy resource docs [#5633](https://github.com/inspec/inspec/pull/5633) ([Vasu1105](https://github.com/Vasu1105))
+- Added info about the Minitest framework in contributing doc [#5630](https://github.com/inspec/inspec/pull/5630) ([Nik08](https://github.com/Nik08))
+- Fix for security_policy resource does not return array for local groups [#5629](https://github.com/inspec/inspec/pull/5629) ([Vasu1105](https://github.com/Vasu1105))
+- Proposed implementation for installation warnings [#5625](https://github.com/inspec/inspec/pull/5625) ([tecracer-theinen](https://github.com/tecracer-theinen))
+- Update location of default branch for omnibus and omnibus-software [#5648](https://github.com/inspec/inspec/pull/5648) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fix url fetcher when default git profile branch is not master [#5638](https://github.com/inspec/inspec/pull/5638) ([Nik08](https://github.com/Nik08))
+- Fix tags processing issue in profiles [#5643](https://github.com/inspec/inspec/pull/5643) ([Nik08](https://github.com/Nik08))
+
+## [v4.41.2](https://github.com/inspec/inspec/tree/v4.41.2) (2021-08-16)
+
+#### New Features
+- Add support for OPA: add resource opa_cli and opa_api [#5592](https://github.com/inspec/inspec/pull/5592) ([Vasu1105](https://github.com/Vasu1105))
+
+#### Bug Fixes
+- Pin mongo gem to 2.13.2 to avoid broken symlink [#5615](https://github.com/inspec/inspec/pull/5615) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Add mongodb_session resource and docs. [#5572](https://github.com/inspec/inspec/pull/5572) ([Vasu1105](https://github.com/Vasu1105))
+- Filter active controls in profile by tags [#5596](https://github.com/inspec/inspec/pull/5596) ([Nik08](https://github.com/Nik08))
+- Remove empty .gitmodules file [#5616](https://github.com/inspec/inspec/pull/5616) ([tduffield](https://github.com/tduffield))
+- Fix the typo in documentation file for opa_api resource [#5608](https://github.com/inspec/inspec/pull/5608) ([Vasu1105](https://github.com/Vasu1105))
+
+## [v4.38.9](https://github.com/inspec/inspec/tree/v4.38.9) (2021-07-22)
+
+#### Enhancements
+- Remove default port for mssql_session, allowing named connections [#5584](https://github.com/inspec/inspec/pull/5584) ([Nik08](https://github.com/Nik08))
+- Update postgresql resources to normalize it for platform supports  [#5576](https://github.com/inspec/inspec/pull/5576) ([Vasu1105](https://github.com/Vasu1105))
+
+#### Merged Pull Requests
+- Oracle Session Exception Handling [#5567](https://github.com/inspec/inspec/pull/5567) ([Nik08](https://github.com/Nik08))
+- Waiver file expiration dates misinterpretation fix [#5586](https://github.com/inspec/inspec/pull/5586) ([Nik08](https://github.com/Nik08))
+- Need to back out x25519 gem as its causing issues for ssh [#5590](https://github.com/inspec/inspec/pull/5590) ([Vasu1105](https://github.com/Vasu1105))
+- Use ruby 2.7.4 [#5602](https://github.com/inspec/inspec/pull/5602) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Remove mention of AWS tests from README [#5603](https://github.com/inspec/inspec/pull/5603) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+## [v4.38.3](https://github.com/inspec/inspec/tree/v4.38.3) (2021-07-02)
+
+#### Merged Pull Requests
+- Add support for mongodb_conf resource in InSpec [#5562](https://github.com/inspec/inspec/pull/5562) ([Vasu1105](https://github.com/Vasu1105))
+- Fix AWS secret key environment variable name in docs [#5566](https://github.com/inspec/inspec/pull/5566) ([sandratiffin](https://github.com/sandratiffin))
+- Fix relative links [#5556](https://github.com/inspec/inspec/pull/5556) ([IanMadd](https://github.com/IanMadd))
+- Misc updates to the README [#5526](https://github.com/inspec/inspec/pull/5526) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+## [v4.37.30](https://github.com/inspec/inspec/tree/v4.37.30) (2021-06-16)
+
+#### Bug Fixes
+- Include x25519 KEX module in omnibus build [#5563](https://github.com/inspec/inspec/pull/5563) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Minor MD reformatting for dev-docs page [#5550](https://github.com/inspec/inspec/pull/5550) ([IanMadd](https://github.com/IanMadd))
+- Fix mysql_session resource to raise exception if there is a error in connection or in query [#5551](https://github.com/inspec/inspec/pull/5551) ([Vasu1105](https://github.com/Vasu1105))
+- Fix postgres_session resource to raise exception if there is a error in connection or in query [#5553](https://github.com/inspec/inspec/pull/5553) ([Vasu1105](https://github.com/Vasu1105))
+- Restrict x25519 gem to x86 architectures [#5564](https://github.com/inspec/inspec/pull/5564) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+## [v4.37.25](https://github.com/inspec/inspec/tree/v4.37.25) (2021-06-10)
+
+#### Merged Pull Requests
+- sshd_config is for daemon, not client - typo [#5549](https://github.com/inspec/inspec/pull/5549) ([jblaine](https://github.com/jblaine))
+- Fix related to loading dependent profiles from a profile in shell [#5547](https://github.com/inspec/inspec/pull/5547) ([Nik08](https://github.com/Nik08))
+
+## [v4.37.23](https://github.com/inspec/inspec/tree/v4.37.23) (2021-06-03)
+
+#### Merged Pull Requests
+- Update inspec init plugin  [#5536](https://github.com/inspec/inspec/pull/5536) ([Vasu1105](https://github.com/Vasu1105))
+- Removed support for compliance and a1 server from InSpec compliance [#5534](https://github.com/inspec/inspec/pull/5534) ([Nik08](https://github.com/Nik08))
+- Add Ubuntu to list of FIPS platforms [#5533](https://github.com/inspec/inspec/pull/5533) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+## [v4.37.20](https://github.com/inspec/inspec/tree/v4.37.20) (2021-05-26)
+
+#### Merged Pull Requests
+- Added new automate doc link for login tokens in `inspec automate login --help` command [#5529](https://github.com/inspec/inspec/pull/5529) ([Nik08](https://github.com/Nik08))
+- Bugfix for `inspec detect --no-color` to not return colourful output [#5530](https://github.com/inspec/inspec/pull/5530) ([Nik08](https://github.com/Nik08))
+- Drop EOL Ubuntu 16.04, build on 18.04 [#5532](https://github.com/inspec/inspec/pull/5532) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+## [v4.37.17](https://github.com/inspec/inspec/tree/v4.37.17) (2021-05-20)
+
+#### Enhancements
+- Fix for port resource performance: adding more specific search while using ss command [#5522](https://github.com/inspec/inspec/pull/5522) ([Vasu1105](https://github.com/Vasu1105))
+
+#### Merged Pull Requests
+- Fix the lint and failing test for windows_feature resource [#5524](https://github.com/inspec/inspec/pull/5524) ([Vasu1105](https://github.com/Vasu1105))
+- Support zfs_pool and zfs_dataset resources on Linux. Handled #5075 [#5523](https://github.com/inspec/inspec/pull/5523) ([kannanr](https://github.com/kannanr))
+- Add basic docs for toml resource [#5514](https://github.com/inspec/inspec/pull/5514) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add CI-CD docs [#5489](https://github.com/inspec/inspec/pull/5489) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add explicit RHEL8 builders to omnibus build [#5527](https://github.com/inspec/inspec/pull/5527) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Changes returns nil on file non-existence through matcher `more_permissive_than` [#5519](https://github.com/inspec/inspec/pull/5519) ([Nik08](https://github.com/Nik08))
+- Update control-eval Readme docs. [#5516](https://github.com/inspec/inspec/pull/5516) ([Vasu1105](https://github.com/Vasu1105))
+- Added Common Errors page doc [#5517](https://github.com/inspec/inspec/pull/5517) ([Nik08](https://github.com/Nik08))
+
+## [v4.37.8](https://github.com/inspec/inspec/tree/v4.37.8) (2021-05-12)
+
+#### Merged Pull Requests
+- Update `bond0` example to use params properly [#5518](https://github.com/inspec/inspec/pull/5518) ([gscho](https://github.com/gscho))
+- HTTP resource response body coerced into UTF-8 [#5510](https://github.com/inspec/inspec/pull/5510) ([Nik08](https://github.com/Nik08))
+- Fixed `automate login` fake feedback on failure [#5509](https://github.com/inspec/inspec/pull/5509) ([Nik08](https://github.com/Nik08))
+- Document auxiliary reporter options on the reporter docs page [#5504](https://github.com/inspec/inspec/pull/5504) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update chefstyle requirement from ~&gt; 1.7.1 to ~&gt; 2.0.3 [#5508](https://github.com/inspec/inspec/pull/5508) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update Hugo and correct how build previews are generated [#5507](https://github.com/inspec/inspec/pull/5507) ([IanMadd](https://github.com/IanMadd))
+- Modified windows_feature to indicate enabled rather than just available [#5506](https://github.com/inspec/inspec/pull/5506) ([jwdean](https://github.com/jwdean))
+- Remove outdated instructions about testing AWS and Azure resources [#5499](https://github.com/inspec/inspec/pull/5499) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+## [v4.37.0](https://github.com/inspec/inspec/tree/v4.37.0) (2021-05-05)
+
+#### Enhancements
+- Reinstate resource testing on supported platforms using Test-Kitchen [#5204](https://github.com/inspec/inspec/pull/5204) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Bug Fixes
+- Fix : windows_firewall_rule fails to validate more than 1 rule depending on how it&#39;s executed  [#5502](https://github.com/inspec/inspec/pull/5502) ([Vasu1105](https://github.com/Vasu1105))
+
+#### Merged Pull Requests
+- Update openssl to 1.1.1k on macos [#5493](https://github.com/inspec/inspec/pull/5493) ([tas50](https://github.com/tas50))
+- Update Ruby in omnibus packages to 2.7.3 [#5492](https://github.com/inspec/inspec/pull/5492) ([tas50](https://github.com/tas50))
+- Make sure we use chef-telemetry 1.0.8+ [#5491](https://github.com/inspec/inspec/pull/5491) ([tas50](https://github.com/tas50))
+- Upgrade to GitHub-native Dependabot [#5488](https://github.com/inspec/inspec/pull/5488) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Fixes for the integration-resources pipeline [#5501](https://github.com/inspec/inspec/pull/5501) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fix bad link [#5498](https://github.com/inspec/inspec/pull/5498) ([IanMadd](https://github.com/IanMadd))
+- Fix  undefined method `+&#39; for nil:NilClass\n\nProfile: - when using profile dependencies and require_controls [#5487](https://github.com/inspec/inspec/pull/5487) ([Vasu1105](https://github.com/Vasu1105))
+- Remove coverage testing [#5500](https://github.com/inspec/inspec/pull/5500) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Added alias command `automate` for `inspec compliance` [#5490](https://github.com/inspec/inspec/pull/5490) ([Nik08](https://github.com/Nik08))
+
+## [v4.36.4](https://github.com/inspec/inspec/tree/v4.36.4) (2021-04-29)
+
+#### New Features
+- Add selinux resource with basic feature support [#5458](https://github.com/inspec/inspec/pull/5458) ([Vasu1105](https://github.com/Vasu1105))
+- New input option `pattern` added for DSL and metadata inputs [#5466](https://github.com/inspec/inspec/pull/5466) ([Nik08](https://github.com/Nik08))
+
+#### Enhancements
+- Add selinux resource support for modules and booleans [#5463](https://github.com/inspec/inspec/pull/5463) ([Vasu1105](https://github.com/Vasu1105))
+
+#### Bug Fixes
+- Fix for group resource when member does not exist [#5470](https://github.com/inspec/inspec/pull/5470) ([Nik08](https://github.com/Nik08))
+
+#### Merged Pull Requests
+- Update faraday requirement from &gt;= 0.9.0, &lt; 1.4 to &gt;= 0.9.0, &lt; 1.5 [#5469](https://github.com/inspec/inspec/pull/5469) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Minor fix - Method expected to return boolean but it was returning nil if condition check fails [#5480](https://github.com/inspec/inspec/pull/5480) ([Vasu1105](https://github.com/Vasu1105))
+- updating Gemfile to support environment variables [#5485](https://github.com/inspec/inspec/pull/5485) ([jayashrig158](https://github.com/jayashrig158))
+- Group &amp; Groups doc updated - about using local and etc groups [#5483](https://github.com/inspec/inspec/pull/5483) ([Nik08](https://github.com/Nik08))
+- Added new property `members_array` for group &amp; groups resources. [#5479](https://github.com/inspec/inspec/pull/5479) ([Nik08](https://github.com/Nik08))
+
+## [v4.33.1](https://github.com/inspec/inspec/tree/v4.33.1) (2021-04-21)
+
+#### New Features
+- Optionally include controls source code in CLI reporter [#5465](https://github.com/inspec/inspec/pull/5465) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Update postgres_ident_conf.md [#5461](https://github.com/inspec/inspec/pull/5461) ([tobiasbp](https://github.com/tobiasbp))
+- Remove default of 3600 seconds for command timeout [#5472](https://github.com/inspec/inspec/pull/5472) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+## [v4.32.0](https://github.com/inspec/inspec/tree/v4.32.0) (2021-04-14)
+
+#### New Features
+- Added ability to pass inputs to InSpec shell using input file and cli [#5452](https://github.com/inspec/inspec/pull/5452) ([Nik08](https://github.com/Nik08))
+
+## [v4.31.1](https://github.com/inspec/inspec/tree/v4.31.1) (2021-04-08)
+
+#### Bug Fixes
+- Use default command timeout value if timeout is 0 [#5455](https://github.com/inspec/inspec/pull/5455) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+## [v4.31.0](https://github.com/inspec/inspec/tree/v4.31.0) (2021-04-07)
+
+#### New Features
+- Add --docker-url CLI option [#5445](https://github.com/inspec/inspec/pull/5445) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+#### Merged Pull Requests
+- Fix for Deprecation warning and FilterTable::ExceptionCatcher to show exact failure message. [#5441](https://github.com/inspec/inspec/pull/5441) ([Vasu1105](https://github.com/Vasu1105))
+- Update inputs.md [#5449](https://github.com/inspec/inspec/pull/5449) ([IanMadd](https://github.com/IanMadd))
+- Add timeout option to command resource [#5443](https://github.com/inspec/inspec/pull/5443) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update platforms doc [#5442](https://github.com/inspec/inspec/pull/5442) ([IanMadd](https://github.com/IanMadd))
+- Bug fix for loading hashmap inputs consistently [#5446](https://github.com/inspec/inspec/pull/5446) ([Nik08](https://github.com/Nik08))
+
 ## [v4.29.3](https://github.com/inspec/inspec/tree/v4.29.3) (2021-03-25)
 
 #### Bug Fixes
@@ -31,7 +259,6 @@
 - Update codeowners for docs [#5440](https://github.com/inspec/inspec/pull/5440) ([IanMadd](https://github.com/IanMadd))
 - Improve resource page menu titles [#5439](https://github.com/inspec/inspec/pull/5439) ([IanMadd](https://github.com/IanMadd))
 - Add m1 support to MacOS build list [#5432](https://github.com/inspec/inspec/pull/5432) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v4.28.0](https://github.com/inspec/inspec/tree/v4.28.0) (2021-03-17)
 

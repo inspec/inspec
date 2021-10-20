@@ -22,11 +22,11 @@ describe "Inspec::Resources::JSON" do
       _(resource.send("run_list")).must_equal %w{a b}
     end
 
-    it "doesnt resolve dot-notation names" do
+    it "doesn't resolve dot-notation names" do
       _(resource.send("x.y.z")).must_be_nil
     end
 
-    it "doesnt resolve symbol-notation names" do
+    it "doesn't resolve symbol-notation names" do
       _(resource.send(:'x.y.z')).must_be_nil
     end
 
@@ -95,7 +95,7 @@ describe "Inspec::Resources::JSON" do
     # stdout:empty, stderr:empty
 
     def run_json_cmd(cmd)
-      Inspec::Config.cached["command_timeout"] = 3600 # Reset to default
+      Inspec::Config.cached["command_timeout"] = nil # Reset to default
       quick_resource("json", :linux, command: cmd)
     end
 

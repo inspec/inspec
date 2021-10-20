@@ -13,6 +13,6 @@ inputs:
   description: 'The GCP project identifier.'
 depends:
 - name: inspec-gcp
-  url: https://github.com/inspec/inspec-gcp/archive/master.tar.gz
+  url: https://github.com/inspec/inspec-gcp/archive/main.tar.gz
 supports:
 - platform: gcp

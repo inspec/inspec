@@ -35,7 +35,7 @@ create an IAM user specifically for auditing activities.
 #### Using Environment Variables to provide credentials
 
 You may provide the credentials to Chef InSpec by setting the following environment
-variables: `AWS_REGION`, `AWS_ACCESS_KEY_ID`, and `AWS_SECRET_KEY_ID`. You may
+variables: `AWS_REGION`, `AWS_ACCESS_KEY_ID`, and `AWS_SECRET_ACCESS_KEY`. You may
 also use `AWS_PROFILE`, or if you are using MFA, `AWS_SESSION_TOKEN`. See the
 [AWS Command Line Interface Docs](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html)
 for details.
@@ -163,7 +163,7 @@ version is 3.0.25.
 With a version of InSpec above 4.0.0, it is possible to create a profile with the
 following command:
 
-```
+```bash
 $ inspec init profile --platform gcp my-profile
 Create new profile at /Users/me/my-profile
  * Creating directory libraries
@@ -171,15 +171,15 @@ Create new profile at /Users/me/my-profile
  * Creating directory controls
  * Creating file controls/example.rb
  * Creating file inspec.yml
- * Creating file attributes.yml
+ * Creating file inputs.yml
  * Creating file libraries/.gitkeep
 ```
 
-Assuming the attributes yml file contains your GCP project ID, this sample
+Assuming the `inputs.yml` file contains your GCP project ID, this sample
 profile can then be executed using the following command:
 
-```
-inspec exec my-profile --attrs my-profile/attributes.yml -t gcp://
+```bash
+inspec exec my-profile --input-file=my-profile/inputs.yml -t gcp://
 ```
 
 #### Setting up the GCP Credentials File

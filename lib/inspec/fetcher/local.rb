@@ -3,7 +3,8 @@ require "openssl" unless defined?(OpenSSL)
 module Inspec::Fetcher
   class Local < Inspec.fetcher(1)
     name "local"
-    priority 0
+    priority 1
+    # Priority is used for setting precedence of fetchers. And registry plugin(v1) decides which fetcher to use for loading profiles by using this priority
 
     def self.resolve(target)
       if target.is_a?(String)
@@ -31,7 +32,7 @@ module Inspec::Fetcher
         target = target.gsub(%r{^file://}, "")
       else
         # support for windows paths
-        target = target.tr('\\', "/")
+        target = target.tr("\\", "/")
       end
 
       target if File.exist?(File.expand_path(target))

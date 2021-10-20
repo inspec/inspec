@@ -1,0 +1,14 @@
+name: hashmap
+title: InSpec Profile to verify hashmap inputs
+maintainer: Chef Software, Inc.
+copyright: Chef Software, Inc.
+license: Apache-2.0
+summary: A profile that checks loading of hashmap inputs
+version: 0.1.0
+supports:
+  platform: os
+inputs:
+- name: metadata_hash
+  value:
+    metadata_hash_key_str: metadata_hash_value_str
+    metadata_hash_key_sym: metadata_hash_value_sym

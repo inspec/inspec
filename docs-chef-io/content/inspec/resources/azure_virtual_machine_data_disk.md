@@ -221,6 +221,6 @@ Returns a boolean stating if the machine has Managed Disks for data disks.
 
 ## References
 
-- [Azure Ruby SDK - Compute](https://github.com/Azure/azure-sdk-for-ruby/tree/master/management/azure_mgmt_compute)
-- [Linux Internal Data Disks](https://github.com/chef/inspec/blob/master/test/azure/verify/controls/virtual_machine_linux_external_vm_datadisk.rb)
-- [Windows Internal Data Disk](https://github.com/chef/inspec/blob/master/test/azure/verify/controls/virtual_machine_windows_internal_vm_datadisk.rb)
+- [Azure Ruby SDK - Compute](https://github.com/Azure/azure-sdk-for-ruby/tree/main/management/azure_mgmt_compute)
+- [Linux Internal Data Disks](https://github.com/chef/inspec/blob/main/test/azure/verify/controls/virtual_machine_linux_external_vm_datadisk.rb)
+- [Windows Internal Data Disk](https://github.com/chef/inspec/blob/main/test/azure/verify/controls/virtual_machine_windows_internal_vm_datadisk.rb)

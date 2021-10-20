@@ -91,7 +91,7 @@ module Inspec
     end
 
     def all_controls
-      ret = @rules.values
+      ret = @rules.values.compact
       ret += @control_subcontexts.map(&:all_rules).flatten
       ret
     end

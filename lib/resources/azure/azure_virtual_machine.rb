@@ -127,7 +127,7 @@ module Inspec::Resources
       password_authentication?
     end
 
-    # Deteremine if the machine allows password authentication
+    # Determine if the machine allows password authentication
     #
     # @return boolean
     def password_authentication?

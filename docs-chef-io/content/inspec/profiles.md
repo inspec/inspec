@@ -41,7 +41,7 @@ where:
 - `README.md` should be used to explain the profile, its scope, and usage
 
 See a complete example profile in the Chef InSpec open source repository:
-[Example Chef InSpec Profile](https://github.com/chef/inspec/tree/master/examples/profile)
+[Example Chef InSpec Profile](https://github.com/chef/inspec/tree/main/examples/profile)
 
 Also check out [Explore Chef InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/)
 on Learn Chef Rally to learn more about how profiles are structured with hands-on-examples.
@@ -132,25 +132,25 @@ supports:
   - platform-name: debian
 ```
 
-To target only Ubuntu version 14.04, use:
+To target only Ubuntu version 20.04, use:
 
 ```YAML
 name: ssh
 supports:
   - platform-name: ubuntu
-    release: 14.04
+    release: 20.04
 ```
 
-To target the entire release of Ubuntu version 14.x, use:
+To target the entire release of Ubuntu version 20.x, use:
 
 ```YAML
 name: ssh
 supports:
   - platform-name: ubuntu
-    release: 14.*
+    release: 20.*
 ```
 
-To target the entire RedHat platform (including CentOS and Oracle Linux), use:
+To target the Red Hat and derivitive platforms such as CentOS and Oracle Linux, use:
 
 ```YAML
 name: ssh
@@ -158,7 +158,7 @@ supports:
   - platform-family: redhat
 ```
 
-To target the entire Windows 2019 platform family including Datcenter and Core Servers, use:
+To target the entire Windows 2019 platform family including Datacenter and Core Servers, use:
 
 ```YAML
 name: ssh
@@ -181,7 +181,7 @@ name: ssh
 supports:
   - platform-name: debian
   - platform-name: ubuntu
-    release: 14.04
+    release: 20.04
   - platform-family: redhat
   - platform: aws
 ```

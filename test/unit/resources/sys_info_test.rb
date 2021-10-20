@@ -5,7 +5,7 @@ require "inspec/resources/sys_info"
 describe "Inspec::Resources::SysInfo" do
   describe "sys_info" do
     it "check sys_info on Ubuntu" do
-      resource = MockLoader.new(:ubuntu1504).load_resource("sys_info")
+      resource = MockLoader.new(:ubuntu).load_resource("sys_info")
       _(resource.hostname).must_equal "example.com"
       _(resource.manufacturer).must_equal "ACME Corp."
       _(resource.model).must_equal "Flux Capacitor"

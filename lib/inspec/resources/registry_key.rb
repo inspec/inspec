@@ -105,7 +105,7 @@ module Inspec::Resources
       children_keys(@options[:path], filter)
     end
 
-    # returns nil, if not existant or value
+    # returns nil, if not existent or value
     def method_missing(*keys)
       # allow the use of array syntax in an `its` block so that users
       # can use it to query for keys with . characters in them
@@ -281,7 +281,7 @@ module Inspec::Resources
       key = @options[:key]
       return "" unless key
 
-      key.start_with?('\\') ? key : "\\#{key}"
+      key.start_with?("\\") ? key : "\\#{key}"
     end
   end
 

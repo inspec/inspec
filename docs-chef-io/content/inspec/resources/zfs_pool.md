@@ -11,7 +11,7 @@ platform = "linux"
     parent = "inspec/resources/os"
 +++
 
-Use the `zfs_pool` Chef InSpec audit resource to test the ZFS pools on FreeBSD systems.
+Use the `zfs_pool` Chef InSpec audit resource to test the ZFS pools on FreeBSD & Linux (Centos, RHEL, Ubuntu, CloudLinux, Debian) systems.
 
 ## Availability
 

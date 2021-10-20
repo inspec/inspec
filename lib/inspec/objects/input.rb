@@ -20,7 +20,7 @@ module Inspec
 
     def to_hash
       as_hash = { name: name, options: {} }
-      %i{description title identifier type required value}.each do |field|
+      %i{description title identifier type required value pattern}.each do |field|
         val = send(field)
         next if val.nil?
 

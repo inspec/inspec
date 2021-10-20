@@ -117,6 +117,15 @@ module Inspec::Plugin::V2
         # `inspec dosomething` => activate the :dosomething hook
         activate_me ||= cli_args.include?(act.activator_name.to_s)
 
+        # Only one compliance command to be activated at one time.
+        # Since both commands are defined in the same class,
+        # activators were not getting fetched uniquely.
+        if cli_args.include?("automate") && act.activator_name.to_s.eql?("compliance")
+          activate_me = false
+        elsif cli_args.include?("compliance") && act.activator_name.to_s.eql?("automate")
+          activate_me = false
+        end
+
         # OK, activate.
         if activate_me
           act.activate

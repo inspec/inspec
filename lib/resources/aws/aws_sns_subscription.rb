@@ -53,19 +53,19 @@ class AwsSnsSubscription < Inspec.resource(1)
   def fetch_from_api
     backend = BackendFactory.create(inspec_runner)
     catch_aws_errors do
-      begin
-        aws_response = backend.get_subscription_attributes(subscription_arn: @subscription_arn).attributes
-        @exists = true
-        @owner = aws_response["Owner"]
-        @raw_message_delivery = aws_response["RawMessageDelivery"].eql?("true")
-        @topic_arn = aws_response["TopicArn"]
-        @endpoint = aws_response["Endpoint"]
-        @protocol = aws_response["Protocol"]
-        @confirmation_was_authenticated = aws_response["ConfirmationWasAuthenticated"].eql?("true")
-      rescue Aws::SNS::Errors::NotFound
-        @exists = false
-        return
-      end
+
+      aws_response = backend.get_subscription_attributes(subscription_arn: @subscription_arn).attributes
+      @exists = true
+      @owner = aws_response["Owner"]
+      @raw_message_delivery = aws_response["RawMessageDelivery"].eql?("true")
+      @topic_arn = aws_response["TopicArn"]
+      @endpoint = aws_response["Endpoint"]
+      @protocol = aws_response["Protocol"]
+      @confirmation_was_authenticated = aws_response["ConfirmationWasAuthenticated"].eql?("true")
+    rescue Aws::SNS::Errors::NotFound
+      @exists = false
+      return
+
     end
   end
 

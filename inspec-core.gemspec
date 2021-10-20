@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
       .reject { |f| File.directory?(f) }
 
   # Implementation dependencies
-  spec.add_dependency "chef-telemetry",     "~> 1.0"
+  spec.add_dependency "chef-telemetry",     "~> 1.0", ">= 1.0.8" # 1.0.8+ removes the http dep
   spec.add_dependency "license-acceptance", ">= 0.2.13", "< 3.0"
   spec.add_dependency "thor",               ">= 0.20", "< 2.0"
   spec.add_dependency "method_source",      ">= 0.8", "< 2.0"
@@ -35,7 +35,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "mixlib-log",         "~> 3.0"
   spec.add_dependency "sslshake",           "~> 1.2"
   spec.add_dependency "parallel",           "~> 1.9"
-  spec.add_dependency "faraday",            ">= 0.9.0", "< 1.4"
+  spec.add_dependency "faraday",            ">= 0.9.0", "< 1.5"
   spec.add_dependency "faraday_middleware", "~> 1.0"
   spec.add_dependency "tty-table",          "~> 0.10"
   spec.add_dependency "tty-prompt",         "~> 0.17"

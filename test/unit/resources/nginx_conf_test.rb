@@ -7,27 +7,27 @@ describe "Inspec::Resources::NginxConf" do
   # nginx_conf toplevel comment.
   next if Gem.win_platform?
 
-  let(:nginx_conf) { MockLoader.new(:ubuntu1404).load_resource("nginx_conf") }
+  let(:nginx_conf) { MockLoader.new(:ubuntu).load_resource("nginx_conf") }
 
   it "doesnt fail with a missing file" do
     # This path is not mocked because we cannot mock File.exist?
     # ...As far as I know
-    nginx_conf = MockLoader.new(:ubuntu1404).load_resource("nginx_conf", "/this/path/does/not/exist")
+    nginx_conf = MockLoader.new(:ubuntu).load_resource("nginx_conf", "/this/path/does/not/exist")
     _(nginx_conf.params).must_equal({})
   end
 
   it "does not fail with an empty file" do
-    nginx_conf = MockLoader.new(:ubuntu1404).load_resource("nginx_conf", "/etc/nginx/conf.d/empty.conf")
+    nginx_conf = MockLoader.new(:ubuntu).load_resource("nginx_conf", "/etc/nginx/conf.d/empty.conf")
     _(nginx_conf.params).must_equal({})
   end
 
   it "does not fail with a file that all lines are commented out" do
-    nginx_conf = MockLoader.new(:ubuntu1404).load_resource("nginx_conf", "/etc/nginx/conf.d/comments_only.conf")
+    nginx_conf = MockLoader.new(:ubuntu).load_resource("nginx_conf", "/etc/nginx/conf.d/comments_only.conf")
     _(nginx_conf.params).must_equal({})
   end
 
   it "doesnt fail with an incorrect file" do
-    nginx_conf = MockLoader.new(:ubuntu1404).load_resource("nginx_conf", "/etc/passwd")
+    nginx_conf = MockLoader.new(:ubuntu).load_resource("nginx_conf", "/etc/passwd")
     _(nginx_conf.params).must_equal({})
   end
 
@@ -111,7 +111,7 @@ describe "Inspec::Resources::NginxConf" do
   end
 
   it "skips the resource if it cannot parse the config" do
-    resource = MockLoader.new(:ubuntu1404).load_resource("nginx_conf", "/etc/nginx/failed.conf")
+    resource = MockLoader.new(:ubuntu).load_resource("nginx_conf", "/etc/nginx/failed.conf")
     _(resource.params).must_equal({})
     _(resource.resource_exception_message).must_equal "Cannot parse NginX config in /etc/nginx/failed.conf."
   end

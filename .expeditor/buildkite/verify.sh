@@ -25,7 +25,8 @@ pull_bundle
 
 echo "--- bundle"
 bundle config --local path vendor/bundle
-bundle install --jobs=7 --retry=3 --without tools maintenance deploy
+bundle config set --local without tools maintenance deploy
+bundle install --jobs=7 --retry=3
 
 echo "--- push bundle cache"
 push_bundle

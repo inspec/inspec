@@ -4,6 +4,8 @@ module Inspec::Resources
   class Postgres < Inspec.resource(1)
     name "postgres"
     supports platform: "unix"
+    supports platform: "windows"
+
     desc "The 'postgres' resource is a helper for the 'postgres_conf', 'postgres_hba_conf', 'postgres_ident_conf' & 'postgres_session' resources.  Please use those instead."
 
     attr_reader :service, :data_dir, :conf_dir, :conf_path, :version, :cluster
@@ -43,11 +45,17 @@ module Inspec::Resources
           @conf_dir = "/etc/postgresql/#{@version}/#{@cluster}"
           @data_dir = "/var/lib/postgresql/#{@version}/#{@cluster}"
         end
+      elsif inspec.os.windows?
+        dir = "C:\\Program Files\\PostgreSQL"
+        @version = version_from_psql || version_from_dir_windows(dir)
+        unless @version.to_s.empty?
+          @data_dir = "#{dir}\\#{@version}\\data\\"
+        end
       else
         @version = version_from_psql
         if @version.to_s.empty?
           if inspec.directory("/var/lib/pgsql/data").exist?
-            warn "Unable to determine PostgreSQL version: psql did not return" \
+            Inspec::Log.warn "Unable to determine PostgreSQL version: psql did not return" \
                  "a version number and unversioned data directories were found."
           else
             @version = version_from_dir("/var/lib/pgsql")
@@ -69,13 +77,13 @@ module Inspec::Resources
 
     def verify_dirs
       unless inspec.directory(@conf_dir).exist?
-        warn "Default postgresql configuration directory: #{@conf_dir} does not exist. " \
+        Inspec::Log.warn "Default postgresql configuration directory: #{@conf_dir} does not exist. " \
           "Postgresql may not be installed or we've misidentified the configuration " \
           "directory."
       end
 
       unless inspec.directory(@data_dir).exist?
-        warn "Default postgresql data directory: #{@data_dir} does not exist. " \
+        Inspec::Log.warn "Default postgresql data directory: #{@data_dir} does not exist. " \
           "Postgresql may not be installed or we've misidentified the data " \
           "directory."
       end
@@ -84,7 +92,15 @@ module Inspec::Resources
     def version_from_psql
       return unless inspec.command("psql").exist?
 
-      inspec.command("psql --version | awk '{ print $NF }' | awk -F. '{ print $1\".\"$2 }'").stdout.strip
+      version = inspec.command("psql --version").stdout.strip.split(" ")[2].split(".")
+
+      unless version.empty?
+        if version.first.to_i >= 10
+          version.first
+        else
+          "#{version[0]}.#{version[1]}"
+        end
+      end
     end
 
     def locate_data_dir_location_by_version(ver = @version)
@@ -100,7 +116,7 @@ module Inspec::Resources
       data_dir_loc = dir_list.detect { |i| inspec.directory(i).exist? }
 
       if data_dir_loc.nil?
-        warn 'Unable to find the PostgreSQL data_dir in expected location(s), please
+        Inspec::Log.warn 'Unable to find the PostgreSQL data_dir in expected location(s), please
         execute "psql -t -A -p <port> -h <host> -c "show hba_file";" as the PostgreSQL
         DBA to find the non-standard data_dir location.'
       end
@@ -112,15 +128,32 @@ module Inspec::Resources
       entries = dirs.lines.count
       case entries
       when 0
-        warn "Could not determine version of installed postgresql by inspecting #{dir}"
+        Inspec::Log.warn "Could not determine version of installed postgresql by inspecting #{dir}"
         nil
       when 1
-        warn "Using #{dirs}: #{dir_to_version(dirs)}"
+        Inspec::Log.warn "Using #{dirs}: #{dir_to_version(dirs)}"
         dir_to_version(dirs)
       else
-        warn "Multiple versions of postgresql installed or incorrect base dir #{dir}"
+        Inspec::Log.warn "Multiple versions of postgresql installed or incorrect base dir #{dir}"
         first = dir_to_version(dirs.lines.first)
-        warn "Using the first version found: #{first}"
+        Inspec::Log.warn "Using the first version found: #{first}"
+        first
+      end
+    end
+
+    def version_from_dir_windows(dir)
+      dirs = inspec.command("Get-ChildItem -Path \"#{dir}\" -Name").stdout
+      entries = dirs.lines.count
+      case entries
+      when 0
+        Inspec::Log.warn "Could not determine version of installed PostgreSQL by inspecting #{dir}"
+        nil
+      when 1
+        dir_to_version(dirs)
+      else
+        Inspec::Log.warn "Multiple versions of PostgreSQL installed or incorrect base dir #{dir}"
+        first = dir_to_version(dirs.lines.first)
+        Inspec::Log.warn "Using the first version found: #{first}"
         first
       end
     end
@@ -137,13 +170,13 @@ module Inspec::Resources
       else
         dirs = inspec.command("ls -d #{dir}/*/").stdout.lines
         if dirs.empty?
-          warn "No postgresql clusters configured or incorrect base dir #{dir}"
+          Inspec::Log.warn "No postgresql clusters configured or incorrect base dir #{dir}"
           return nil
         end
         first = dirs.first.chomp.split("/").last
         if dirs.count > 1
-          warn "Multiple postgresql clusters configured or incorrect base dir #{dir}"
-          warn "Using the first directory found: #{first}"
+          Inspec::Log.warn "Multiple postgresql clusters configured or incorrect base dir #{dir}"
+          Inspec::Log.warn "Using the first directory found: #{first}"
         end
         first
       end

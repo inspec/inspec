@@ -78,7 +78,9 @@ curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
 
 ### Install it via rubygems.org
 
-When installing from source, gem dependencies may require ruby build tools to be installed.
+Installing Chef InSpec from source may require installing ruby build tools to manage gem dependencies. (A compiler-free variant is available with reduced functionality; use `inspec-core-bin` and `inspec-core`.)
+
+To install build tools, use your package manager.
 
 For CentOS/RedHat/Fedora:
 
@@ -177,17 +179,18 @@ You should now be able to run:
 ```bash
 $ inspec --help
 Commands:
-  inspec archive PATH                # archive a profile to tar.gz (default) ...
-  inspec check PATH                  # verify all tests at the specified PATH
-  inspec compliance SUBCOMMAND ...   # Chef Compliance commands
-  inspec detect                      # detect the target OS
-  inspec exec PATH(S)                # run all test files at the specified PATH.
-  inspec help [COMMAND]              # Describe available commands or one spe...
-  inspec init TEMPLATE ...           # Scaffolds a new project
-  inspec json PATH                   # read all tests in PATH and generate a ...
-  inspec shell                       # open an interactive debugging shell
-  inspec supermarket SUBCOMMAND ...  # Supermarket commands
-  inspec version                     # prints the version of this tool
+  inspec archive PATH                                       # archive a profile to tar.gz (default) ...
+  inspec check PATH                                         # verify all tests at the specified PATH
+  inspec automate SUBCOMMAND ...                            # Chef Automate commands
+  inspec compliance SUBCOMMAND ...                          # Chef Automate commands (backwards compatible alias)
+  inspec detect                                             # detect the target OS
+  inspec exec PATH(S)                                       # run all test files at the specified PATH.
+  inspec help [COMMAND]                                     # Describe available commands or one spe...
+  inspec init TEMPLATE ...                                  # Scaffolds a new project
+  inspec json PATH                                          # read all tests in PATH and generate a ...
+  inspec shell                                              # open an interactive debugging shell
+  inspec supermarket SUBCOMMAND ...                         # Supermarket commands
+  inspec version                                            # prints the version of this tool
 
 Options:
   [--diagnose], [--no-diagnose]  # Show diagnostics (versions, configurations)
@@ -205,14 +208,6 @@ end
 describe port(443) do
   it { should be_listening }
   its('protocols') {should include 'tcp'}
-end
-```
-
-* Use approved strong ciphers - This test ensures that only enterprise-compliant ciphers are used for SSH servers.
-
-```ruby
-describe sshd_config do
-   its('Ciphers') { should eq('chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr') }
 end
 ```
 
@@ -337,6 +332,7 @@ In addition, runtime support is provided for:
 | macOS    | 10.14+   | x86_64 |
 | Debian   | 9, 10    | x86_64 |
 | RHEL     | 6, 7, 8  | x86_64 |
+| Fedora   | 29+      | x86_64 |
 | Ubuntu   | 16.04+   | x86_64 |
 | Windows  | 8+       | x86_64 |
 | Windows  | 2012+    | x86_64 |
@@ -365,6 +361,8 @@ You may also [browse the Supermarket for shared Compliance Profiles](https://sup
 
 ## Kudos
 
+Chef InSpec was originally created by Christoph Hartmann ([@chris-rock](https://github.com/chris-rock)) and Dominik Richter ([@arlimus](https://github.com/arlimus)).
+
 Chef InSpec is inspired by the wonderful [Serverspec](http://serverspec.org) project. Kudos to [mizzy](https://github.com/mizzy) and [all contributors](https://github.com/mizzy/serverspec/graphs/contributors)!
 
 The AWS resources were inspired by [inspec-aws](https://github.com/arothian/inspec-aws) from [arothian](https://github.com/arothian).
@@ -387,11 +385,10 @@ As a reminder, all participants are expected to follow the [Code of Conduct](htt
 
 ## Testing Chef InSpec
 
-We offer `unit`, `integration`, and `aws` tests.
+We offer `unit` and `integration` tests.
 
 - `unit` tests ensure the intended behaviour of the implementation
 - `integration` tests run against Docker-based VMs via test-kitchen and [kitchen-inspec](https://github.com/chef/kitchen-inspec)
-- `aws` tests exercise the AWS resources against real AWS accounts
 
 ### Unit tests
 
@@ -430,42 +427,35 @@ In addition, these test require Docker to be available on your machine or a remo
 List the various test instances available:
 
 ```bash
-bundle exec kitchen list
+KITCHEN_YAML=kitchen.dokken.yml bundle exec kitchen list
 ```
 
-The platforms and test suites are configured in the `.kitchen.yml` file. Once you know which instance you wish to test, test that instance:
+The platforms and test suites are configured in the `kitchen.dokken.yml` file. Once you know which instance you wish to test, test that instance:
 
 ```bash
-bundle exec kitchen test <INSTANCE_NAME>
+KITCHEN_YAML=kitchen.dokken.yml bundle exec kitchen test <INSTANCE_NAME>
 ```
 
 You may test all instances in parallel with:
 
 ```bash
-bundle exec kitchen test -c
+KITCHEN_YAML=kitchen.dokken.yml bundle exec kitchen test -c 3
 ```
-
-### AWS Tests
-
-Use the rake task `bundle exec rake test:aws` to test the AWS resources against a pair of real AWS accounts.
-
-Please see [TESTING_AGAINST_AWS.md](./test/integration/aws/TESTING_AGAINST_AWS.md) for details on how to setup the needed AWS accounts to perform testing.
-
-### Azure Tests
-
-Use the rake task `bundle exec rake test:azure` to test the Azure resources against an Azure account.
-
-Please see [TESTING_AGAINST_AZURE.md](./test/integration/azure/TESTING_AGAINST_AZURE.md) for details on how to setup the needed Azure accounts to perform testing.
 
 ## License
 
-|                |                                           |
-| -------------- | ----------------------------------------- |
-| **Author:**    | Dominik Richter (<drichter@chef.io>)      |
-| **Author:**    | Christoph Hartmann (<chartmann@chef.io>)  |
-| **Copyright:** | Copyright (c) 2015 Vulcano Security GmbH. |
-| **Copyright:** | Copyright (c) 2017-2018 Chef Software Inc.|
-| **License:**   | Apache License, Version 2.0               |
+|                |                                                |
+| -------------- | ---------------------------------------------- |
+| **Author:**    | Dominik Richter (<drichter@chef.io>)           |
+| **Author:**    | Christoph Hartmann (<chartmann@chef.io>)       |
+| **Copyright:** | Copyright (c) 2015 Vulcano Security GmbH.      |
+| **Copyright:** | Copyright (c) 2017-2020 Chef Software Inc.     |
+| **Copyright:** | Copyright (c) 2020-2021 Progress Software Corp.|
+| **License:**   | Apache License, Version 2.0                    |
+| **License:**   | Chef End User License Agreement                |
+
+Chef InSpec is distributed under the Apache License, Version 2.0.
+Permission to use the software is governed by the [Chef EULA](https://docs.chef.io/chef_license_accept.html).
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

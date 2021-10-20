@@ -18,6 +18,7 @@ module Inspec
     attr_accessor :skip_file
     attr_accessor :profile_context
     attr_accessor :resources_dsl
+    attr_accessor :conf
 
     def initialize(profile_context, resources_dsl, backend, conf, dependencies, require_loader, skip_only_if_eval)
       @profile_context = profile_context
@@ -53,11 +54,29 @@ module Inspec
 
     def control(id, opts = {}, &block)
       opts[:skip_only_if_eval] = @skip_only_if_eval
-      if control_exist_in_controls_list?(id) || controls_list_empty?
+      if (controls_list_empty? && tags_list_empty?) || control_exist_in_controls_list?(id)
         register_control(Inspec::Rule.new(id, profile_id, resources_dsl, opts, &block))
+      elsif !tags_list_empty?
+        # Inside elsif rule is initialised before registering it because it enables fetching of control tags
+        # This condition is only true when --tags option is used
+        inspec_rule = Inspec::Rule.new(id, profile_id, resources_dsl, opts, &block)
+        tag_ids = control_tags(inspec_rule)
+        register_control(inspec_rule) if tag_exist_in_control_tags?(tag_ids)
       end
     end
+
     alias rule control
+
+    def control_tags(inspec_rule)
+      all_tags = []
+      inspec_rule.tag.each do |key, value|
+        all_tags.push(key)
+        all_tags.push(value) unless value.nil?
+      end
+      all_tags.flatten.compact.uniq.map(&:to_s)
+    rescue
+      []
+    end
 
     # Describe allows users to write rspec-like bare describe
     # blocks without declaring an inclosing control. Here, we
@@ -74,7 +93,7 @@ module Inspec
         res = describe(*args, &block)
       end
 
-      if control_exist_in_controls_list?(id) || controls_list_empty?
+      if controls_list_empty? || control_exist_in_controls_list?(id)
         register_control(rule, &block)
       end
 
@@ -171,6 +190,47 @@ module Inspec
       @skip_file = true
     end
 
+    # Check if the given control exist in the --tags option
+    def tag_exist_in_control_tags?(tag_ids)
+      tag_option_matches_with_list = false
+      if !tag_ids.empty? && !tag_ids.nil? && profile_tag_config_exist?
+        tag_option_matches_with_list = !(tag_ids & @conf["profile"].include_tags_list).empty?
+        unless tag_option_matches_with_list
+          @conf["profile"].include_tags_list.any? do |inclusion|
+            # Try to see if the inclusion is a regex, and if it matches
+            if inclusion.is_a?(Regexp)
+              tag_ids.each do |id|
+                tag_option_matches_with_list = (inclusion =~ id)
+                break if tag_option_matches_with_list
+              end
+            end
+          end
+        end
+      end
+      tag_option_matches_with_list
+    end
+
+    def tags_list_empty?
+      !@conf.empty? && @conf.key?("profile") && @conf["profile"].include_tags_list.empty? || @conf.empty?
+    end
+
+    # Check if the given control exist in the --controls option
+    def control_exist_in_controls_list?(id)
+      id_exist_in_list = false
+      if profile_config_exist?
+        id_exist_in_list = @conf["profile"].include_controls_list.any? do |inclusion|
+          # Try to see if the inclusion is a regex, and if it matches
+          inclusion == id || (inclusion.is_a?(Regexp) && inclusion =~ id)
+        end
+      end
+      id_exist_in_list
+    end
+
+    # Returns true if configuration hash is empty or configuration hash does not have the list of controls that needs to be included
+    def controls_list_empty?
+      !@conf.empty? && @conf.key?("profile") && @conf["profile"].include_controls_list.empty? || @conf.empty?
+    end
+
     private
 
     def block_location(block, alternate_caller)
@@ -187,20 +247,8 @@ module Inspec
       !@conf.empty? && @conf.key?("profile") && !@conf["profile"].include_controls_list.empty?
     end
 
-    # Returns true if configuration hash is empty or configuration hash does not have the list of controls that needs to be included
-    def controls_list_empty?
-      !@conf.empty? && @conf.key?("profile") && @conf["profile"].include_controls_list.empty? || @conf.empty?
-    end
-
-    # Check if the given control exist in the --controls option
-    def control_exist_in_controls_list?(id)
-      if profile_config_exist?
-        id_exist_in_list = @conf["profile"].include_controls_list.any? do |inclusion|
-          # Try to see if the inclusion is a regex, and if it matches
-          inclusion == id || (inclusion.is_a?(Regexp) && inclusion =~ id)
-        end
-      end
-      id_exist_in_list
+    def profile_tag_config_exist?
+      !@conf.empty? && @conf.key?("profile") && !@conf["profile"].include_tags_list.empty?
     end
   end
 end

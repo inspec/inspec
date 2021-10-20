@@ -26,4 +26,15 @@ describe "Inspec::Resources::MysqlSession" do
     expected_to_s = %q{Command: `mysql -uroot -pREDACTED -h localhost -s -e "SELECT 1 FROM DUAL;"`}
     _(resource.to_s).must_equal(expected_to_s)
   end
+  it "fails when no user, password" do
+    resource = load_resource("mysql_session", nil, nil, "localhost", 3306)
+    _(resource.resource_failed?).must_equal true
+    _(resource.resource_exception_message).must_equal "Can't run MySQL SQL checks without authentication."
+  end
+  it "fails when no connection established" do
+    resource = load_resource("mysql_session", "root", "root", "localhost", 3306)
+    _(resource.resource_failed?).must_equal true
+    _(resource.resource_exception_message).must_include "MySQL query with errors"
+  end
+
 end

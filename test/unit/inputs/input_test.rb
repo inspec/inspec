@@ -15,6 +15,7 @@ describe Inspec::Input do
       required: true,
       title: "how is this different than description",
       type: "Numeric",
+      pattern: "^[0-9][0-9]$",
     }.each do |field, value|
       it "should be able to recall the #{field} field" do
         opts[field] = value
@@ -32,6 +33,7 @@ describe Inspec::Input do
                                 title: "Best input ever",
                                 description: "important",
                                 type: "Numeric",
+                                pattern: "^[0-9][0-9]$",
                                 required: true)
 
       _(input.to_hash).must_equal({
@@ -41,6 +43,7 @@ describe Inspec::Input do
           title: "Best input ever",
           description: "important",
           type: "Numeric",
+          pattern: "^[0-9][0-9]$",
           required: true,
         },
       })

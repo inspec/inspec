@@ -18,9 +18,9 @@ module Inspec
   class Profile
     extend Forwardable
 
-    def self.resolve_target(target, cache)
+    def self.resolve_target(target, cache, opts = {})
       Inspec::Log.debug "Resolve #{target} into cache #{cache.path}"
-      Inspec::CachedFetcher.new(target, cache)
+      Inspec::CachedFetcher.new(target, cache, opts)
     end
 
     # Check if the profile contains a vendored cache, move content into global cache
@@ -70,7 +70,11 @@ module Inspec
 
     def self.for_target(target, opts = {})
       opts[:vendor_cache] ||= Cache.new
-      fetcher = resolve_target(target, opts[:vendor_cache])
+      config = {}
+      unless opts[:runner_conf].nil?
+        config = opts[:runner_conf].respond_to?(:final_options) ? opts[:runner_conf].final_options : opts[:runner_conf]
+      end
+      fetcher = resolve_target(target, opts[:vendor_cache], config)
       for_fetcher(fetcher, opts)
     end
 
@@ -87,6 +91,7 @@ module Inspec
       @logger = options[:logger] || Logger.new(nil)
       @locked_dependencies = options[:dependencies]
       @controls = options[:controls] || []
+      @tags = options[:tags] || []
       @writable = options[:writable] || false
       @profile_id = options[:id]
       @profile_name = options[:profile_name]
@@ -206,7 +211,7 @@ module Inspec
       @params ||= load_params
     end
 
-    def collect_tests(include_list = @controls)
+    def collect_tests
       unless @tests_collected || failed?
         return unless supports_platform?
 
@@ -313,6 +318,30 @@ module Inspec
       end
       included_controls.compact!
       included_controls
+    end
+
+    # This creates the list of controls to be filtered by tag values provided in the --tags options
+    def include_tags_list
+      return [] if @tags.nil? || @tags.empty?
+
+      included_tags = @tags
+      # Check for anything that might be a regex in the list, and make it official
+      included_tags.each_with_index do |inclusion, index|
+        next if inclusion.is_a?(Regexp)
+        # Insist the user wrap the regex in slashes to demarcate it as a regex
+        next unless inclusion.start_with?("/") && inclusion.end_with?("/")
+
+        inclusion = inclusion[1..-2] # Trim slashes
+        begin
+          re = Regexp.new(inclusion)
+          included_tags[index] = re
+        rescue RegexpError => e
+          warn "Ignoring unparseable regex '/#{inclusion}/' in --control CLI option: #{e.message}"
+          included_tags[index] = nil
+        end
+      end
+      included_tags.compact!
+      included_tags
     end
 
     def load_libraries

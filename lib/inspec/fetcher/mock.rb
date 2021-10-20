@@ -6,9 +6,11 @@ module Inspec::Fetcher
     priority 0
 
     def self.resolve(target)
-      return nil unless target.is_a? Hash
-
-      new(target)
+      if (target.is_a? Hash) && ((target.keys & %i{cwd path backend}).empty?)
+        new(target)
+      else
+        nil
+      end
     end
 
     def initialize(data)

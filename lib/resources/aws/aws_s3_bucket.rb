@@ -85,30 +85,29 @@ class AwsS3Bucket < Inspec.resource(1)
   def fetch_bucket_policy
     backend = BackendFactory.create(inspec_runner)
     catch_aws_errors do
-      begin
-        # AWS SDK returns a StringIO, we have to read()
-        raw_policy = backend.get_bucket_policy(bucket: bucket_name).policy
-        return JSON.parse(raw_policy.read)["Statement"].map do |statement|
-          lowercase_hash = {}
-          statement.each_key { |k| lowercase_hash[k.downcase] = statement[k] }
-          @bucket_policy = OpenStruct.new(lowercase_hash)
-        end
-      rescue Aws::S3::Errors::NoSuchBucketPolicy
-        @bucket_policy = []
+
+      # AWS SDK returns a StringIO, we have to read()
+      raw_policy = backend.get_bucket_policy(bucket: bucket_name).policy
+      return JSON.parse(raw_policy.read)["Statement"].map do |statement|
+        lowercase_hash = {}
+        statement.each_key { |k| lowercase_hash[k.downcase] = statement[k] }
+        @bucket_policy = OpenStruct.new(lowercase_hash)
       end
+    rescue Aws::S3::Errors::NoSuchBucketPolicy
+      @bucket_policy = []
+
     end
   end
 
   def fetch_bucket_encryption_configuration
     @has_default_encryption_enabled ||= catch_aws_errors do
-      begin
-        !BackendFactory.create(inspec_runner)
-          .get_bucket_encryption(bucket: bucket_name)
-          .server_side_encryption_configuration
-          .nil?
-      rescue Aws::S3::Errors::ServerSideEncryptionConfigurationNotFoundError
-        false
-      end
+      !BackendFactory.create(inspec_runner)
+        .get_bucket_encryption(bucket: bucket_name)
+        .server_side_encryption_configuration
+        .nil?
+    rescue Aws::S3::Errors::ServerSideEncryptionConfigurationNotFoundError
+      false
+
     end
   end
 

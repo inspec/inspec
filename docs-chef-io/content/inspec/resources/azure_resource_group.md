@@ -291,5 +291,5 @@ Note: The tag name is case sensitive which makes the test case sensitive. E.g. `
 
 For more information on Azure Ruby SDK resources, see:
 
-- [Azure Ruby SDK - Resources](https://github.com/Azure/azure-sdk-for-ruby/tree/master/management/azure_mgmt_resources)
+- [Azure Ruby SDK - Resources](https://github.com/Azure/azure-sdk-for-ruby/tree/main/management/azure_mgmt_resources)
 - [Resource Group](https://github.com/chef/inspec/blob/fc990346f2438690f0ac36a9f6606e61574a79b8/test/azure/verify/controls/resource_group.rb)

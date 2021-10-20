@@ -54,7 +54,7 @@ module Inspec::Resources
     def port_manager_for_os
       os = inspec.os
       if os.linux?
-        LinuxPorts.new(inspec)
+        LinuxPorts.new(inspec, @port)
       elsif os.aix?
         # AIX: see http://www.ibm.com/developerworks/aix/library/au-lsof.html#resources
         #      and https://www-01.ibm.com/marketing/iwm/iwm/web/reg/pick.do?source=aixbp
@@ -102,8 +102,9 @@ module Inspec::Resources
   # }]
   class PortsInfo
     attr_reader :inspec
-    def initialize(inspec)
+    def initialize(inspec, port = nil)
       @inspec = inspec
+      @port = port
     end
   end
 
@@ -394,7 +395,12 @@ module Inspec::Resources
     def ports_via_ss
       return nil unless inspec.command("ss").exist?
 
-      cmd = inspec.command("ss -tulpen")
+      if @port.nil?
+        cmd = inspec.command("ss -tulpen")
+      else
+        cmd = inspec.command("ss -tulpen '( dport = #{@port} or sport = #{@port} )'")
+      end
+
       return nil unless cmd.exit_status.to_i == 0
 
       ports = []

@@ -5,7 +5,7 @@ require "inspec/resources/bond"
 describe "Inspec::Resources::Bond" do
 
   it "check linux bond on ubuntu" do
-    resource = MockLoader.new(:ubuntu1404).load_resource("bond", "bond0")
+    resource = MockLoader.new(:ubuntu).load_resource("bond", "bond0")
     # bond must be available
     _(resource.exist?).must_equal true
     # get bonding mode

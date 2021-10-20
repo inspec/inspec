@@ -13,8 +13,8 @@ describe "metadata with supported operating systems" do
     res
   end
 
-  describe "running on ubuntu 14.04" do
-    let(:backend) { MockLoader.new(:ubuntu1404).backend }
+  describe "running on ubuntu 20.04" do
+    let(:backend) { MockLoader.new(:ubuntu).backend }
 
     it "provides all metadata content" do
       s = "---\nname: hello #{rand}"
@@ -146,8 +146,8 @@ EOF
       _(m).must_be :supports_platform?, backend
     end
 
-    it "loads a profile which supports release 14.04" do
-      m = supports_meta({ "release" => "14.04" })
+    it "loads a profile which supports release 20.04" do
+      m = supports_meta({ "release" => "20.04" })
       _(m).must_be :supports_platform?, backend
     end
 
@@ -156,13 +156,13 @@ EOF
       _(m).wont_be :supports_platform?, backend
     end
 
-    it "loads a profile which supports ubuntu 14.04" do
-      m = supports_meta({ "os-name" => "ubuntu", "release" => "14.04" })
+    it "loads a profile which supports ubuntu 20.04" do
+      m = supports_meta({ "os-name" => "ubuntu", "release" => "20.04" })
       _(m).must_be :supports_platform?, backend
     end
 
-    it "loads a profile which supports ubuntu 14.*" do
-      m = supports_meta({ "os-name" => "ubuntu", "release" => "14.*" })
+    it "loads a profile which supports ubuntu 20.*" do
+      m = supports_meta({ "os-name" => "ubuntu", "release" => "20.*" })
       _(m).must_be :supports_platform?, backend
     end
 
@@ -176,8 +176,8 @@ EOF
       _(m).wont_be :supports_platform?, backend
     end
 
-    it "loads a profile which supports ubuntu float 14.04 as parsed by yml" do
-      m = supports_meta({ "os-name" => "ubuntu", "release" => 14.04 })
+    it "loads a profile which supports ubuntu float 20.04 as parsed by yml" do
+      m = supports_meta({ "os-name" => "ubuntu", "release" => 20.04 })
       _(m).must_be :supports_platform?, backend
     end
 

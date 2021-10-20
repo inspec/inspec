@@ -255,14 +255,14 @@ namespace :test do
   # Inject a prerequisite task
   task unit: [:accept_license]
 
-  task :integration, [:os] do |task, args|
+  task :kitchen, [:os] do |task, args|
     concurrency = ENV["CONCURRENCY"] || 1
     os = args[:os] || ENV["OS"] || ""
     ENV["DOCKER"] = "true" if ENV["docker"].nil?
     sh("bundle exec kitchen test -c #{concurrency} #{os}")
   end
   # Inject a prerequisite task
-  task integration: [:accept_license]
+  task kitchen: [:accept_license]
 
   task :ssh, [:target] do |_t, args|
     tests_path = File.join(File.dirname(__FILE__), "test", "integration", "test", "integration", "default")

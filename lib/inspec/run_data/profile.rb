@@ -49,7 +49,6 @@ module Inspec
     end
 
     class Profile
-      # Good candidate for keyword_init, but that is not in 2.4
       Dependency = Struct.new(
         :name, :path, :status, :status_message, :git, :url, :compliance, :supermarket, :branch, :tag, :commit, :version, :relative_path
       ) do
@@ -71,7 +70,6 @@ module Inspec
         end
       end
 
-      # Good candidate for keyword_init, but that is not in 2.4
       Group = Struct.new(
         :title, :controls, :id
       ) do

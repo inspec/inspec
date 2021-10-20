@@ -1,0 +1,3 @@
+xen_use_nfs                    (off  ,  off)  Allow xen to use nfs
+xend_run_blktap                (on   ,   on)  Allow xend to run blktap
+zebra_write_config             (off  ,  off)  Allow zebra to write config

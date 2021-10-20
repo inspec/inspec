@@ -8,7 +8,6 @@ describe "Inspec::Resources::MssqlSession" do
     _(resource.user).must_equal "sa"
     _(resource.password).must_equal "yourStrong(!)Password"
     _(resource.host).must_equal "localhost"
-    _(resource.port).must_equal "1433"
   end
 
   it "verify mssql_session configuration with custom hostname" do
@@ -16,7 +15,6 @@ describe "Inspec::Resources::MssqlSession" do
     _(resource.user).must_equal "sa"
     _(resource.password).must_equal "yourStrong(!)Password"
     _(resource.host).must_equal "inspec.domain.tld"
-    _(resource.port).must_equal "1433"
   end
 
   it "verify mssql_session configuration with custom instance" do
@@ -24,7 +22,6 @@ describe "Inspec::Resources::MssqlSession" do
     _(resource.user).must_equal "sa"
     _(resource.password).must_equal "yourStrong(!)Password"
     _(resource.host).must_equal "localhost"
-    _(resource.port).must_equal "1433"
     _(resource.instance).must_equal "SQL2012INSPEC"
   end
 
@@ -63,7 +60,7 @@ describe "Inspec::Resources::MssqlSession" do
   end
 
   it "run a SQL query" do
-    resource = load_resource("mssql_session", user: "sa", password: "yourStrong(!)Password", host: "localhost")
+    resource = load_resource("mssql_session", user: "sa", password: "yourStrong(!)Password", host: "localhost", port: "1433")
     query = resource.query("SELECT SERVERPROPERTY('ProductVersion') as result")
     _(query.size).must_equal 1
     _(query.row(0).column("result").value).must_equal "14.0.600.250"

@@ -38,11 +38,13 @@ module Inspec::Resources
       @sqlcl_bin = opts[:sqlcl_bin] || nil
       @sqlplus_bin = opts[:sqlplus_bin] || "sqlplus"
       skip_resource "Option 'as_os_user' not available in Windows" if inspec.os.windows? && su_user
-      fail_resource "Can't run Oracle checks without authentication" unless su_user && (user || password)
-      fail_resource "You must provide a service name for the session" unless service
+      fail_resource "Can't run Oracle checks without authentication" unless su_user || (user || password)
     end
 
     def query(sql)
+      raise Inspec::Exceptions::ResourceSkipped, "#{resource_exception_message}" if resource_skipped?
+      raise Inspec::Exceptions::ResourceFailed, "#{resource_exception_message}" if resource_failed?
+
       if @sqlcl_bin && inspec.command(@sqlcl_bin).exist?
         @bin = @sqlcl_bin
         format_options = "set sqlformat csv\nSET FEEDBACK OFF"
@@ -53,8 +55,17 @@ module Inspec::Resources
 
       command = command_builder(format_options, sql)
       inspec_cmd = inspec.command(command)
+      out = inspec_cmd.stdout + "\n" + inspec_cmd.stderr
 
-      DatabaseHelper::SQLQueryResult.new(inspec_cmd, parse_csv_result(inspec_cmd.stdout))
+      if inspec_cmd.exit_status != 0 || !inspec_cmd.stderr.empty? || out.downcase =~ /^error.*/
+        raise Inspec::Exceptions::ResourceFailed, "Oracle query with errors: #{out}"
+      else
+        begin
+          DatabaseHelper::SQLQueryResult.new(inspec_cmd, parse_csv_result(inspec_cmd.stdout))
+        rescue
+          raise Inspec::Exceptions::ResourceFailed, "Oracle query with errors: #{out}"
+        end
+      end
     end
 
     def to_s
@@ -68,7 +79,14 @@ module Inspec::Resources
     # using a db_role
     # su, using a db_role
     def command_builder(format_options, query)
-      verified_query = verify_query(query)
+      if @db_role.nil? || @su_user.nil?
+        verified_query = verify_query(query)
+      else
+        escaped_query = query.gsub(/\\/, "\\\\").gsub(/"/, '\\"')
+        escaped_query = escaped_query.gsub("$", '\\$')
+        verified_query = verify_query(escaped_query)
+      end
+
       sql_prefix, sql_postfix = "", ""
       if inspec.os.windows?
         sql_prefix = %{@'\n#{format_options}\n#{verified_query}\nEXIT\n'@ | }
@@ -77,9 +95,9 @@ module Inspec::Resources
       end
 
       if @db_role.nil?
-        %{#{sql_prefix}#{bin} "#{user}"/"#{password}"@#{host}:#{port}/#{@service}#{sql_postfix}}
+        %{#{sql_prefix}#{bin} #{user}/#{password}@#{host}:#{port}/#{@service}#{sql_postfix}}
       elsif @su_user.nil?
-        %{#{sql_prefix}#{bin} "#{user}"/"#{password}"@#{host}:#{port}/#{@service} as #{@db_role}#{sql_postfix}}
+        %{#{sql_prefix}#{bin} #{user}/#{password}@#{host}:#{port}/#{@service} as #{@db_role}#{sql_postfix}}
       else
         %{su - #{@su_user} -c "env ORACLE_SID=#{@service} #{@bin} / as #{@db_role}#{sql_postfix}"}
       end

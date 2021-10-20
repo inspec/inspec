@@ -69,7 +69,7 @@ name and resource group.
 
 ## Parameter Examples
 
-The resource group as well as the Activty Log Alert
+The resource group as well as the Activity Log Alert
 name.
 
     describe azurerm_monitor_activity_log_alert(resource_group: 'example', name: 'AlertName') do

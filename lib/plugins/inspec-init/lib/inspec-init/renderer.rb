@@ -65,6 +65,7 @@ module InspecPlugins
             # read & render content
             content = render(File.read(source_file), template_values)
             # write file content
+
             File.write(full_destination_item_path, content)
           else
             ui.warning "Ignoring #{ui.emphasis(source_file)}, because its not an file or directoy"

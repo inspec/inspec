@@ -22,6 +22,8 @@ module Inspec::Resources
     include FileReader
     include ObjectTraverser
 
+    attr_accessor :conf_path
+
     def initialize(conf_path = nil)
       @conf_path = conf_path || inspec.postgres.conf_path
       if @conf_path.nil?

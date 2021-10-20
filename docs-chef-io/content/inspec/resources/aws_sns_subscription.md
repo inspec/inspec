@@ -11,7 +11,7 @@ platform = "aws"
     parent = "inspec/resources/aws"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/aws_sns_subscription.md)
+[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/main/docs-chef-io/content/aws_sns_subscription.md)
 
 Use the `aws_sns_subscription` InSpec audit resource to test detailed properties of a AWS SNS Subscription.
 
@@ -52,7 +52,7 @@ See also the [AWS documentation on SNS](https://docs.aws.amazon.com/sns/latest/d
       its('endpoint') { should cmp '+16105551234' }
       # If protocol is 'email' or 'email-json', endpoint should be an email address
       its('endpoint') { should cmp 'myemail@example.com' }
-      # If protocal is 'http', endpoint should be a URL beginning with 'https://'
+      # If protocol is 'http', endpoint should be a URL beginning with 'https://'
       its('endpoint') { should cmp 'https://www.exampleurl.com' }
       # If the protocol is 'lambda', its endpoint should be the ARN of a AWS Lambda function
       its('endpoint') { should cmp 'rn:aws:lambda:us-east-1:account-id:function:myfunction' }

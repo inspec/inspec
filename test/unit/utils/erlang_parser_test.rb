@@ -39,7 +39,7 @@ describe ErlangParser do
   end
 
   it "parses a root array with a single quoted string" do
-    _(parsestr('[\'st\\\'r\'].')).must_equal '{:array=>[{:string=>"st\\\\\'r"@2}]}'
+    _(parsestr("['st\\'r'].")).must_equal '{:array=>[{:string=>"st\\\\\'r"@2}]}'
   end
 
   it "parses a root array with an empty binary" do

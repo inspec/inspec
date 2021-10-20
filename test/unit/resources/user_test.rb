@@ -5,9 +5,9 @@ require "inspec/resources/command"
 
 describe "Inspec::Resources::User" do
 
-  # ubuntu 14.04 with upstart
+  # ubuntu
   it "read user on ubuntu" do
-    resource = MockLoader.new(:ubuntu1404).load_resource("user", "root")
+    resource = MockLoader.new(:ubuntu).load_resource("user", "root")
     _(resource.exists?).must_equal true
     _(resource.group).must_equal "root"
     _(resource.groups).must_equal ["root"]
@@ -20,7 +20,7 @@ describe "Inspec::Resources::User" do
 
   # ubuntu 14.04 test with ldap user
   it "read user on ubuntu" do
-    resource = MockLoader.new(:ubuntu1404).load_resource("user", "jfolmer")
+    resource = MockLoader.new(:ubuntu).load_resource("user", "jfolmer")
     _(resource.exists?).must_equal true
     _(resource.group).must_equal "domain users"
     _(resource.groups).must_equal ["domain users", "domain admins", "denied rodc password replication group"]
@@ -33,7 +33,7 @@ describe "Inspec::Resources::User" do
 
   # serverspec compatibility tests (do not test matcher)
   it "returns deprecation notices" do
-    resource = MockLoader.new(:ubuntu1404).load_resource("user", "root")
+    resource = MockLoader.new(:ubuntu).load_resource("user", "root")
 
     expect_deprecation(:resource_user_serverspec_compat) do
       _(resource.has_uid?(0)).must_equal true
@@ -185,5 +185,22 @@ describe "Inspec::Resources::User" do
     _(resource.mindays).must_be_nil
     _(resource.maxdays).must_be_nil
     _(resource.warndays).must_be_nil
+  end
+
+  it "read user on Windows without case-sensitivity" do
+    resource = MockLoader.new(:windows).load_resource("user", "administrator")
+    _(resource.exists?).must_equal true
+    _(resource.uid).wont_be_nil
+    _(resource.group).must_be_nil
+    _(resource.groups).must_equal %w{Administrators Users}
+  end
+
+  it "read user groups on Windows without case-sensitivity using include matcher" do
+    resource = MockLoader.new(:windows).load_resource("user", "administrator")
+    _(resource.exists?).must_equal true
+    _(resource.uid).wont_be_nil
+    _(resource.group).must_be_nil
+    _(resource.groups).must_include "Administrators"
+    _(resource.groups).must_include "administrators"
   end
 end

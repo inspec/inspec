@@ -22,6 +22,18 @@ module Inspec::Resources
     end
   end
 
+  # Class defined to check for members without case-sensitivity
+  class Members < Array
+    def initialize(group_members)
+      @group_members = group_members
+      super
+    end
+
+    def include?(user)
+      !(@group_members.select { |group_member| group_member.casecmp?(user) }.empty?)
+    end
+  end
+
   class Groups < Inspec.resource(1)
     include GroupManagementSelector
 
@@ -49,10 +61,11 @@ module Inspec::Resources
 
     filter = FilterTable.create
     filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
-    filter.register_column(:names, field: "name")
-      .register_column(:gids,      field: "gid")
-      .register_column(:domains,   field: "domain")
-      .register_column(:members,   field: "members", style: :simple)
+    filter.register_column(:names,       field: "name")
+      .register_column(:gids,            field: "gid")
+      .register_column(:domains,         field: "domain")
+      .register_column(:members,         field: "members", style: :simple)
+      .register_column(:members_array,   field: "members_array", style: :simple)
     filter.install_filter_methods_on_resource(self, :collect_group_details)
 
     def to_s
@@ -63,7 +76,13 @@ module Inspec::Resources
 
     # collects information about every group
     def collect_group_details
-      return @groups_cache ||= @group_provider.groups unless @group_provider.nil?
+      unless @group_provider.nil?
+        modified_groups_info = @group_provider.groups
+        unless modified_groups_info.empty?
+          modified_groups_info.each { |hashmap| hashmap["members_array"] = hashmap["members"].is_a?(Array) ? hashmap["members"] : hashmap["members"]&.split(",") }
+        end
+        return @groups_cache ||= modified_groups_info
+      end
 
       []
     end
@@ -75,6 +94,7 @@ module Inspec::Resources
   #   its('gid') { should eq 0 }
   # end
   #
+
   class Group < Inspec.resource(1)
     include GroupManagementSelector
 
@@ -111,7 +131,13 @@ module Inspec::Resources
     end
 
     def members
-      flatten_entry(group_info, "members")
+      members_list = flatten_entry(group_info, "members") || empty_value_for_members
+      inspec.os.windows? ? Members.new(members_list) : members_list
+    end
+
+    def members_array
+      members_list = flatten_entry(group_info, "members_array") || []
+      inspec.os.windows? ? Members.new(members_list) : members_list
     end
 
     def local
@@ -139,7 +165,15 @@ module Inspec::Resources
     def group_info
       # we need a local copy for the block
       group = @group.dup
-      @groups_cache ||= inspec.groups.where { name == group }
+      if inspec.os.windows?
+        @groups_cache ||= inspec.groups.where { name.casecmp?(group) }
+      else
+        @groups_cache ||= inspec.groups.where { name == group }
+      end
+    end
+
+    def empty_value_for_members
+      inspec.os.windows? ? [] : ""
     end
   end
 

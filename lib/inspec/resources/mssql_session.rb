@@ -42,11 +42,7 @@ module Inspec::Resources
       @local_mode = opts[:local_mode]
       unless local_mode?
         @host = opts[:host] || "localhost"
-        if opts.key?(:port)
-          @port = opts[:port]
-        else
-          @port = "1433"
-        end
+        @port = opts[:port]
       end
       @instance = opts[:instance]
       @db_name = opts[:db_name]
@@ -58,7 +54,7 @@ module Inspec::Resources
     end
 
     def query(q) # rubocop:disable Metrics/PerceivedComplexity
-      escaped_query = q.gsub(/\\/, '\\\\').gsub(/"/, '""').gsub(/\$/, '\\$')
+      escaped_query = q.gsub(/\\/, "\\\\").gsub(/"/, '""').gsub(/\$/, '\\$')
       # surpress 'x rows affected' in SQLCMD with 'set nocount on;'
       cmd_string = "sqlcmd -Q \"set nocount on; #{escaped_query}\" -W -w 1024 -s ','"
       cmd_string += " -U '#{@user}' -P '#{@password}'" unless @user.nil? || @password.nil?

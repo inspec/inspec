@@ -1,0 +1,109 @@
+---
+driver:
+  name: dokken
+  chef_version: :latest
+  privileged: true # because Docker and SystemD/Upstart
+
+transport:
+  name: dokken
+
+provisioner:
+  name: dokken
+
+verifier:
+  name: inspec
+  sudo: true
+
+# Test against every supported target platform for which we have a dokken image.
+# If we don't have a dokken image, see kitchen.chef.yml for Vagrant-based testing.
+# Try to keep this list up to date!
+# Visit https://hub.docker.com/search and https://github.com/test-kitchen/dokken-images to search for new images
+platforms:
+
+- name: amazonlinux-2
+  driver:
+    image: dokken/amazonlinux-2
+    pid_one_command: /usr/lib/systemd/systemd
+
+- name: centos-7
+  driver:
+    image: dokken/centos-7
+    pid_one_command: /usr/lib/systemd/systemd
+- name: centos-8
+  driver:
+    image: dokken/centos-8
+    pid_one_command: /usr/lib/systemd/systemd
+
+- name: debian-9
+  driver:
+    image: dokken/debian-9
+    pid_one_command: /bin/systemd
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update -y
+- name: debian-10
+  driver:
+    image: dokken/debian-10
+    pid_one_command: /bin/systemd
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update -y
+
+- name: fedora-latest
+  driver:
+    image: dokken/fedora-latest
+    pid_one_command: /usr/lib/systemd/systemd
+
+- name: oraclelinux-7
+  driver:
+    image: dokken/oraclelinux-7
+    pid_one_command: /usr/lib/systemd/systemd
+- name: oraclelinux-8
+  driver:
+    image: dokken/oraclelinux-8
+    pid_one_command: /usr/lib/systemd/systemd
+
+- name: opensuse-leap
+  driver:
+    image: dokken/opensuse-leap-15
+    pid_one_command: /bin/systemd
+
+- name: ubuntu-16.04
+  driver:
+    image: dokken/ubuntu-16.04
+    pid_one_command: /bin/systemd
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update -y
+
+- name: ubuntu-18.04
+  driver:
+    image: dokken/ubuntu-18.04
+    pid_one_command: /bin/systemd
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update -y
+
+- name: ubuntu-20.04
+  driver:
+    image: dokken/ubuntu-20.04
+    pid_one_command: /bin/systemd
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update -y
+
+suites:
+- name: resources
+  run_list:
+  - recipe[os_prepare]
+  verifier:
+    inspec_tests:
+      # TODO - split these out into core, database, unix, and windows resources
+      - test/kitchen/policies/default
+  attributes:
+    osprepare:
+      docker: true
+      application: false
+
+# These are planned for the future
+# Suites which exercise resources that exercise databases
+# - name: resources-database
+# Unix-only resources
+# - name: resources-unix
+# Windows-only resources
+# - name: resources-windows

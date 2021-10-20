@@ -55,16 +55,16 @@ class AwsS3BucketObject < Inspec.resource(1)
   def fetch_from_api
     backend = BackendFactory.create(inspec_runner)
     catch_aws_errors do
-      begin
-        # Just use get_object to detect if the bucket exists
-        backend.get_object(bucket: bucket_name, key: key)
-      rescue Aws::S3::Errors::NoSuchBucket
-        @exists = false
-        return
-      rescue Aws::S3::Errors::NoSuchKey
-        @exists = false
-        return
-      end
+
+      # Just use get_object to detect if the bucket exists
+      backend.get_object(bucket: bucket_name, key: key)
+    rescue Aws::S3::Errors::NoSuchBucket
+      @exists = false
+      return
+    rescue Aws::S3::Errors::NoSuchKey
+      @exists = false
+      return
+
     end
     @exists = true
   end

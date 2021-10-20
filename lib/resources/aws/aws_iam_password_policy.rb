@@ -20,19 +20,19 @@ class AwsIamPasswordPolicy < Inspec.resource(1)
   # TODO: rewrite to avoid direct injection, match other resources, use AwsSingularResourceMixin
   def initialize(conn = nil)
     catch_aws_errors do
-      begin
-        if conn
-          # We're in a mocked unit test.
-          @policy = conn.iam_resource.account_password_policy
-        else
-          # Don't use the resource approach.  It's a CRUD operation
-          # - if the policy does not exist, you get back a blank object to  populate and save.
-          # Using the Client will throw an exception if no policy exists.
-          @policy = inspec_runner.backend.aws_client(Aws::IAM::Client).get_account_password_policy.password_policy
-        end
-      rescue Aws::IAM::Errors::NoSuchEntity
-        @policy = nil
+
+      if conn
+        # We're in a mocked unit test.
+        @policy = conn.iam_resource.account_password_policy
+      else
+        # Don't use the resource approach.  It's a CRUD operation
+        # - if the policy does not exist, you get back a blank object to  populate and save.
+        # Using the Client will throw an exception if no policy exists.
+        @policy = inspec_runner.backend.aws_client(Aws::IAM::Client).get_account_password_policy.password_policy
       end
+    rescue Aws::IAM::Errors::NoSuchEntity
+      @policy = nil
+
     end
   end
 
