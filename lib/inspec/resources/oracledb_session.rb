@@ -82,8 +82,8 @@ module Inspec::Resources
       if @db_role.nil? || @su_user.nil?
         verified_query = verify_query(query)
       else
-        escaped_query = query.gsub(/\\/, "\\\\").gsub(/"/, '\\"')
-        escaped_query = escaped_query.gsub("$", '\\$')
+        escaped_query = query.gsub(/\\\\/, "\\").gsub(/"/, '\\"')
+        escaped_query = escaped_query.gsub("$", '\\$') unless escaped_query.include? "\\$"
         verified_query = verify_query(escaped_query)
       end
 
@@ -99,7 +99,10 @@ module Inspec::Resources
       elsif @su_user.nil?
         %{#{sql_prefix}#{bin} #{user}/#{password}@#{host}:#{port}/#{@service} as #{@db_role}#{sql_postfix}}
       else
-        %{su - #{@su_user} -c "env ORACLE_SID=#{@service} #{@bin} / as #{@db_role}#{sql_postfix}"}
+        # oracle_query_string is echoed to be able to extract the query output clearly
+        # su - su_user in certain versions of oracle returns a message
+        # Example of msg with query output: The Oracle base remains unchanged with value /oracle\n\nVALUE\n3\n
+        %{su - #{@su_user} -c "echo 'oracle_query_string'; env ORACLE_SID=#{@service} #{@bin} / as #{@db_role}#{sql_postfix}"}
       end
     end
 
@@ -109,9 +112,15 @@ module Inspec::Resources
     end
 
     def parse_csv_result(stdout)
-      output = stdout.sub(/\r/, "").strip
+      output = stdout.split("oracle_query_string")[-1]
+      # comma_query_sub replaces the csv delimiter "," in the output.
+      # Handles CSV parsing of data like this (DROP,3) etc
+      output = output.sub(/\r/, "").strip.gsub(",", "comma_query_sub")
       converter = ->(header) { header.downcase }
-      CSV.parse(output, headers: true, header_converters: converter).map { |row| Hashie::Mash.new(row.to_h) }
+      CSV.parse(output, headers: true, header_converters: converter).map do |row|
+        revised_row = row.entries.flatten.map { |entry| entry.gsub("comma_query_sub", ",") }
+        Hashie::Mash.new([revised_row].to_h)
+      end
     end
   end
 end
