@@ -24,7 +24,7 @@ describe "Inspec::Resources::OracledbSession" do
     resource = quick_resource(:oracledb_session, :linux, as_os_user: "OSUSER", as_db_role: "DBA", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "/bin/sqlplus") do |cmd|
       cmd.strip!
       case cmd
-      when "su - OSUSER -c \"env ORACLE_SID=ORCL /bin/sqlplus -S / as DBA <<'EOC'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v\\$database;\nEXIT\nEOC\"" then
+      when "su - OSUSER -c \"echo 'oracle_query_string'; env ORACLE_SID=ORCL /bin/sqlplus -S / as DBA <<'EOC'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v\\$database;\nEXIT\nEOC\"" then
         stdout_file "test/fixtures/cmd/oracle-result"
       else
         raise cmd.inspect
