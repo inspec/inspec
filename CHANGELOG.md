@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.47.9 -->
-## [v4.47.9](https://github.com/inspec/inspec/tree/v4.47.9) (2021-10-22)
+<!-- latest_release 4.48.0 -->
+## [v4.48.0](https://github.com/inspec/inspec/tree/v4.48.0) (2021-10-25)
 
 #### Merged Pull Requests
-- Fix Oracle db session resource issues  [#5706](https://github.com/inspec/inspec/pull/5706) ([Nik08](https://github.com/Nik08))
+- InSpec Waivers: --filter-waived-controls [#5327](https://github.com/inspec/inspec/pull/5327) ([Schwad](https://github.com/Schwad))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.46.13 -->
@@ -14,6 +14,7 @@
 - Add support for Cassandra DB [#5683](https://github.com/inspec/inspec/pull/5683) ([Nik08](https://github.com/Nik08)) <!-- 4.47.0 -->
 
 #### Merged Pull Requests
+- InSpec Waivers: --filter-waived-controls [#5327](https://github.com/inspec/inspec/pull/5327) ([Schwad](https://github.com/Schwad)) <!-- 4.48.0 -->
 - Fix Oracle db session resource issues  [#5706](https://github.com/inspec/inspec/pull/5706) ([Nik08](https://github.com/Nik08)) <!-- 4.47.9 -->
 - Oracle db session resource fix - when invoking query using os user and db role [#5702](https://github.com/inspec/inspec/pull/5702) ([Nik08](https://github.com/Nik08)) <!-- 4.47.8 -->
 - Enable repeatable builds by bundling Gemfile.lock [#5688](https://github.com/inspec/inspec/pull/5688) ([tas50](https://github.com/tas50)) <!-- 4.47.7 -->
