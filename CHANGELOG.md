@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.48.1 -->
-## [v4.48.1](https://github.com/inspec/inspec/tree/v4.48.1) (2021-10-25)
+<!-- latest_release 4.49.0 -->
+## [v4.49.0](https://github.com/inspec/inspec/tree/v4.49.0) (2021-10-25)
 
 #### Merged Pull Requests
-- Fix windows_firewall resource fails to validate more than 1 rule depending on how it&#39;s executed [#5704](https://github.com/inspec/inspec/pull/5704) ([Vasu1105](https://github.com/Vasu1105))
+- Integrate InSpec check with Cookstyle [#5618](https://github.com/inspec/inspec/pull/5618) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.46.13 -->
@@ -14,6 +14,7 @@
 - Add support for Cassandra DB [#5683](https://github.com/inspec/inspec/pull/5683) ([Nik08](https://github.com/Nik08)) <!-- 4.47.0 -->
 
 #### Merged Pull Requests
+- Integrate InSpec check with Cookstyle [#5618](https://github.com/inspec/inspec/pull/5618) ([Nik08](https://github.com/Nik08)) <!-- 4.49.0 -->
 - Fix windows_firewall resource fails to validate more than 1 rule depending on how it&#39;s executed [#5704](https://github.com/inspec/inspec/pull/5704) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.48.1 -->
 - InSpec Waivers: --filter-waived-controls [#5327](https://github.com/inspec/inspec/pull/5327) ([Schwad](https://github.com/Schwad)) <!-- 4.48.0 -->
 - Fix Oracle db session resource issues  [#5706](https://github.com/inspec/inspec/pull/5706) ([Nik08](https://github.com/Nik08)) <!-- 4.47.9 -->
