@@ -174,6 +174,10 @@ module Inspec
         desc: "After normal execution order, results are sorted by control ID, or by file (default), or randomly. None uses legacy unsorted mode."
       option :filter_empty_profiles, type: :boolean, default: false,
         desc: "Filter empty profiles (profiles without controls) from the report."
+      option :filter_waived_controls, type: :boolean,
+        desc: "Do not execute waived controls in InSpec at all. Must use with --waiver-file. Ignores `run` setting of waiver file."
+      option :retain_waiver_data, type: :boolean,
+        desc: "EXPERIMENTAL: Only works in conjunction with --filter-waived-controls, retains waiver data about controls that were skipped"
       option :command_timeout, type: :numeric,
         desc: "Maximum seconds to allow commands to run during execution.",
         long_desc: "Maximum seconds to allow commands to run during execution. A timed out command is considered an error."
