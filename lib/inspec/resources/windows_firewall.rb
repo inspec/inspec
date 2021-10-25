@@ -77,7 +77,7 @@ module Inspec::Resources
 
     def load_firewall_profile(profile_name)
       <<-EOH
-        Remove-TypeData System.Array # workaround for PS bug here: https://bit.ly/2SRMQ8M
+        Get-TypeData -TypeName System.Array | Remove-TypeData # workaround for PS bug here: https://bit.ly/2SRMQ8M
         $profile = Get-NetFirewallProfile -Name "#{profile_name}"
         $count = @($profile | Get-NetFirewallRule).Count
         ([PSCustomObject]@{
