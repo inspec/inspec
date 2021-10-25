@@ -60,7 +60,7 @@ inspec automate SUBCOMMAND
 
 ## check
 
-Verify metadata in inspec.yml. Verify control data has fields (title, description, impact) defined and that all controls have visible tests.
+Verify the metadata in the inspec.yml file, verify that control blocks have the correct fields (title, description, impact) defined, that all controls have visible tests, and that controls are not using deprecated InSpec DSL code.
 
 ### Syntax
 

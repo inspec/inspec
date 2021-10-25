@@ -235,6 +235,14 @@ module FunctionalHelper
     end
   end
 
+  def prepare_profiles(dir = nil, &block)
+    Dir.mktmpdir do |tmpdir|
+      FileUtils.cp_r(profile_path, tmpdir)
+      bn = File.basename(profile_path)
+      yield(File.join(tmpdir, bn, dir.to_s))
+    end
+  end
+
   private
 
   def assemble_env_prefix(env = {})

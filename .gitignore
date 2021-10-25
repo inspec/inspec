@@ -28,6 +28,7 @@ inspec-deprecations-in-cfg.txt
 inspec-deprecations-in-lib.txt
 kitchen.local.yml
 meta-profile-0.2.0.tar.gz
+inheritance-1.0.0.tar.gz
 omnibus/.cache
 omnibus/pkg
 profile-1.0.0.tar.gz

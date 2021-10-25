@@ -122,8 +122,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       end
       puts
 
-      if result[:errors].empty? && result[:warnings].empty?
-        ui.plain_line("No errors or warnings")
+      if result[:errors].empty? && result[:warnings].empty? && result[:offenses].empty?
+        ui.plain_line("No errors, warnings, or offenses")
       else
         item_msg = lambda { |item|
           pos = [item[:file], item[:line], item[:column]].compact.join(":")
@@ -135,11 +135,18 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
         puts
 
+        unless result[:offenses].empty?
+          puts "Offenses:\n"
+          result[:offenses].each { |item| ui.cyan(" #{Inspec::UI::GLYPHS[:script_x]} #{item_msg.call(item)}\n\n") }
+        end
+
+        offenses = ui.cyan("#{result[:offenses].length} offenses", print: false)
         errors = ui.red("#{result[:errors].length} errors", print: false)
         warnings = ui.yellow("#{result[:warnings].length} warnings", print: false)
-        ui.plain_line("Summary:     #{errors}, #{warnings}")
+        ui.plain_line("Summary:     #{errors}, #{warnings}, #{offenses}")
       end
     end
+
     ui.exit Inspec::UI::EXIT_USAGE_ERROR unless result[:summary][:valid]
   rescue StandardError => e
     pretty_handle_exception(e)
