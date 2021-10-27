@@ -1,37 +1,35 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.49.0 -->
-## [v4.49.0](https://github.com/inspec/inspec/tree/v4.49.0) (2021-10-25)
-
-#### Merged Pull Requests
-- Integrate InSpec check with Cookstyle [#5618](https://github.com/inspec/inspec/pull/5618) ([Nik08](https://github.com/Nik08))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.46.13 -->
-### Changes since 4.46.13 release
-
-#### New Features
-- Add support for Cassandra DB [#5683](https://github.com/inspec/inspec/pull/5683) ([Nik08](https://github.com/Nik08)) <!-- 4.47.0 -->
-
-#### Merged Pull Requests
-- Integrate InSpec check with Cookstyle [#5618](https://github.com/inspec/inspec/pull/5618) ([Nik08](https://github.com/Nik08)) <!-- 4.49.0 -->
-- Fix windows_firewall resource fails to validate more than 1 rule depending on how it&#39;s executed [#5704](https://github.com/inspec/inspec/pull/5704) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.48.1 -->
-- InSpec Waivers: --filter-waived-controls [#5327](https://github.com/inspec/inspec/pull/5327) ([Schwad](https://github.com/Schwad)) <!-- 4.48.0 -->
-- Fix Oracle db session resource issues  [#5706](https://github.com/inspec/inspec/pull/5706) ([Nik08](https://github.com/Nik08)) <!-- 4.47.9 -->
-- Oracle db session resource fix - when invoking query using os user and db role [#5702](https://github.com/inspec/inspec/pull/5702) ([Nik08](https://github.com/Nik08)) <!-- 4.47.8 -->
-- Enable repeatable builds by bundling Gemfile.lock [#5688](https://github.com/inspec/inspec/pull/5688) ([tas50](https://github.com/tas50)) <!-- 4.47.7 -->
-- Fix google_container_node_pool.md [#5696](https://github.com/inspec/inspec/pull/5696) ([pradeepbhadani](https://github.com/pradeepbhadani)) <!-- 4.47.6 -->
-- Renamed Inspec DSL to Inspec Language [#5694](https://github.com/inspec/inspec/pull/5694) ([dishanktiwari2501](https://github.com/dishanktiwari2501)) <!-- 4.47.5 -->
-- Group &amp; User Resources - Resolve name case-sensitivity issue for windows [#5667](https://github.com/inspec/inspec/pull/5667) ([Nik08](https://github.com/Nik08)) <!-- 4.47.4 -->
-- Update GCS Storage class list [#5676](https://github.com/inspec/inspec/pull/5676) ([pradeepbhadani](https://github.com/pradeepbhadani)) <!-- 4.47.3 -->
-- Improvements to the inspec.yml docs [#5679](https://github.com/inspec/inspec/pull/5679) ([tas50](https://github.com/tas50)) <!-- 4.47.2 -->
-- Update the unit test files to use latest versions of OS rather than the older.  [#5681](https://github.com/inspec/inspec/pull/5681) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.47.1 -->
-- Update OpenSSL on macOS to 1.1.1l [#5687](https://github.com/inspec/inspec/pull/5687) ([tas50](https://github.com/tas50)) <!-- 4.47.0 -->
-- Add back Ubuntu 16.04 packages + testing [#5689](https://github.com/inspec/inspec/pull/5689) ([tas50](https://github.com/tas50)) <!-- 4.46.15 -->
-- Replaced /main/ from /master/ [#5678](https://github.com/inspec/inspec/pull/5678) ([dishanktiwari2501](https://github.com/dishanktiwari2501)) <!-- 4.46.14 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.49.0](https://github.com/inspec/inspec/tree/v4.49.0) (2021-10-27)
+
+#### New Features
+- Add support for Cassandra DB [#5683](https://github.com/inspec/inspec/pull/5683) ([Nik08](https://github.com/Nik08))
+
+#### Merged Pull Requests
+- Replaced /main/ from /master/ [#5678](https://github.com/inspec/inspec/pull/5678) ([dishanktiwari2501](https://github.com/dishanktiwari2501))
+- Add back Ubuntu 16.04 packages + testing [#5689](https://github.com/inspec/inspec/pull/5689) ([tas50](https://github.com/tas50))
+- Update OpenSSL on macOS to 1.1.1l [#5687](https://github.com/inspec/inspec/pull/5687) ([tas50](https://github.com/tas50))
+- Update the unit test files to use latest versions of OS rather than the older.  [#5681](https://github.com/inspec/inspec/pull/5681) ([Vasu1105](https://github.com/Vasu1105))
+- Improvements to the inspec.yml docs [#5679](https://github.com/inspec/inspec/pull/5679) ([tas50](https://github.com/tas50))
+- Update GCS Storage class list [#5676](https://github.com/inspec/inspec/pull/5676) ([pradeepbhadani](https://github.com/pradeepbhadani))
+- Group &amp; User Resources - Resolve name case-sensitivity issue for windows [#5667](https://github.com/inspec/inspec/pull/5667) ([Nik08](https://github.com/Nik08))
+- Renamed Inspec DSL to Inspec Language [#5694](https://github.com/inspec/inspec/pull/5694) ([dishanktiwari2501](https://github.com/dishanktiwari2501))
+- Fix google_container_node_pool.md [#5696](https://github.com/inspec/inspec/pull/5696) ([pradeepbhadani](https://github.com/pradeepbhadani))
+- Enable repeatable builds by bundling Gemfile.lock [#5688](https://github.com/inspec/inspec/pull/5688) ([tas50](https://github.com/tas50))
+- Oracle db session resource fix - when invoking query using os user and db role [#5702](https://github.com/inspec/inspec/pull/5702) ([Nik08](https://github.com/Nik08))
+- Fix Oracle db session resource issues  [#5706](https://github.com/inspec/inspec/pull/5706) ([Nik08](https://github.com/Nik08))
+- InSpec Waivers: --filter-waived-controls [#5327](https://github.com/inspec/inspec/pull/5327) ([Schwad](https://github.com/Schwad))
+- Fix windows_firewall resource fails to validate more than 1 rule depending on how it&#39;s executed [#5704](https://github.com/inspec/inspec/pull/5704) ([Vasu1105](https://github.com/Vasu1105))
+- Integrate InSpec check with Cookstyle [#5618](https://github.com/inspec/inspec/pull/5618) ([Nik08](https://github.com/Nik08))
+<!-- latest_stable_release -->
+
 ## [v4.46.13](https://github.com/inspec/inspec/tree/v4.46.13) (2021-09-30)
 
 #### New Features
@@ -63,7 +61,6 @@
 - Build packages for debian 11, macos 12, windows 11/2022 [#5675](https://github.com/inspec/inspec/pull/5675) ([tas50](https://github.com/tas50))
 - Fix --controls option was not working for dependent profile [#5656](https://github.com/inspec/inspec/pull/5656) ([Vasu1105](https://github.com/Vasu1105))
 - Fix opa_cli and opa_api resource unable to verify empty result {} [#5671](https://github.com/inspec/inspec/pull/5671) ([Vasu1105](https://github.com/Vasu1105))
-<!-- latest_stable_release -->
 
 ## [v4.41.20](https://github.com/inspec/inspec/tree/v4.41.20) (2021-09-01)
 
