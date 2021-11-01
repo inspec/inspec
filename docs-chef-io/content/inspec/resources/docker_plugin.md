@@ -33,7 +33,6 @@ The resource allows you to pass in an plugin id:
     end
 
 ## Properties
-- `id`, `version`
 
 ### id
 

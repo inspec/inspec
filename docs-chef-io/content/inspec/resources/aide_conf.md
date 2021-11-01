@@ -49,8 +49,6 @@ Use the where clause to match a selection_line to one rule or a particular set o
 
 ## Properties
 
-- `rules`, `all_have_rule`, `selection_lines`
-
 ### `rules`
 
 The `rules` property returns the list of rules set in the `aide.conf` file.

@@ -46,8 +46,6 @@ where
 
 ## Properties
 
-- `gid`, `members`, `members_array`
-
 ### gid
 
 The `gid` property returns the named group identifier:

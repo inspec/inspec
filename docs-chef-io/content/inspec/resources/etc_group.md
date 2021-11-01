@@ -48,8 +48,6 @@ where
 
 ## Properties
 
-- `gids`, `groups`, `users`
-
 ### gids
 
 The `gids` property returns the list of gids from `/etc/group` file.

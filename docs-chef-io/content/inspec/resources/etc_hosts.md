@@ -51,8 +51,6 @@ where
 
 ## Properties
 
-- `ip_address`, `primary_name`, `all_host_names`
-
 ### ip_address
 
 The `ip_address` property returns a string array of ip addresses specified in the etc/hosts file.

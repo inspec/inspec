@@ -39,8 +39,6 @@ where
 
 ## Properties
 
-- `version`, `versions`
-
 ### `version (String)`
 
 The `version` property returns a string of the default version on the system:

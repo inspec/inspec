@@ -77,8 +77,6 @@ Beginning with Chef InSpec 1.41, you can enable the ability to have the HTTP tes
 
 ## Parameters
 
-- `url`, `auth`, `params`, `method`, `headers`, `data`, `open_timeout`, `read_timeout`, `ssl_verify`, `max_redirects`
-
 ## Parameter Examples
 
 ### url

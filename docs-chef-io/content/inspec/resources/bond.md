@@ -38,8 +38,6 @@ where
 
 ## Properties
 
-- `content`, `interfaces`, `mode`, `params`
-
 ### content
 
 The `content` property returns the contents in the file that defines the bonded network interface. The values of the `content` property are arbitrary.

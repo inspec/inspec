@@ -54,8 +54,6 @@ For example:
 
 ## Properties
 
-- `application_pool`, `path`, `physical_path`, `protocols`, `site_name`
-
 ## Examples
 
 ### application pool

@@ -44,8 +44,6 @@ Use the where clause to test open interfaces, sources, and services that are in 
 
 ## Properties
 
-- `interfaces`, `sources`, `services`, `default_zone`
-
 ### `interfaces`
 
 The `interfaces` property is used in conjunction with the where class to display open interfaces in an active zone.

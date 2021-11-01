@@ -49,8 +49,6 @@ where
 
 ## Properties
 
-- `size_kb`, `free_kb`, `percent_free`
-
 ## size_kb (Integer)
 
 The `size_kb` property returns the total partition size in kb.

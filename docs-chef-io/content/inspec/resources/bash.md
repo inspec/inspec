@@ -48,8 +48,6 @@ For example:
 
 ## Properties
 
-- `exit_status`, `stderr`, `stdout`
-
 ### exit_status
 
 The `exit_status` property returns the exit status for the command.

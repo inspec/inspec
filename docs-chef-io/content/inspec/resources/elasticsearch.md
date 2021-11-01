@@ -68,8 +68,6 @@ To simply check if nodes exist that match the criteria, use the `exist` matcher:
 
 The following are the different properties of the resource:
 
-- `build_hash`, `cluster_name`, `host`, `http`, `ingest`, `ip`, `jvm`, `module_list`, `modules`, `node_name`, `node_id`, `os`, `plugin_list`, `plugins`, `process`, `roles`, `settings`, `total_indexing_buffer`, `transport`, `transport_address`, `version`
-
 Since the `elasticsearch` resource is meant for use on a cluster, each property will return an array of the values for each node that matches any provided search criteria. Using InSpec's `cmp` matcher helps avoid issues when comparing values when there is only a single match (i.e. when the cluster only contains a single node or the `where` filter criteria provided only returns a single node).
 
 ### build_hash

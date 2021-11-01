@@ -42,8 +42,6 @@ where
 
 ## Properties
 
-- `connection`, `ipaddress`, `protocol`, `socket`
-
 ### ipaddress
 
 The `ipaddress` property returns the ipaddress of the host.

@@ -39,8 +39,6 @@ A `dh_params` resource block declares a parameter file to be tested.
 
 ## Properties
 
-- `generator`, `modulus`, `prime_length`, `pem`, `text`
-
 ### generator (Integer)
 
 The `generator` property returns generator used for the Diffie-Hellman operation.

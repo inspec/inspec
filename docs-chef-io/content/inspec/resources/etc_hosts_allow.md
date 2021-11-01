@@ -48,8 +48,6 @@ where
 
 ## Properties
 
-- `daemon`, `client_list`, `options`
-
 ### daemon
 
 The `daemon` property returns a string containing the daemon that is allowed in the rule.
