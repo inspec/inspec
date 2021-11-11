@@ -15,12 +15,15 @@ $Properties = 'Caption', 'CSName', 'Version', 'BuildType', 'OSArchitecture'
 Get-CimInstance Win32_OperatingSystem | Select-Object $Properties | Format-Table -AutoSize
 
 Write-Host "--- Installing the version of Habitat required"
-$hab_version = (hab --version)
-$hab_minor_version = $hab_version.split('.')[1]
-if ( -not $? -Or $hab_minor_version -lt 85 ) {
-    Install-Habitat --version 0.85.0.20190916
-} else {
-    Write-Host ":habicat: I think I have the version I need to build."
+try {
+  hab --version
+}
+catch {
+  Set-ExecutionPolicy Bypass -Scope Process -Force
+  Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1'))
+}
+finally {
+  Write-Host ":habicat: I think I have the version I need to build."
 }
 
 
