@@ -62,7 +62,7 @@ where
   * `0.4 to <0.7` these are controls with medium impact
   * `0.7 to <0.9` these are controls with high impact
   * `0.9 to 1.0` these are critical controls
-* `tag` is optional meta-information with with key or key-value pairs
+* `tag` is optional meta-information with key or key-value pairs
 * `ref` is a reference to an external document
 * `describe` is a block that contains at least one test. A `control` block must contain at least one `describe` block, but may contain as many as required
 * `sshd_config` is a Chef InSpec resource. For the full list of Chef InSpec resources, see Chef InSpec resource documentation
