@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.49.1 -->
+## [v4.49.1](https://github.com/inspec/inspec/tree/v4.49.1) (2021-11-13)
+
+#### Bug Fixes
+- Updates habitat test for windows to match install logic for linux [#5718](https://github.com/inspec/inspec/pull/5718) ([collinmcneese](https://github.com/collinmcneese))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.49.0 -->
+### Changes since 4.49.0 release
+
+#### Bug Fixes
+- Updates habitat test for windows to match install logic for linux [#5718](https://github.com/inspec/inspec/pull/5718) ([collinmcneese](https://github.com/collinmcneese)) <!-- 4.49.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
