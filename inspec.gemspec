@@ -35,6 +35,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency "train-winrm",   "~> 0.2"
   spec.add_dependency "mongo", "= 2.13.2" # 2.14 introduces a broken symlink in mongo-2.14.0/spec/support/ocsp
 
-  # checks code offenses with inspec check
-  spec.add_dependency "cookstyle"
 end
