@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.49.1 -->
-## [v4.49.1](https://github.com/inspec/inspec/tree/v4.49.1) (2021-11-13)
+<!-- latest_release 4.49.2 -->
+## [v4.49.2](https://github.com/inspec/inspec/tree/v4.49.2) (2021-11-13)
 
-#### Bug Fixes
-- Updates habitat test for windows to match install logic for linux [#5718](https://github.com/inspec/inspec/pull/5718) ([collinmcneese](https://github.com/collinmcneese))
+#### Merged Pull Requests
+- Move cookstyle dep from inspec gemspec to inspec-core, add rake [#5722](https://github.com/inspec/inspec/pull/5722) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.49.0 -->
 ### Changes since 4.49.0 release
+
+#### Merged Pull Requests
+- Move cookstyle dep from inspec gemspec to inspec-core, add rake [#5722](https://github.com/inspec/inspec/pull/5722) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.49.2 -->
 
 #### Bug Fixes
 - Updates habitat test for windows to match install logic for linux [#5718](https://github.com/inspec/inspec/pull/5718) ([collinmcneese](https://github.com/collinmcneese)) <!-- 4.49.1 -->
