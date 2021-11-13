@@ -18,4 +18,9 @@ module Inspec
     require "etc" unless defined?(Etc)
     Etc.getpwuid.dir
   end
+
+  def self.locally_windows?
+    require "rbconfig" unless defined?(RbConfig)
+    RbConfig::CONFIG["host_os"] =~ /mswin|mingw|cygwin/
+  end
 end
