@@ -450,6 +450,8 @@ module Inspec
 
     def cookstyle_linting_check
       msgs = []
+      return msgs if Inspec.locally_windows? # See #5723
+
       output = cookstyle_rake_output.split("Offenses:").last
       msgs = output.split("\n").select { |x| x =~ /[A-Z]:/ } unless output.nil?
       msgs

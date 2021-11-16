@@ -122,8 +122,13 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       end
       puts
 
+      enable_offenses = !Inspec.locally_windows? # See 5723
       if result[:errors].empty? && result[:warnings].empty? && result[:offenses].empty?
-        ui.plain_line("No errors, warnings, or offenses")
+        if enable_offenses
+          ui.plain_line("No errors, warnings, or offenses")
+        else
+          ui.plain_line("No errors or warnings")
+        end
       else
         item_msg = lambda { |item|
           pos = [item[:file], item[:line], item[:column]].compact.join(":")
@@ -135,7 +140,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
         puts
 
-        unless result[:offenses].empty?
+        if enable_offenses && !result[:offenses].empty?
           puts "Offenses:\n"
           result[:offenses].each { |item| ui.cyan(" #{Inspec::UI::GLYPHS[:script_x]} #{item_msg.call(item)}\n\n") }
         end
@@ -143,7 +148,11 @@ class Inspec::InspecCLI < Inspec::BaseCLI
         offenses = ui.cyan("#{result[:offenses].length} offenses", print: false)
         errors = ui.red("#{result[:errors].length} errors", print: false)
         warnings = ui.yellow("#{result[:warnings].length} warnings", print: false)
-        ui.plain_line("Summary:     #{errors}, #{warnings}, #{offenses}")
+        if enable_offenses
+          ui.plain_line("Summary:     #{errors}, #{warnings}, #{offenses}")
+        else
+          ui.plain_line("Summary:     #{errors}, #{warnings}")
+        end
       end
     end
 
