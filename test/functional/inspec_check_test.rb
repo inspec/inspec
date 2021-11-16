@@ -120,12 +120,14 @@ describe "inspec check" do
 
   describe "inspec check also check for cookstyle offenses" do
     it "finds no offenses in a complete profile" do
+      skip if windows? # see #5723
       out = inspec("check #{profile_path}/complete-profile")
       _(out.stdout).must_match(/No errors, warnings, or offenses/)
       assert_exit_code 0, out
     end
 
     it "fails and returns offenses in a profile" do
+      skip if windows? # see #5723
       out = inspec("check #{profile_path}/inputs/metadata-basic")
       _(out.stdout).must_match(/1 offenses/)
       assert_exit_code 1, out
