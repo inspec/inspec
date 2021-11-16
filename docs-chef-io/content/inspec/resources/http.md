@@ -65,7 +65,7 @@ For example, a service is listening on default http port can be tested like this
                   params: {format: 'html'},
                   method: 'POST',
                   headers: {'Content-Type' => 'application/json'},
-                  data: '{"data":{"a":"1","b":"five"}}') do
+                  data: { a":"1", "b":"five" } ) do
       its('status') { should cmp 200 }
       its('body') { should cmp 'pong' }
       its('headers.Content-Type') { should cmp 'text/html' }
@@ -133,10 +133,10 @@ In Chef InSpec 2.0, the HTTP test will automatically execute remotely whenever C
 
 ### data
 
-`data` may be specified for http request body.
+`data` may be specified for http request body. When working with remote Windows target use single quotes around data that you are passing for e.g. `data: '{ "a" : "1", "b" : "five" }'`
 
         describe http('http://localhost:8080/ping',
-                  data: '{"data":{"a":"1","b":"five"}}') do
+                  data: { "a":"1", "b":"five" } ) do
           ...
         end
 
