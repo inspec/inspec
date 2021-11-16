@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.49.2 -->
-## [v4.49.2](https://github.com/inspec/inspec/tree/v4.49.2) (2021-11-13)
+<!-- latest_release 4.50.0 -->
+## [v4.50.0](https://github.com/inspec/inspec/tree/v4.50.0) (2021-11-16)
 
-#### Merged Pull Requests
-- Move cookstyle dep from inspec gemspec to inspec-core, add rake [#5722](https://github.com/inspec/inspec/pull/5722) ([clintoncwolfe](https://github.com/clintoncwolfe))
+#### New Features
+- Add Windows support for http resource. [#5697](https://github.com/inspec/inspec/pull/5697) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.49.0 -->
 ### Changes since 4.49.0 release
+
+#### New Features
+- Add Windows support for http resource. [#5697](https://github.com/inspec/inspec/pull/5697) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.50.0 -->
 
 #### Merged Pull Requests
 - Move cookstyle dep from inspec gemspec to inspec-core, add rake [#5722](https://github.com/inspec/inspec/pull/5722) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.49.2 -->
