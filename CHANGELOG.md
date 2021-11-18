@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.50.1 -->
-## [v4.50.1](https://github.com/inspec/inspec/tree/v4.50.1) (2021-11-16)
+<!-- latest_release 4.50.2 -->
+## [v4.50.2](https://github.com/inspec/inspec/tree/v4.50.2) (2021-11-18)
 
 #### Merged Pull Requests
-- Disable CookStyle integration on Windows  [#5724](https://github.com/inspec/inspec/pull/5724) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Move rake and cookstyle deps out of inspec core gemspec [#5732](https://github.com/inspec/inspec/pull/5732) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.49.0 -->
@@ -14,6 +14,7 @@
 - Add Windows support for http resource. [#5697](https://github.com/inspec/inspec/pull/5697) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.50.0 -->
 
 #### Merged Pull Requests
+- Move rake and cookstyle deps out of inspec core gemspec [#5732](https://github.com/inspec/inspec/pull/5732) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.50.2 -->
 - Disable CookStyle integration on Windows  [#5724](https://github.com/inspec/inspec/pull/5724) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.50.1 -->
 - Move cookstyle dep from inspec gemspec to inspec-core, add rake [#5722](https://github.com/inspec/inspec/pull/5722) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.49.2 -->
 
