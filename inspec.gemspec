@@ -26,6 +26,11 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "train", "~> 3.0"
 
+  # cookstyle support for inspec check
+  # Added here not because they are compiled, but to keep chef-client lightweight
+  spec.add_dependency "cookstyle"
+  spec.add_dependency "rake"
+
   # Used for Azure profile until integrated into train
   spec.add_dependency "faraday_middleware", ">= 0.12.2", "< 1.1"
 

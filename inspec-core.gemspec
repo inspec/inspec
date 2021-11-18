@@ -45,9 +45,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "semverse",           "~> 3.0"
   spec.add_dependency "multipart-post",     "~> 2.0"
 
-  # cookstyle support for inspec check
-  spec.add_dependency "cookstyle"
-  spec.add_dependency "rake"
-
   spec.add_dependency "train-core", "~> 3.0"
 end
