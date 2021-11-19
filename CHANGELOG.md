@@ -1,29 +1,27 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.50.3 -->
-## [v4.50.3](https://github.com/inspec/inspec/tree/v4.50.3) (2021-11-19)
-
-#### Merged Pull Requests
-- Remove license note + update resource count in main docs page [#5639](https://github.com/inspec/inspec/pull/5639) ([tas50](https://github.com/tas50))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.49.0 -->
-### Changes since 4.49.0 release
-
-#### New Features
-- Add Windows support for http resource. [#5697](https://github.com/inspec/inspec/pull/5697) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.50.0 -->
-
-#### Merged Pull Requests
-- Remove license note + update resource count in main docs page [#5639](https://github.com/inspec/inspec/pull/5639) ([tas50](https://github.com/tas50)) <!-- 4.50.3 -->
-- Move rake and cookstyle deps out of inspec core gemspec [#5732](https://github.com/inspec/inspec/pull/5732) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.50.2 -->
-- Disable CookStyle integration on Windows  [#5724](https://github.com/inspec/inspec/pull/5724) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.50.1 -->
-- Move cookstyle dep from inspec gemspec to inspec-core, add rake [#5722](https://github.com/inspec/inspec/pull/5722) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.49.2 -->
-
-#### Bug Fixes
-- Updates habitat test for windows to match install logic for linux [#5718](https://github.com/inspec/inspec/pull/5718) ([collinmcneese](https://github.com/collinmcneese)) <!-- 4.49.1 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.50.3](https://github.com/inspec/inspec/tree/v4.50.3) (2021-11-19)
+
+#### New Features
+- Add Windows support for http resource. [#5697](https://github.com/inspec/inspec/pull/5697) ([Vasu1105](https://github.com/Vasu1105))
+
+#### Bug Fixes
+- Updates habitat test for windows to match install logic for linux [#5718](https://github.com/inspec/inspec/pull/5718) ([collinmcneese](https://github.com/collinmcneese))
+
+#### Merged Pull Requests
+- Move cookstyle dep from inspec gemspec to inspec-core, add rake [#5722](https://github.com/inspec/inspec/pull/5722) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Disable CookStyle integration on Windows  [#5724](https://github.com/inspec/inspec/pull/5724) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Move rake and cookstyle deps out of inspec core gemspec [#5732](https://github.com/inspec/inspec/pull/5732) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Remove license note + update resource count in main docs page [#5639](https://github.com/inspec/inspec/pull/5639) ([tas50](https://github.com/tas50))
+<!-- latest_stable_release -->
+
 ## [v4.49.0](https://github.com/inspec/inspec/tree/v4.49.0) (2021-10-27)
 
 #### New Features
@@ -45,7 +43,6 @@
 - InSpec Waivers: --filter-waived-controls [#5327](https://github.com/inspec/inspec/pull/5327) ([Schwad](https://github.com/Schwad))
 - Fix windows_firewall resource fails to validate more than 1 rule depending on how it&#39;s executed [#5704](https://github.com/inspec/inspec/pull/5704) ([Vasu1105](https://github.com/Vasu1105))
 - Integrate InSpec check with Cookstyle [#5618](https://github.com/inspec/inspec/pull/5618) ([Nik08](https://github.com/Nik08))
-<!-- latest_stable_release -->
 
 ## [v4.46.13](https://github.com/inspec/inspec/tree/v4.46.13) (2021-09-30)
 
