@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.50.4 -->
-## [v4.50.4](https://github.com/inspec/inspec/tree/v4.50.4) (2021-11-20)
+<!-- latest_release 4.50.5 -->
+## [v4.50.5](https://github.com/inspec/inspec/tree/v4.50.5) (2021-11-20)
 
 #### Merged Pull Requests
-- Fix typos and improve code highlighting in docs [#5692](https://github.com/inspec/inspec/pull/5692) ([tas50](https://github.com/tas50))
+- Update dsl_inspec.md [#5721](https://github.com/inspec/inspec/pull/5721) ([paulcalabro](https://github.com/paulcalabro))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.50.3 -->
 ### Changes since 4.50.3 release
 
 #### Merged Pull Requests
+- Update dsl_inspec.md [#5721](https://github.com/inspec/inspec/pull/5721) ([paulcalabro](https://github.com/paulcalabro)) <!-- 4.50.5 -->
 - Fix typos and improve code highlighting in docs [#5692](https://github.com/inspec/inspec/pull/5692) ([tas50](https://github.com/tas50)) <!-- 4.50.4 -->
 <!-- release_rollup -->
 
