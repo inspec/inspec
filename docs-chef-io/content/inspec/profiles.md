@@ -150,7 +150,7 @@ supports:
     release: 20.*
 ```
 
-To target the Red Hat and derivitive platforms such as CentOS and Oracle Linux, use:
+To target the Red Hat and derivative platforms such as CentOS and Oracle Linux, use:
 
 ```YAML
 name: ssh
@@ -158,7 +158,7 @@ supports:
   - platform-family: redhat
 ```
 
-To target the entire Windows 2019 platform family including Datacenter and Core Servers, use:
+To target the entire Windows 2019 platform family, including Datacenter and Core Servers, use:
 
 ```YAML
 name: ssh

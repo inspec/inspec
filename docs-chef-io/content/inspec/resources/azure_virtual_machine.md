@@ -244,7 +244,7 @@ This only applies to Linux machines and will always return `0` on Windows.
 
 ### ssh_keys
 
-Returns an array of the keys that are assigned to the machine. This is check if the correct keys are assigned.
+Returns an array of the keys that are assigned to the machine. This checks if the correct keys are assigned.
 
 Most SSH public keys have a signature at the end of them that can be tested. For example:
 
@@ -292,7 +292,7 @@ This test can be used in the following way:
 
 Returns a boolean to state if the machine has NICs connected or not.
 
-This has can be used in the following way:
+This can be used in the following way:
 
     it { should have_nics }
 

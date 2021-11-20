@@ -59,14 +59,14 @@ The following examples show how to use this Chef InSpec audit resource.
 
     describe gem('rubocop') do
       it { should be_installed }
-      its('version') { should eq '0.33.0' }
+      its('version') { should eq '1.22.0' }
     end
 
 ### Verify that a particular version is installed when there are multiple versions installed
 
     describe gem('rubocop') do
       it { should be_installed }
-      its('versions') { should include /0.51.0/ }
+      its('versions') { should include /1.21.0/ }
       its('versions.count') { should_not be > 3 }
     end
 
@@ -78,7 +78,7 @@ The following examples show how to use this Chef InSpec audit resource.
 
 ### Verify that a gem package is installed in an omnibus environment
 
-    describe gem('pry', '/opt/ruby-2.3.1/embedded/bin/gem') do
+    describe gem('pry', '/opt/ruby-3.0.2/embedded/bin/gem') do
       it { should be_installed }
     end
 
@@ -93,6 +93,20 @@ The following examples show how to use this Chef InSpec audit resource.
     describe gem('knife-backup', :chef_server) do
       it { should be_installed }
     end
+
+## Properties
+
+### version (String)
+
+The `version` property returns a string of the default version on the system:
+
+    its('version') { should eq '1.22.0' }
+
+### versions
+
+The `versions` property returns an array of strings of all the versions of the gem installed on the system:
+
+    its('versions') { should include /1.22/ }
 
 ## Matchers
 

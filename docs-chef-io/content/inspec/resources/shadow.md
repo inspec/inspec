@@ -17,12 +17,12 @@ The format for `/etc/shadow` includes:
 
 - A username
 - The hashed password for that user
-- The last date a password was changed, as the number of days since Jan 1 1970
-- The minimum number of days a password must exist, before it may be changed
+- The last date a password was changed, as the number of days since Jan 1, 1970
+- The minimum number of days a password must exist before it may be changed
 - The maximum number of days after which a password must be changed
 - The number of days a user is warned about an expiring password
 - The number of days a user must be inactive before the user account is disabled
-- The date on which a user account was disabled, as the number of days since Jan 1 1970
+- The date on which a user account was disabled, as the number of days since Jan 1, 1970
 
 These entries are defined as a colon-delimited row in the file, one row per user:
 
@@ -128,7 +128,7 @@ A list of strings, representing the encrypted password strings for entries match
 
 ### last_changes
 
-A list of integers, indicating the number of days since Jan 1 1970 since the password for each matching entry was changed.
+A list of integers, indicating the number of days since Jan 1, 1970 since the password for each matching entry was changed.
 
     # Ensure all entries have changed their password in the last 90 days.  (Probably want a filter on that)
     describe shadow do
@@ -174,7 +174,7 @@ A list of integers reflecting the number of days a user must be inactive before 
 
 ### expiry_dates
 
-A list of integers reflecting the number of days since Jan 1 1970 that a user account has been disabled, for each user matching the filter. Value is `nil` if the account has not expired.
+A list of integers reflecting the number of days since Jan 1, 1970 that a user account has been disabled, for each user matching the filter. Value is `nil` if the account has not expired.
 
     # No one should have an expired account.
     describe shadow do
@@ -214,7 +214,7 @@ The encrypted password strings, or an account status string. Each string may not
 
 ### last_change
 
-An integer reflecting the number of days since Jan 1 1970 since the user's password was changed.
+An integer reflecting the number of days since Jan 1, 1970 since the user's password was changed.
 
     # Find users who have not changed their password within 90 days
     describe shadow.where { last_change > Date.today - 90 - Date.new(1970,1,1) } do
@@ -242,7 +242,7 @@ An integer reflecting the maximum number of days a user may go without changing 
 
 ### warn_days
 
-An integer reflecting the number of days before a password expiration that a user recieves an alert.
+An integer reflecting the number of days before a password expiration that a user receives an alert.
 
     # All users should have a 7-day warning policy
     describe shadow.where { warn_days != 7 } do

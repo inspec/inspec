@@ -33,13 +33,13 @@ See also the [AWS documentation on SQS](https://docs.aws.amazon.com/AWSSimpleQue
 | Property                             | Description                                                                                            |
 | ------------------------------------ | ------------------------------------------------------------------------------------------------------ |
 | arn                                  | The ARN of the SQS Queue.                                                                              |
-| is_fifo_queue                        | A boolean value indicate if this queue is a FIFO queue                                                 |
+| is_fifo_queue                        | A boolean value indicating if this queue is a FIFO queue                                                 |
 | visibility_timeout                   | An integer indicating the visibility timeout of the message in seconds                                 |
 | maximum_message_size                 | An integer indicating the maximum message size in bytes                                                |
 | message_retention_period             | An integer indicating the maximum retention period for a message in seconds                            |
 | delay_seconds                        | An integer indicating the delay in seconds for the queue                                               |
-| receive_message_wait_timeout_seconds | An integer indicating the number of seconds an attempt to recieve a message will wait before returning |
-| content_based_deduplication          | A boolean value indicate if content based dedcuplication is enabled or not                             |
+| receive_message_wait_timeout_seconds | An integer indicating the number of seconds an attempt to receive a message will wait before returning |
+| content_based_deduplication          | A boolean value indicating if content based dedcuplication is enabled or not                             |
 | redrive_policy                       | A string indicating the redrive policy                                                                 |
 
 ## Examples

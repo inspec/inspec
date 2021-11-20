@@ -179,7 +179,7 @@ The `badpasswordattempts` matcher tests the count of bad password attempts for a
 
 where `0` is the count of bad passwords for a user.
 On Linux based operating systems it relies on `lastb` and for Windows it uses information stored for the user object.
-These settings will be resetted to `0` depending on your operating system configuration.
+These settings will be reset to `0` depending on your operating system configuration.
 
 ### lastlogin
 
