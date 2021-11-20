@@ -36,33 +36,33 @@ where
 - `'name'` is the name of the bonded network interface
 - `{ should exist }` is a valid matcher for this resource
 
-## Property Examples
-
-The following examples show how to use this Chef InSpec audit resource.
+## Properties
 
 ### content
 
-The `content` matcher tests if contents in the file that defines the bonded network interface match the value specified in the test. The values of the `content` matcher are arbitrary.
+The `content` property returns the contents in the file that defines the bonded network interface. The values of the `content` property are arbitrary.
 
     its('content') { should match('value') }
 
 ### interfaces
 
-The `interfaces` matcher tests if the named secondary interfaces are available.
+The `interfaces` property tests if the named secondary interfaces are available.
 
     its('interfaces') { should eq ['eth0', 'eth1', ...] }
 
 ### mode
 
-The `mode` matcher tests the Bonding Mode.
+The `mode` property returns the Bonding Mode.
 
     its('mode') { should eq 'IEEE 802.3ad Dynamic link aggregation' }
 
 ### params
 
-The `params` matcher tests arbitrary parameters for the bonded network interface.
+The `params` property returns arbitrary parameters for the bonded network interface.
 
     its('params') { should eq 'value' }
+
+## Examples
 
 ### Test if eth0 is a secondary interface for bond0
 

@@ -38,17 +38,13 @@ The resource allows you to pass in an plugin id:
 
 The `id` property returns the full plugin id:
 
-    describe docker_plugin('cloudstor/aws') do
-      its('id') { should eq '0ac30b93ad40' }
-    end
+    its('id') { should eq '0ac30b93ad40' }
 
 ### version
 
 The `version` property tests the value of plugin version:
 
-    describe docker_plugin('cloudstor/aws') do
-      its('version') { should eq '0.11.0' }
-    end
+    its('version') { should eq '0.11.0' }
 
 ## Examples
 

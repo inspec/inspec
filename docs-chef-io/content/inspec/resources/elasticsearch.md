@@ -34,10 +34,10 @@ This resource first became available in v1.43.5 of InSpec.
 
 ## Supported Resource Parameters
 
-The `elasticsearch` resource accepts a number of optional resource parameters:
+The `elasticsearch` resource accepts several optional resource parameters:
 
 `url`
-: the top-level URL of an Elasticsearch node in the cluster. If your Elasticsearch installation is not served out of the top-level directory at the host, be sure to specific the full URL; for example: `http://my-load-balancer/elasticsearch`. Default: `http://localhost:9200`
+: the top-level URL of an Elasticsearch node in the cluster. If your Elasticsearch installation is not served out of the top-level directory at the host, be sure to specify the full URL; for example: `http://my-load-balancer/elasticsearch`. Default: `http://localhost:9200`
 
 `username`
 : a username to use to log in with HTTP-Basic authentication. If `username` is provided, a `password` must also be provided.
@@ -66,81 +66,139 @@ To simply check if nodes exist that match the criteria, use the `exist` matcher:
 
 ## Properties
 
-The following properties are provided:
+The following are the different properties of the resource:
 
-- build_hash cluster_name, host, http, ingest, ip, jvm, module_list, modules, node_name, node_id, os, plugin_list, plugins, process, roles, settings, total_indexing_buffer, transport, transport_address, version
-
-Since the `elasticsearch` resource is meant for use on a cluster, each property will return an array of the values for each node that matches any provided search criteria. Using InSpec's `cmp` matcher helps avoid issues when comparing values when there is only a single match (i.e. when the cluster only contains a single node, or the `where` filter criteria provided only returns a single node).
-
-## Property Examples
+Since the `elasticsearch` resource is meant for use on a cluster, each property will return an array of the values for each node that matches any provided search criteria. Using InSpec's `cmp` matcher helps avoid issues when comparing values when there is only a single match (i.e. when the cluster only contains a single node or the `where` filter criteria provided only returns a single node).
 
 ### build_hash
 
-Returns the build hash for each of the nodes.
+The `build hash` property returns the build hash for each of the nodes.
 
-    describe elasticsearch do
-      its('build_hash') { should cmp 'b2f0c09' }
-    end
+    its('build_hash') { should cmp 'b2f0c09' }
 
 ### cluster_name
 
-Returns the cluster names of each of the nodes.
+The `cluster_name` property returns the cluster names of each of the nodes.
 
-    describe elasticsearch do
-      its('cluster_name') { should cmp 'my_cluster' }
-    end
+    its('cluster_name') { should cmp 'my_cluster' }
 
 ### host
 
-Returns the hostname of each of the nodes. This may return an IP address, if the node is improperly performing DNS resolution or has no hostname set.
+The `host` property returns the hostname of each of the nodes. This may return an IP address if the node is improperly performing DNS resolution or has no hostname set.
 
-    describe elasticsearch do
-      its('host') { should cmp 'my.hostname.mycompany.biz' }
-    end
+    its('host') { should cmp 'my.hostname.mycompany.biz' }
 
 ### http
 
-Returns a hash of HTTP-related settings for each of the nodes. In this example, the `first` method is used to grab only the first node's HTTP-related info and is a way of removing the item from the Array if only one node is being queried.
+The `http` property returns a hash of HTTP-related settings for each of the nodes. In this example, the `first` method is used to grab only the first node's HTTP-related info and is a way of removing the item from the Array if only one node is being queried.
 
-    describe elasticsearch do
-      its('http.first.max_content_length_in_bytes') { should cmp 123456 }
-    end
+    its('http.first.max_content_length_in_bytes') { should cmp 123456 }
 
 ### ingest
 
-Returns ingest-related settings and capabilities, such as available processors.
+The `ingest` property returns ingest-related settings and capabilities, such as available processors.
 
-    describe elasticsearch do
-      its('ingest.first.processors.count') { should be >= 1 }
-    end
+    its('ingest.first.processors.count') { should be >= 1 }
 
 ### ip
 
-Returns the IP address of each of the nodes.
+The `ip` property returns the IP address of each of the nodes.
 
-    describe elasticsearch do
-      its('ip') { should cmp '192.168.1.100' }
-    end
+    its('ip') { should cmp '192.168.1.100' }
 
 ### jvm
 
-Returns Java Virtual Machine related parameters for each of the nodes.
+The `jvm` property returns Java Virtual Machine related parameters for each of the nodes.
 
-    describe elasticsearch do
-      its('jvm.first.version') { should cmp '1.8.0_141' }
-    end
+    its('jvm.first.version') { should cmp '1.8.0_141' }
 
 ### module_list
 
-Returns a list of enabled modules for each node in the cluster. For more additional information about each module, use the `modules` property.
+The `module_list` property returns a list of enabled modules for each node in the cluster.
 
-    describe elasticsearch do
-      its('module_list.first') { should include 'my_module' }
-    end
+    its('module_list.first') { should include 'my_module' }
 
 ### modules
 
-Returns detailed information about each enabled module for each node in the cluster. For a succinct list of the names of each of the modules enabled, use the `module_list` property. This example uses additional Ruby to find a specific module and assert a value.
+The `modules` property returns detailed information about each enabled module for each node in the cluster.
+
+    its('modules.first') { should include 'lang-groovy' }
+
+### node_name
+
+The `node_name` property returns the node name for each node in the cluster.
+
+    its('node_name') { should cmp 'node1' }
+
+### node_id
+
+The `node_id` property returns the node IDs of each of the nodes in the cluster.
+
+    its('node_id') { should include 'my_node_id' }
+
+### os
+
+The `os` property returns OS-related information about each node in the cluster.
+
+    its('os.first.arch') { should cmp 'amd64' }
+
+### plugin_list
+
+The `plugin_list` property returns a list of enabled plugins for each node in the cluster. For more additional information about each plugin, use the `plugins` property.
+
+    its('plugin_list.first') { should include 'my_plugin' }
+
+### plugins
+
+The `plugins` property returns detailed information about each enabled plugin for each node in the cluster.
+
+    its('plugins.first') { should include 'my_plugin' }
+
+### process
+
+The `process` property returns process information for each node in the cluster, such as the process ID.
+
+    its('process.first.mlockall') { should cmp true }
+
+### roles
+
+The `roles` property returns the role for each of the nodes in the cluster.
+
+    its('roles') { should include 'master' }
+
+### settings
+
+The `settings` property returns all the configuration settings for each node in the cluster. These settings usually include those set in the elasticsearch.yml as well as those set via `-Des.` or `-E` flags at startup. Use the `inspec shell` to explore the various setting keys that are available.
+
+    its('settings.first.path.home') { should cmp '/usr/share/elasticsearch' }
+
+### total_indexing_buffer
+
+The `total_indexing_buffer` property returns the total indexing buffer for each node in the cluster.
+
+    its('total_indexing_buffer') { should cmp 123456 }
+
+### transport
+
+The `transport` property returns transport-related settings for each node in the cluster, such as the bound and published addresses.
+
+    its('transport.first.bound_address') { should cmp '1.2.3.4:9200' }
+
+### transport_address
+
+The `transport_address` property returns the bound transport address for each node in the cluster.
+
+    its('transport_address') { should cmp '1.2.3.4:9200' }
+
+### version
+
+The `version` property returns the version of Elasticsearch running on each node of the cluster.
+
+    its('version') { should cmp '5.5.2' }
+
+## Examples
+
+### Test to verify the specific module. Uses additional Ruby to find a specific module and assert a value. For a succinct list of the names of each of the modules enabled, use the `module_list` property.
 
     modules = elasticsearch.modules.first
     lang_groovy_module = modules.find { |mod| mod.name == 'lang-groovy' }
@@ -150,41 +208,7 @@ Returns detailed information about each enabled module for each node in the clus
       its('version') { should cmp '5.5.2' }
     end
 
-### node_name
-
-Returns the node name for each node in the cluster.
-
-    describe elasticsearch do
-      its('node_name') { should cmp 'node1' }
-    end
-
-### node_id
-
-Returns the node IDs of each of the nodes in the cluster.
-
-    describe elasticsearch do
-      its('node_id') { should include 'my_node_id' }
-    end
-
-### os
-
-Returns OS-related information about each node in the cluster.
-
-    describe elasticsearch do
-      its('os.first.arch') { should cmp 'amd64' }
-    end
-
-### plugin_list
-
-Returns a list of enabled plugins for each node in the cluster. For more additional information about each plugin, use the `plugins` property.
-
-    describe elasticsearch do
-      its('plugin_list.first') { should include 'my_plugin' }
-    end
-
-### plugins
-
-Returns detailed information about each enabled plugin for each node in the cluster. For a succinct list of the names of each of the plugins enabled, use the `plugin_list` property. This example uses additional Ruby to find a specific plugin and assert a value.
+### Tests to verify the specific plugin. Uses additional Ruby to find a specific plugin and assert a value. For a succinct list of the names of each of the plugins enabled, use the `plugin_list` property.
 
     plugins = elasticsearch.plugins.first
     my_plugin = plugins.find { |plugin| plugin.name == 'my_plugin' }
@@ -192,62 +216,6 @@ Returns detailed information about each enabled plugin for each node in the clus
     describe 'my_plugin plugin version' do
       subject { my_plugin }
       its('version') { should cmp '1.2.3' }
-    end
-
-### process
-
-Returns process information for each node in the cluster, such as the process ID.
-
-    describe elasticsearch do
-      its('process.first.mlockall') { should cmp true }
-    end
-
-### roles
-
-Returns the role for each of the nodes in the cluster.
-
-    describe elasticsearch.where { node_name == 'my_master_node' } do
-      it { should include 'master' }
-    end
-
-### settings
-
-Returns all the configuration settings for each node in the cluster. These settings usually include those set in the elasticsearch.yml as well as those set via `-Des.` or `-E` flags at startup. Use the `inspec shell` to explore the various setting keys that are available.
-
-    describe elasticsearch do
-      its('settings.first.path.home') { should cmp '/usr/share/elasticsearch' }
-    end
-
-### total_indexing_buffer
-
-Returns the total indexing buffer for each node in the cluster.
-
-    describe elasticsearch do
-      its('total_indexing_buffer') { should cmp 123456 }
-    end
-
-### transport
-
-Returns transport-related settings for each node in the cluster, such as the bound and published addresses.
-
-    describe elasticsearch do
-      its('transport.first.bound_address') { should cmp '1.2.3.4:9200' }
-    end
-
-### transport_address
-
-Returns the bound transport address for each node in the cluster.
-
-    describe elasticsearch do
-      its('transport_address') { should cmp '1.2.3.4:9200' }
-    end
-
-### version
-
-Returns the version of Elasticsearch running on each node of the cluster.
-
-    describe elasticsearch do
-      its('version') { should cmp '5.5.2' }
     end
 
 ## Matchers

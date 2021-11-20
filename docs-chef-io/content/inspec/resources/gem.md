@@ -37,7 +37,21 @@ where
 - `('gem_binary')` can specify the path to a non-default gem binary, defaults to `'gem'`
 - `be_installed` is a valid matcher for this resource
 
-## Resource Property Examples
+## Properties
+
+### `version (String)`
+
+The `version` property returns a string of the default version on the system:
+
+    its('version') { should eq '0.33.0' }
+
+### `versions`
+
+The `versions` property returns an array of strings of all the versions of the gem installed on the system:
+
+    its('versions') { should include /0.33/ }
+
+## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
 

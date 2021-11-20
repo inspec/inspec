@@ -44,28 +44,17 @@ where
 - `'group_name'` must specify the name of a group to be tested on the system
 - `exist` and `'gid'` are valid matchers for this resource
 
-## Examples
-
-The following examples show how to use this Chef InSpec audit resource.
-
-### Test the group identifier for the root group
-
-    describe group('root') do
-      it { should exist }
-      its('gid') { should eq 0 }
-    end
-
 ## Properties
 
 ### gid
 
-The `gid` property tests the named group identifier:
+The `gid` property returns the named group identifier:
 
     its('gid') { should eq 1234 }
 
 ### members
 
-The `members` property tests the members that belong to the group:
+The `members` property returns the members that belong to the group:
 
     its('members') { should include 'root' }
 
@@ -79,14 +68,25 @@ where `members` returns:
 
     Example: `"member1,member2"`
 
-
 ### members_array
 
-The `members_array` property tests the members that belong to a group just like the
+The `members_array` property returns the members that belong to a group just like the
 `members` property,
 but the value returned by this property is always an array of group members.
 
     its('members_array') { should include 'root' }
+
+## Examples
+
+The following examples show how to use this Chef InSpec audit resource.
+
+### Test the group identifier for the root group
+
+    describe group('root') do
+      it { should exist }
+      its('gid') { should eq 0 }
+    end
+
 
 ## Matchers
 

@@ -48,27 +48,21 @@ For example:
 
 ## Properties
 
-- `exit_status`
-- `stderr`
-- `stdout`
-
-## Property Examples
-
 ### exit_status
 
-The `exit_status` property tests the exit status for the command:
+The `exit_status` property returns the exit status for the command.
 
     its('exit_status') { should eq 0 }
 
 ### stderr
 
-The `stderr` property tests results of the command as returned in standard error (stderr):
+The `stderr` property returns results of the command as returned in standard error (stderr).
 
     its('stderr') { should eq '' }
 
 ### stdout
 
-The `stdout` property tests results of the command as returned in standard output (stdout).
+The `stdout` property returns the results of the command as returned in standard output (stdout).
 
     its('stdout') { should match /bin/ }
 
