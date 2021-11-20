@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.50.6 -->
-## [v4.50.6](https://github.com/inspec/inspec/tree/v4.50.6) (2021-11-20)
+<!-- latest_release 4.50.7 -->
+## [v4.50.7](https://github.com/inspec/inspec/tree/v4.50.7) (2021-11-20)
 
 #### Merged Pull Requests
-- Remove the instance_eval and eval_gemfile calls in omnibus [#5733](https://github.com/inspec/inspec/pull/5733) ([tas50](https://github.com/tas50))
+- Fix docs to make property listing in the website docs more useful. [#5677](https://github.com/inspec/inspec/pull/5677) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.50.3 -->
 ### Changes since 4.50.3 release
 
 #### Merged Pull Requests
+- Fix docs to make property listing in the website docs more useful. [#5677](https://github.com/inspec/inspec/pull/5677) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.50.7 -->
 - Remove the instance_eval and eval_gemfile calls in omnibus [#5733](https://github.com/inspec/inspec/pull/5733) ([tas50](https://github.com/tas50)) <!-- 4.50.6 -->
 - Update dsl_inspec.md [#5721](https://github.com/inspec/inspec/pull/5721) ([paulcalabro](https://github.com/paulcalabro)) <!-- 4.50.5 -->
 - Fix typos and improve code highlighting in docs [#5692](https://github.com/inspec/inspec/pull/5692) ([tas50](https://github.com/tas50)) <!-- 4.50.4 -->
