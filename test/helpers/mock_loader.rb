@@ -13,6 +13,7 @@ class MockLoader
     debian7: { name: "debian", family: "debian", release: "7", arch: "x86_64" },
     debian8: { name: "debian", family: "debian", release: "8", arch: "x86_64" },
     debian10: { name: "debian", family: "debian", release: "buster/sid", arch: "x86_64" },
+    freebsd9: { name: "freebsd", family: "bsd", release: "9", arch: "amd64" },
     freebsd10: { name: "freebsd", family: "bsd", release: "10", arch: "amd64" },
     freebsd11: { name: "freebsd", family: "bsd", release: "11", arch: "amd64" },
     freebsd12: { name: "freebsd", family: "bsd", release: "12", arch: "amd64" },
@@ -298,7 +299,7 @@ class MockLoader
       "/path/to/systemctl show --no-pager --all dbus" => cmd.call("systemctl-show-all-dbus"),
       # services on macos
       "launchctl list" => cmd.call("launchctl-list"),
-      # services on freebsd 11
+      # services on freebsd 6+
       "service -e" => cmd.call("service-e"),
       "service sendmail onestatus" => cmd.call("service-sendmail-onestatus"),
       # services for system 5 e.g. centos6, debian 6
@@ -639,6 +640,12 @@ class MockLoader
       mock_cmds.delete("/sbin/zpool get -Hp all tank")
       mock_cmds.delete("which zfs")
       mock_cmds.delete("which zpool")
+    end
+
+    if @platform && (@platform[:name] == "freebsd" && @platform[:release].to_f >= 10)
+      mock_cmds.merge!(
+        "service sendmail enabled" => cmd.call("service-sendmail-enabled")
+      )
     end
 
     mock.commands = mock_cmds
