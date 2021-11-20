@@ -133,7 +133,7 @@ or to find all users with the nologin shell:
 
 ### uids
 
-The `uids` matcher tests if the user indentifiers in the test match user identifiers in `/etc/passwd`:
+The `uids` matcher tests if the user identifiers in the test match user identifiers in `/etc/passwd`:
 
     its('uids') { should eq ['1234', '1235'] }
 

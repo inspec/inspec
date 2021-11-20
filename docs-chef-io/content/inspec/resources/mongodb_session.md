@@ -77,7 +77,7 @@ Path to SSL key file.
 
 A hash of the authentication mechanism properties. This option is generally used with the AWS authentication mechanism. See the MongoDB documentation on [Ruby Driver authentication using AWS](https://docs.mongodb.com/ruby-driver/current/reference/authentication/#aws) for more information.
 
-### MongodDB Query Reference Documentation
+### MongoDB Query Reference Documentation
 
 This resource uses the [MongoDB Ruby Driver](https://docs.mongodb.com/ruby-driver/current/reference/authentication/) to fetch the data.
 
@@ -85,19 +85,19 @@ This resource uses the [MongoDB Ruby Driver](https://docs.mongodb.com/ruby-drive
 
 The following examples show how to use this Chef InSpec audit resource.
 
-### Test the roles information using the `rolesInfo` command in MongoDB.
+### Test the roles information using the `rolesInfo` command in MongoDB
 
     describe mongodb_session(user: "foo", password: "bar", database: "test").query(rolesInfo: "dbAdmin").params["roles"].first do
       its(["role"]) { should eq "dbAdmin" }
     end
 
-### Test the MongoDB user role.
+### Test the MongoDB user role
 
     describe mongodb_session(user: "foo", password: "bar", database: "test").query(usersInfo: "foo").params["users"].first["roles"].first do
       its(["role"]) { should eq "readWrite" }
     end
 
-### Test the database parameters.
+### Test the database parameters
 
     describe mongodb_session(user: "foo", password: "bar", database: "test").query(rolesInfo: "dbAdmin") do
       its("params") { should_not be_empty }

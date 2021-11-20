@@ -48,7 +48,7 @@ Properties that can be accessed from the `google_cloudfunctions_cloud_function` 
   Possible values:
 
   - CLOUD_FUNCTION_STATUS_UNSPECIFIED
-  - ACTOVE
+  - ACTIVE
   - OFFLINE
   - DEPLOY_IN_PROGRESS
   - DELETE_IN_PROGRESS

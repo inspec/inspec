@@ -34,21 +34,27 @@ end
 
 ### Test that a GCP storage bucket is in the expected location
 
-    describe google_storage_bucket(name: 'chef-inspec-gcp-storage-bucket-abcd') do
-      its('location') { should eq "EUROPE-WEST2" }
-    end
+```ruby
+describe google_storage_bucket(name: 'chef-inspec-gcp-storage-bucket-abcd') do
+  its('location') { should eq "EUROPE-WEST2" }
+end
+```
 
 ### Test that a GCP storage bucket has the expected project number
 
-    describe google_storage_bucket(name: 'chef-inspec-gcp-storage-bucket-abcd') do
-      its('project_number') {should eq 12345678 }
-    end
+```ruby
+describe google_storage_bucket(name: 'chef-inspec-gcp-storage-bucket-abcd') do
+  its('project_number') {should eq 12345678 }
+end
+```
 
 ### Test that a GCP storage bucket has the expected storage class
 
-    describe google_storage_bucket(name: 'chef-inspec-gcp-storage-bucket-abcd') do
-      its('storage_class') { should eq 'STANDARD' }
-    end
+```ruby
+describe google_storage_bucket(name: 'chef-inspec-gcp-storage-bucket-abcd') do
+  its('storage_class') { should eq 'STANDARD' }
+end
+```
 
 ## Properties
 
@@ -164,7 +170,7 @@ Properties that can be accessed from the `google_storage_bucket` resource:
     - READER
 
 `id`
-: The ID of the bucket. For buckets, the id and name properities are the same.
+: The ID of the bucket. For buckets, the id and name properties are the same.
 
 `lifecycle`
 : The bucket's lifecycle configuration. See https://developers.google.com/storage/docs/lifecycle for more information.
@@ -260,7 +266,7 @@ Properties that can be accessed from the `google_storage_bucket` resource:
   : While set to true, versioning is fully enabled for this bucket.
 
 `website`
-: The bucket's website configuration, controlling how the service behaves when accessing bucket contents as a web site. See the Static Website Examples for more information.
+: The bucket's website configuration, controlling how the service behaves when accessing bucket contents as a website. See the Static Website Examples for more information.
 
   `main_page_suffix`
   : If the requested object path is missing, the service will ensure the path has a trailing '/', append this suffix, and attempt to retrieve the resulting object. This allows the creation of index.html objects to represent directory pages.
@@ -303,7 +309,6 @@ Properties that can be accessed from the `google_storage_bucket` resource:
   - private
   - projectPrivate
   - publicRead
-
 
 ## GCP Permissions
 

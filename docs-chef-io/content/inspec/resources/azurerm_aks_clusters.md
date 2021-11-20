@@ -40,7 +40,7 @@ You'll also need to setup your Azure credentials; see the resource pack
 
 ## Syntax
 
-An `azurerm_aks_clusters` resource block identifies AKS Clustesr by
+An `azurerm_aks_clusters` resource block identifies AKS Clusters by
 Resource Group.
 
     describe azurerm_aks_clusters(resource_group: 'ExampleGroup') do
