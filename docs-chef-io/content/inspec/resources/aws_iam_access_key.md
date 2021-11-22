@@ -30,7 +30,7 @@ This resources requires either an `access_key_id` or the IAM `username` associat
 The Access Key ID which uniquely identifies the Key. Begins with the characters "AKIA".
 This can be passed either as a string or as a `access_key_id: 'value'` key-value entry in a hash.
 
-### username _(required if `access_key\_id` not provided.)_
+### username _(required if `access_key_id` not provided.)_
 
 The IAM Username which is associated with the Access Key.
 This can be passed either as a string or as a `username: 'value'` key-value entry in a hash.

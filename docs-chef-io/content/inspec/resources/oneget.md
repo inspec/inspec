@@ -11,7 +11,7 @@ platform = "windows"
     parent = "inspec/resources/os"
 +++
 
-Use the `oneget` Chef InSpec audit resource to test if the named package and/or package version is installed on the system. This resource uses Oneget, which is `part of the Windows Management Framework 5.0 and Windows 10 <https://github.com/OneGet/oneget>`\_\_. This resource uses the `Get-Package` cmdlet to return all of the package names in the Oneget repository.
+Use the `oneget` Chef InSpec audit resource to test if the named package and/or package version is installed on the system. This resource uses Oneget, which is `part of the Windows Management Framework 5.0 and Windows 10 <https://github.com/OneGet/oneget>`. This resource uses the `Get-Package` cmdlet to return all of the package names in the Oneget repository.
 
 ## Availability
 

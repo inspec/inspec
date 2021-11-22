@@ -114,7 +114,7 @@ The `exist` matcher tests if the network interface exists:
 
     it { should exist }
 
-### have\_an\_ipv4\_address
+### have_an_ipv4_address
 
 The `have_an_ipv4_address` matcher tests if the network interface has any IPv4 addresses assigned:
 

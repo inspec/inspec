@@ -44,7 +44,7 @@ Either the EFS file system id or creation token must be provided.
 The ID of the EFS file system. This is in the format of `fs-` followed by 8 or 17 hexadecimal characters.
 This can be passed either as a string or as a `file_system_id: 'value'` key-value entry in a hash.
 
-### creation*token *(required if `file_system_id` not provided)\_
+### creation_token _(required if `file_system_id` not provided)_
 
 The creation token is automatically assigned by AWS if not provided by the user at creation.
 This is a string with minimum 1 and maximum 64-character long.

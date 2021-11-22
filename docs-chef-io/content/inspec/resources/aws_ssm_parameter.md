@@ -28,7 +28,7 @@ An `aws_ssm_parameter` resource block uses the parameter to select a ssm paramet
 This resource accepts a single parameter, the SSM Parameter Name.
 This can be passed either as a string or as a `aws_ssm_parameter: 'value'` key-value entry in a hash.
 
-### with*decryption *(optional)\_
+### with_decryption _(optional)_
 
 This decrypts the value associated with the ssm parameter. This must be passed as a string `with_decryption: "true"`.
 

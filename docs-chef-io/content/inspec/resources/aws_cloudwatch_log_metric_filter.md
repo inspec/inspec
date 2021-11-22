@@ -27,11 +27,11 @@ Use the `aws_cloudwatch_log_metric_filter` InSpec audit resource to search for a
 
 **Note**: _While all parameters are optional, at least one must be provided. In practice, the more parameters you provide the narrower a result you will return._
 
-### filter*name *(optional)\_
+### filter_name _(optional)_
 
 The name of the Log Metric Filter. Expected in a hash as `filter_name: 'value'`.
 
-### log*group_name *(optional)\_
+### log_group_name _(optional)_
 
 The log group of the filter. Expected in a hash as `log_group_name: 'value'`.
 

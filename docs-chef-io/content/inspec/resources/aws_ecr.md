@@ -37,7 +37,7 @@ An `aws_ecr` resource block declares the tests for a single AWS ECR by repositor
 
 The ECR repository_name must be provided.
 
-### repository*name *(required)\_
+### repository_name _(required)_
 
 The name of the repository
 This can be passed either as a string or as an `repository_name: 'value'` key-value entry in a hash.
