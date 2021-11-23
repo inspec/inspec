@@ -46,12 +46,12 @@ module Inspec::Resources
 
         # check if following specific error is there. Sourcing the db2profile to resolve the error.
         if cmd.exit_status != 0 && out =~ /SQL10007N Message "-1390" could not be retrieved.  Reason code: "3"/
-          cmd = inspec.command(". ~/sqllib/db2profile\; #{@db2_executable_file_path} attach to #{@db_instance}\; #{@db2_executable_file_path} connect to #{@db_name}\; #{@db2_executable_file_path} #{q}\;")
+          cmd = inspec.command(". ~/sqllib/db2profile\; #{@db2_executable_file_path} attach to #{@db_instance}\; #{@db2_executable_file_path} connect to #{@db_name}\; #{@db2_executable_file_path} \"#{q}\"\;")
           out = cmd.stdout + "\n" + cmd.stderr
         end
       elsif inspec.os.platform?("windows")
         # set-item command set the powershell to run the db2 commands.
-        cmd = inspec.command("set-item -path env:DB2CLP -value \"**$$**\"\; db2 connect to #{@db_name}\; db2 #{q}\;")
+        cmd = inspec.command("set-item -path env:DB2CLP -value \"**$$**\"\; db2 connect to #{@db_name}\; db2 \"#{q}\"\;")
         out = cmd.stdout + "\n" + cmd.stderr
       end
 
