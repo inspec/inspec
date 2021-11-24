@@ -76,6 +76,17 @@ describe "Inspec::Resources::Packages" do
     })
   end
 
+  it "packages on alpine" do
+    resource = MockLoader.new(:alpine).load_resource("packages", /^http-parser$/)
+    _(resource.entries.length).must_equal 1
+    _(resource.entries[0].to_h).must_equal({
+      status: "installed",
+      name: "http-parser",
+      version: "2.8.1",
+      architecture: "x86_64",
+    })
+  end
+
   it "skips on non debian platforms" do
     resource = MockLoader.new(:hpux).load_resource("packages", "bash")
     _(resource.resource_exception_message).must_equal "The packages resource is not yet supported on OS hpux"
@@ -88,4 +99,5 @@ describe "Inspec::Resources::Packages" do
       resources.send(:entries, nil)
     }.must_raise(RuntimeError)
   end
+
 end

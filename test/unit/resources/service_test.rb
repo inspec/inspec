@@ -484,6 +484,18 @@ describe "Inspec::Resources::Service" do
     _(resource.params).must_equal params
   end
 
+  it "verify alpine service parsing" do
+    resource = MockLoader.new(:alpine).load_resource("service", "sshd")
+    params = Hashie::Mash.new({})
+    _(resource.type).must_equal "sysv"
+    _(resource.name).must_equal "sshd"
+    _(resource.description).must_be_nil
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+    _(resource.params).must_equal params
+  end
+
   # unknown OS
   it "verify service handling on unsupported os" do
     resource = MockLoader.new(:undefined).load_resource("service", "dhcp")
