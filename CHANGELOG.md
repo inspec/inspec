@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.50.9 -->
-## [v4.50.9](https://github.com/inspec/inspec/tree/v4.50.9) (2021-11-24)
+<!-- latest_release 4.50.10 -->
+## [v4.50.10](https://github.com/inspec/inspec/tree/v4.50.10) (2021-11-24)
 
 #### Merged Pull Requests
-- Bump omnibus-software from `24f508c` to `7501e20` in /omnibus [#5735](https://github.com/inspec/inspec/pull/5735) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump omnibus from `37897ad` to `2c309fa` in /omnibus [#5736](https://github.com/inspec/inspec/pull/5736) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.50.3 -->
 ### Changes since 4.50.3 release
 
 #### Merged Pull Requests
+- Bump omnibus from `37897ad` to `2c309fa` in /omnibus [#5736](https://github.com/inspec/inspec/pull/5736) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.50.10 -->
 - Bump omnibus-software from `24f508c` to `7501e20` in /omnibus [#5735](https://github.com/inspec/inspec/pull/5735) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.50.9 -->
 - Fix FreeBSD service enabled check substring edge-case [#5606](https://github.com/inspec/inspec/pull/5606) ([zofrex](https://github.com/zofrex)) <!-- 4.50.8 -->
 - Fix docs to make property listing in the website docs more useful. [#5677](https://github.com/inspec/inspec/pull/5677) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.50.7 -->
