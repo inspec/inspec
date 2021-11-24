@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.50.11 -->
-## [v4.50.11](https://github.com/inspec/inspec/tree/v4.50.11) (2021-11-24)
+<!-- latest_release 4.50.12 -->
+## [v4.50.12](https://github.com/inspec/inspec/tree/v4.50.12) (2021-11-24)
 
 #### Merged Pull Requests
-- Bump test-kitchen from 3.1.0 to 3.2.0 in /omnibus [#5737](https://github.com/inspec/inspec/pull/5737) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Fixes some minor docs formatting problems [#5739](https://github.com/inspec/inspec/pull/5739) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.50.3 -->
 ### Changes since 4.50.3 release
 
 #### Merged Pull Requests
+- Fixes some minor docs formatting problems [#5739](https://github.com/inspec/inspec/pull/5739) ([IanMadd](https://github.com/IanMadd)) <!-- 4.50.12 -->
 - Bump test-kitchen from 3.1.0 to 3.2.0 in /omnibus [#5737](https://github.com/inspec/inspec/pull/5737) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.50.11 -->
 - Bump omnibus from `37897ad` to `2c309fa` in /omnibus [#5736](https://github.com/inspec/inspec/pull/5736) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.50.10 -->
 - Bump omnibus-software from `24f508c` to `7501e20` in /omnibus [#5735](https://github.com/inspec/inspec/pull/5735) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.50.9 -->
