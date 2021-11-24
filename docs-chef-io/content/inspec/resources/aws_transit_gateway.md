@@ -23,7 +23,7 @@ An `aws_transit_gateway` resource block uses the parameter to select a transit g
 
 ## Parameters
 
-### transit*gateway_id *(required)\_
+### transit_gateway_id _(required)_
 
 This resource accepts a single parameter, the Transit Gateway ID.
 This can be passed either as a string or as a `transit_gateway_id: 'value'` key-value entry in a hash.
