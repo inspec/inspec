@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.50.12 -->
-## [v4.50.12](https://github.com/inspec/inspec/tree/v4.50.12) (2021-11-24)
+<!-- latest_release 4.50.13 -->
+## [v4.50.13](https://github.com/inspec/inspec/tree/v4.50.13) (2021-11-24)
 
-#### Merged Pull Requests
-- Fixes some minor docs formatting problems [#5739](https://github.com/inspec/inspec/pull/5739) ([IanMadd](https://github.com/IanMadd))
+#### Bug Fixes
+- Fix ibmdb2_session resource : Added double quotes around the IBM db2 query [#5742](https://github.com/inspec/inspec/pull/5742) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.50.3 -->
 ### Changes since 4.50.3 release
+
+#### Bug Fixes
+- Fix ibmdb2_session resource : Added double quotes around the IBM db2 query [#5742](https://github.com/inspec/inspec/pull/5742) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.50.13 -->
 
 #### Merged Pull Requests
 - Fixes some minor docs formatting problems [#5739](https://github.com/inspec/inspec/pull/5739) ([IanMadd](https://github.com/IanMadd)) <!-- 4.50.12 -->
