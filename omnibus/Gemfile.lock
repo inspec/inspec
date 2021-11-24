@@ -8,10 +8,10 @@ GIT
 
 GIT
   remote: https://github.com/chef/omnibus.git
-  revision: 37897ade4832490b2480726c66ca8d282d115cbf
+  revision: 2c309fa8df525e57f3c234fe23e47fb5133f0370
   branch: main
   specs:
-    omnibus (8.2.2)
+    omnibus (8.2.6)
       aws-sdk-s3 (~> 1)
       chef-cleanroom (~> 1.0)
       chef-utils (>= 15.4)
@@ -20,7 +20,7 @@ GIT
       license_scout (~> 1.0)
       mixlib-shellout (>= 2.0, < 4.0)
       mixlib-versioning
-      ohai (>= 15, < 17)
+      ohai (>= 15, < 18)
       pedump
       ruby-progressbar (~> 1.7)
       thor (>= 0.18, < 2.0)
