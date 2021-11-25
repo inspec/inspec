@@ -31,37 +31,11 @@ An `sys_info` resource block declares the hostname to be tested:
       its('hostname') { should eq 'value' }
     end
 
-## Examples
-
-The following examples show how to use this Chef InSpec audit resource.
-
-### Get system information for example.com
-
-    describe sys_info do
-      its('hostname') { should eq 'example.com' }
-    end
-
-### Compare content to hostname
-
-    describe file('/path/to/some/file') do
-      its('content') { should match sys_info.hostname }
-    end
-
-Options can be passed as arguments to hostname as well.
-
-    describe file('/path/to/some/file') do
-      its('content') { should match sys_info.hostname('full') }
-    end
-
-Currently supported arguments to `hostname` on Linux platforms are 'full'|'f'|'fqdn'|'long', 'domain'|'d', 'ip_address'|'i', and 'short'|'s'. Mac currently supports 'full'|'f'|'fqdn'|'long' and 'short'|'s'
-
-## Matchers
-
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+## Properties
 
 ### hostname
 
-The `hostname` matcher tests the host for which standard output is returned:
+The `hostname` property tests the host for which standard output is returned:
 
     its('hostname') { should eq 'value' }
 
@@ -91,12 +65,40 @@ The `short` property tests the host name cut at the first dot:
 
 ### manufacturer
 
-The `manufacturer` matcher tests the host for which standard output is returned:
+The `manufacturer` property tests the host for which standard output is returned:
 
     its('manufacturer') { should eq 'ACME Corp.' }
 
 ### model
 
-The `model` matcher tests the host for which standard output is returned:
+The `model` property tests the host for which standard output is returned:
 
     its('model') { should eq 'Flux Capacitor' }
+
+## Examples
+
+The following examples show how to use this Chef InSpec audit resource.
+
+### Get system information for example.com
+
+    describe sys_info do
+      its('hostname') { should eq 'example.com' }
+    end
+
+### Compare content to hostname
+
+    describe file('/path/to/some/file') do
+      its('content') { should match sys_info.hostname }
+    end
+
+Options can be passed as arguments to hostname as well.
+
+    describe file('/path/to/some/file') do
+      its('content') { should match sys_info.hostname('full') }
+    end
+
+Currently supported arguments to `hostname` on Linux platforms are 'full'|'f'|'fqdn'|'long', 'domain'|'d', 'ip_address'|'i', and 'short'|'s'. Mac currently supports 'full'|'f'|'fqdn'|'long' and 'short'|'s'
+
+## Matchers
+
+For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).

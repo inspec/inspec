@@ -39,6 +39,11 @@ where:
 - `('path')` is the path to the TOML file.
 - `{ should eq 'value' }` is the value that is expected.
 
+
+## Properties
+
+This resource supports any of the settings listed in a TOML file as properties.
+
 ## Examples
 
 In the examples below, the `example.toml` file contains the following data:
@@ -74,11 +79,6 @@ describe toml('path/to/example.toml') do
   its(['section', 'key1']) { should cmp 'value1' }
 end
 ```
-
-
-## Properties
-
-This resource supports any of the settings listed in a TOML file as properties.
 
 ## Matchers
 

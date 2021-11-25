@@ -170,8 +170,6 @@ Beginning with Chef InSpec 1.41, you can enable the ability to have the HTTP tes
 
 ## Properties
 
-- `body`, `headers`, `http_method`, `status`
-
 ### body
 
 The `body` property tests body content of http response:

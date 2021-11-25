@@ -37,9 +37,18 @@ where
 - `('path')` is the non-default path to the `ntp.conf` file
 - `{ should eq 'value' }` is the value that is expected
 
+## Properties
+
+This resource supports any of the settings listed in an `ntp.conf` file as properties.
+
 ## Examples
 
-The following examples show how to use this Chef InSpec audit resource.
+The following examples show how to use this Chef InSpec audit resource
+
+    describe ntp_conf do
+      its('server') { should_not eq nil }
+      its('restrict') { should include '-4 default kod notrap nomodify nopeer noquery'}
+    end
 
 ### Test for clock drift against named servers
 
@@ -56,17 +65,5 @@ The following examples show how to use this Chef InSpec audit resource.
 
 ## Matchers
 
-This resource matches any service that is listed in the `ntp.conf` file. For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
 
-    its('server') { should_not eq nil }
-
-or:
-
-    its('restrict') { should include '-4 default kod notrap nomodify nopeer noquery'}
-
-For example:
-
-    describe ntp_conf do
-      its('server') { should_not eq nil }
-      its('restrict') { should include '-4 default kod notrap nomodify nopeer noquery'}
-    end
