@@ -135,9 +135,15 @@ module Inspec
         desc: "Use the given path for caching dependencies. (default: ~/.inspec/cache)"
     end
 
+    def self.supermarket_options
+      option :supermarket_url, type: :string,
+        desc: "Specify supermarket url to run supermarket commands"
+    end
+
     def self.exec_options
       target_options
       profile_options
+      supermarket_options
       option :controls, type: :array,
         desc: "A list of control names to run, or a list of /regexes/ to match against control names. Ignore all other tests."
       option :tags, type: :array,
