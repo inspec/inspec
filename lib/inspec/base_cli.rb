@@ -137,7 +137,7 @@ module Inspec
 
     def self.supermarket_options
       option :supermarket_url, type: :string,
-        desc: "Specify supermarket url to run supermarket commands"
+        desc: "Specify private supermarket url to run supermarket commands on private supermarket"
     end
 
     def self.exec_options

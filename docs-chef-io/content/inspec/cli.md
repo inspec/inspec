@@ -208,6 +208,7 @@ Chef Supermarket:
 
 ``` ruby
 inspec exec supermarket://username/linux-baseline
+inspec exec supermarket://username/linux-baseline --supermarket_url="https://myprivatesupermarket.mydomain.com"
 ```
 
 Local profile (executes all tests in `controls/`):
@@ -565,6 +566,14 @@ This subcommand has the following syntax:
 ```bash
 inspec supermarket SUBCOMMAND ...
 ```
+
+### Options
+
+This subcommand has additional options:
+
+* ``--supermarket_url``
+    Specify private supermarket url to run supermarket commands on private supermarket.
+
 
 ## vendor
 
