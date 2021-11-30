@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.50.14 -->
-## [v4.50.14](https://github.com/inspec/inspec/tree/v4.50.14) (2021-11-24)
+<!-- latest_release 4.50.15 -->
+## [v4.50.15](https://github.com/inspec/inspec/tree/v4.50.15) (2021-11-30)
 
 #### Merged Pull Requests
-- Bump kitchen-vagrant from 1.10.0 to 1.11.0 in /omnibus [#5740](https://github.com/inspec/inspec/pull/5740) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump omnibus-software from `7501e20` to `8560231` in /omnibus [#5752](https://github.com/inspec/inspec/pull/5752) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.50.3 -->
@@ -14,6 +14,7 @@
 - Fix ibmdb2_session resource : Added double quotes around the IBM db2 query [#5742](https://github.com/inspec/inspec/pull/5742) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.50.13 -->
 
 #### Merged Pull Requests
+- Bump omnibus-software from `7501e20` to `8560231` in /omnibus [#5752](https://github.com/inspec/inspec/pull/5752) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.50.15 -->
 - Bump kitchen-vagrant from 1.10.0 to 1.11.0 in /omnibus [#5740](https://github.com/inspec/inspec/pull/5740) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.50.14 -->
 - Fixes some minor docs formatting problems [#5739](https://github.com/inspec/inspec/pull/5739) ([IanMadd](https://github.com/IanMadd)) <!-- 4.50.12 -->
 - Bump test-kitchen from 3.1.0 to 3.2.0 in /omnibus [#5737](https://github.com/inspec/inspec/pull/5737) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.50.11 -->
