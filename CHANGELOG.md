@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.50.15 -->
-## [v4.50.15](https://github.com/inspec/inspec/tree/v4.50.15) (2021-11-30)
+<!-- latest_release 4.51.0 -->
+## [v4.51.0](https://github.com/inspec/inspec/tree/v4.51.0) (2021-11-30)
 
-#### Merged Pull Requests
-- Bump omnibus-software from `7501e20` to `8560231` in /omnibus [#5752](https://github.com/inspec/inspec/pull/5752) ([dependabot[bot]](https://github.com/dependabot[bot]))
+#### New Features
+- Target support for Alpine Linux [#5744](https://github.com/inspec/inspec/pull/5744) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.50.3 -->
 ### Changes since 4.50.3 release
+
+#### New Features
+- Target support for Alpine Linux [#5744](https://github.com/inspec/inspec/pull/5744) ([Nik08](https://github.com/Nik08)) <!-- 4.51.0 -->
 
 #### Bug Fixes
 - Fix ibmdb2_session resource : Added double quotes around the IBM db2 query [#5742](https://github.com/inspec/inspec/pull/5742) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.50.13 -->
