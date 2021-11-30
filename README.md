@@ -322,6 +322,7 @@ Remote Targets
 | Gentoo Linux                 |                                                  | x86_64        |
 | Arch Linux                   |                                                  | x86_64        |
 | HP-UX                        | 11.31                                            | ia64          |
+| Alpine Linux                 |                                                  | x86_64        |
 
 \**For Windows, PowerShell 5.0 or above is required.*
 

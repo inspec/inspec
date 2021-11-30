@@ -573,6 +573,7 @@ class MockLoader
 
       # alpine package commands
       "apk info -vv --no-network | grep git" => cmd.call("apk-info-grep-git"),
+      "apk list --no-network" => cmd.call("apk-info"),
 
       # filesystem command
       "2e7e0d4546342cee799748ec7e2b1c87ca00afbe590fa422a7c27371eefa88f0" => cmd.call("get-wmiobject-filesystem"),

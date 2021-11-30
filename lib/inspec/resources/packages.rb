@@ -26,6 +26,8 @@ module Inspec::Resources
         @pkgs = Debs.new(inspec)
       elsif os.redhat? || %w{suse amazon fedora}.include?(os[:family])
         @pkgs = Rpms.new(inspec)
+      elsif ["alpine"].include?(os[:name])
+        @pkgs = AlpinePkgs.new(inspec)
       else
         return skip_resource "The packages resource is not yet supported on OS #{inspec.os.name}"
       end
@@ -105,6 +107,25 @@ module Inspec::Resources
         a = m.split("  ")
         a.unshift("installed")
         PackageStruct.new(*a)
+      end
+    end
+  end
+
+  # RedHat family
+  class AlpinePkgs < PkgsManagement
+    def build_package_list
+      command = "apk list --no-network"
+      cmd = inspec.command(command)
+      all = cmd.stdout.split("\n")
+      return [] if all.nil? || cmd.exit_status.to_i != 0
+
+      all.map do |m|
+        next if m =~ /^WARNING/i
+
+        a = m.split(" ")
+        version = a[0].split("-")[-2]
+        name = a[2].gsub(/[{}^]*/, "")
+        PackageStruct.new("installed", name, version, a[1])
       end
     end
   end
