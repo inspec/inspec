@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.51.0 -->
-## [v4.51.0](https://github.com/inspec/inspec/tree/v4.51.0) (2021-11-30)
+<!-- latest_release 4.51.1 -->
+## [v4.51.1](https://github.com/inspec/inspec/tree/v4.51.1) (2021-12-01)
 
-#### New Features
-- Target support for Alpine Linux [#5744](https://github.com/inspec/inspec/pull/5744) ([Nik08](https://github.com/Nik08))
+#### Merged Pull Requests
+- Stop producing packages for macOS 10.14 [#5716](https://github.com/inspec/inspec/pull/5716) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.50.3 -->
@@ -17,6 +17,7 @@
 - Fix ibmdb2_session resource : Added double quotes around the IBM db2 query [#5742](https://github.com/inspec/inspec/pull/5742) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.50.13 -->
 
 #### Merged Pull Requests
+- Stop producing packages for macOS 10.14 [#5716](https://github.com/inspec/inspec/pull/5716) ([tas50](https://github.com/tas50)) <!-- 4.51.1 -->
 - Bump omnibus-software from `7501e20` to `8560231` in /omnibus [#5752](https://github.com/inspec/inspec/pull/5752) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.50.15 -->
 - Bump kitchen-vagrant from 1.10.0 to 1.11.0 in /omnibus [#5740](https://github.com/inspec/inspec/pull/5740) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.50.14 -->
 - Fixes some minor docs formatting problems [#5739](https://github.com/inspec/inspec/pull/5739) ([IanMadd](https://github.com/IanMadd)) <!-- 4.50.12 -->
