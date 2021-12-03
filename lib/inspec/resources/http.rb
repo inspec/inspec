@@ -334,7 +334,7 @@ module Inspec::Resources
             $response = #{command} -Body $HashTable -UseBasicParsing
             $response | Select-Object -Property * | ConvertTo-json # We use `Select-Object -Property * ` to get around an odd PowerShell error
           EOH
-          script = proxy_script.strip + "\n" + script.strip
+          proxy_script.strip + "\n" + script.strip
         end
       end
     end
