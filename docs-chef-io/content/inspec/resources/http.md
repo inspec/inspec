@@ -168,6 +168,36 @@ Beginning with Chef InSpec 1.41, you can enable the ability to have the HTTP tes
       ...
     end
 
+### proxy
+
+`proxy` may be specified to set the proxy uri / proxy hash or disable proxy settings to be read from environment varaible.
+
+`proxy` parameter can be use to set the `URI` of the proxy including username and password for e.g. `http://user1:password@www.example.com`. Note this will not work for Windows remote target, user hash to provide proxy values for Windows.
+
+    describe http('http://localhost:8080/ping', proxy: "http://user1:password@www.example.com:3128") do
+      ...
+    end
+
+Make sure if you have special characters in the `URI` then that needs to convert into the UTF8 for e.g. if proxy password has special character like `@` for e.g. "bar@123" need to set as "bar%40123"
+
+    describe http('http://localhost:8080/ping', proxy: "http://user1:bar%40123@www.example.com:3128") do
+      ...
+    end
+
+`proxy` parameter also accpets the proxy options in hash format (Special character conversion is not needed if you providing the password having special character in hash format.) for e.g.
+
+    describe http('http://localhost:8080/ping', proxy: { uri: 'http://www.example.com:3128', user: 'user1', password: 'proxypassword'}) do
+      ...
+    end
+
+Note : For Windows remote target system proxy values needs to be provided in the hash format.
+
+`proxy` can be set to `disable` to ignore the proxy set in the environment variable.
+
+    describe http('http://localhost:8080/ping', proxy: 'disable') do
+      ...
+    end
+
 ## Properties
 
 ### body
