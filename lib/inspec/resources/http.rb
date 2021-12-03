@@ -121,6 +121,10 @@ module Inspec::Resources
         def max_redirects
           opts.fetch(:max_redirects, nil)
         end
+
+        def proxy
+          opts.fetch(:proxy, nil)
+        end
       end
 
       class Local < Base
@@ -141,10 +145,16 @@ module Inspec::Resources
         def response
           return @response if @response
 
+          Faraday.ignore_env_proxy = true if proxy == "disable"
+
           conn = Faraday.new(url: url, headers: request_headers, params: params, ssl: { verify: ssl_verify? }) do |builder|
             builder.request :url_encoded
             builder.use FaradayMiddleware::FollowRedirects, limit: max_redirects unless max_redirects.nil?
             builder.adapter Faraday.default_adapter
+          end
+
+          unless proxy == "disable" || proxy.nil?
+            conn.proxy = proxy
           end
 
           # set basic authentication
@@ -252,6 +262,14 @@ module Inspec::Resources
               cmd << "-X #{http_method}"
             end
 
+            cmd << "--noproxy '*'" if proxy == "disable"
+            unless proxy == "disable" || proxy.nil?
+              if proxy.is_a?(Hash)
+                cmd << "--proxy #{proxy[:uri]} --proxy-user #{proxy[:user]}:#{proxy[:password]}"
+              else
+                cmd << "--proxy #{proxy}"
+              end
+            end
             cmd << "--connect-timeout #{open_timeout}"
             cmd << "--max-time #{open_timeout + read_timeout}"
             cmd << "--user \'#{username}:#{password}\'" unless username.nil? || password.nil?
@@ -292,6 +310,17 @@ module Inspec::Resources
           else
             cmd << "'#{url}?#{params.map { |e| e.join("=") }.join("&")}'"
           end
+
+          proxy_script = ""
+          unless proxy == "disable" || proxy.nil?
+            cmd << "-Proxy #{proxy[:uri]}"
+            cmd << "-ProxyCredential $proxyCreds"
+            proxy_script = <<-EOH
+              $secPasswd = ConvertTo-SecureString "#{proxy[:password]}" -AsPlainText -Force
+              $proxyCreds = New-Object System.Management.Automation.PSCredential -ArgumentList "#{proxy[:user]}",$secPasswd
+            EOH
+          end
+
           command = cmd.join(" ")
           body = "\'#{request_body}\'"
           script = <<-EOH
@@ -302,10 +331,10 @@ module Inspec::Resources
             foreach ($property in $Body.PSObject.Properties) {
               $HashTable[$property.Name] = $property.Value
             }
-            $response = #{command} -Body $HashTable
+            $response = #{command} -Body $HashTable -UseBasicParsing
             $response | Select-Object -Property * | ConvertTo-json # We use `Select-Object -Property * ` to get around an odd PowerShell error
           EOH
-          script.strip
+          script = proxy_script.strip + "\n" + script.strip
         end
       end
     end
