@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.52.1 -->
-## [v4.52.1](https://github.com/inspec/inspec/tree/v4.52.1) (2021-12-06)
+<!-- latest_release 4.52.2 -->
+## [v4.52.2](https://github.com/inspec/inspec/tree/v4.52.2) (2021-12-06)
 
 #### Merged Pull Requests
-- Bump test-kitchen from 3.2.0 to 3.2.2 in /omnibus [#5755](https://github.com/inspec/inspec/pull/5755) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Oracle session fix when nil in query output [#5717](https://github.com/inspec/inspec/pull/5717) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.50.3 -->
@@ -18,6 +18,7 @@
 - Fix ibmdb2_session resource : Added double quotes around the IBM db2 query [#5742](https://github.com/inspec/inspec/pull/5742) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.50.13 -->
 
 #### Merged Pull Requests
+- Oracle session fix when nil in query output [#5717](https://github.com/inspec/inspec/pull/5717) ([Nik08](https://github.com/Nik08)) <!-- 4.52.2 -->
 - Bump test-kitchen from 3.2.0 to 3.2.2 in /omnibus [#5755](https://github.com/inspec/inspec/pull/5755) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.52.1 -->
 - Stop producing packages for macOS 10.14 [#5716](https://github.com/inspec/inspec/pull/5716) ([tas50](https://github.com/tas50)) <!-- 4.51.1 -->
 - Bump omnibus-software from `7501e20` to `8560231` in /omnibus [#5752](https://github.com/inspec/inspec/pull/5752) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.50.15 -->
