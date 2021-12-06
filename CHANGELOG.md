@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.51.1 -->
-## [v4.51.1](https://github.com/inspec/inspec/tree/v4.51.1) (2021-12-01)
+<!-- latest_release 4.52.0 -->
+## [v4.52.0](https://github.com/inspec/inspec/tree/v4.52.0) (2021-12-06)
 
-#### Merged Pull Requests
-- Stop producing packages for macOS 10.14 [#5716](https://github.com/inspec/inspec/pull/5716) ([tas50](https://github.com/tas50))
+#### New Features
+- Implemented CLI option for executing private supermarket profiles [#5749](https://github.com/inspec/inspec/pull/5749) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.50.3 -->
 ### Changes since 4.50.3 release
 
 #### New Features
+- Implemented CLI option for executing private supermarket profiles [#5749](https://github.com/inspec/inspec/pull/5749) ([Nik08](https://github.com/Nik08)) <!-- 4.52.0 -->
 - Target support for Alpine Linux [#5744](https://github.com/inspec/inspec/pull/5744) ([Nik08](https://github.com/Nik08)) <!-- 4.51.0 -->
 
 #### Bug Fixes
