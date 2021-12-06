@@ -642,6 +642,26 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
       end
     end
 
+    it "can run supermarket profiles directly from the command line with --supermarket_url option" do
+
+      skip_windows! # Breakage confirmed, only on CI: https://buildkite.com/chef-oss/inspec-inspec-master-verify/builds/2355#2c9d032e-4a24-4e7c-aef2-1c9e2317d9e2
+      inspec("exec supermarket://nathenharvey/tmp-compliance-profile --supermarket_url='https://supermarket.chef.io' --no-create-lockfile")
+
+      if is_windows?
+        _(stdout).must_include "Profile Summary: 1 successful control, 1 control failure, 0 controls skipped\n"
+      else
+        _(stdout).must_include "Profile Summary: 2 successful controls, 0 control failures, 0 controls skipped\n"
+      end
+
+      _(stderr).must_equal ""
+
+      if is_windows?
+        assert_exit_code 100, out # references root
+      else
+        assert_exit_code 0, out
+      end
+    end
+
     it "can run supermarket profiles from inspec.yml" do
       skip_windows! # Breakage confirmed, only on CI: https://buildkite.com/chef-oss/inspec-inspec-master-verify/builds/2355#2c9d032e-4a24-4e7c-aef2-1c9e2317d9e2
 

@@ -8,8 +8,27 @@ To use the CLI, this InSpec add-on adds the following commands:
 
  Compliance profiles from Supermarket can be executed in two ways:
 
- - via supermarket exec: `inspec supermarket exec nathenharvey/tmp-compliance-profile`
- - via supermarket scheme: `inspec exec supermarket://nathenharvey/tmp-compliance-profile`
+ - via supermarket exec:
+
+ **Public Supermarket**
+
+ `inspec supermarket exec nathenharvey/tmp-compliance-profile`
+
+ **Private Supermarket**
+
+ `inspec supermarket exec nathenharvey/tmp-compliance-profile --supermarket_url="PRIVATE_SUPERMARKET_URL"`
+
+
+ - via supermarket scheme:
+
+ **Public Supermarket**
+
+ `inspec exec supermarket://nathenharvey/tmp-compliance-profile`
+
+ **Private Supermarket**
+
+ `inspec exec supermarket://nathenharvey/tmp-compliance-profile --supermarket_url="PRIVATE_SUPERMARKET_URL"`
+
 
 ## Usage
 

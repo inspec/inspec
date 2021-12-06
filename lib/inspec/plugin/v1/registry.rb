@@ -11,7 +11,7 @@ class PluginRegistry
   # @return [Plugin] plugin instance if it can be resolved, nil otherwise
   def resolve(target, opts = {})
     modules.each do |m|
-      res = if Inspec::Fetcher::Url == m
+      res = if ["Inspec::Fetcher::Url", "Supermarket::Fetcher"].include? m.to_s
               m.resolve(target, opts)
             else
               m.resolve(target)
