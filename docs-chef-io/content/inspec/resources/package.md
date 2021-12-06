@@ -44,7 +44,7 @@ The `version` property tests if the named package version is on the system:
 
     its('version') { should eq '1.2.3' }
 
-You can also use the `cmp OPERATOR` matcher to perform comparisons using the version attribute:
+You can also use the `cmp` matcher to perform comparisons using the version attribute:
 
     its('version') { should cmp >= '7.35.0-1ubuntu3.10' }
 

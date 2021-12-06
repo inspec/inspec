@@ -55,7 +55,7 @@ The `result` property checks whether the resource query returns an empty result.
 
 ### allow
 
-The `allow` property checks if specific input is as per the policy defined in OPA. If `allow` is not defined in the policy file then this matcher will not work.
+The `allow` property checks if a specific input matches the policy defined in OPA. This matcher will not work if `allow` is not defined in the policy file.
 
     its('allow') { should eq 'value' }
 

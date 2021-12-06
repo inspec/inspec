@@ -35,7 +35,7 @@ A `packages` resource block declares a regular expression search to select packa
 
 ### statuses
 
-The `statuses` property tests if packages are installed on the system
+The `statuses` property tests if packages are installed on the system:
 
     its('statuses') { should cmp 'installed' }
 

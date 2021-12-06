@@ -50,7 +50,7 @@ where
 
 ## Properties
 
-This resource supports any of the settings listed in an my.cnf file as properties for e.g. max_connections
+This resource supports any settings listed in a `my.cnf` file as properties. For example, `max_connections`.
 
     its('max_connections') { should eq '505' }
 

@@ -58,11 +58,13 @@ The `services` property tests if the named service is listed under `/etc/xinet.d
 
 ### socket_types
 
-The `socket_types` property tests if a service listed under `/etc/xinet.d` is configured to use the named socket type:
+The `socket_types` property tests if a service listed under `/etc/xinet.d` is configured to use the named socket type.
+
+Use `socket` if the socket type is `dgram`, `raw`, or `stream`:
 
     its('socket_types') { should eq 'socket' }
 
-where `socket` is one of `dgram`, `raw`, or `stream`. For a UDP-based service:
+For a UDP-based service:
 
     its('socket_types') { should eq 'dgram' }
 
@@ -86,12 +88,12 @@ where `'TYPE'` is `INTERNAL` (for a service provided by xinetd), `RPC` (for a se
 
 The `wait` property tests how a service handles incoming connections.
 
-For UDP (`dgram`) socket types the `wait` property should test for `yes`:
+For UDP (`dgram`) socket types, the `wait` property should test for `yes`:
 
     its('socket_types') { should eq 'dgram' }
     its('wait') { should eq 'yes' }
 
-For TCP (`stream`) socket types the `wait` property should test for `no`:
+For TCP (`stream`) socket types, the `wait` property should test for `no`:
 
     its('socket_types') { should eq 'stream' }
     its('wait') { should eq 'no' }
