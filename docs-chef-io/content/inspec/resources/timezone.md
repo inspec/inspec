@@ -33,14 +33,14 @@ A `timezone` resource fetches the timezone configurations of the system and comp
 
 where
 
-- `'property'` is one of `identifier` , `abbreviation` and `time_offset`
+- `'property'` is one of `identifier` , `name` and `time_offset`
 - `'expected value'` tests the output of the command run on the system versus the expected output stated in the test
 
 For example:
 
     describe timezone do
       its('identifier') { should eq 'Asia/Kolkata' }
-      its('abbreviation') { should eq 'IST' }
+      its('name') { should eq 'IST' }
       its('time_offset') { should eq '+0530' }
     end
 
@@ -54,13 +54,13 @@ An example of checking the **identifier** for India Time :
 
     its('identifier') { should eq 'Asia/Kolkata }
 
-### abbreviation
+### name
 
-The `abbreviation` property returns the abbreviated representation of the timezone.
+The `name` property returns the name of the timezone.
 
-An example of checking the **abbreviation** of India Time :
+An example of checking the **name** of India Time :
 
-    its('abbreviation') { should eq 'IST' }
+    its('name') { should eq 'IST' }
 
 ### time_offset
 

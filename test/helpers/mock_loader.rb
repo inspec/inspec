@@ -265,6 +265,7 @@ class MockLoader
       "Get-Package -Name 'Mozilla Firefox' | ConvertTo-Json" => cmd.call("get-package-firefox"),
       "Get-Package -Name 'Ruby 2.1.6-p336-x64' | ConvertTo-Json" => cmd.call("get-package-ruby"),
       'Get-Command "choco"' => empty.call,
+      "Get-TimeZone" => cmd.call("get-timezone"),
       'sh -c \'type "choco"\'' => cmd_exit_1.call,
       '(choco list --local-only --exact --include-programs --limit-output \'nssm\') -Replace "\|", "=" | ConvertFrom-StringData | ConvertTo-JSON' => cmd.call("choco-list-nssm"),
       '(choco list --local-only --exact --include-programs --limit-output \'git\') -Replace "\|", "=" | ConvertFrom-StringData | ConvertTo-JSON' => empty.call,
