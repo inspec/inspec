@@ -19,10 +19,6 @@ Use the `timezone` Chef InSpec audit resource to test timezone configurations of
 
 This resource is distributed along with Chef InSpec itself. You can use it automatically.
 
-### Version
-
-This resource first became available in v1.0.0 of InSpec.
-
 ## Syntax
 
 A `timezone` resource fetches the timezone configurations of the system and compares the output with the test:
