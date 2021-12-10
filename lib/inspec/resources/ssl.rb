@@ -73,6 +73,11 @@ module Inspec::Resources
             protocol: proto, ciphers: e.map(&:cipher),
             timeout: x.resource.timeout, retries: x.resource.retries, servername: x.resource.host)]
         end
+
+        if !res[0].empty? && res[0][1].key?("error") && res[0][1]["error"].include?("Connection error Errno::ECONNREFUSED")
+          raise "#{res[0][1]["error"]}"
+        end
+
         Hash[res]
       end
       .install_filter_methods_on_resource(self, :scan_config)

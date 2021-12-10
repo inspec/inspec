@@ -42,7 +42,8 @@ describe "Inspec::Resources::SSL" do
   it "verify host unreachable" do
     SSLShake.expects(:hello).at_least_once.returns({ "error" => "Connection error Errno::ECONNREFUSED, can't connect to localhost:443." })
     resource = load_resource("ssl", host: "localhost")
-    _(resource.enabled?).must_equal false
+    err = _ { resource.enabled? }.must_raise(RuntimeError)
+    _(err.message).must_equal "Connection error Errno::ECONNREFUSED, can't connect to localhost:443."
   end
 
   it "error with nil host" do
