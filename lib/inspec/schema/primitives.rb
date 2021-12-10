@@ -199,10 +199,10 @@ module Inspec
         "additionalProperties" => true,
         "required" => %w{name version},
         "properties" => {
-          "name" => desc(STRING, "The name of the software that generated this report."),
-          "version" => desc(STRING, "The version of the software that generated this report."),
+          "name" => desc(STRING, "The name.  Example: Chef Inspec."),
+          "version" => desc(STRING, "The version.  Example: 4.18.108."),
         },
-      }, [])
+      }, [], "The tool that generated this file.  Example: Chef Inspec.")
 
       # Occurs from "exec --reporter json" and "inspec json"
       # Denotes what file this control comes from, and where within

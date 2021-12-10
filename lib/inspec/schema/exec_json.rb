@@ -59,7 +59,7 @@ module Inspec
           "desc" => Primitives.desc({ "type" => %w{string null} }, "The description for the overarching control."),
           "descriptions" => Primitives.desc(Primitives.array(CONTROL_DESCRIPTION.ref), "A set of additional descriptions.  Example: the 'fix' text."),
           "impact" => Primitives.desc(Primitives::IMPACT, "The impactfulness or severity."),
-          "refs" => Primitives.desc(Primitives.array(Primitives::REFERENCE.ref), "The set of external references to external documents."),
+          "refs" => Primitives.desc(Primitives.array(Primitives::REFERENCE.ref), "The set of references to external documents."),
           "tags" => Primitives.desc(Primitives::TAGS, "A set of tags - usually metadata."),
           "code" => Primitives.desc(Primitives::STRING, "The raw source code of the control. Note that if this is an overlay control, it does not include the underlying source code."),
           "source_location" => Primitives.desc(Primitives::SOURCE_LOCATION.ref, "The explicit location of the control within the source code."),
@@ -95,7 +95,7 @@ module Inspec
           "parent_profile" => Primitives.desc(Primitives::STRING, "The name of the parent profile if the profile is a dependency of another."),
           "license" => Primitives.desc(Primitives::STRING, "The copyright license.  Example: the full text or the name, such as 'Apache License, Version 2.0'."),
           "summary" => Primitives.desc(Primitives::STRING, "The summary.  Example: the Security Technical Implementation Guide (STIG) header."),
-          "version" => Primitives.desc(Primitives::STRING, "The version."),
+          "version" => Primitives.desc(Primitives::STRING, "The version of the profile."),
           "supports" => Primitives.desc(Primitives.array(Primitives::SUPPORT.ref), "The set of supported platform targets."),
           "description" => Primitives.desc(Primitives::STRING, "The description - should be more detailed than the summary."),
           "inspec_version" => Primitives.desc(Primitives::STRING, "The version of Inspec."),
@@ -109,7 +109,7 @@ module Inspec
           "groups" => Primitives.desc(Primitives.array(Primitives::CONTROL_GROUP.ref), "A set of descriptions for the control groups.  Example: the ids of the controls."),
           "attributes" => Primitives.desc(Primitives.array(Primitives::INPUT), "The input(s) or attribute(s) used in the run."),
         },
-      }, [CONTROL, Primitives::CONTROL_GROUP, Primitives::DEPENDENCY, Primitives::SUPPORT], "Run information.  Example: it can include the name of the Inspec profile.")
+      }, [CONTROL, Primitives::CONTROL_GROUP, Primitives::DEPENDENCY, Primitives::SUPPORT], "Information on the set of controls assessed.  Example: it can include the name of the Inspec profile and any findings.")
 
       # Result of exec json. Top level value
       # TODO: Include the format of top level controls. This was omitted for lack of sufficient examples
