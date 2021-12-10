@@ -102,7 +102,7 @@ module Inspec
       INPUT = {
         "type" => "object",
         "additionalProperties" => true,
-        "description" => "An input or attribute to be used in the run."
+        "description" => "An input or attribute used in the run."
       }.freeze
 
       IMPACT = {
