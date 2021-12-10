@@ -74,11 +74,11 @@ _should\_not_ indicates this is a negated test. So, this test passes if the matc
 ### Plural Resource Example
 
 ```ruby
-  describe cars.where(color: /^b/) do
-    it { should exist }
-    its('manufacturers') { should include 'Cadillac' }
-    its('count') { should be >= 10 }
-  end
+describe cars.where(color: /^b/) do
+  it { should exist }
+  its('manufacturers') { should include 'Cadillac' }
+  its('count') { should be >= 10 }
+end
 ```
 
 #### describe _cars_.where(color: /^b/) do
@@ -280,9 +280,9 @@ An operator matcher allows you to use operators to compare numerical [expected r
 For example:
 
 ```ruby
-  describe cars do
-    its('count') { should be >= 10 }
-  end
+describe cars do
+  its('count') { should be >= 10 }
+end
 ```
 
 Operators include:

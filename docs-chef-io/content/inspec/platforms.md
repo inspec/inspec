@@ -43,7 +43,7 @@ for details.
 Once you have your environment variables set, you can verify your credentials by running:
 
 ```bash
-you$ inspec detect -t aws://
+$ inspec detect -t aws://
 
 == Platform Details
 Name:      aws
@@ -70,7 +70,7 @@ profile named 'auditing', use `-t aws://us-east-2/auditing`.
 To verify your credentials, run
 
 ```bash
-you$ inspec detect -t aws://
+$ inspec detect -t aws://
 
 == Platform Details
 Name:      aws

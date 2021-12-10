@@ -213,7 +213,7 @@ dots (`.`). Given the example response in their documentation:
 
 We may access `provisioningStatus` with:
 
-```
+```ruby
 its('provisionedPlants.first.provisioningStatus') { should eq "Success" }
 ```
 

@@ -28,7 +28,7 @@ manager, according to your operating system and method as listed below.
 Chef InSpec is available as a standalone [Homebrew](https://brew.sh/) package.
 Run the following command in your terminal to install Chef InSpec:
 
-```
+```bash
 brew install chef/chef/inspec
 ```
 
@@ -39,7 +39,7 @@ password for installation to complete.
 
 You can download Chef InSpec via curl script:
 
-```
+```bash
 curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
 ```
 
@@ -68,7 +68,7 @@ was successful.
 
 The following curl script will install Chef InSpec for Ubuntu and Red Hat Enterprise Linux:
 
-```
+```bash
 curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
 ```
 
@@ -80,19 +80,19 @@ your downloaded package.
 
 For Ubuntu, use the following command to install Chef InSpec:
 
-```
+```bash
 sudo dpkg -i /path/to/inspec.deb
 ```
 
 For Red Hat Enterprise Linux, use the following command to install Chef InSpec:
 
-```
+```bash
 sudo rpm -U /path-to/inspec.rpm
 ```
 
 For SUSE Linux Enterprise Server, use the following command to install Chef InSpec:
 
-```
+```bash
 sudo zypper install /path-to/inspec.rpm
 ```
 
@@ -108,7 +108,7 @@ method of Chef InSpec installation.
 
 Use the following *destructive* command to remove the Chef InSpec standalone Homebrew package:
 
-```
+```bash
 brew cask uninstall inspec
 ```
 
@@ -116,7 +116,7 @@ brew cask uninstall inspec
 
 Use the following *destructive* command in your terminal to remove the Chef InSpec package:
 
-```
+```bash
 sudo rm -rf /opt/inspec
 ```
 
@@ -135,18 +135,18 @@ for their package manager are listed below.
 
 For Ubuntu, use the following *destructive* command to uninstall:
 
-```
+```bash
 sudo dpkg -P inspec
 ```
 
 For Red Hat Enterprise Linux, use the following *destructive* command to uninstall:
 
-```
+```bash
 sudo rpm -e inspec
 ```
 
 For SUSE Linux Enterprise Server, use the following *destructive* command to uninstall Chef InSpec:
 
-```
+```bash
 sudo zypper remove inspec
 ```
