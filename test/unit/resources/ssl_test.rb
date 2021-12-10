@@ -21,6 +21,12 @@ describe "Inspec::Resources::SSL" do
     _(resource.enabled?).must_equal true
   end
 
+  it "verify protocol enabled" do
+    SSLShake.expects(:hello).at_least_once.returns({ "version" => "tls1.3", "success" => true })
+    resource = load_resource("ssl", host: "localhost").protocols("tls1.3")
+    _(resource.enabled?).must_equal true
+  end
+
   it "verify protocol disabled" do
     SSLShake.expects(:hello).at_least_once.returns({ "error" => "Failed to parse response. Cannot handle SSLv2 responses" })
     resource = load_resource("ssl", host: "localhost").protocols("ssl2")
@@ -47,8 +53,8 @@ describe "Inspec::Resources::SSL" do
 
   it "verify sslshake resources" do
     resource = load_resource("ssl", host: "localhost")
-    _(resource.protocols.uniq).must_equal ["ssl2", "ssl3", "tls1.0", "tls1.1", "tls1.2"]
+    _(resource.protocols.uniq).must_equal ["ssl2", "ssl3", "tls1.0", "tls1.1", "tls1.2", "tls1.3"]
     _(resource.ciphers.include?("TLS_RSA_WITH_AES_128_CBC_SHA256")).must_equal true
-    _([681, 993, 1003]).must_include(resource.ciphers.count)
+    _([681, 993, 1003, 1008]).must_include(resource.ciphers.count)
   end
 end

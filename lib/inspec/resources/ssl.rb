@@ -38,6 +38,7 @@ module Inspec::Resources
       "tls1.0",
       "tls1.1",
       "tls1.2",
+      "tls1.3",
     ].freeze
 
     attr_reader :host, :port, :timeout, :retries
@@ -89,6 +90,7 @@ module Inspec::Resources
         { "protocol" => "tls1.0", "ciphers" => SSLShake::TLS::TLS10_CIPHERS.keys },
         { "protocol" => "tls1.1", "ciphers" => SSLShake::TLS::TLS10_CIPHERS.keys },
         { "protocol" => "tls1.2", "ciphers" => SSLShake::TLS::TLS_CIPHERS.keys },
+        { "protocol" => "tls1.3", "ciphers" => SSLShake::TLS::TLS13_CIPHERS.keys },
       ].map do |line|
         line["ciphers"].map do |cipher|
           { "protocol" => line["protocol"], "cipher" => cipher }
