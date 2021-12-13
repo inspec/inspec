@@ -42,7 +42,7 @@ This subcommand has the following additional options:
 * ``--tar``, ``--no-tar``
     Generates a tar.gz archive.
 * ``--vendor-cache=VENDOR_CACHE``
-    Use the given path for caching dependencies, (default: ~/.inspec/cache).
+    Use the given path for caching dependencies, (default: `~/.inspec/cache`).
 * ``--zip``, ``--no-zip``
     Generates a zip archive.
 
@@ -79,7 +79,7 @@ This subcommand has the following additional options:
 * ``--profiles-path=PROFILES_PATH``
     Folder which contains referenced profiles.
 * ``--vendor-cache=VENDOR_CACHE``
-    Use the given path for caching dependencies, (default: ~/.inspec/cache).
+    Use the given path for caching dependencies, (default: `~/.inspec/cache`).
 
 ## detect
 
@@ -343,6 +343,8 @@ This subcommand has the following additional options:
     Show progress while executing tests.
 * ``--silence-deprecations=all|GROUP GROUP...``
     Suppress deprecation warnings. See install_dir/etc/deprecations.json for list of GROUPs or use 'all'.
+* ``--ssh-config-file=one two three``
+    A list of paths to the ssh config file, e.g `~/.ssh/config` or `/etc/ssh/ssh_config`.
 * ``--ssl``, ``--no-ssl``
     Use SSL for transport layer encryption (WinRM).
 * ``--sudo``, ``--no-sudo``
@@ -362,7 +364,7 @@ This subcommand has the following additional options:
 * ``--user=USER``
     The login user for a remote scan.
 * ``--vendor-cache=VENDOR_CACHE``
-    Use the given path for caching dependencies. (default: ~/.inspec/cache).
+    Use the given path for caching dependencies. (default: `~/.inspec/cache`).
 * ``--waiver-file=one two three``
     Load one or more waiver files.
 * ``--winrm-basic-auth-only``, ``--no-winrm-basic-auth-only``
@@ -433,7 +435,7 @@ This subcommand has the following additional options:
 * ``--tags=one two three``
     A list of tags that reference certain controls. Other controls are ignored.
 * ``--vendor-cache=VENDOR_CACHE``
-    Use the given path for caching dependencies. (default: ~/.inspec/cache).
+    Use the given path for caching dependencies. (default: `~/.inspec/cache`).
 
 ## nothing
 
@@ -535,6 +537,8 @@ This subcommand has the following additional options:
     Specify a particular shell to use.
 * ``--shell-options=SHELL_OPTIONS``
     Additional shell options.
+* ``--ssh-config-file=one two three``
+    A list of paths to the ssh config file, e.g `~/.ssh/config` or `/etc/ssh/ssh_config`.
 * ``--ssl``, ``--no-ssl``
     Use SSL for transport layer encryption (WinRM).
 * ``--sudo``, ``--no-sudo``
