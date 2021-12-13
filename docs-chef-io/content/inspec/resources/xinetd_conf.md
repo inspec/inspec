@@ -38,6 +38,66 @@ where
 - `('setting')` is a setting in the `xinetd.conf` file
 - `should eq 'value'` is the value that is expected
 
+## Properties
+
+### ids
+
+The `ids` property tests if the named service is located under `/etc/xinet.d`:
+
+    its('ids') { should include 'service_name' }
+
+For example:
+
+    its('ids') { should include 'chargen-stream chargen-dgram'}
+
+### services
+
+The `services` property tests if the named service is listed under `/etc/xinet.d`:
+
+    its('services') { should include 'service_name' }
+
+### socket_types
+
+The `socket_types` property tests if a service listed under `/etc/xinet.d` is configured to use the named socket type.
+
+Use `socket` if the socket type is `dgram`, `raw`, or `stream`:
+
+    its('socket_types') { should eq 'socket' }
+
+For a UDP-based service:
+
+    its('socket_types') { should eq 'dgram' }
+
+For a raw socket (such as a service using a non-standard protocol or a service that requires direct access to IP):
+
+    its('socket_types') { should eq 'raw' }
+
+For a TCP-based service:
+
+    its('socket_types') { should eq 'stream' }
+
+### types
+
+The `types` property tests the service type:
+
+    its('type') { should eq 'TYPE' }
+
+where `'TYPE'` is `INTERNAL` (for a service provided by xinetd), `RPC` (for a service based on remote procedure call), or `UNLISTED` (for services not under `/etc/services` or `/etc/rpc`).
+
+### wait
+
+The `wait` property tests how a service handles incoming connections.
+
+For UDP (`dgram`) socket types, the `wait` property should test for `yes`:
+
+    its('socket_types') { should eq 'dgram' }
+    its('wait') { should eq 'yes' }
+
+For TCP (`stream`) socket types, the `wait` property should test for `no`:
+
+    its('socket_types') { should eq 'stream' }
+    its('wait') { should eq 'no' }
+
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
@@ -108,59 +168,3 @@ For a full list of available matchers, please visit our [matchers page](/inspec/
 The `be_enabled` matcher tests if a service listed under `/etc/xinet.d` is enabled:
 
     it { should be_enabled }
-
-### ids
-
-The `ids` matcher tests if the named service is located under `/etc/xinet.d`:
-
-    its('ids') { should include 'service_name' }
-
-For example:
-
-    its('ids') { should include 'chargen-stream chargen-dgram'}
-
-### services
-
-The `services` matcher tests if the named service is listed under `/etc/xinet.d`:
-
-    its('services') { should include 'service_name' }
-
-### socket_types
-
-The `socket_types` matcher tests if a service listed under `/etc/xinet.d` is configured to use the named socket type:
-
-    its('socket_types') { should eq 'socket' }
-
-where `socket` is one of `dgram`, `raw`, or `stream`. For a UDP-based service:
-
-    its('socket_types') { should eq 'dgram' }
-
-For a raw socket (such as a service using a non-standard protocol or a service that requires direct access to IP):
-
-    its('socket_types') { should eq 'raw' }
-
-For a TCP-based service:
-
-    its('socket_types') { should eq 'stream' }
-
-### types
-
-The `types` matcher tests the service type:
-
-    its('type') { should eq 'TYPE' }
-
-where `'TYPE'` is `INTERNAL` (for a service provided by xinetd), `RPC` (for a service based on remote procedure call), or `UNLISTED` (for services not under `/etc/services` or `/etc/rpc`).
-
-### wait
-
-The `wait` matcher tests how a service handles incoming connections.
-
-For UDP (`dgram`) socket types the `wait` matcher should test for `yes`:
-
-    its('socket_types') { should eq 'dgram' }
-    its('wait') { should eq 'yes' }
-
-For TCP (`stream`) socket types the `wait` matcher should test for `no`:
-
-    its('socket_types') { should eq 'stream' }
-    its('wait') { should eq 'no' }

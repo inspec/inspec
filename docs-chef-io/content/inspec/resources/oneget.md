@@ -36,6 +36,14 @@ where
 - `('name')` must specify the name of a package, such as `'VLC'`
 - `be_installed` is a valid matcher for this resource
 
+## Properties
+
+### version
+
+The `version` property tests if the named package version is on the system:
+
+    its('version') { should eq '1.2.3' }
+
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
@@ -56,8 +64,3 @@ The `be_installed` matcher tests if the named package is installed on the system
 
     it { should be_installed }
 
-### version
-
-The `version` matcher tests if the named package version is on the system:
-
-    its('version') { should eq '1.2.3' }

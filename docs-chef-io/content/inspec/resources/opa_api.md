@@ -45,6 +45,20 @@ The URL of the OPA API server.
 
 An OPA query as a JSON data file or a string in JSON format.
 
+## Properties
+
+### result
+
+The `result` property checks whether the resource query returns an empty result.
+
+    its('result') { should be nil }
+
+### allow
+
+The `allow` property checks if a specific input matches the policy defined in OPA. This matcher will not work if `allow` is not defined in the policy file.
+
+    its('allow') { should eq 'value' }
+
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
@@ -60,17 +74,3 @@ The above example shows how the `allow` value can be fetched in two ways.
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
-
-## Properties
-
-### result
-
-The `result` property checks whether the resource query returns an empty result.
-
-    its('result') { should be nil }
-
-### allow
-
-The `allow` property checks if specific input is as per the policy defined in OPA. If `allow` is not defined in the policy file then this matcher will not work.
-
-    its('allow') { should eq 'value' }

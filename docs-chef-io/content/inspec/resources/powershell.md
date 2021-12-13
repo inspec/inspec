@@ -41,6 +41,26 @@ where
 - `'matcher'` is one of `exit_status`, `stderr`, or `stdout`
 - `'output'` tests the output of the command run on the system versus the output value stated in the test
 
+## Properties
+
+### exit_status
+
+The `exit_status` property tests the exit status for the command:
+
+    its('exit_status') { should eq 123 }
+
+### stderr
+
+The `stderr` property tests results of the command as returned in standard error (stderr):
+
+    its('stderr') { should eq 'error' }
+
+### stdout
+
+The `stdout` property tests results of the command as returned in standard output (stdout):
+
+    its('stdout') { should eq '/^1$/' }
+
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
@@ -92,21 +112,3 @@ No newline:
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
-
-### exit_status
-
-The `exit_status` matcher tests the exit status for the command:
-
-    its('exit_status') { should eq 123 }
-
-### stderr
-
-The `stderr` matcher tests results of the command as returned in standard error (stderr):
-
-    its('stderr') { should eq 'error' }
-
-### stdout
-
-The `stdout` matcher tests results of the command as returned in standard output (stdout):
-
-    its('stdout') { should eq '/^1$/' }

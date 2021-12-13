@@ -36,6 +36,21 @@ where
 - `('name')` must specify the name of a package, such as `'nginx'`
 - `be_installed` is a valid matcher for this resource
 
+## Properties
+
+### version
+
+The `version` property tests if the named package version is on the system:
+
+    its('version') { should eq '1.2.3' }
+
+You can also use the `cmp` matcher to perform comparisons using the version attribute:
+
+    its('version') { should cmp >= '7.35.0-1ubuntu3.10' }
+
+`cmp` understands version numbers using Gem::Version, and can use the operators `==, <, <=, >=, and >`. It will compare versions by each segment, not as a string - so '7.4' is smaller than '7.30', for example.
+
+
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
@@ -116,15 +131,3 @@ will not be upgraded to a later version.
 The `be_installed` matcher tests if the named package is installed on the system:
 
     it { should be_installed }
-
-### version
-
-The `version` matcher tests if the named package version is on the system:
-
-    its('version') { should eq '1.2.3' }
-
-You can also use the `cmp OPERATOR` matcher to perform comparisons using the version attribute:
-
-    its('version') { should cmp >= '7.35.0-1ubuntu3.10' }
-
-`cmp` understands version numbers using Gem::Version, and can use the operators `==, <, <=, >=, and >`. It will compare versions by each segment, not as a string - so '7.4' is smaller than '7.30', for example.

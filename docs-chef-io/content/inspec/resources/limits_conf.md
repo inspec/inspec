@@ -53,19 +53,13 @@ where
 
 ## Properties
 
-- `domain`
-
-## Examples
-
-The following examples show how to use this Chef InSpec audit resource.
-
 ### domain
 
 The `domain` property tests the domain in the `limits.conf` file, along with associated type, item, and value:
 
     its('domain') { should include ['type', 'item', 'value'] }
 
-`
+
 For example:
 
     its('grantmc') { should include ['hard', 'nofile', '63536'] }

@@ -39,13 +39,9 @@ where
 
 ## Properties
 
-    'conf_file', 'map_name', 'params', 'pg_username', 'system_username'
-
-## Property Examples
-
 ### map_name([String])
 
-`address` returns a an array of strings that matches the where condition of the filter table
+`map_name` returns a an array of strings that matches the where condition of the filter table
 
     describe postgres_ident_conf.where { pg_username == 'name' } do
       its('map_name') { should eq ['value'] }
@@ -69,17 +65,4 @@ where
 
 ## Matchers
 
-This Chef InSpec audit resource matches any service that is listed in the pg ident configuration file. For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
-
-    its('pg_username') { should_not eq ['peer'] }
-
-or:
-
-    its('map_name') { should eq ['value'] }
-
-For example:
-
-    describe postgres_ident_conf.where { pg_username == 'name' } do
-      its('system_username') { should eq ['value'] }
-      its('map_name') { should eq ['value'] }
-    end
+For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).

@@ -52,6 +52,42 @@ For example, to test if the SSH daemon is available on a Linux machine via the d
       its('addresses') { should include '0.0.0.0' }
     end
 
+## Properties
+
+### address
+
+The `addresses` property tests if the specified address is associated with a port:
+
+    its('addresses') { should include '0.0.0.0' }
+
+### be_listening
+
+The `be_listening` property tests if the port is listening for traffic:
+
+    it { should be_listening }
+
+### pids
+
+The `pids` property tests the process identifiers (PIDs):
+
+    its('pids') { should cmp 27808 }
+
+### processes
+
+The `processes` property tests if the named process is running on the system:
+
+    its('processes') { should cmp 'syslog' }
+
+### protocols
+
+The `protocols` property tests the Internet protocol: ICMP (`'icmp'`), TCP (`'tcp'` or `'tcp6'`), or UDP (`'udp'` or `'udp6'`):
+
+    its('protocols') { should include 'tcp' }
+
+or for the IPv6 protocol:
+
+    its('protocols') { should include 'tcp6' }
+
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
@@ -111,37 +147,3 @@ or:
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
-
-### address
-
-The `addresses` matcher tests if the specified address is associated with a port:
-
-    its('addresses') { should include '0.0.0.0' }
-
-### be_listening
-
-The `be_listening` matcher tests if the port is listening for traffic:
-
-    it { should be_listening }
-
-### pids
-
-The `pids` matcher tests the process identifiers (PIDs):
-
-    its('pids') { should cmp 27808 }
-
-### processes
-
-The `processes` matcher tests if the named process is running on the system:
-
-    its('processes') { should cmp 'syslog' }
-
-### protocols
-
-The `protocols` matcher tests the Internet protocol: ICMP (`'icmp'`), TCP (`'tcp'` or `'tcp6'`), or UDP (`'udp'` or `'udp6'`):
-
-    its('protocols') { should include 'tcp' }
-
-or for the IPv6 protocol:
-
-    its('protocols') { should include 'tcp6' }
