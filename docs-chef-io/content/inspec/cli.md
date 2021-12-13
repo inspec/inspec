@@ -344,7 +344,7 @@ This subcommand has the following additional options:
 * ``--silence-deprecations=all|GROUP GROUP...``
     Suppress deprecation warnings. See install_dir/etc/deprecations.json for list of GROUPs or use 'all'.
 * ``--ssh-config-file=one two three``
-    A list of paths to the ssh config file, e.g `~/.ssh/config` or `/etc/ssh/ssh_config`.
+    A list of paths to the SSH configuration file, for example: `~/.ssh/config` or `/etc/ssh/ssh_config`.
 * ``--ssl``, ``--no-ssl``
     Use SSL for transport layer encryption (WinRM).
 * ``--sudo``, ``--no-sudo``
