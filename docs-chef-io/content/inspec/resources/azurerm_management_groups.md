@@ -49,17 +49,21 @@ You'll also need to setup your Azure credentials; see the resource pack
 
 ### Check Attributes of All Management Groups
 
+```ruby
 describe azurerm_management_groups do
-its('ids') { should include "/providers/Microsoft.Management/managementGroups/mg_id" }
-its('names') { should include "parent_mg" }
-its('types') { should include '/providers/Microsoft.Management/managementGroups' }
+    its('ids') { should include "/providers/Microsoft.Management/managementGroups/mg_id" }
+    its('names') { should include "parent_mg" }
+    its('types') { should include '/providers/Microsoft.Management/managementGroups' }
 end
+```
 
 ### Filter Results to Inspect the Properties of Specific Management Group
 
+```ruby
 describe azurerm_management_groups.where(name: 'mg_parent').entries.first do
-its('properties') { should have_attributes(:tenantId => tenant_id, :displayName => parent_dn)}
+    its('properties') { should have_attributes(:tenantId => tenant_id, :displayName => parent_dn)}
 end
+```
 
 ## Parameters
 

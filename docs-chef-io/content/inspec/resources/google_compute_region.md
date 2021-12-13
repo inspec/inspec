@@ -36,54 +36,53 @@ end
 ### Test that a GCP compute region exists
 
 ```ruby
-  describe google_compute_region(project: 'chef-inspec-gcp',  region: 'europe-west2') do
-    it { should exist }
-  end
+describe google_compute_region(project: 'chef-inspec-gcp',  region: 'europe-west2') do
+  it { should exist }
+end
 ```
 
 ### Test that a GCP compute region is in the expected state
 
 ```ruby
-  describe google_compute_region(project: 'chef-inspec-gcp',  region: 'europe-west2') do
-    its('status') { should eq 'UP' }
-    # or equivalently
-    it { should be_up }
-  end
+describe google_compute_region(project: 'chef-inspec-gcp',  region: 'europe-west2') do
+  its('status') { should eq 'UP' }
+  # or equivalently
+  it { should be_up }
+end
 ```
 
 ### Test a GCP compute region identifier
 
 ```ruby
-  describe google_compute_region(project: 'chef-inspec-gcp',  region: "asia-east1") do
-    its('id') { should eq "1220" }
-  end
+describe google_compute_region(project: 'chef-inspec-gcp',  region: "asia-east1") do
+  its('id') { should eq "1220" }
+end
 ```
 
 ### Check that a region is associated with the expected zone fully qualified name
 
 ```ruby
-  describe google_compute_region(project: 'chef-inspec-gcp',  region: "asia-east1") do
-    its('zones') { should include "https://www.googleapis.com/compute/v1/projects/spaterson-project/zones/asia-east1-a" }
-  end
+describe google_compute_region(project: 'chef-inspec-gcp',  region: "asia-east1") do
+  its('zones') { should include "https://www.googleapis.com/compute/v1/projects/spaterson-project/zones/asia-east1-a" }
+end
 ```
 
 ### Check that a region is associated with the expected zone short name
 
 ```ruby
-  describe google_compute_region(project: 'chef-inspec-gcp',  region: "asia-east1") do
-    its('zone_names') { should include "asia-east1-a" }
-  end
+describe google_compute_region(project: 'chef-inspec-gcp',  region: "asia-east1") do
+  its('zone_names') { should include "asia-east1-a" }
+end
 ```
 
 The `zone_names` property is also useful for subsequently looping over associated `google_compute_zone` resources. For example:
 
 ```ruby
-  google_compute_region(project: 'chef-inspec-gcp',  region: "asia-east1").zone_names.each do |zone_name|
-    describe google_compute_zone(project: 'chef-inspec-gcp', name: zone_name) do
-      it { should be_up }
-    end
+google_compute_region(project: 'chef-inspec-gcp',  region: "asia-east1").zone_names.each do |zone_name|
+  describe google_compute_zone(project: 'chef-inspec-gcp', name: zone_name) do
+    it { should be_up }
   end
-
+end
 ```
 
 ## Properties

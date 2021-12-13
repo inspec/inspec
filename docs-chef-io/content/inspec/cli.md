@@ -178,7 +178,7 @@ Run all test files at the specified locations.
 
 The subcommand loads the given profiles, fetches their dependencies if needed, then connects to the target and executes any controls contained in the profiles. One or more reporters are used to generate the output.
 
-``` ruby
+```ruby
 exit codes:
     0  normal exit, all tests passed
     1  usage or general error
@@ -193,68 +193,71 @@ Below are some examples of using `exec` with different test locations:
 
 Chef Automate:
 
-``` ruby
+```ruby
 inspec automate login
 inspec exec compliance://username/linux-baseline
 ```
 
 `inspec compliance` is a backwards compatible alias for `inspec automate` and works the same way:
 
-``` ruby
+```ruby
 inspec compliance login
 ```
 
 Chef Supermarket:
 
-``` ruby
+```ruby
 inspec exec supermarket://username/linux-baseline
 inspec exec supermarket://username/linux-baseline --supermarket_url="https://privatesupermarket.example.com"
 ```
 
 Local profile (executes all tests in `controls/`):
 
-``` ruby
+```ruby
 inspec exec /path/to/profile
 ```
 
 Local single test (doesn't allow inputs or custom resources):
 
-``` ruby
+```ruby
 inspec exec /path/to/a_test.rb
 ```
 
 Git via SSH:
 
-``` ruby
+```ruby
 inspec exec git@github.com:dev-sec/linux-baseline.git
 ```
 
 Git via HTTPS (.git suffix is required):
 
-``` ruby
+```ruby
 inspec exec https://github.com/dev-sec/linux-baseline.git
 ```
 
 Private Git via HTTPS (.git suffix is required):
 
-``` ruby
+```ruby
 inspec exec https://api_token@github.com/dev-sec/linux-baseline.git
 ```
 
 Private Git via HTTPS and cached credentials (.git suffix is required):
-```
+
+```bash
 git config credential.helper cache
 git ls-remote https://github.com/dev-sec/linux-baseline.git
 inspec exec https://github.com/dev-sec/linux-baseline.git
 ```
 
 Web-hosted file (also supports .zip):
-```
+
+```bash
 inspec exec https://webserver/linux-baseline.tar.gz
 ```
 
 Web-hosted file with basic authentication (supports .zip):
-```
+
+```bash
 inspec exec https://username:password@webserver/linux-baseline.tar.gz
 ```
 

@@ -65,9 +65,12 @@ See also the [AWS documentation on Configuration](https://docs.aws.amazon.com/co
 ### Ensure the role_arn is correct for the recorder
 
 The role is used to grant permissions to S3 Buckets, SNS topics and to get configuration details for supported AWS resources.
+
+```ruby
 describe aws_config_recorder do
-its('role_arn') { should eq 'arn:aws:iam::721741954427:role/My_Recorder' }
+    its('role_arn') { should eq 'arn:aws:iam::721741954427:role/My_Recorder' }
 end
+```
 
 ### Test the recorder is monitoring changes to the correct resources.
 
