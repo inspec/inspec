@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.52.3 -->
-## [v4.52.3](https://github.com/inspec/inspec/tree/v4.52.3) (2021-12-13)
+<!-- latest_release 4.52.4 -->
+## [v4.52.4](https://github.com/inspec/inspec/tree/v4.52.4) (2021-12-13)
 
 #### Merged Pull Requests
-- Fix docs to make property listing in the website docs more useful. [#5746](https://github.com/inspec/inspec/pull/5746) ([Vasu1105](https://github.com/Vasu1105))
+- Fix a bunch of docs formatting problems [#5763](https://github.com/inspec/inspec/pull/5763) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.50.3 -->
@@ -18,6 +18,7 @@
 - Fix ibmdb2_session resource : Added double quotes around the IBM db2 query [#5742](https://github.com/inspec/inspec/pull/5742) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.50.13 -->
 
 #### Merged Pull Requests
+- Fix a bunch of docs formatting problems [#5763](https://github.com/inspec/inspec/pull/5763) ([IanMadd](https://github.com/IanMadd)) <!-- 4.52.4 -->
 - Fix docs to make property listing in the website docs more useful. [#5746](https://github.com/inspec/inspec/pull/5746) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.52.3 -->
 - Oracle session fix when nil in query output [#5717](https://github.com/inspec/inspec/pull/5717) ([Nik08](https://github.com/Nik08)) <!-- 4.52.2 -->
 - Bump test-kitchen from 3.2.0 to 3.2.2 in /omnibus [#5755](https://github.com/inspec/inspec/pull/5755) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.52.1 -->
