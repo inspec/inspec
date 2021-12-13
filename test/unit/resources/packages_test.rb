@@ -77,12 +77,12 @@ describe "Inspec::Resources::Packages" do
   end
 
   it "packages on alpine" do
-    resource = MockLoader.new(:alpine).load_resource("packages", /^http-parser$/)
+    resource = MockLoader.new(:alpine).load_resource("packages", /^nginx$/)
     _(resource.entries.length).must_equal 1
     _(resource.entries[0].to_h).must_equal({
       status: "installed",
-      name: "http-parser",
-      version: "2.8.1",
+      name: "nginx",
+      version: "1.14.2",
       architecture: "x86_64",
     })
   end
