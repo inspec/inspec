@@ -126,6 +126,8 @@ module Inspec
         desc: "Specify a shell type for winrm (eg. 'elevated' or 'powershell')"
       option :docker_url, type: :string,
         desc: "Provides path to Docker API endpoint (Docker)"
+      option :ssh_config_file, type: :array,
+        desc: "A list of paths to the ssh config file, e.g ~/.ssh/config or /etc/ssh/ssh_config"
     end
 
     def self.profile_options
