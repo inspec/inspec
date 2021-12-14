@@ -114,7 +114,7 @@ module Inspec::Resources
   # RedHat family
   class AlpinePkgs < PkgsManagement
     def build_package_list
-      command = "apk list --no-network"
+      command = "apk list --no-network --installed"
       cmd = inspec.command(command)
       all = cmd.stdout.split("\n")
       return [] if all.nil? || cmd.exit_status.to_i != 0
