@@ -154,4 +154,11 @@ or:
       it { should_not be_enabled }
     end
 
-Supported Protocols : `ssl2`, `ssl3`, `tls1.0`, `tls1.1`, `tls1.2`, `tls1.3`
+Supported protocols:
+
+- `ssl2`
+- `ssl3`
+- `tls1.0`
+- `tls1.1`
+- `tls1.2`
+- `tls1.3`
