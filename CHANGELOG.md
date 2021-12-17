@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.52.8 -->
-## [v4.52.8](https://github.com/inspec/inspec/tree/v4.52.8) (2021-12-16)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Active support version fix for ruby versions less then 2.7 [#5770](https://github.com/inspec/inspec/pull/5770) ([Nik08](https://github.com/Nik08))
+- Apply cookstyle to the example profile [#5680](https://github.com/inspec/inspec/pull/5680) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.50.3 -->
@@ -18,6 +18,7 @@
 - Fix ibmdb2_session resource : Added double quotes around the IBM db2 query [#5742](https://github.com/inspec/inspec/pull/5742) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.50.13 -->
 
 #### Merged Pull Requests
+- Apply cookstyle to the example profile [#5680](https://github.com/inspec/inspec/pull/5680) ([tas50](https://github.com/tas50)) <!-- 4.52.8 -->
 - Active support version fix for ruby versions less then 2.7 [#5770](https://github.com/inspec/inspec/pull/5770) ([Nik08](https://github.com/Nik08)) <!-- 4.52.8 -->
 - Bump omnibus from `2c309fa` to `2bf77bb` in /omnibus [#5764](https://github.com/inspec/inspec/pull/5764) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.52.7 -->
 - Bump omnibus-software from `8560231` to `d2525ab` in /omnibus [#5767](https://github.com/inspec/inspec/pull/5767) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.52.6 -->
