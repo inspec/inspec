@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.52.9 -->
+## [v4.52.9](https://github.com/inspec/inspec/tree/v4.52.9) (2021-12-20)
 
 #### Merged Pull Requests
+- Adds tls1.3 support in ssl resource. [#5762](https://github.com/inspec/inspec/pull/5762) ([Vasu1105](https://github.com/Vasu1105))
 - Apply cookstyle to the example profile [#5680](https://github.com/inspec/inspec/pull/5680) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
@@ -18,6 +19,7 @@
 - Fix ibmdb2_session resource : Added double quotes around the IBM db2 query [#5742](https://github.com/inspec/inspec/pull/5742) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.50.13 -->
 
 #### Merged Pull Requests
+- Adds tls1.3 support in ssl resource. [#5762](https://github.com/inspec/inspec/pull/5762) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.52.9 -->
 - Apply cookstyle to the example profile [#5680](https://github.com/inspec/inspec/pull/5680) ([tas50](https://github.com/tas50)) <!-- 4.52.8 -->
 - Active support version fix for ruby versions less then 2.7 [#5770](https://github.com/inspec/inspec/pull/5770) ([Nik08](https://github.com/Nik08)) <!-- 4.52.8 -->
 - Bump omnibus from `2c309fa` to `2bf77bb` in /omnibus [#5764](https://github.com/inspec/inspec/pull/5764) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.52.7 -->
