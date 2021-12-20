@@ -129,3 +129,36 @@ For a full list of available matchers, please visit our [matchers page](/inspec/
 The `be_enabled` matcher tests if SSL is enabled:
 
     it { should be_enabled }
+
+### ciphers
+
+The `ciphers` matcher tests the named cipher:
+
+    its('ciphers') { should_not eq '/rc4/i' }
+
+or:
+
+    describe ssl(port: 443).ciphers(/rc4/i) do
+      it { should_not be_enabled }
+    end
+
+### protocols
+
+The `protocols` matcher tests what protocol versions (SSLv3, TLSv1.1, etc) are enabled:
+
+    its('protocols') { should eq 'ssl2' }
+
+or:
+
+    describe ssl(port: 443).protocols('ssl2') do
+      it { should_not be_enabled }
+    end
+
+Supported protocols:
+
+- `ssl2`
+- `ssl3`
+- `tls1.0`
+- `tls1.1`
+- `tls1.2`
+- `tls1.3`
