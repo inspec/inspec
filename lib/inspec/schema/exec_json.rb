@@ -102,7 +102,7 @@ module Inspec
 
           # These are generated at runtime, and all except status_message and skip_message are guaranteed
           "sha256" => Primitives.desc(Primitives::STRING, "The checksum of the profile."),
-          "status" => Primitives.desc(Primitives::STRING, "The status.  Example: skipped."),
+          "status" => Primitives.desc(Primitives::STRING, "The status.  Example: loaded."), # enum? loaded, failed, skipped
           "status_message" => Primitives.desc(Primitives::STRING, "The reason for the status.  Example: why it was skipped or failed to load."),
           "skip_message" => Primitives.desc(Primitives::STRING, "The reason for skipping if it was skipped."), # Deprecated field - status_message should be used instead.
           "controls" => Primitives.desc(Primitives.array(CONTROL.ref), "The set of controls including any findings."),
