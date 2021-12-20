@@ -13,7 +13,7 @@ $(cat release-notes.md)
 ---
 ## Get the Build
 
-You can download binaries directly from [downloads.chef.io](https://downloads.chef.io/$EXPEDITOR_PRODUCT_KEY/$EXPEDITOR_VERSION).
+You can download binaries directly from [Chef Downloads](https://www.chef.io/downloads/tools/$EXPEDITOR_PRODUCT_KEY?v=$EXPEDITOR_VERSION).
 EOH
 )
 

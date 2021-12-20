@@ -16,7 +16,7 @@ Users can choose between operating systems of MacOS, Windows, and Linux for Chef
 ## Install Chef InSpec
 
 You can download the latest Chef InSpec package relevant to your operating system
-at [our Downloads Page](https://downloads.chef.io/inspec).
+at [our Downloads Page](https://www.chef.io/downloads/tools/inspec).
 
 Alternatively, Chef InSpec can be installed via installer, script, or package
 manager, according to your operating system and method as listed below.
@@ -47,7 +47,7 @@ curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
 
 #### Installer
 
-Once you downloaded the latest [Chef InSpec package](https://downloads.chef.io/inspec)
+Once you downloaded the latest [Chef InSpec package](https://www.chef.io/downloads/tools/inspec)
 relevant to your Microsoft version, double-click the `.msi` file to launch the
 installer and follow the prompts.
 
@@ -73,7 +73,7 @@ curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
 ```
 
 If you prefer, you can use a package manager to install Chef InSpec.
-Once you downloaded the latest [Chef InSpec package](https://downloads.chef.io/inspec)
+Once you downloaded the latest [Chef InSpec package](https://www.chef.io/downloads/tools/inspec)
 relevant to your Linux-based platform, use the command for the respective package
 manager listed below. Replace the example file path with the file path leading to
 your downloaded package.

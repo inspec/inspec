@@ -66,7 +66,7 @@ Note: Versions of Chef InSpec 4.0 and later require accepting the EULA to use. P
 
 ### Install as package
 
-The Chef InSpec package is available for MacOS, RedHat, Ubuntu and Windows. Download the latest package at [Chef InSpec Downloads](https://downloads.chef.io/inspec) or install Chef InSpec via script:
+The Chef InSpec package is available for MacOS, RedHat, Ubuntu and Windows. Download the latest package at [Chef InSpec Downloads](https://www.chef.io/downloads/tools/inspec) or install Chef InSpec via script:
 
 ```
 # RedHat, Ubuntu, and macOS
@@ -142,7 +142,7 @@ Finished in 0.04321 seconds (files took 0.54917 seconds to load)
 
 ### Install it from source
 
-Note that installing from OS packages from [the download page](https://downloads.chef.io) is the preferred method.
+Note that installing from OS packages from [the download page](https://www.chef.io/downloads/tools/inspec) is the preferred method.
 
 That requires [bundler](http://bundler.io/):
 
