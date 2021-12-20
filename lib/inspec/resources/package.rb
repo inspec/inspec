@@ -26,6 +26,7 @@ module Inspec::Resources
       @cache = nil
       # select package manager
       @pkgman = nil
+      @latest_version = nil
 
       os = inspec.os
       if os.debian?
@@ -60,6 +61,15 @@ module Inspec::Resources
       info[:installed] == true
     end
 
+    def latest?(_provider = nil, _version = nil)
+      os = inspec.os
+      if os.solaris? || (%w{hpux aix}.include? os[:family])
+        raise Inspec::Exceptions::ResourceSkipped, "The `be_latest` matcher is not supported on your OS yet."
+      end
+
+      (!info[:only_version_no].nil? && !latest_version.nil?) && (info[:only_version_no] == latest_version)
+    end
+
     # returns true it the package is held (if the OS supports it)
     def held?(_provider = nil, _version = nil)
       info[:held] == true
@@ -80,6 +90,10 @@ module Inspec::Resources
     def version
       info = @pkgman.info(@package_name)
       info[:version]
+    end
+
+    def latest_version
+      @latest_version ||= ( @pkgman.latest_version(@package_name) || info[:latest_version] )
     end
 
     def to_s
@@ -107,6 +121,22 @@ module Inspec::Resources
       # combined into a `ResourceSkipped` exception message.
       []
     end
+
+    private
+
+    def fetch_latest_version(cmd_string)
+      cmd = inspec.command(cmd_string)
+      if cmd.exit_status != 0
+        Inspec::Log.error "Failed to fetch latest version. Error: #{cmd.stderr}"
+        nil
+      else
+        fetch_version_no(cmd.stdout)
+      end
+    end
+
+    def fetch_version_no(output)
+      output.scan(/(?:(?:\d+|[a-z])[.]){2,}(?:\d+|[a-z]*)(?:[a-z]*)(?:[0-9]*)/).max_by { |s| Gem::Version.new(s) } unless output.nil?
+    end
   end
 
   # Debian / Ubuntu
@@ -124,13 +154,20 @@ module Inspec::Resources
       # If the package is installed and marked hold, Status is "hold ok installed"
       # If the package is removed and not purged, Status is "deinstall ok config-files" with exit_status 0
       # If the package is purged cmd fails with non-zero exit status
+
       {
         name: params["Package"],
         installed: params["Status"].split(" ")[2] == "installed",
         held: params["Status"].split(" ")[0] == "hold",
         version: params["Version"],
         type: "deb",
+        only_version_no: fetch_version_no(params["Version"]),
       }
+    end
+
+    def latest_version(package_name)
+      cmd_string = "apt list #{package_name} -a"
+      fetch_latest_version(cmd_string)
     end
   end
 
@@ -181,7 +218,13 @@ module Inspec::Resources
         installed: true,
         version: "#{v}-#{r}",
         type: "rpm",
+        only_version_no: "#{v}",
       }
+    end
+
+    def latest_version(package_name)
+      cmd_string = "yum list #{package_name}"
+      fetch_latest_version(cmd_string)
     end
 
     private
@@ -216,10 +259,16 @@ module Inspec::Resources
         installed: true,
         version: pkg["installed"][0]["version"],
         type: "brew",
+        latest_version: pkg["versions"]["stable"],
+        only_version_no: pkg["installed"][0]["version"],
       }
     rescue JSON::ParserError => e
       raise Inspec::Exceptions::ResourceFailed,
             "Failed to parse JSON from `brew` command. Error: #{e}"
+    end
+
+    def latest_version(package_name)
+      nil
     end
   end
 
@@ -240,7 +289,13 @@ module Inspec::Resources
         installed: true,
         version: params["Version"],
         type: "pacman",
+        only_version_no: fetch_version_no(params["Version"]),
       }
+    end
+
+    def latest_version(package_name)
+      cmd_string = "pacman -Ss #{package_name} | grep #{package_name} | grep installed"
+      fetch_latest_version(cmd_string)
     end
   end
 
@@ -267,12 +322,19 @@ module Inspec::Resources
       pkg_info = cmd.stdout.split("\n").delete_if { |e| e =~ /^WARNING/i }
       pkg = pkg_info[0].split(" - ")[0]
 
+      version = pkg.partition("-")[2]
       {
         name: pkg.partition("-")[0],
         installed: true,
-        version: pkg.partition("-")[2],
+        version: version,
         type: "pkg",
+        only_version_no: fetch_version_no(version),
       }
+    end
+
+    def latest_version(package_name)
+      cmd_string = "apk info #{package_name}"
+      fetch_latest_version(cmd_string)
     end
   end
 
@@ -292,7 +354,13 @@ module Inspec::Resources
         installed: true,
         version: params["Version"],
         type: "pkg",
+        only_version_no: params["Version"],
       }
+    end
+
+    def latest_version(package_name)
+      cmd_string = "pkg version -v | grep #{package_name}"
+      fetch_latest_version(cmd_string)
     end
   end
 
@@ -339,7 +407,13 @@ module Inspec::Resources
         installed: true,
         version: package["DisplayVersion"],
         type: "windows",
+        only_version_no: package["DisplayVersion"],
       }
+    end
+
+    def latest_version(package_name)
+      cmd_string = "Get-Package #{package_name} -AllVersions"
+      fetch_latest_version(cmd_string)
     end
   end
 
