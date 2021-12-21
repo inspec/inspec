@@ -127,8 +127,7 @@ module Inspec::Resources
     def fetch_latest_version(cmd_string)
       cmd = inspec.command(cmd_string)
       if cmd.exit_status != 0
-        Inspec::Log.error "Failed to fetch latest version. Error: #{cmd.stderr}"
-        nil
+        raise Inspec::Exceptions::ResourceFailed, "Failed to fetch latest version. Error: #{cmd.stderr}"
       else
         fetch_version_no(cmd.stdout)
       end

@@ -1,0 +1,8 @@
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirrors.piconets.webwerks.in
+ * epel: repo.extreme-ix.org
+ * extras: mirrors.piconets.webwerks.in
+ * updates: mirrors.piconets.webwerks.in
+Installed Packages
+curl.x86_64                                                               7.29.0-59.el7_9.1                                                               @updates
