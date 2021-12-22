@@ -61,12 +61,12 @@ module Inspec::Resources
       res.force_encoding("utf-8")
     end
 
-    def file_permissions
+    def users_permissions
       raise "#{file.path} does not exist." unless exist?
       if inspec.os.windows?
-        @perms_provider.windows_file_permissions(file)
+        @perms_provider.users_permissions(file)
       else
-        return skip_resource"`file_permissions` is not supported on your OS yet."
+        return skip_resource"`users_permissions` is not supported on your OS yet."
       end
     end
 
@@ -263,7 +263,7 @@ module Inspec::Resources
 
   class WindowsFilePermissions < FilePermissions
 
-    def windows_file_permissions(file)
+    def users_permissions(file)
       command = <<-EOH
               $Acl = Get-Acl -Path #{file.path}
               $Result = foreach ($Access in $acl.Access) {
