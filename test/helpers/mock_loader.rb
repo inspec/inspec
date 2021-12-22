@@ -241,7 +241,7 @@ class MockLoader
       "dpkg -s held-package" => cmd.call("dpkg-s-held-package"),
       "rpm -qi curl" => cmd.call("rpm-qi-curl"),
       "yum list curl" => cmd.call("yum-list-curl"),
-      "Get-Package Chef Client -AllVersions" => cmd.call("get-pkg-versions"),
+      "Get-Package Chef Client v12.12.15 -AllVersions" => cmd.call("get-pkg-versions"),
       "rpm -qi --dbpath /var/lib/fake_rpmdb curl" => cmd.call("rpm-qi-curl"),
       "rpm -qi --dbpath /var/lib/rpmdb_does_not_exist curl" => cmd_exit_1.call,
       "pacman -Qi curl" => cmd.call("pacman-qi-curl"),

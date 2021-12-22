@@ -50,7 +50,7 @@ describe "Inspec::Resources::Package" do
         installed: true,
         version: "7.29.0-19.el7",
         type: "rpm",
-        only_version_no: "7.29.0"
+        only_version_no: "7.29.0",
       }
     end
 
@@ -108,7 +108,7 @@ describe "Inspec::Resources::Package" do
     _(resource.installed?).must_equal true
     _(resource.version).must_equal "12.12.15.1"
     _(resource.info).must_equal pkg
-    _(resource.latest?).must_equal false
+    _(resource.latest?).must_equal true
   end
 
   # solaris 10
