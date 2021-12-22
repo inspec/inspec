@@ -70,6 +70,7 @@ where
 
 - `file_version`
 - `product_version`
+- `user_permissions`
 
 ## Resource Property Examples
 
@@ -169,6 +170,14 @@ The `owner` property tests if the owner of the file matches the specified value.
 The `product_version` property tests if a Windows file's product version matches the specified value. The difference between a file's "file version" and "product version" is that the file version is the version number of the file itself, whereas the product version is the version number associated with the application from which that file originates.
 
     its('product_version') { should eq '2.3.4' }
+
+### user_permissions
+
+The `user_permissions` property returns the hash containing the list of users or groups and their file permissions on Windows. for e.g. `{ "NT AUTHORITY\\SYSTEM" => "FullControl", "NT AUTHORITY\\Authenticated Users" => "ReadAndExecute", "BUILTIN\\Administrators" => "FullControl" }`
+
+    its('user_permissions') { should cmp { "NT AUTHORITY\\SYSTEM" => "FullControl", "NT AUTHORITY\\Authenticated Users" => "ReadAndExecute", "BUILTIN\\Administrators" => "FullControl" } }
+
+    its('user_permissions') { should include "NT AUTHORITY\\SYSTEM"=>"FullControl" }
 
 ### selinux_label
 
@@ -586,4 +595,12 @@ return `true` if your file has a mode with greater permissions than specified.
     describe file('/etc/passwd') do
       it { should_not be_more_permissive_than('0644') }
       it { should be_more_permissive_than('0000') }
+    end
+
+### `be_inherit`
+
+`be_inherit` matcher returns the `Boolean`. It will return `true` if file or foler has inheritance enabled in Windows. This matcher only works for Windows OS.
+
+    describe file('C://Example') do
+      it { should be_inherit }
     end

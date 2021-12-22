@@ -61,22 +61,22 @@ module Inspec::Resources
       res.force_encoding("utf-8")
     end
 
-    def users_permissions
-      raise "#{file.path} does not exist." unless exist?
-      if inspec.os.windows?
-        @perms_provider.users_permissions(file)
-      else
-        return skip_resource"`users_permissions` is not supported on your OS yet."
-      end
+    # returns hash containing list of users/groups and their file permissions.
+    def user_permissions
+      return {} unless exist?
+
+      return skip_reource"`user_permissions` is not supported on your OS yet." unless inspec.os.windows?
+
+      @perms_provider.user_permissions(file)
     end
 
+    # returns true if inheritance is enabled on file or folder
     def inherit?
-      raise "#{file.path} does not exist." unless exist?
-      if inspec.os.windows?
-        @perms_provider.inherit?(file)
-      else
-        return skip_resource "`inherit?` is not supported on your OS yet."
-      end
+      return false unless exist?
+
+      return skip_resource "`inherit?` is not supported on your OS yet." unless inspec.os.windows?
+
+      @perms_provider.inherit?(file)
     end
 
     def contain(*_)
@@ -263,23 +263,23 @@ module Inspec::Resources
 
   class WindowsFilePermissions < FilePermissions
 
-    def users_permissions(file)
-      command = <<-EOH
-              $Acl = Get-Acl -Path #{file.path}
-              $Result = foreach ($Access in $acl.Access) {
-                [PSCustomObject]@{
-                  $Access.IdentityReference.Value  = $Access.FileSystemRights.ToString()
-                }
-              }
-              $Result | ConvertTo-Json
-            EOH
-      cmd = inspec.powershell(command)
-      JSON.load(cmd.stdout).inject(&:merge) unless cmd.stdout.empty?
+    def user_permissions(file)
+      script = <<-EOH
+      $Acl = Get-Acl -Path #{file.path}
+      $Result = foreach ($Access in $acl.Access) {
+        [PSCustomObject]@{
+          $Access.IdentityReference.Value  = $Access.FileSystemRights.ToString()
+        }
+      }
+      $Result | ConvertTo-Json
+      EOH
+      result = inspec.powershell(script)
+      JSON.load(result.stdout).inject(&:merge) unless result.stdout.empty?
     end
 
     def inherit?(file)
-      cmd = inspec.command("(Get-Acl 'C:/ExamlpeFolder').access| Where-Object {$_.IsInherited -eq $true} | measure | % { $_.Count }")
-      cmd.stdout.chomp == "0" ? false : true unless cmd.stdout.empty?
+      cmd = inspec.command("(Get-Acl -Path #{file.path}).access| Where-Object {$_.IsInherited -eq $true} | measure | % { $_.Count }")
+      cmd.stdout.chomp == "0" ? false : true
     end
 
     def check_file_permission_by_mask(_file, _access_type, _usergroup, _specific_user)

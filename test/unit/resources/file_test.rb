@@ -47,7 +47,7 @@ describe Inspec::Resources::FileResource do
     resource.stubs(:file_permission_granted?).with("write", "by_usergroup", "by_specific_user").returns("test_result")
     resource.stubs(:file_permission_granted?).with("execute", "by_usergroup", "by_specific_user").returns("test_result")
     resource.stubs(:file_permission_granted?).with("full-control", "by_usergroup", "by_specific_user").returns("test_result")
-    resource.stubs(:users_permissions).returns({ "NT AUTHORITY\\SYSTEM" => "FullControl", "NT AUTHORITY\\Authenticated Users" => "ReadAndExecute", "BUILTIN\\Administrators" => "FullControl" })
+    resource.stubs(:user_permissions).returns({ "NT AUTHORITY\\SYSTEM" => "FullControl", "NT AUTHORITY\\Authenticated Users" => "ReadAndExecute", "BUILTIN\\Administrators" => "FullControl" })
     _(resource.content).must_equal "content"
     _(resource.exist?).must_equal true
     _(resource.mounted?).must_equal true
@@ -58,7 +58,7 @@ describe Inspec::Resources::FileResource do
     _(resource.executable?("by_usergroup", "by_specific_user")).must_equal "test_result"
     _(resource.allowed?("execute", by: "by_usergroup", by_user: "by_specific_user")).must_equal "test_result"
     _(resource.allowed?("full-control", by: "by_usergroup", by_user: "by_specific_user")).must_equal "test_result"
-    _(resource.users_permissions).must_equal ({ "NT AUTHORITY\\SYSTEM" => "FullControl", "NT AUTHORITY\\Authenticated Users" => "ReadAndExecute", "BUILTIN\\Administrators" => "FullControl" })
+    _(resource.user_permissions).must_equal({ "NT AUTHORITY\\SYSTEM" => "FullControl", "NT AUTHORITY\\Authenticated Users" => "ReadAndExecute", "BUILTIN\\Administrators" => "FullControl" })
   end
 
   it "returns true if file has inherit enabled on Windows." do
