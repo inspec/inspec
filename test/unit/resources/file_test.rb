@@ -47,6 +47,7 @@ describe Inspec::Resources::FileResource do
     resource.stubs(:file_permission_granted?).with("write", "by_usergroup", "by_specific_user").returns("test_result")
     resource.stubs(:file_permission_granted?).with("execute", "by_usergroup", "by_specific_user").returns("test_result")
     resource.stubs(:file_permission_granted?).with("full-control", "by_usergroup", "by_specific_user").returns("test_result")
+    resource.stubs(:file_permissions).returns({ "NT AUTHORITY\\SYSTEM" => "FullControl", "NT AUTHORITY\\Authenticated Users" => "ReadAndExecute", "BUILTIN\\Administrators" => "FullControl" })
     _(resource.content).must_equal "content"
     _(resource.exist?).must_equal true
     _(resource.mounted?).must_equal true
@@ -57,6 +58,13 @@ describe Inspec::Resources::FileResource do
     _(resource.executable?("by_usergroup", "by_specific_user")).must_equal "test_result"
     _(resource.allowed?("execute", by: "by_usergroup", by_user: "by_specific_user")).must_equal "test_result"
     _(resource.allowed?("full-control", by: "by_usergroup", by_user: "by_specific_user")).must_equal "test_result"
+    _(resource.file_permissions).must_equal ({ "NT AUTHORITY\\SYSTEM" => "FullControl", "NT AUTHORITY\\Authenticated Users" => "ReadAndExecute", "BUILTIN\\Administrators" => "FullControl" })
+  end
+
+  it "returns true if file has inherit enabled on Windows." do
+    resource = MockLoader.new(:windows).load_resource("file", "C:/fakepath/fakefile")
+    resource.stubs(:exist?).returns(true)
+    _(resource.inherit?).must_equal true
   end
 
   it "does not support Windows-style ACL on Ubuntu" do
@@ -82,6 +90,7 @@ describe Inspec::Resources::FileResource do
     _(resource.writable?("by_usergroup", "by_specific_user")).must_equal "`writable?` is not supported on your OS yet."
     _(resource.executable?("by_usergroup", "by_specific_user")).must_equal "`executable?` is not supported on your OS yet."
     _(resource.allowed?("permission", by: "by_usergroup", by_user: "by_specific_user")).must_equal "`allowed?` is not supported on your OS yet."
+    _(resource.inherit?).must_equal "`inherit?` is not supported on your OS yet."
     _(proc { resource.send(:contain, nil) }).must_raise(RuntimeError)
   end
 end

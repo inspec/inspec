@@ -61,6 +61,24 @@ module Inspec::Resources
       res.force_encoding("utf-8")
     end
 
+    def file_permissions
+      raise "#{file.path} does not exist." unless exist?
+      if inspec.os.windows?
+        @perms_provider.windows_file_permissions(file)
+      else
+        return skip_resource"`file_permissions` is not supported on your OS yet."
+      end
+    end
+
+    def inherit?
+      raise "#{file.path} does not exist." unless exist?
+      if inspec.os.windows?
+        @perms_provider.inherit?(file)
+      else
+        return skip_resource "`inherit?` is not supported on your OS yet."
+      end
+    end
+
     def contain(*_)
       raise "Contain is not supported. Please use standard RSpec matchers."
     end
@@ -244,6 +262,26 @@ module Inspec::Resources
   end
 
   class WindowsFilePermissions < FilePermissions
+
+    def windows_file_permissions(file)
+      command = <<-EOH
+              $Acl = Get-Acl -Path #{file.path}
+              $Result = foreach ($Access in $acl.Access) {
+                [PSCustomObject]@{
+                  $Access.IdentityReference.Value  = $Access.FileSystemRights.ToString()
+                }
+              }
+              $Result | ConvertTo-Json
+            EOH
+      cmd = inspec.powershell(command)
+      JSON.load(cmd.stdout).inject(&:merge) unless cmd.stdout.empty?
+    end
+
+    def inherit?(file)
+      cmd = inspec.command("(Get-Acl 'C:/ExamlpeFolder').access| Where-Object {$_.IsInherited -eq $true} | measure | % { $_.Count }")
+      cmd.stdout.chomp == "0" ? false : true unless cmd.stdout.empty?
+    end
+
     def check_file_permission_by_mask(_file, _access_type, _usergroup, _specific_user)
       raise "`check_file_permission_by_mask` is not supported on Windows"
     end
