@@ -76,7 +76,7 @@ module Inspec::Resources
       if cmd.exit_status != 0 || out =~ /Sqlcmd: Error/
         raise Inspec::Exceptions::ResourceFailed, "Could not execute the sql query #{out}"
       else
-        DatabaseHelper::SQLQueryResult.new(cmd, parse_csv_result(cmd))
+        DatabaseHelper::SQLQueryResult.new(cmd, parse_csv_result(cmd.stdout))
       end
     end
 
@@ -94,9 +94,17 @@ module Inspec::Resources
       !query("select getdate()").empty?
     end
 
-    def parse_csv_result(cmd)
+    def parse_csv_result(stdout)
       require "csv" unless defined?(CSV)
-      table = CSV.parse(cmd.stdout, headers: true)
+
+      # replaces \n with \r since multiline data in older versions of database returns faulty
+      # formatted multiline data, example name\r\n----\r\nThis is\na multiline field\r\n
+      out = stdout.gsub("\n", "\r")
+      out = out.gsub("\r\r", "\r")
+
+      # row separator used since row delimiters \n (in linux) or \r\n (in windows)
+      # are converted to \r for consistency and handling faulty formatted multiline data
+      table = CSV.parse(out, headers: true, row_sep: "\r")
 
       # remove first row, since it will be a seperator line
       table.delete(0)
