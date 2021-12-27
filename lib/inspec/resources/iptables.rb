@@ -33,6 +33,7 @@ module Inspec::Resources
     def initialize(params = {})
       @table = params[:table]
       @chain = params[:chain]
+      @ignore_comments = params[:ignore_comments] || false
 
       # we're done if we are on linux
       return if inspec.os.linux?
@@ -59,8 +60,13 @@ module Inspec::Resources
       cmd = inspec.command(iptables_cmd)
       return [] if cmd.exit_status.to_i != 0
 
-      # split rules, returns array or rules
-      @iptables_cache = cmd.stdout.split("\n").map(&:strip)
+      if @ignore_comments
+        # split rules, returns array or rules without any comment
+        @iptables_cache = remove_comments_from_rules(cmd.stdout.split("\n"))
+      else
+        # split rules, returns array or rules
+        @iptables_cache = cmd.stdout.split("\n").map(&:strip)
+      end
     end
 
     def to_s
@@ -68,6 +74,16 @@ module Inspec::Resources
     end
 
     private
+
+    def remove_comments_from_rules(rules)
+      rules.each do |rule|
+        next if rule.nil?
+
+        rule.gsub!(/ -m comment --comment "([^"]*)"/, "")
+        rule.strip
+      end
+      rules
+    end
 
     def find_iptables_or_error
       %w{/usr/sbin/iptables /sbin/iptables iptables}.each do |cmd|
