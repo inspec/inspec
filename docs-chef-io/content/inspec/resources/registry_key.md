@@ -95,6 +95,16 @@ where `'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule'` is the f
       its('ProductName') { should match /^[a-zA-Z0-9\(\)\s]*2012\s[rR]2[a-zA-Z0-9\(\)\s]*$/ }
     end
 
+## Properties
+
+### user_permissions
+
+The `user_permissions` property returns the hash containing the list of users or groups and their registry key permissions. for e.g. `{ "NT AUTHORITY\\SYSTEM" => "FullControl", "NT AUTHORITY\\Authenticated Users" => "ReadAndExecute", "BUILTIN\\Administrators" => "FullControl" }`
+
+    its('user_permissions') { should cmp { "NT AUTHORITY\\SYSTEM" => "FullControl", "NT AUTHORITY\\Authenticated Users" => "ReadAndExecute", "BUILTIN\\Administrators" => "FullControl" } }
+
+    its('user_permissions') { should include "NT AUTHORITY\\SYSTEM"=>"FullControl" }
+
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
@@ -152,6 +162,12 @@ The `have_value` matcher tests if a value exists for a registry key:
 The `name` matcher tests the value for the specified registry setting:
 
     its('name') { should eq 'value' }
+
+### be_inherit
+
+The `be_inherit` matcher returns the `Boolean`. It will return `true` if registry key has inheritance enabled.
+
+    it { should be_inherit }
 
 **Warning**: Any name with a dot will not work as expected: <code>its('explorer.exe') { should eq 'test' }</code>. For details, see <a href="https://github.com/inspec/inspec/issues/1281">https://github.com/inspec/inspec/issues/1281</a>
 
