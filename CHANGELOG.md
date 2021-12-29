@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.52.10 -->
+## [v4.52.10](https://github.com/inspec/inspec/tree/v4.52.10) (2021-12-29)
+
+#### Merged Pull Requests
+- Bump Hugo to 0.91.2 [#5780](https://github.com/inspec/inspec/pull/5780) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.52.9 -->
+### Changes since 4.52.9 release
+
+#### Merged Pull Requests
+- Bump Hugo to 0.91.2 [#5780](https://github.com/inspec/inspec/pull/5780) ([IanMadd](https://github.com/IanMadd)) <!-- 4.52.10 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
