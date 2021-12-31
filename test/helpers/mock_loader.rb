@@ -274,6 +274,7 @@ class MockLoader
       "dism /online /get-featureinfo /featurename:IIS-WebServer" => cmd.call("dism-iis-webserver"),
       "lsmod" => cmd.call("lsmod"),
       "/sbin/sysctl -q -n net.ipv4.conf.all.forwarding" => cmd.call("sbin_sysctl"),
+      "/sbin/sysctl -a" => cmd.call("sbin_sysctl_all"),
       # ports on windows
       "Get-NetTCPConnection -state Listen | Select-Object -Property State, Caption, Description, LocalAddress, LocalPort, RemoteAddress, RemotePort, DisplayName, Status | ConvertTo-Json" => cmd.call("get-net-tcpconnection"),
       'netstat -anbo | Select-String  -CaseSensitive -pattern "^\s+UDP|\s+LISTENING\s+\d+$" -context 0,1' => cmd.call("netstat-anbo-pipe-select-string-pattern.utf8"),
