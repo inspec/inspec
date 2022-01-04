@@ -1,5 +1,5 @@
 module Inspec::Resources
-  class KernelParameter < Inspec.resource(1)
+  class KernelParameters < Inspec.resource(1)
     name "kernel_parameters"
     supports platform: "unix"
     desc "Use the kernel_parameters InSpec audit resource to test kernel parameters on Linux platforms."
