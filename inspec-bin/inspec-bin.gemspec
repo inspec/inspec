@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.license       = "Apache-2.0"
 
   spec.require_paths = ["lib"]
-  spec.required_ruby_version = ">= 2.4"
+  spec.required_ruby_version = ">= 2.5"
 
   spec.add_dependency "inspec", "= #{InspecBin::VERSION}"
   spec.add_development_dependency "rake"
