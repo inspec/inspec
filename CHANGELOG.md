@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.52.16 -->
-## [v4.52.16](https://github.com/inspec/inspec/tree/v4.52.16) (2022-01-10)
+<!-- latest_release 4.52.17 -->
+## [v4.52.17](https://github.com/inspec/inspec/tree/v4.52.17) (2022-01-10)
 
 #### Merged Pull Requests
-- Mssql session fix : Parsing multiline results [#5776](https://github.com/inspec/inspec/pull/5776) ([Nik08](https://github.com/Nik08))
+- Check for latest - package resource [#5771](https://github.com/inspec/inspec/pull/5771) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
 ### Changes since 4.52.9 release
 
 #### Merged Pull Requests
+- Check for latest - package resource [#5771](https://github.com/inspec/inspec/pull/5771) ([Nik08](https://github.com/Nik08)) <!-- 4.52.17 -->
 - Mssql session fix : Parsing multiline results [#5776](https://github.com/inspec/inspec/pull/5776) ([Nik08](https://github.com/Nik08)) <!-- 4.52.16 -->
 - Fix broken link in README. Obvious fix. [#5772](https://github.com/inspec/inspec/pull/5772) ([guyzyl](https://github.com/guyzyl)) <!-- 4.52.15 -->
 - Fix downloads links [#5773](https://github.com/inspec/inspec/pull/5773) ([IanMadd](https://github.com/IanMadd)) <!-- 4.52.14 -->
