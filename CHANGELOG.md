@@ -1,14 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.52.17 -->
-## [v4.52.17](https://github.com/inspec/inspec/tree/v4.52.17) (2022-01-10)
+<!-- latest_release 4.53.0 -->
+## [v4.53.0](https://github.com/inspec/inspec/tree/v4.53.0) (2022-01-10)
 
-#### Merged Pull Requests
-- Check for latest - package resource [#5771](https://github.com/inspec/inspec/pull/5771) ([Nik08](https://github.com/Nik08))
+#### New Features
+- Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
 ### Changes since 4.52.9 release
+
+#### New Features
+- Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
 - Check for latest - package resource [#5771](https://github.com/inspec/inspec/pull/5771) ([Nik08](https://github.com/Nik08)) <!-- 4.52.17 -->
