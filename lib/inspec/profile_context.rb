@@ -263,9 +263,3 @@ module Inspec
     end # DomainSpecificLunacy
   end # ProfileContext
 end
-
-if RUBY_VERSION < "2.5"
-  class Module
-    public :define_method
-  end
-end
