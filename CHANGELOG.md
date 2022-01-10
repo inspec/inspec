@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.52.10 -->
-## [v4.52.10](https://github.com/inspec/inspec/tree/v4.52.10) (2021-12-29)
+<!-- latest_release 4.52.11 -->
+## [v4.52.11](https://github.com/inspec/inspec/tree/v4.52.11) (2022-01-10)
 
 #### Merged Pull Requests
-- Bump Hugo to 0.91.2 [#5780](https://github.com/inspec/inspec/pull/5780) ([IanMadd](https://github.com/IanMadd))
+- Adds esx platform support for bash resource [#5785](https://github.com/inspec/inspec/pull/5785) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
 ### Changes since 4.52.9 release
 
 #### Merged Pull Requests
+- Adds esx platform support for bash resource [#5785](https://github.com/inspec/inspec/pull/5785) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.52.11 -->
 - Bump Hugo to 0.91.2 [#5780](https://github.com/inspec/inspec/pull/5780) ([IanMadd](https://github.com/IanMadd)) <!-- 4.52.10 -->
 <!-- release_rollup -->
 
