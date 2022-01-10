@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.52.15 -->
-## [v4.52.15](https://github.com/inspec/inspec/tree/v4.52.15) (2022-01-10)
+<!-- latest_release 4.52.16 -->
+## [v4.52.16](https://github.com/inspec/inspec/tree/v4.52.16) (2022-01-10)
 
 #### Merged Pull Requests
-- Fix broken link in README. Obvious fix. [#5772](https://github.com/inspec/inspec/pull/5772) ([guyzyl](https://github.com/guyzyl))
+- Mssql session fix : Parsing multiline results [#5776](https://github.com/inspec/inspec/pull/5776) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
 ### Changes since 4.52.9 release
 
 #### Merged Pull Requests
+- Mssql session fix : Parsing multiline results [#5776](https://github.com/inspec/inspec/pull/5776) ([Nik08](https://github.com/Nik08)) <!-- 4.52.16 -->
 - Fix broken link in README. Obvious fix. [#5772](https://github.com/inspec/inspec/pull/5772) ([guyzyl](https://github.com/guyzyl)) <!-- 4.52.15 -->
 - Fix downloads links [#5773](https://github.com/inspec/inspec/pull/5773) ([IanMadd](https://github.com/IanMadd)) <!-- 4.52.14 -->
 - Remove support for EOL Ruby 2.5 [#5783](https://github.com/inspec/inspec/pull/5783) ([tas50](https://github.com/tas50)) <!-- 4.52.13 -->
