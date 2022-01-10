@@ -237,11 +237,15 @@ class MockLoader
       "/sbin/auditctl -l" => cmd.call("auditctl"),
       "/sbin/auditctl -s" => cmd.call("auditctl-s"),
       "dpkg -s curl" => cmd.call("dpkg-s-curl"),
+      "apt list curl -a" => cmd.call("apt-list-curl"),
       "dpkg -s held-package" => cmd.call("dpkg-s-held-package"),
       "rpm -qi curl" => cmd.call("rpm-qi-curl"),
+      "yum list curl" => cmd.call("yum-list-curl"),
+      "Get-Package Chef Client v12.12.15 -AllVersions" => cmd.call("get-pkg-versions"),
       "rpm -qi --dbpath /var/lib/fake_rpmdb curl" => cmd.call("rpm-qi-curl"),
       "rpm -qi --dbpath /var/lib/rpmdb_does_not_exist curl" => cmd_exit_1.call,
       "pacman -Qi curl" => cmd.call("pacman-qi-curl"),
+      "pacman -Ss curl | grep curl | grep installed" => cmd.call("pacman-ss-grep-curl"),
       "brew info --json=v1 curl" => cmd.call("brew-info--json-v1-curl"),
       "brew info --json=v1 nginx" => cmd.call("brew-info--json-v1-nginx"),
       "brew info --json=v1 nope" => cmd_exit_1.call,
@@ -387,6 +391,7 @@ class MockLoader
       "rpm -qa --queryformat '%{NAME}  %{VERSION}-%{RELEASE}  %{ARCH}\\n'" => cmd.call("rpm-qa-queryformat"),
       # pkg query all packages
       "pkg info vim-console" => cmd.call("pkg-info-vim-console"),
+      "pkg version -v | grep vim-console" => cmd.call("pkg-version-grep-vim-console"),
       # port netstat on solaris 10 & 11
       "netstat -an -f inet -f inet6" => cmd.call("s11-netstat-an-finet-finet6"),
       # xinetd configuration
@@ -574,6 +579,7 @@ class MockLoader
       # alpine package commands
       "apk info -vv --no-network | grep git" => cmd.call("apk-info-grep-git"),
       "apk list --no-network --installed" => cmd.call("apk-info"),
+      "apk info git" => cmd.call("apk-info-cmd"),
 
       # filesystem command
       "2e7e0d4546342cee799748ec7e2b1c87ca00afbe590fa422a7c27371eefa88f0" => cmd.call("get-wmiobject-filesystem"),

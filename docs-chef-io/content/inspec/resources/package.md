@@ -78,7 +78,7 @@ The following examples show how to use this Chef InSpec audit resource.
       its('telnet') { should eq nil }
     end
 
-### Test if ClamAV (an antivirus engine) is installed and running
+### Test if ClamAV (an antivirus engine) is installed, latest and running
 
     describe package('clamav') do
       it { should be_installed }
@@ -88,6 +88,7 @@ The following examples show how to use this Chef InSpec audit resource.
     describe service('clamd') do
       it { should be_enabled }
       it { should be_installed }
+      it { should be_latest }
       it { should be_running }
     end
 
@@ -97,7 +98,7 @@ The following examples show how to use this Chef InSpec audit resource.
       it { should be_installed }
     end
 
-### Verify if Memcached is installed, enabled, and running
+### Verify if Memcached is installed, latest, enabled, and running
 
 Memcached is an in-memory key-value store that helps improve the performance of database-driven websites and can be installed, maintained, and tested using the `memcached` cookbook (maintained by Chef). The following example is from the `memcached` cookbook and shows how to use a combination of the `package`, `service`, and `port` Chef InSpec audit resources to test if Memcached is installed, enabled, and running:
 
@@ -107,6 +108,7 @@ Memcached is an in-memory key-value store that helps improve the performance of 
 
     describe service('memcached') do
       it { should be_installed }
+      it { should be_latest }
       it { should be_enabled }
       it { should be_running }
     end
@@ -131,3 +133,9 @@ will not be upgraded to a later version.
 The `be_installed` matcher tests if the named package is installed on the system:
 
     it { should be_installed }
+
+### be_latest
+
+The `be_latest` matcher tests if the named installed package is latest on the system. It is not supported in Oracle Solaris, IBM AIX and HP UX operating systems.
+
+    it { should be_latest }
