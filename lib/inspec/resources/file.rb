@@ -71,12 +71,12 @@ module Inspec::Resources
     end
 
     # returns true if inheritance is enabled on file or folder
-    def inherit?
+    def inherited?
       return false unless exist?
 
-      return skip_resource "`inherit?` is not supported on your OS yet." unless inspec.os.windows?
+      return skip_resource "`inherited?` is not supported on your OS yet." unless inspec.os.windows?
 
-      @perms_provider.inherit?(file)
+      @perms_provider.inherited?(file)
     end
 
     def contain(*_)
@@ -277,7 +277,7 @@ module Inspec::Resources
       JSON.load(result.stdout).inject(&:merge) unless result.stdout.empty?
     end
 
-    def inherit?(file)
+    def inherited?(file)
       cmd = inspec.command("(Get-Acl -Path #{file.path}).access| Where-Object {$_.IsInherited -eq $true} | measure | % { $_.Count }")
       cmd.stdout.chomp == "0" ? false : true
     end

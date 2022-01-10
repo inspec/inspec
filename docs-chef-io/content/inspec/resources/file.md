@@ -597,10 +597,10 @@ return `true` if your file has a mode with greater permissions than specified.
       it { should be_more_permissive_than('0000') }
     end
 
-### `be_inherit`
+### `be_inherited`
 
-`be_inherit` matcher returns the `Boolean`. It will return `true` if file or foler has inheritance enabled in Windows. This matcher only works for Windows OS.
+`be_inherited` matcher returns the `Boolean`. It will return `true` if file or foler has inheritance enabled in Windows. This matcher only works for Windows OS.
 
     describe file('C://Example') do
-      it { should be_inherit }
+      it { should be_inherited }
     end

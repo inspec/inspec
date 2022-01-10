@@ -61,10 +61,10 @@ describe Inspec::Resources::FileResource do
     _(resource.user_permissions).must_equal({ "NT AUTHORITY\\SYSTEM" => "FullControl", "NT AUTHORITY\\Authenticated Users" => "ReadAndExecute", "BUILTIN\\Administrators" => "FullControl" })
   end
 
-  it "returns true if file has inherit enabled on Windows." do
+  it "returns true if file has inheritance enabled on Windows." do
     resource = MockLoader.new(:windows).load_resource("file", "C:/fakepath/fakefile")
     resource.stubs(:exist?).returns(true)
-    _(resource.inherit?).must_equal true
+    _(resource.inherited?).must_equal true
   end
 
   it "does not support Windows-style ACL on Ubuntu" do
@@ -90,7 +90,7 @@ describe Inspec::Resources::FileResource do
     _(resource.writable?("by_usergroup", "by_specific_user")).must_equal "`writable?` is not supported on your OS yet."
     _(resource.executable?("by_usergroup", "by_specific_user")).must_equal "`executable?` is not supported on your OS yet."
     _(resource.allowed?("permission", by: "by_usergroup", by_user: "by_specific_user")).must_equal "`allowed?` is not supported on your OS yet."
-    _(resource.inherit?).must_equal "`inherit?` is not supported on your OS yet."
+    _(resource.inherited?).must_equal "`inherited?` is not supported on your OS yet."
     _(proc { resource.send(:contain, nil) }).must_raise(RuntimeError)
   end
 end
