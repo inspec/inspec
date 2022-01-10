@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.52.13 -->
-## [v4.52.13](https://github.com/inspec/inspec/tree/v4.52.13) (2022-01-10)
+<!-- latest_release 4.52.14 -->
+## [v4.52.14](https://github.com/inspec/inspec/tree/v4.52.14) (2022-01-10)
 
 #### Merged Pull Requests
-- Remove support for EOL Ruby 2.5 [#5783](https://github.com/inspec/inspec/pull/5783) ([tas50](https://github.com/tas50))
+- Fix downloads links [#5773](https://github.com/inspec/inspec/pull/5773) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
 ### Changes since 4.52.9 release
 
 #### Merged Pull Requests
+- Fix downloads links [#5773](https://github.com/inspec/inspec/pull/5773) ([IanMadd](https://github.com/IanMadd)) <!-- 4.52.14 -->
 - Remove support for EOL Ruby 2.5 [#5783](https://github.com/inspec/inspec/pull/5783) ([tas50](https://github.com/tas50)) <!-- 4.52.13 -->
 - Bump omnibus-software from `d2525ab` to `94ef29b` in /omnibus [#5788](https://github.com/inspec/inspec/pull/5788) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.52.12 -->
 - Adds esx platform support for bash resource [#5785](https://github.com/inspec/inspec/pull/5785) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.52.11 -->
