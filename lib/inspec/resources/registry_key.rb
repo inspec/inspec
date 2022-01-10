@@ -113,7 +113,7 @@ module Inspec::Resources
     end
 
     # returns true if inheritance is enabled for registry key.
-    def inherit?
+    def inherited?
       return false unless exists?
 
       cmd = inspec.command("(Get-Acl -Path 'Registry::#{@options[:path]}').access| Where-Object {$_.IsInherited -eq $true} | measure | % { $_.Count }")

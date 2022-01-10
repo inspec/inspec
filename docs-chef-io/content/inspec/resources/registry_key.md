@@ -163,11 +163,11 @@ The `name` matcher tests the value for the specified registry setting:
 
     its('name') { should eq 'value' }
 
-### be_inherit
+### be_inherited
 
-The `be_inherit` matcher returns the `Boolean`. It will return `true` if registry key has inheritance enabled.
+The `be_inherited` matcher returns the `Boolean`. It will return `true` if registry key has inheritance enabled.
 
-    it { should be_inherit }
+    it { should be_inherited }
 
 **Warning**: Any name with a dot will not work as expected: <code>its('explorer.exe') { should eq 'test' }</code>. For details, see <a href="https://github.com/inspec/inspec/issues/1281">https://github.com/inspec/inspec/issues/1281</a>
 
