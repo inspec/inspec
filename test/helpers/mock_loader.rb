@@ -231,6 +231,7 @@ class MockLoader
       "ps -o pid,vsz,rss,tty,stat,time,ruser,args" => cmd.call("ps-busybox"),
       "env" => cmd.call("env"),
       "${Env:PATH}" => cmd.call("$env-PATH"),
+      "timedatectl status | grep -i 'Time zone'" => cmd.call("timedatectl-timezone"),
       # registry key test using winrm 2.0
       "9417f24311a9dcd90f1b1734080a2d4c6516ec8ff2d452a2328f68eb0ed676cf" => cmd.call("reg_schedule"),
       "Auditpol /get /subcategory:'User Account Management' /r" => cmd.call("auditpol"),
@@ -268,6 +269,7 @@ class MockLoader
       "Get-Package -Name 'Mozilla Firefox' | ConvertTo-Json" => cmd.call("get-package-firefox"),
       "Get-Package -Name 'Ruby 2.1.6-p336-x64' | ConvertTo-Json" => cmd.call("get-package-ruby"),
       'Get-Command "choco"' => empty.call,
+      "Get-TimeZone" => cmd.call("get-timezone"),
       'sh -c \'type "choco"\'' => cmd_exit_1.call,
       '(choco list --local-only --exact --include-programs --limit-output \'nssm\') -Replace "\|", "=" | ConvertFrom-StringData | ConvertTo-JSON' => cmd.call("choco-list-nssm"),
       '(choco list --local-only --exact --include-programs --limit-output \'git\') -Replace "\|", "=" | ConvertFrom-StringData | ConvertTo-JSON' => empty.call,

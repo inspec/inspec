@@ -1,0 +1,6 @@
+Id                         : India Standard Time
+DisplayName                : (UTC+05:30) Chennai, Kolkata, Mumbai, New Delhi
+StandardName               : India Standard Time
+DaylightName               : India Daylight Time
+BaseUtcOffset              : 05:30:00
+SupportsDaylightSavingTime : False
