@@ -101,6 +101,12 @@ module Inspec
         desc: "Use SSL for transport layer encryption (WinRM)."
       option :self_signed, type: :boolean,
         desc: "Allow remote scans with self-signed certificates (WinRM)."
+      option :ca_trust_file, type: :string,
+        desc: "CA trust file for SSL authentication"
+      option :client_cert, type: :string,
+        desc: "Client certificate for SSL authentication"
+      option :client_key, type: :string,
+        desc: "Client key for SSL authentication"
       option :winrm_transport, type: :string, default: "negotiate",
         desc: "Specify which transport to use, defaults to negotiate (WinRM)."
       option :winrm_disable_sspi, type: :boolean,
