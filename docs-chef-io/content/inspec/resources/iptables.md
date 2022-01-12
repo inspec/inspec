@@ -37,7 +37,7 @@ where
 - `rule:'name'` is the name of a rule that matches a set of packets
 - `table:'name'` is the packet matching table against which the test is run
 - `chain: 'name'` is the name of a user-defined chain or one of `ACCEPT`, `DROP`, `QUEUE`, or `RETURN`
-- `ignore_comments: true` is the boolean flag used when comment in the rule needs to be ignored.
+- `ignore_comments: true` is a boolean flag that ignores comments in a rule.
 - `have_rule('RULE')` tests that rule in the iptables list. This must match the entire line taken from `iptables -S CHAIN`.
 
 ## Examples
