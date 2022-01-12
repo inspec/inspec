@@ -173,7 +173,7 @@ The `product_version` property tests if a Windows file's product version matches
 
 ### user_permissions
 
-The `user_permissions` property returns the hash containing the list of users or groups and their file permissions on Windows. for e.g. `{ "NT AUTHORITY\\SYSTEM" => "FullControl", "NT AUTHORITY\\Authenticated Users" => "ReadAndExecute", "BUILTIN\\Administrators" => "FullControl" }`
+The `user_permissions` property returns a hash containing a list of users or groups and their file permissions on Windows. For example:
 
     its('user_permissions') { should cmp { "NT AUTHORITY\\SYSTEM" => "FullControl", "NT AUTHORITY\\Authenticated Users" => "ReadAndExecute", "BUILTIN\\Administrators" => "FullControl" } }
 
