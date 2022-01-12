@@ -134,7 +134,7 @@ module Inspec::Resources
     end
 
     def fetch_version_no(output)
-      output.scan(/(?:(?:\d+|[a-z])[.]){2,}(?:\d+|[a-z]*)(?:[a-z]*)(?:[0-9]*)/).max_by { |s| Gem::Version.new(s) } unless output.nil?
+      output.scan(/(?:(?:\d+)[.]){2,}(?:\d+)/).max_by { |s| Gem::Version.new(s) } unless output.nil?
     end
   end
 
