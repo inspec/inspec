@@ -99,7 +99,7 @@ where `'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule'` is the f
 
 ### user_permissions
 
-The `user_permissions` property returns the hash containing the list of users or groups and their registry key permissions. for e.g. `{ "NT AUTHORITY\\SYSTEM" => "FullControl", "NT AUTHORITY\\Authenticated Users" => "ReadAndExecute", "BUILTIN\\Administrators" => "FullControl" }`
+The `user_permissions` property returns a hash containing a list of users or groups and their registry key permissions on Windows. For example:
 
     its('user_permissions') { should cmp { "NT AUTHORITY\\SYSTEM" => "FullControl", "NT AUTHORITY\\Authenticated Users" => "ReadAndExecute", "BUILTIN\\Administrators" => "FullControl" } }
 
@@ -165,9 +165,11 @@ The `name` matcher tests the value for the specified registry setting:
 
 ### be_inherited
 
-The `be_inherited` matcher returns the `Boolean`. It will return `true` if registry key has inheritance enabled.
+`be_inherited` is a boolean matcher which returns `true` if a registry key has inheritance enabled, otherwise `false`. This matcher only works on Windows systems.
 
-    it { should be_inherited }
+    registry_key('HKEY_USERS\S-1-5-20\Software\Policies\Microsoft\Windows\Control Panel\Desktop') do
+      it { should be_inherited }
+    end
 
 **Warning**: Any name with a dot will not work as expected: <code>its('explorer.exe') { should eq 'test' }</code>. For details, see <a href="https://github.com/inspec/inspec/issues/1281">https://github.com/inspec/inspec/issues/1281</a>
 
