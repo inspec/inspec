@@ -599,7 +599,7 @@ return `true` if your file has a mode with greater permissions than specified.
 
 ### `be_inherited`
 
-`be_inherited` matcher returns the `Boolean`. It will return `true` if file or foler has inheritance enabled in Windows. This matcher only works for Windows OS.
+`be_inherited` is a boolean matcher which returns `true` if a file or folder has inheritance enabled, otherwise `false`. This matcher only works on Windows systems.
 
     describe file('C://Example') do
       it { should be_inherited }
