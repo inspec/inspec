@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.55.0 -->
-## [v4.55.0](https://github.com/inspec/inspec/tree/v4.55.0) (2022-01-20)
+<!-- latest_release 4.55.1 -->
+## [v4.55.1](https://github.com/inspec/inspec/tree/v4.55.1) (2022-01-20)
 
-#### New Features
-- Adds user_permissions property and be_inherited matcher to the file resource for Windows. [#5775](https://github.com/inspec/inspec/pull/5775) ([Vasu1105](https://github.com/Vasu1105))
+#### Merged Pull Requests
+- Latest package version fetching regex fix - Package resource [#5797](https://github.com/inspec/inspec/pull/5797) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -16,6 +16,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- Latest package version fetching regex fix - Package resource [#5797](https://github.com/inspec/inspec/pull/5797) ([Nik08](https://github.com/Nik08)) <!-- 4.55.1 -->
 - Check for latest - package resource [#5771](https://github.com/inspec/inspec/pull/5771) ([Nik08](https://github.com/Nik08)) <!-- 4.52.17 -->
 - Mssql session fix : Parsing multiline results [#5776](https://github.com/inspec/inspec/pull/5776) ([Nik08](https://github.com/Nik08)) <!-- 4.52.16 -->
 - Fix broken link in README. Obvious fix. [#5772](https://github.com/inspec/inspec/pull/5772) ([guyzyl](https://github.com/guyzyl)) <!-- 4.52.15 -->
