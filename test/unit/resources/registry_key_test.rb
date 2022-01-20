@@ -36,4 +36,17 @@ describe "Inspec::Resources::RegistryKey" do
     _(resource.send(:generate_registry_key_path_from_options)).must_equal 'my_hive\\key_with_no_slash'
   end
 
+  it "returns user permissions values" do
+    resource = MockLoader.new(:windows).load_resource("registry_key", 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule')
+    resource.stubs(:exist?).returns(true)
+    resource.stubs(:user_permissions).returns({ "NT AUTHORITY\\SYSTEM" => "FullControl", "NT AUTHORITY\\Authenticated Users" => "ReadAndExecute", "BUILTIN\\Administrators" => "FullControl" })
+    _(resource.user_permissions).must_equal({ "NT AUTHORITY\\SYSTEM" => "FullControl", "NT AUTHORITY\\Authenticated Users" => "ReadAndExecute", "BUILTIN\\Administrators" => "FullControl" })
+  end
+
+  it "returns true if file has inherit enabled on Windows." do
+    resource = MockLoader.new(:windows).load_resource("registry_key", 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Schedule')
+    resource.stubs(:exist?).returns(true)
+    resource.stubs(:inherited?).returns(true)
+    _(resource.inherited?).must_equal true
+  end
 end
