@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.54.0 -->
-## [v4.54.0](https://github.com/inspec/inspec/tree/v4.54.0) (2022-01-20)
+<!-- latest_release 4.55.0 -->
+## [v4.55.0](https://github.com/inspec/inspec/tree/v4.55.0) (2022-01-20)
 
 #### New Features
-- Adds user_permissions property and be_inherited matcher to the registry_key resource [#5778](https://github.com/inspec/inspec/pull/5778) ([Vasu1105](https://github.com/Vasu1105))
+- Adds user_permissions property and be_inherited matcher to the file resource for Windows. [#5775](https://github.com/inspec/inspec/pull/5775) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
 ### Changes since 4.52.9 release
 
 #### New Features
+- Adds user_permissions property and be_inherited matcher to the file resource for Windows. [#5775](https://github.com/inspec/inspec/pull/5775) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.55.0 -->
 - Adds user_permissions property and be_inherited matcher to the registry_key resource [#5778](https://github.com/inspec/inspec/pull/5778) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.54.0 -->
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
