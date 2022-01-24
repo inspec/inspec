@@ -103,6 +103,7 @@ class MockLoader
       "/etc/inetd.conf" => mockfile.call("inetd.conf"),
       "/etc/group" => mockfile.call("etcgroup"),
       "/etc/grub.conf" => mockfile.call("grub.conf"),
+      "/etc/non_indented_grub.conf" => mockfile.call("non_indented_grub.conf"),
       "/boot/grub2/grub.cfg" => mockfile.call("grub2.cfg"),
       "/boot/grub2/grubenv" => mockfile.call("grubenv"),
       "/boot/grub2/grubenv_invalid" => mockfile.call("grubenv_invalid"),
