@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.55.8 -->
-## [v4.55.8](https://github.com/inspec/inspec/tree/v4.55.8) (2022-02-01)
+<!-- latest_release 4.55.9 -->
+## [v4.55.9](https://github.com/inspec/inspec/tree/v4.55.9) (2022-02-01)
 
 #### Merged Pull Requests
-- CFINSPEC-5 Added more detailed description about waivers expiration date. [#5806](https://github.com/inspec/inspec/pull/5806) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-15 Allows inheritance of core resource into the custom resource. [#5816](https://github.com/inspec/inspec/pull/5816) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -16,6 +16,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- CFINSPEC-15 Allows inheritance of core resource into the custom resource. [#5816](https://github.com/inspec/inspec/pull/5816) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.55.9 -->
 - CFINSPEC-5 Added more detailed description about waivers expiration date. [#5806](https://github.com/inspec/inspec/pull/5806) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.55.8 -->
 - CFINSPEC-4 Fix in grub_conf resource to capture non indented grub conf values [#5810](https://github.com/inspec/inspec/pull/5810) ([Nik08](https://github.com/Nik08)) <!-- 4.55.7 -->
 - Bump ffi from 1.15.4 to 1.15.5 in /omnibus [#5791](https://github.com/inspec/inspec/pull/5791) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.55.6 -->
