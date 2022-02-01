@@ -1,4 +1,5 @@
 require "functional/helper"
+require "helpers/mock_loader"
 
 describe "inspec exec" do
   parallelize_me!
@@ -163,7 +164,6 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 
   it "executes a specs-only profile" do
     inspec("exec " + File.join(profile_path, "spec_only") + " --no-create-lockfile")
-
     _(stdout).must_include "Target:  local://"
     _(stdout).must_include "working"
     _(stdout).must_include "✔  is expected to eq \"working\""
@@ -517,6 +517,25 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     it "executes the profile without error" do
       _(stderr).must_equal ""
 
+      assert_exit_code 0, out
+    end
+  end
+
+  describe "with a profile that inherits core resource into custom reosuce" do
+    let(:out) { inspec("exec " + File.join(profile_path, "custom-resource-inheritance") + " --no-create-lockfile") }
+    it "executes the custom resoruc without error" do
+      _(stdout).must_equal "
+Profile: InSpec Profile (custom-resource-inheritance)
+Version: 0.1.0
+Target:  local://
+
+  Node Json
+     ✔  name is expected to eq \"hello\"
+     ✔  [\"meta\", \"creator\"] is expected to eq \"John Doe\"
+
+Test Summary: 2 successful, 0 failures, 0 skipped
+"
+      _(stderr).must_equal ""
       assert_exit_code 0, out
     end
   end
