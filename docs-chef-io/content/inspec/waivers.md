@@ -40,7 +40,7 @@ control_id:
   justification: "reason for waiving this control"
 ```
 
-- `expiration_date` is optional. Absence means the waiver is permanent.
+- `expiration_date` sets the day that the waiver file will expire in YYYY-MM-DD format. Waiver files expire at 00:00 at the local time of the system on the specified date. Waiver files without an expiration date are permanent. `expiration_date` is optional.
 - `run` is optional. If absent or true, the control will run and be
   reported, but failures in it won't make the overall run fail. If present and false, the control will not be run. You may use any of yes, no, true or false. To avoid confusion, it is good practice to explicitly specify whether the control should run.
 - `justification` can be any text you want and might include a reason
