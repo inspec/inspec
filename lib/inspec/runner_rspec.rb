@@ -156,6 +156,7 @@ module Inspec
       streaming_reporters = reg\
         .find_activators(plugin_type: :streaming_reporter)\
         .map(&:activator_name).map(&:to_s)
+
       @conf["reporter"].each do |streaming_reporter_name, file_target|
         # It could be a non-streaming reporter
         next unless streaming_reporters.include? streaming_reporter_name
@@ -164,12 +165,11 @@ module Inspec
         activator = reg.find_activator(plugin_type: :streaming_reporter, activator_name: streaming_reporter_name.to_sym)
         activator.activate!
 
-        # TODO: refactor this nonsense
         # We cannot pass in a nil output path. Rspec only accepts a valid string or a IO object.
         if file_target&.[]("file").nil?
-          RSpec.configuration.add_formatter(streaming_reporter_name.to_sym)
+          RSpec.configuration.add_formatter(activator.implementation_class)
         else
-          RSpec.configuration.add_formatter(streaming_reporter_name.to_sym, file_target["file"])
+          RSpec.configuration.add_formatter(activator.implementation_class, file_target["file"])
         end
         @conf["reporter"].delete(streaming_reporter_name)
       end
