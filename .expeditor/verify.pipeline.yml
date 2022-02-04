@@ -17,6 +17,14 @@ steps:
         docker:
           image: ruby:2.6
 
+  - label: lint-ruby-3.0
+    command:
+      - RAKE_TASK=test:lint /workdir/.expeditor/buildkite/verify.sh
+    expeditor:
+      executor:
+        docker:
+          image: ruby:3.0
+
   - label: run-tests-ruby-2.6
     command:
       - /workdir/.expeditor/buildkite/verify.sh
