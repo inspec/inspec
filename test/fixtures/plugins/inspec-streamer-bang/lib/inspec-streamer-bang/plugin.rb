@@ -26,7 +26,6 @@ module InspecPlugins
         InspecPlugins::StreamerBang::StreamingReporter
       end
 
-
     end
   end
 end

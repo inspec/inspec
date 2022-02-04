@@ -7,9 +7,9 @@ module Inspec::Plugin::V2::PluginType
     #====================================================================#
     # Implementation classes must implement these methods.
 
-    #def fetch(_profile_name, _input_name)
-      # raise NotImplementedError, "Plugin #{plugin_name} must implement the #fetch method"
-    #end
+    # def fetch(_profile_name, _input_name)
+    # raise NotImplementedError, "Plugin #{plugin_name} must implement the #fetch method"
+    # end
 
   end
 end
