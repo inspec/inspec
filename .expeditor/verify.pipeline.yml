@@ -57,6 +57,14 @@ steps:
         docker:
           image: ruby:2.6
 
+  - label: isolated-tests-ruby-3.0
+    command:
+      - RAKE_TASK=test:isolated /workdir/.expeditor/buildkite/verify.sh
+    expeditor:
+      executor:
+        docker:
+          image: ruby:3.0
+
   - label: run-tests-ruby-2.6-windows
     command:
       - /workdir/.expeditor/buildkite/verify.ps1
