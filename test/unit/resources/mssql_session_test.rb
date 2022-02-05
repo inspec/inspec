@@ -65,4 +65,19 @@ describe "Inspec::Resources::MssqlSession" do
     _(query.size).must_equal 1
     _(query.row(0).column("result").value).must_equal "14.0.600.250"
   end
+
+  it "run a SQL query with multiline output" do
+    resource = quick_resource(:mssql_session, :linux, user: "sa", password: "yourStrong(!)Password", host: "localhost", port: "1433") do |cmd|
+      cmd.strip!
+      case cmd
+      when "sqlcmd -Q \"set nocount on; SELECT * FROM example as result\" -W -w 1024 -s ',' -U 'sa' -P 'yourStrong(!)Password' -S 'localhost,1433'" then
+        stdout_file "test/fixtures/cmd/mssql-multiline-result"
+      else
+        raise cmd.inspect
+      end
+    end
+
+    query = resource.query("SELECT * FROM example as result")
+    _(query.row(1).column("result").value).must_include "multiline"
+  end
 end

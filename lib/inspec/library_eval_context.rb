@@ -30,6 +30,8 @@ module Inspec
 
       c3 = Class.new do
         include Inspec::DSL::RequireOverride
+        include Inspec::Resources
+
         def initialize(require_loader)
           @require_loader = require_loader
           @inspec_binding = nil

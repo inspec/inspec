@@ -54,8 +54,6 @@ For example:
 
 ## Properties
 
-## Examples
-
 ### application pool
 
 `application_pool` property returns the name of the application pool in which the site's root application is run, such as `DefaultAppPool`.

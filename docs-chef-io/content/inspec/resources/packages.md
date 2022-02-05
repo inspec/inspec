@@ -31,6 +31,26 @@ A `packages` resource block declares a regular expression search to select packa
       its('statuses') { should cmp 'installed' }
     end
 
+## Properties
+
+### statuses
+
+The `statuses` property tests if packages are installed on the system:
+
+    its('statuses') { should cmp 'installed' }
+
+### versions
+
+The `versions` property tests the versions of the packages installed on the system
+
+    its('versions') { should cmp '3.4.0.2-4.el7' }
+
+### architectures
+
+The `architectures` property tests the architecture of packages installed on the system
+
+    its('architectures') { should include 'i686' }
+
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
@@ -57,21 +77,3 @@ The following examples show how to use this Chef InSpec audit resource.
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
-
-### statuses
-
-The `statuses` matcher tests if packages are installed on the system
-
-    its('statuses') { should cmp 'installed' }
-
-### versions
-
-The `versions` matcher tests the versions of the packages installed on the system
-
-    its('versions') { should cmp '3.4.0.2-4.el7' }
-
-### architectures
-
-The `architectures` matcher tests the architecture of packages installed on the system
-
-    its('architectures') { should include 'i686' }

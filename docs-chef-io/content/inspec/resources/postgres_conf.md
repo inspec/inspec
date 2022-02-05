@@ -37,6 +37,12 @@ where
 - `('path')` is the non-default path to the `postgresql.conf` file (optional)
 - `should eq 'value'` is the value that is expected
 
+## Properties
+
+This resource supports any of the settings listed in an postgresql.conf file as properties for e.g. max_connections
+
+    its('max_connections') { should eq '5' }
+
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
@@ -78,11 +84,3 @@ where `unix_socket_group` is set to the PostgreSQL default setting (the group to
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
-
-### setting
-
-The `setting` matcher tests specific, named settings in the `postgresql.conf` file:
-
-    its('setting') { should eq 'value' }
-
-Use a `setting` matcher for each setting to be tested.

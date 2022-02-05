@@ -1,32 +1,75 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.50.14 -->
-## [v4.50.14](https://github.com/inspec/inspec/tree/v4.50.14) (2021-11-24)
+<!-- latest_release 4.55.9 -->
+## [v4.55.9](https://github.com/inspec/inspec/tree/v4.55.9) (2022-02-01)
 
 #### Merged Pull Requests
-- Bump kitchen-vagrant from 1.10.0 to 1.11.0 in /omnibus [#5740](https://github.com/inspec/inspec/pull/5740) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- CFINSPEC-15 Allows inheritance of core resource into the custom resource. [#5816](https://github.com/inspec/inspec/pull/5816) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
-<!-- release_rollup since=4.50.3 -->
-### Changes since 4.50.3 release
+<!-- release_rollup since=4.52.9 -->
+### Changes since 4.52.9 release
 
-#### Bug Fixes
-- Fix ibmdb2_session resource : Added double quotes around the IBM db2 query [#5742](https://github.com/inspec/inspec/pull/5742) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.50.13 -->
+#### New Features
+- Adds user_permissions property and be_inherited matcher to the file resource for Windows. [#5775](https://github.com/inspec/inspec/pull/5775) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.55.0 -->
+- Adds user_permissions property and be_inherited matcher to the registry_key resource [#5778](https://github.com/inspec/inspec/pull/5778) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.54.0 -->
+- Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
-- Bump kitchen-vagrant from 1.10.0 to 1.11.0 in /omnibus [#5740](https://github.com/inspec/inspec/pull/5740) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.50.14 -->
-- Fixes some minor docs formatting problems [#5739](https://github.com/inspec/inspec/pull/5739) ([IanMadd](https://github.com/IanMadd)) <!-- 4.50.12 -->
-- Bump test-kitchen from 3.1.0 to 3.2.0 in /omnibus [#5737](https://github.com/inspec/inspec/pull/5737) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.50.11 -->
-- Bump omnibus from `37897ad` to `2c309fa` in /omnibus [#5736](https://github.com/inspec/inspec/pull/5736) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.50.10 -->
-- Bump omnibus-software from `24f508c` to `7501e20` in /omnibus [#5735](https://github.com/inspec/inspec/pull/5735) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.50.9 -->
-- Fix FreeBSD service enabled check substring edge-case [#5606](https://github.com/inspec/inspec/pull/5606) ([zofrex](https://github.com/zofrex)) <!-- 4.50.8 -->
-- Fix docs to make property listing in the website docs more useful. [#5677](https://github.com/inspec/inspec/pull/5677) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.50.7 -->
-- Remove the instance_eval and eval_gemfile calls in omnibus [#5733](https://github.com/inspec/inspec/pull/5733) ([tas50](https://github.com/tas50)) <!-- 4.50.6 -->
-- Update dsl_inspec.md [#5721](https://github.com/inspec/inspec/pull/5721) ([paulcalabro](https://github.com/paulcalabro)) <!-- 4.50.5 -->
-- Fix typos and improve code highlighting in docs [#5692](https://github.com/inspec/inspec/pull/5692) ([tas50](https://github.com/tas50)) <!-- 4.50.4 -->
+- CFINSPEC-15 Allows inheritance of core resource into the custom resource. [#5816](https://github.com/inspec/inspec/pull/5816) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.55.9 -->
+- CFINSPEC-5 Added more detailed description about waivers expiration date. [#5806](https://github.com/inspec/inspec/pull/5806) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.55.8 -->
+- CFINSPEC-4 Fix in grub_conf resource to capture non indented grub conf values [#5810](https://github.com/inspec/inspec/pull/5810) ([Nik08](https://github.com/Nik08)) <!-- 4.55.7 -->
+- Bump ffi from 1.15.4 to 1.15.5 in /omnibus [#5791](https://github.com/inspec/inspec/pull/5791) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.55.6 -->
+- Bump omnibus-software from `c2fb9a4` to `b646bed` in /omnibus [#5808](https://github.com/inspec/inspec/pull/5808) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.55.5 -->
+- IP Table resource: Added option to ignore rule comments [#5777](https://github.com/inspec/inspec/pull/5777) ([Nik08](https://github.com/Nik08)) <!-- 4.55.4 -->
+- Fix for dependent profiles to run with --insecure [#5799](https://github.com/inspec/inspec/pull/5799) ([Nik08](https://github.com/Nik08)) <!-- 4.55.3 -->
+- Bump omnibus-software from `94ef29b` to `c2fb9a4` in /omnibus [#5804](https://github.com/inspec/inspec/pull/5804) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.55.2 -->
+- Latest package version fetching regex fix - Package resource [#5797](https://github.com/inspec/inspec/pull/5797) ([Nik08](https://github.com/Nik08)) <!-- 4.55.1 -->
+- Check for latest - package resource [#5771](https://github.com/inspec/inspec/pull/5771) ([Nik08](https://github.com/Nik08)) <!-- 4.52.17 -->
+- Mssql session fix : Parsing multiline results [#5776](https://github.com/inspec/inspec/pull/5776) ([Nik08](https://github.com/Nik08)) <!-- 4.52.16 -->
+- Fix broken link in README. Obvious fix. [#5772](https://github.com/inspec/inspec/pull/5772) ([guyzyl](https://github.com/guyzyl)) <!-- 4.52.15 -->
+- Fix downloads links [#5773](https://github.com/inspec/inspec/pull/5773) ([IanMadd](https://github.com/IanMadd)) <!-- 4.52.14 -->
+- Remove support for EOL Ruby 2.5 [#5783](https://github.com/inspec/inspec/pull/5783) ([tas50](https://github.com/tas50)) <!-- 4.52.13 -->
+- Bump omnibus-software from `d2525ab` to `94ef29b` in /omnibus [#5788](https://github.com/inspec/inspec/pull/5788) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.52.12 -->
+- Adds esx platform support for bash resource [#5785](https://github.com/inspec/inspec/pull/5785) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.52.11 -->
+- Bump Hugo to 0.91.2 [#5780](https://github.com/inspec/inspec/pull/5780) ([IanMadd](https://github.com/IanMadd)) <!-- 4.52.10 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.52.9](https://github.com/inspec/inspec/tree/v4.52.9) (2021-12-20)
+
+#### New Features
+- Target support for Alpine Linux [#5744](https://github.com/inspec/inspec/pull/5744) ([Nik08](https://github.com/Nik08))
+- Implemented CLI option for executing private supermarket profiles [#5749](https://github.com/inspec/inspec/pull/5749) ([Nik08](https://github.com/Nik08))
+
+#### Bug Fixes
+- Fix ibmdb2_session resource : Added double quotes around the IBM db2 query [#5742](https://github.com/inspec/inspec/pull/5742) ([Vasu1105](https://github.com/Vasu1105))
+
+#### Merged Pull Requests
+- Fix typos and improve code highlighting in docs [#5692](https://github.com/inspec/inspec/pull/5692) ([tas50](https://github.com/tas50))
+- Update dsl_inspec.md [#5721](https://github.com/inspec/inspec/pull/5721) ([paulcalabro](https://github.com/paulcalabro))
+- Remove the instance_eval and eval_gemfile calls in omnibus [#5733](https://github.com/inspec/inspec/pull/5733) ([tas50](https://github.com/tas50))
+- Fix docs to make property listing in the website docs more useful. [#5677](https://github.com/inspec/inspec/pull/5677) ([Vasu1105](https://github.com/Vasu1105))
+- Fix FreeBSD service enabled check substring edge-case [#5606](https://github.com/inspec/inspec/pull/5606) ([zofrex](https://github.com/zofrex))
+- Bump omnibus-software from `24f508c` to `7501e20` in /omnibus [#5735](https://github.com/inspec/inspec/pull/5735) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump omnibus from `37897ad` to `2c309fa` in /omnibus [#5736](https://github.com/inspec/inspec/pull/5736) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump test-kitchen from 3.1.0 to 3.2.0 in /omnibus [#5737](https://github.com/inspec/inspec/pull/5737) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Fixes some minor docs formatting problems [#5739](https://github.com/inspec/inspec/pull/5739) ([IanMadd](https://github.com/IanMadd))
+- Bump kitchen-vagrant from 1.10.0 to 1.11.0 in /omnibus [#5740](https://github.com/inspec/inspec/pull/5740) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump omnibus-software from `7501e20` to `8560231` in /omnibus [#5752](https://github.com/inspec/inspec/pull/5752) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Stop producing packages for macOS 10.14 [#5716](https://github.com/inspec/inspec/pull/5716) ([tas50](https://github.com/tas50))
+- Bump test-kitchen from 3.2.0 to 3.2.2 in /omnibus [#5755](https://github.com/inspec/inspec/pull/5755) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Oracle session fix when nil in query output [#5717](https://github.com/inspec/inspec/pull/5717) ([Nik08](https://github.com/Nik08))
+- Fix docs to make property listing in the website docs more useful. [#5746](https://github.com/inspec/inspec/pull/5746) ([Vasu1105](https://github.com/Vasu1105))
+- Fix a bunch of docs formatting problems [#5763](https://github.com/inspec/inspec/pull/5763) ([IanMadd](https://github.com/IanMadd))
+- Fix: Alpine packages list command to only list installed packages [#5765](https://github.com/inspec/inspec/pull/5765) ([Nik08](https://github.com/Nik08))
+- Bump omnibus-software from `8560231` to `d2525ab` in /omnibus [#5767](https://github.com/inspec/inspec/pull/5767) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump omnibus from `2c309fa` to `2bf77bb` in /omnibus [#5764](https://github.com/inspec/inspec/pull/5764) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Active support version fix for ruby versions less then 2.7 [#5770](https://github.com/inspec/inspec/pull/5770) ([Nik08](https://github.com/Nik08))
+- Apply cookstyle to the example profile [#5680](https://github.com/inspec/inspec/pull/5680) ([tas50](https://github.com/tas50))
+- Adds tls1.3 support in ssl resource. [#5762](https://github.com/inspec/inspec/pull/5762) ([Vasu1105](https://github.com/Vasu1105))
+<!-- latest_stable_release -->
+
 ## [v4.50.3](https://github.com/inspec/inspec/tree/v4.50.3) (2021-11-19)
 
 #### New Features
@@ -40,7 +83,6 @@
 - Disable CookStyle integration on Windows  [#5724](https://github.com/inspec/inspec/pull/5724) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Move rake and cookstyle deps out of inspec core gemspec [#5732](https://github.com/inspec/inspec/pull/5732) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Remove license note + update resource count in main docs page [#5639](https://github.com/inspec/inspec/pull/5639) ([tas50](https://github.com/tas50))
-<!-- latest_stable_release -->
 
 ## [v4.49.0](https://github.com/inspec/inspec/tree/v4.49.0) (2021-10-27)
 

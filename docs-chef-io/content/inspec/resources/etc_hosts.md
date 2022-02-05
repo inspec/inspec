@@ -69,7 +69,7 @@ The `all_host_names` property returns a two-dimensional string array where each 
 
     its('all_host_names') { should cmp 'list' }
 
-##Examples
+## Examples
 
 ### Test the IP address of the given primary name 'localhost'.
 

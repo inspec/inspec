@@ -37,6 +37,10 @@ where:
 - `MATCHER` is a valid matcher for this resource
 - `'value'` is the value to be tested
 
+## Properties
+
+This Chef InSpec audit resource dynamically exposes all ZFS pool properties available (see: `man zpool` for the list of supported properties).
+
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
@@ -54,4 +58,4 @@ The following examples show how to use this Chef InSpec audit resource.
 
 ## Matchers
 
-This Chef InSpec audit resource dynamically exposes all ZFS pool properties available (see: `man zpool` for the list of supported properties). For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).

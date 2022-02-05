@@ -102,7 +102,8 @@ module Inspec
     end
 
     def fetcher
-      @fetcher ||= Inspec::CachedFetcher.new(opts, @cache)
+      @runner_options ||= (Inspec::Config.cached || {})
+      @fetcher ||= Inspec::CachedFetcher.new(opts, @cache, @runner_options)
     end
 
     # load dependencies of the dependency

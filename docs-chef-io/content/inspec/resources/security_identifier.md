@@ -56,10 +56,6 @@ The following examples show how to use this Chef InSpec resource.
 
 ## Properties
 
-- `sid`
-
-## Property Examples
-
 ### sid
 
     describe security_identifier(group: 'Everyone') do

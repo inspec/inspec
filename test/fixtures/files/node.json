@@ -1,0 +1,10 @@
+{
+  "name" : "hello",
+  "meta" : {
+    "creator" : "John Doe"
+  },
+  "array": [
+    "zero",
+    "one"
+  ]
+}

@@ -132,9 +132,11 @@ page](/inspec/matchers/).
 
 ### exists
 
+```ruby
 describe azurerm_cosmosdb_database_account(resource_group: 'my-rg', cosmosdb_database_account 'my-cosmos-db') do
-it { should exist }
+    it { should exist }
 end
+```
 
 ## Azure Permissions
 

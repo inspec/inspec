@@ -42,6 +42,32 @@ where
 - `ssl(port: #)` is the port number, such as `ssl(port: 443)`
 - `filter` may take any of the following arguments: `ciphers`, `protocols`, and `handshake`
 
+## Properties
+
+### ciphers
+
+The `ciphers` property tests the named cipher:
+
+    its('ciphers') { should_not eq '/rc4/i' }
+
+or:
+
+    describe ssl(port: 443).ciphers(/rc4/i) do
+      it { should_not be_enabled }
+    end
+
+### protocols
+
+The `protocols` property tests what protocol versions (SSLv3, TLSv1.1, etc) are enabled:
+
+    its('protocols') { should eq 'ssl2' }
+
+or:
+
+    describe ssl(port: 443).protocols('ssl2') do
+      it { should_not be_enabled }
+    end
+
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
@@ -127,3 +153,12 @@ or:
     describe ssl(port: 443).protocols('ssl2') do
       it { should_not be_enabled }
     end
+
+Supported protocols:
+
+- `ssl2`
+- `ssl3`
+- `tls1.0`
+- `tls1.1`
+- `tls1.2`
+- `tls1.3`

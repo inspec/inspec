@@ -43,36 +43,35 @@ end
 ### Test that there are more than a specified number of regions available for the project
 
 ```ruby
-  describe google_compute_regions(project: 'chef-inspec-gcp') do
-    its('count') { should be >= 10}
-  end
+describe google_compute_regions(project: 'chef-inspec-gcp') do
+  its('count') { should be >= 10}
+end
 ```
 
 ### Test that an expected region is available for the project
 
 ```ruby
-  describe google_compute_regions(project: 'chef-inspec-gcp') do
-    its('region_names') { should include 'europe-west2' }
-  end
+describe google_compute_regions(project: 'chef-inspec-gcp') do
+  its('region_names') { should include 'europe-west2' }
+end
 ```
 
 ### Test whether any regions are in status "DOWN"
 
 ```ruby
-  describe google_compute_regions(project: 'chef-inspec-gcp') do
-    its('region_statuses') { should_not include "DOWN" }
-  end
+describe google_compute_regions(project: 'chef-inspec-gcp') do
+  its('region_statuses') { should_not include "DOWN" }
+end
 ```
 
 ### Test that a subset of all regions matching "europe\*" are "UP"
 
 ```ruby
-  google_compute_regions(project: gcp_project_id).where(region_name: /^europe/).region_names.each do |region_name|
-    describe google_compute_region(project: 'chef-inspec-gcp',  region: region_name) do
-      it { should be_up }
-    end
+google_compute_regions(project: gcp_project_id).where(region_name: /^europe/).region_names.each do |region_name|
+  describe google_compute_region(project: 'chef-inspec-gcp',  region: region_name) do
+    it { should be_up }
   end
-
+end
 ```
 
 ## Properties

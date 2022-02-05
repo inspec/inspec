@@ -57,9 +57,11 @@ The following examples show how to use this InSpec audit resource.
 
 ### Check a role has the correct permissions are present
 
+```ruby
 describe azurerm_role_definitions.where{name.eql?('Custom-Admin')} do
-its ('properties.first.permissions.first') { should have_attributes(actions: ['*']) }
+    its ('properties.first.permissions.first') { should have_attributes(actions: ['*']) }
 end
+```
 
 ### Check a role does not have certain permissions
 

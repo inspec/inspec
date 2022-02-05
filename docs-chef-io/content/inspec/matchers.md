@@ -60,7 +60,7 @@ end
 
 `cmp` behaves in the following way:
 
-* Compare strings to numbers
+- Compare strings to numbers
 
 ```ruby
 describe sshd_config do
@@ -73,7 +73,7 @@ describe sshd_config do
 end
 ```
 
-* String comparisons are not case-sensitive
+- String comparisons are not case-sensitive
 
 ```ruby
 describe auditd_conf do
@@ -82,7 +82,7 @@ describe auditd_conf do
 end
 ```
 
-* Recognize versions embedded in strings
+- Recognize versions embedded in strings
 
 ```ruby
 describe package('curl') do
@@ -90,7 +90,7 @@ describe package('curl') do
 end
 ```
 
-* Compare arrays with only one entry to a value
+- Compare arrays with only one entry to a value
 
 ```ruby
 describe passwd.uids(0) do
@@ -99,7 +99,7 @@ describe passwd.uids(0) do
 end
 ```
 
-* Single-value arrays of strings may also be compared to a regex
+- Single-value arrays of strings may also be compared to a regex
 
 ```ruby
 describe auditd_conf do
@@ -107,7 +107,7 @@ describe auditd_conf do
 end
 ```
 
-* Improved printing of octal comparisons
+- Improved printing of octal comparisons
 
 ```ruby
 describe file('/proc/cpuinfo') do

@@ -89,11 +89,9 @@ end
 Required string. The name (unique within the namespace of the origin) of the package that provides the service.
 
 ```ruby
-
 describe habitat_service(origin: 'core', name: 'httpd') do
   it { should exist }
 end
-
 ```
 
 ## Properties

@@ -130,9 +130,11 @@ page](/inspec/matchers/).
 
 ### exists
 
+```ruby
 describe azurerm_load_balancer(resource_group: 'my-rg', loadbalancer_name: 'lb-1') do
-it { should exist }
+    it { should exist }
 end
+```
 
 ## Azure Permissions
 

@@ -118,7 +118,9 @@ module Inspec::Resources
       output = output.sub(/\r/, "").strip.gsub(",", "comma_query_sub")
       converter = ->(header) { header.downcase }
       CSV.parse(output, headers: true, header_converters: converter).map do |row|
-        revised_row = row.entries.flatten.map { |entry| entry.gsub("comma_query_sub", ",") }
+        next if row.entries.flatten.empty?
+
+        revised_row = row.entries.flatten.map { |entry| entry&.gsub("comma_query_sub", ",") }
         Hashie::Mash.new([revised_row].to_h)
       end
     end
