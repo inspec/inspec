@@ -22,6 +22,9 @@ module Inspec::Resources
 
     include FileReader
 
+    GRUB2DEFAULTS = "/etc/default/grub"
+    GRUB2ENV = "/boot/grub2/grubenv"
+
     class UnknownGrubConfig < StandardError; end
 
     def initialize(path = nil, kernel = nil)
@@ -38,13 +41,13 @@ module Inspec::Resources
         config_for_redhatish(path)
       elsif os.debian?
         @conf_path = path || "/boot/grub/grub.cfg"
-        @defaults_path = "/etc/default/grub"
-        @grubenv_path = "/boot/grub2/grubenv"
+        @defaults_path = GRUB2DEFAULTS
+        @grubenv_path = GRUB2ENV
         @version = "grub2"
       elsif os[:name] == "amazon"
         @conf_path = path || "/boot/grub2/grub.cfg"
-        @defaults_path = "/etc/default/grub"
-        @grubenv_path = path || "/boot/grub2/grubenv"
+        @defaults_path = GRUB2DEFAULTS
+        @grubenv_path = path || GRUB2ENV
         @version = "grub2"
       else
         raise UnknownGrubConfig
@@ -57,8 +60,8 @@ module Inspec::Resources
         @version = "legacy"
       else
         @conf_path = path || "/boot/grub2/grub.cfg"
-        @defaults_path = "/etc/default/grub"
-        @grubenv_path = "/boot/grub2/grubenv"
+        @defaults_path = GRUB2DEFAULTS 
+        @grubenv_path = GRUB2ENV
         @version = "grub2"
       end
     end
