@@ -34,7 +34,7 @@ module Inspec::Resources
 
     def config_for_platform(path)
       os = inspec.os
-      if (( os.redhat? || os[:name] == "fedora") && ! (os[:name] == "amazon" ))
+      if (( os.redhat? || os[:name] == "fedora") &&  (os[:name] != "amazon" ))
         config_for_redhatish(path)
       elsif os.debian?
         @conf_path = path || "/boot/grub/grub.cfg"
