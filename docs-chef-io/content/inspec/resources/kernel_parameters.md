@@ -25,43 +25,39 @@ This resource is distributed along with Chef InSpec itself. You can use it autom
 A `kernel_parameters` resource block uses `where` to filter entries from the systems kernel parameters. If `where` is omitted, all entries are selected.
 
     describe kernel_parameters do
-      its('parameters') { should include "name.of.parameter" }
+      its('parameters') { should include "PARAMETER_NAME" }
       its('values') { should include 1 }
     end
 
-    describe kernel_parameters.where(parameter: "name.of.parameter") do
+    describe kernel_parameters.where(parameter: "PARAMETER_NAME") do
       its('values') { should eq [1] }
-    end
-
-## Examples
-
-The following examples show how to use this Chef InSpec audit resource.
-
-### Test global forwarding setting using where query on kernel parameters
-
-    describe kernel_parameters.where(parameter: "net.ipv4.conf.all.forwarding") do
-      its('values') { should eq [1] }
-    end
-
-### Match a parameter using regex
-
-    describe kernel_parameters.where(parameter: /^net./ ) do
-      its('parameters') { should include 'net.ipv4.conf.all.forwarding' }
     end
 
 ## Properties
 
 ### parameters
 
-The `parameters` property matches the kernel parameter:
-
-its('parameters') { should include 'net.ipv4.conf.all.forwarding' }
+The kernel parameter to test.
 
 ### values
 
-The `values` property tests the value of kernel parameter:
+The value of a kernel parameter.
 
-its('values') { should include [1] }
+## Examples
+
+The following examples show how to use this Chef InSpec audit resource.
+
+### Test the global forwarding setting using a `where` query on the kernel parameters
+
+    describe kernel_parameters.where(parameter: "net.ipv4.conf.all.forwarding") do
+      its('values') { should eq [1] }
+    end
+
+### Match a parameter using a regular expression
+
+    describe kernel_parameters.where(parameter: /^net./ ) do
+      its('parameters') { should include 'net.ipv4.conf.all.forwarding' }
+    end
 
 ## Matchers
 
