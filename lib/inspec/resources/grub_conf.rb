@@ -34,7 +34,7 @@ module Inspec::Resources
 
     def config_for_platform(path)
       os = inspec.os
-      if os.redhat? || os[:name] == "fedora"
+      if (( os.redhat? || os[:name] == "fedora") && ! (os[:name] == "amazon" ))
         config_for_redhatish(path)
       elsif os.debian?
         @conf_path = path || "/boot/grub/grub.cfg"
@@ -42,8 +42,10 @@ module Inspec::Resources
         @grubenv_path = "/boot/grub2/grubenv"
         @version = "grub2"
       elsif os[:name] == "amazon"
-        @conf_path = path || "/etc/grub.conf"
-        @version = "legacy"
+        @conf_path = path || "/boot/grub2/grub.cfg"
+        @defaults_path = "/etc/default/grub"
+        @grubenv_path = path || "/boot/grub2/grubenv"
+        @version = "grub2"
       else
         raise UnknownGrubConfig
       end
