@@ -84,9 +84,8 @@ module Inspec::Resources
 
     def initialize(selinux_path = "/etc/selinux/config")
       @path = selinux_path
-
-      if inspec.os.redhat? || inspec.os.name == "fedora"
-        lcmd = "/sbin/sestatus"
+      if inspec.os.redhat? && inspec.os.name == "amazon"
+        lcmd = "/usr/sbin/sestatus"
       else
         lcmd = "sestatus"
       end

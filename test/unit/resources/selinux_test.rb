@@ -45,6 +45,12 @@ describe "Inspec::Resources::Selinux" do
     _(resource.enforcing?).must_equal false
   end
 
+  it "verify selinux on Amazon Linux" do
+    resource = MockLoader.new(:amazon2).load_resource("selinux")
+    _(resource.installed?).must_equal false
+    _(resource.enforcing?).must_equal true
+  end
+
   it "verify selinux.modules is exist" do
     _(resource.modules.exist?).must_equal true
   end
