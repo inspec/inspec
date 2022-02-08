@@ -6,10 +6,5 @@ module Inspec::Plugin::V2::PluginType
     #                StreamingReporter plugin type API
     #====================================================================#
     # Implementation classes must implement these methods.
-
-    # def fetch(_profile_name, _input_name)
-    # raise NotImplementedError, "Plugin #{plugin_name} must implement the #fetch method"
-    # end
-
   end
 end
