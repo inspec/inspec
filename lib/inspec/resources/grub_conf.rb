@@ -37,11 +37,16 @@ module Inspec::Resources
 
     def config_for_platform(path)
       os = inspec.os
-      if os[:name] == "amazon"
-        @conf_path = path || "/boot/grub2/grub.cfg"
-        @defaults_path = GRUB2DEFAULTS
-        @grubenv_path = path || GRUB2ENV
-        @version = "grub2"
+      if os[:name] == "amazon" 
+        if os[:release] == "2"
+          @conf_path = path || "/boot/grub2/grub.cfg"
+          @defaults_path = GRUB2DEFAULTS
+          @grubenv_path = path || GRUB2ENV
+          @version = "grub2"
+        else
+          @conf_path = path || "/boot/grub/grub.cfg"
+          @version = "legacy"
+        end
       elsif os.redhat? || os[:name] == "fedora"
         config_for_redhatish(path)
       elsif os.debian?
