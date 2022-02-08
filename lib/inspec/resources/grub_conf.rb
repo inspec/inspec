@@ -37,7 +37,7 @@ module Inspec::Resources
 
     def config_for_platform(path)
       os = inspec.os
-      if os[:name] == "amazon" 
+      if os[:name] == "amazon"
         if os[:release] == "2"
           @conf_path = path || "/boot/grub2/grub.cfg"
           @defaults_path = GRUB2DEFAULTS
