@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.0 -->
-## [v4.56.0](https://github.com/inspec/inspec/tree/v4.56.0) (2022-02-09)
+<!-- latest_release 4.56.1 -->
+## [v4.56.1](https://github.com/inspec/inspec/tree/v4.56.1) (2022-02-09)
 
-#### New Features
-- CFINSPEC-3 Added kernel_parameters resource [#5782](https://github.com/inspec/inspec/pull/5782) ([Nik08](https://github.com/Nik08))
+#### Merged Pull Requests
+- CFINSPEC-30 Fix sestatus command not found error on Amazon Linux 2 [#5828](https://github.com/inspec/inspec/pull/5828) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- CFINSPEC-30 Fix sestatus command not found error on Amazon Linux 2 [#5828](https://github.com/inspec/inspec/pull/5828) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.1 -->
 - [WIP] Setting up test coverage reporting [#5823](https://github.com/inspec/inspec/pull/5823) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.55.10 -->
 - CFINSPEC-15 Allows inheritance of core resource into the custom resource. [#5816](https://github.com/inspec/inspec/pull/5816) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.55.9 -->
 - CFINSPEC-5 Added more detailed description about waivers expiration date. [#5806](https://github.com/inspec/inspec/pull/5806) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.55.8 -->
