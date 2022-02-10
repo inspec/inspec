@@ -15,15 +15,6 @@ steps:
     expeditor:
       executor:
         docker:
-          image: ruby:2.7
-          privileged: true
-
-  - label: ":linux: Validate Habitat Builds of Chef InSpec-Ruby3"
-    commands:
-      - .expeditor/buildkite/artifact.habitat.test.sh
-    expeditor:
-      executor:
-        docker:
           image: ruby:3.0
           privileged: true
 
