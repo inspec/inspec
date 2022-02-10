@@ -81,6 +81,7 @@ module InspecPlugins
           File.join("lib", "inspec-plugin-template.erb") => File.join("lib", plugin_name + ".rb"),
           File.join("lib", "inspec-plugin-template", "cli_command.erb") => File.join("lib", plugin_name, "cli_command.rb"),
           File.join("lib", "inspec-plugin-template", "reporter.erb") => File.join("lib", plugin_name, "reporter.rb"),
+          File.join("lib", "inspec-plugin-template", "streaming_reporter.erb") => File.join("lib", plugin_name, "streaming_reporter.rb"),
           File.join("lib", "inspec-plugin-template", "plugin.erb") => File.join("lib", plugin_name, "plugin.rb"),
           File.join("lib", "inspec-plugin-template", "version.erb") => File.join("lib", plugin_name, "version.rb"),
           File.join("test", "functional", "inspec_plugin_template_test.erb") => File.join("test", "functional", snake_case + "_test.rb"),
@@ -183,6 +184,9 @@ module InspecPlugins
         elsif activators_by_type.key?(:reporter)
           vars[:reporter_name_dashes] = activators_by_type[:reporter].tr("_", "-")
           vars[:reporter_name_snake] = activators_by_type[:reporter].tr("-", "_")
+        elsif activators_by_type.key?(:streaming_reporter)
+          vars[:streaming_reporter_name_dashes] = activators_by_type[:streaming_reporter].tr("_", "-")
+          vars[:streaming_reporter_name_snake] = activators_by_type[:streaming_reporter].tr("-", "_")
         end
         vars
       end
@@ -265,6 +269,11 @@ module InspecPlugins
         unless requested_activators.include?(:reporter)
           skips += [
             File.join("lib", "inspec-plugin-template", "reporter.erb"),
+          ]
+        end
+        unless requested_activators.include?(:streaming_reporter)
+          skips += [
+            File.join("lib", "inspec-plugin-template", "streaming_reporter.erb"),
           ]
         end
 
