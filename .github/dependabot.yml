@@ -13,13 +13,13 @@ updates:
     interval: daily
   open-pull-requests-limit: 10
 - package-ecosystem: bundler
-  target-branch: "4-stable"
+  target-branch: "inspec-4"
   directory: "/"
   schedule:
     interval: daily
   open-pull-requests-limit: 10
 - package-ecosystem: bundler
-  target-branch: "4-stable"
+  target-branch: "inspec-4"
   directory: "/omnibus"
   schedule:
     interval: daily
