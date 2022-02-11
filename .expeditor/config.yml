@@ -73,13 +73,9 @@ github:
 
 release_branches:
   - main:
+      version_constraint: 5.*
+  - inspec-4:
      version_constraint: 4.*
-  - 1-stable:
-     version_constraint: 1.*
-  - 2-stable:
-     version_constraint: 2.*
-  - 3-stable:
-     version_constraint: 3.*
   # We need to ensure all configs are in place to appropriately support this branch
   # - expeditor-development:
   #    version_constraint: 4.*

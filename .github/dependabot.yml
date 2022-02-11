@@ -1,11 +1,25 @@
 version: 2
 updates:
 - package-ecosystem: bundler
+  target-branch: "main"
   directory: "/"
   schedule:
     interval: daily
   open-pull-requests-limit: 10
 - package-ecosystem: bundler
+  target-branch: "main"
+  directory: "/omnibus"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+- package-ecosystem: bundler
+  target-branch: "inspec-4"
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+- package-ecosystem: bundler
+  target-branch: "inspec-4"
   directory: "/omnibus"
   schedule:
     interval: daily
