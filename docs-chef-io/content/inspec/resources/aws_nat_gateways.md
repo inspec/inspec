@@ -77,7 +77,7 @@ Use `should_not` to test the entity should not exist.
       it { should_not exist }
     end
 
-Please see [here](https://github.com/inspec/inspec/blob/main/docs/dev/filtertable-usage.md) for more information on how to use filter table.
+Please see [here](https://github.com/inspec/inspec/blob/main/dev-docs/filtertable-usage.md) for more information on how to use filter table.
 
 ## AWS Permissions
 

@@ -15,7 +15,7 @@ Chef InSpec is a run-time framework and rule language used to specify compliance
 security, and policy requirements. It includes a collection of resources that help
 you write auditing controls quickly and easily. The syntax used by both open source
 and [Chef compliance](/compliance/) auditing is the same. The open source [Chef InSpec resource](/inspec/resources/)
-framework is compatible with [Chef compliance](/compliance/).
+framework is compatible with [Chef compliance](https://docs.chef.io/chef_compliance_phase/).
 
 The Chef InSpec Language is a Ruby DSL for writing audit controls, which includes audit resources that you can invoke.
 
