@@ -17,7 +17,7 @@ an Azure Event Hub Authorization Rule within a Resource Group.
 ## Azure REST API version
 
 This resource interacts with version `2017-04-01` of the Azure Management API. For more
-information see the [Official Azure Documentation](https://docs.microsoft.com/en-us/rest/api/eventhub/namespaces/getauthorizationrule).
+information see the [Official Azure Documentation](https://docs.microsoft.com/en-us/dotnet/api/microsoft.servicebus.messaging.namespaceinfo?view=azure-dotnet).
 
 At the moment, there doesn't appear to be a way to select the version of the
 Azure API docs. If you notice a newer version being referenced in the official
