@@ -26,6 +26,7 @@
 
   <h3 class="control-title">Control <code><%= control.id %></code></h3>
   <table class="control-metadata info" id="control-metadata-<%= slugged_id %>">
+  <caption>Control Table</caption>
     <tr class="status status-<%= status %>"><th>Status:</th><td><div><%= status.capitalize %></div></td></tr>
     <% if control.title %><tr class="title"><th>Title:</th><td><%= control.title %></td></tr> <% end %>
     <% if control.desc %><tr class="desc"><th>Description:</th><td><%= control.desc %></td></tr> <% end %>
