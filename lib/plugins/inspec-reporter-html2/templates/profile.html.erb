@@ -3,6 +3,7 @@
   <h2 class="profile_title">Profile <%= display_name %> (<%= profile.name %>)</h2>
 
   <table class="profile-metadata info" id="profile-metadata-<%= profile.name %>">
+  <caption>Profile Information Table</caption>
     <tr class="profile-version"><th>Version:</th><td><%= profile.version %></td></tr>
     <% if profile.summary %>
     <tr class="profile-summary"><th>Summary:</th><td><%= profile.summary %></td></tr>
