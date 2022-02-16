@@ -1,5 +1,6 @@
 require "rspec/core"
 require "rspec/core/formatters/base_formatter"
+require "set" unless defined?(Set)
 
 module Inspec::Formatters
   class Base < RSpec::Core::Formatters::BaseFormatter
