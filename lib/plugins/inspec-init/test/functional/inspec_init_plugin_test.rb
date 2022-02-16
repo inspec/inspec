@@ -178,4 +178,73 @@ class InitPluginCli < Minitest::Test
     end
   end
 
+  def test_generating_inspec_plugin_with_streaming_reporter_activator
+    Dir.mktmpdir do |dir|
+      plugin = "inspec-test-generated-plugin"
+      module_name = plugin.sub(/^inspec\-/, "").split("-").map(&:capitalize).join("")
+
+      opts = ""
+      opts += " --author-email nikita@example.com "
+      opts += " --author-name Nikita "
+      opts += ' --copyright "Copyright © 2022 Nikita" '
+      opts += ' --description "That you will really like" '
+      opts += " --license-name BSD-3-Clause "
+      opts += ' --summary "A fantastic plugin" '
+      opts += " --homepage http://example.com "
+      opts += " --activator streaming_reporter:test_cli_stream"
+
+      run_result = run_inspec_process("init plugin #{plugin} --no-prompt #{opts}", prefix: "cd #{dir} &&")
+
+      assert_includes run_result.stdout, "Creating new inspec plugin at"
+      assert_includes run_result.stdout, plugin
+
+      assert_empty run_result.stderr
+
+      assert_exit_code 0, run_result
+
+      # Check generated files and contents.
+      # Each file must exist, and its contents must match each of the regexen given.
+
+      {
+        File.join(plugin, "README.md") => [],
+        File.join(plugin, "LICENSE") => [
+          /Copyright . 2022 Nikita/,
+          /used to endorse or promote/,
+        ],
+        File.join(plugin, "Gemfile") => [],
+        File.join(plugin, "Rakefile") => [],
+        File.join(plugin, plugin + ".gemspec") => [
+          /spec\.version\s+=\s+InspecPlugins::TestGeneratedPlugin::VERSION/,
+          /spec\.authors\s+=\s+\["Nikita"\]/,
+          /spec\.email\s+=\s+\["nikita@example\.com"\]/,
+          /spec\.summary\s+=\s+"A fantastic plugin"/,
+          /spec\.description\s+=\s+"That you will really like"/,
+          %r{spec\.homepage\s+=\s+"http://example.com"},
+          /spec\.license\s+=\s+"BSD-3-Clause"/,
+        ],
+        File.join(plugin, "lib", plugin + ".rb") => [],
+        File.join(plugin, "lib", plugin, "plugin.rb") => [
+          %r{require\s"#{plugin}/version"},
+          /module\s#{module_name}/,
+          /plugin_name\s+:"#{plugin}"/,
+          /streaming_reporter :test_cli_stream/,
+          %r{require\s"#{plugin}/streaming_reporter"},
+          /InspecPlugins::#{module_name}::StreamingReporter/,
+        ],
+        File.join(plugin, "lib", plugin, "version.rb") => [],
+        File.join(plugin, "lib", plugin, "streaming_reporter.rb") => [],
+        File.join(plugin, "test", "unit", "plugin_def_test.rb") => [],
+      }.each do |path, regexen|
+        full_path = File.join(dir, path)
+        assert(File.exist?(full_path), "#{path} should have been generated")
+        next if regexen.empty?
+
+        contents = File.read(full_path)
+        regexen.each do |re|
+          assert_match re, contents, "#{path} should match #{re}"
+        end
+      end
+    end
+  end
+
 end

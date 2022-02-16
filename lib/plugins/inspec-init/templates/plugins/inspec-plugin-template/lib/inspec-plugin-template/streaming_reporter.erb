@@ -1,0 +1,31 @@
+module InspecPlugins::<%= module_name %>
+  # This class will provide the actual Streaming Reporter implementation.
+  # Its superclass is provided by another call to Inspec.plugin,
+  # this time with two args.  The first arg specifies we are requesting
+  # version 2 of the Plugins API.  The second says we are making a
+  # Streaming Reporter plugin component, so please make available any DSL needed
+  # for that.
+
+  class StreamingReporter < Inspec.plugin(2, :streaming_reporter)
+
+    # Registering these methods with RSpec::Core::Formatters class is mandatory
+    RSpec::Core::Formatters.register self, :example_passed, :example_failed, :example_pending
+
+    def initialize(output)
+      @output = output
+    end
+
+    def example_passed(notification) # ExampleNotification
+      # some logic to run on passing test case
+    end
+
+    def example_failed(notification) # FailedExampleNotification
+      # some logic to run on failing test case
+    end
+
+    def example_pending(notification) # ExampleNotification
+      # some logic to run on pending test case
+    end
+
+  end
+end
