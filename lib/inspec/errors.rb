@@ -15,4 +15,11 @@ module Inspec
   class ConfigError::Invalid < ConfigError; end
 
   class UserInteractionRequired < Error; end
+
+  class GemDependencyLoadError < Error; end
+
+  class GemDependencyInstallError < Error
+    attr_accessor :gem_name
+    attr_accessor :version
+  end
 end

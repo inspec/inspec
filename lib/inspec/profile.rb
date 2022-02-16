@@ -13,6 +13,8 @@ require "inspec/dependencies/cache"
 require "inspec/dependencies/lockfile"
 require "inspec/dependencies/dependency_set"
 require "inspec/utils/json_profile_summary"
+require "inspec/dependency_loader"
+require "inspec/dependency_installer"
 
 module Inspec
   class Profile
@@ -376,6 +378,53 @@ module Inspec
       @runner_context.load_libraries(libs)
       @libraries_loaded = true
       @runner_context
+    end
+
+    # Loads the required gems specified in the Profile's metadata file from default inspec gems path i.e. ~/.inspec/gems
+    # else installs and loads them.
+    def load_gem_dependencies
+      gem_dependencies = metadata. gem_dependencies
+      gem_dependencies.each do |gem_data|
+        dependency_loader = DependencyLoader.new
+        gem_version = gem_data[:version].split[1] unless gem_data[:version].nil?
+        if dependency_loader.gem_version_installed?(gem_data[:name], gem_version) || dependency_loader.gem_installed?(gem_data[:name])
+          load_gem_dependency(gem_data)
+        else
+          if Inspec::Config.cached[:auto_install_gems]
+            install_gem_dependency(gem_data)
+            load_gem_dependency(gem_data)
+          else
+            ui = Inspec::UI.new
+            gem_dependencies.each { |gem_dependency| ui.list_item("#{gem_dependency[:name]} #{gem_dependency[:version]}") }
+            choice = ui.prompt.select("Would you like to install profile gem dependencies listed above?", %w{Yes No})
+            if choice == "Yes"
+              Inspec::Config.cached[:auto_install_gems] = true
+              load_gem_dependencies
+            else
+              ui.error "Unable to resolve above listed profile gem dependencies."
+              Inspec::UI.new.exit(:gem_dependency_load_error)
+            end
+          end
+        end
+      end
+    end
+
+    # Requires gem_data as argument.
+    # gem_dta example: { name: "gem_name", version: "0.0.1"}
+    def load_gem_dependency(gem_data)
+      dependency_loader = DependencyLoader.new(nil, [gem_data])
+      dependency_loader.load
+    rescue Inspec::GemDependencyLoadError => e
+      raise e
+    end
+
+    # Requires gem_data as argument.
+    # gem_dta example: { name: "gem_name", version: "0.0.1"}
+    def install_gem_dependency(gem_data)
+      gem_dependency = DependencyInstaller.new(nil, [gem_data])
+      gem_dependency.install
+    rescue Inspec::GemDependencyInstallError => e
+      raise e
     end
 
     def to_s
