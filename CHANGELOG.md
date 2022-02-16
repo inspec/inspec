@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.9 -->
-## [v4.56.9](https://github.com/inspec/inspec/tree/v4.56.9) (2022-02-16)
+<!-- latest_release 4.56.10 -->
+## [v4.56.10](https://github.com/inspec/inspec/tree/v4.56.10) (2022-02-16)
 
 #### Merged Pull Requests
-- Fix The Broken Links [#5840](https://github.com/inspec/inspec/pull/5840) ([dishanktiwari2501](https://github.com/dishanktiwari2501))
+- CFINSPEC-17 Ruby 3 support [#5822](https://github.com/inspec/inspec/pull/5822) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- CFINSPEC-17 Ruby 3 support [#5822](https://github.com/inspec/inspec/pull/5822) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.10 -->
 - Fix The Broken Links [#5840](https://github.com/inspec/inspec/pull/5840) ([dishanktiwari2501](https://github.com/dishanktiwari2501)) <!-- 4.56.9 -->
 - Bump omnibus-software from `c7a43ec` to `a4f4849` in /omnibus [#5849](https://github.com/inspec/inspec/pull/5849) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.8 -->
 - Resolve bugs detected on SonarCloud [#5845](https://github.com/inspec/inspec/pull/5845) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.7 -->
