@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.6 -->
-## [v4.56.6](https://github.com/inspec/inspec/tree/v4.56.6) (2022-02-16)
+<!-- latest_release 4.56.7 -->
+## [v4.56.7](https://github.com/inspec/inspec/tree/v4.56.7) (2022-02-16)
 
 #### Merged Pull Requests
-- CFINSPEC-43 Init plugin functionality extended for streaming_reporter [#5836](https://github.com/inspec/inspec/pull/5836) ([Nik08](https://github.com/Nik08))
+- Resolve bugs detected on SonarCloud [#5845](https://github.com/inspec/inspec/pull/5845) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- Resolve bugs detected on SonarCloud [#5845](https://github.com/inspec/inspec/pull/5845) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.7 -->
 - CFINSPEC-43 Init plugin functionality extended for streaming_reporter [#5836](https://github.com/inspec/inspec/pull/5836) ([Nik08](https://github.com/Nik08)) <!-- 4.56.6 -->
 - CFINSPEC-38 Adds label in expeditor configuration file for major version bump [#5839](https://github.com/inspec/inspec/pull/5839) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.5 -->
 - CFINSPEC-38 Adds new release branch for InSpec 5 release. [#5835](https://github.com/inspec/inspec/pull/5835) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.4 -->
