@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.8 -->
-## [v4.56.8](https://github.com/inspec/inspec/tree/v4.56.8) (2022-02-16)
+<!-- latest_release 4.56.9 -->
+## [v4.56.9](https://github.com/inspec/inspec/tree/v4.56.9) (2022-02-16)
 
 #### Merged Pull Requests
-- Bump omnibus-software from `c7a43ec` to `a4f4849` in /omnibus [#5849](https://github.com/inspec/inspec/pull/5849) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Fix The Broken Links [#5840](https://github.com/inspec/inspec/pull/5840) ([dishanktiwari2501](https://github.com/dishanktiwari2501))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- Fix The Broken Links [#5840](https://github.com/inspec/inspec/pull/5840) ([dishanktiwari2501](https://github.com/dishanktiwari2501)) <!-- 4.56.9 -->
 - Bump omnibus-software from `c7a43ec` to `a4f4849` in /omnibus [#5849](https://github.com/inspec/inspec/pull/5849) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.8 -->
 - Resolve bugs detected on SonarCloud [#5845](https://github.com/inspec/inspec/pull/5845) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.7 -->
 - CFINSPEC-43 Init plugin functionality extended for streaming_reporter [#5836](https://github.com/inspec/inspec/pull/5836) ([Nik08](https://github.com/Nik08)) <!-- 4.56.6 -->
