@@ -16,7 +16,7 @@ Use the `azurerm_network_interface` InSpec audit resource to test properties and
 ## Azure REST API version
 
 This resource interacts with version `2018-11-01` of the Azure Management API. For more
-information see the [Official Azure Documentation](<https://docs.microsoft.com/en-us/rest/api/virtualnetwork/networkinterface(preview)/get>).
+information see the [Official Azure Documentation](https://docs.microsoft.com/en-us/java/api/com.azure.resourcemanager.devtestlabs.fluent.models.labvirtualmachineinner.networkinterface?view=azure-java-preview).
 
 At the moment, there doesn't appear to be a way to select the version of the
 Azure API docs. If you notice a newer version being referenced in the official
