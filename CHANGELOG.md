@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.0.1 -->
-## [v5.0.1](https://github.com/inspec/inspec/tree/v5.0.1) (2022-02-17)
+<!-- latest_release 5.0.2 -->
+## [v5.0.2](https://github.com/inspec/inspec/tree/v5.0.2) (2022-02-17)
 
 #### Merged Pull Requests
-- Add sonarscanner [#5856](https://github.com/inspec/inspec/pull/5856) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Make sure verify pipeline is marked public [#5858](https://github.com/inspec/inspec/pull/5858) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- Make sure verify pipeline is marked public [#5858](https://github.com/inspec/inspec/pull/5858) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.0.2 -->
 - Add sonarscanner [#5856](https://github.com/inspec/inspec/pull/5856) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.0.1 -->
 - Update README to update ruby version support. [#5855](https://github.com/inspec/inspec/pull/5855) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.0.0 -->
 - CFINSPEC-17 Ruby 3 support [#5822](https://github.com/inspec/inspec/pull/5822) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.10 -->
