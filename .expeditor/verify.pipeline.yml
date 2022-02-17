@@ -27,9 +27,8 @@ steps:
 
   - label: run-tests-ruby-3.0
     command:
-      - CI_ENABLE_COVERAGE=1 /workdir/.expeditor/buildkite/verify.sh
+      - /workdir/.expeditor/buildkite/verify.sh
     expeditor:
-      secrets: true
       executor:
         docker:
           image: ruby:3.0
