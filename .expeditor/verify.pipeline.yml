@@ -29,6 +29,7 @@ steps:
     command:
       - /workdir/.expeditor/buildkite/verify.sh
     expeditor:
+      secrets: true
       executor:
         docker:
           image: ruby:3.0

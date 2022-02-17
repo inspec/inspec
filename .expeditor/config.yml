@@ -25,7 +25,6 @@ pipelines:
      - ADHOC: true
  - verify:
     description: Pull Request validation tests
-    public: true
     env:
      - LANG: "C.UTF-8"
      - SLOW: 1
