@@ -30,8 +30,12 @@ module Inspec::Plugin::V2::PluginType
     # this will be useful in executing operations on control's level end
     def control_ended?(control_id)
       set_control_checks_count_map_value
-      @control_checks_count_map[control_id] -= 1
-      @control_checks_count_map[control_id] == 0
+      unless @control_checks_count_map[control_id].nil?
+        @control_checks_count_map[control_id] -= 1
+        @control_checks_count_map[control_id] == 0
+      else
+        false
+      end
     end
 
     # method to identify total no. of controls

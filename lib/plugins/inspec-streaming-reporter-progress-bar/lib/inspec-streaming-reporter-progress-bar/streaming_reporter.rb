@@ -78,6 +78,8 @@ module InspecPlugins::StreamingReporterProgressBar
       sleep 0.1
       @bar.increment!
       @bar.puts format_it(control_id)
+    rescue Exception => ex
+      raise "Exception in Progress Bar streaming reporter: #{ex}"
     end
 
     def format_it(control_id)

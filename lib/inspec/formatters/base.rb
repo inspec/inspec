@@ -14,7 +14,7 @@ module Inspec::Formatters
       @profiles = []
       @profiles_info = nil
       @backend = nil
-      @all_controls_count = 0
+      @all_controls_count = nil
       @control_checks_count_map = {}
     end
 
