@@ -90,6 +90,12 @@ Output cli to screen and write json to a file.
     }
 }
 ```
+
+Output real-time progress to screen with a progress bar.
+```bash
+inspec exec example_profile --reporter progress-bar
+```
+
 ## Reporter Options
 
 The following are CLI options that may be used to modify reporter behavior. Many of these options allow you to limit the size of the report, because some reporters (such as the json-automate reporter) have a limit on the total size of the report that can be processed.
@@ -171,6 +177,10 @@ This legacy reporter outputs nonstandard JUnit XML and is provided only for back
 ### progress
 
 This reporter is very condensed and gives you a `.`(pass), `f`(fail), or `*`(skip) character per test and a small summary at the end.
+
+### progress-bar
+
+This reporter outputs real-time progress of a running InSpec profile using a progress bar and prints running control's ID with an indicator of control's status (Passed, failed or skipped).
 
 ### json-rspec
 

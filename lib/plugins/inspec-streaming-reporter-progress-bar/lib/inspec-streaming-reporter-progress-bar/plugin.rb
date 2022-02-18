@@ -31,7 +31,7 @@ module InspecPlugins
       # Define a new Streaming Reporter.
       # The argument here will be used to match against the CLI --reporter option.
       # `--reporter streaming_reporter` will load your streaming reporter and perform streaming real-time on each passing, failing or pending test.
-      streaming_reporter :progress_bar do
+      streaming_reporter :"progress-bar" do
         # Calling this activator doesn't mean the reporter is being executed - just
         # that we should be ready to do so. So, load the file that defines the
         # functionality.
