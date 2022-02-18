@@ -6,7 +6,7 @@ copyright_email: you@example.com
 license: Apache-2.0
 summary: An InSpec Compliance Profile For GCP
 version: 0.1.0
-inspec_version: '~> 4'
+inspec_version: '~> 5'
 inputs:
 - name: gcp_project_id
   required: true
