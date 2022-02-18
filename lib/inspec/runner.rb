@@ -126,9 +126,25 @@ module Inspec
         end
       end
 
+      controls_count = 0
+      control_checks_count_map = {}
+
       all_controls.each do |rule|
-        register_rule(rule) unless rule.nil?
+        unless rule.nil?
+          register_rule(rule)
+          checks = ::Inspec::Rule.prepare_checks(rule)
+          unless checks.empty?
+            # controls with empty tests are avoided
+            # checks represent tests within control
+            controls_count += 1
+            control_checks_count_map[rule.to_s] = checks.count
+          end
+        end
       end
+
+      # this sets data via runner-rspec into base RSpec formatter object, which gets used up within streaming plugins
+      @test_collector.set_controls_count(controls_count)
+      @test_collector.set_control_checks_count_map(control_checks_count_map)
     end
 
     def run(with = nil)

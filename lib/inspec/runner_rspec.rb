@@ -42,6 +42,21 @@ module Inspec
       end
     end
 
+    # These control count related methods are called from load logic of runner library of inspec
+    ######### Start of control count related methods
+    def set_controls_count(controls_count)
+      formatters.each do |fmt|
+        fmt.set_controls_count(controls_count)
+      end
+    end
+
+    def set_control_checks_count_map(mapping)
+      formatters.each do |fmt|
+        fmt.set_control_checks_count_map(mapping)
+      end
+    end
+    ######### end of control count related methods
+
     def backend
       formatters.first.backend
     end
