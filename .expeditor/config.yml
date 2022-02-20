@@ -35,19 +35,6 @@ pipelines:
     description: Test core resources with test-kitchen.
     definition: .expeditor/integration.resources.yml
     trigger: pull_request
- # This breaks expeditor as it does not yet exist
- # - integration/libraries:
- #    description: Integration with plugins, gems, resource packs.
- #    definition: .expeditor/integration.libraries.yml
- # - integration/profiles:
- #    description: Integration with compliance-profiles, and dev-sec
- #    definition: .expeditor/integration.profiles.yml
- # - integration/cookbooks:
- #    description: Integration with the audit cookbook
- #    definition: .expeditor/integration.cookbooks.yml
- # - integration/automate:
- #    description: Integration with Chef Automate
- #    definition: .expeditor/integration.automate.yml
  - artifact/habitat:
     description: Execute tests against the habitat artifact
     definition: .expeditor/artifact.habitat.yml
@@ -56,11 +43,6 @@ pipelines:
      - HAB_NOCOLORING: "true"
      - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
     trigger: pull_request
-
-schedules:
- - name: integration_schedule
-   description: Periodic Integration Testing
-   cronline: "0 8 * * *"
 
 slack:
  notify_channel: inspec-notify
@@ -76,9 +58,6 @@ release_branches:
       version_constraint: 5.*
   - inspec-4:
      version_constraint: 4.*
-  # We need to ensure all configs are in place to appropriately support this branch
-  # - expeditor-development:
-  #    version_constraint: 4.*
 
 changelog:
  categories:
