@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.0.3 -->
-## [v5.0.3](https://github.com/inspec/inspec/tree/v5.0.3) (2022-02-20)
+<!-- latest_release 5.0.4 -->
+## [v5.0.4](https://github.com/inspec/inspec/tree/v5.0.4) (2022-02-21)
 
 #### Merged Pull Requests
-- CFINSPEC-38: Fix test failing after release branch update. [#5862](https://github.com/inspec/inspec/pull/5862) ([Vasu1105](https://github.com/Vasu1105))
+- Always expire the git cache when running omnibus jobs [#5865](https://github.com/inspec/inspec/pull/5865) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- Always expire the git cache when running omnibus jobs [#5865](https://github.com/inspec/inspec/pull/5865) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.0.4 -->
 - CFINSPEC-38: Fix test failing after release branch update. [#5862](https://github.com/inspec/inspec/pull/5862) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.0.3 -->
 - Make sure verify pipeline is marked public [#5858](https://github.com/inspec/inspec/pull/5858) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.0.2 -->
 - Add sonarscanner [#5856](https://github.com/inspec/inspec/pull/5856) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.0.1 -->
