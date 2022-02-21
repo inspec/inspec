@@ -105,6 +105,12 @@ This subcommand has the following additional options:
     Specifies the bastion port if applicable.
 * ``--bastion-user=BASTION_USER``
     Specifies the bastion user if applicable.
+* ``--ca_trust_file=PATH_TO_CA_TRUST_FILE``
+    Allow remote scans with CA certificates (WinRM).
+* ``--client_cert=PATH_TO_CLIENT_CERTIFICATE``
+    Allow remote scans with client certificates without a password (WinRM).
+* ``--client_key=PATH_TO_CLIENT_KEY``
+    Allow remote scans with client certificates where client key is mandatory (WinRM).
 * ``--config=CONFIG``
     Read configuration from JSON file (`-` reads from stdin).
 * ``--docker-url``
@@ -285,6 +291,12 @@ This subcommand has the following additional options:
     Specifies the bastion port if applicable.
 * ``--bastion-user=BASTION_USER``
     Specifies the bastion user if applicable.
+* ``--ca_trust_file=PATH_TO_CA_TRUST_FILE``
+    Allow remote scans with CA certificates (WinRM).
+* ``--client_cert=PATH_TO_CLIENT_CERTIFICATE``
+    Allow remote scans with client certificates without a password (WinRM).
+* ``--client_key=PATH_TO_CLIENT_KEY``
+    Allow remote scans with client certificates where client key is mandatory (WinRM).
 * ``--command-timeout=SECONDS``
     Maximum seconds to allow a command to run.
 * ``--config=CONFIG``
@@ -501,6 +513,12 @@ This subcommand has the following additional options:
     A single command string to run instead of launching the shell.
 * ``--command-timeout=SECONDS``
     Maximum seconds to allow a command to run.
+* ``--ca_trust_file=PATH_TO_CA_TRUST_FILE``
+    Allow remote scans with CA certificates (WinRM).
+* ``--client_cert=PATH_TO_CLIENT_CERTIFICATE``
+    Allow remote scans with client certificates without a password (WinRM).
+* ``--client_key=PATH_TO_CLIENT_KEY``
+    Allow remote scans with client certificates where client key is mandatory (WinRM).
 * ``--config=CONFIG``
     Read configuration from JSON file (`-` reads from stdin).
 * ``--depends=one two three``
