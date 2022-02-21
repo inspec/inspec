@@ -18,7 +18,7 @@ pipelines:
      - HAB_NOCOLORING: "true"
      - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
  - docker/build
- - omnibus/release
+ - omnibus/release:
     env:
      # The git cache is corrupt more often than not. This always purges the cache.
      # https://chefio.atlassian.net/wiki/spaces/RELENGKB/pages/2204336129/Resolving+git+cache+build+errors+in+Omnibus
