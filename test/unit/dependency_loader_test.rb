@@ -1,6 +1,5 @@
 require "helper"
 require "inspec/dependency_loader"
-require "byebug"
 
 describe "dependency_loader" do
   let(:config_dir_path) { File.expand_path "test/fixtures/config_dirs" }
