@@ -102,14 +102,14 @@ module Inspec
       INPUT = {
         "type" => "object",
         "additionalProperties" => true,
-        "description" => "An input or attribute used in the run."
+        "description" => "An input or attribute used in the run.",
       }.freeze
 
       IMPACT = {
         "type" => "number",
         "minimum" => 0.0,
         "maximum" => 1.0,
-        "description" => %q(
+        "description" => %q{
            Within a control file, impacts can be a decimal number in the range [0,1] or a string that is one of [none,low,medium,high,critical].
            However, the string will be automatically converted as follows:
            none      -> 0    to 0.01
@@ -117,7 +117,7 @@ module Inspec
            medium    -> 0.4  to 0.7
            high      -> 0.7  to 0.9
            critical  -> 0.9  to 1.0
-        )
+        },
       }.freeze
 
       # A status for a control
