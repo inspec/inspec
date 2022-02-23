@@ -20,7 +20,7 @@ module Inspec
 
     def install
       requested_gems.each do |requested_gem|
-        version = requested_gem[:version].nil? ? ">= 0" : requested_gem[:version]
+        version = requested_gem[:version].nil? ? "> 0" : requested_gem[:version]
         install_from_remote_gems(requested_gem[:name], { version: version })
       end
     end

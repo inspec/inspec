@@ -17,7 +17,7 @@ module Inspec
       Gem.refresh
 
       gem_list.each do |gem_data|
-        version = gem_data[:version].nil? ? ">= 0" : gem_data[:version]
+        version = gem_data[:version].nil? ? "> 0" : gem_data[:version]
         activate_gem_dependency(gem_data[:name], version)
       end
     end
