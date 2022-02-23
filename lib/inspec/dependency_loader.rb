@@ -63,6 +63,12 @@ module Inspec
       gem_deps = [Gem::Dependency.new(name.to_s, version_constraint)]
       managed_gem_set = Gem::Resolver::VendorSet.new
 
+      list_managed_gems.each do |spec|
+        unless Dir["#{spec.gem_dir}/*.gemspec"].empty?
+          managed_gem_set.add_vendor_gem(spec.name, spec.gem_dir)
+        end
+      end
+
       # TODO: Next two lines merge our managed gems with the other gems available
       # in our "local universe" - which may be the system, or it could be in a Bundler microcosm,
       # or rbenv, etc. Do we want to merge that, though?

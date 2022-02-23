@@ -11,4 +11,3 @@ supports:
 required_gems:
 - name: money
   version: ">= 6.15.0"
-- name: monetize
