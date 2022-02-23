@@ -100,7 +100,7 @@ The Resource Group as well as the Webapp name.
 
 All of the attributes are avialable via dot notation. This is an example of the currently available attributes.
 
-```
+```ruby
 control 'azurerm_webapp' do
   describe azurerm_webapp(resource_group: 'example', name: 'webapp_name') do
     it                                  { should exist }
@@ -138,7 +138,7 @@ Asserts whether the deployed Azure WebApp is using the latest supported version 
 Supported stacks (i.e. python, java, php, node) can be found in the `properties`
 section of WebApp Configuration [documentation](https://docs.microsoft.com/en-us/rest/api/appservice/webapps/getconfiguration#siteconfigresource).
 
-```
+```ruby
 it { should be_using_latest('php') }
 it { should be_using_latest('java') }
 it { should be_using_latest('python') }

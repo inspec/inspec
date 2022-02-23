@@ -54,6 +54,20 @@ The query to be evaluated against policy and input data.
 
 This is the full path to the OPA binary or EXE file used for running the OPA CLI or OPA commands. By default it will consider that the path is added in PATH variable.
 
+## Properties
+
+### result
+
+The `result` property checks whether the resource query returns an empty result.
+
+    its('result') { should be nil }
+
+### allow
+
+The `allow` property checks if specific input matches the policy defined in OPA. This matcher will not work if `allow` is not defined in the policy file.
+
+    its('allow') { should eq 'value' }
+
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource:
@@ -69,17 +83,3 @@ The above example shows how the `allow` value can be fetched in two ways.
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
-
-## Properties
-
-### result
-
-The `result` property checks whether the resource query returns an empty result.
-
-    its('result') { should be nil }
-
-### allow
-
-The `allow` property checks if specific input is as per the policy defined in OPA. If `allow` is not defined in the policy file then this matcher will not work.
-
-    its('allow') { should eq 'value' }

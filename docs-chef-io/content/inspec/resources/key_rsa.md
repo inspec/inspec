@@ -44,10 +44,6 @@ You can use an optional passphrase with `key_rsa`
 
 ## Properties
 
-- `public_key`, `private_key`, `key_length`
-
-## Property Examples
-
 ### public_key (String)
 
 The `public_key` property returns the public part of the RSA key pair

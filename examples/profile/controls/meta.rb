@@ -8,8 +8,8 @@ control 'ssh-1' do
         The default setting in /etc/ssh/sshd_config is correct, and can be
         verified by ensuring that the following line appears: Protocol 2'
 
-  tag 'production','development'
-  tag 'ssh','sshd','openssh-server'
+  tag 'production', 'development'
+  tag 'ssh', 'sshd', 'openssh-server'
 
   tag cce: 'CCE-27072-8'
   tag disa: 'RHEL-06-000227'

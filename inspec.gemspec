@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.license       = "Apache-2.0"
   spec.require_paths = ["lib"]
 
-  spec.required_ruby_version = ">= 2.5"
+  spec.required_ruby_version = ">= 2.6"
 
   # ONLY the aws/azure/gcp files. The rest will come in from inspec-core
   # the gemspec is necessary for appbundler so don't remove it

@@ -191,6 +191,8 @@ module Inspec::Resources
         Svcs.new(inspec)
       when "yocto"
         Systemd.new(inspec, service_ctl)
+      when "alpine"
+        SysV.new(inspec, service_ctl)
       end
     end
 

@@ -168,9 +168,43 @@ Beginning with Chef InSpec 1.41, you can enable the ability to have the HTTP tes
       ...
     end
 
-## Properties
+### proxy
 
-- `body`, `headers`, `http_method`, `status`
+Specify a `proxy` to test by passing in the proxy URI or a hash of the proxy URI, a username, and password. Specify `disable` to ignore a proxy set as an environment variable.
+
+You can include the username and password in the `proxy` parameter:
+
+    describe http('http://localhost:8080/ping', proxy: "http://username:password@www.example.com:3128") do
+      ...
+    end
+
+The `proxy` parameter also accepts proxy options in hash format:
+
+    describe http('http://localhost:8080/ping', proxy: { uri: 'http://www.example.com:3128', user: 'username', password: 'proxypassword'}) do
+      ...
+    end
+
+Use `disable` to ignore the proxy set in the environment variable:
+
+    describe http('http://localhost:8080/ping', proxy: 'disable') do
+      ...
+    end
+
+{{< note >}}
+
+Windows remote targets do not accept username and password values in a string; use the hash format instead.
+
+{{< /note >}}
+
+{{< note >}}
+
+Special characters in the URI must be converted to their UTF-8 equivalent when passed in to the `proxy` parameter as a string. For example, the string `http://username:bar@123@www.example.com:3128` must be passed in as `http://username:bar%40123@www.example.com:3128` instead.
+
+Special characters may be passed into the hash format without conversion to UTF-8 characters.
+
+{{< /note >}}
+
+## Properties
 
 ### body
 

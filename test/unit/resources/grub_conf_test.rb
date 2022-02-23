@@ -81,4 +81,17 @@ describe "Inspec::Resources::GrubConfig" do
     _(resource.default).must_equal "0"
     _(resource.timeout).must_equal "5"
   end
+
+  it "parses data with no identations correctly with grub1" do
+    resource = MockLoader.new(:centos6).load_resource(
+      "grub_conf",
+      "/etc/non_indented_grub.conf",
+      "CentOS 6 (2.6.32-573.el6.x86_64)"
+    )
+
+    _(resource.kernel).must_include "/vmlinuz-2.6.32-573.el6.x86_64"
+    _(resource.initrd).must_equal "/initramfs-2.6.32-573.el6.x86_64.img"
+    _(resource.default).must_equal "0"
+    _(resource.timeout).must_equal "5"
+  end
 end

@@ -41,6 +41,12 @@ where
 - `{ should eq 'value' }` tests the value of `policy_name` against the value declared in the test
 - `translate_sid` converts the security identifier (SID) into a human readable SID name if `true`. Default value is `false`.
 
+## Properties
+
+This resource supports any of the security policy name as properties for e.g. `SeNetworkLogonRigth`, `SeRemoteInteractiveLogonRight` etc.
+
+    its('SeNetworkLogonRight') { should eq '*S-1-5-11' }
+
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
@@ -54,9 +60,3 @@ The following examples show how to use this Chef InSpec audit resource.
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
-
-### policy_name
-
-The `policy_name` matcher must be the name of a security policy:
-
-    its('SeNetworkLogonRight') { should eq '*S-1-5-11' }

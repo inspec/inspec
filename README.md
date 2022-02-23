@@ -55,18 +55,13 @@ inspec exec test.rb -t docker://container_id
 
 ## Installation
 
-Chef InSpec requires Ruby ( >= 2.6 ). Ruby 2.5 support is limited and requires Bundler with an entry in the Gemfile:
-
-```
-  # 16.7.23 required ruby 2.6+
-  gem "chef-utils", "< 16.7.23"
-```
+Chef InSpec requires Ruby ( >= 2.6 ).
 
 Note: Versions of Chef InSpec 4.0 and later require accepting the EULA to use. Please visit the [license acceptance page](https://docs.chef.io/chef_license_accept.html) on the Chef docs site for more information.
 
 ### Install as package
 
-The Chef InSpec package is available for MacOS, RedHat, Ubuntu and Windows. Download the latest package at [Chef InSpec Downloads](https://downloads.chef.io/inspec) or install Chef InSpec via script:
+The Chef InSpec package is available for MacOS, RedHat, Ubuntu and Windows. Download the latest package at [Chef InSpec Downloads](https://www.chef.io/downloads/tools/inspec) or install Chef InSpec via script:
 
 ```
 # RedHat, Ubuntu, and macOS
@@ -142,7 +137,7 @@ Finished in 0.04321 seconds (files took 0.54917 seconds to load)
 
 ### Install it from source
 
-Note that installing from OS packages from [the download page](https://downloads.chef.io) is the preferred method.
+Note that installing from OS packages from [the download page](https://www.chef.io/downloads/tools/inspec) is the preferred method.
 
 That requires [bundler](http://bundler.io/):
 
@@ -322,6 +317,7 @@ Remote Targets
 | Gentoo Linux                 |                                                  | x86_64        |
 | Arch Linux                   |                                                  | x86_64        |
 | HP-UX                        | 11.31                                            | ia64          |
+| Alpine Linux                 |                                                  | x86_64        |
 
 \**For Windows, PowerShell 5.0 or above is required.*
 

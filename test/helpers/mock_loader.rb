@@ -103,6 +103,7 @@ class MockLoader
       "/etc/inetd.conf" => mockfile.call("inetd.conf"),
       "/etc/group" => mockfile.call("etcgroup"),
       "/etc/grub.conf" => mockfile.call("grub.conf"),
+      "/etc/non_indented_grub.conf" => mockfile.call("non_indented_grub.conf"),
       "/boot/grub2/grub.cfg" => mockfile.call("grub2.cfg"),
       "/boot/grub2/grubenv" => mockfile.call("grubenv"),
       "/boot/grub2/grubenv_invalid" => mockfile.call("grubenv_invalid"),
@@ -231,17 +232,22 @@ class MockLoader
       "ps -o pid,vsz,rss,tty,stat,time,ruser,args" => cmd.call("ps-busybox"),
       "env" => cmd.call("env"),
       "${Env:PATH}" => cmd.call("$env-PATH"),
+      "timedatectl status | grep -i 'Time zone'" => cmd.call("timedatectl-timezone"),
       # registry key test using winrm 2.0
       "9417f24311a9dcd90f1b1734080a2d4c6516ec8ff2d452a2328f68eb0ed676cf" => cmd.call("reg_schedule"),
       "Auditpol /get /subcategory:'User Account Management' /r" => cmd.call("auditpol"),
       "/sbin/auditctl -l" => cmd.call("auditctl"),
       "/sbin/auditctl -s" => cmd.call("auditctl-s"),
       "dpkg -s curl" => cmd.call("dpkg-s-curl"),
+      "apt list curl -a" => cmd.call("apt-list-curl"),
       "dpkg -s held-package" => cmd.call("dpkg-s-held-package"),
       "rpm -qi curl" => cmd.call("rpm-qi-curl"),
+      "yum list curl" => cmd.call("yum-list-curl"),
+      "Get-Package Chef Client v12.12.15 -AllVersions" => cmd.call("get-pkg-versions"),
       "rpm -qi --dbpath /var/lib/fake_rpmdb curl" => cmd.call("rpm-qi-curl"),
       "rpm -qi --dbpath /var/lib/rpmdb_does_not_exist curl" => cmd_exit_1.call,
       "pacman -Qi curl" => cmd.call("pacman-qi-curl"),
+      "pacman -Ss curl | grep curl | grep installed" => cmd.call("pacman-ss-grep-curl"),
       "brew info --json=v1 curl" => cmd.call("brew-info--json-v1-curl"),
       "brew info --json=v1 nginx" => cmd.call("brew-info--json-v1-nginx"),
       "brew info --json=v1 nope" => cmd_exit_1.call,
@@ -264,6 +270,7 @@ class MockLoader
       "Get-Package -Name 'Mozilla Firefox' | ConvertTo-Json" => cmd.call("get-package-firefox"),
       "Get-Package -Name 'Ruby 2.1.6-p336-x64' | ConvertTo-Json" => cmd.call("get-package-ruby"),
       'Get-Command "choco"' => empty.call,
+      "Get-TimeZone" => cmd.call("get-timezone"),
       'sh -c \'type "choco"\'' => cmd_exit_1.call,
       '(choco list --local-only --exact --include-programs --limit-output \'nssm\') -Replace "\|", "=" | ConvertFrom-StringData | ConvertTo-JSON' => cmd.call("choco-list-nssm"),
       '(choco list --local-only --exact --include-programs --limit-output \'git\') -Replace "\|", "=" | ConvertFrom-StringData | ConvertTo-JSON' => empty.call,
@@ -387,6 +394,7 @@ class MockLoader
       "rpm -qa --queryformat '%{NAME}  %{VERSION}-%{RELEASE}  %{ARCH}\\n'" => cmd.call("rpm-qa-queryformat"),
       # pkg query all packages
       "pkg info vim-console" => cmd.call("pkg-info-vim-console"),
+      "pkg version -v | grep vim-console" => cmd.call("pkg-version-grep-vim-console"),
       # port netstat on solaris 10 & 11
       "netstat -an -f inet -f inet6" => cmd.call("s11-netstat-an-finet-finet6"),
       # xinetd configuration
@@ -543,9 +551,9 @@ class MockLoader
       "curl -i -X OPTIONS --connect-timeout 60 --max-time 120 -H 'Access-Control-Request-Method: GET' -H 'Access-Control-Request-Headers: origin, x-requested-with' -H 'Origin: http://www.example.com' 'http://www.example.com'" => cmd.call("http-remote-options-request"),
 
       # http resource - windows
-      "$body = \n            $Body = $body | ConvertFrom-Json\n            #convert to hashtable\n            $HashTable = @{}\n            foreach ($property in $Body.PSObject.Properties) {\n              $HashTable[$property.Name] = $property.Value\n            }\n            $response = Invoke-WebRequest -Method HEAD -TimeoutSec 120 'https://www.example.com' -Body $HashTable\n            $response | Select-Object -Property * | ConvertTo-json # We use `Select-Object -Property * ` to get around an odd PowerShell error" => cmd.call("http-windows-remote-no-options"),
-      "$body = \n            $Body = $body | ConvertFrom-Json\n            #convert to hashtable\n            $HashTable = @{}\n            foreach ($property in $Body.PSObject.Properties) {\n              $HashTable[$property.Name] = $property.Value\n            }\n            $response = Invoke-WebRequest -Method GET -TimeoutSec 120 'https://www.example.com' -Body $HashTable\n            $response | Select-Object -Property * | ConvertTo-json # We use `Select-Object -Property * ` to get around an odd PowerShell error" => cmd.call("http-windows-remote-head"),
-      "$body = '{ \"a\" : \"1\", \"b\" : \"five\" }'\n            $Body = $body | ConvertFrom-Json\n            #convert to hashtable\n            $HashTable = @{}\n            foreach ($property in $Body.PSObject.Properties) {\n              $HashTable[$property.Name] = $property.Value\n            }\n            $response = Invoke-WebRequest -Method POST -TimeoutSec 120 'https://www.example.com' -Body $HashTable\n            $response | Select-Object -Property * | ConvertTo-json # We use `Select-Object -Property * ` to get around an odd PowerShell error" => cmd.call("http-windows-remote-head"),
+      "\n$body = \n            $Body = $body | ConvertFrom-Json\n            #convert to hashtable\n            $HashTable = @{}\n            foreach ($property in $Body.PSObject.Properties) {\n              $HashTable[$property.Name] = $property.Value\n            }\n            $response = Invoke-WebRequest -Method HEAD -TimeoutSec 120 'https://www.example.com' -Body $HashTable -UseBasicParsing\n            $response | Select-Object -Property * | ConvertTo-json # We use `Select-Object -Property * ` to get around an odd PowerShell error" => cmd.call("http-windows-remote-no-options"),
+      "\n$body = \n            $Body = $body | ConvertFrom-Json\n            #convert to hashtable\n            $HashTable = @{}\n            foreach ($property in $Body.PSObject.Properties) {\n              $HashTable[$property.Name] = $property.Value\n            }\n            $response = Invoke-WebRequest -Method GET -TimeoutSec 120 'https://www.example.com' -Body $HashTable -UseBasicParsing\n            $response | Select-Object -Property * | ConvertTo-json # We use `Select-Object -Property * ` to get around an odd PowerShell error" => cmd.call("http-windows-remote-head"),
+      "\n$body = '{ \"a\" : \"1\", \"b\" : \"five\" }'\n            $Body = $body | ConvertFrom-Json\n            #convert to hashtable\n            $HashTable = @{}\n            foreach ($property in $Body.PSObject.Properties) {\n              $HashTable[$property.Name] = $property.Value\n            }\n            $response = Invoke-WebRequest -Method POST -TimeoutSec 120 'https://www.example.com' -Body $HashTable -UseBasicParsing\n            $response | Select-Object -Property * | ConvertTo-json # We use `Select-Object -Property * ` to get around an odd PowerShell error" => cmd.call("http-windows-remote-head"),
       # elasticsearch resource
       "curl -H 'Content-Type: application/json' http://localhost:9200/_nodes" => cmd.call("elasticsearch-cluster-nodes-default"),
       "curl -k -H 'Content-Type: application/json' http://localhost:9200/_nodes" => cmd.call("elasticsearch-cluster-no-ssl"),
@@ -573,6 +581,8 @@ class MockLoader
 
       # alpine package commands
       "apk info -vv --no-network | grep git" => cmd.call("apk-info-grep-git"),
+      "apk list --no-network --installed" => cmd.call("apk-info"),
+      "apk info git" => cmd.call("apk-info-cmd"),
 
       # filesystem command
       "2e7e0d4546342cee799748ec7e2b1c87ca00afbe590fa422a7c27371eefa88f0" => cmd.call("get-wmiobject-filesystem"),
@@ -590,6 +600,9 @@ class MockLoader
       "/opt/ibm/db2/V11.5/bin/db2 attach to db2inst1; /opt/ibm/db2/V11.5/bin/db2 connect to sample; /opt/ibm/db2/V11.5/bin/db2 select rolename from syscat.roleauth;" => cmd.call("ibmdb2_query_output"),
       "set-item -path env:DB2CLP -value \"**$$**\"; db2 get database manager configuration" => cmd.call("ibmdb2_conf_output"),
       "set-item -path env:DB2CLP -value \"**$$**\"; db2 connect to sample; db2 \"select rolename from syscat.roleauth\";" => cmd.call("ibmdb2_query_output"),
+
+      # file resource windows inherit
+      "(Get-Acl 'C:/ExamlpeFolder').access| Where-Object {$_.IsInherited -eq $true} | measure | % { $_.Count }" => cmd.call("windows_file_inherit_output"),
     }
 
     if @platform && (@platform[:name] == "windows" || @platform[:name] == "freebsd")

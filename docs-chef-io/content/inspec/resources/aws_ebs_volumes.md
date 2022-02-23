@@ -38,12 +38,15 @@ See also the [AWS documentation on EBS](https://docs.aws.amazon.com/AWSEC2/lates
 
 ## Examples
 
-#####Ensure a specific volume exists
-describe aws_ebs_volumes do
-its('volume_ids') { should include 'vol-12345678' }
-end
+### Ensure a specific volume exists
 
-##### Use the InSpec resource to request the IDs of all EBS volumes, then test in-depth using `aws_ebs_volume` to ensure all volumes are encrypted and have a sensible size.
+```ruby
+describe aws_ebs_volumes do
+    its('volume_ids') { should include 'vol-12345678' }
+end
+```
+
+### Use the InSpec resource to request the IDs of all EBS volumes, then test in-depth using `aws_ebs_volume` to ensure all volumes are encrypted and have a sensible size.
 
     aws_ebs_volumes.volume_ids.each do |volume_id|
       describe aws_ebs_volume(volume_id) do

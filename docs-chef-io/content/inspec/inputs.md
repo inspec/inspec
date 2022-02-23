@@ -47,7 +47,7 @@ end
 
 When the above profile is executed by using `inspec exec rock_critic`, you would see something like:
 
-```
+```bash
   ×  Big Rock Show: 10
      ×  10 is expected to cmp == 11
 
@@ -62,7 +62,7 @@ That result clearly won't do. Let's override the input's default value.
 
 We can now run that profile with `inspec exec rock_critic --input amplifier_max_volume=11`:
 
-```
+```bash
   ✔  Big Rock Show: 11
      ✔  11 is expected to cmp == 11
 
@@ -132,6 +132,7 @@ inputs:
 ```
 
 To set a priority in DSL, use:
+
 ```ruby
 input('also_important', value: 42, priority: 45)
 ```
@@ -249,7 +250,6 @@ code to find the inputs.
 ### Using inputs with Profile inheritance
 
 When your profile relies on another profile using the `depends` key in the metadata file, you can set — that is, override — the value of the input in the dependent profile by including the `profile` option and naming the dependent profile.
-
 
 ```yaml
 # child inspec.yml

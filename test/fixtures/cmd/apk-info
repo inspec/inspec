@@ -1,0 +1,6 @@
+libxmu-1.1.2-r1 x86_64 {libxmu} (custom) [installed]
+virtualbox-guest-modules-virt-4.14.167-r0 x86_64 {virtualbox-guest-modules-vanilla} (GPL-2.0 custom) [installed]
+pkgconf-1.5.3-r0 x86_64 {pkgconf} (ISC) [installed]
+nginx-1.14.2-r2 x86_64 {nginx} (BSD-2-Clause) [installed]
+dmidecode-3.1-r0 x86_64 {dmidecode} (GPL) [installed]
+syslinux-6.04_pre1-r1 x86_64 {syslinux} (GPL) [installed]

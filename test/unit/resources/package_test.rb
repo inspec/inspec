@@ -6,25 +6,27 @@ describe "Inspec::Resources::Package" do
   # arch linux
   it "verify arch linux package parsing" do
     resource = MockLoader.new(:arch).load_resource("package", "curl")
-    pkg = { name: "curl", installed: true, version: "7.37.0-1", type: "pacman" }
+    pkg = { name: "curl", installed: true, version: "7.37.0-1", type: "pacman", only_version_no: "7.37.0" }
     _(resource.installed?).must_equal true
     _(resource.version).must_equal "7.37.0-1"
     _(resource.info).must_equal pkg
+    _(resource.latest?).must_equal false
   end
 
   # ubuntu
   it "verify ubuntu package parsing" do
     resource = MockLoader.new(:ubuntu).load_resource("package", "curl")
-    pkg = { name: "curl", installed: true, held: false, version: "7.35.0-1ubuntu2", type: "deb" }
+    pkg = { name: "curl", installed: true, held: false, version: "7.35.0-1ubuntu2", type: "deb", only_version_no: "7.35.0" }
     _(resource.installed?).must_equal true
     _(resource.held?).must_equal false
     _(resource.version).must_equal "7.35.0-1ubuntu2"
     _(resource.info).must_equal pkg
+    _(resource.latest?).must_equal false
   end
 
   it "verify ubuntu package which is held" do
     resource = MockLoader.new(:ubuntu).load_resource("package", "held-package")
-    pkg = { name: "held-package", installed: true, held: true, version: "1.2.3-1", type: "deb" }
+    pkg = { name: "held-package", installed: true, held: true, version: "1.2.3-1", type: "deb", only_version_no: "1.2.3" }
     _(resource.installed?).must_equal true
     _(resource.held?).must_equal true
     _(resource.version).must_equal "1.2.3-1"
@@ -34,7 +36,7 @@ describe "Inspec::Resources::Package" do
   # mint
   it "verify mint package parsing" do
     resource = MockLoader.new(:mint17).load_resource("package", "curl")
-    pkg = { name: "curl", installed: true, held: false, version: "7.35.0-1ubuntu2", type: "deb" }
+    pkg = { name: "curl", installed: true, held: false, version: "7.35.0-1ubuntu2", type: "deb", only_version_no: "7.35.0" }
     _(resource.installed?).must_equal true
     _(resource.version).must_equal "7.35.0-1ubuntu2"
     _(resource.info).must_equal pkg
@@ -48,6 +50,7 @@ describe "Inspec::Resources::Package" do
         installed: true,
         version: "7.29.0-19.el7",
         type: "rpm",
+        only_version_no: "7.29.0",
       }
     end
 
@@ -56,6 +59,7 @@ describe "Inspec::Resources::Package" do
       _(resource.installed?).must_equal true
       _(resource.version).must_equal "7.29.0-19.el7"
       _(resource.info).must_equal pkg
+      _(resource.latest?).must_equal true
     end
 
     it "can build an `rpm` command containing `--dbpath`" do
@@ -91,7 +95,7 @@ describe "Inspec::Resources::Package" do
   # wrlinux
   it "verify wrlinux package parsing" do
     resource = MockLoader.new(:wrlinux).load_resource("package", "curl")
-    pkg = { name: "curl", installed: true, version: "7.29.0-19.el7", type: "rpm" }
+    pkg = { name: "curl", installed: true, version: "7.29.0-19.el7", type: "rpm", only_version_no: "7.29.0" }
     _(resource.installed?).must_equal true
     _(resource.version).must_equal "7.29.0-19.el7"
     _(resource.info).must_equal pkg
@@ -100,10 +104,11 @@ describe "Inspec::Resources::Package" do
   # windows
   it "verify windows package parsing" do
     resource = MockLoader.new(:windows).load_resource("package", "Chef Client v12.12.15")
-    pkg = { name: "Chef Client v12.12.15 ", installed: true, version: "12.12.15.1", type: "windows" }
+    pkg = { name: "Chef Client v12.12.15 ", installed: true, version: "12.12.15.1", type: "windows", only_version_no: "12.12.15.1" }
     _(resource.installed?).must_equal true
     _(resource.version).must_equal "12.12.15.1"
     _(resource.info).must_equal pkg
+    _(resource.latest?).must_equal true
   end
 
   # solaris 10
@@ -127,10 +132,11 @@ describe "Inspec::Resources::Package" do
   # darwin (brew)
   it "can parse ouptut from 'brew' when package is installed" do
     resource = MockLoader.new(:macos10_10).load_resource("package", "curl")
-    pkg = { name: "curl", installed: true, version: "7.52.1", type: "brew" }
+    pkg = { name: "curl", installed: true, version: "7.52.1", type: "brew", latest_version: "7.52.1", only_version_no: "7.52.1" }
     _(resource.installed?).must_equal true
     _(resource.version).must_equal "7.52.1"
     _(resource.info).must_equal pkg
+    _(resource.latest?).must_equal true
   end
 
   it "can parse ouptut from 'brew' when package is not installed but exists" do
@@ -152,19 +158,21 @@ describe "Inspec::Resources::Package" do
   # alpine
   it "can parse Alpine packages" do
     resource = MockLoader.new(:alpine).load_resource("package", "git")
-    pkg = { name: "git", installed: true, version: "2.15.0-r1", type: "pkg" }
+    pkg = { name: "git", installed: true, version: "2.15.0-r1", type: "pkg", only_version_no: "2.15.0" }
     _(resource.installed?).must_equal true
     _(resource.version).must_equal "2.15.0-r1"
     _(resource.info).must_equal pkg
+    _(resource.latest?).must_equal false
   end
 
   # freebsd
   it "can parse FreeBSD packages" do
     resource = MockLoader.new(:freebsd11).load_resource("package", "vim-console")
-    pkg = { name: "vim-console", installed: true, version: "8.1.1954", type: "pkg" }
+    pkg = { name: "vim-console", installed: true, version: "8.1.1954", type: "pkg", only_version_no: "8.1.1954" }
     _(resource.installed?).must_equal true
     _(resource.version).must_equal "8.1.1954"
     _(resource.info).must_equal pkg
+    _(resource.latest?).must_equal true
   end
 
   # undefined

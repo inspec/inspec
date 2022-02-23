@@ -15,10 +15,18 @@ module Supermarket
     end
 
     desc "profiles", "list all available profiles in Chef Supermarket"
+    supermarket_options
     def profiles
-      # display profiles in format user/profile
-      supermarket_profiles = Supermarket::API.profiles
+      o = config
+      diagnose(o)
+      configure_logger(o)
 
+      # display profiles in format user/profile
+      supermarket_profiles =  if o["supermarket_url"]
+                                Supermarket::API.profiles(o["supermarket_url"])
+                              else
+                                Supermarket::API.profiles
+                              end
       headline("Available profiles:")
       supermarket_profiles.each do |p|
         li("#{p["tool_name"]} #{mark_text(p["tool_owner"] + "/" + p["slug"])}")
@@ -45,9 +53,18 @@ module Supermarket
     end
 
     desc "info PROFILE", "display Supermarket profile details"
+    supermarket_options
     def info(profile)
+      o = config
+      diagnose(o)
+      configure_logger(o)
+
       # check that the profile is available
-      supermarket_profiles = Supermarket::API.profiles
+      supermarket_profiles =  if o["supermarket_url"]
+                                Supermarket::API.profiles(o["supermarket_url"])
+                              else
+                                Supermarket::API.profiles
+                              end
       found = supermarket_profiles.select do |p|
         profile == "#{p["tool_owner"]}/#{p["slug"]}"
       end

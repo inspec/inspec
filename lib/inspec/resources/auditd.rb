@@ -28,12 +28,13 @@ module Inspec::Resources
     EXAMPLE
 
     def initialize
-      unless inspec.command("/sbin/auditctl").exist?
+      @auditctl_cmd_str = inspec.os.name.eql?("alpine") ? "/usr/sbin/auditctl" : "/sbin/auditctl"
+      unless inspec.command(@auditctl_cmd_str).exist?
         raise Inspec::Exceptions::ResourceFailed,
-              "Command `/sbin/auditctl` does not exist"
+              "Command `#{@auditctl_cmd_str}` does not exist"
       end
 
-      auditctl_cmd = "/sbin/auditctl -l"
+      auditctl_cmd = "#{@auditctl_cmd_str} -l"
       result = inspec.command(auditctl_cmd)
 
       if result.exit_status != 0
@@ -68,7 +69,7 @@ module Inspec::Resources
     filter.install_filter_methods_on_resource(self, :params)
 
     def status(name = nil)
-      @status_content ||= inspec.command("/sbin/auditctl -s").stdout.chomp
+      @status_content ||= inspec.command("#{@auditctl_cmd_str} -s").stdout.chomp
 
       # See: https://github.com/inspec/inspec/issues/3113
       if @status_content =~ /^AUDIT_STATUS/
