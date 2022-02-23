@@ -44,12 +44,12 @@ describe Inspec::Resource do
   end
 
   describe "#example" do
-    it "will register a description" do
+    it "will register a example" do
       expected = rand.to_s
       _(create { example expected }.example).must_equal expected
     end
 
-    it "can change the description" do
+    it "can change the example" do
       c = create { example rand.to_s }
       c.example(x = rand.to_s)
       _(c.example).must_equal x
@@ -92,6 +92,19 @@ describe Inspec::Resource do
       ])
       _(m.check_supports).must_equal false
       Inspec::Resource.support_registry["os"] = nil
+    end
+  end
+
+  describe "resource_id" do
+    it "will register a resource_id" do
+      expected = rand.to_s
+      _(create { resource_id expected }.resource_id).must_equal expected
+    end
+
+    it "can change the resource_id" do
+      c = create { resource_id rand.to_s }
+      c.resource_id(x = rand.to_s)
+      _(c.resource_id).must_equal x
     end
   end
 end

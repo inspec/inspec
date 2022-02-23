@@ -34,6 +34,12 @@ module Inspec
       Inspec::Resource.support_registry[key].push(criteria)
     end
 
+    def self.resource_id(value = nil)
+      return (find_class_instance_variable(:@resource_id) || "") unless value
+
+      @resource_id = value
+    end
+
     # TODO: this is pretty terrible and is only here to work around
     # the idea that we've trained resource authors to make initialize
     # methods w/o calling super.
