@@ -10,7 +10,7 @@ pkg_license=('Apache-2.0')
 pkg_deps=(
   core/coreutils
   core/git
-  core/ruby26
+  core/ruby27
   core/bash
 )
 pkg_build_deps=(
