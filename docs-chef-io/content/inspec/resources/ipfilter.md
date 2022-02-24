@@ -22,7 +22,7 @@ This resource is distributed along with Chef InSpec itself. You can use it autom
 
 ## Syntax
 
-An `ipfilter` resource block declares tests for rules in IP tables:
+An `ipfilter` resource block declares tests for rules defined for IP Filter:
 
     describe ipfilter do
       it { should have_rule("RULE") }
