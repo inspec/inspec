@@ -61,10 +61,9 @@ if [ -n "${CI_ENABLE_COVERAGE:-}" ]; then
   export PATH=$SONAR_SCANNER_HOME/bin:$PATH
   export SONAR_SCANNER_OPTS="-server"
 
+  # See sonar-project.properties for additional settings
   echo "--- running sonarscanner"
   sonar-scanner \
-  -Dsonar.organization=inspec \
-  -Dsonar.projectKey=inspec_inspec \
   -Dsonar.sources=. \
   -Dsonar.host.url=https://sonarcloud.io
 fi
