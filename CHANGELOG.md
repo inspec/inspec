@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.0.6 -->
-## [v5.0.6](https://github.com/inspec/inspec/tree/v5.0.6) (2022-02-24)
+<!-- latest_release 5.1.0 -->
+## [v5.1.0](https://github.com/inspec/inspec/tree/v5.1.0) (2022-02-24)
 
 #### Merged Pull Requests
-- Descriptions for all the schema attributes [#5790](https://github.com/inspec/inspec/pull/5790) ([Amndeep7](https://github.com/Amndeep7))
+- CFINSPEC-2 Added options to allow winrm SSL connection with certificates  [#5793](https://github.com/inspec/inspec/pull/5793) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- CFINSPEC-2 Added options to allow winrm SSL connection with certificates  [#5793](https://github.com/inspec/inspec/pull/5793) ([Nik08](https://github.com/Nik08)) <!-- 5.1.0 -->
 - Descriptions for all the schema attributes [#5790](https://github.com/inspec/inspec/pull/5790) ([Amndeep7](https://github.com/Amndeep7)) <!-- 5.0.6 -->
 - CFINSPEC-45: Update rspec version to 3.11 [#5837](https://github.com/inspec/inspec/pull/5837) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.0.5 -->
 - Always expire the git cache when running omnibus jobs [#5865](https://github.com/inspec/inspec/pull/5865) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.0.4 -->
