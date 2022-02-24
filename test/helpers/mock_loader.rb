@@ -372,6 +372,9 @@ class MockLoader
       # ipnat
       "/usr/sbin/ipnat -l" => cmd.call("ipnat-l"),
       %{type "/usr/sbin/ipnat"} => empty.call,
+      # ipfilter
+      "/usr/sbin/ipfstat -io" => cmd.call("ipfstat-io"),
+      %{type "/usr/sbin/ipfstat"} => empty.call,
       # apache_conf
       "sh -c 'find /etc/apache2/ports.conf -type f -maxdepth 1'" => cmd.call("find-apache2-ports-conf"),
       "sh -c 'find /etc/httpd/conf.d/*.conf -type f -maxdepth 1'" => cmd.call("find-httpd-ssl-conf"),
