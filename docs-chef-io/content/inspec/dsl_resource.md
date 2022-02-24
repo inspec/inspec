@@ -48,6 +48,7 @@ The following attributes can be configured:
 - desc - Description of the resource (optional)
 - example - Example usage of the resource (optional)
 - supports - (Chef InSpec 2.0+) Platform restrictions of the resource (optional)
+- resource_id - A unique identifier for each node of resource. Should specify the implementation to determine it (optional)
 
 The following methods are available to the resource:
 
@@ -86,6 +87,11 @@ class ExampleConfig < Inspec.resource(1)
   # Expose all parameters of the configuration file.
   def method_missing(name)
     @params[name]
+  end
+
+  def resource_id
+    value = "example value" # logic to determine resource_id value for each resource node
+    resource_id(value)
   end
 
   private

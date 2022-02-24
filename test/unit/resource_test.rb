@@ -96,15 +96,12 @@ describe Inspec::Resource do
   end
 
   describe "resource_id" do
-    it "will register a resource_id" do
-      expected = rand.to_s
-      _(create { resource_id expected }.resource_id).must_equal expected
-    end
-
-    it "can change the resource_id" do
-      c = create { resource_id rand.to_s }
-      c.resource_id(x = rand.to_s)
-      _(c.resource_id).must_equal x
+    it "can set instance variable resource_id and use it" do
+      cls = create {}
+      cls_obj = cls.new(nil, "notSoRandomName")
+      cls_obj.resource_id(x = rand.to_s)
+      _(cls_obj.resource_id).must_equal x
+      _(cls_obj.instance_variable_get("@resource_id")).must_equal x
     end
   end
 end
