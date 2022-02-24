@@ -399,8 +399,8 @@ module Inspec
       gem_dependencies = collect_gem_dependencies(load_libraries)
       gem_dependencies.each do |gem_data|
         dependency_loader = DependencyLoader.new
-        gem_version = gem_data[:version].split[1] unless gem_data[:version].nil?
-        if dependency_loader.gem_version_installed?(gem_data[:name], gem_version) || dependency_loader.gem_installed?(gem_data[:name])
+        if dependency_loader.gem_version_installed?(gem_data[:name], gem_data[:version]) ||
+            dependency_loader.gem_installed?(gem_data[:name])
           load_gem_dependency(gem_data)
         else
           if Inspec::Config.cached[:auto_install_gems]

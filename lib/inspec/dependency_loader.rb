@@ -46,27 +46,23 @@ module Inspec
     end
 
     def gem_installed?(name)
-      list_installed_gems.detect { |spec| spec.name == name }
+      list_installed_gems.any? { |spec| spec.name == name }
     end
 
     def gem_version_installed?(name, version)
-      if version.nil?
-        gem_installed?(name)
-      else
-        list_installed_gems.detect { |spec| spec.name == name && spec.version == Gem::Version.new(version) }
-      end
+      list_installed_gems.any? { |s| s.name == name && Gem::Requirement.new(version.split(",")) =~ s.version }
     end
 
     private
 
     def activate_gem_dependency(name, version_constraint = "> 0")
+      version_constraint = version_constraint.split(",")
       gem_deps = [Gem::Dependency.new(name.to_s, version_constraint)]
       managed_gem_set = Gem::Resolver::VendorSet.new
 
       # Note: On Windows, there was an issue in resolving gem dependency.
       # This block resolves that Windows issue partially.
-      # But this will still fail in Windows for the unpackaged gems in gem_dir,
-      # which don't have the .gemspec file.
+      # But this will still fail in Windows for the gems which don't have the .gemspec file.
       # TODO: Find the solution to resolve gem dependencies that work for the unpackaged gems which don't have the .gemspec file.
       if Inspec.locally_windows?
         list_managed_gems.each do |spec|

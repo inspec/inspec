@@ -37,24 +37,24 @@ describe "dependency_loader" do
   describe "gem_installed?" do
     it "returns the list of gems installed if gem already installed" do
       result = dependency_loader.gem_installed?("inspec-test-fixture")
-      _(result).wont_be_nil
+      _(result).must_equal true
     end
 
     it "returns nil if specified gem is not already installed." do
       result = dependency_loader.gem_installed?("test_gem")
-      _(result).must_be_nil
+      _(result).must_equal false
     end
   end
 
   describe "gem_version_installed?" do
     it "returns the list of gems installed if gem with specified version is already installed" do
       result = dependency_loader.gem_version_installed?("inspec-test-fixture", "0.1.0")
-      _(result).wont_be_nil
+      _(result).must_equal true
     end
 
     it "returns nil if gem with specified version is not already installed." do
       result = dependency_loader.gem_version_installed?("test_gem", "0.0.1")
-      _(result).must_be_nil
+      _(result).must_equal false
     end
   end
 end

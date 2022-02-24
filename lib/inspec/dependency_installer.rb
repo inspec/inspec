@@ -28,7 +28,8 @@ module Inspec
     private
 
     def install_from_remote_gems(requested_gem_name, opts)
-      gem_dependency = Gem::Dependency.new(requested_gem_name, opts[:version] || "> 0")
+      version = opts[:version].split(",")
+      gem_dependency = Gem::Dependency.new(requested_gem_name, version || "> 0")
 
       # BestSet is rubygems.org API + indexing, APISet is for custom sources
       sources = if opts[:source]
