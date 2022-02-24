@@ -99,8 +99,18 @@ module Inspec
         desc: "Specify a particular shell to use."
       option :ssl, type: :boolean,
         desc: "Use SSL for transport layer encryption (WinRM)."
+      option :ssl_peer_fingerprint, type: :string,
+        desc: "Specify peer fingerprint for SSL authentication, used in lieu of certificates"
       option :self_signed, type: :boolean,
         desc: "Allow remote scans with self-signed certificates (WinRM)."
+      option :ca_trust_file, type: :string,
+        desc: "Specify CA trust file for SSL authentication"
+      option :client_cert, type: :string,
+        desc: "Specify client certificate for SSL authentication"
+      option :client_key, type: :string,
+        desc: "Specify client key required with client cert for SSL authentication"
+      option :client_key_pass, type: :string, lazy_default: -1,
+        desc: "Specify client cert password, if required for SSL authentication"
       option :winrm_transport, type: :string, default: "negotiate",
         desc: "Specify which transport to use, defaults to negotiate (WinRM)."
       option :winrm_disable_sspi, type: :boolean,
