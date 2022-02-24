@@ -52,7 +52,7 @@ module Inspec
     end
 
     def gem_dependencies
-      params[:required_gems] || []
+      params[:gem_dependencies] || []
     end
 
     def supports(sth, version = nil)

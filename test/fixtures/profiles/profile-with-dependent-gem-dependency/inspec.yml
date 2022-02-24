@@ -1,4 +1,4 @@
-name: profile-with-gem-dependency
+name: profile-with-dependent-gem-dependency
 title: InSpec Profile
 maintainer: The Authors
 copyright: The Authors
@@ -8,6 +8,6 @@ summary: An InSpec Compliance Profile
 version: 0.1.0
 supports:
   platform: os
-gem_dependencies:
-- name: money
-  version: "= 6.16.0"
+depends:
+  - name: profile-with-gem-dependency
+    path: ../profile-with-gem-dependency

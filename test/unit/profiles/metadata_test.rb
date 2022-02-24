@@ -38,6 +38,9 @@ describe "metadata with supported operating systems" do
         url: "https://artifactory.com/artifactory/example-repo-local/inspec/0.4.1.tar.gz"
         username: <%= ENV['USERNAME'] %>
         password: <%= ENV['API_KEY'] %>
+      gem_dependencies:
+        - name: "test"
+          version: "1.0.0"
 EOF
       ENV["USERNAME"] = "dummy_user"
       ENV["API_KEY"] = "dummy_pass"
@@ -48,6 +51,8 @@ EOF
       _(res.params[:depends][0][:url]).must_equal "https://artifactory.com/artifactory/example-repo-local/inspec/0.4.1.tar.gz"
       _(res.params[:depends][0][:username]).must_equal "dummy_user"
       _(res.params[:depends][0][:password]).must_equal "dummy_pass"
+      _(res.params[:gem_dependencies][0][:name]).must_equal "test"
+      _(res.params[:gem_dependencies][0][:version]).must_equal "1.0.0"
     end
 
     it "finalizes a loaded metadata via Profile ID" do
