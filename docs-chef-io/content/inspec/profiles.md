@@ -63,6 +63,7 @@ Each profile must have an `inspec.yml` file that defines the following informati
 - Use `supports` to specify a list of supported platform targets.
 - Use `depends` to define a list of profiles on which this profile depends.
 - Use `inputs` to define a list of inputs you can use in your controls.
+- Use `gem_dependencies` to specify a list of profile gem dependencies that is required to be install and load.
 
 `name` is required; all other profile settings are optional. For example:
 
@@ -80,6 +81,9 @@ supports:
 depends:
   - name: profile
     path: ../path/to/profile
+gem_dependencies:
+  - name: "gem-name"
+    version: ">= 2.0.0"
 inspec_version: "~> 2.1"
 ```
 
@@ -293,6 +297,18 @@ For example:
 depends:
 - name: linux
   compliance: base/linux
+```
+## Gem Dependencies
+
+
+Any profile with ruby gem dependencies that need to be installed can be specified using the gem dependencies settings in metadata file.
+
+For example, if you required any ruby library in the custom resource that needs a specific gem to be installed then you can specify that in the metadata file. It installs the gems in the default path of InSpec that is `~/.inspec/gems` when you run your profile.
+
+```YAML
+gem_dependencies:
+  - name: "mongo"
+    version: ">= 2.3.12"
 ```
 
 ## Vendoring Dependencies
