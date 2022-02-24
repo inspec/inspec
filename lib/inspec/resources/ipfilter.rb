@@ -47,6 +47,7 @@ module Inspec::Resources
     end
 
     private
+
     def find_ipfstat_or_error
       %w{/usr/sbin/ipfstat /sbin/ipfstat ipfstat}.each do |cmd|
         return cmd if inspec.command(cmd).exist?
