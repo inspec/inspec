@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.5 -->
-## [v4.56.5](https://github.com/inspec/inspec/tree/v4.56.5) (2022-02-22)
+<!-- latest_release 4.56.6 -->
+## [v4.56.6](https://github.com/inspec/inspec/tree/v4.56.6) (2022-02-24)
 
 #### Merged Pull Requests
-- CFINSPEC-45 Bump rspec to 3.11 - inspec 4 [#5867](https://github.com/inspec/inspec/pull/5867) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Bump omnibus-software from `ab23925` to `f64a223` in /omnibus [#5878](https://github.com/inspec/inspec/pull/5878) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- Bump omnibus-software from `ab23925` to `f64a223` in /omnibus [#5878](https://github.com/inspec/inspec/pull/5878) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.6 -->
 - CFINSPEC-45 Bump rspec to 3.11 - inspec 4 [#5867](https://github.com/inspec/inspec/pull/5867) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.5 -->
 - CFINSPEC-38 Adds new release branch for InSpec 5 release. [#5835](https://github.com/inspec/inspec/pull/5835) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.4 -->
 - Bump omnibus from `2bf77bb` to `55e74ac` in /omnibus [#5813](https://github.com/inspec/inspec/pull/5813) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.3 -->
