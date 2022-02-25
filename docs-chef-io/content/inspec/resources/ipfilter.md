@@ -52,13 +52,13 @@ The following examples show how to use this Chef InSpec audit resource.
 
 ### Test if there is a rule allowing FTP traffic on the public interface named dc0
 
-    describe iptables do
+    describe ipfilter do
       it { should have_rule("pass out quick on dc0 proto tcp from any to any port = ftp flags S/FSRPAU keep state") }
     end
 
 ### Test if there is a rule allowing SSH on the public interface named dc0
 
-    describe iptables do
+    describe ipfilter do
       it { should have_rule("pass out quick on dc0 proto tcp from any to any port = ssh flags S/FSRPAU keep state") }
     end
 
