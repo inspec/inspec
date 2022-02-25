@@ -39,7 +39,7 @@ module Inspec::Resources
       return [] if cmd.exit_status.to_i != 0 || cmd.stdout == ""
 
       # split rules, returns array or rules
-      @iptables_cache = cmd.stdout.split("\n").map(&:strip)
+      @ipfilter_cache = cmd.stdout.split("\n").map(&:strip)
     end
 
     def to_s
