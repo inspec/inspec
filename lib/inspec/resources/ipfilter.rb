@@ -43,7 +43,7 @@ module Inspec::Resources
     end
 
     def to_s
-      format("Ipfilter").strip
+      "Ipfilter"
     end
 
     private
