@@ -103,5 +103,14 @@ describe Inspec::Resource do
       _(cls_obj.resource_id).must_equal x
       _(cls_obj.instance_variable_get("@resource_id")).must_equal x
     end
+
+    it "can change the resource_id value and use it" do
+      cls = create {}
+      cls_obj = cls.new(nil, "notSoRandomName")
+      cls_obj.resource_id(x = rand.to_s)
+      _(cls_obj.resource_id).must_equal x
+      cls_obj.resource_id(y = rand.to_s)
+      _(cls_obj.resource_id).must_equal y
+    end
   end
 end

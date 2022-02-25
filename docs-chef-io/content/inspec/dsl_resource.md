@@ -48,12 +48,22 @@ The following attributes can be configured:
 - desc - Description of the resource (optional)
 - example - Example usage of the resource (optional)
 - supports - (Chef InSpec 2.0+) Platform restrictions of the resource (optional)
-- resource_id - A unique identifier for each node of resource. Should specify the implementation to determine it (optional)
 
 The following methods are available to the resource:
 
 - inspec - Contains a registry of all other resources to interact with the operating system or target in general.
 - skip_resource - A resource may call this method to indicate that requirements aren't met. All tests that use this resource will be marked as skipped.
+
+The additional methods defined within the resource:
+
+- resource_id - It is an instance method. Here logic to determine unique identifier for a resource node needs to be implemented and set using super class method. Following is the example of it's usage in an InSpec test:
+
+```
+  # example_config resource can have unique conf file path as an identifier.
+  describe example_config do
+    its("resource_id") { should eq PATH_OF_CONF_FILE }
+  end
+```
 
 The following example shows a full resource using attributes and methods
 to provide simple access to a configuration file:
@@ -90,8 +100,8 @@ class ExampleConfig < Inspec.resource(1)
   end
 
   def resource_id
-    value = "example value" # logic to determine resource_id value for each resource node
-    resource_id(value)
+    value = example_method_to_determine_resource_id # define logic to determine resource_id value
+    super(value)
   end
 
   private
