@@ -12,17 +12,13 @@ platform = "solaris"
     parent = "inspec/resources/os"
 +++
 
-Use the `ipnat` Chef InSpec audit resource to test rules that are defined for `IP NAT`. The ipnat utility is responsible for adding or removing set of rules to and from the IP NAT. Rules are added to the end of the internal lists, matching the order in which they appear when given to ipnat. `ipnat -l` helps to view the list of current NAT table entry mappings. The rule match is done against the output rules of `ipnat -l`.
+Use the `ipnat` Chef InSpec audit resource to test rules that are defined for `IP NAT`. The ipnat utility is responsible for adding or removing set of rules for IP NAT. Rules are added to the end of the internal lists, matching the order in which they appear when given to ipnat. `ipnat -l` helps to view the list of current NAT table entry mappings. The rule match is done against the output rules of `ipnat -l`.
 
 ## Availability
 
 ### Installation
 
 This resource is distributed along with Chef InSpec itself. You can use it automatically.
-
-### Version
-
-This resource first became available in v4.52.x of InSpec.
 
 ## Syntax
 

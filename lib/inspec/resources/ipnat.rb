@@ -4,7 +4,7 @@ module Inspec::Resources
     name "ipnat"
     supports platform: "freebsd"
     supports platform: "solaris"
-    desc "Use the ipnat InSpec audit resource to test rules that are defined for NAT"
+    desc "Use the ipnat InSpec audit resource to test rules that are defined for IP NAT"
     example <<~EXAMPLE
       describe ipnat do
         it { should have_rule("map net1 192.168.0.0/24 -> 0/32") }
@@ -29,21 +29,20 @@ module Inspec::Resources
       # this would be true if the OS family was not bsd/solaris when checked in initliaze
       return @ipnat_cache if defined?(@ipnat_cache)
 
-      # construct ipnat command to show the list of current NAT table entry mappings
+      # construct ipnat command to show the list of current IP NAT table entry mappings
       bin = find_ipnat_or_error
       ipnat_cmd = "#{bin} -l"
       cmd = inspec.command(ipnat_cmd)
 
       # Return empty array when command is not executed successfully
-      # or there is no output since no rules are active
-      return [] if cmd.exit_status.to_i != 0 || cmd.stdout == ""
+      return [] if cmd.exit_status.to_i != 0
 
       # split rules, returns array or rules
       @ipnat_cache = cmd.stdout.split("\n").map(&:strip)
     end
 
     def to_s
-      format("Ipnat").strip
+      "Ipnat"
     end
 
     private
