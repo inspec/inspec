@@ -1,5 +1,4 @@
 require "inspec/resources/command"
-#require "pry-byebug"
 module Inspec::Resources
   class IpNat < Inspec.resource(1)
     name "ipnat"
@@ -34,7 +33,7 @@ module Inspec::Resources
       bin = find_ipnat_or_error
       ipnat_cmd = "#{bin} -l"
       cmd = inspec.command(ipnat_cmd)
-      #binding.pry
+
       # Return empty array when command is not executed successfully
       # or there is no output since no rules are active
       return [] if cmd.exit_status.to_i != 0 || cmd.stdout == ""
