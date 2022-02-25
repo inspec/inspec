@@ -64,8 +64,8 @@ module Inspec
           p[:controls]&.each do |c|
             c[:results]&.each do |r|
               next unless r[:message] # :message only set on failure
-
-              pos = r[:message].index("\n\nDiff:")
+              #require 'pry'; binding.pry
+              pos = r[:message].index(/\n{1,2}Diff.*:/)
               next unless pos # Only textual tests get Diffs
 
               r[:message] = r[:message].slice(0, pos)
