@@ -1,0 +1,7 @@
+List of active MAP/Redirect filters:
+map en0 192.0.0.0/8 -> 10.9.0.1/32 proxy port ftp ftp/tcp
+map en0 192.0.0.0/8 -> 10.9.0.1/32 portmap tcp/udp 20000:40000 mssclamp 1452
+map en0 192.0.0.0/8 -> 10.9.0.1/32
+map net1 192.168.0.0/24 -> 0/32
+
+List of active sessions:
