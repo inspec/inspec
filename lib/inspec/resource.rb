@@ -35,8 +35,9 @@ module Inspec
     end
 
     def resource_id(value = nil)
-      resource_id_value = value || ""
-      @resource_id ||= resource_id_value
+      @resource_id = value if value
+      @resource_id = ""    if @resource_id.nil?
+      @resource_id
     end
 
     # TODO: this is pretty terrible and is only here to work around
