@@ -84,8 +84,13 @@ module Inspec::Resources
 
     def initialize(selinux_path = "/etc/selinux/config")
       @path = selinux_path
-      cmd = inspec.command("sestatus")
+      if inspec.os.redhat? && inspec.os.name == "amazon"
+        lcmd = "/usr/sbin/sestatus"
+      else
+        lcmd = "sestatus"
+      end
 
+      cmd = inspec.command(lcmd)
       if cmd.exit_status != 0
         # `sestatus` command not found error message comes in stdout so handling both here
         out = cmd.stdout + "\n" + cmd.stderr

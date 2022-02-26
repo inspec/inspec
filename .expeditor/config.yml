@@ -18,14 +18,28 @@ pipelines:
      - HAB_NOCOLORING: "true"
      - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
  - docker/build
- - omnibus/release
+ - omnibus/release:
+    env:
+     # The git cache is corrupt more often than not. This always purges the cache.
+     # https://chefio.atlassian.net/wiki/spaces/RELENGKB/pages/2204336129/Resolving+git+cache+build+errors+in+Omnibus
+     - EXPIRE_CACHE: 1
  - omnibus/adhoc:
     definition: .expeditor/release.omnibus.yml
     env:
      - ADHOC: true
+     - EXPIRE_CACHE: 1
  - verify:
     description: Pull Request validation tests
     public: true
+    env:
+     - LANG: "C.UTF-8"
+     - SLOW: 1
+     - NO_AWS: 1
+     - MT_CPU: 5
+ - coverage:
+    description: Unit test coverage
+    # Private due to use of tokens
+    trigger: pull_request
     env:
      - LANG: "C.UTF-8"
      - SLOW: 1
@@ -67,19 +81,18 @@ slack:
 
 github:
  delete_branch_on_merge: true
- minor_bump_labels:
-  - "Expeditor: Bump Minor Version"
  version_tag_format: v{{version}}
+ minor_bump_labels:
+   - "Expeditor: Bump Minor Version"
+ # allow bumping the major release via label
+ major_bump_labels:
+   - "Expeditor: Bump Major Version"
 
 release_branches:
-  - master:
+  - main:
+      version_constraint: 5.*
+  - inspec-4:
      version_constraint: 4.*
-  - 1-stable:
-     version_constraint: 1.*
-  - 2-stable:
-     version_constraint: 2.*
-  - 3-stable:
-     version_constraint: 3.*
   # We need to ensure all configs are in place to appropriately support this branch
   # - expeditor-development:
   #    version_constraint: 4.*
@@ -151,6 +164,9 @@ subscriptions:
     actions:
      - built_in:promote_docker_images
      - built_in:promote_habitat_packages
+  - workload: project_promoted:{{agent_id}}:*
+    actions:
+      - built_in:promote_artifactory_artifact
   - workload: artifact_published:stable:inspec:{{version_constraint}}
     actions:
      - bash:.expeditor/update_dockerfile.sh

@@ -1,4 +1,5 @@
 require "functional/helper"
+require "helpers/mock_loader"
 
 describe "inspec exec" do
   parallelize_me!
@@ -163,7 +164,6 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 
   it "executes a specs-only profile" do
     inspec("exec " + File.join(profile_path, "spec_only") + " --no-create-lockfile")
-
     _(stdout).must_include "Target:  local://"
     _(stdout).must_include "working"
     _(stdout).must_include "✔  is expected to eq \"working\""
@@ -193,6 +193,52 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     _(out.stdout).must_include "11_pass"
     _(out.stdout).must_include "11_pass2"
     _(out.stdout).wont_include "bar"
+    _(out.stdout).wont_include "only-describe"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  # it filters the control from its dependent profile_c
+  it "executes only specified controls from parent and child profile when selecting the controls by regex" do
+    inspec("exec " + File.join(profile_path, "dependencies", "profile_a") + " --no-create-lockfile --controls '/^profilec/'")
+    _(out.stdout).must_include "profilec-1"
+    _(out.stdout).wont_include "profilea-1"
+    _(out.stdout).wont_include "only-describe"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  # it filters the control from its dependent profile_c
+  it "executes only specified controls from parent and child profile when selecting the controls by id" do
+    inspec("exec " + File.join(profile_path, "dependencies", "profile_a") + " --no-create-lockfile --controls 'profilec-1'")
+    _(out.stdout).must_include "profilec-1"
+    _(out.stdout).wont_include "profilea-1"
+    _(out.stdout).wont_include "only-describe"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  # it filters the control from its dependent profile_c
+  it "executes only specified controls from parent and child profile when selecting the controls by space seprated id" do
+    inspec("exec " + File.join(profile_path, "dependencies", "profile_a") + " --no-create-lockfile --controls 'profilec-1' 'profilea-1'")
+    _(out.stdout).must_include "profilec-1"
+    _(out.stdout).must_include "profilea-1"
+    _(out.stdout).wont_include "profilea-2"
+    _(out.stdout).wont_include "only-describe"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  # it filters the control from its dependent profile_c
+  it "executes only specified controls of required dependent profile when selecting the controls by space seprated id" do
+    inspec("exec " + File.join(profile_path, "dependencies", "require_controls_test") + " --no-create-lockfile --controls 'profileb-2'")
+    _(out.stdout).must_include "profileb-2"
+    _(out.stdout).wont_include "profilea-1"
+    _(out.stdout).wont_include "profilea-2"
     _(out.stdout).wont_include "only-describe"
     _(stderr).must_equal ""
 
@@ -235,6 +281,107 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     _(stderr).must_equal ""
 
     assert_exit_code 100, out
+  end
+
+  it "executes only specified controls when selecting the controls by literal single tag name" do
+    inspec("exec " + File.join(profile_path, "control-tags") + " --no-create-lockfile --tags tag1")
+    _(stdout).must_include "true is expected to eq true\n"
+    _(stdout).must_include "Test Summary: 1 successful, 0 failures, 0 skipped\n"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  it "executes only specified controls when selecting the controls by literal multiple tag names" do
+    inspec("exec " + File.join(profile_path, "control-tags") + " --no-create-lockfile --tags tag1 tag5 tag6 tag17 'tagname with space'")
+    _(stdout).must_include "true is expected to eq true\n"
+    _(stdout).must_include "Test Summary: 4 successful, 0 failures, 0 skipped\n"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  it "executes only specified controls when selecting the controls by using regex on tags" do
+    inspec("exec " + File.join(profile_path, "control-tags") + " --no-create-lockfile --tags '/\s+/'")
+    _(stdout).must_include "true is expected to eq true\n"
+    _(stdout).must_include "Test Summary: 2 successful, 0 failures, 0 skipped\n"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  it "executes only specified controls when selecting failing controls by using literal name of tag" do
+    inspec("exec " + File.join(profile_path, "control-tags") + " --no-create-lockfile --tags tag18")
+    _(stdout).must_include "true is expected to eq false\n"
+    _(stdout).must_include "Test Summary: 0 successful, 1 failure, 0 skipped\n"
+    _(stderr).must_equal ""
+
+    assert_exit_code 100, out
+  end
+
+  it "executes only specified controls when selecting failing controls by using regex on tags" do
+    inspec("exec " + File.join(profile_path, "control-tags") + " --no-create-lockfile --tags '/(18)/'")
+    _(stdout).must_include "true is expected to eq false\n"
+    _(stdout).must_include "Test Summary: 0 successful, 1 failure, 0 skipped\n"
+    _(stderr).must_equal ""
+
+    assert_exit_code 100, out
+  end
+
+  it "executes profile successfully when tags are used with single element array, punctuations and linefeeds" do
+    inspec("exec " + File.join(profile_path, "control-tags") + " --no-create-lockfile --tags tag1 'Line with a comma,error' CCI-000366")
+    _(stdout).must_include "true is expected to eq true\n"
+    _(stdout).must_include "Test Summary: 1 successful, 0 failures, 0 skipped\n"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  it "executes only specified controls of included dependent profile by using literal names of tags" do
+    inspec("exec " + File.join(profile_path, "dependencies", "profile_a") + " --no-create-lockfile --tags tag-profilea1 tag-profilec1")
+    _(stdout).must_include "✔  profilea-1: Create / directory\n"
+    _(stdout).must_include "✔  profilec-1: Create /tmp directory\n"
+    _(stdout).must_include "✔  File / is expected to be directory\n"
+    _(stdout).wont_include "✔  profilea-2: example_config\n"
+    _(stdout).must_include "Test Summary: 2 successful, 0 failures, 0 skipped\n"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  it "executes only specified controls of included dependent profile by using regex on tags" do
+    inspec("exec " + File.join(profile_path, "dependencies", "profile_a") + " --no-create-lockfile --tags '/^tag-profilea/'")
+    _(stdout).must_include "✔  profilea-1: Create / directory\n"
+    _(stdout).must_include "✔  profilea-2: example_config\n"
+    _(stdout).wont_include "✔  profilec-1: Create /tmp directory\n"
+    _(stdout).must_include "Test Summary: 2 successful, 0 failures, 0 skipped\n"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  it "executes only specified controls of required dependent profile by using literal names of tags" do
+    inspec("exec " + File.join(profile_path, "dependencies", "require_controls_test") + " --no-create-lockfile --tags tag-profileb2")
+    _(stdout).must_include "✔  profileb-2: example_config\n"
+    _(stdout).must_include "✔  example_config version is expected to eq \"2.0\"\n"
+    _(stdout).wont_include "✔  profilea-1: Create / directory\n"
+    _(stdout).wont_include "✔  profilea-2: example_config\n"
+    _(stdout).must_include "Test Summary: 2 successful, 0 failures, 0 skipped\n"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
+  end
+
+  it "executes only specified controls of required dependent profile by using regex on tags" do
+    inspec("exec " + File.join(profile_path, "dependencies", "require_controls_test") + " --no-create-lockfile --tags '/^tag-profileb/'")
+    _(stdout).must_include "✔  profileb-2: example_config\n"
+    _(stdout).must_include "✔  example_config version is expected to eq \"2.0\"\n"
+    _(stdout).wont_include "✔  profilea-1: Create / directory\n"
+    _(stdout).wont_include "✔  profilea-2: example_config\n"
+    _(stdout).must_include "Test Summary: 2 successful, 0 failures, 0 skipped\n"
+    _(stderr).must_equal ""
+
+    assert_exit_code 0, out
   end
 
   it "reports whan a profile cannot be loaded" do
@@ -374,6 +521,25 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     end
   end
 
+  describe "with a profile that inherits core resource into custom reosuce" do
+    let(:out) { inspec("exec " + File.join(profile_path, "custom-resource-inheritance") + " --no-create-lockfile") }
+    it "executes the custom resoruc without error" do
+      _(stdout).must_equal "
+Profile: InSpec Profile (custom-resource-inheritance)
+Version: 0.1.0
+Target:  local://
+
+  Node Json
+     ✔  name is expected to eq \"hello\"
+     ✔  [\"meta\", \"creator\"] is expected to eq \"John Doe\"
+
+Test Summary: 2 successful, 0 failures, 0 skipped
+"
+      _(stderr).must_equal ""
+      assert_exit_code 0, out
+    end
+  end
+
   describe "given a profile with controls and anonymous describe blocks" do
     let(:out) { inspec("exec " + example_control + " --no-create-lockfile") }
 
@@ -479,6 +645,26 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
 
       skip_windows! # Breakage confirmed, only on CI: https://buildkite.com/chef-oss/inspec-inspec-master-verify/builds/2355#2c9d032e-4a24-4e7c-aef2-1c9e2317d9e2
       inspec("exec supermarket://nathenharvey/tmp-compliance-profile --no-create-lockfile")
+
+      if is_windows?
+        _(stdout).must_include "Profile Summary: 1 successful control, 1 control failure, 0 controls skipped\n"
+      else
+        _(stdout).must_include "Profile Summary: 2 successful controls, 0 control failures, 0 controls skipped\n"
+      end
+
+      _(stderr).must_equal ""
+
+      if is_windows?
+        assert_exit_code 100, out # references root
+      else
+        assert_exit_code 0, out
+      end
+    end
+
+    it "can run supermarket profiles directly from the command line with --supermarket_url option" do
+
+      skip_windows! # Breakage confirmed, only on CI: https://buildkite.com/chef-oss/inspec-inspec-master-verify/builds/2355#2c9d032e-4a24-4e7c-aef2-1c9e2317d9e2
+      inspec("exec supermarket://nathenharvey/tmp-compliance-profile --supermarket_url='https://supermarket.chef.io' --no-create-lockfile")
 
       if is_windows?
         _(stdout).must_include "Profile Summary: 1 successful control, 1 control failure, 0 controls skipped\n"
@@ -871,7 +1057,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
       end
     end
 
-    describe "when --config points to a nonexistant location" do
+    describe "when --config points to a nonexistent location" do
       let(:cli_args) { "--config " + "no/such/path" }
       it "should issue an error with the file path" do
         _(stderr).wont_match looks_like_a_stacktrace
@@ -908,8 +1094,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
   describe "when specifying the execution target" do
     let(:local_plat) do
       json = run_inspec_process("detect --format json", {}).stdout
-      # .slice is available in ruby 2.5+
-      JSON.parse(json).select { |k, v| %w{name release}.include? k }
+      JSON.parse(json).slice("name", "release")
     end
     let(:run_result) { run_inspec_process("exec " + File.join(profile_path, "simple-metadata") + " " + cli_args, json: true) }
     let(:seen_platform) { run_result; @json["platform"].select { |k, v| %w{name release target_id}.include? k } }

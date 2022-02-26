@@ -5,6 +5,8 @@ module Inspec::Resources
   class Bash < Cmd
     name "bash"
     supports platform: "unix"
+    supports platform: "esx"
+
     desc "Run a command or script in BASH."
     example <<~EXAMPLE
       describe bash('ls -al /') do

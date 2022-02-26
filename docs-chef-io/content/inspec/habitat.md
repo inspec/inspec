@@ -51,7 +51,7 @@ HAB_INSPEC_PROFILE_FRONTEND1="interval = 60" hab start effortless/audit-baseline
 
 The Chef Habitat Supervisor will display output like this:
 
-```text
+```bash
 hab start effortless/audit-baseline
 ∵ Missing package for core/hab-sup/0.17.0
 » Installing core/hab-sup/0.17.0
@@ -85,7 +85,7 @@ The above sample output shows the supervisor starting, downloading the necessary
 
 Chef InSpec will write a JSON file in the `${svc_var_path}/inspec_results` directory containing the results of the last Chef InSpec run. For example, for the `effortless/audit-baseline` package, the Chef InSpec results will be at:
 
-```text
+```
 /hab/svc/inspec-profile-frontend1/var/inspec_results/inspec-profile-frontend1.json
 ```
 
@@ -103,13 +103,13 @@ distributed to a host and installed via `hab pkg install`.
 
 The package file will be named:
 
-```text
+```
 HABITAT_ORIGIN-inspec-profile-PROFILE_NAME-PROFILE_VERSION-BUILD_ID-x86_64-linux.hart
 ```
 
 For example:
 
-```text
+```
 adamleff-inspec-profile-frontend1-0.1.0-20170328173005-x86_64-linux.hart
 ```
 
@@ -127,7 +127,7 @@ inspec habitat profile create ~/profiles/frontend1
 
 #### Example Output
 
-```text
+```bash
 $ habitat profile create ~/profiles/frontend1
 [2017-03-28T13:29:32-04:00] INFO: Creating a Habitat artifact for profile: /Users/aleff/profiles/frontend1
 [2017-03-28T13:29:32-04:00] INFO: Checking to see if Habitat is installed...
@@ -206,7 +206,7 @@ inspec habitat profile upload ~/profiles/frontend1
 
 #### Example Output
 
-```text
+```bash
 [2017-03-28T13:29:32-04:00] INFO: Creating a Habitat artifact for profile: /Users/aleff/profiles/frontend1
 [2017-03-28T13:29:32-04:00] INFO: Checking to see if Habitat is installed...
 [2017-03-28T13:29:32-04:00] INFO: Copying profile contents to the work directory...

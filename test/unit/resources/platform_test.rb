@@ -3,19 +3,19 @@ require "inspec/resource"
 require "inspec/resources/platform"
 
 describe "Inspec::Resources::Platform" do
-  let(:resource) { MockLoader.new(:ubuntu1504).load_resource("platform") }
+  let(:resource) { MockLoader.new(:ubuntu).load_resource("platform") }
 
   it "verify platform parsing on Ubuntu" do
     _(resource.name).must_equal "ubuntu"
     _(resource.family).must_equal "debian"
-    _(resource.release).must_equal "15.04"
+    _(resource.release).must_equal "20.04"
     _(resource.arch).must_equal "x86_64"
   end
 
   it "verify platform hash parsing on Ubuntu" do
     _(resource[:name]).must_equal "ubuntu"
     _(resource[:family]).must_equal "debian"
-    _(resource[:release]).must_equal "15.04"
+    _(resource[:release]).must_equal "20.04"
     _(resource[:arch]).must_equal "x86_64"
   end
 
@@ -67,18 +67,18 @@ describe "Inspec::Resources::Platform" do
     _(resource).wont_be :supported?, supports
   end
 
-  it "loads a profile which supports release 15.04" do
+  it "loads a profile which supports release 20.04" do
     supports = [
       { 'os-family': "windows", 'os-name': "windows_2000" },
-      { 'os-name': "ubuntu", 'release': "15.04" },
+      { 'os-name': "ubuntu", 'release': "20.04" },
     ]
     _(resource).must_be :supported?, supports
   end
 
-  it "loads a profile which supports release 15.*" do
+  it "loads a profile which supports release 20.*" do
     supports = [
       { 'os-family': "windows", 'os-name': "windows_2000" },
-      { 'os-name': "ubuntu", 'release': "15.*" },
+      { 'os-name': "ubuntu", 'release': "20.*" },
     ]
     _(resource).must_be :supported?, supports
   end

@@ -13,15 +13,14 @@ class MockLoader
     debian7: { name: "debian", family: "debian", release: "7", arch: "x86_64" },
     debian8: { name: "debian", family: "debian", release: "8", arch: "x86_64" },
     debian10: { name: "debian", family: "debian", release: "buster/sid", arch: "x86_64" },
+    freebsd9: { name: "freebsd", family: "bsd", release: "9", arch: "amd64" },
     freebsd10: { name: "freebsd", family: "bsd", release: "10", arch: "amd64" },
     freebsd11: { name: "freebsd", family: "bsd", release: "11", arch: "amd64" },
     freebsd12: { name: "freebsd", family: "bsd", release: "12", arch: "amd64" },
     macos10_10: { name: "mac_os_x", family: "darwin", release: "10.10.4", arch: nil },
     macos10_16: { name: "darwin", family: "darwin", release: "10.16", arch: nil },
     ubuntu1404: { name: "ubuntu", family: "debian", release: "14.04", arch: "x86_64" },
-    ubuntu1504: { name: "ubuntu", family: "debian", release: "15.04", arch: "x86_64" },
-    ubuntu1604: { name: "ubuntu", family: "debian", release: "16.04", arch: "x86_64" },
-    ubuntu1804: { name: "ubuntu", family: "debian", release: "18.04", arch: "x86_64" },
+    ubuntu: { name: "ubuntu", family: "debian", release: "20.04", arch: "x86_64" },
     mint17: { name: "linuxmint", family: "debian", release: "17.3", arch: "x86_64" },
     mint18: { name: "linuxmint", family: "debian", release: "18", arch: "x86_64" },
     windows: { name: "windows", family: "windows", release: "6.2.9200", arch: "x86_64" },
@@ -34,14 +33,15 @@ class MockLoader
     aix: { name: "aix", family: "aix", release: "7.2", arch: "powerpc" },
     amazon: { name: "amazon", family: "redhat", release: "2015.03", arch: "x86_64" },
     amazon2: { name: "amazon", family: "redhat", release: "2", arch: "x86_64" },
+    aliyun3: { name: "alibaba", family: "redhat", release: "3", arch: "x86_64" },
     yocto: { name: "yocto", family: "yocto", release: "0.0.1", arch: "aarch64" },
     undefined: { name: nil, family: nil, release: nil, arch: nil },
   }
 
-  OPERATING_SYSTEMS[:linux] = OPERATING_SYSTEMS[:ubuntu1604]
+  OPERATING_SYSTEMS[:linux] = OPERATING_SYSTEMS[:ubuntu]
 
   # pass the os identifier to emulate a specific operating system
-  def initialize(os = :ubuntu1404)
+  def initialize(os = :ubuntu)
     # selects operating system
     @platform = OPERATING_SYSTEMS[os]
   end
@@ -88,7 +88,7 @@ class MockLoader
       mockfile.call("emptyfile")
     }
 
-    mock.files = {
+    mock_files = {
       "/proc/net/bonding/bond0" => mockfile.call("bond0"),
       "/etc/ssh/ssh_config" => mockfile.call("ssh_config"),
       "/etc/ssh/sshd_config" => mockfile.call("sshd_config"),
@@ -97,11 +97,13 @@ class MockLoader
       "/etc/passwd" => mockfile.call("passwd"),
       "/etc/shadow" => mockfile.call("shadow"),
       "/etc/ntp.conf" => mockfile.call("ntp.conf"),
+      "/etc/chrony.conf" => mockfile.call("chrony.conf"),
       "/etc/login.defs" => mockfile.call("login.defs"),
       "/etc/security/limits.conf" => mockfile.call("limits.conf"),
       "/etc/inetd.conf" => mockfile.call("inetd.conf"),
       "/etc/group" => mockfile.call("etcgroup"),
       "/etc/grub.conf" => mockfile.call("grub.conf"),
+      "/etc/non_indented_grub.conf" => mockfile.call("non_indented_grub.conf"),
       "/boot/grub2/grub.cfg" => mockfile.call("grub2.cfg"),
       "/boot/grub2/grubenv" => mockfile.call("grubenv"),
       "/boot/grub2/grubenv_invalid" => mockfile.call("grubenv_invalid"),
@@ -111,6 +113,10 @@ class MockLoader
       "/etc/mysql/my.cnf" => mockfile.call("mysql.conf"),
       "/etc/mysql/mysql2.conf" => mockfile.call("mysql2.conf"),
       "/etc/mongod.conf" => mockfile.call("mongod.conf"),
+      "/opt/oracle/product/18c/dbhomeXE/network/admin/listener.ora" => mockfile.call("listener.ora"),
+      "C:\\app\\Administrator\\product\\18.0.0\\dbhomeXE\\network\\admin\\listener.ora" => mockfile.call("listener.ora"),
+      "/etc/cassandra/cassandra.yaml" => mockfile.call("cassandra.yaml"),
+      "C:\\Program Files\\apache-cassandra-3.11.4-bin\\apache-cassandra-3.11.4\\conf\\cassandra.yaml" => mockfile.call("cassandra.yaml"),
       "/etc/rabbitmq/rabbitmq.config" => mockfile.call("rabbitmq.config"),
       "kitchen.yml" => mockfile.call("kitchen.yml"),
       "example.csv" => mockfile.call("example.csv"),
@@ -118,7 +124,6 @@ class MockLoader
       "nonexistent.json" => mockfile.call("nonexistent.json"),
       "/sys/class/net/br0/bridge" => mockdir.call(true),
       "rootwrap.conf" => mockfile.call("rootwrap.conf"),
-      "/etc/apache2/apache2.conf" => mockfile.call("apache2.conf"),
       "/etc/apache2/ports.conf" => mockfile.call("ports.conf"),
       "/etc/httpd/conf/httpd.conf" => mockfile.call("httpd.conf"),
       "/etc/httpd/conf.d/ssl.conf" => mockfile.call("ssl.conf"),
@@ -173,7 +178,11 @@ class MockLoader
       "/etc/postfix/main.cf" => mockfile.call("main.cf"),
       "/etc/postfix/other.cf" => mockfile.call("other.cf"),
       "/etc/selinux/selinux_conf" => mockfile.call("selinux_conf"),
+      "/etc/apache2/apache2.conf" => mockfile.call("apache2.conf"),
+      "/etc/test-serverroot/apache2/apache2.conf" => mockfile.call("apache2_server_root_void.conf"),
     }
+
+    mock.files = mock_files
 
     # create all mock commands
     cmd = lambda { |x|
@@ -223,17 +232,22 @@ class MockLoader
       "ps -o pid,vsz,rss,tty,stat,time,ruser,args" => cmd.call("ps-busybox"),
       "env" => cmd.call("env"),
       "${Env:PATH}" => cmd.call("$env-PATH"),
+      "timedatectl status | grep -i 'Time zone'" => cmd.call("timedatectl-timezone"),
       # registry key test using winrm 2.0
       "9417f24311a9dcd90f1b1734080a2d4c6516ec8ff2d452a2328f68eb0ed676cf" => cmd.call("reg_schedule"),
       "Auditpol /get /subcategory:'User Account Management' /r" => cmd.call("auditpol"),
       "/sbin/auditctl -l" => cmd.call("auditctl"),
       "/sbin/auditctl -s" => cmd.call("auditctl-s"),
       "dpkg -s curl" => cmd.call("dpkg-s-curl"),
+      "apt list curl -a" => cmd.call("apt-list-curl"),
       "dpkg -s held-package" => cmd.call("dpkg-s-held-package"),
       "rpm -qi curl" => cmd.call("rpm-qi-curl"),
+      "yum list curl" => cmd.call("yum-list-curl"),
+      "Get-Package Chef Client v12.12.15 -AllVersions" => cmd.call("get-pkg-versions"),
       "rpm -qi --dbpath /var/lib/fake_rpmdb curl" => cmd.call("rpm-qi-curl"),
       "rpm -qi --dbpath /var/lib/rpmdb_does_not_exist curl" => cmd_exit_1.call,
       "pacman -Qi curl" => cmd.call("pacman-qi-curl"),
+      "pacman -Ss curl | grep curl | grep installed" => cmd.call("pacman-ss-grep-curl"),
       "brew info --json=v1 curl" => cmd.call("brew-info--json-v1-curl"),
       "brew info --json=v1 nginx" => cmd.call("brew-info--json-v1-nginx"),
       "brew info --json=v1 nope" => cmd_exit_1.call,
@@ -256,6 +270,7 @@ class MockLoader
       "Get-Package -Name 'Mozilla Firefox' | ConvertTo-Json" => cmd.call("get-package-firefox"),
       "Get-Package -Name 'Ruby 2.1.6-p336-x64' | ConvertTo-Json" => cmd.call("get-package-ruby"),
       'Get-Command "choco"' => empty.call,
+      "Get-TimeZone" => cmd.call("get-timezone"),
       'sh -c \'type "choco"\'' => cmd_exit_1.call,
       '(choco list --local-only --exact --include-programs --limit-output \'nssm\') -Replace "\|", "=" | ConvertFrom-StringData | ConvertTo-JSON' => cmd.call("choco-list-nssm"),
       '(choco list --local-only --exact --include-programs --limit-output \'git\') -Replace "\|", "=" | ConvertFrom-StringData | ConvertTo-JSON' => empty.call,
@@ -266,6 +281,7 @@ class MockLoader
       "dism /online /get-featureinfo /featurename:IIS-WebServer" => cmd.call("dism-iis-webserver"),
       "lsmod" => cmd.call("lsmod"),
       "/sbin/sysctl -q -n net.ipv4.conf.all.forwarding" => cmd.call("sbin_sysctl"),
+      "/sbin/sysctl -a" => cmd.call("sbin_sysctl_all"),
       # ports on windows
       "Get-NetTCPConnection -state Listen | Select-Object -Property State, Caption, Description, LocalAddress, LocalPort, RemoteAddress, RemotePort, DisplayName, Status | ConvertTo-Json" => cmd.call("get-net-tcpconnection"),
       'netstat -anbo | Select-String  -CaseSensitive -pattern "^\s+UDP|\s+LISTENING\s+\d+$" -context 0,1' => cmd.call("netstat-anbo-pipe-select-string-pattern.utf8"),
@@ -291,7 +307,7 @@ class MockLoader
       "/path/to/systemctl show --no-pager --all dbus" => cmd.call("systemctl-show-all-dbus"),
       # services on macos
       "launchctl list" => cmd.call("launchctl-list"),
-      # services on freebsd 11
+      # services on freebsd 6+
       "service -e" => cmd.call("service-e"),
       "service sendmail onestatus" => cmd.call("service-sendmail-onestatus"),
       # services for system 5 e.g. centos6, debian 6
@@ -379,6 +395,7 @@ class MockLoader
       "rpm -qa --queryformat '%{NAME}  %{VERSION}-%{RELEASE}  %{ARCH}\\n'" => cmd.call("rpm-qa-queryformat"),
       # pkg query all packages
       "pkg info vim-console" => cmd.call("pkg-info-vim-console"),
+      "pkg version -v | grep vim-console" => cmd.call("pkg-version-grep-vim-console"),
       # port netstat on solaris 10 & 11
       "netstat -an -f inet -f inet6" => cmd.call("s11-netstat-an-finet-finet6"),
       # xinetd configuration
@@ -483,6 +500,8 @@ class MockLoader
       # oracle
       "sh -c 'type \"sqlplus\"'" => cmd.call("oracle-cmd"),
       "1998da5bc0f09bd5258fad51f45447556572b747f631661831d6fcb49269a448" => cmd.call("oracle-result"),
+      "${Env:ORACLE_HOME}" => cmd.call("fetch-oracle-listener-in-windows"),
+      "${Env:CASSANDRA_HOME}" => cmd.call("fetch-cassandra-conf-in-windows"),
       # nginx mock cmd
       %{nginx -V 2>&1} => cmd.call("nginx-v"),
       %{/usr/sbin/nginx -V 2>&1} => cmd.call("nginx-v"),
@@ -532,6 +551,10 @@ class MockLoader
       "curl -i --head --connect-timeout 60 --max-time 120 'http://www.example.com'" => cmd.call("http-remote-head-request"),
       "curl -i -X OPTIONS --connect-timeout 60 --max-time 120 -H 'Access-Control-Request-Method: GET' -H 'Access-Control-Request-Headers: origin, x-requested-with' -H 'Origin: http://www.example.com' 'http://www.example.com'" => cmd.call("http-remote-options-request"),
 
+      # http resource - windows
+      "\n$body = \n            $Body = $body | ConvertFrom-Json\n            #convert to hashtable\n            $HashTable = @{}\n            foreach ($property in $Body.PSObject.Properties) {\n              $HashTable[$property.Name] = $property.Value\n            }\n            $response = Invoke-WebRequest -Method HEAD -TimeoutSec 120 'https://www.example.com' -Body $HashTable -UseBasicParsing\n            $response | Select-Object -Property * | ConvertTo-json # We use `Select-Object -Property * ` to get around an odd PowerShell error" => cmd.call("http-windows-remote-no-options"),
+      "\n$body = \n            $Body = $body | ConvertFrom-Json\n            #convert to hashtable\n            $HashTable = @{}\n            foreach ($property in $Body.PSObject.Properties) {\n              $HashTable[$property.Name] = $property.Value\n            }\n            $response = Invoke-WebRequest -Method GET -TimeoutSec 120 'https://www.example.com' -Body $HashTable -UseBasicParsing\n            $response | Select-Object -Property * | ConvertTo-json # We use `Select-Object -Property * ` to get around an odd PowerShell error" => cmd.call("http-windows-remote-head"),
+      "\n$body = '{ \"a\" : \"1\", \"b\" : \"five\" }'\n            $Body = $body | ConvertFrom-Json\n            #convert to hashtable\n            $HashTable = @{}\n            foreach ($property in $Body.PSObject.Properties) {\n              $HashTable[$property.Name] = $property.Value\n            }\n            $response = Invoke-WebRequest -Method POST -TimeoutSec 120 'https://www.example.com' -Body $HashTable -UseBasicParsing\n            $response | Select-Object -Property * | ConvertTo-json # We use `Select-Object -Property * ` to get around an odd PowerShell error" => cmd.call("http-windows-remote-head"),
       # elasticsearch resource
       "curl -H 'Content-Type: application/json' http://localhost:9200/_nodes" => cmd.call("elasticsearch-cluster-nodes-default"),
       "curl -k -H 'Content-Type: application/json' http://localhost:9200/_nodes" => cmd.call("elasticsearch-cluster-no-ssl"),
@@ -550,22 +573,38 @@ class MockLoader
       "(New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-544\")).Translate( [System.Security.Principal.NTAccount]).Value" => cmd.call("security-policy-sid-translated"),
       "(New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-555\")).Translate( [System.Security.Principal.NTAccount]).Value" => cmd.call("security-policy-sid-untranslated"),
 
-      # Windows SID calls
-      'wmic useraccount where \'Name="Alice"\' get Name","SID /format:csv' => cmd.call("security-identifier-alice"),
-      'wmic useraccount where \'Name="Bob"\' get Name","SID /format:csv' => cmd.call("security-identifier-unknown"),
-      'wmic useraccount where \'Name="DontExist"\' get Name","SID /format:csv' => cmd.call("security-identifier-unknown"),
-      'wmic group where \'Name="Guests"\' get Name","SID /format:csv' => cmd.call("security-identifier-guests"),
-      'wmic group where \'Name="DontExist"\' get Name","SID /format:csv' => cmd.call("security-identifier-unknown"),
+      # Windows SID calls with CimInstance
+      "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID, SIDType | Where-Object { $_.Name -eq 'Alice' -and $_.SIDType -eq 1 } | ConvertTo-Csv -NoTypeInformation" => cmd.call("security-identifier-alice"),
+      "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID, SIDType | Where-Object { $_.Name -eq 'Bob' -and $_.SIDType -eq 1 } | ConvertTo-Csv -NoTypeInformation" => cmd.call("security-identifier-unknown"),
+      "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID, SIDType | Where-Object { $_.Name -eq 'DontExist' -and $_.SIDType -eq 1 } | ConvertTo-Csv -NoTypeInformation" => cmd.call("security-identifier-unknown"),
+      "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID | Where-Object { $_.Name -eq 'Guests' -and { $_.SIDType -eq 4 -or $_.SIDType -eq 5 } } | ConvertTo-Csv -NoTypeInformation" => cmd.call("security-identifier-guests"),
+      "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID | Where-Object { $_.Name -eq 'DontExist' -and { $_.SIDType -eq 4 -or $_.SIDType -eq 5 } } | ConvertTo-Csv -NoTypeInformation" => cmd.call("security-identifier-unknown"),
 
       # alpine package commands
       "apk info -vv --no-network | grep git" => cmd.call("apk-info-grep-git"),
+      "apk list --no-network --installed" => cmd.call("apk-info"),
+      "apk info git" => cmd.call("apk-info-cmd"),
 
       # filesystem command
       "2e7e0d4546342cee799748ec7e2b1c87ca00afbe590fa422a7c27371eefa88f0" => cmd.call("get-wmiobject-filesystem"),
+      "/usr/sbin/sestatus" => cmd.call("sestatus"),
       "sestatus" => cmd.call("sestatus"),
       "semodule -lfull" => cmd.call("semodule-lfull"),
       "semanage boolean -l -n" => cmd.call("semanage-boolean"),
       "Get-ChildItem -Path \"C:\\Program Files\\MongoDB\\Server\" -Name" => cmd.call("mongodb-version"),
+      "opa eval -i 'input.json' -d 'example.rego' 'data.example.allow'" => cmd.call("opa-result"),
+      "opa eval -i 'input.json' -d 'example.rego' 'data.example.voilation'" => cmd.call("opa-empty-result"),
+      "curl -X POST localhost:8181/v1/data/example/violation -d @v1-data-input.json -H 'Content-Type: application/json'" => cmd.call("opa-api-result"),
+      "curl -X POST localhost:8181/v1/data/example/violation -d @v1-data-input1.json -H 'Content-Type: application/json'" => cmd.call("opa-api-empty-result"),
+
+      # ibmdb2
+      "/opt/ibm/db2/V11.5/bin/db2 attach to db2inst1; /opt/ibm/db2/V11.5/bin/db2 get database manager configuration" => cmd.call("ibmdb2_conf_output"),
+      "/opt/ibm/db2/V11.5/bin/db2 attach to db2inst1; /opt/ibm/db2/V11.5/bin/db2 connect to sample; /opt/ibm/db2/V11.5/bin/db2 select rolename from syscat.roleauth;" => cmd.call("ibmdb2_query_output"),
+      "set-item -path env:DB2CLP -value \"**$$**\"; db2 get database manager configuration" => cmd.call("ibmdb2_conf_output"),
+      "set-item -path env:DB2CLP -value \"**$$**\"; db2 connect to sample; db2 \"select rolename from syscat.roleauth\";" => cmd.call("ibmdb2_query_output"),
+
+      # file resource windows inherit
+      "(Get-Acl 'C:/ExamlpeFolder').access| Where-Object {$_.IsInherited -eq $true} | measure | % { $_.Count }" => cmd.call("windows_file_inherit_output"),
     }
 
     if @platform && (@platform[:name] == "windows" || @platform[:name] == "freebsd")
@@ -616,6 +655,12 @@ class MockLoader
       mock_cmds.delete("/sbin/zpool get -Hp all tank")
       mock_cmds.delete("which zfs")
       mock_cmds.delete("which zpool")
+    end
+
+    if @platform && (@platform[:name] == "freebsd" && @platform[:release].to_f >= 10)
+      mock_cmds.merge!(
+        "service sendmail enabled" => cmd.call("service-sendmail-enabled")
+      )
     end
 
     mock.commands = mock_cmds

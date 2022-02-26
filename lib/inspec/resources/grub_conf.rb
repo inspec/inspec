@@ -162,7 +162,7 @@ module Inspec::Resources
 
         current_kernel = file_line.split(" ", 2)[1]
         lines.drop(index + 1).each do |kernel_line|
-          if kernel_line =~ /^\s.*/
+          if kernel_line =~ /(?:^\s*\w+)/ && !(kernel_line =~ /^title.*/)
             option_type = kernel_line.split(" ")[0]
             line_options = kernel_line.split(" ").drop(1)
             if (menu_entry == conf["default"].to_i && @kernel == "default") || current_kernel == @kernel

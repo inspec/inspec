@@ -14,12 +14,14 @@ control 'profilea-1' do                        # A unique ID for this control
   impact 0.7                                # The criticality, if this control fails.
   title 'Create / directory'             # A human-readable title
   desc 'An optional description...'
+  tag "tag-profilea1"
   describe file('/') do                  # The actual test
     it { should be_directory }
   end
 end
 
 control 'profilea-2' do
+  tag "tag-profilea2"
   describe example_config do
     its('version') { should eq('1.0') }
   end

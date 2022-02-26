@@ -121,7 +121,8 @@ $ bundle exec kitchen converge i386```
 # Now inside the kitchen vm, open a cmd/ps shell
 $ C:\vagrant\load-omnibus-toolchain.ps1 # (or .bar if you're on cmd)
 $ cd C:\vagrant\code\inspec\omnibus
-$ bundle install --without development
+$ bundle config set --local without development
+$ bundle install
 $ bundle exec omnibus build inspec -l debug
 
 # If you get a 'can't sign this msi because I don't have a key to do so' error

@@ -74,11 +74,11 @@ _should\_not_ indicates this is a negated test. So, this test passes if the matc
 ### Plural Resource Example
 
 ```ruby
-  describe cars.where(color: /^b/) do
-    it { should exist }
-    its('manufacturers') { should include 'Cadillac' }
-    its('count') { should be >= 10 }
-  end
+describe cars.where(color: /^b/) do
+  it { should exist }
+  its('manufacturers') { should include 'Cadillac' }
+  its('count') { should be >= 10 }
+end
 ```
 
 #### describe _cars_.where(color: /^b/) do
@@ -152,9 +152,9 @@ end
 
 ### DSL
 
-_DSL_ is an acronym for _Domain Specific Language_. It refers to the language extensions Chef InSpec provides to make authoring resources and controls easier. While Chef InSpec control files are use Ruby, the _Control DSL_ makes it easy to write controls without knowledge of Ruby by providing DSL keywords such as [describe](#describe), [control](#control), [it](#it) and [its](#its). See the [Chef InSpec DSL page](/inspec/dsl_inspec/) for details about keywords available to control authors.
+_DSL_ is an acronym for _Domain Specific Language_. It refers to the language extensions Chef InSpec provides to make authoring resources and controls easier. While Chef InSpec control files are use Ruby, the _Control DSL_ makes it easy to write controls without knowledge of Ruby by providing DSL keywords such as [describe](#describe), [control](#control), [it](#it) and [its](#its). See the [Chef InSpec Language page](/inspec/dsl_inspec/) for details about keywords available to control authors.
 
-For [custom resource](#custom-resource) authors, an additional DSL is available - see the [Resource DSL page](/inspec/dsl_resource/).
+For [custom resource](#custom-resource) authors, an additional DSL is available - see the [Resource Language page](/inspec/dsl_resource/).
 
 ### Expected Result
 
@@ -280,9 +280,9 @@ An operator matcher allows you to use operators to compare numerical [expected r
 For example:
 
 ```ruby
-  describe cars do
-    its('count') { should be >= 10 }
-  end
+describe cars do
+  its('count') { should be >= 10 }
+end
 ```
 
 Operators include:

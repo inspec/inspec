@@ -5,7 +5,7 @@ require "inspec/resource"
 require "inspec/resources/postgres_hba_conf"
 
 describe "Inspec::Resources::PGHbaConf" do
-  describe "PGHbaConf Paramaters" do
+  describe "PGHbaConf Parameters" do
     resource = load_resource("postgres_hba_conf", "/test/path/to/postgres/pg_hba.conf")
 
     it "Verify postgres_hba_conf filtering by `type`" do

@@ -10,7 +10,7 @@ FIXTURE_BASE=test/fixtures/config_dirs
 FIXTURE_VERSIONS="1 2"
 
 # The format here is "<actual_version>,<abi_version> <another_version><<another_abi_version>""
-RUBY_VERSIONS="2.4.5,2.4.0 2.5.3,2.5.0 2.6.2,2.6.0"
+RUBY_VERSIONS="2.5.3,2.5.0 2.6.2,2.6.0"
 
 # Make two fresh gems
 cd $PLUGIN_SRC_DIR

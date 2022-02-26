@@ -30,13 +30,13 @@ See also the [AWS documentation on SQS](https://docs.aws.amazon.com/AWSSimpleQue
 | Property                             | Description                                                                                            |
 | ------------------------------------ | ------------------------------------------------------------------------------------------------------ |
 | arns                                 | The ARNs of the SQS Queues.                                                                            |
-| is_fifo_queues                       | A boolean value indicate if queues are a FIFO queues                                                   |
+| is_fifo_queues                       | A boolean value indicating if queues are FIFO queues                                                   |
 | visibility_timeouts                  | An integer indicating the visibility timeout of the message in seconds                                 |
 | maximum_message_sizes                | An integer indicating the maximum message size in bytes                                                |
 | message_retention_periods            | An integer indicating the maximum retention period for a message in seconds                            |
 | delay_seconds                        | An integer indicating the delay in seconds for the queues                                              |
-| receive_message_wait_timeout_seconds | An integer indicating the number of seconds an attempt to recieve a message will wait before returning |
-| content_based_deduplications         | A boolean value indicate if content based dedcuplication is enabled or not                             |
+| receive_message_wait_timeout_seconds | An integer indicating the number of seconds an attempt to receive a message will wait before returning |
+| content_based_deduplications         | A boolean value indicating if content based deduplication is enabled or not                             |
 
 ## Examples
 

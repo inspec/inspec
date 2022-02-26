@@ -11,31 +11,15 @@ gem "inspec-bin", path: "./inspec-bin"
 
 gem "ffi", ">= 1.9.14", "!= 1.13.0", "!= 1.14.2"
 
-if Gem.ruby_version.to_s.start_with?("2.5")
-  # 16.7.23 required ruby 2.6+
-  gem "chef-utils", "< 16.7.23" # TODO: remove when we drop ruby 2.5
-end
-
 # inspec tests depend text output that changed in the 3.10 release
 # but our runtime dep is still 3.9+
 gem "rspec", ">= 3.10"
-
-def probably_x86?
-  # We don't currently build on ARM windows, so assume x86 there
-  return true if RUBY_PLATFORM =~ /windows|mswin|msys|mingw|cygwin/
-
-  # Otherwise rely on uname -m
-  `uname -m`.match?(/^(x86_64|i\d86)/)
-end
 
 group :omnibus do
   gem "rb-readline"
   gem "appbundler"
   gem "ed25519" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
   gem "bcrypt_pbkdf" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
-  if probably_x86?
-    gem "x25519" # ed25519 KEX module, not supported on ARM
-  end
 end
 
 group :test do
@@ -52,7 +36,8 @@ group :test do
   gem "pry", "~> 0.10"
   gem "rake", ">= 10"
   gem "ruby-progressbar", "~> 1.8"
-  gem "simplecov", "~> 0.18"
+  gem "simplecov", "~> 0.21"
+  gem "simplecov_json_formatter"
   gem "webmock", "~> 3.0"
 end
 
@@ -72,4 +57,8 @@ if Gem.ruby_version >= Gem::Version.new("2.7.0")
     gem "kitchen-dokken", ">= 2.11"
     gem "git"
   end
+end
+
+if Gem.ruby_version < Gem::Version.new("2.7.0")
+  gem "activesupport", "6.1.4.4"
 end

@@ -11,7 +11,6 @@ platform = "aws"
     parent = "inspec/resources/aws"
 +++
 
-[\[edit on GitHub\]](https://github.com/inspec/inspec/blob/master/docs-chef-io/content/inspec/rources/aws_efs_file_system.md)
 
 Use the `aws_efs_file_system` InSpec audit resource to test the properties of a single AWS EFS file system.
 This resource is added to InSpec AWS resource pack in version **[1.10.0](https://github.com/inspec/inspec-aws/releases/tag/v1.10.0)** and it is available with InSpec **[4.18.108](https://github.com/inspec/inspec/releases/tag/v4.18.108)** and later versions.
@@ -45,7 +44,7 @@ Either the EFS file system id or creation token must be provided.
 The ID of the EFS file system. This is in the format of `fs-` followed by 8 or 17 hexadecimal characters.
 This can be passed either as a string or as a `file_system_id: 'value'` key-value entry in a hash.
 
-### creation*token *(required if `file_system_id` not provided)\_
+### creation_token _(required if `file_system_id` not provided)_
 
 The creation token is automatically assigned by AWS if not provided by the user at creation.
 This is a string with minimum 1 and maximum 64-character long.

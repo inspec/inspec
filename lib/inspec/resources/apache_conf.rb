@@ -82,7 +82,7 @@ module Inspec::Resources
           end
         end
 
-        @params.merge!(params)
+        @params.merge!(params) { |key, current_val, new_val| [*current_val].to_a + [*new_val].to_a }
 
         to_read = to_read.drop(1)
         to_read += include_files(params).find_all do |fp|
@@ -101,12 +101,14 @@ module Inspec::Resources
       include_files_optional = params["IncludeOptional"] || []
 
       includes = []
-      (include_files + include_files_optional).each do |f|
-        id    = Pathname.new(f).absolute? ? f : File.join(conf_dir, f)
-        files = find_files(id, depth: 1, type: "file")
-        files += find_files(id, depth: 1, type: "link")
+      unless conf_dir.nil?
+        (include_files + include_files_optional).each do |f|
+          id    = Pathname.new(f).absolute? ? f : File.join(conf_dir, f)
+          files = find_files(id, depth: 1, type: "file")
+          files += find_files(id, depth: 1, type: "link")
 
-        includes.push(files) if files
+          includes.push(files) if files
+        end
       end
 
       # [].flatten! == nil

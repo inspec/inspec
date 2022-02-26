@@ -102,7 +102,7 @@ There are also additional properties available. For a comprehensive list, see [t
       its('nat_gateway_address_set') { should include(:private_ip => '10.0.1.68') }
     end
 
-For more examples, please check the [integration tests](https://github.com/inspec/inspec-aws/blob/master/test/integration/verify/controls/aws_nat_gateway.rb).
+For more examples, please check the [integration tests](https://github.com/inspec/inspec-aws/blob/main/test/integration/verify/controls/aws_nat_gateway.rb).
 
 ## Matchers
 

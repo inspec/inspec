@@ -51,7 +51,7 @@ class AwsIamPolicyRecallTest < Minitest::Test
   end
 
   def test_search_miss_is_not_an_exception
-    refute AwsIamPolicy.new(policy_name: "non-existant").exists?
+    refute AwsIamPolicy.new(policy_name: "non-existent").exists?
   end
 end
 
@@ -66,32 +66,32 @@ class AwsIamPolicyPropertiesTest < Minitest::Test
 
   def test_property_arn
     assert_equal("arn:aws:iam::aws:policy/test-policy-1", AwsIamPolicy.new("test-policy-1").arn)
-    assert_nil(AwsIamPolicy.new(policy_name: "non-existant").arn)
+    assert_nil(AwsIamPolicy.new(policy_name: "non-existent").arn)
   end
 
   def test_property_default_version_id
     assert_equal("v1", AwsIamPolicy.new("test-policy-1").default_version_id)
-    assert_nil(AwsIamPolicy.new(policy_name: "non-existant").default_version_id)
+    assert_nil(AwsIamPolicy.new(policy_name: "non-existent").default_version_id)
   end
 
   def test_property_attachment_count
     assert_equal(3, AwsIamPolicy.new("test-policy-1").attachment_count)
-    assert_nil(AwsIamPolicy.new(policy_name: "non-existant").attachment_count)
+    assert_nil(AwsIamPolicy.new(policy_name: "non-existent").attachment_count)
   end
 
   def test_property_attached_users
     assert_equal(["test-user"], AwsIamPolicy.new("test-policy-1").attached_users)
-    assert_nil(AwsIamPolicy.new(policy_name: "non-existant").attached_users)
+    assert_nil(AwsIamPolicy.new(policy_name: "non-existent").attached_users)
   end
 
   def test_property_attached_groups
     assert_equal(["test-group"], AwsIamPolicy.new("test-policy-1").attached_groups)
-    assert_nil(AwsIamPolicy.new(policy_name: "non-existant").attached_groups)
+    assert_nil(AwsIamPolicy.new(policy_name: "non-existent").attached_groups)
   end
 
   def test_property_attached_roles
     assert_equal(["test-role"], AwsIamPolicy.new("test-policy-1").attached_roles)
-    assert_nil(AwsIamPolicy.new(policy_name: "non-existant").attached_roles)
+    assert_nil(AwsIamPolicy.new(policy_name: "non-existent").attached_roles)
   end
 
   def test_property_policy
@@ -99,11 +99,11 @@ class AwsIamPolicyPropertiesTest < Minitest::Test
     assert_kind_of(Hash, policy)
     assert(policy.key?("Statement"), "test-policy-1 should have a Statement key when unpacked")
     assert_equal(1, policy["Statement"].count, "test-policy-1 should have 1 statements when unpacked")
-    assert_nil(AwsIamPolicy.new("non-existant").policy)
+    assert_nil(AwsIamPolicy.new("non-existent").policy)
   end
 
   def test_property_statement_count
-    assert_nil(AwsIamPolicy.new("non-existant").statement_count)
+    assert_nil(AwsIamPolicy.new("non-existent").statement_count)
     assert_equal(1, AwsIamPolicy.new("test-policy-1").statement_count)
     assert_equal(2, AwsIamPolicy.new("test-policy-2").statement_count)
     assert_equal(1, AwsIamPolicy.new("test-policy-3").statement_count)

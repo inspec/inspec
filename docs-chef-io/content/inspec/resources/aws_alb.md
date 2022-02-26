@@ -39,7 +39,7 @@ See also the [AWS documentation on Elastic Load Balancing](https://docs.aws.amaz
 | Property                 | Description                                                                        |
 | ------------------------ | ---------------------------------------------------------------------------------- |
 | load_balancer_name       | The name of the load balancer.                                                     |
-| load_balancer_addresses  | A collectionm of the load balancer addresses.                                      |
+| load_balancer_addresses  | A collection of the load balancer addresses.                                      |
 | canonical_hosted_zone_id | The ID of the Amazon Route 53 hosted zone for the load balancer.                   |
 | dns_name                 | The DNS name of the load balancer.                                                 |
 | availability_zones       | The Availability Zones for the load balancer.                                      |

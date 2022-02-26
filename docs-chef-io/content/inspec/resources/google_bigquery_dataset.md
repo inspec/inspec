@@ -83,7 +83,7 @@ Properties that can be accessed from the `google_bigquery_dataset` resource:
   : The ID of the project containing this table.
 
   `table_id`
-  : The ID of the table. The ID must contain only letters (a-z, A-Z), numbers (0-9), or underscores (\_). The maximum length is 1,024 characters.
+  : The ID of the table. The ID must contain only letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum length is 1,024 characters.
 
 `creation_time`
 : The time when this dataset was created, in milliseconds since the epoch.
@@ -92,7 +92,7 @@ Properties that can be accessed from the `google_bigquery_dataset` resource:
 : A reference that identifies the dataset.
 
 `dataset_id`
-: A unique ID for this dataset, without the project name. The ID must contain only letters (a-z, A-Z), numbers (0-9), or underscores (\_). The maximum length is 1,024 characters.
+: A unique ID for this dataset, without the project name. The ID must contain only letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum length is 1,024 characters.
 
 `project_id`
 : The ID of the project containing this dataset.

@@ -17,7 +17,7 @@ management groups.
 ## Azure REST API version
 
 This resource interacts with version `2018-03-01-preview` of the Azure
-Management API. For more information see the [official Azure documentation](https://docs.microsoft.com/en-us/rest/api/resources/managementgroups/list).
+Management API. For more information see the [official Azure documentation](https://docs.microsoft.com/en-us/java/api/com.azure.resourcemanager.loganalytics.models.managementgroups.list?view=azure-java-preview).
 
 At the moment, there doesn't appear to be a way to select the version of the
 Azure API docs. If you notice a newer version being referenced in the official
@@ -49,17 +49,21 @@ You'll also need to setup your Azure credentials; see the resource pack
 
 ### Check Attributes of All Management Groups
 
+```ruby
 describe azurerm_management_groups do
-its('ids') { should include "/providers/Microsoft.Management/managementGroups/mg_id" }
-its('names') { should include "parent_mg" }
-its('types') { should include '/providers/Microsoft.Management/managementGroups' }
+    its('ids') { should include "/providers/Microsoft.Management/managementGroups/mg_id" }
+    its('names') { should include "parent_mg" }
+    its('types') { should include '/providers/Microsoft.Management/managementGroups' }
 end
+```
 
 ### Filter Results to Inspect the Properties of Specific Management Group
 
+```ruby
 describe azurerm_management_groups.where(name: 'mg_parent').entries.first do
-its('properties') { should have_attributes(:tenantId => tenant_id, :displayName => parent_dn)}
+    its('properties') { should have_attributes(:tenantId => tenant_id, :displayName => parent_dn)}
 end
+```
 
 ## Parameters
 

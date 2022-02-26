@@ -14,7 +14,7 @@ gh_repo = "inspec"
 The Chef InSpec interactive shell is a pry based REPL that can be used to
 quickly run Chef InSpec controls and tests without having to write it to a
 file. Its functionality is similar to [chef-shell](/chef_shell/) as it provides a way
-to exercise the Chef InSpec DSL, its resources, tests, and plugins without
+to exercise the Chef InSpec Language, its resources, tests, and plugins without
 having to create a profile or write a test file. See
 [http://pryrepl.org/](http://pryrepl.org/) for an introduction to what pry is and what it can
 do.
@@ -57,9 +57,9 @@ Use resource packs to share custom resources with other Chef InSpec users.
 A resource pack is a Chef InSpec profile that contains only custom resources and
 no other controls or tests.
 
-For example, the profile in [`examples/profile`](https://github.com/chef/inspec/tree/master/examples/profile)
+For example, the profile in [`examples/profile`](https://github.com/chef/inspec/tree/main/examples/profile)
 in the Chef InSpec GitHub repository defines an
-[`example_config` resource](https://github.com/chef/inspec/blob/master/examples/profile/controls/example.rb).
+[`example_config` resource](https://github.com/chef/inspec/blob/main/examples/profile/controls/example.rb).
 To use these resources within the Chef InSpec shell, you will need to download
 and specify them as a dependency.
 
@@ -94,7 +94,7 @@ inspec> 1 + 2
 inspec> exit
 ```
 
-## Using Chef InSpec DSL in Chef InSpec shell
+## Using Chef InSpec Language in Chef InSpec shell
 
 Chef InSpec shell will automatically evaluate the result of every command as
 if it were a test file. If you type in a Ruby command that is not an

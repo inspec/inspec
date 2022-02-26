@@ -36,7 +36,7 @@ See also the [AWS documentation on RDS](https://docs.aws.amazon.com/rds/?id=docs
 | ------------------ | ------------------------------------------------------------------------------------- |
 | cluster_identifier | The unique IDs of the RDS clusters returned.                                          |
 | database_name      | The name of the database associated with each RDS cluster.                            |
-| cluster\_\members  | The RDS instances attached to each RDS cluster.                                       |
+| cluster_members  | The RDS instances attached to each RDS cluster.                                       |
 | engine             | The name of the database engine used by each cluster.                                 |
 | engine_version     | The version of the database engine used by each cluster.                              |
 | status             | The current status of each cluster.                                                   |

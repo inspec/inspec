@@ -11,6 +11,7 @@ describe "Inspec::Resources::SecurityPolicy" do
     _(resource.send('MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Setup\RecoveryConsole\SecurityLevel')).must_equal "4,0"
     _(resource.SeUndockPrivilege).must_equal ["S-1-5-32-544"]
     _(resource.SeRemoteInteractiveLogonRight).must_equal ["S-1-5-32-544", "S-1-5-32-555"]
+    _(resource.SeServiceLogonRight).must_equal %w{ DB2ADMNS db2admin }
   end
 
   it "parse empty policy file" do
@@ -33,5 +34,6 @@ describe "Inspec::Resources::SecurityPolicy" do
     _(resource.send('MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Setup\RecoveryConsole\SecurityLevel')).must_equal "4,0"
     _(resource.SeUndockPrivilege).must_equal ["BUILTIN\\Administrators"]
     _(resource.SeRemoteInteractiveLogonRight).must_equal ["BUILTIN\\Administrators", "S-1-5-32-555"]
+    _(resource.SeServiceLogonRight).must_equal %w{ DB2ADMNS db2admin }
   end
 end

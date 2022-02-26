@@ -244,7 +244,7 @@ This only applies to Linux machines and will always return `0` on Windows.
 
 ### ssh_keys
 
-Returns an array of the keys that are assigned to the machine. This is check if the correct keys are assigned.
+Returns an array of the keys that are assigned to the machine. This checks if the correct keys are assigned.
 
 Most SSH public keys have a signature at the end of them that can be tested. For example:
 
@@ -292,7 +292,7 @@ This test can be used in the following way:
 
 Returns a boolean to state if the machine has NICs connected or not.
 
-This has can be used in the following way:
+This can be used in the following way:
 
     it { should have_nics }
 
@@ -348,6 +348,6 @@ Note: The tag name is case sensitive which makes the test case sensitive. E.g. `
 
 ## References
 
-- [Azure Ruby SDK - Resources](https://github.com/Azure/azure-sdk-for-ruby/tree/master/management/azure_mgmt_resources)
+- [Azure Ruby SDK - Resources](https://github.com/Azure/azure-sdk-for-ruby/tree/main/management/azure_mgmt_resources)
 - [Virtual Machine External VM](https://github.com/chef/inspec/blob/fc990346f2438690f0ac36a9f6606e61574a79b8/test/azure/verify/controls/virtual_machine_external_vm.rb)
 - [Virtual Machine Internal VM](https://github.com/chef/inspec/blob/fc990346f2438690f0ac36a9f6606e61574a79b8/test/azure/verify/controls/virtual_machine_internal_vm.rb)

@@ -204,7 +204,9 @@ module Inspec::Resources
     alias group groupname
 
     def groups
-      identity[:groups] unless identity.nil?
+      unless identity.nil?
+        inspec.os.windows? ? UserGroups.new(identity[:groups]) : identity[:groups]
+      end
     end
 
     def home
@@ -311,6 +313,18 @@ module Inspec::Resources
       return @cred_cache if defined?(@cred_cache)
 
       @cred_cache = @user_provider.credentials(@username) unless @user_provider.nil?
+    end
+  end
+
+  # Class defined to compare for groups without case-sensitivity
+  class UserGroups < Array
+    def initialize(user_groups)
+      @user_groups = user_groups
+      super
+    end
+
+    def include?(group)
+      !(@user_groups.select { |user_group| user_group.casecmp?(group) }.empty?)
     end
   end
 
@@ -622,7 +636,7 @@ module Inspec::Resources
       name, _domain = parse_windows_account(username)
       return if collect_user_details.nil?
 
-      res = collect_user_details.select { |user| user[:username] == name }
+      res = collect_user_details.select { |user| user[:username].casecmp? name }
       res[0] unless res.empty?
     end
 

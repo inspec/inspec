@@ -34,21 +34,27 @@ end
 
 ### Test that a GCP storage bucket is in the expected location
 
-    describe google_storage_bucket(name: 'chef-inspec-gcp-storage-bucket-abcd') do
-      its('location') { should eq "EUROPE-WEST2" }
-    end
+```ruby
+describe google_storage_bucket(name: 'chef-inspec-gcp-storage-bucket-abcd') do
+  its('location') { should eq "EUROPE-WEST2" }
+end
+```
 
 ### Test that a GCP storage bucket has the expected project number
 
-    describe google_storage_bucket(name: 'chef-inspec-gcp-storage-bucket-abcd') do
-      its('project_number') {should eq 12345678 }
-    end
+```ruby
+describe google_storage_bucket(name: 'chef-inspec-gcp-storage-bucket-abcd') do
+  its('project_number') {should eq 12345678 }
+end
+```
 
 ### Test that a GCP storage bucket has the expected storage class
 
-    describe google_storage_bucket(name: 'chef-inspec-gcp-storage-bucket-abcd') do
-      its('storage_class') { should eq 'STANDARD' }
-    end
+```ruby
+describe google_storage_bucket(name: 'chef-inspec-gcp-storage-bucket-abcd') do
+  its('storage_class') { should eq 'STANDARD' }
+end
+```
 
 ## Properties
 
@@ -164,7 +170,7 @@ Properties that can be accessed from the `google_storage_bucket` resource:
     - READER
 
 `id`
-: The ID of the bucket. For buckets, the id and name properities are the same.
+: The ID of the bucket. For buckets, the id and name properties are the same.
 
 `lifecycle`
 : The bucket's lifecycle configuration. See https://developers.google.com/storage/docs/lifecycle for more information.
@@ -180,7 +186,7 @@ Properties that can be accessed from the `google_storage_bucket` resource:
 
       `type`
       : Type of the action. Currently, only Delete and SetStorageClass are supported.
-        
+
         Possible values:
         - Delete
         - SetStorageClass
@@ -198,7 +204,7 @@ Properties that can be accessed from the `google_storage_bucket` resource:
       : Relevant only for versioned objects.  If the value is true, this condition matches live objects; if the value is false, it matches archived objects.
 
       `matches_storage_class`
-      : Objects having any of the storage classes specified by this condition will be matched. Values include MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, STANDARD, and DURABLE_REDUCED_AVAILABILITY.
+      : Objects having any of the storage classes specified by this condition will be matched. Values include MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, STANDARD, ARCHIVE, and DURABLE_REDUCED_AVAILABILITY.
 
       `num_newer_versions`
       : Relevant only for versioned objects. If the value is N, this condition is satisfied when there are at least N versions (including the live version) newer than this version of the object.
@@ -234,7 +240,7 @@ Properties that can be accessed from the `google_storage_bucket` resource:
 : The project number of the project the bucket belongs to.
 
 `storage_class`
-: The bucket's default storage class, used whenever no storageClass is specified for a newly-created object. This defines how objects in the bucket are stored and determines the SLA and the cost of storage. Values include MULTI_REGIONAL, REGIONAL, STANDARD, NEARLINE, COLDLINE, and DURABLE_REDUCED_AVAILABILITY. If this value is not specified when the bucket is created, it will default to STANDARD. For more information, see storage classes.
+: The bucket's default storage class, used whenever no storageClass is specified for a newly-created object. This defines how objects in the bucket are stored and determines the SLA and the cost of storage. Values include MULTI_REGIONAL, REGIONAL, STANDARD, NEARLINE, COLDLINE, ARCHIVE, and DURABLE_REDUCED_AVAILABILITY. If this value is not specified when the bucket is created, it will default to STANDARD. For more information, see storage classes.
 
   Possible values:
 
@@ -243,6 +249,7 @@ Properties that can be accessed from the `google_storage_bucket` resource:
   - STANDARD
   - NEARLINE
   - COLDLINE
+  - ARCHIVE
   - DURABLE_REDUCED_AVAILABILITY
 
 
@@ -259,7 +266,7 @@ Properties that can be accessed from the `google_storage_bucket` resource:
   : While set to true, versioning is fully enabled for this bucket.
 
 `website`
-: The bucket's website configuration, controlling how the service behaves when accessing bucket contents as a web site. See the Static Website Examples for more information.
+: The bucket's website configuration, controlling how the service behaves when accessing bucket contents as a website. See the Static Website Examples for more information.
 
   `main_page_suffix`
   : If the requested object path is missing, the service will ensure the path has a trailing '/', append this suffix, and attempt to retrieve the resulting object. This allows the creation of index.html objects to represent directory pages.
@@ -302,7 +309,6 @@ Properties that can be accessed from the `google_storage_bucket` resource:
   - private
   - projectPrivate
   - publicRead
-
 
 ## GCP Permissions
 

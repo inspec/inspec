@@ -39,10 +39,6 @@ where
 
 ## Properties
 
-    'address', 'auth_method', 'auth_params', 'conf_dir' , 'conf_file' , 'database', 'params' ,'type', 'user'
-
-## Property Examples
-
 ### address([String])
 
 `address` returns a an array of strings that matches the where condition of the filter table
@@ -85,17 +81,4 @@ where
 
 ## Matchers
 
-This Chef InSpec audit resource matches any service that is listed in the HBA configuration file. For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
-
-    its('auth_method') { should_not cmp 'peer' }
-
-or:
-
-    its('auth_method') { should cmp 'peer' }
-
-For example:
-
-    describe postgres_hba_conf.where { type == 'type' } do
-      its('auth_method') { should cmp 'value' }
-      its('user') { should cmp 'value' }
-    end
+For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).

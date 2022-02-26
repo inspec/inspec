@@ -1,5 +1,6 @@
 require "helper"
 require "inspec/library_eval_context"
+require "inspec/resources/ini"
 
 describe Inspec::LibraryEvalContext do
   let(:resource_content) do
@@ -10,6 +11,19 @@ describe Inspec::LibraryEvalContext do
         desc 'A test description'
         example 'Forgot to write docs, sorry'
 
+        def version
+          '2.0'
+        end
+      end
+    EOF
+  end
+
+  let(:resource_content2) do
+    <<~EOF
+      class AnotherResource < IniConfig
+        name 'another_resource'
+        desc 'Another Resource description'
+        example 'see README'
         def version
           '2.0'
         end
@@ -35,12 +49,18 @@ describe Inspec::LibraryEvalContext do
     _(old_default_registry.keys.sort).wont_include "my_test_resource"
 
     eval_context.instance_eval(resource_content)
-
     _(old_default_registry.keys.sort).must_equal Inspec::Resource.default_registry.keys.sort
     _(old_default_registry).must_equal Inspec::Resource.default_registry
   end
 
   it "provides an inspec context for requiring local files" do
     _(eval_context.__inspec_binding).must_be_kind_of Binding
+  end
+
+  it "adds the resource to our registry" do
+    _(registry.keys).wont_include "another_resource"
+    eval_context.instance_eval(resource_content2)
+    old_default_registry = Inspec::Resource.default_registry.dup
+    _(old_default_registry.keys.sort).must_equal Inspec::Resource.default_registry.keys.sort
   end
 end

@@ -54,6 +54,77 @@ where
 - `filter` one (or more) arguments, for example: `passwd.users(/name/)` used to define filtering
 - `filter` may take any of the following arguments: `count` (retrieves the number of entries), `lines` (provides raw `passwd` lines), and `params` (returns an array of maps for all entries)
 
+## Properties
+
+### gids
+
+The `gids` property tests if the group indentifiers in the test match group identifiers in `/etc/passwd`:
+
+    its('gids') { should include 1234 }
+    its('gids') { should cmp 0 }
+
+### homes
+
+The `homes` property tests the absolute path to a user's home directory:
+
+    its('home') { should eq '/' }
+
+### length
+
+The `length` property tests the length of a password that appears in `/etc/passwd`:
+
+    its('length') { should be <= 32 }
+
+This matcher is best used in conjunction with filters. For example:
+
+    describe passwd.users('highlander') do
+       its('length') { should_not be < 16 }
+    end
+
+### passwords
+
+The `passwords` property tests if passwords are
+
+- Encrypted
+- Have direct logins disabled, as indicated by an asterisk (`*`)
+- In the `/etc/shadow` file, as indicated by the letter x (`x`)
+
+For example:
+
+    its('passwords') { should eq ['x'] }
+    its('passwords') { should cmp '*' }
+
+### shells
+
+The `shells` property tests the absolute path of a shell (or command) to which a user has access:
+
+    its('shells') { should_not include 'user' }
+
+or to find all users with the nologin shell:
+
+    describe passwd.shells(/nologin/) do
+      its('users') { should_not include 'my_login_user' }
+    end
+
+### uids
+
+The `uids` property tests if the user identifiers in the test match user identifiers in `/etc/passwd`:
+
+    its('uids') { should eq ['1234', '1235'] }
+
+or:
+
+    describe passwd.uids(0) do
+      its('users') { should cmp 'root' }
+      its('count') { should eq 1 }
+    end
+
+### users
+
+The `users` property tests if the user names in the test match user names in `/etc/passwd`:
+
+    its('users') { should eq ['root', 'www-data'] }
+
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
@@ -80,72 +151,3 @@ The following examples show how to use this Chef InSpec audit resource.
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
-
-### gids
-
-The `gids` matcher tests if the group indentifiers in the test match group identifiers in `/etc/passwd`:
-
-    its('gids') { should include 1234 }
-    its('gids') { should cmp 0 }
-
-### homes
-
-The `homes` matcher tests the absolute path to a user's home directory:
-
-    its('home') { should eq '/' }
-
-### length
-
-The `length` matcher tests the length of a password that appears in `/etc/passwd`:
-
-    its('length') { should be <= 32 }
-
-This matcher is best used in conjunction with filters. For example:
-
-    describe passwd.users('highlander') do
-       its('length') { should_not be < 16 }
-    end
-
-### passwords
-
-The `passwords` matcher tests if passwords are
-
-- Encrypted
-- Have direct logins disabled, as indicated by an asterisk (`*`)
-- In the `/etc/shadow` file, as indicated by the letter x (`x`)
-
-For example:
-
-    its('passwords') { should eq ['x'] }
-    its('passwords') { should cmp '*' }
-
-### shells
-
-The `shells` matcher tests the absolute path of a shell (or command) to which a user has access:
-
-    its('shells') { should_not include 'user' }
-
-or to find all users with the nologin shell:
-
-    describe passwd.shells(/nologin/) do
-      its('users') { should_not include 'my_login_user' }
-    end
-
-### uids
-
-The `uids` matcher tests if the user indentifiers in the test match user identifiers in `/etc/passwd`:
-
-    its('uids') { should eq ['1234', '1235'] }
-
-or:
-
-    describe passwd.uids(0) do
-      its('users') { should cmp 'root' }
-      its('count') { should eq 1 }
-    end
-
-### users
-
-The `users` matcher tests if the user names in the test match user names in `/etc/passwd`:
-
-    its('users') { should eq ['root', 'www-data'] }

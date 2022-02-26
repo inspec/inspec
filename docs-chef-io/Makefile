@@ -14,7 +14,7 @@ serve: chef_web_docs
 
 chef_web_docs:
 	if [ -d "chef-web-docs/" ]; then \
-		pushd chef-web-docs && git reset HEAD --hard; git clean -fd; git pull --ff-only origin master; rm -rf public && popd; \
+		pushd chef-web-docs && git reset HEAD --hard; git clean -fd; git pull --ff-only origin main; rm -rf public && popd; \
 	else \
 		git clone https://github.com/chef/chef-web-docs.git; \
 	fi

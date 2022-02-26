@@ -66,6 +66,22 @@ module InspecPlugins
         InspecPlugins::<%= module_name %>::Reporter
       end
       <% end %>
+
+      <% if activators[:streaming_reporter] %>
+      # Define a new Streaming Reporter.
+      # The argument here will be used to match against the CLI --reporter option.
+      # `--reporter <%= streaming_reporter_name_snake %>` will load your streaming reporter and perform streaming real-time on each passing, failing or pending test.
+      streaming_reporter :<%= streaming_reporter_name_snake %> do
+        # Calling this activator doesn't mean the reporter is being executed - just
+        # that we should be ready to do so. So, load the file that defines the
+        # functionality.
+        require "<%= plugin_name %>/streaming_reporter"
+
+        # Having loaded our functionality, return a class that will let the
+        # reporting engine tap into it.
+        InspecPlugins::<%= module_name %>::StreamingReporter
+      end
+      <% end %>
     end
   end
 end

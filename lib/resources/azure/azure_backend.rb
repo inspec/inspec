@@ -6,7 +6,7 @@ module Inspec::Resources
   class AzureResourceBase < Inspec.resource(1)
     attr_reader :opts, :client, :azure
 
-    # Constructor that retreives the specified resource
+    # Constructor that retrieves the specified resource
     #
     # The opts hash should contain the following
     #   :group_name - name of the resource group in which to look for items
@@ -275,7 +275,7 @@ end
 
 # Class object to maintain a count of the Azure Resource types that are found
 # when a less specific test is carried out. For example if all the resoures of a resource
-# group are called for, there will be variaous types and number of those types.
+# group are called for, there will be various types and number of those types.
 #
 # Each type is namespaced, so for example a virtual machine has the type 'Microsoft.Compute/virtualMachines'
 # This is broken down into the 'Microsoft' class with the type 'Compute/virtualMachines'
@@ -310,7 +310,7 @@ class AzureResourceTypeCounts
 end
 
 # Class object that is created for each element that is returned by Azure.
-# This is what is interogated by Inspec. If they are nested hashes, then this results
+# This is what is interrogated by InSpec. If they are nested hashes, then this results
 # in nested AzureResourceProbe objects.
 #
 # For example, if the following was seen in an Azure Resource

@@ -213,7 +213,7 @@ dots (`.`). Given the example response in their documentation:
 
 We may access `provisioningStatus` with:
 
-```
+```ruby
 its('provisionedPlants.first.provisioningStatus') { should eq "Success" }
 ```
 
@@ -238,7 +238,7 @@ page](/inspec/matchers/).
 
 ## Azure Permissions
 
-The Client/Active Directory Application you have configured Inspec Azure to use (`AZURE_CLIENT_ID`) must
+The Client/Active Directory Application you have configured InSpec Azure to use (`AZURE_CLIENT_ID`) must
 have permissions to read User data from the Azure Graph RBAC API.
 
 Please refer to the [Microsoft Documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-integrating-applications#updating-an-application)

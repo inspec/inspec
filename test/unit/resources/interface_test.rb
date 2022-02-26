@@ -4,9 +4,9 @@ require "inspec/resources/interface"
 
 describe "Inspec::Resources::Interface" do
 
-  # ubuntu 14.04
+  # ubuntu
   it "verify interface on ubuntu" do
-    resource = MockLoader.new(:ubuntu1404).load_resource("interface", "eth0")
+    resource = MockLoader.new(:ubuntu).load_resource("interface", "eth0")
     _(resource.exists?).must_equal true
     _(resource.up?).must_equal true
     _(resource.speed).must_equal 10000
@@ -23,7 +23,7 @@ describe "Inspec::Resources::Interface" do
   end
 
   it "verify invalid interface on ubuntu" do
-    resource = MockLoader.new(:ubuntu1404).load_resource("interface", "eth1")
+    resource = MockLoader.new(:ubuntu).load_resource("interface", "eth1")
     _(resource.exists?).must_equal false
     _(resource.up?).must_equal false
     _(resource.name).must_be_nil

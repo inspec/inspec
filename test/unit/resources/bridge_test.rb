@@ -5,7 +5,7 @@ require "inspec/resources/bridge"
 describe "Inspec::Resources::Bridge" do
 
   it "check linux bridge on ubuntu" do
-    resource = MockLoader.new(:ubuntu1404).load_resource("bridge", "br0")
+    resource = MockLoader.new(:ubuntu).load_resource("bridge", "br0")
     _(resource.exists?).must_equal true
 
     # check network interfaced attached to bridge

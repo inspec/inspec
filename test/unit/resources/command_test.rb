@@ -15,7 +15,7 @@ describe Inspec::Resources::Cmd do
 
   it "runs a valid mocked command" do
     _(resource("env").result).wont_be_nil
-    _(resource("env").stdout).must_equal "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\n"
+    _(resource("env").stdout).must_include "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\n"
     _(resource("env").stderr).must_equal ""
     _(resource("env").exit_status).must_equal 0
   end
@@ -40,13 +40,13 @@ describe Inspec::Resources::Cmd do
     _(result.resource_exception_message).must_match(/must be a regular expression/)
   end
 
-  it "redacts output if `redact_regex` is passed with caputure groups" do
+  it "redacts output if `redact_regex` is passed with capture groups" do
     cmd = "command_with_password -p supersecret -d no_redact"
     expected_to_s = "Command: `command_with_password -p REDACTED -d no_redact`"
     _(resource(cmd, redact_regex: /(-p ).*( -d)/).to_s).must_equal(expected_to_s)
   end
 
-  it "redacts output if `redact_regex` is passed without a caputure group" do
+  it "redacts output if `redact_regex` is passed without a capture group" do
     cmd = "command_with_password -p supersecret -d no_redact"
     expected_to_s = "Command: `command_with_password REDACTED no_redact`"
     _(resource(cmd, redact_regex: /-p .* -d/).to_s).must_equal(expected_to_s)

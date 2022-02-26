@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 # Load default formatter gem
-require "simplecov-html"
 require "pathname"
+require "simplecov_json_formatter"
 require "simplecov/profiles/root_filter"
 require "simplecov/profiles/test_frameworks"
 require "simplecov/profiles/bundler_filter"
@@ -10,32 +10,17 @@ require "simplecov/profiles/rails"
 
 # Default configuration
 SimpleCov.configure do
-  formatter SimpleCov::Formatter::HTMLFormatter
+  formatter SimpleCov::Formatter::JSONFormatter
   load_profile "bundler_filter"
   # Exclude files outside of SimpleCov.root
   load_profile "root_filter"
+
+  # We don't actually tolerate anything this low, we just don't want a nonizero exit under any cirumstances
+  minimum_coverage 50
 end
 
 # Gotta stash this a-s-a-p, see the CommandGuesser class and i.e. #110 for further info
 SimpleCov::CommandGuesser.original_run_command = "#{$PROGRAM_NAME} #{ARGV.join(" ")}"
-
-at_exit do
-  if defined? Minitest
-    Minitest.after_run do
-      simplecov_at_exit
-    end
-  else
-    simplecov_at_exit
-  end
-end
-
-def simplecov_at_exit
-  # If we are in a different process than called start, don't interfere.
-  return if SimpleCov.pid != Process.pid
-
-  SimpleCov.set_exit_exception
-  SimpleCov.run_exit_tasks!
-end
 
 # Autoload config from ~/.simplecov if present
 require "simplecov/load_global_config"

@@ -3,7 +3,7 @@ require "inspec/resource"
 require "inspec/resources/groups"
 
 describe "groups resource on unix platform" do
-  let(:resource) { MockLoader.new(:ubuntu1404).load_resource("groups") }
+  let(:resource) { MockLoader.new(:ubuntu).load_resource("groups") }
 
   describe "no arguments" do
     it "finds all group names" do

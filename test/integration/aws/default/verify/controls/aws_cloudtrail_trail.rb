@@ -26,7 +26,7 @@ control "aws_cloudtrail_trail recall" do
     it { should exist }
   end
 
-  describe aws_cloudtrail_trail('non-existant-trail') do
+  describe aws_cloudtrail_trail('non-existent-trail') do
     it { should_not exist }
   end
 end

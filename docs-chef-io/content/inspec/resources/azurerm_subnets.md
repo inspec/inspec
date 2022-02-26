@@ -11,7 +11,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-Use the `azurerm\_subnets` InSpec audit resource to test properties related to
+Use the `azurerm_subnets` InSpec audit resource to test properties related to
 subnets for a resource group.
 
 ## Azure REST API version

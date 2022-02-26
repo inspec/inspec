@@ -38,21 +38,27 @@ The following examples show how to use this InSpec audit resource.
 
 ### Test that there are no more than a specified number of IAM bindings roles available for the bucket
 
-    describe google_storage_bucket_iam_bindings(bucket: 'bucket-buvsjjcndqz') do
-      its('count') { should be <= 100}
-    end
+```ruby
+describe google_storage_bucket_iam_bindings(bucket: 'bucket-buvsjjcndqz') do
+  its('count') { should be <= 100}
+end
+```
 
 ### Test that an expected role is available for the bucket
 
-    describe google_storage_bucket_iam_bindings(bucket: 'bucket-buvsjjcndqz') do
-      its('iam_binding_roles') { should include "roles/storage.admin" }
-    end
+```ruby
+describe google_storage_bucket_iam_bindings(bucket: 'bucket-buvsjjcndqz') do
+  its('iam_binding_roles') { should include "roles/storage.admin" }
+end
+```
 
 ### Test that a particular role does not exist using filtering of the plural resource
 
-    describe google_storage_bucket_iam_bindings(bucket: 'bucket-buvsjjcndqz').where(iam_binding_role: "roles/iam.securityReviewer") do
-      it { should_not exist }
-    end
+```ruby
+describe google_storage_bucket_iam_bindings(bucket: 'bucket-buvsjjcndqz').where(iam_binding_role: "roles/iam.securityReviewer") do
+  it { should_not exist }
+end
+```
 
 ## Filter Criteria
 

@@ -27,7 +27,7 @@ This resource first became available in v1.0.0 of InSpec.
 
 A `iptables` resource block declares tests for rules in IP tables:
 
-    describe iptables(rule:'name', table:'name', chain: 'name') do
+    describe iptables(rule:'name', table:'name', chain: 'name', ignore_comments: true) do
       it { should have_rule('RULE') }
     end
 
@@ -37,6 +37,7 @@ where
 - `rule:'name'` is the name of a rule that matches a set of packets
 - `table:'name'` is the packet matching table against which the test is run
 - `chain: 'name'` is the name of a user-defined chain or one of `ACCEPT`, `DROP`, `QUEUE`, or `RETURN`
+- `ignore_comments: true` is a boolean flag that ignores comments in a rule.
 - `have_rule('RULE')` tests that rule in the iptables list. This must match the entire line taken from `iptables -S CHAIN`.
 
 ## Examples
@@ -59,6 +60,12 @@ The following examples show how to use this Chef InSpec audit resource.
 
     describe iptables do
       it { should have_rule('-A INPUT -p tcp -m tcp -m multiport --dports 5432 -m comment --comment "postgres" -j ACCEPT') }
+    end
+
+### Test a rule without comments
+
+    describe iptables(ignore_comments: true) do
+      it { should have_rule('-A INPUT -p tcp -m tcp -m multiport --dports 5432 -j ACCEPT') }
     end
 
 Note that the rule specification must exactly match what's in the output of `iptables -S INPUT`, which will depend on how you've built your rules.
