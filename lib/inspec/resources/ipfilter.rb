@@ -2,7 +2,7 @@ require "inspec/resources/command"
 module Inspec::Resources
   class IpFilter < Inspec.resource(1)
     name "ipfilter"
-    supports platform: "freebsd"
+    supports platform: "bsd"
     supports platform: "solaris"
     desc "Use the ipfilter InSpec audit resource to test rules that are defined for ipfilter, which maintains the IP rule set"
     example <<~EXAMPLE
