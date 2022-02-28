@@ -2,7 +2,7 @@ require "inspec/resources/command"
 module Inspec::Resources
   class IpNat < Inspec.resource(1)
     name "ipnat"
-    supports platform: "freebsd"
+    supports platform: "bsd"
     supports platform: "solaris"
     desc "Use the ipnat InSpec audit resource to test rules that are defined for IP NAT"
     example <<~EXAMPLE
