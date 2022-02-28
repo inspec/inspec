@@ -12,7 +12,7 @@ platform = "solaris"
     parent = "inspec/resources/os"
 +++
 
-Use the `ipnat` Chef InSpec audit resource to test rules that are defined for `IP NAT`. The ipnat utility is responsible for adding or removing set of rules for IP NAT. Rules are added to the end of the internal lists, matching the order in which they appear when given to ipnat. `ipnat -l` helps to view the list of current NAT table entry mappings. The rule match is done against the output rules of `ipnat -l`.
+Use the `ipnat` Chef InSpec audit resource to test rules that are defined for `IP NAT`. The purpose of the ipnat utility is to add or remove set of IP NAT rules. Rules are added to the end of the internal lists, matching the order in which they appear when given to ipnat. `ipnat -l` helps to view the current NAT table entry mappings. The rule match is done against the output rules of `ipnat -l`.
 
 ## Availability
 
@@ -36,19 +36,23 @@ where
 
 The following examples show how to use this Chef InSpec audit resource.
 
-### Test if there is a rule for mapping of the internally used IP address to an ISP provided 8-bit subnet at 10.9.0.1 on the network interface en0
+### Test to ensure mapping rule of the internally used IP address with ISP provided 8-bit subnet at 10.9.0.1
 
     describe ipnat do
       it { should have_rule("map en0 192.0.0.0/8 -> 10.9.0.1/24") }
     end
 
-### Test if there is a rule for NAT that specifies to use the builtin ftp-proxy
+### Test to ensure if there is a NAT rule to use the builtin ftp-proxy
 
     describe ipnat do
       it { should have_rule("map en0 192.0.0.0/8 -> 10.9.0.1/32 proxy port ftp ftp/tcp") }
     end
 
-Note that the rule specification must exactly match what's in the output of `ipnat -l`, which will depend on how you've built your rules.
+{{< note >}}    
+
+The rule specification must match the output of `ipnat -l` that depends on how you have built your rules.
+
+{{< /note >}}
 
 ## Matchers
 
