@@ -35,6 +35,7 @@ module Inspec
 
           # All optional
           "resource" => Primitives::STRING,
+          "resource_id" => Primitives::STRING,
           "message" => Primitives::STRING,
           "skip_message" => Primitives::STRING,
           "exception" => Primitives::STRING,
