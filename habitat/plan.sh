@@ -80,7 +80,7 @@ export PATH="/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH
 export GEM_HOME="$GEM_HOME"
 export GEM_PATH="$GEM_PATH"
 
-exec $(pkg_path_for core/ruby26)/bin/ruby $real_bin \$@
+exec $(pkg_path_for core/ruby27)/bin/ruby $real_bin \$@
 EOF
   chmod -v 755 "$bin"
 }
