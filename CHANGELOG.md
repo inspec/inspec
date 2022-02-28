@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.1.0 -->
-## [v5.1.0](https://github.com/inspec/inspec/tree/v5.1.0) (2022-02-24)
+<!-- latest_release 5.1.1 -->
+## [v5.1.1](https://github.com/inspec/inspec/tree/v5.1.1) (2022-02-28)
 
 #### Merged Pull Requests
-- CFINSPEC-2 Added options to allow winrm SSL connection with certificates  [#5793](https://github.com/inspec/inspec/pull/5793) ([Nik08](https://github.com/Nik08))
+- Delete resource docs from inspec/inspec [#5868](https://github.com/inspec/inspec/pull/5868) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- Delete resource docs from inspec/inspec [#5868](https://github.com/inspec/inspec/pull/5868) ([IanMadd](https://github.com/IanMadd)) <!-- 5.1.1 -->
 - CFINSPEC-2 Added options to allow winrm SSL connection with certificates  [#5793](https://github.com/inspec/inspec/pull/5793) ([Nik08](https://github.com/Nik08)) <!-- 5.1.0 -->
 - Descriptions for all the schema attributes [#5790](https://github.com/inspec/inspec/pull/5790) ([Amndeep7](https://github.com/Amndeep7)) <!-- 5.0.6 -->
 - CFINSPEC-45: Update rspec version to 3.11 [#5837](https://github.com/inspec/inspec/pull/5837) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.0.5 -->
