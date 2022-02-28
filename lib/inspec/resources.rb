@@ -138,6 +138,7 @@ require "inspec/resources/xinetd_conf"
 require "inspec/resources/yum"
 require "inspec/resources/zfs_dataset"
 require "inspec/resources/zfs_pool"
+require "inspec/resources/ipnat"
 
 # file formats, depend on json implementation
 require "inspec/resources/json"
