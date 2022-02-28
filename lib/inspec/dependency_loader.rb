@@ -60,15 +60,13 @@ module Inspec
       gem_deps = [Gem::Dependency.new(name.to_s, version_constraint)]
       managed_gem_set = Gem::Resolver::VendorSet.new
 
-      # Note: On Windows, there was an issue in resolving gem dependency.
-      # This block resolves that Windows issue partially.
-      # But this will still fail in Windows for the gems which don't have the .gemspec file.
+      # Note: There is an issue in resolving gem dependency.
+      # This block resolves that issue partially.
+      # But this will still fail for the gems which don't have the .gemspec file.
       # TODO: Find the solution to resolve gem dependencies that work for the unpackaged gems which don't have the .gemspec file.
-      if Inspec.locally_windows?
-        list_managed_gems.each do |spec|
-          unless Dir["#{spec.gem_dir}/*.gemspec"].empty?
-            managed_gem_set.add_vendor_gem(spec.name, spec.gem_dir)
-          end
+      list_managed_gems.each do |spec|
+        unless Dir["#{spec.gem_dir}/*.gemspec"].empty?
+          managed_gem_set.add_vendor_gem(spec.name, spec.gem_dir)
         end
       end
 

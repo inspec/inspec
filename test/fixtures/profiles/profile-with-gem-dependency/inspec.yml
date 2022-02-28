@@ -10,4 +10,4 @@ supports:
   platform: os
 gem_dependencies:
 - name: money
-  version: "= 6.16.0"
+  version: ">= 6.16.0"

@@ -836,6 +836,7 @@ module Inspec
     end
 
     def load_checks_params(params)
+      load_gem_dependencies
       load_libraries
       tests = collect_tests
       params[:controls] = controls = {}
