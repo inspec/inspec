@@ -61,6 +61,12 @@ if [ -n "${CI_ENABLE_COVERAGE:-}" ]; then
   export PATH=$SONAR_SCANNER_HOME/bin:$PATH
   export SONAR_SCANNER_OPTS="-server"
 
+  # Delete the vendor/ directory. I've tried to exclude it using sonar.exclusions,
+  # but that appears to get ignored, and we end up analyzing the gemfile install
+  # which blows our analysis.
+  echo "--- deleting installed gems"
+  rm -rf vendor/
+
   # See sonar-project.properties for additional settings
   echo "--- running sonarscanner"
   sonar-scanner \
