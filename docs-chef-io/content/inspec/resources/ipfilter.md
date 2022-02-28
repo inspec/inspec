@@ -12,7 +12,7 @@ platform = "solaris"
     parent = "inspec/resources/os"
 +++
 
-Use the `ipfilter` Chef InSpec audit resource to test rules that are defined for `ipfilter`. The `ipfstat` utility is used to report on packet filter statistics and filter list. `ipfstat -io` is used to view the active filtering rule set for the input and the output side of the kernel IP processing. The rule match is done against the output rules of `ipfstat -io`.
+Use the `ipfilter` Chef InSpec audit resource to test rules defined for `ipfilter`. The `ipfstat` utility is used to report on packet filter statistics and filter list. `ipfstat -io` is used to view the active filtering rule set for the input and the output side of the kernel IP processing. The rule match is done against the output rules of `ipfstat -io`.
 
 ## Availability
 
@@ -36,7 +36,7 @@ where
 
 The following examples show how to use this Chef InSpec audit resource.
 
-### Test if there are no restrictions on loopback interface
+### Test if there are no restrictions on a loopback interface
 
     describe ipfilter do
       it { should have_rule("pass in quick on lo0 all") }
@@ -62,7 +62,7 @@ The following examples show how to use this Chef InSpec audit resource.
       it { should have_rule("pass out quick on dc0 proto tcp from any to any port = ssh flags S/FSRPAU keep state") }
     end
 
-Note that the rule specification must exactly match what's in the output of `'ipfstat -io'`, which will depend on how you've built your rules.
+Note that the rule specification must exactly match what is in the output of `'ipfstat -io'`, which depends on how you have built your rules.
 
 ## Matchers
 
