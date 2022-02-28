@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.1.2 -->
-## [v5.1.2](https://github.com/inspec/inspec/tree/v5.1.2) (2022-02-28)
+<!-- latest_release 5.1.3 -->
+## [v5.1.3](https://github.com/inspec/inspec/tree/v5.1.3) (2022-02-28)
 
 #### Merged Pull Requests
-- No diff fix [#5884](https://github.com/inspec/inspec/pull/5884) ([wdower](https://github.com/wdower))
+- CFINSPEC-39 Set sonarscanner options using properties file [#5872](https://github.com/inspec/inspec/pull/5872) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- CFINSPEC-39 Set sonarscanner options using properties file [#5872](https://github.com/inspec/inspec/pull/5872) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.1.3 -->
 - No diff fix [#5884](https://github.com/inspec/inspec/pull/5884) ([wdower](https://github.com/wdower)) <!-- 5.1.2 -->
 - Delete resource docs from inspec/inspec [#5868](https://github.com/inspec/inspec/pull/5868) ([IanMadd](https://github.com/IanMadd)) <!-- 5.1.1 -->
 - CFINSPEC-2 Added options to allow winrm SSL connection with certificates  [#5793](https://github.com/inspec/inspec/pull/5793) ([Nik08](https://github.com/Nik08)) <!-- 5.1.0 -->
