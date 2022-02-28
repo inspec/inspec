@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.8 -->
-## [v4.56.8](https://github.com/inspec/inspec/tree/v4.56.8) (2022-02-28)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Backport 5884 to inspec-4, --no-diff fix [#5887](https://github.com/inspec/inspec/pull/5887) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Pin openssl to 1.1.1m -inspec4 [#5889](https://github.com/inspec/inspec/pull/5889) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- Pin openssl to 1.1.1m -inspec4 [#5889](https://github.com/inspec/inspec/pull/5889) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.8 -->
 - Backport 5884 to inspec-4, --no-diff fix [#5887](https://github.com/inspec/inspec/pull/5887) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.8 -->
 - Use ruby 2.7 in habitat for inspec 4 [#5876](https://github.com/inspec/inspec/pull/5876) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.7 -->
 - Bump omnibus-software from `ab23925` to `f64a223` in /omnibus [#5878](https://github.com/inspec/inspec/pull/5878) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.6 -->
