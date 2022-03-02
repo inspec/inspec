@@ -1,5 +1,6 @@
 # Order is important. The last matching pattern has the most precedence.
 
-*                     @inspec/inspec-core-team
+*                     @inspec/inspec-core-team @chef/chef-infra-reviewers @chef/chef-infra-approvers @chef/chef-infra-owners
 docs-chef-io/**       @inspec/inspec-core-team @inspec/docs-team
-*.md                  @inspec/inspec-core-team @inspec/docs-team
+.expeditor/           @chef/infra-packages
+*.md                  @inspec/inspec-core-team @inspec/docs-team @chef/docs-team

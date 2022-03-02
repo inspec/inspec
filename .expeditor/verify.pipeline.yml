@@ -33,6 +33,13 @@ steps:
         docker:
           image: ruby:3.0
 
+  - label: run-tests-ruby-3.1
+    command:
+      - /workdir/.expeditor/buildkite/verify.sh
+    expeditor:
+      executor:
+        docker:
+          image: ruby:3.1
 
   - label: isolated-tests-ruby-3.0
     command:
@@ -41,6 +48,14 @@ steps:
       executor:
         docker:
           image: ruby:3.0
+
+  - label: isolated-tests-ruby-3.1
+    command:
+      - RAKE_TASK=test:isolated /workdir/.expeditor/buildkite/verify.sh
+    expeditor:
+      executor:
+        docker:
+          image: ruby:3.1
 
   - label: run-tests-ruby-3.0-windows
     command:
@@ -53,3 +68,15 @@ steps:
           host_os: windows
           shell: ["powershell", "-Command"]
           image: rubydistros/windows-2019:3.0
+
+- label: run-tests-ruby-3.1-windows
+    command:
+      - /workdir/.expeditor/buildkite/verify.ps1
+    expeditor:
+      executor:
+        docker:
+          environment:
+            - BUILDKITE
+          host_os: windows
+          shell: ["powershell", "-Command"]
+          image: rubydistros/windows-2019:3.1
