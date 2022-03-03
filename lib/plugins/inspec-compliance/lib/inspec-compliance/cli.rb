@@ -221,7 +221,7 @@ module InspecPlugins
         info = InspecPlugins::Compliance::API.version(config)
         if !info.nil? && info["build_timestamp"]
           # key info["api"] is not longer available in latest version api response
-          puts "Name: Automate Version API" 
+          puts "Name: automate"
           puts "Version: #{info["build_timestamp"]}"
         else
           puts "Could not determine server version."

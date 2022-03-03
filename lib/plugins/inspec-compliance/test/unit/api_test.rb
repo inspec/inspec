@@ -110,9 +110,9 @@ describe InspecPlugins::Compliance::API do
       it "should return an empty hash" do
         response = mock
         response.stubs(:code).returns("200")
-        response.stubs(:body).returns('{"api":"compliance","version":"1.2.3"}')
+        response.stubs(:body).returns('{"build_timestamp": "20220223121207"}')
         InspecPlugins::Compliance::HTTP.expects(:get).with("myserver/version", "test-headers", true).returns(response)
-        _(InspecPlugins::Compliance::API.version(config)).must_equal({ "version" => "1.2.3", "api" => "compliance" })
+        _(InspecPlugins::Compliance::API.version(config)).must_equal({ "build_timestamp" => "20220223121207" })
       end
     end
   end
