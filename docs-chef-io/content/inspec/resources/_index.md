@@ -25,6 +25,12 @@ The following resources work on Linux operating systems.
 
 {{< inspec_resources platform="linux" >}}
 
+### BSD
+
+The following resources work on BSD operating systems.
+
+{{< inspec_resources platform="bsd" >}}
+
 ### Windows
 
 The following resources work on Windows operating systems.
