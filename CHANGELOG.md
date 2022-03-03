@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.1.5 -->
-## [v5.1.5](https://github.com/inspec/inspec/tree/v5.1.5) (2022-03-03)
+<!-- latest_release 5.1.6 -->
+## [v5.1.6](https://github.com/inspec/inspec/tree/v5.1.6) (2022-03-03)
 
 #### Merged Pull Requests
-- CFINSPEC-123 Automate version command fix [#5893](https://github.com/inspec/inspec/pull/5893) ([Nik08](https://github.com/Nik08))
+- Disable resource integration tests [#5898](https://github.com/inspec/inspec/pull/5898) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- Disable resource integration tests [#5898](https://github.com/inspec/inspec/pull/5898) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.1.6 -->
 - CFINSPEC-123 Automate version command fix [#5893](https://github.com/inspec/inspec/pull/5893) ([Nik08](https://github.com/Nik08)) <!-- 5.1.5 -->
 - CFINSPEC-125 Cassandra unit test fix for windows [#5894](https://github.com/inspec/inspec/pull/5894) ([Nik08](https://github.com/Nik08)) <!-- 5.1.4 -->
 - Pin openssl to 1.1.1m [#5851](https://github.com/inspec/inspec/pull/5851) ([jayashrig158](https://github.com/jayashrig158)) <!-- 5.1.3 -->
