@@ -3,7 +3,6 @@ title = "ipfilter resource"
 draft = false
 gh_repo = "inspec"
 platform = "bsd"
-platform = "solaris"
 
 [menu]
   [menu.inspec]
