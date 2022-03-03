@@ -145,6 +145,8 @@ module Inspec
         desc: "Folder which contains referenced profiles."
       option :vendor_cache, type: :string,
         desc: "Use the given path for caching dependencies. (default: ~/.inspec/cache)"
+      option :auto_install_gems, type: :boolean, default: false,
+        desc: "Auto install gem dependencies of profile/resource pack defined in metadata file."
     end
 
     def self.supermarket_options
@@ -201,8 +203,6 @@ module Inspec
         long_desc: "Maximum seconds to allow commands to run during execution. A timed out command is considered an error."
       option :reporter_include_source, type: :boolean, default: false,
         desc: "Include full source code of controls in the CLI report"
-      option :auto_install_gems, type: :boolean, default: false,
-        desc: "Auto install gem dependencies of profile/resource pack defined in metadata file."
     end
 
     def self.help(*args)
