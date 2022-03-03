@@ -84,7 +84,7 @@ module InspecPlugins
         return {} if data.nil? || data.empty?
 
         parsed = JSON.parse(data)
-        return {} unless parsed.key?("version") && !parsed["version"].empty?
+        return {} unless parsed.key?("build_timestamp") && !parsed["build_timestamp"].empty?
 
         parsed
       end
