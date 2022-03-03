@@ -202,7 +202,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
     profile = Inspec::Profile.for_target(path, o)
     gem_deps = profile.metadata.gem_dependencies + \
-      profile.locked_dependencies.list.map {|_k,v| v.profile.metadata.gem_dependencies}.flatten
+      profile.locked_dependencies.list.map { |_k, v| v.profile.metadata.gem_dependencies }.flatten
     unless gem_deps.empty?
       o[:logger].warn "Archiving a profile that contains gem dependencies, but InSpec cannot package gems with the profile! Please archive your ~/.inspec/gems directory separately."
     end
