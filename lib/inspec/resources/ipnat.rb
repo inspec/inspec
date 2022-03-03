@@ -13,7 +13,7 @@ module Inspec::Resources
 
     def initialize
       # checks if the instance is either bsd or solaris
-      return if inspec.os.bsd? || inspec.os.solaris?
+      return if (inspec.os.bsd? && !inspec.os.darwin?) || inspec.os.solaris?
 
       # ensures, all calls are aborted for non-supported os
       @ipnat_cache = []
