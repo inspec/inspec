@@ -45,15 +45,6 @@ describe "inspec exec" do
     _(stdout).must_include "0 failures"
   end
 
-  it "cleanly fails if mixing incompatible resource and transports" do
-    # TODO: It should be possible to test this more directly.
-    inspec "exec -t aws:// #{profile_path}/incompatible_resource_for_transport.rb"
-
-    _(stderr).must_be_empty
-    _(stdout).must_include "Unsupported resource/backend combination: file / aws. Exiting."
-    assert_exit_code 100, out
-  end
-
   it "can execute the profile" do
     inspec("exec " + complete_profile + " --no-create-lockfile")
 
@@ -993,22 +984,25 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
   describe "when specifying a config file" do
     let(:run_result) { run_inspec_process("exec " + File.join(profile_path, "simple-metadata") + " " + cli_args, json: true, env: env) }
     let(:seen_target_id) { @json["platform"]["target_id"] }
+    let(:platform_uuid) { inspec_os_uuid }
     let(:stderr) { run_result.stderr }
     let(:env) { {} }
 
-    describe "when using the legacy --json-config option" do
+    describe "when using the legacy --json-config" do
       let(:cli_args) { "--json-config " + File.join(config_dir_path, "json-config", "good.json") }
-      it "should see the custom target ID value" do
+      it "should override the custom target ID value with platform uuid" do
         _(stderr).must_be_empty # TODO: one day deprecate the --json-config option
-        _(seen_target_id).must_equal "from-config-file"
+        _(seen_target_id).wont_equal "from-config-file"
+        _(seen_target_id).must_equal platform_uuid
       end
     end
 
     describe "when using the --config option to read from a custom file" do
       let(:cli_args) { "--config " + File.join(config_dir_path, "json-config", "good.json") }
-      it "should see the custom target ID value" do
+      it "should override the custom target ID value with platform uuid" do
         _(stderr).must_be_empty
-        _(seen_target_id).must_equal "from-config-file"
+        _(seen_target_id).wont_equal "from-config-file"
+        _(seen_target_id).must_equal platform_uuid
       end
     end
 
@@ -1018,14 +1012,16 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
         let(:cli_args) { "--config -" }
         let(:opts) { { prefix: "cat " + json_path + " | ", json: true, env: env } }
         let(:njopts) { opts.merge(json: false) }
+        let(:platform_uuid) { inspec_os_uuid }
 
         # DO NOT use the `let`-defined run_result through here
         # If you do, it will execute twice, and cause STDIN to read empty on the second time
-        it "exec should see the custom target ID value" do
+        it "exec should override the the custom target ID value if platform uuid is present." do
           result = run_inspec_process( "exec " + File.join(profile_path, "simple-metadata") + " " + cli_args + " ", opts )
 
           _(result.stderr).must_be_empty
-          _(@json["platform"]["target_id"]).must_equal "from-config-file"
+          _(@json["platform"]["target_id"]).wont_equal "from-config-file"
+          _(@json["platform"]["target_id"]).must_equal platform_uuid
         end
 
         it "detect should exit 0" do
@@ -1050,10 +1046,11 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
       # Should read from File.join(config_dir_path, 'fakehome-2', '.inspec', 'config.json')
       let(:env) { { "HOME" => File.join(config_dir_path, "fakehome-2") } }
       let(:cli_args) { "" }
-      it "should see the homedir target ID value" do
+      let(:platform_uuid) { inspec_os_uuid }
+      it "should override override the homedir target ID value with platform uuid" do
         _(stderr).must_be_empty
-
-        _(seen_target_id).must_equal "from-fakehome-config-file"
+        _(seen_target_id).wont_equal "from-fakehome-config-file"
+        _(seen_target_id).must_equal platform_uuid
       end
     end
 
@@ -1094,7 +1091,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
   describe "when specifying the execution target" do
     let(:local_plat) do
       json = run_inspec_process("detect --format json", {}).stdout
-      JSON.parse(json).slice("name", "release")
+      JSON.parse(json).slice("name", "release").merge({ "target_id" => inspec_os_uuid })
     end
     let(:run_result) { run_inspec_process("exec " + File.join(profile_path, "simple-metadata") + " " + cli_args, json: true) }
     let(:seen_platform) { run_result; @json["platform"].select { |k, v| %w{name release target_id}.include? k } }
@@ -1173,8 +1170,8 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
       # Use log level FATAL to absorb WARNs from deprecataions and ERRORs from not having credentials set.
       # An actual stacktrace then will appear as sole stderr output
       let(:args) { "-t aws://fakecreds --log-level fatal " }
-      it "should fail to connect to aws due to lack of creds but not stacktrace" do
-        _(run_result.stderr).must_be_empty
+      it "should fail to connect to aws due to lack of creds and stacktrace" do
+        _(run_result.stderr).wont_match looks_like_a_stacktrace
       end
     end
 

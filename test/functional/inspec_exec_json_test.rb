@@ -5,6 +5,7 @@ require "tempfile"
 describe "inspec exec with json formatter" do
   include FunctionalHelper
   let(:schema) { Inspec::Schema.json("exec-json") }
+  let(:platform_uuid) { inspec_os_uuid }
 
   parallelize_me!
 
@@ -45,10 +46,11 @@ describe "inspec exec with json formatter" do
     assert_exit_code 0, out
   end
 
-  it "can execute a profile and validate the json schema with target_id" do
+  it "can execute a profile and validate the json schema and override the tagret id with platform uuid" do
     out = inspec("exec " + complete_profile + " --reporter json --no-create-lockfile --target-id 1d3e399f-4d71-4863-ac54-84d437fbc444")
     data = JSON.parse(out.stdout)
-    _(data["platform"]["target_id"]).must_equal "1d3e399f-4d71-4863-ac54-84d437fbc444"
+    _(data["platform"]["target_id"]).wont_equal "1d3e399f-4d71-4863-ac54-84d437fbc444"
+    _(data["platform"]["target_id"]).must_equal platform_uuid
     sout = inspec("schema exec-json")
     schema = JSONSchemer.schema(sout.stdout)
     _(schema.validate(data).to_a).must_equal []
