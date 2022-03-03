@@ -258,3 +258,112 @@ EOF
     end
   end
 end
+
+describe "metadata validation" do
+  let(:logger) { Minitest::Mock.new }
+  let(:empty_options) { {} }
+  let(:backend) { MockLoader.new(:ubuntu).backend }
+
+  def gem_dep_check(gem_deps)
+    data = <<~EOF
+name: dummy
+title: InSpec Profile
+version: 0.1.0
+maintainer: human@example.com
+summary: A test profile
+description: A test profile
+copyright: The Authors
+copyright_email: you@example.com
+license: Apache-2.0
+#{gem_deps}
+    EOF
+    md = Inspec::Metadata.from_yaml("mock", data, nil)
+    Inspec::Metadata.finalize(md, "mock", empty_options)
+    md.valid
+  end
+
+  it "validates a well-formed but versionless gem dep" do
+    data = <<~EOF
+gem_dependencies:
+  - name: money
+  - name: ordinal_array
+    EOF
+    err, wrn = gem_dep_check(data)
+    _(err).must_be_empty
+    _(wrn).must_be_empty
+  end
+
+  it "validates a complex versioned gem dep" do
+    data = <<~EOF
+gem_dependencies:
+  - name: money
+    version: "~>6.10, >= 5.0.0"
+  - name: ordinal_array
+    EOF
+    err, wrn = gem_dep_check(data)
+    _(err).must_be_empty
+    _(wrn).must_be_empty
+  end
+
+  it "invalidates a malformed gem_dependencies section that is not an array" do
+    data = <<~EOF
+gem_dependencies:
+  name: "test"
+  version: "1.0.0"
+    EOF
+    err, wrn = gem_dep_check(data)
+    _(err.count).must_equal 1
+    _(err[0]).must_match(/gem_dependencies must be a List of Hashes/)
+    _(wrn).must_be_empty
+  end
+
+  it "invalidates a malformed gem_dependencies section that is not an array of hashes" do
+    data = <<~EOF
+gem_dependencies:
+  - A
+  - B
+  - C
+    EOF
+    err, wrn = gem_dep_check(data)
+    _(err.count).must_equal 1
+    _(err[0]).must_match(/gem_dependencies must be a List of Hashes/)
+    _(wrn).must_be_empty
+  end
+
+  it "invalidates a malformed gem_dependencies section that is missing the name key" do
+    data = <<~EOF
+gem_dependencies:
+  - potAto: potAHto
+    EOF
+    err, wrn = gem_dep_check(data)
+    _(err.count).must_equal 1
+    _(err[0]).must_match(/gem_dependencies entries must all have a 'name' field/)
+    _(wrn.count).must_equal 1
+    _(wrn[0]).must_match(/Unknown gem_dependencies key\(s\) potAto seen for entry ''/)
+  end
+
+  it "invalidates a malformed gem_dependencies section that has a malformed version constraint" do
+    data = <<~EOF
+gem_dependencies:
+  - name: money
+    version: lots
+    EOF
+    err, wrn = gem_dep_check(data)
+    _(err.count).must_equal 1
+    _(err[0]).must_match(/Unparseable gem dependency 'lots' for money/)
+    _(wrn).must_be_empty
+  end
+
+  it "invalidates a malformed gem_dependencies section that has extra keys" do
+    data = <<~EOF
+gem_dependencies:
+  - name: money
+    versi0n: " >= 0"
+    EOF
+    err, wrn = gem_dep_check(data)
+    _(wrn.count).must_equal 1
+    _(wrn[0]).must_match(/Unknown gem_dependencies key\(s\) versi0n seen for entry 'money'/)
+    _(err).must_be_empty
+  end
+end
+
