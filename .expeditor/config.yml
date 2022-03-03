@@ -45,23 +45,11 @@ pipelines:
      - SLOW: 1
      - NO_AWS: 1
      - MT_CPU: 5
- - integration/resources:
-    description: Test core resources with test-kitchen.
-    definition: .expeditor/integration.resources.yml
-    trigger: pull_request
- # This breaks expeditor as it does not yet exist
- # - integration/libraries:
- #    description: Integration with plugins, gems, resource packs.
- #    definition: .expeditor/integration.libraries.yml
- # - integration/profiles:
- #    description: Integration with compliance-profiles, and dev-sec
- #    definition: .expeditor/integration.profiles.yml
- # - integration/cookbooks:
- #    description: Integration with the audit cookbook
- #    definition: .expeditor/integration.cookbooks.yml
- # - integration/automate:
- #    description: Integration with Chef Automate
- #    definition: .expeditor/integration.automate.yml
+# This has been disabled because it regularly hits Docker API rate limits and fails
+#  - integration/resources:
+#     description: Test core resources with test-kitchen.
+#     definition: .expeditor/integration.resources.yml
+#     trigger: pull_request
  - artifact/habitat:
     description: Execute tests against the habitat artifact
     definition: .expeditor/artifact.habitat.yml
