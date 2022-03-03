@@ -13,6 +13,7 @@ describe "Inspec::Resources::CassandradbSession" do
   end
 
   it "success when connection is estalished" do
+    skip_windows!
     resource = quick_resource(:cassandradb_session, :linux, user: "USER", password: "rightpassword", host: "localhost", port: 9042) do |cmd|
       cmd.strip!
       case cmd
@@ -29,6 +30,7 @@ describe "Inspec::Resources::CassandradbSession" do
   end
 
   it "fails when no connection established" do
+    skip_windows!
     resource = quick_resource(:cassandradb_session, :linux, user: "USER", password: "wrongpassword", host: "localhost", port: 1234) do |cmd|
       cmd.strip!
       case cmd
@@ -43,8 +45,45 @@ describe "Inspec::Resources::CassandradbSession" do
   end
 
   it "does not fails auth when no user or no password is provided" do
+    skip_windows!
     resource = quick_resource(:cassandradb_session, :linux)
     _(resource.resource_failed?).must_equal false
   end
 
+  ## windows test
+
+  it "success when connection is estalished in windows" do
+    resource = quick_resource(:cassandradb_session, :windows, user: "USER", password: "rightpassword", host: "localhost", port: 9042) do |cmd|
+      cmd.strip!
+      case cmd
+      when "cqlsh localhost 9042 -u USER -p rightpassword --execute 'SELECT cluster_name FROM system.local'" then
+        stdout_file "test/fixtures/cmd/cassandra-connection-success"
+      else
+        raise cmd.inspect
+      end
+    end
+
+    _(resource.resource_failed?).must_equal false
+    query = resource.query("SELECT cluster_name FROM system.local")
+    _(query.output).must_match(/Test Cluster/)
+  end
+
+  it "fails when no connection established in windows" do
+    resource = quick_resource(:cassandradb_session, :windows, user: "USER", password: "wrongpassword", host: "localhost", port: 1234) do |cmd|
+      cmd.strip!
+      case cmd
+      when "cqlsh localhost 1234 -u USER -p wrongpassword --execute 'SELECT cluster_name FROM system.local'" then
+        stdout_file "test/fixtures/cmd/cassandra-connection-error"
+      else
+        raise cmd.inspect
+      end
+      ex = assert_raises(Inspec::Exceptions::ResourceFailed) { resource.query("SELECT cluster_name FROM system.local") }
+      _(ex.message).must_include("Cassandra query with errors")
+    end
+  end
+
+  it "does not fails auth when no user or no password is provided in windows" do
+    resource = quick_resource(:cassandradb_session, :windows)
+    _(resource.resource_failed?).must_equal false
+  end
 end
