@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.56.9 -->
+## [v4.56.9](https://github.com/inspec/inspec/tree/v4.56.9) (2022-03-03)
 
 #### Merged Pull Requests
+- Only test Ruby 2.7 on InSpec 4 [#5888](https://github.com/inspec/inspec/pull/5888) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Pin openssl to 1.1.1m -inspec4 [#5889](https://github.com/inspec/inspec/pull/5889) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
@@ -17,6 +18,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- Only test Ruby 2.7 on InSpec 4 [#5888](https://github.com/inspec/inspec/pull/5888) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.9 -->
 - Pin openssl to 1.1.1m -inspec4 [#5889](https://github.com/inspec/inspec/pull/5889) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.8 -->
 - Backport 5884 to inspec-4, --no-diff fix [#5887](https://github.com/inspec/inspec/pull/5887) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.8 -->
 - Use ruby 2.7 in habitat for inspec 4 [#5876](https://github.com/inspec/inspec/pull/5876) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.7 -->
