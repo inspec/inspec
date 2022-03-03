@@ -3,7 +3,6 @@ title = "ipnat resource"
 draft = false
 gh_repo = "inspec"
 platform = "bsd"
-platform = "solaris"
 
 [menu]
   [menu.inspec]
@@ -48,7 +47,7 @@ The following examples show how to use this Chef InSpec audit resource.
       it { should have_rule("map en0 192.0.0.0/8 -> 10.9.0.1/32 proxy port ftp ftp/tcp") }
     end
 
-{{< note >}}    
+{{< note >}}
 
 The rule specification must match the output of `ipnat -l` that depends on how you have built your rules.
 
