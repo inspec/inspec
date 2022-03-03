@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.2.0 -->
-## [v5.2.0](https://github.com/inspec/inspec/tree/v5.2.0) (2022-03-03)
+<!-- latest_release 5.3.0 -->
+## [v5.3.0](https://github.com/inspec/inspec/tree/v5.3.0) (2022-03-03)
 
 #### Merged Pull Requests
-- CFINSPEC-70 Added resource_id attribute for the custom resources in the base class [#5875](https://github.com/inspec/inspec/pull/5875) ([Nik08](https://github.com/Nik08))
+- CFINSPEC-77 : Add Ipnat resource [#5883](https://github.com/inspec/inspec/pull/5883) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- CFINSPEC-77 : Add Ipnat resource [#5883](https://github.com/inspec/inspec/pull/5883) ([ahasunos](https://github.com/ahasunos)) <!-- 5.3.0 -->
 - CFINSPEC-70 Added resource_id attribute for the custom resources in the base class [#5875](https://github.com/inspec/inspec/pull/5875) ([Nik08](https://github.com/Nik08)) <!-- 5.2.0 -->
 - Disable resource integration tests [#5898](https://github.com/inspec/inspec/pull/5898) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.1.6 -->
 - CFINSPEC-123 Automate version command fix [#5893](https://github.com/inspec/inspec/pull/5893) ([Nik08](https://github.com/Nik08)) <!-- 5.1.5 -->
