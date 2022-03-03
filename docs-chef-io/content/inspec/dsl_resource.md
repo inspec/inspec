@@ -54,9 +54,9 @@ The following methods are available to the resource:
 - inspec - Contains a registry of all other resources to interact with the operating system or target in general.
 - skip_resource - A resource may call this method to indicate that requirements aren't met. All tests that use this resource will be marked as skipped.
 
-The additional methods defined within the resource:
+The additional methods may be defined within the resource:
 
-- resource_id - It is an instance method. Here logic to determine unique identifier for a resource node needs to be implemented and set using super class method. Following is the example of it's usage in an InSpec test:
+- resource_id - An instance method. Place logic here to determine the unique identifier for a resource, and set it using the superclass method. Following is an example of its usage in an InSpec test:
 
 ```
   # example_config resource can have unique conf file path as an identifier.
