@@ -12,11 +12,12 @@ rubygems:
     gemspec_path: ./inspec-bin/
 
 pipelines:
- - habitat/build:
-    env:
-     - HAB_NONINTERACTIVE: "true"
-     - HAB_NOCOLORING: "true"
-     - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+# DISABLE HABITAT BUILDS 2022-03-04
+#  - habitat/build:
+#     env:
+#      - HAB_NONINTERACTIVE: "true"
+#      - HAB_NOCOLORING: "true"
+#      - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
  - docker/build
  - omnibus/release:
     env:
@@ -50,14 +51,16 @@ pipelines:
 #     description: Test core resources with test-kitchen.
 #     definition: .expeditor/integration.resources.yml
 #     trigger: pull_request
- - artifact/habitat:
-    description: Execute tests against the habitat artifact
-    definition: .expeditor/artifact.habitat.yml
-    env:
-     - HAB_NONINTERACTIVE: "true"
-     - HAB_NOCOLORING: "true"
-     - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
-    trigger: pull_request
+
+# DISABLE HABITAT BUILDS 2022-03-04
+#  - artifact/habitat:
+#     description: Execute tests against the habitat artifact
+#     definition: .expeditor/artifact.habitat.yml
+#     env:
+#      - HAB_NONINTERACTIVE: "true"
+#      - HAB_NOCOLORING: "true"
+#      - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+#     trigger: pull_request
 
 schedules:
  - name: integration_schedule
