@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.4.2 -->
-## [v5.4.2](https://github.com/inspec/inspec/tree/v5.4.2) (2022-03-04)
+<!-- latest_release 5.4.3 -->
+## [v5.4.3](https://github.com/inspec/inspec/tree/v5.4.3) (2022-03-04)
 
 #### Merged Pull Requests
-- Temporarily disable habitat builds to unbreak the pipeline [#5904](https://github.com/inspec/inspec/pull/5904) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Disable habitat build and artifact pipeline defs, too [#5906](https://github.com/inspec/inspec/pull/5906) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- Disable habitat build and artifact pipeline defs, too [#5906](https://github.com/inspec/inspec/pull/5906) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.4.3 -->
 - Temporarily disable habitat builds to unbreak the pipeline [#5904](https://github.com/inspec/inspec/pull/5904) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.4.2 -->
 - CFINSPEC-70 Revert - Added resource_id attribute for the custom resources in the base class [#5901](https://github.com/inspec/inspec/pull/5901) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.4.1 -->
 - CFINSPEC-66 : Add Ipfilter resource [#5880](https://github.com/inspec/inspec/pull/5880) ([ahasunos](https://github.com/ahasunos)) <!-- 5.4.0 -->
