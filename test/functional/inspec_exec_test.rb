@@ -1299,4 +1299,13 @@ EOT
 
     end
   end
+
+  describe "when evalutating profiles that reference resource_id" do
+    let(:run_result) { run_inspec_process("exec #{profile}", json: true) }
+    let(:profile) { "#{profile_path}/resource_ids" } # A profile with custom resources and test controls that exercise resource ids
+    it "should evaluate all test controls correctly" do
+      _(run_result.stderr).must_be_empty
+      assert_json_controls_passing
+    end
+  end
 end
