@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.11 -->
-## [v4.56.11](https://github.com/inspec/inspec/tree/v4.56.11) (2022-03-03)
+<!-- latest_release 4.56.12 -->
+## [v4.56.12](https://github.com/inspec/inspec/tree/v4.56.12) (2022-03-04)
 
 #### Merged Pull Requests
-- Disable resource integration tests inspec-4 [#5899](https://github.com/inspec/inspec/pull/5899) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Temporarily disable habitat builds to unbreak the pipeline - inspec-4 [#5905](https://github.com/inspec/inspec/pull/5905) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- Temporarily disable habitat builds to unbreak the pipeline - inspec-4 [#5905](https://github.com/inspec/inspec/pull/5905) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.12 -->
 - Disable resource integration tests inspec-4 [#5899](https://github.com/inspec/inspec/pull/5899) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.11 -->
 - backport automate version fix inspec 4 [#5897](https://github.com/inspec/inspec/pull/5897) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.10 -->
 - Only test Ruby 2.7 on InSpec 4 [#5888](https://github.com/inspec/inspec/pull/5888) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.9 -->
