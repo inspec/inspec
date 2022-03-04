@@ -38,7 +38,7 @@ module InspecPlugins
         full_destination_path = Pathname.new(Dir.pwd).join(relative_destination_path)
 
         # check that the directory does not exist
-        if File.exist?(full_destination_path) && !overwrite_mode
+        if File.exist?(full_destination_path) && !overwrite_mode && template_values[:name] != "."
           ui.plain_line "#{ui.emphasis(full_destination_path)} exists already, use --overwrite"
           ui.exit(:usage_error)
         end

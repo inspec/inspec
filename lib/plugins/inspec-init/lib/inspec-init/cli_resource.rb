@@ -14,6 +14,7 @@ module InspecPlugins
       option :supports_platform, type: :string, default: "linux", desc: "the platform supported by this resource"
       option :description, type: :string, default: "Resource description ...", desc: "the description of this resource"
       option :class_name, type: :string, default: "MyCustomResource", desc: "Class Name for your resource."
+      option :path, type: :string, default: ".", desc: "Subdirectory under which to create files"
 
       # Wishlist:
       #  Make make_rename_map dynamic:
@@ -22,27 +23,27 @@ module InspecPlugins
       #   - Add a --plural option which changes the templates to use a set of Filtertable based templates
       #   - Add a --inherit option which provides a template for inheriting from the core resources
       #   - Add options which read from a totally different set of templates (AWS for example)
-      #  Generate properties and matchers:
-      #   - generate a has_bells? matcher => it { should have_bells }
-      #   - generate a is_purple? matcher => it { should be_purple }
-      #   - generate a shoe_size => its('shoe_size') { should cmp 10 }
+      #  + Generate properties and matchers:
+      #   + generate a has_bells? matcher => it { should have_bells }
+      #   + generate a is_purple? matcher => it { should be_purple }
+      #   + generate a shoe_size => its('shoe_size') { should cmp 10 }
       #  Generate functional tests for above proerties and matchers:
       #  Generate unit tests for above properties and matchers
-      #  Generate docs for properties and matchers
+      #  + Generate docs for properties and matchers
 
       def resource(resource_name)
+        resource_vars_from_opts
         template_vars = {
-          name: File.join("temp", resource_name),
+          name: options[:path], # This is used for the path prefix
           resource_name: resource_name,
         }
-        resource_vars_from_opts
         template_vars.merge!(options)
         template_path = "resources"
 
         render_opts = {
           templates_path: TEMPLATES_PATH,
           overwrite: options[:overwrite],
-          file_rename_map: make_rename_map(resource_name),
+          file_rename_map: make_rename_map(template_vars),
         }
         renderer = InspecPlugins::Init::Renderer.new(ui, render_opts)
         renderer.render_with_values(template_path, "resource", template_vars)
@@ -50,12 +51,12 @@ module InspecPlugins
 
       private
 
-      def make_rename_map(resource_name)
+      def make_rename_map(vars)
         {
-          File.join("libraries", "inspec-resource-template.erb") => File.join("libraries", resource_name + ".rb"),
-          File.join("docs", "resource-doc.erb") => File.join("docs", resource_name + ".md"),
-          File.join("tests", "functional", "inspec-resource-test-template.erb") => File.join("tests", "functional", resource_name + "_test.rb"),
-          File.join("tests", "unit", "inspec-resource-test-template.erb") => File.join("tests", "unit", resource_name + "_test.rb"),
+          File.join("libraries", "inspec-resource-template.erb") => File.join("libraries", vars[:resource_name] + ".rb"),
+          File.join("docs", "resource-doc.erb") => File.join("docs", vars[:resource_name] + ".md"),
+          File.join("tests", "functional", "inspec-resource-test-template.erb") => File.join("tests", "functional", vars[:resource_name] + "_test.rb"),
+          File.join("tests", "unit", "inspec-resource-test-template.erb") => File.join("tests", "unit", vars[:resource_name] + "_test.rb"),
         }
       end
 
@@ -73,6 +74,7 @@ module InspecPlugins
       def prompt_for_options # rubocop: disable Metrics/AbcSize
         option_defs = self.class.all_commands["resource"].options
         options_order = {
+          path: {},
           supports_platform: {},
           description: {},
           class_name: {},
