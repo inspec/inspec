@@ -29,21 +29,25 @@ module Inspec
 
     def install_from_remote_gems(requested_gem_name, opts)
       version = opts[:version].split(",")
-      gem_dependency = Gem::Dependency.new(requested_gem_name, version || "> 0")
-
-      # BestSet is rubygems.org API + indexing, APISet is for custom sources
-      sources = if opts[:source]
-                  Gem::Resolver::APISet.new(URI.join(opts[:source] + "/api/v1/dependencies"))
-                else
-                  Gem::Resolver::BestSet.new
-                end
-
       begin
+        gem_dependency = Gem::Dependency.new(requested_gem_name, version || "> 0")
+
+        # BestSet is rubygems.org API + indexing, APISet is for custom sources
+        sources = if opts[:source]
+                    Gem::Resolver::APISet.new(URI.join(opts[:source] + "/api/v1/dependencies"))
+                  else
+                    Gem::Resolver::BestSet.new
+                  end
+
         install_gem_to_gems_dir(gem_dependency, [sources], opts[:update_mode])
       rescue Gem::RemoteFetcher::FetchError => gem_ex
         ex = Inspec::GemDependencyInstallError.new(gem_ex.message)
         ex.gem_name = requested_gem_name
         raise ex
+      rescue Gem::Requirement::BadRequirementError => gem_ex
+        ex = Inspec::GemDependencyInstallError.new(gem_ex.message)
+        ex.gem_name = requested_gem_name
+        raise "Unparseable gem dependency '#{version}' for '#{ex.gem_name}'"
       end
     end
 

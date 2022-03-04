@@ -126,6 +126,8 @@ module Inspec
                 orig.split(",").map { |c| Gem::Requirement.parse(c) }
               rescue Gem::Requirement::BadRequirementError
                 errors.push "Unparseable gem dependency '#{orig}' for #{entry[:name]}"
+              rescue Inspec::GemDependencyInstallError => e
+                errors.push e.message
               end
             end
             extra = (entry.keys - %i{name version})

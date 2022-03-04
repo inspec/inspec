@@ -428,7 +428,7 @@ module Inspec
       dependency_loader = DependencyLoader.new(nil, [gem_data])
       dependency_loader.load
     rescue Inspec::GemDependencyLoadError => e
-      raise e
+      raise e.message
     end
 
     # Requires gem_data as argument.
@@ -437,7 +437,7 @@ module Inspec
       gem_dependency = DependencyInstaller.new(nil, [gem_data])
       gem_dependency.install
     rescue Inspec::GemDependencyInstallError => e
-      raise e
+      raise e.message
     end
 
     def to_s
