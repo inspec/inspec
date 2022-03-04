@@ -9,6 +9,7 @@ module InspecPlugins
       desc "resource RESOURCE_NAME [options]", "Generates an InSpec resource, which can extend the scope of InSpec resources support"
       # General options
       option :prompt, type: :boolean, default: true, desc: "Interactively prompt for information to put in your generated resource."
+      option :overwrite, type: :boolean, default: false, desc: "Overwrite existing files"
 
       # Templating vars
       option :supports_platform, type: :string, default: "linux", desc: "the platform supported by this resource"
@@ -18,7 +19,7 @@ module InspecPlugins
 
       # Wishlist:
       #  Make make_rename_map dynamic:
-      #   - Add a --path option which defaults to ., which will create the tree under that path
+      #   + Add a --path option which defaults to ., which will create the tree under that path
       #   - Add a --core option which changes all the tree to act as placing the files in core inspec (lib/inspec/resources, docs-chef-io/)
       #   - Add a --plural option which changes the templates to use a set of Filtertable based templates
       #   - Add a --inherit option which provides a template for inheriting from the core resources
@@ -30,6 +31,7 @@ module InspecPlugins
       #  Generate functional tests for above proerties and matchers:
       #  Generate unit tests for above properties and matchers
       #  + Generate docs for properties and matchers
+      #  + Add --overwrite option
 
       def resource(resource_name)
         resource_vars_from_opts
