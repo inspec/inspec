@@ -5,7 +5,7 @@ require "#{Inspec.src_root}/test/helper"
 
 # Load (require) the resource library file
 # TODO: core path change
-require_relative "../../libraries/<%= resource_name %>.rb"
+require_relative "<%= layout == "core" ? "../../../lib/inspec/resources/" : "../../libraries/" %><%= resource_name %>.rb"
 
 describe Inspec::Resources::<%= class_name %> do
   it "works correctly with the constructor on the platform" do

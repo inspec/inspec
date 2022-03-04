@@ -10,6 +10,7 @@ module InspecPlugins
       # General options
       option :prompt, type: :boolean, default: true, desc: "Interactively prompt for information to put in your generated resource."
       option :overwrite, type: :boolean, default: false, desc: "Overwrite existing files"
+      option :layout, type: :string, default: "resource-pack", desc: "File layout, either 'resource-pack' or 'core'"
 
       # Templating vars
       option :supports_platform, type: :string, default: "linux", desc: "the platform supported by this resource"
@@ -20,7 +21,7 @@ module InspecPlugins
       # Wishlist:
       #  Make make_rename_map dynamic:
       #   + Add a --path option which defaults to ., which will create the tree under that path
-      #   - Add a --core option which changes all the tree to act as placing the files in core inspec (lib/inspec/resources, docs-chef-io/)
+      #   + Add a --layout option which changes all the tree to act as placing the files in core inspec (lib/inspec/resources, docs-chef-io/)
       #   - Add a --plural option which changes the templates to use a set of Filtertable based templates
       #   - Add a --inherit option which provides a template for inheriting from the core resources
       #   - Add options which read from a totally different set of templates (AWS for example)
@@ -28,8 +29,7 @@ module InspecPlugins
       #   + generate a has_bells? matcher => it { should have_bells }
       #   + generate a is_purple? matcher => it { should be_purple }
       #   + generate a shoe_size => its('shoe_size') { should cmp 10 }
-      #  Generate functional tests for above proerties and matchers:
-      #  Generate unit tests for above properties and matchers
+      #  + Generate unit tests for above properties and matchers
       #  + Generate docs for properties and matchers
       #  + Add --overwrite option
 
@@ -54,12 +54,22 @@ module InspecPlugins
       private
 
       def make_rename_map(vars)
-        {
-          File.join("libraries", "inspec-resource-template.erb") => File.join("libraries", vars[:resource_name] + ".rb"),
-          File.join("docs", "resource-doc.erb") => File.join("docs", vars[:resource_name] + ".md"),
-          File.join("tests", "functional", "inspec-resource-test-template.erb") => File.join("tests", "functional", vars[:resource_name] + "_test.rb"),
-          File.join("tests", "unit", "inspec-resource-test-template.erb") => File.join("tests", "unit", vars[:resource_name] + "_test.rb"),
-        }
+        if vars["layout"] == "resource-pack"
+          {
+            File.join("libraries", "inspec-resource-template.erb") => File.join("libraries", vars[:resource_name] + ".rb"),
+            File.join("docs", "resource-doc.erb") => File.join("docs", vars[:resource_name] + ".md"),
+            File.join("test", "unit", "inspec-resource-test-template.erb") => File.join("test", "unit", vars[:resource_name] + "_test.rb"),
+          }
+        elsif vars["layout"] == "core"
+          {
+            File.join("libraries", "inspec-resource-template.erb") => File.join("lib", "inspec", "resources", vars[:resource_name] + ".rb"),
+            File.join("docs", "resource-doc.erb") => File.join("docs-chef-io", "content", "inspec", "resources", vars[:resource_name] + ".md"),
+            File.join("test", "unit", "inspec-resource-test-template.erb") => File.join("test", "unit", "resources", vars[:resource_name] + "_test.rb"),
+          }
+        else
+          ui.error("Unrecognized value for 'layout' - please enter either 'resource-pack' or 'core'")
+          ui.exit(:usage_error)
+        end
       end
 
       def resource_vars_from_opts
@@ -77,14 +87,30 @@ module InspecPlugins
         option_defs = self.class.all_commands["resource"].options
         options_order = {
           path: {},
+          layout: {
+            mode: :select,
+            choices: [
+              { name: "Resource Pack", value: "resource-pack", default: true },
+              { name: "InSpec Core", value: "core" },
+            ],
+          },
           supports_platform: {},
           description: {},
           class_name: {},
         }
 
-        options_order.each do |opt_name, _|
+        options_order.each do |opt_name, prompt_options|
           opt_def = option_defs[opt_name]
-          options[opt_name] = ui.prompt.ask("Enter " + opt_def.description + ":", default: options[opt_name])
+
+          case prompt_options[:mode]
+          when :select
+            options[opt_name] = ui.prompt.select("Choose " + opt_def.description + ":", prompt_options[:choices])
+          when :multiline
+            options[opt_name] = ui.prompt.multiline("Enter " + opt_def.description + ". Press Control-D to end.", default: options[opt_name])
+          else
+            # Assume plain ask
+            options[opt_name] = ui.prompt.ask("Enter " + opt_def.description + ":", default: options[opt_name])
+          end
         end
       end
     end
