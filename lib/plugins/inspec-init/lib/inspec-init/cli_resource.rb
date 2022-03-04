@@ -99,6 +99,7 @@ module InspecPlugins
             mode: :select,
             choices: [
               { name: "Basic",  value: "basic",  default: true },
+              { name: "Plural", value: "plural",               },
             ],
           },
           supports_platform: {},

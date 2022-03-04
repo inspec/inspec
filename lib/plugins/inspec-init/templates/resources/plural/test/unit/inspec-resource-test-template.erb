@@ -1,0 +1,18 @@
+# If we can load the InSpec globals definition file...
+require "inspec/globals"
+# ... we can find the core test unit helper file
+require "#{Inspec.src_root}/test/helper"
+
+# Load (require) the resource library file
+require_relative "<%= layout == "core" ? "../../../lib/inspec/resources/" : "../../libraries/" %><%= resource_name %>.rb"
+
+describe Inspec::Resources::<%= class_name %> do
+  it "works correctly with the constructor on the platform" do
+    # Add contructor arguments to load_resource if needed
+    resource = MockLoader.new("<%= supports_platform %>".to_sym).load_resource("<%= resource_name %>")
+
+    _(resource.count).must_equal 2
+    _(resource.shoe_sizes).must_be_kind_of Array
+    _(resource.where { shoe_size > 8 }.count).must_equal 1
+  end
+end
