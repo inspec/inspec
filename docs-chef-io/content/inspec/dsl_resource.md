@@ -54,17 +54,6 @@ The following methods are available to the resource:
 - inspec - Contains a registry of all other resources to interact with the operating system or target in general.
 - skip_resource - A resource may call this method to indicate that requirements aren't met. All tests that use this resource will be marked as skipped.
 
-The additional methods may be defined within the resource:
-
-- resource_id - An instance method. Place logic here to determine the unique identifier for a resource, and set it using the superclass method. Following is an example of its usage in an InSpec test:
-
-```
-  # example_config resource can have unique conf file path as an identifier.
-  describe example_config do
-    its("resource_id") { should eq PATH_OF_CONF_FILE }
-  end
-```
-
 The following example shows a full resource using attributes and methods
 to provide simple access to a configuration file:
 
@@ -97,11 +86,6 @@ class ExampleConfig < Inspec.resource(1)
   # Expose all parameters of the configuration file.
   def method_missing(name)
     @params[name]
-  end
-
-  def resource_id
-    value = example_method_to_determine_resource_id # define logic to determine resource_id value
-    super(value)
   end
 
   private

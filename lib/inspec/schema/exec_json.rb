@@ -38,7 +38,6 @@ module Inspec
           "message" => Primitives.desc(Primitives::STRING, "An explanation of the test status - usually only provided when the test fails."),
           "skip_message" => Primitives.desc(Primitives::STRING, "An explanation of the test status if the status was 'skipped."),
           "exception" => Primitives.desc(Primitives::STRING, "The type of exception if an exception was thrown."),
-          "resource_id" => Primitives.desc(Primitives::STRING, "The unique identifier of the resource."),
           "backtrace" => {
             "anyOf" => [
               Primitives.array(Primitives::STRING),
