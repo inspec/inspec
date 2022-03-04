@@ -4,7 +4,7 @@ require "inspec/globals"
 require "#{Inspec.src_root}/test/helper"
 
 # Load (require) the resource library file
-require_relative "<%= layout == "core" ? "../../../lib/inspec/resources/" : "../../libraries/" %><%= resource_name %>.rb"
+require_relative "<%= layout == "core" ? "../../../lib/inspec/resources/" : "../../libraries/" %><%= resource_name %>"
 
 describe Inspec::Resources::<%= class_name %> do
   it "works correctly with the constructor on the platform" do

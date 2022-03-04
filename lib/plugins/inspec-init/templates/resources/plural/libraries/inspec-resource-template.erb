@@ -11,7 +11,6 @@
 # https://github.com/inspec/inspec/blob/main/dev-docs/filtertable-usage.md
 # Consider that page required reading for authoring plural resources.
 
-
 # Uncomment the below lines to add gems and files required by the resource
 # require "inspec/utils/filter"
 # require_relative ""
@@ -52,7 +51,7 @@ module Inspec::Resources
     # where(), count(), and a property for every column.
     table = FilterTable.create
     table.register_column(:names, field: :name, style: :simple)
-      .register_column(:shoe_sizes,     field: :shoe_size)
+      .register_column(:shoe_sizes, field: :shoe_size)
       .install_filter_methods_on_resource(self, :fetch_data)
 
     # Plural resources do not generally define a resource_id.
