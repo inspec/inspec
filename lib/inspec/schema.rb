@@ -57,6 +57,7 @@ module Inspec
         "run_time" => { "type" => "number" },
         "start_time" => { "type" => "string" },
         "resource_class" => { "type" => "string", "optional" => true },
+        "resource_id" => { "type" => "string", "optional" => true },
         "skip_message" => { "type" => "string", "optional" => true },
         "resource" => { "type" => "string", "optional" => true },
         "message" => { "type" => "string", "optional" => true },
