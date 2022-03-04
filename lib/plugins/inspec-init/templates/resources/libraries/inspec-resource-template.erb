@@ -1,0 +1,54 @@
+# Uncomment the below line to add required gems and files by the resource
+# require ""
+# require_relative ""
+
+# Change module if required
+module Inspec::Resources
+  class <%= class_name %> < Inspec.resource(1)
+    name "<%= resource_name %>"
+
+    # Restrict to only run on the below platforms (if none were given, all OS's supported)
+    supports platform: "<%= supports_platform %>"
+
+    desc "<%= description %>"
+
+    example <<~EXAMPLE
+      describe "<%= resource_name %>" do
+        its() { }
+      end
+      describe "<%= resource_name %>" do
+        it { }
+      end
+    EXAMPLE
+
+    # Resource initialization
+    def initialize
+      return skip_resource "The `<%= resource_name %>` resource is not yet available on your OS." unless inspec.os.<%= supports_platform %>?
+      # Initialize required path/params/configs
+    end
+
+    def resource_matcher?()
+      return "positive or negative expectations specific to this resource instance"
+    end
+
+    def resource_property
+      # Implementation of the property specific to this resource
+    end
+
+    def resource_id
+      # replace value specific unique to this individual resource instance
+      return "something special"
+    end
+
+    def to_s
+      "<%= resource_name %>"
+    end
+
+    private
+
+    # Methods to help the resource's public methods 
+    def resource_helper_method()
+      # Add 
+    end
+  end
+end

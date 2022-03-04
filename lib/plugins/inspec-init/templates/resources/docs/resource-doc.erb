@@ -1,0 +1,74 @@
++++
+title = "<%= resource_name %> resource"
+draft = false
+gh_repo = "inspec"
+platform = "<%= supports_platform %>"
+
+[menu]
+  [menu.inspec]
+    title = "<%= resource_name %>"
+    identifier = "inspec/resources/os/<%= resource_name %>.md <%= resource_name %> resource"
+    parent = "inspec/resources/os"
++++
+
+Use the `<%= resource_name %>` Chef InSpec audit resource to test the ...
+
+
+## Availability
+
+### Installation
+
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
+
+## Syntax
+
+An `<%= resource_name %>` Chef InSpec audit resource ...
+
+    describe <%= resource_name %> do
+      its('property') { should some_matcher 'value' }
+    end
+where
+
+- `'property'` is some property of specific this resource
+- `'value'` is the value of ...
+
+## Properties
+
+- Properties of the resources: `property1`, `property2`
+
+## Matchers
+<%# Correct the url %>
+For a full list of available matchers, please visit our [matchers page](/inspec/matchers/). The matcher of the resources are: `matcher1`, `matcher2`
+
+### matcher1
+
+The `matcher1` matcher tests the ...:
+
+    it { should matcher1("Value") }
+
+## Examples
+The following examples show how to use this Chef InSpec audit resource.
+
+### Example 1
+
+`property1` returns ...
+
+    describe <%= resource_name %> do
+      its('property2') { should eq 'some_expected_value' }
+    end
+
+### Example 2
+
+<%# Make matcher and property aligns %>
+`matcher1` does the ...
+
+    describe <%= resource_name %> do
+      it { should matcher1("Value") }
+    end
+
+
+{{< note >}}
+
+Important information regarding the use of this resource. Replace it with appropriate message.
+
+{{< /note >}}
