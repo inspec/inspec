@@ -11,6 +11,7 @@ module InspecPlugins
       option :prompt, type: :boolean, default: true, desc: "Interactively prompt for information to put in your generated resource."
       option :overwrite, type: :boolean, default: false, desc: "Overwrite existing files"
       option :layout, type: :string, default: "resource-pack", desc: "File layout, either 'resource-pack' or 'core'"
+      option :template, type: :string, default: "basic", desc: "Which type of resource template to use"
 
       # Templating vars
       option :supports_platform, type: :string, default: "linux", desc: "the platform supported by this resource"
@@ -22,9 +23,9 @@ module InspecPlugins
       #  Make make_rename_map dynamic:
       #   + Add a --path option which defaults to ., which will create the tree under that path
       #   + Add a --layout option which changes all the tree to act as placing the files in core inspec (lib/inspec/resources, docs-chef-io/)
-      #   - Add a --plural option which changes the templates to use a set of Filtertable based templates
-      #   - Add a --inherit option which provides a template for inheriting from the core resources
-      #   - Add options which read from a totally different set of templates (AWS for example)
+      #   - Add a --template=plural option which changes the templates to use a set of Filtertable based templates
+      #   - Add a --template=inherit option which provides a template for inheriting from the core resources
+      #   - Add a template=aws
       #  + Generate properties and matchers:
       #   + generate a has_bells? matcher => it { should have_bells }
       #   + generate a is_purple? matcher => it { should be_purple }
@@ -40,7 +41,7 @@ module InspecPlugins
           resource_name: resource_name,
         }
         template_vars.merge!(options)
-        template_path = "resources"
+        template_path = File.join("resources", template_vars["template"])
 
         render_opts = {
           templates_path: TEMPLATES_PATH,
@@ -92,6 +93,12 @@ module InspecPlugins
             choices: [
               { name: "Resource Pack", value: "resource-pack", default: true },
               { name: "InSpec Core", value: "core" },
+            ],
+          },
+          template: {
+            mode: :select,
+            choices: [
+              { name: "Basic",  value: "basic",  default: true },
             ],
           },
           supports_platform: {},
