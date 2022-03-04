@@ -34,12 +34,6 @@ module Inspec
       Inspec::Resource.support_registry[key].push(criteria)
     end
 
-    def resource_id(value = nil)
-      @resource_id = value if value
-      @resource_id = ""    if @resource_id.nil?
-      @resource_id
-    end
-
     # TODO: this is pretty terrible and is only here to work around
     # the idea that we've trained resource authors to make initialize
     # methods w/o calling super.

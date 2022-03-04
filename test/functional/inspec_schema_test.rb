@@ -19,12 +19,4 @@ describe "inspec schema" do
       assert_exit_code 0, out
     end
   end
-
-  describe "validate schema of exec-json" do
-    it "contains resource_id key" do
-      out = inspec("schema exec-json")
-      json_output = JSON.parse(out.stdout)
-      _(json_output["definitions"]["Control_Result"]["properties"]["resource_id"]).wont_be_nil
-    end
-  end
 end
