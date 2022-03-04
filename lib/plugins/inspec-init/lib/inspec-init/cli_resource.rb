@@ -61,10 +61,10 @@ module InspecPlugins
       end
 
       def resource_vars_from_opts
-        options[:class_name] ||= options[:resource_name]
-
         if options[:prompt] && ui.interactive?
           options.dup.merge(prompt_for_options)
+        elsif !options[:prompt]
+          # Nothing to do - unless we need to calculate dynamic defaults in the future
         else
           ui.error("You requested interactive prompting for the template variables, but this does not seem to be an interactive terminal.")
           ui.exit(:usage_error)
