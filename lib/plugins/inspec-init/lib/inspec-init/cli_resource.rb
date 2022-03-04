@@ -13,7 +13,22 @@ module InspecPlugins
       # Templating vars
       option :supports_platform, type: :string, default: "linux", desc: "the platform supported by this resource"
       option :description, type: :string, default: "Resource description ...", desc: "the description of this resource"
-      option :class_name, type: :string, default: "", desc: "Class Name for your resource."
+      option :class_name, type: :string, default: "MyCustomResource", desc: "Class Name for your resource."
+
+      # Wishlist:
+      #  Make make_rename_map dynamic:
+      #   - Add a --path option which defaults to ., which will create the tree under that path
+      #   - Add a --core option which changes all the tree to act as placing the files in core inspec (lib/inspec/resources, docs-chef-io/)
+      #   - Add a --plural option which changes the templates to use a set of Filtertable based templates
+      #   - Add a --inherit option which provides a template for inheriting from the core resources
+      #   - Add options which read from a totally different set of templates (AWS for example)
+      #  Generate properties and matchers:
+      #   - generate a has_bells? matcher => it { should have_bells }
+      #   - generate a is_purple? matcher => it { should be_purple }
+      #   - generate a shoe_size => its('shoe_size') { should cmp 10 }
+      #  Generate functional tests for above proerties and matchers:
+      #  Generate unit tests for above properties and matchers
+      #  Generate docs for properties and matchers
 
       def resource(resource_name)
         template_vars = {
