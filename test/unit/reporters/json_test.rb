@@ -56,6 +56,7 @@ describe Inspec::Reporters::Json do
         run_time: 0.002058,
         start_time: "2018-01-05 11:43:04 -0500",
         resource_params: "",
+        resource_id: "File /tmp",
       }
       result = report.send(:profile_results, control)
       _(result.first).must_equal hash
@@ -70,6 +71,7 @@ describe Inspec::Reporters::Json do
         run_time: 0.002058,
         start_time: "2018-01-05 11:43:04 -0500",
         resource_params: "",
+        resource_id: "File /tmp",
         resource: "File",
         skip_message: "skipping",
       }

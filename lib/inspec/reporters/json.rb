@@ -36,19 +36,39 @@ module Inspec::Reporters
     def profile_results(control)
       (control[:results] || []).map { |r|
         {
-          status:       r[:status],
-          code_desc:    r[:code_desc],
-          run_time:     r[:run_time],
-          start_time:   r[:start_time],
-          resource:     r[:resource],
-          skip_message: r[:skip_message],
-          message:      r[:message],
-          exception:    r[:exception],
-          backtrace:    r[:backtrace],
-          resource_class: r[:resource_class],
+          status:          r[:status],
+          code_desc:       r[:code_desc],
+          run_time:        r[:run_time],
+          start_time:      r[:start_time],
+          resource:        r[:resource],
+          skip_message:    r[:skip_message],
+          message:         r[:message],
+          exception:       r[:exception],
+          backtrace:       r[:backtrace],
+          resource_class:  r[:resource_class],
           resource_params: r[:resource_params].to_s,
+          resource_id:     extract_resource_id(r),
         }.reject { |_k, v| v.nil? }
       }
+    end
+
+    def extract_resource_id(r)
+      # According to the RunData API, this is supposed to be an anonymous
+      # class that represents a resource, with embedded instance methods....
+      resource_obj = r[:resource_title]
+      return resource_obj.resource_id if resource_obj.respond_to?(:resource_id)
+
+      # But sometimes, it isn't, and has been collapsed into the to_s stringification of the resource.
+      if resource_obj.is_a?(String)
+        orig_str = resource_obj
+        # Try to trim off the resource class - eg "File /some/path" => "/some/path"
+        trimmed_str = orig_str.sub(/^#{r[:resource_class]}/i, "").strip
+        trimmed_str.empty? ? orig_str : trimmed_str
+      else
+        # Boo, InSpec is crazy, and we don't know what it possibly could be.
+        # Failsafe for resource_id is empty string.
+        ""
+      end
     end
 
     def profiles

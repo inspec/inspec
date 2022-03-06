@@ -31,6 +31,7 @@
       :run_time: 0.001313935
       :start_time: '2018-05-31T16:22:19+05:30'
       :resource_params: ''
+      :resource_id: ''
 :statistics:
   :duration: 0.002678506
 :version: 2.1.83
