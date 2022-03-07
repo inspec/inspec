@@ -19,8 +19,8 @@ A `google_project_alert_policy` is used to test a Google AlertPolicy resource
 
 ```ruby
 describe.one do
-  google_project_alert_policies(project: 'chef-gcp-inspec').policy_names do |policy_name|
-    describe google_project_alert_policy(project: 'chef-gcp-inspec', name: policy_name) do
+  google_project_alert_policies(project: 'chef-gcp-inspec').policy_names.each do |policy_name|
+    describe google_project_alert_policy(project: 'chef-gcp-inspec', name: policy_name.split('/').last) do
       it { should exist }
       its('display_name') { should cmp 'Display'}
       its('combiner') { should cmp 'OR'}
@@ -32,15 +32,15 @@ end
 
 ### Test that a GCP alert policy is enabled
 
-    describe google_project_alert_policy(policy: 'spaterson', name: '9271751234503117449') do
-      it { should be_enabled }
-    end
+  describe google_project_alert_policy(policy: 'spaterson', name: '9271751234503117449') do
+    it { should be_enabled }
+  end
 
 ### Test that a GCP compute alert policy display name is correct
 
-    describe google_project_alert_policy(policy: 'spaterson-project', name: '9271751234503117449') do
-      its('display_name') { should eq 'policy name' }
-    end
+  describe google_project_alert_policy(policy: 'spaterson-project', name: '9271751234503117449') do
+    its('display_name') { should eq 'policy name' }
+  end
 
 ## Properties
 

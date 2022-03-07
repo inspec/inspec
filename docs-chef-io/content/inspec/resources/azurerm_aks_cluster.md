@@ -81,9 +81,9 @@ The Resource Group as well as the AKS Cluster name.
 
 ## Attributes
 
-All of the attributes are avialable via dot notation. This is an example of the currently available attributes.
+All of the attributes are available via dot notation. This is an example of the currently available attributes.
 
-```
+```ruby
 control 'azurerm_aks_cluster' do
   describe azurerm_aks_cluster(resource_group: 'example', name: 'ClusterName') do
     it { should exist }

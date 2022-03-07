@@ -66,12 +66,20 @@ platforms:
     image: dokken/opensuse-leap-15
     pid_one_command: /bin/systemd
 
+- name: ubuntu-16.04
+  driver:
+    image: dokken/ubuntu-16.04
+    pid_one_command: /bin/systemd
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update -y
+
 - name: ubuntu-18.04
   driver:
     image: dokken/ubuntu-18.04
     pid_one_command: /bin/systemd
     intermediate_instructions:
       - RUN /usr/bin/apt-get update -y
+
 - name: ubuntu-20.04
   driver:
     image: dokken/ubuntu-20.04

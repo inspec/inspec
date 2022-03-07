@@ -43,11 +43,15 @@ module Inspec
       begin
         if (allowed_commands & ARGV.map(&:downcase)).empty? && # Did they use a non-exempt command?
             !ARGV.empty? # Did they supply at least one command?
-          LicenseAcceptance::Acceptor.check_and_persist(
+          license_acceptor_output = LicenseAcceptance::Acceptor.check_and_persist(
             Inspec::Dist::EXEC_NAME,
             Inspec::VERSION,
             logger: Inspec::Log
           )
+          if license_acceptor_output && ARGV.count == 1 && (ARGV.first.include? "--chef-license")
+            Inspec::UI.new.exit
+          end
+          license_acceptor_output
         end
       rescue LicenseAcceptance::LicenseNotAcceptedError
         Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without accepting the license"
@@ -95,8 +99,18 @@ module Inspec
         desc: "Specify a particular shell to use."
       option :ssl, type: :boolean,
         desc: "Use SSL for transport layer encryption (WinRM)."
+      option :ssl_peer_fingerprint, type: :string,
+        desc: "Specify peer fingerprint for SSL authentication, used in lieu of certificates"
       option :self_signed, type: :boolean,
         desc: "Allow remote scans with self-signed certificates (WinRM)."
+      option :ca_trust_file, type: :string,
+        desc: "Specify CA trust file for SSL authentication"
+      option :client_cert, type: :string,
+        desc: "Specify client certificate for SSL authentication"
+      option :client_key, type: :string,
+        desc: "Specify client key required with client cert for SSL authentication"
+      option :client_key_pass, type: :string, lazy_default: -1,
+        desc: "Specify client cert password, if required for SSL authentication"
       option :winrm_transport, type: :string, default: "negotiate",
         desc: "Specify which transport to use, defaults to negotiate (WinRM)."
       option :winrm_disable_sspi, type: :boolean,
@@ -122,6 +136,8 @@ module Inspec
         desc: "Specify a shell type for winrm (eg. 'elevated' or 'powershell')"
       option :docker_url, type: :string,
         desc: "Provides path to Docker API endpoint (Docker)"
+      option :ssh_config_file, type: :array,
+        desc: "A list of paths to the ssh config file, e.g ~/.ssh/config or /etc/ssh/ssh_config"
     end
 
     def self.profile_options
@@ -131,11 +147,19 @@ module Inspec
         desc: "Use the given path for caching dependencies. (default: ~/.inspec/cache)"
     end
 
+    def self.supermarket_options
+      option :supermarket_url, type: :string,
+        desc: "Specify the URL of a private Chef Supermarket."
+    end
+
     def self.exec_options
       target_options
       profile_options
+      supermarket_options
       option :controls, type: :array,
         desc: "A list of control names to run, or a list of /regexes/ to match against control names. Ignore all other tests."
+      option :tags, type: :array,
+        desc: "A list of tags names that are part of controls to filter and run controls, or a list of /regexes/ to match against tags names of controls. Ignore all other tests."
       option :reporter, type: :array,
         banner: "one two:/output/file/path",
         desc: "Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml"
@@ -168,6 +192,10 @@ module Inspec
         desc: "After normal execution order, results are sorted by control ID, or by file (default), or randomly. None uses legacy unsorted mode."
       option :filter_empty_profiles, type: :boolean, default: false,
         desc: "Filter empty profiles (profiles without controls) from the report."
+      option :filter_waived_controls, type: :boolean,
+        desc: "Do not execute waived controls in InSpec at all. Must use with --waiver-file. Ignores `run` setting of waiver file."
+      option :retain_waiver_data, type: :boolean,
+        desc: "EXPERIMENTAL: Only works in conjunction with --filter-waived-controls, retains waiver data about controls that were skipped"
       option :command_timeout, type: :numeric,
         desc: "Maximum seconds to allow commands to run during execution.",
         long_desc: "Maximum seconds to allow commands to run during execution. A timed out command is considered an error."

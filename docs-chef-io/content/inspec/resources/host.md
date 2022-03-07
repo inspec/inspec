@@ -38,19 +38,35 @@ where
 - `host()` must specify a host name and may specify a port number and/or a protocol
 - `'example.com'` is the host name
 - `port:` is the port number
-- `protocol: 'name'` is the Internet protocol: TCP (`protocol: 'tcp'`), UDP (`protocol: 'udp'` or ICMP (`protocol: 'icmp'`))
+- `protocol:` is the Internet protocol: TCP (`protocol: 'tcp'`), UDP (`protocol: 'udp'` or ICMP (`protocol: 'icmp'`))
 
-## Resource Properties
-
-- `connection`, `ipaddress`, `protocol`, `socket`
-
-## Resource Examples
-
-The following examples show how to use this Chef InSpec audit resource.
+## Properties
 
 ### ipaddress
 
-The `ipaddress` matcher tests if a host name is resolvable to a specific IP address:
+The `ipaddress` property returns the ipaddress of the host.
+
+    its('ipaddress') { should include '93.184.216.34' }
+
+### connection
+
+The `connection` property returns the connection string.
+
+    its('connection') { should match /connection refused/ }
+
+### `protocol`
+
+The `protocol` property returns the protocol that given host is using.
+
+    its('protocol') { should eq 'tcp' }
+
+### `socket`property returns the socket for the given host.
+
+    its('socket') { should match /STATUS_OK/ }
+
+## Examples
+
+### Verify that host name is resolvable to specific IP address.
 
     describe host('example.com') do
       its('ipaddress') { should include '93.184.216.34' }

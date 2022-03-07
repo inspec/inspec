@@ -1,12 +1,12 @@
 +++
-title = "Chef InSpec DSL"
+title = "Chef InSpec Language"
 draft = false
 gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
-    title = "Chef InSpec DSL"
-    identifier = "inspec/reference/dsl_inspec.md Chef InSpec DSL"
+    title = "Chef InSpec Language"
+    identifier = "inspec/reference/dsl_inspec.md Chef InSpec Language"
     parent = "inspec/reference"
     weight = 70
 +++
@@ -15,9 +15,9 @@ Chef InSpec is a run-time framework and rule language used to specify compliance
 security, and policy requirements. It includes a collection of resources that help
 you write auditing controls quickly and easily. The syntax used by both open source
 and [Chef compliance](/compliance/) auditing is the same. The open source [Chef InSpec resource](/inspec/resources/)
-framework is compatible with [Chef compliance](/compliance/).
+framework is compatible with [Chef compliance](https://docs.chef.io/chef_compliance_phase/).
 
-The Chef InSpec DSL is a Ruby DSL for writing audit controls, which includes audit resources that you can invoke.
+The Chef InSpec Language is a Ruby DSL for writing audit controls, which includes audit resources that you can invoke.
 
 The following sections describe the syntax and show some simple examples of using the Chef InSpec resources.
 
@@ -62,7 +62,7 @@ where
   * `0.4 to <0.7` these are controls with medium impact
   * `0.7 to <0.9` these are controls with high impact
   * `0.9 to 1.0` these are critical controls
-* `tag` is optional meta-information with with key or key-value pairs
+* `tag` is optional meta-information with key or key-value pairs
 * `ref` is a reference to an external document
 * `describe` is a block that contains at least one test. A `control` block must contain at least one `describe` block, but may contain as many as required
 * `sshd_config` is a Chef InSpec resource. For the full list of Chef InSpec resources, see Chef InSpec resource documentation
@@ -336,7 +336,7 @@ end
 
 ## Using Ruby in InSpec
 
-The Chef InSpec DSL is a Ruby based language. This allows you to be flexible with
+The Chef InSpec Language is a Ruby based language. This allows you to be flexible with
 Ruby code in controls:
 
 ```ruby

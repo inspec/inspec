@@ -13,7 +13,7 @@ platform = "gcp"
 
 ## Syntax
 
-A `google_runtime_config_config_iam_policy` is used to test a Google Config Iam Policy resource
+A `google_runtime_config_config_iam_policy` is used to test a Google Config IAM Policy resource
 
 ## Examples
 

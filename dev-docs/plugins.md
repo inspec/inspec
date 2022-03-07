@@ -488,6 +488,72 @@ v0.1.0 - Initial version
 v0.2.0 - added `run_data.profiles[0].inputs[0].options.sensitive`
 v0.3.0 - added resource_name && params
 
+## Implementing Streaming Reporter Plugins
+
+Streaming Reporter plugins offer the opportunity to customize or create a plugin which operates real-time as the Chef Inspec tests runs. Streaming reporters perform streaming using RSpec custom formatters.
+
+### Declare your plugin activators
+
+In your `plugin.rb`, include one or more `streaming_reporter` activation blocks. The activation block name will be matched against the value passed into the `--reporter` option. If a match occurs, your activator will fire, which loads any needed libraries, and return your implementation class.
+
+#### Streaming Reporter Activator Example
+
+```ruby
+
+# In plugin.rb
+module InspecPlugins::Sweeten
+  class Plugin < Inspec.plugin(2)
+    # ... other plugin stuff
+
+    streaming_reporter :streaming_sweet do
+      require_relative 'streaming_reporter.rb'
+      InspecPlugins::Sweeten::StreamingReporter
+    end
+  end
+end
+```
+
+Like any activator, the block above will only be called if needed. For Streaming Reporter plugins, the plugin system examines the `--reporter` argument, or the `reporter:` JSON config option, and looks for the activation name as a prefix. Multiple Reporter activations may occur if several different names match, though each activation will only occur once.
+
+```bash
+you@machine $ inspec exec --reporter streaming_sweet # Your Reporter implementation is activated and executed
+you@machine $ inspec exec --reporter json  # Your Reporter implementation is not activated
+```
+
+### Implementation class for Streaming Reporters
+
+In your `streaming_reporter.rb`, you should begin by requesting the superclass from `Inspec.plugin`:
+
+```ruby
+module InspecPlugins::Sweeten
+  class StreamingReporter < Inspec.plugin(2, :streaming_reporter)
+    RSpec::Core::Formatters.register self, :example_passed, :example_failed, :example_pending
+
+    def initialize output
+      @output = output
+    end
+
+    def example_passed notification # ExampleNotification
+      # some logic to run on passing test
+    end
+
+    def example_failed notification # FailedExampleNotification
+      # some logic to run on failing test
+    end
+
+    def example_pending notification # ExampleNotification
+      # some logic to run on pending test
+    end
+  end
+end
+```
+
+### Implementing your Streaming Reporter
+
+A streaming reporter is a custom RSpec formatter which is used as an InSpec plugin. And it can be used for performing operations real-time using RSpec formatter methods like `example_passed`, `example_failed` and `example_pending`. Being an RSpec formatter, the method needs to be registered with `RSpec::Core::Formatters`.
+
+This tutorial on [How to write RSpec formatters from Scratch](https://ieftimov.com/post/how-to-write-rspec-formatters-from-scratch/) will come handy.
+
 ## Implementing Input Plugins
 
 Input plugins provide values for Chef InSpec Inputs - the parameters you can place within profile control code.

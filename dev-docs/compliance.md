@@ -55,7 +55,7 @@ Actual HTTP communication is handled by `InspecPlugins::Compliance::HTTP`, again
 
 #### lib/http.rb
 
-This is probably unneccesary. It is a wrapper around Net:HTTP. Instead, we should probably be using a REST API wrapper or something similar.
+This is probably unnecessary. It is a wrapper around Net:HTTP. Instead, we should probably be using a REST API wrapper or something similar.
 
 #### lib/support.rb
 

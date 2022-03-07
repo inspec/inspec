@@ -52,7 +52,7 @@ class AwsKmsKeyRecallTest < Minitest::Test
   end
 
   def test_search_miss_is_not_an_exception
-    refute AwsKmsKey.new(key_id: "non-existant").exists?
+    refute AwsKmsKey.new(key_id: "non-existent").exists?
   end
 end
 
@@ -71,42 +71,42 @@ class AwsKmsKeyPropertiesTest < Minitest::Test
 
   def test_property_arn
     assert_equal("arn:aws:kms:us-east-1::key/7a6950aa-c8e6-4e51-8afc-111111111111", AwsKmsKey.new("arn:aws:kms:us-east-1::key/7a6950aa-c8e6-4e51-8afc-111111111111").arn)
-    assert_nil(AwsKmsKey.new(key_id: "non-existant").arn)
+    assert_nil(AwsKmsKey.new(key_id: "non-existent").arn)
   end
 
   def test_property_creation_date
     assert_equal(TIME_NOW - 10 * 24 * 3600, AwsKmsKey.new("arn:aws:kms:us-east-1::key/7a6950aa-c8e6-4e51-8afc-111111111111").creation_date)
-    assert_nil(AwsKmsKey.new(key_id: "non-existant").creation_date)
+    assert_nil(AwsKmsKey.new(key_id: "non-existent").creation_date)
   end
 
   def test_property_key_usage
     assert_equal("ENCRYPT_DECRYPT", AwsKmsKey.new("arn:aws:kms:us-east-1::key/7a6950aa-c8e6-4e51-8afc-111111111111").key_usage)
-    assert_nil(AwsKmsKey.new(key_id: "non-existant").key_usage)
+    assert_nil(AwsKmsKey.new(key_id: "non-existent").key_usage)
   end
 
   def test_property_key_state
     assert_equal("Enabled", AwsKmsKey.new("arn:aws:kms:us-east-1::key/7a6950aa-c8e6-4e51-8afc-111111111111").key_state)
-    assert_nil(AwsKmsKey.new(key_id: "non-existant").key_state)
+    assert_nil(AwsKmsKey.new(key_id: "non-existent").key_state)
   end
 
   def test_property_description
     assert_equal("test-key-1-desc", AwsKmsKey.new("arn:aws:kms:us-east-1::key/7a6950aa-c8e6-4e51-8afc-111111111111").description)
-    assert_nil(AwsKmsKey.new(key_id: "non-existant").description)
+    assert_nil(AwsKmsKey.new(key_id: "non-existent").description)
   end
 
   def test_property_deletion_time
     assert_equal(TIME_NOW + 10 * 24 * 3600, AwsKmsKey.new("arn:aws:kms:us-east-1::key/7a6950aa-c8e6-4e51-8afc-111111111111").deletion_time)
-    assert_nil(AwsKmsKey.new(key_id: "non-existant").deletion_time)
+    assert_nil(AwsKmsKey.new(key_id: "non-existent").deletion_time)
   end
 
   def test_property_invalidation_time
     assert_nil(AwsKmsKey.new("arn:aws:kms:us-east-1::key/7a6950aa-c8e6-4e51-8afc-111111111111").invalidation_time)
-    assert_nil(AwsKmsKey.new(key_id: "non-existant").invalidation_time)
+    assert_nil(AwsKmsKey.new(key_id: "non-existent").invalidation_time)
   end
 
   def test_property_created_days_ago
     assert_equal(10, AwsKmsKey.new("arn:aws:kms:us-east-1::key/7a6950aa-c8e6-4e51-8afc-111111111111").created_days_ago)
-    assert_nil(AwsKmsKey.new(key_id: "non-existant").created_days_ago)
+    assert_nil(AwsKmsKey.new(key_id: "non-existent").created_days_ago)
   end
 end
 

@@ -22,6 +22,18 @@ module Inspec::Resources
     end
   end
 
+  # Class defined to check for members without case-sensitivity
+  class Members < Array
+    def initialize(group_members)
+      @group_members = group_members
+      super
+    end
+
+    def include?(user)
+      !(@group_members.select { |group_member| group_member.casecmp?(user) }.empty?)
+    end
+  end
+
   class Groups < Inspec.resource(1)
     include GroupManagementSelector
 
@@ -82,6 +94,7 @@ module Inspec::Resources
   #   its('gid') { should eq 0 }
   # end
   #
+
   class Group < Inspec.resource(1)
     include GroupManagementSelector
 
@@ -118,11 +131,13 @@ module Inspec::Resources
     end
 
     def members
-      flatten_entry(group_info, "members") || empty_value_for_members
+      members_list = flatten_entry(group_info, "members") || empty_value_for_members
+      inspec.os.windows? ? Members.new(members_list) : members_list
     end
 
     def members_array
-      flatten_entry(group_info, "members_array") || []
+      members_list = flatten_entry(group_info, "members_array") || []
+      inspec.os.windows? ? Members.new(members_list) : members_list
     end
 
     def local
@@ -150,7 +165,11 @@ module Inspec::Resources
     def group_info
       # we need a local copy for the block
       group = @group.dup
-      @groups_cache ||= inspec.groups.where { name == group }
+      if inspec.os.windows?
+        @groups_cache ||= inspec.groups.where { name.casecmp?(group) }
+      else
+        @groups_cache ||= inspec.groups.where { name == group }
+      end
     end
 
     def empty_value_for_members

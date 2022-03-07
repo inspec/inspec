@@ -9,10 +9,11 @@ module Supermarket
     priority 500
 
     def self.resolve(target, opts = {})
+      supermarket_url = opts["supermarket_url"] || Supermarket::API::SUPERMARKET_URL
       supermarket_uri, supermarket_server = if target.is_a?(String) && URI(target).scheme == "supermarket"
-                                              [target, Supermarket::API::SUPERMARKET_URL]
+                                              [target, supermarket_url]
                                             elsif target.respond_to?(:key?) && target.key?(:supermarket)
-                                              supermarket_server = target[:supermarket_url] || Supermarket::API::SUPERMARKET_URL
+                                              supermarket_server = target[:supermarket_url] || supermarket_url
                                               ["supermarket://#{target[:supermarket]}", supermarket_server]
                                             end
       return nil unless supermarket_uri

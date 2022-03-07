@@ -40,10 +40,6 @@ An `interface` resource block declares network interface properties to be tested
 
 ## Properties
 
-`ipv4_address`, `ipv4_addresses`, `ipv4_addresses_netmask`, `ipv4_cidrs`, `ipv6_addresses`, `ipv6_cidrs`, `name`, `speed`
-
-## Resource Property Examples
-
 ### ipv4_address
 
 Returns the first `ipv4_addresses` entry as a String. Note: this property is incompatible with ServerSpec, which returns the value including the CIDR range, such as '10.0.0.5/32'.
@@ -114,7 +110,7 @@ The `exist` matcher tests if the network interface exists:
 
     it { should exist }
 
-### have\_an\_ipv4\_address
+### have_an_ipv4_address
 
 The `have_an_ipv4_address` matcher tests if the network interface has any IPv4 addresses assigned:
 

@@ -4,9 +4,9 @@ require "inspec/resources/interfaces"
 
 describe "Inspec::Resources::Interfaces" do
 
-  # ubuntu 16.04
+  # ubuntu
   it "verify interface on ubuntu" do
-    resource = MockLoader.new(:ubuntu1604).load_resource("interfaces")
+    resource = MockLoader.new(:ubuntu).load_resource("interfaces")
     _(resource.exist?).must_equal true
     _(resource.names).must_equal %w{eth0 lo}
     _(resource.ipv4_address).must_equal "127.0.0.1"

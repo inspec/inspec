@@ -39,10 +39,7 @@ An `iis_app` resource block declares details about the named site:
 where
 
 - `'application_path'` is the path to the application, such as `'/myapp'`
-- `'site_name'` is the name of the site, such as `'Default Web Site'`
-- `('application_pool')` is the name of the application pool in which the site's root application is run, such as `'DefaultAppPool'`
-- `('protocols')` is a binding for the site, such as `'http'`. A site may have multiple bindings; therefore, use a `have_protocol` matcher for each site protocol to be tested
-- `('physical_path')` is the physical path to the application, such as `'C:\\inetpub\\wwwroot\\myapp'`
+- `have_application_pool`, `have_protocol`, `have_site_name`, `have_physical_path` and `have_path` are the different [matchers](#matchers) for this resource.
 
 For example:
 
@@ -57,11 +54,38 @@ For example:
 
 ## Properties
 
-application_pool, path, physical_path, protocols, site_name
+### application pool
 
-## Resource Examples
+`application_pool` property returns the name of the application pool in which the site's root application is run, such as `DefaultAppPool`.
 
-The following examples show how to use this Chef InSpec audit resource.
+    its('application_pool') { should eq 'root' }
+
+### path
+
+`path` property returns the path to the application.
+
+    its('path') { should eq '\my_app' }
+
+### physical_path
+
+`physical_path` property returns the physical path of the application, such as `'C:\\inetpub\\wwwroot\\myapp'`.
+
+    its('phyiscal_path') { should eq 'C:\\inetpub\\wwwroot\\myapp' }
+
+### protocols
+
+`protocols` property returns an array of protocols i.e. the binding for the site, such as `'http'`. A site may have multiple bindings.
+
+    its('protocols') { should include 'http' }
+
+### site_name
+
+`site_name` property returns the name of the site, such as `'Default Web Site'`
+
+    its('site_name') { should eq 'Default Web Site' }
+
+
+## Examples
 
 ### Test a default IIS web application
 

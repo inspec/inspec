@@ -59,7 +59,7 @@ describe Inspec::Runner do
       _(config["reporter"]).must_equal expected
     end
 
-    it "delets format if set to a rspec format" do
+    it "deletes format if set to a rspec format" do
       opts = { command_runner: :generic, backend_cache: true, "reporter" => ["progress"] }
       runner = Inspec::Runner.new(opts)
       config = runner.instance_variable_get(:"@conf")

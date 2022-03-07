@@ -48,6 +48,12 @@ where
 - `('path')` is the non-default path to the `my.cnf` file
 - `should eq 'value'` is the value that is expected
 
+## Properties
+
+This resource supports any settings listed in a `my.cnf` file as properties. For example, `max_connections`.
+
+    its('max_connections') { should eq '505' }
+
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
@@ -99,11 +105,3 @@ The following examples show how to use this Chef InSpec audit resource.
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
-
-### setting
-
-The `setting` matcher tests specific, named settings in the `my.cnf` file:
-
-    its('setting') { should eq 'value' }
-
-Use a `setting` matcher for each setting to be tested.

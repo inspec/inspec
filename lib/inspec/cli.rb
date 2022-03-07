@@ -65,6 +65,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "Save the created profile to a path"
   option :controls, type: :array,
     desc: "A list of controls to include. Ignore all other tests."
+  option :tags, type: :array,
+    desc: "A list of tags to filter controls and include only those. Ignore all other tests."
   profile_options
   def json(target)
     require "json" unless defined?(JSON)
@@ -91,7 +93,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   end
 
   desc "check PATH", "verify all tests at the specified PATH"
-  option :format, type: :string
+  option :format, type: :string,
+    desc: "The output format to use doc (default), json. If valid format is not provided then it will use the default."
   profile_options
   def check(path) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     o = config
@@ -119,8 +122,13 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       end
       puts
 
-      if result[:errors].empty? && result[:warnings].empty?
-        ui.plain_line("No errors or warnings")
+      enable_offenses = !Inspec.locally_windows? # See 5723
+      if result[:errors].empty? && result[:warnings].empty? && result[:offenses].empty?
+        if enable_offenses
+          ui.plain_line("No errors, warnings, or offenses")
+        else
+          ui.plain_line("No errors or warnings")
+        end
       else
         item_msg = lambda { |item|
           pos = [item[:file], item[:line], item[:column]].compact.join(":")
@@ -132,11 +140,22 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
         puts
 
+        if enable_offenses && !result[:offenses].empty?
+          puts "Offenses:\n"
+          result[:offenses].each { |item| ui.cyan(" #{Inspec::UI::GLYPHS[:script_x]} #{item_msg.call(item)}\n\n") }
+        end
+
+        offenses = ui.cyan("#{result[:offenses].length} offenses", print: false)
         errors = ui.red("#{result[:errors].length} errors", print: false)
         warnings = ui.yellow("#{result[:warnings].length} warnings", print: false)
-        ui.plain_line("Summary:     #{errors}, #{warnings}")
+        if enable_offenses
+          ui.plain_line("Summary:     #{errors}, #{warnings}, #{offenses}")
+        else
+          ui.plain_line("Summary:     #{errors}, #{warnings}")
+        end
       end
     end
+
     ui.exit Inspec::UI::EXIT_USAGE_ERROR unless result[:summary][:valid]
   rescue StandardError => e
     pretty_handle_exception(e)

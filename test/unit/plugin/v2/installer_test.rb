@@ -155,7 +155,7 @@ class PluginInstallerInstallationTests < Minitest::Test
   def test_install_a_gem_from_missing_local_file
     gem_file = File.join(@plugin_fixture_pkg_path, "inspec-test-fixture-nonesuch-0.0.0.gem")
 
-    refute File.exist?(gem_file), "The nonexistant gem should not exist prior to install attempt"
+    refute File.exist?(gem_file), "The non-existent gem should not exist prior to install attempt"
     ex = assert_raises(Inspec::Plugin::V2::InstallError) { @installer.install("inspec-test-fixture-nonesuch", gem_file: gem_file) }
     assert_includes ex.message, "Could not find local gem file"
   end
@@ -396,7 +396,7 @@ end
 class PluginInstallerUninstallTests < Minitest::Test
   include InstallerTestHelpers
 
-  def test_uninstalling_a_nonexistant_plugin_is_an_error
+  def test_uninstalling_a_nonexistent_plugin_is_an_error
     # Try a mythical one
     ex = assert_raises(Inspec::Plugin::V2::UnInstallError) do
       @installer.uninstall("inspec-test-fixture-nonesuch")

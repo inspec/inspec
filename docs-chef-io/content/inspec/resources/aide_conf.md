@@ -49,13 +49,29 @@ Use the where clause to match a selection_line to one rule or a particular set o
 
 ## Properties
 
-- `conf_path`, `content`, `rules`, `all_have_rule`
+### `rules`
 
-## Property Examples
+The `rules` property returns the list of rules set in the `aide.conf` file.
+
+    its('rules') { should include ['r', 'sha512'] }
+
+### `all_have_rule`
+
+The `all_have_rule` property returns the all selected lines from `aide.conf` file e.g. 'p', 'i' etc.
+
+    aide_conf.all_have_rule('sha512')
+
+### `selection_lines`
+
+The `selection_lines` property returns the list of lines from `aide.conf` file.
+
+    its('selection_lines') { should include '/sbin' }
+
+## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
 
-### Test if all selection lines contain the xattr rule
+### Test if all selection lines contain the `xattr` rule
 
     describe aide_conf.all_have_rule('xattr') do
       it { should eq true }
@@ -67,7 +83,7 @@ The following examples show how to use this Chef InSpec audit resource.
       its('rules.flatten') { should include 'r' }
     end
 
-### Test whether selection line for /sbin consists of a particular set of rules
+### Test whether the selection line for `/sbin` consists of a particular set of rules
 
     describe aide_conf.where { selection_line == '/sbin' } do
       its('rules') { should include ['r', 'sha512'] }

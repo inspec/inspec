@@ -155,7 +155,7 @@ describe "example inheritance profile" do
   end
 
   it "use lockfile in tarball" do
-    prepare_examples("meta-profile") do |dir|
+    prepare_profiles("dependencies/inheritance") do |dir|
       # ensure the profile is vendored and packaged as tar
       out = inspec("vendor " + dir + " --overwrite")
 
@@ -172,7 +172,7 @@ describe "example inheritance profile" do
 
       # TODO: split
       # execute json command
-      out = inspec("json meta-profile-0.2.0.tar.gz -l debug")
+      out = inspec("json inheritance-1.0.0.tar.gz -l debug")
 
       _(out.stdout.scan(/Fetching URL:/).length).must_equal 0
       _(out.stdout).wont_match(/Fetching URL:/)

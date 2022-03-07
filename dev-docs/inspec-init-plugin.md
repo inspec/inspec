@@ -45,10 +45,13 @@ Generates an InSpec plugin, which can extend the functionality of InSpec itself.
 
   `--detail` This option can be used to skip generation of test files or gemspec file. Available values `full`, `core` or `test-fixture`.
 
-  `--activator` Available activator type are `cli_command` and `reporter`. The default activator type is "cli_command".
+  `--activator` Available activator type are `cli_command`, `reporter` and `streaming_reporter`. The default activator type is "cli_command".
   Usage: `inspec init pluign <inspec-plugin-name> --activator "cli_command:my_test"`
     `OR`
   `inspec init plugin <inspec-plugin-reporter-name> --activator "reporter:my_reporter"`
+    `OR`
+  `inspec init plugin <inspec-plugin-streaming-reporter-name> --activator "streaming_reporter:my_streaming_reporter"`
+
 
   **Note:** The InSpec plugin generator can currently only generate one activator of each type.
 

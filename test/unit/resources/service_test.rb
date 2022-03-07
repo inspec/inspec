@@ -21,7 +21,7 @@ describe "Inspec::Resources::Service" do
     _(resource.params).must_equal params
   end
 
-  # ubuntu 14.04 with upstart
+  # ubuntu
   it "verify ubuntu service parsing" do
     resource = MockLoader.new(:ubuntu1404).load_resource("service", "ssh")
     params = Hashie::Mash.new({})
@@ -35,7 +35,7 @@ describe "Inspec::Resources::Service" do
   end
 
   it "verify ubuntu service parsing with default upstart_service" do
-    resource = MockLoader.new(:ubuntu1404).load_resource("upstart_service", "ssh")
+    resource = MockLoader.new(:ubuntu).load_resource("upstart_service", "ssh")
     params = Hashie::Mash.new({})
     _(resource.type).must_equal "upstart"
     _(resource.name).must_equal "ssh"
@@ -47,9 +47,8 @@ describe "Inspec::Resources::Service" do
     _(resource.params.UnitFileState).must_be_nil
   end
 
-  # ubuntu 15.04 with systemd
   it "verify ubuntu service parsing" do
-    resource = MockLoader.new(:ubuntu1504).load_resource("service", "sshd")
+    resource = MockLoader.new(:ubuntu).load_resource("service", "sshd")
     params = Hashie::Mash.new({ "ActiveState" => "active", "Description" => "OpenSSH server daemon", "Id" => "sshd.service", "LoadState" => "loaded", "Names" => "sshd.service", "SubState" => "running", "UnitFileState" => "enabled" })
     _(resource.type).must_equal "systemd"
     _(resource.name).must_equal "sshd.service"
@@ -62,7 +61,7 @@ describe "Inspec::Resources::Service" do
   end
 
   it "verify ubuntu service parsing with default systemd_service" do
-    resource = MockLoader.new(:ubuntu1504).load_resource("systemd_service", "sshd")
+    resource = MockLoader.new(:ubuntu).load_resource("systemd_service", "sshd")
     params = Hashie::Mash.new({ "ActiveState" => "active", "Description" => "OpenSSH server daemon", "Id" => "sshd.service", "LoadState" => "loaded", "Names" => "sshd.service", "SubState" => "running", "UnitFileState" => "enabled" })
     _(resource.type).must_equal "systemd"
     _(resource.name).must_equal "sshd.service"
@@ -142,6 +141,19 @@ describe "Inspec::Resources::Service" do
   # Amazon Linux 2
   it "verify amazon linux 2 service parsing" do
     resource = MockLoader.new(:amazon2).load_resource("service", "sshd")
+    params = Hashie::Mash.new({ "ActiveState" => "active", "Description" => "OpenSSH server daemon", "Id" => "sshd.service", "LoadState" => "loaded", "Names" => "sshd.service", "SubState" => "running", "UnitFileState" => "enabled" })
+    _(resource.type).must_equal "systemd"
+    _(resource.name).must_equal "sshd.service"
+    _(resource.description).must_equal "OpenSSH server daemon"
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+    _(resource.params).must_equal params
+  end
+
+  # Aliyun Linux 3 (Alibaba)
+  it "verify aliyun linux 3 service parsing" do
+    resource = MockLoader.new(:aliyun3).load_resource("service", "sshd")
     params = Hashie::Mash.new({ "ActiveState" => "active", "Description" => "OpenSSH server daemon", "Id" => "sshd.service", "LoadState" => "loaded", "Names" => "sshd.service", "SubState" => "running", "UnitFileState" => "enabled" })
     _(resource.type).must_equal "systemd"
     _(resource.name).must_equal "sshd.service"
@@ -256,7 +268,37 @@ describe "Inspec::Resources::Service" do
     _(resource.params.UnitFileState).must_equal "static"
   end
 
-  # freebsd
+  # freebsd 9
+  it "verify freebsd9 service parsing" do
+    resource = MockLoader.new(:freebsd9).load_resource("service", "sendmail")
+    params = Hashie::Mash.new({})
+    _(resource.type).must_equal "bsd-init"
+    _(resource.name).must_equal "sendmail"
+    _(resource.description).must_be_nil
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+    _(resource.params).must_equal params
+  end
+
+  it "verify freebsd9 service parsing with default bsd_service" do
+    resource = MockLoader.new(:freebsd9).load_resource("bsd_service", "sendmail")
+    params = Hashie::Mash.new({})
+    _(resource.type).must_equal "bsd-init"
+    _(resource.name).must_equal "sendmail"
+    _(resource.description).must_be_nil
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+    _(resource.params).must_equal params
+  end
+
+  it "verify freebsd9 service parsing when one service is a suffix of another" do
+    resource = MockLoader.new(:freebsd9).load_resource("service", "mail") # "mail" is suffix of "sendmail", which is enabled
+    _(resource.enabled?).must_equal false
+  end
+
+  # freebsd 10+
   it "verify freebsd10 service parsing" do
     resource = MockLoader.new(:freebsd10).load_resource("service", "sendmail")
     params = Hashie::Mash.new({})
@@ -436,6 +478,18 @@ describe "Inspec::Resources::Service" do
     _(resource.type).must_equal "systemd"
     _(resource.name).must_equal "sshd.service"
     _(resource.description).must_equal "OpenSSH server daemon"
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal true
+    _(resource.params).must_equal params
+  end
+
+  it "verify alpine service parsing" do
+    resource = MockLoader.new(:alpine).load_resource("service", "sshd")
+    params = Hashie::Mash.new({})
+    _(resource.type).must_equal "sysv"
+    _(resource.name).must_equal "sshd"
+    _(resource.description).must_be_nil
     _(resource.installed?).must_equal true
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true

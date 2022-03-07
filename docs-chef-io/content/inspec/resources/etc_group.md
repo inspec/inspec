@@ -11,7 +11,7 @@ platform = "linux"
     parent = "inspec/resources/os"
 +++
 
-Use the `etc_group` Chef InSpec audit resource to test groups that are defined on Linux and Unix platforms. The `/etc/group` file stores details about each group: group name, password, group identifier, along with a comma-separate list of users that belong to the group.
+Use the `etc_group` Chef InSpec audit resource to test groups that are defined on Linux and Unix platforms. The `/etc/group` file stores details about each group: group name, password, group identifier, along with a comma-separated list of users that belong to the group.
 
 ## Availability
 
@@ -41,14 +41,30 @@ or:
 
 where
 
-- `('path')` is the non-default path to the `inetd.conf` file
+- `('path')` is the non-default path to the `\etc\group` file
 - `.where()` filters for a specific item and value, to which the parameter are compared
 - `.where` filter may be one or more of:
   - `name: 'name'`, `group_name: 'group_name'`, `password: 'password'`, `gid: 'gid'`, `group_id: 'gid'`, `users: 'user_name'`, `members: 'member_name'`
 
 ## Properties
 
-- `'gids'`, `'groups'`, and `'users'` are valid resource parameters for this resource.
+### gids
+
+The `gids` property returns the list of gids from `/etc/group` file.
+
+    its('gids') { should include 'gid' }
+
+### groups
+
+The `groups` property returns the list of groups from `/etc/group` file.
+
+    its('groups') { should include 'my_group' }
+
+### users
+
+The `users` property returns the list of users from `/etc/group `file.
+
+    its('users') { should include 'my_user' }
 
 ## Examples
 

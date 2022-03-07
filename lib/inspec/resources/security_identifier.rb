@@ -57,14 +57,14 @@ module Inspec::Resources
       @sids = {}
       case @type
       when :group
-        sid_data = wmi_results(:group)
+        sid_data = cim_results(:group)
       when :user
-        sid_data = wmi_results(:user)
+        sid_data = cim_results(:user)
       when :unspecified
         # try group first, then user
-        sid_data = wmi_results(:group)
+        sid_data = cim_results(:group)
         if sid_data.empty?
-          sid_data = wmi_results(:user)
+          sid_data = cim_results(:user)
         end
       else
         raise "Unhandled entity type '#{@type}'"
@@ -72,20 +72,14 @@ module Inspec::Resources
       sid_data.each { |sid| @sids[sid[1]] = sid[2] }
     end
 
-    def wmi_results(type)
-      query = "wmic "
+    def cim_results(type)
       case type
       when :group
-        query += "group"
+        cmd = "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID | Where-Object { $_.Name -eq '#{@name}' -and { $_.SIDType -eq 4 -or $_.SIDType -eq 5 } } | ConvertTo-Csv -NoTypeInformation"
       when :user
-        query += "useraccount"
+        cmd = "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID, SIDType | Where-Object { $_.Name -eq '#{@name}' -and $_.SIDType -eq 1 } | ConvertTo-Csv -NoTypeInformation"
       end
-      query += " where 'Name=\"#{@name}\"' get Name\",\"SID /format:csv"
-      # Example output:
-      #     inspec> command("wmic useraccount where 'Name=\"Administrator\"' get Name\",\"SID /format:csv").stdout
-      #     => "\r\n\r\nNode,Name,SID\r\n\r\nComputer1,Administrator,S-1-5-21-650485088-1194226989-968533923-500\r\n\r\n"
-      # Remove the \r characters, split on \n\n, ignore the CSV header row
-      inspec.command(query).stdout.strip.tr("\r", "").split("\n\n")[1..-1].map { |entry| entry.split(",") }
+      inspec.command(cmd).stdout.strip.gsub("\"", "").tr("\r", "").split("\n")[1..-1].map { |entry| entry.split(",") }
     end
   end
 end

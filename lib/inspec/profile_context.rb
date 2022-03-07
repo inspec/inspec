@@ -68,6 +68,7 @@ module Inspec
     end
 
     def reload_dsl
+      @resource_registry.merge!(Inspec::Resource.new_registry)
       @control_eval_context = nil
     end
 
@@ -262,10 +263,4 @@ module Inspec
       end # ClassMethods
     end # DomainSpecificLunacy
   end # ProfileContext
-end
-
-if RUBY_VERSION < "2.5"
-  class Module
-    public :define_method
-  end
 end

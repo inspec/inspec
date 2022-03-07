@@ -47,9 +47,33 @@ where
 - `free_kb` is the available space on the partition and is measured in kilobytes (KB).
 - `percent_free` is the percentage of available free space, and ranges from 0 to 100.
 
-## Resource Property Examples
+## Properties
 
-The following examples show how to use this Chef InSpec audit resource.
+## size_kb (Integer)
+
+The `size_kb` property returns the total partition size in kb.
+
+    its('size_kb') { should be >= 32000 }
+
+## free_kb (Integer)
+
+The `free_kb` property returns the size of available space on the partition in kb.
+
+    its('size_kb') { should be >= 32000 }
+
+## percent_free (Integrer)
+
+The `percent_free` property returns the available free space on the partition, ranges from 0 to 100.
+
+    its('percent_free') { should be >= 20 }
+
+## type (String)
+
+The `type` property returns the type of the file system.
+
+    its('type') { should cmp 'NTFS' }
+
+## Examples
 
 ### Test if the root partition is greater than 32000 KB
 

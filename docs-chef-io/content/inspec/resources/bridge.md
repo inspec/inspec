@@ -11,7 +11,7 @@ platform = "linux"
     parent = "inspec/resources/os"
 +++
 
-Use the `bridge` Chef InSpec audit resource to test basic network bridge properties, such as name, if an interface is defined, and the associations for any defined interface.
+Use the `bridge` Chef InSpec audit resource to test basic network bridge properties, such as `name`, if an interface is defined, and the associations for any defined interface.
 
 ## Availability
 
@@ -32,19 +32,15 @@ A `bridge` resource block declares the bridge to be tested and what interface it
       it { should have_interface 'eth0' }
     end
 
-## Properties
-
 - On Linux platforms, any value in the `/sys/class/net/{interface}/bridge` directory may be tested
 - On the Windows platform, the `Get-NetAdapter` cmdlet is associated with the `Get-NetAdapterBinding` cmdlet and returns the `ComponentID ms_bridge` value as a JSON object
 
-## Property Examples
+## Properties
 
 ### interfaces
 
-The `interfaces` property tests if the named interface is present:
+The `interfaces` property returns the named interfaces.
 
-    its('interfaces') { should eq 'foo' }
-    its('interfaces') { should eq 'bar' }
     its('interfaces') { should include('foo') }
 
 ## Matchers

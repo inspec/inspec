@@ -45,35 +45,44 @@ Use the optional resource parameter to give an alternative path to the hosts fil
 
 where
 
-- `ip_address` is the ip address of the hostname in either ipv4 or ipv6 format.
-- `primary_name` is the name associated with the ip address.
+- `ip_address` is the IP address of the hostname in either ipv4 or ipv6 format.
+- `primary_name` is the name associated with the IP address.
 - `all_host_names` is a list including the primary_name as the first entry followed by any alias names the host has.
 
 ## Properties
 
-    'ip_address', 'primary_name', 'all_host_names'
-
-## Property Examples
-
 ### ip_address
 
-`ip_address` returns a string array of ip addresses specified in the etc/hosts file.
+The `ip_address` property returns a string array of ip addresses specified in the etc/hosts file.
+
+    its('ip_address') { should cmp '127.0.1.154' }
+
+### primary_name
+
+The `primary_name` property returns a string array of primary_names specified in the etc/hosts file.
+
+    its('primary_name') { should cmp 'localhost' }
+
+### all_host_names
+
+The `all_host_names` property returns a two-dimensional string array where each entry has the primary_name first followed by any aliases.
+
+    its('all_host_names') { should cmp 'list' }
+
+## Examples
+
+### Test the IP address of the given primary name 'localhost'.
 
     describe etc_hosts.where { primary_name == 'localhost' } do
       its('ip_address') { should cmp '127.0.1.154' }
     end
 
-### primary_name
-
-`primary_name` returns a string array of primary_names specified in the etc/hosts file.
-
+### Test the primay name for where ip address is '::1'
     describe etc_hosts.where { ip_address == '::1' } do
       its('primary_name') { should cmp 'localhost' }
     end
 
-### all_host_names
-
-`all_host_names` returns a two dimensional string array where each entry has the primary_name first followed by any aliases.
+### Test the list of primary names and their aliases for the given IP address.
 
     describe etc_hosts.where { ip_address == '127.0.1.154' } do
       its('all_host_names') { should eq [['localhost', 'localhost.localdomain', 'localhost4', 'localhost4.localdomain4'],  ['localhost', 'localhost.localdomain', 'localhost6', 'localhost6.localdomain6']] }

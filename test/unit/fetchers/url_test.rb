@@ -18,6 +18,20 @@ describe Inspec::Fetcher::Url do
       m
     end
 
+    let(:git_remote_head_main) do
+      out = mock
+      out.stubs(:stdout).returns("HEAD branch: main\n")
+      out.stubs(:exitstatus).returns(0)
+      out.stubs(:stderr).returns("")
+      out.stubs(:error!).returns(false)
+      out.stubs(:run_command).returns(true)
+      out
+    end
+
+    def expect_git_remote_head_main(remote_url)
+      Mixlib::ShellOut.expects(:new).returns(git_remote_head_main)
+    end
+
     def expect_url_transform
       @mock_logger = Minitest::Mock.new
       @mock_logger.expect(:warn, nil, [/URL target.*transformed/])
@@ -72,7 +86,7 @@ describe Inspec::Fetcher::Url do
              res = Inspec::Fetcher::Url.resolve(github)
              res.expects(:open).returns(mock_open)
              _(res).wont_be_nil
-             _(res.resolved_source).must_equal({ url: "https://github.com/chef/inspec/archive/master.tar.gz", sha256: expected_shasum })
+             _(res.resolved_source).must_equal({ url: "https://github.com/chef/inspec/archive/main.tar.gz", sha256: expected_shasum })
            end
          end
        end
@@ -116,10 +130,11 @@ describe Inspec::Fetcher::Url do
        http://www.bitbucket.org/chef/inspec.git}.each do |bitbucket|
          it "resolves a bitbucket url #{bitbucket}" do
            expect_url_transform do
+             expect_git_remote_head_main(bitbucket)
              res = Inspec::Fetcher::Url.resolve(bitbucket)
              res.expects(:open).returns(mock_open)
              _(res).wont_be_nil
-             _(res.resolved_source).must_equal({ url: "https://bitbucket.org/chef/inspec/get/master.tar.gz", sha256: expected_shasum })
+             _(res.resolved_source).must_equal({ url: "https://bitbucket.org/chef/inspec/get/main.tar.gz", sha256: expected_shasum })
            end
          end
        end

@@ -38,6 +38,7 @@ module Inspec::Resources
       "tls1.0",
       "tls1.1",
       "tls1.2",
+      "tls1.3",
     ].freeze
 
     attr_reader :host, :port, :timeout, :retries
@@ -72,6 +73,11 @@ module Inspec::Resources
             protocol: proto, ciphers: e.map(&:cipher),
             timeout: x.resource.timeout, retries: x.resource.retries, servername: x.resource.host)]
         end
+
+        if !res[0].empty? && res[0][1].key?("error") && res[0][1]["error"].include?("Connection error Errno::ECONNREFUSED")
+          raise "#{res[0][1]["error"]}"
+        end
+
         Hash[res]
       end
       .install_filter_methods_on_resource(self, :scan_config)
@@ -89,6 +95,7 @@ module Inspec::Resources
         { "protocol" => "tls1.0", "ciphers" => SSLShake::TLS::TLS10_CIPHERS.keys },
         { "protocol" => "tls1.1", "ciphers" => SSLShake::TLS::TLS10_CIPHERS.keys },
         { "protocol" => "tls1.2", "ciphers" => SSLShake::TLS::TLS_CIPHERS.keys },
+        { "protocol" => "tls1.3", "ciphers" => SSLShake::TLS::TLS13_CIPHERS.keys },
       ].map do |line|
         line["ciphers"].map do |cipher|
           { "protocol" => line["protocol"], "cipher" => cipher }

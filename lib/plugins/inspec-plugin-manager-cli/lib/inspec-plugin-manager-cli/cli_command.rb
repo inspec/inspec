@@ -232,10 +232,10 @@ module InspecPlugins
 
         # Already installed?
         if registry.known_plugin?(plugin_name.to_sym)
-          ui.red("Plugin already installed - #{plugin_name} - Use '#{EXEC_NAME} " \
-                 "plugin list' to see previously installed plugin - " \
-                 "installation failed.\n")
-          ui.exit Inspec::UI::EXIT_PLUGIN_ERROR
+          ui.bold("Plugin already installed - #{plugin_name} - Use '#{EXEC_NAME} " \
+                  "plugin list' to see previously installed plugin - " \
+                  "installation failed.\n")
+          ui.exit Inspec::UI::EXIT_NORMAL
         end
 
         # Can we figure out how to load it?
@@ -391,19 +391,20 @@ module InspecPlugins
         they_explicitly_asked_for_a_version = !options[:version].nil?
         what_we_would_install_is_already_installed = pre_installed_versions.include?(requested_version)
         if what_we_would_install_is_already_installed && they_explicitly_asked_for_a_version
-          ui.red("Plugin already installed at requested version - plugin " \
+          ui.bold("Plugin already installed at requested version - plugin " \
                  "#{plugin_name} #{requested_version} - refusing to install.\n")
+          ui.exit Inspec::UI::EXIT_NORMAL
         elsif what_we_would_install_is_already_installed && !they_explicitly_asked_for_a_version
           ui.red("Plugin already installed at latest version - plugin " \
                  "#{plugin_name} #{requested_version} - refusing to install.\n")
-        else
-          # There are existing versions installed, but none of them are what was requested
-          ui.red("Update required - plugin #{plugin_name}, requested " \
-                 "#{requested_version}, have " \
-                 "#{pre_installed_versions.join(", ")}; use `inspec " \
-                 "plugin update` - refusing to install.\n")
+          ui.exit Inspec::UI::EXIT_NORMAL
         end
 
+        # There are existing versions installed, but none of them are what was requested
+        ui.red("Update required - plugin #{plugin_name}, requested " \
+               "#{requested_version}, have " \
+               "#{pre_installed_versions.join(", ")}; use `inspec " \
+               "plugin update` - refusing to install.\n")
         ui.exit Inspec::UI::EXIT_PLUGIN_ERROR
       end
 
@@ -433,7 +434,7 @@ module InspecPlugins
                  "version #{options[:version]} found on #{source_host} - " \
                  "installation failed.\n")
         else
-          ui.red("Unknown error occured - installation failed.\n")
+          ui.red("Unknown error occurred - installation failed.\n")
         end
         ui.exit Inspec::UI::EXIT_USAGE_ERROR
       end
@@ -457,15 +458,15 @@ module InspecPlugins
           end
         end
 
-        # Check for latest version (and implicitly, existance)
+        # Check for latest version (and implicitly, existence)
         latest_version = installer.search(plugin_name, exact: true, scope: :latest)
         latest_version = latest_version[plugin_name]&.last
 
         if pre_update_versions.include?(latest_version)
-          ui.plain_line("#{ui.red("Already installed at latest version:", print: false)} " \
+          ui.plain_line("#{ui.bold("Already installed at latest version:", print: false)} " \
                    "#{plugin_name} is at #{latest_version}, which the " \
                    "latest - refusing to update")
-          ui.exit Inspec::UI::EXIT_PLUGIN_ERROR
+          ui.exit Inspec::UI::EXIT_NORMAL
         end
       end
 

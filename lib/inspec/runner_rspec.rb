@@ -123,6 +123,8 @@ module Inspec
     def set_optional_formatters
       return if @conf["reporter"].nil?
 
+      # This is a slightly modified version of the default RSpec JSON formatter
+      # No one in their right mind should be using this because we have a much better JSON reporter - named "json"
       if @conf["reporter"].key?("json-rspec")
         # We cannot pass in a nil output path. Rspec only accepts a valid string or a IO object.
         if @conf["reporter"]["json-rspec"]&.[]("file").nil?
@@ -133,6 +135,7 @@ module Inspec
         @conf["reporter"].delete("json-rspec")
       end
 
+      # These are built-in to rspec
       formats = @conf["reporter"].select { |k, _v| %w{documentation progress html}.include?(k) }
       formats.each do |k, v|
         # We cannot pass in a nil output path. Rspec only accepts a valid string or a IO object.
@@ -142,6 +145,33 @@ module Inspec
           RSpec.configuration.add_formatter(k.to_sym, v["file"])
         end
         @conf["reporter"].delete(k)
+      end
+
+      # Here we need to look for reporter names in the reporter option that
+      # are names of streaming reporter plugins. We load them, then tell RSpec to add them as formatters.
+      # They will have already been detected at this point (see v2_loader.load_all in cli.rb)
+      # but they will not be activated activated at this point.
+      # then list all plugins by type by name
+      reg = Inspec::Plugin::V2::Registry.instance
+      streaming_reporters = reg\
+        .find_activators(plugin_type: :streaming_reporter)\
+        .map(&:activator_name).map(&:to_s)
+
+      @conf["reporter"].each do |streaming_reporter_name, file_target|
+        # It could be a non-streaming reporter
+        next unless streaming_reporters.include? streaming_reporter_name
+
+        # Activate the plugin so the formatter ID gets registered with RSpec, presumably
+        activator = reg.find_activator(plugin_type: :streaming_reporter, activator_name: streaming_reporter_name.to_sym)
+        activator.activate!
+
+        # We cannot pass in a nil output path. Rspec only accepts a valid string or a IO object.
+        if file_target&.[]("file").nil?
+          RSpec.configuration.add_formatter(activator.implementation_class)
+        else
+          RSpec.configuration.add_formatter(activator.implementation_class, file_target["file"])
+        end
+        @conf["reporter"].delete(streaming_reporter_name)
       end
     end
 

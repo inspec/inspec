@@ -52,7 +52,7 @@ The following attributes can be configured:
 The following methods are available to the resource:
 
 - inspec - Contains a registry of all other resources to interact with the operating system or target in general.
-- skip\_resource - A resource may call this method to indicate that requirements aren't met. All tests that use this resource will be marked as skipped.
+- skip_resource - A resource may call this method to indicate that requirements aren't met. All tests that use this resource will be marked as skipped.
 
 The following example shows a full resource using attributes and methods
 to provide simple access to a configuration file:
@@ -104,7 +104,7 @@ class ExampleConfig < Inspec.resource(1)
 end
 ```
 
-For a full example, see our [example resource](https://github.com/chef/inspec/blob/master/examples/profile/libraries/example_config.rb).
+For a full example, see our [example resource](https://github.com/chef/inspec/blob/main/examples/profile/libraries/example_config.rb).
 
 ## Lazy Loading
 

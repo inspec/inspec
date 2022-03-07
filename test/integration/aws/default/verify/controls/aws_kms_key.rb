@@ -19,7 +19,7 @@ control "aws_kms_key recall" do
   describe aws_kms_key(key_id: fixtures['kms_key_enabled_key_id']) do
     it { should exist }
   end
-  describe aws_kms_key('non-existant-key') do
+  describe aws_kms_key('non-existent-key') do
     it { should_not exist }
   end
 end

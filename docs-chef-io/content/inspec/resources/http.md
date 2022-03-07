@@ -65,7 +65,7 @@ For example, a service is listening on default http port can be tested like this
                   params: {format: 'html'},
                   method: 'POST',
                   headers: {'Content-Type' => 'application/json'},
-                  data: '{"data":{"a":"1","b":"five"}}') do
+                  data: { a":"1", "b":"five" } ) do
       its('status') { should cmp 200 }
       its('body') { should cmp 'pong' }
       its('headers.Content-Type') { should cmp 'text/html' }
@@ -75,15 +75,7 @@ For example, a service is listening on default http port can be tested like this
 
 Beginning with Chef InSpec 1.41, you can enable the ability to have the HTTP test execute on the remote target:
 
-    describe http('http://www.example.com', enable_remote_worker: true) do
-      its('body') { should cmp 'awesome' }
-    end
-
-In Chef InSpec 2.0, the HTTP test will automatically execute remotely whenever Chef InSpec is testing a remote node.
-
 ## Parameters
-
-- `url`, `auth`, `params`, `method`, `headers`, `data`, `open_timeout`, `read_timeout`, `ssl_verify`, `max_redirects`
 
 ## Parameter Examples
 
@@ -133,10 +125,10 @@ In Chef InSpec 2.0, the HTTP test will automatically execute remotely whenever C
 
 ### data
 
-`data` may be specified for http request body.
+`data` may be specified for http request body. When working with remote Windows target use single quotes around data that you are passing for e.g. `data: '{ "a" : "1", "b" : "five" }'`
 
         describe http('http://localhost:8080/ping',
-                  data: '{"data":{"a":"1","b":"five"}}') do
+                  data: { "a":"1", "b":"five" } ) do
           ...
         end
 
@@ -176,21 +168,53 @@ In Chef InSpec 2.0, the HTTP test will automatically execute remotely whenever C
       ...
     end
 
+### proxy
+
+Specify a `proxy` to test by passing in the proxy URI or a hash of the proxy URI, a username, and password. Specify `disable` to ignore a proxy set as an environment variable.
+
+You can include the username and password in the `proxy` parameter:
+
+    describe http('http://localhost:8080/ping', proxy: "http://username:password@www.example.com:3128") do
+      ...
+    end
+
+The `proxy` parameter also accepts proxy options in hash format:
+
+    describe http('http://localhost:8080/ping', proxy: { uri: 'http://www.example.com:3128', user: 'username', password: 'proxypassword'}) do
+      ...
+    end
+
+Use `disable` to ignore the proxy set in the environment variable:
+
+    describe http('http://localhost:8080/ping', proxy: 'disable') do
+      ...
+    end
+
+{{< note >}}
+
+Windows remote targets do not accept username and password values in a string; use the hash format instead.
+
+{{< /note >}}
+
+{{< note >}}
+
+Special characters in the URI must be converted to their UTF-8 equivalent when passed in to the `proxy` parameter as a string. For example, the string `http://username:bar@123@www.example.com:3128` must be passed in as `http://username:bar%40123@www.example.com:3128` instead.
+
+Special characters may be passed into the hash format without conversion to UTF-8 characters.
+
+{{< /note >}}
+
 ## Properties
-
-- `body`, `headers`, `http_method`, `status`,
-
-## Property Examples
 
 ### body
 
-The `body` matcher tests body content of http response:
+The `body` property tests body content of http response:
 
     its('body') { should eq 'hello\n' }
 
 ### headers
 
-The `headers` matcher returns an hash of all http headers:
+The `headers` property returns an hash of all http headers:
 
     its('headers') { should eq {} }
 
@@ -198,11 +222,52 @@ Individual headers can be tested via:
 
     its('headers.Content-Type') { should cmp 'text/html' }
 
+### http_method
+
+The `http_method` property returns the http method of the http request.
+
+    its('http_method') { should eq 'GET'}
+
 ### status
 
-The `status` matcher tests status of the http response:
+The `status` property tests status of the http response:
 
     its('status') { should eq 200 }
+
+## Example
+
+The following examples show how to use this Chef InSpec audit resource. An `http` resource block declares the configuration settings to be tested:
+
+### Simple http test
+
+For example, a service is listening on default http port can be tested like this:
+
+    describe http('http://localhost') do
+      its('status') { should cmp 200 }
+    end
+
+### Complex http test
+
+    describe http('http://localhost:8080/ping',
+                  auth: {user: 'user', pass: 'test'},
+                  params: {format: 'html'},
+                  method: 'POST',
+                  headers: {'Content-Type' => 'application/json'},
+                  data: '{"data":{"a":"1","b":"five"}}') do
+      its('status') { should cmp 200 }
+      its('body') { should cmp 'pong' }
+      its('headers.Content-Type') { should cmp 'text/html' }
+    end
+
+## Local vs. Remote
+
+Beginning with Chef InSpec 1.41, you can enable the ability to have the HTTP test execute on the remote target:
+
+    describe http('http://www.example.com', enable_remote_worker: true) do
+      its('body') { should cmp 'awesome' }
+    end
+
+In Chef InSpec 2.0, the HTTP test will automatically execute remotely whenever Chef InSpec is testing a remote node.
 
 ## Matchers
 

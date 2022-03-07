@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.license       = "Apache-2.0"
   spec.require_paths = ["lib"]
 
-  spec.required_ruby_version = ">= 2.5"
+  spec.required_ruby_version = ">= 2.7"
 
   # ONLY the aws/azure/gcp files. The rest will come in from inspec-core
   # the gemspec is necessary for appbundler so don't remove it
@@ -26,11 +26,18 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "train", "~> 3.0"
 
+  # cookstyle support for inspec check
+  # Added here not because they are compiled, but to keep chef-client lightweight
+  spec.add_dependency "cookstyle"
+  spec.add_dependency "rake"
+
   # Used for Azure profile until integrated into train
   spec.add_dependency "faraday_middleware", ">= 0.12.2", "< 1.1"
 
   # Train plugins we ship with InSpec
   spec.add_dependency "train-habitat", "~> 0.1"
-  spec.add_dependency "train-aws",     "~> 0.1"
+  spec.add_dependency "train-aws",     "~> 0.2"
   spec.add_dependency "train-winrm",   "~> 0.2"
+  spec.add_dependency "mongo", "= 2.13.2" # 2.14 introduces a broken symlink in mongo-2.14.0/spec/support/ocsp
+
 end

@@ -34,7 +34,7 @@ This resource first became available in v1.40.0 of InSpec.
       it { should have_rule_enabled('family=ipv4 source address=192.168.0.14 accept', 'public') }
     end
 
-Use the where clause to test open interfaces, sources, and services in active zones.
+Use the where clause to test open interfaces, sources, and services that are in active zones.
 
     describe firewalld.where { zone == 'public' } do
       its('interfaces') { should cmp ['enp0s3', 'eno2'] }
@@ -45,7 +45,7 @@ Use the where clause to test open interfaces, sources, and services in active zo
 
 ## Properties
 
-### interfaces
+### `interfaces`
 
 The `interfaces` property is used in conjunction with the where class to display open interfaces in an active zone.
 
@@ -53,7 +53,7 @@ The `interfaces` property is used in conjunction with the where class to display
       its('interfaces') { should cmp ['enp0s3', 'eno2'] }
     end
 
-### sources
+### `sources`
 
 The `sources` property is used in conjunction with the where class to display open sources in an active zone.
 
@@ -61,7 +61,7 @@ The `sources` property is used in conjunction with the where class to display op
       its('sources') { should cmp ['192.168.1.0/24', '192.168.1.2'] }
     end
 
-### services
+### `services`
 
 The `services` property is used in conjunction with the where class to display open services in an active zone.
 

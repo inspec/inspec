@@ -18,9 +18,9 @@ module Inspec
   class Profile
     extend Forwardable
 
-    def self.resolve_target(target, cache)
+    def self.resolve_target(target, cache, opts = {})
       Inspec::Log.debug "Resolve #{target} into cache #{cache.path}"
-      Inspec::CachedFetcher.new(target, cache)
+      Inspec::CachedFetcher.new(target, cache, opts)
     end
 
     # Check if the profile contains a vendored cache, move content into global cache
@@ -70,7 +70,11 @@ module Inspec
 
     def self.for_target(target, opts = {})
       opts[:vendor_cache] ||= Cache.new
-      fetcher = resolve_target(target, opts[:vendor_cache])
+      config = {}
+      unless opts[:runner_conf].nil?
+        config = opts[:runner_conf].respond_to?(:final_options) ? opts[:runner_conf].final_options : opts[:runner_conf]
+      end
+      fetcher = resolve_target(target, opts[:vendor_cache], config)
       for_fetcher(fetcher, opts)
     end
 
@@ -87,6 +91,7 @@ module Inspec
       @logger = options[:logger] || Logger.new(nil)
       @locked_dependencies = options[:dependencies]
       @controls = options[:controls] || []
+      @tags = options[:tags] || []
       @writable = options[:writable] || false
       @profile_id = options[:id]
       @profile_name = options[:profile_name]
@@ -206,12 +211,15 @@ module Inspec
       @params ||= load_params
     end
 
-    def collect_tests(include_list = @controls)
+    def collect_tests
       unless @tests_collected || failed?
         return unless supports_platform?
 
         locked_dependencies.each(&:collect_tests)
 
+        tests = filter_waived_controls
+
+        # Collect tests
         tests.each do |path, content|
           next if content.nil? || content.empty?
 
@@ -226,6 +234,65 @@ module Inspec
         @tests_collected = true
       end
       @runner_context.all_rules
+    end
+
+    # Wipe out waived controls
+    def filter_waived_controls
+      cfg = Inspec::Config.cached
+      return tests unless cfg["filter_waived_controls"]
+
+      ## Find the waivers file
+      # - TODO: cli_opts and instance_variable_get could be exposed
+      waiver_paths = cfg.instance_variable_get(:@cli_opts)["waiver_file"]
+      if waiver_paths.blank?
+        Inspec::Log.error "Must use --waiver-file with --filter-waived-controls"
+        Inspec::UI.new.exit(:usage_error)
+      end
+
+      # # Pull together waiver
+      waived_control_ids = []
+      waiver_paths.each do |waiver_path|
+        waiver_content = YAML.load_file(waiver_path)
+        unless waiver_content
+          # Note that we will have already issued a detailed warning
+          Inspec::Log.error "YAML parsing error in #{waiver_path}"
+          Inspec::UI.new.exit(:usage_error)
+        end
+        waived_control_ids << waiver_content.keys
+      end
+      waived_control_id_regex = "(#{waived_control_ids.join("|")})"
+
+      ## Purge tests (this could be doone in next block for performance)
+      ## TODO: implement earlier with pure AST and pure autocorrect AST
+      filtered_tests = {}
+      if cfg["retain_waiver_data"]
+        # VERY EXPERIMENTAL, but an empty describe block at the top level
+        # of the control blocks evaluation of ruby code until later-term
+        # waivers (behind the scenes this tells RSpec to hold on and use its internals to lazy load the code). This allows current waiver-data (e.g. skips) to still
+        # be processed and rendered
+        tests.each do |control_filename, source_code|
+          cleared_tests = source_code.scan(/control\s+['"].+?['"].+?(?=(?:control\s+['"].+?['"])|\z)/m).collect do |element|
+            next if element.blank?
+
+            if element&.match?(waived_control_id_regex)
+              splitlines = element.split("\n")
+              splitlines[0] + "\ndescribe '---' do\n" + splitlines[1..-1].join("\n") + "\nend\n"
+            else
+              element
+            end
+          end.join("")
+          filtered_tests[control_filename] = cleared_tests
+        end
+      else
+        tests.each do |control_filename, source_code|
+          cleared_tests = source_code.scan(/control\s+['"].+?['"].+?(?=(?:control\s+['"].+?['"])|\z)/m).select do |control_code|
+            !control_code.match?(waived_control_id_regex)
+          end.join("")
+
+          filtered_tests[control_filename] = cleared_tests
+        end
+      end
+      filtered_tests
     end
 
     # This creates the list of controls provided in the --controls options which need to be include
@@ -251,6 +318,30 @@ module Inspec
       end
       included_controls.compact!
       included_controls
+    end
+
+    # This creates the list of controls to be filtered by tag values provided in the --tags options
+    def include_tags_list
+      return [] if @tags.nil? || @tags.empty?
+
+      included_tags = @tags
+      # Check for anything that might be a regex in the list, and make it official
+      included_tags.each_with_index do |inclusion, index|
+        next if inclusion.is_a?(Regexp)
+        # Insist the user wrap the regex in slashes to demarcate it as a regex
+        next unless inclusion.start_with?("/") && inclusion.end_with?("/")
+
+        inclusion = inclusion[1..-2] # Trim slashes
+        begin
+          re = Regexp.new(inclusion)
+          included_tags[index] = re
+        rescue RegexpError => e
+          warn "Ignoring unparseable regex '/#{inclusion}/' in --control CLI option: #{e.message}"
+          included_tags[index] = nil
+        end
+      end
+      included_tags.compact!
+      included_tags
     end
 
     def load_libraries
@@ -357,6 +448,45 @@ module Inspec
       res
     end
 
+    def cookstyle_linting_check
+      msgs = []
+      return msgs if Inspec.locally_windows? # See #5723
+
+      output = cookstyle_rake_output.split("Offenses:").last
+      msgs = output.split("\n").select { |x| x =~ /[A-Z]:/ } unless output.nil?
+      msgs
+    end
+
+    # Cookstyle linting rake run output
+    def cookstyle_rake_output
+      require "cookstyle"
+      require "rubocop/rake_task"
+      begin
+        RuboCop::RakeTask.new(:cookstyle_lint) do |spec|
+          spec.options += [
+            "--display-cop-names",
+            "--parallel",
+            "--only=InSpec/Deprecations",
+          ]
+          spec.patterns += Dir.glob("#{@target}/**/*.rb").reject { |f| File.directory?(f) }
+          spec.fail_on_error = false
+        end
+      rescue LoadError
+        puts "Rubocop is not available. Install the rubocop gem to run the lint tests."
+      end
+      begin
+        stdout = StringIO.new
+        $stdout = stdout
+        Rake::Task["cookstyle_lint"].invoke
+        $stdout = STDOUT
+        Rake.application["cookstyle_lint"].reenable
+        stdout.string
+      rescue => e
+        puts "Cookstyle lint checks could not be performed. Error while running cookstyle - #{e}"
+        ""
+      end
+    end
+
     # Check if the profile is internally well-structured. The logger will be
     # used to print information on errors and warnings which are found.
     #
@@ -373,6 +503,7 @@ module Inspec
         },
         errors: [],
         warnings: [],
+        offenses: [],
       }
 
       entry = lambda { |file, line, column, control, msg|
@@ -393,6 +524,10 @@ module Inspec
       error = lambda { |file, line, column, control, msg|
         @logger.error(msg)
         result[:errors].push(entry.call(file, line, column, control, msg))
+      }
+
+      offense = lambda { |file, line, column, control, msg|
+        result[:offenses].push(entry.call(file, line, column, control, msg))
       }
 
       @logger.info "Checking profile in #{@target}"
@@ -457,8 +592,15 @@ module Inspec
         warn.call(sfile, sline, nil, id, "Control #{id} has no tests defined") if control[:checks].nil? || control[:checks].empty?
       end
 
-      # profile is valid if we could not find any error
-      result[:summary][:valid] = result[:errors].empty?
+      # Running cookstyle to check for code offenses
+      cookstyle_linting_check.each do |lint_output|
+        data = lint_output.split(":")
+        msg = "#{data[-2]}:#{data[-1]}"
+        offense.call(data[0], data[1], data[2], nil, msg)
+      end
+
+      # profile is valid if we could not find any error & offenses
+      result[:summary][:valid] = result[:errors].empty? && result[:offenses].empty?
 
       @logger.info "Control definitions OK." if result[:warnings].empty?
       result

@@ -141,7 +141,7 @@ module Inspec::Resources
         elsif version > 0
           SysV.new(inspec, service_ctl || "/usr/sbin/service")
         end
-      when "redhat", "fedora", "centos", "oracle", "cloudlinux", "scientific"
+      when "redhat", "fedora", "centos", "oracle", "cloudlinux", "scientific", "rocky", "almalinux"
         version = os[:release].to_i
 
         systemd = ((platform != "fedora" && version >= 7) ||
@@ -152,12 +152,23 @@ module Inspec::Resources
         else
           SysV.new(inspec, service_ctl || "/sbin/service")
         end
+      when "alibaba"
+        if os[:release].to_i >= 3
+          Systemd.new(inspec, service_ctl)
+        else
+          SysV.new(inspec, service_ctl || "/sbin/service")
+        end
       when "wrlinux"
         SysV.new(inspec, service_ctl)
       when "mac_os_x", "darwin"
         LaunchCtl.new(inspec, service_ctl)
       when "freebsd"
-        BSDInit.new(inspec, service_ctl)
+        version = os[:release].to_f
+        if version < 10
+          BSDInit.new(inspec, service_ctl)
+        else
+          FreeBSD10Init.new(inspec, service_ctl)
+        end
       when "arch"
         Systemd.new(inspec, service_ctl)
       when "coreos"
@@ -180,6 +191,8 @@ module Inspec::Resources
         Svcs.new(inspec)
       when "yocto"
         Systemd.new(inspec, service_ctl)
+      when "alpine"
+        SysV.new(inspec, service_ctl)
       end
     end
 
@@ -472,6 +485,7 @@ module Inspec::Resources
 
   # @see: https://www.freebsd.org/doc/en/articles/linux-users/startup.html
   # @see: https://www.freebsd.org/cgi/man.cgi?query=rc.conf&sektion=5
+  # @see: https://www.freebsd.org/cgi/man.cgi?query=rc&apropos=0&sektion=8&manpath=FreeBSD+9.3-RELEASE&arch=default&format=html
   class BSDInit < ServiceManager
     def initialize(service_name, service_ctl = nil)
       @service_ctl = service_ctl || "service"
@@ -479,20 +493,54 @@ module Inspec::Resources
     end
 
     def info(service_name)
-      # check if service is enabled
-      # services are enabled in /etc/rc.conf and /etc/defaults/rc.conf
-      # via #{service_name}_enable="YES"
-      # service SERVICE status returns the following result if not activated:
-      #   Cannot 'status' sshd. Set sshd_enable to YES in /etc/rc.conf or use 'onestatus' instead of 'status'.
-      # gather all enabled services
+      # `service -e` lists all enabled services. Output format:
+      # % service -e
+      # /etc/rc.d/hostid
+      # /etc/rc.d/hostid_save
+      # /etc/rc.d/cleanvar
+      # /etc/rc.d/ip6addrctl
+      # /etc/rc.d/devd
+
       cmd = inspec.command("#{service_ctl} -e")
       return nil if cmd.exit_status != 0
 
       # search for the service
-      srv = /(^.*#{service_name}$)/.match(cmd.stdout)
+
+      srv = %r{^.*/(#{service_name}$)}.match(cmd.stdout)
       return nil if srv.nil? || srv[0].nil?
 
       enabled = true
+
+      # check if the service is running
+      # if the service is not available or not running, we always get an error code
+      cmd = inspec.command("#{service_ctl} #{service_name} onestatus")
+      running = cmd.exit_status == 0
+
+      {
+        name: service_name,
+        description: nil,
+        installed: true,
+        running: running,
+        enabled: enabled,
+        type: "bsd-init",
+      }
+    end
+  end
+
+  # @see: https://www.freebsd.org/doc/en/articles/linux-users/startup.html
+  # @see: https://www.freebsd.org/cgi/man.cgi?query=rc.conf&sektion=5
+  # @see: https://www.freebsd.org/cgi/man.cgi?query=rc&apropos=0&sektion=8&manpath=FreeBSD+10.0-RELEASE&arch=default&format=html
+  class FreeBSD10Init < ServiceManager
+    def initialize(service_name, service_ctl = nil)
+      @service_ctl = service_ctl || "service"
+      super
+    end
+
+    def info(service_name)
+      # check if service is enabled
+      cmd = inspec.command("#{service_ctl} #{service_name} enabled")
+
+      enabled = cmd.exit_status == 0
 
       # check if the service is running
       # if the service is not available or not running, we always get an error code
@@ -776,7 +824,14 @@ module Inspec::Resources
     EXAMPLE
 
     def select_service_mgmt
-      BSDInit.new(inspec, service_ctl)
+      os = inspec.os
+      version = os[:release].to_f
+
+      if version >= 10
+        FreeBSD10Init.new(inspec, service_ctl)
+      else
+        BSDInit.new(inspec, service_ctl)
+      end
     end
   end
 

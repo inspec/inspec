@@ -76,9 +76,9 @@ inspec plugin install --source https://my.private.server inspec-private-plugin
 ### Chef InSpec Plugins
 
 For details on how to author a Chef InSpec Plugin, see the
-[developer documentation](https://github.com/inspec/inspec/blob/master/dev-docs/plugins.md)
+[developer documentation](https://github.com/inspec/inspec/blob/main/dev-docs/plugins.md)
 
 ### Train Plugins
 
 For details on how to author a Train Plugin, see the
-[developer documentation](https://github.com/inspec/train/blob/master/docs/plugins.md)
+[developer documentation](https://github.com/inspec/train/blob/main/docs/plugins.md)

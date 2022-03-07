@@ -36,6 +36,14 @@ where
 - `'package_name'` is the name of the package, such as `'Jinja2'`
 - `be_installed` tests to see if the package described above is installed
 
+## Properties
+
+### version
+
+The `version` property tests if the named package version is on the system:
+
+    its('version') { should eq '1.2.3' }
+
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
@@ -70,8 +78,3 @@ The `be_installed` matcher tests if the named package is installed on the system
 
     it { should be_installed }
 
-### version
-
-The `version` matcher tests if the named package version is on the system:
-
-    its('version') { should eq '1.2.3' }
