@@ -105,6 +105,10 @@ The entry point is the file that will be `require`d at load time (*not* activati
 require_relative 'inspec-my-plugin/plugin'
 ```
 
+### Types of plugins
+
+Types of plugins that are handled within the loader logic are `bundle`, `core`, `user_gem` or `system_gem`.
+
 ### Plugin Definition File
 
 The plugin definition file uses the plugin DSL to declare a small amount of metadata, followed by as many activation hooks as your plugin needs.

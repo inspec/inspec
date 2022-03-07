@@ -162,7 +162,7 @@ module Inspec
         desc: "A list of tags names that are part of controls to filter and run controls, or a list of /regexes/ to match against tags names of controls. Ignore all other tests."
       option :reporter, type: :array,
         banner: "one two:/output/file/path",
-        desc: "Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml"
+        desc: "Enable one or more output reporters: cli, documentation, html, progress, progress-bar, json, json-min, json-rspec, junit, yaml"
       option :reporter_message_truncation, type: :string,
         desc: "Number of characters to truncate failure messages and code_desc in report data to (default: no truncation)"
       option :reporter_backtrace_inclusion, type: :boolean,

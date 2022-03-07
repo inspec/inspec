@@ -15,6 +15,8 @@ module Inspec::Formatters
       @profiles = []
       @profiles_info = nil
       @backend = nil
+      @all_controls_count = nil
+      @control_checks_count_map = {}
     end
 
     # RSpec Override: #dump_summary
@@ -79,6 +81,26 @@ module Inspec::Formatters
     def add_profile(profile)
       @profiles.push(profile)
     end
+
+    # These control count related methods are called via runner rspec library of inspec
+    # And these are used within streaming plugins to determine end of control
+    ######### Start of control count related methods
+    def set_controls_count(controls_count)
+      @all_controls_count = controls_count
+    end
+
+    def set_control_checks_count_map(mapping)
+      @control_checks_count_map = mapping
+    end
+
+    def get_controls_count
+      @all_controls_count
+    end
+
+    def get_control_checks_count_map
+      @control_checks_count_map
+    end
+    ######### end of control count related methods
 
     # Return all the collected output to the caller
     def results

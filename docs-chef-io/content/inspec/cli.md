@@ -342,7 +342,7 @@ This subcommand has the following additional options:
 * ``--proxy-command=PROXY_COMMAND``
     Specifies the command to use to connect to the server.
 * ``--reporter=one two:/output/file/path``
-    Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml.
+    Enable one or more output reporters: cli, documentation, html, progress, progress-bar, json, json-min, json-rspec, junit, yaml.
 * ``--reporter-backtrace-inclusion``, ``--no-reporter-backtrace-inclusion``
     Include a code backtrace in report data (default: true).
 * ``--reporter-include-source``
