@@ -300,7 +300,6 @@ depends:
 ```
 ## Gem Dependencies
 
-
 Any profile with ruby gem dependencies that need to be installed can be specified using the gem dependencies settings in metadata file.
 
 For example, if you required any ruby library in the custom resource that needs a specific gem to be installed then you can specify that in the metadata file. It installs the gems in the default path of InSpec that is `~/.inspec/gems` when you run your profile.

@@ -146,7 +146,7 @@ module Inspec
       option :vendor_cache, type: :string,
         desc: "Use the given path for caching dependencies. (default: ~/.inspec/cache)"
       option :auto_install_gems, type: :boolean, default: false,
-        desc: "Auto install gem dependencies of profile/resource pack defined in metadata file."
+        desc: "Auto installs gem dependencies of profile/resource pack defined in metadata file."
     end
 
     def self.supermarket_options
