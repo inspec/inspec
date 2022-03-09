@@ -63,7 +63,7 @@ Each profile must have an `inspec.yml` file that defines the following informati
 - Use `supports` to specify a list of supported platform targets.
 - Use `depends` to define a list of profiles on which this profile depends.
 - Use `inputs` to define a list of inputs you can use in your controls.
-- Use `gem_dependencies` to specify a list of profile gem dependencies that is required to be install and load.
+- Use `gem_dependencies` to specify a list of profile gem dependencies that is required to be installed for the profile to function correctly.
 
 `name` is required; all other profile settings are optional. For example:
 
@@ -300,9 +300,10 @@ depends:
 ```
 ## Gem Dependencies
 
-Any profile with ruby gem dependencies that need to be installed can be specified using the gem dependencies settings in metadata file.
+Any profile with ruby gem dependencies that need to be installed can be specified using the `gem_dependencies` settings in the `inspec.yml` metadata file.
 
-For example, if you required any ruby library in the custom resource that needs a specific gem to be installed then you can specify that in the metadata file. It installs the gems in the default path of InSpec that is `~/.inspec/gems` when you run your profile.
+For example, if you required any ruby library in a custom resource that needs a specific gem to be installed, then you can specify those gems in the metadata file. Chef InSpec will prompt to install the gems to `~/.inspec/gems` when you run your profile the first time. To skip the prompt and automatically install, pass the `--auto-install-gems` option to `inspec exec`.
+
 
 ```YAML
 gem_dependencies:
