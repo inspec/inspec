@@ -189,6 +189,8 @@ module FilterTable
       is_field ||= list_fields.include?(proposed_field.to_sym)
       is_field ||= is_field_lazy?(proposed_field.to_s)
       is_field ||= is_field_lazy?(proposed_field.to_sym)
+      is_field ||= is_field_lazy_instance?(proposed_field.to_s)
+      is_field ||= is_field_lazy_instance?(proposed_field.to_sym)
 
       is_field
     end
@@ -218,9 +220,9 @@ module FilterTable
       raw_data.each do |row|
         next if row.key?(field_name) # skip row if pre-existing data is present
 
-        lazy_caller = back_for_lazy_instance_field(field_name)
+        lazy_caller = callback_for_lazy_instance_field(field_name)
         if lazy_caller.is_a?(Proc)
-          lazy_caller.call(row, criterion, self)
+          lazy_caller.call(row, criterion, self.resource_instance)
         elsif lazy_caller.is_a?(Symbol)
           resource_instance.send(lazy_caller, row, criterion, self)
         end
@@ -251,7 +253,7 @@ module FilterTable
     end
 
     def callback_for_lazy_instance_field(field_name)
-      return unless is_field_lazy?(field_name)
+      return unless is_field_lazy_instance?(field_name)
 
       custom_properties_schema.values.find do |property_struct|
         property_struct.field_name == field_name
