@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.6.1 -->
-## [v5.6.1](https://github.com/inspec/inspec/tree/v5.6.1) (2022-03-10)
+<!-- latest_release 5.7.0 -->
+## [v5.7.0](https://github.com/inspec/inspec/tree/v5.7.0) (2022-03-10)
 
 #### Merged Pull Requests
-- Fix failing test for ibmdb2_session resource. [#5909](https://github.com/inspec/inspec/pull/5909) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-74 Adds the cron resource. [#5891](https://github.com/inspec/inspec/pull/5891) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- CFINSPEC-74 Adds the cron resource. [#5891](https://github.com/inspec/inspec/pull/5891) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.7.0 -->
 - Fix failing test for ibmdb2_session resource. [#5909](https://github.com/inspec/inspec/pull/5909) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.6.1 -->
 - CFINSPEC-13:  Adds support for specifying gem dependencies in the metadata file of InSpec Profile. [#5871](https://github.com/inspec/inspec/pull/5871) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.6.0 -->
 - Bump omnibus from `55e74ac` to `124d596` in /omnibus [#5847](https://github.com/inspec/inspec/pull/5847) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.5.3 -->
