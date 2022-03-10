@@ -210,6 +210,27 @@ module FilterTable
       mark_lazy_field_populated(field_name)
     end
 
+    def populate_lazy_instance_field(field_name, criterion)
+      return unless is_field_lazy_instance?(field_name)
+      return if field_populated?(field_name)
+
+      raw_data.each do |row|
+        next if row.key?(field_name) # skip row if pre-existing data is present
+
+        lazy_caller = back_for_lazy_instance_field(field_name)
+        if lazy_caller.is_a?(Proc)
+          lazy_caller.call(row, criterion, self)
+        elsif lazy_caller.is_a?(Symbol)
+          if resource_instance.respond_to?(lazy_caller)
+            resource_instance.send(lazy_caller, row, criterion, self)
+          else
+            send(lazy_caller, row, criterion, self)
+          end
+        end
+      end
+      mark_lazy_field_populated(field_name)
+    end
+
     def is_field_lazy?(sought_field_name)
       custom_properties_schema.values.any? do |property_struct|
         sought_field_name == property_struct.field_name && \
