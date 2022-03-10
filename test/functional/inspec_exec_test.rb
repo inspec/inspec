@@ -491,7 +491,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
   describe "with a profile that contains deprecated aws resources" do
     let(:out) { inspec("exec " + File.join(profile_path, "aws-profile")) }
     it "exits with deprecation error" do
-      _(stdout).must_include "DEPRECATION: AWS resources shipped with core InSpec are deprecated"
+      _(stdout).must_include "DEPRECATION: AWS resources in core InSpec are deprecated and have been removed in InSpec 5"
       assert_exit_code 3, out
     end
   end
@@ -499,7 +499,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
   describe "with a profile that contains deprecated azure resources" do
     let(:out) { inspec("exec " + File.join(profile_path, "azure-profile")) }
     it "exits with deprecation error" do
-      _(stdout).must_include "DEPRECATION: Azure resources shipped with core InSpec are deprecated"
+      _(stdout).must_include "DEPRECATION: Azure resources in core InSpec are deprecated and have been removed in InSpec 5"
       assert_exit_code 3, out
     end
   end
