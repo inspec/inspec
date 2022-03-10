@@ -70,6 +70,7 @@ module Inspec::Formatters
         name: platform(:name),
         release: platform(:release),
         target: backend_target,
+        target_id: platform(:uuid),
       }
     end
 
@@ -205,12 +206,13 @@ module Inspec::Formatters
     def platform(field)
       return nil if @backend.nil?
 
-      begin
-        @backend.platform[field]
-      rescue Train::Error => e
-        Inspec::Log.warn(e.message)
-        nil
-      end
+      @backend.platform[field]
+    rescue Train::PlatformUuidDetectionFailed
+      Inspec::Log.warn("Could not find platform target_id.")
+      nil
+    rescue Train::Error => e
+      Inspec::Log.warn(e.message)
+      nil
     end
 
     def backend_target

@@ -160,6 +160,10 @@ module FunctionalHelper
     inspec(commandline, assemble_env_prefix(env))
   end
 
+  def inspec_os_uuid
+    CMD.os.uuid
+  end
+
   # This version allows additional options.
   # @param String command_line Invocation, without the word 'inspec'
   # @param Hash opts Additonal options, see below
