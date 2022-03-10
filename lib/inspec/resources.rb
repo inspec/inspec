@@ -8,7 +8,6 @@
 # glob so this remains a sort of manifest for our resources.
 
 require "inspec/resource"
-
 require "inspec/resources/aide_conf"
 require "inspec/resources/apache"
 require "inspec/resources/apache_conf"
