@@ -217,6 +217,13 @@ module FilterTable
       end
     end
 
+    def is_field_lazy_instance?(sought_field_name)
+      custom_properties_schema.values.any? do |property_struct|
+        sought_field_name == property_struct.field_name && \
+          property_struct.opts[:lazy_instance]
+      end
+    end
+
     def callback_for_lazy_field(field_name)
       return unless is_field_lazy?(field_name)
 
