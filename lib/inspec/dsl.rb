@@ -43,7 +43,7 @@ module Inspec::DSL
       include DeprecatedCloudResourcesList
       cloud_resource = id.start_with?("aws_") ? "aws" : "azure"
 
-      # this check raises deprecation warning for aws and azure resources that were part of InSpec before version 5.
+      # Deprecated AWS and Azure resources in InSpec 5.
       if CLOUD_RESOURCES_DEPRECATED.include? id
         Inspec.deprecate(:"#{cloud_resource}_resources_in_resource_pack", "Resource '#{id}'")
       else
