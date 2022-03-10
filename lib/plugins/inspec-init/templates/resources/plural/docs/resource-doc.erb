@@ -1,0 +1,62 @@
++++
+title = "<%= resource_name %> resource"
+draft = false
+gh_repo = "inspec"
+platform = "<%= supports_platform %>"
+
+[menu]
+  [menu.inspec]
+    title = "<%= resource_name %>"
+    identifier = "inspec/resources/os/<%= resource_name %>.md <%= resource_name %> resource"
+    parent = "inspec/resources/os"
++++
+
+Use the `<%= resource_name %>` Chef InSpec audit resource to test multiple ...
+
+
+## Availability
+
+### Installation
+
+This resource is distributed along with Chef InSpec itself. You can use it automatically.
+
+## Syntax
+
+A `<%= resource_name %>` Chef InSpec audit resource tests multiple ...
+
+    describe <%= resource_name %>.where { shoe_size > 10 } do
+      its('count') { should cmp 10 }
+    end
+
+where
+
+- `'shoe_size'` is a filter criteria of this resource
+- `10` is the value to test for shoe size
+- `count` is the count of matched records
+
+## Filter Criteria
+
+### shoe_size
+
+The shoe_size filter criteria tests ....
+
+## Properties
+
+### count
+
+Returns the number of records matched by the filter criteria.
+
+    describe <%= resource_name %>.where { shoe_size > 10 } do
+      its('count') { should cmp 10 }
+    end
+
+## Matchers
+
+### exist
+
+The control will pass if the filter returns at least one result. Use
+`should_not` if you expect zero matches.
+
+    describe <%= resource_name %> do
+      it { should exist }
+    end

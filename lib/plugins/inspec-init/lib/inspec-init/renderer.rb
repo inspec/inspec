@@ -38,8 +38,8 @@ module InspecPlugins
         full_destination_path = Pathname.new(Dir.pwd).join(relative_destination_path)
 
         # check that the directory does not exist
-        if File.exist?(full_destination_path) && !overwrite_mode
-          ui.plain_line "#{ui.emphasis(full_destination_path)} exists already, use --overwrite"
+        if File.exist?(full_destination_path) && !overwrite_mode && template_values[:name] != "."
+          ui.plain_line "#{ui.emphasis(full_destination_path)} exists already, use --overwrite or move to #{ui.emphasis(full_destination_path)} to create the resource"
           ui.exit(:usage_error)
         end
 
@@ -57,18 +57,19 @@ module InspecPlugins
 
           relative_destination_item_path = file_rename_map[relative_destination_item_path] || relative_destination_item_path
           full_destination_item_path = Pathname.new(full_destination_path).join(relative_destination_item_path)
-          if File.directory?(source_file)
-            ui.list_item "Creating directory #{ui.emphasis(relative_destination_item_path)}"
-            FileUtils.mkdir_p(full_destination_item_path)
-          elsif File.file?(source_file)
+          if File.file?(source_file)
+            # Be git-like and only create directories if they contain a file
+            containing_directory = full_destination_item_path.dirname
+            unless File.exists?(containing_directory)
+              ui.list_item "Creating directory #{ui.emphasis(containing_directory)}"
+              FileUtils.mkdir_p(containing_directory)
+            end
             ui.list_item "Creating file #{ui.emphasis(relative_destination_item_path)}"
             # read & render content
             content = render(File.read(source_file), template_values)
             # write file content
 
             File.write(full_destination_item_path, content)
-          else
-            ui.warning "Ignoring #{ui.emphasis(source_file)}, because its not an file or directoy"
           end
         end
 
