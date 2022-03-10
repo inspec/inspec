@@ -2,17 +2,28 @@
 require "inspec/globals"
 # ... we can find the core test unit helper file
 require "#{Inspec.src_root}/test/helper"
-
+require_relative "../../../lib/inspec/resource"
 # Load (require) the resource library file
 require_relative "../../../lib/inspec/resources/lxc"
 
-describe Inspec::Resources::Lxc do
-  it "works correctly with the constructor on the platform" do
-    # Add contructor arguments to load_resource if needed
-    resource = MockLoader.new("linux".to_sym).load_resource("lxc")
+describe "Inspec::Resources::Lxc" do
+  # ubuntu
+  it "verify lxc resource on ubuntu" do
+    resource = MockLoader.new(:ubuntu).load_resource("lxc", "my-ubuntu-container")
+    _(resource.exists?).must_equal true
+    _(resource.running?).must_equal true
+  end
 
-    _(resource.has_bells?).must_equal true
-    _(resource.shoe_size).must_equal 42
-    _(resource.resource_id).must_equal "something special"
+  # windows
+  it "verify lxc resource on windows" do
+    resource = MockLoader.new(:windows).load_resource("lxc", "my-ubuntu-container")
+    _(resource.exists?).must_equal false
+    _(resource.running?).must_equal false
+  end
+
+  # undefined
+  it "verify lxc resource on unsupported os" do
+    resource = MockLoader.new(:undefined).load_resource("lxc", "my-ubuntu-container")
+    _(resource.exists?).must_equal false
   end
 end

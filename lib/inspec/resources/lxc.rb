@@ -14,10 +14,11 @@ module Inspec::Resources
 
     # Resource initialization.
     def initialize(container_name)
-      skip_resource "The `lxc` resource is not yet available on your OS." unless inspec.os.linux?
       @container_name = container_name
-      @lxc_info_cmd = lxc_info_cmd
+      return if  inspec.os.linux?
+
       @container_info = []
+      skip_resource "The `lxc` resource is not supported on your OS yet."
     end
 
     def resource_id
@@ -29,12 +30,15 @@ module Inspec::Resources
     end
 
     def exists?
-      @lxc_info_cmd.exit_status.to_i == 0
+      return false if defined?(@container_info)
+
+      lxc_info_cmd.exit_status.to_i == 0
     end
 
     def running?
-      exists?
-      @container_info = @lxc_info_cmd.stdout.split(":").map(&:strip)
+      return false if defined?(@container_info)
+
+      @container_info = lxc_info_cmd.stdout.split(":").map(&:strip)
       @container_info[0] == "Status" && @container_info[1] == "Running"
     end
 
@@ -46,7 +50,7 @@ module Inspec::Resources
         return cmd if inspec.command(cmd).exist?
       end
 
-      raise Inspec::Exceptions::ResourceFailed, "Could not find `iptables`"
+      raise Inspec::Exceptions::ResourceFailed, "Could not find `lxc`"
     end
 
     def lxc_info_cmd
