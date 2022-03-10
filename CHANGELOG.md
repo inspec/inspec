@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.7.1 -->
-## [v5.7.1](https://github.com/inspec/inspec/tree/v5.7.1) (2022-03-10)
+<!-- latest_release 5.7.2 -->
+## [v5.7.2](https://github.com/inspec/inspec/tree/v5.7.2) (2022-03-10)
 
 #### Merged Pull Requests
-- CFINSPEC-26: Adds entitlement_id field in metadata file [#5914](https://github.com/inspec/inspec/pull/5914) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-128 : Create a resource generator [#5913](https://github.com/inspec/inspec/pull/5913) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- CFINSPEC-128 : Create a resource generator [#5913](https://github.com/inspec/inspec/pull/5913) ([ahasunos](https://github.com/ahasunos)) <!-- 5.7.2 -->
 - CFINSPEC-26: Adds entitlement_id field in metadata file [#5914](https://github.com/inspec/inspec/pull/5914) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.7.1 -->
 - CFINSPEC-74 Adds the cron resource. [#5891](https://github.com/inspec/inspec/pull/5891) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.7.0 -->
 - Fix failing test for ibmdb2_session resource. [#5909](https://github.com/inspec/inspec/pull/5909) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.6.1 -->
