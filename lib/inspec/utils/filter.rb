@@ -222,11 +222,7 @@ module FilterTable
         if lazy_caller.is_a?(Proc)
           lazy_caller.call(row, criterion, self)
         elsif lazy_caller.is_a?(Symbol)
-          if resource_instance.respond_to?(lazy_caller)
-            resource_instance.send(lazy_caller, row, criterion, self)
-          else
-            send(lazy_caller, row, criterion, self)
-          end
+          resource_instance.send(lazy_caller, row, criterion, self)
         end
       end
       mark_lazy_field_populated(field_name)
