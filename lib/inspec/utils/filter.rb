@@ -232,6 +232,14 @@ module FilterTable
       end.opts[:lazy]
     end
 
+    def callback_for_lazy_instance_field(field_name)
+      return unless is_field_lazy?(field_name)
+
+      custom_properties_schema.values.find do |property_struct|
+        property_struct.field_name == field_name
+      end.opts[:lazy_instance]
+    end
+
     def field_populated?(field_name)
       @populated_lazy_columns[field_name]
     end
