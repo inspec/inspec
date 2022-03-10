@@ -492,7 +492,10 @@ module FilterTable
             result = where(nil)
             if custom_property_struct.opts[:lazy]
               result.populate_lazy_field(custom_property_struct.field_name, filter_criteria_value)
+            elsif custom_property_struct.opts[:lazy_instance]
+              result.populate_lazy_instance_field(custom_property_struct.field_name, filter_criteria_value)
             end
+
             result = where(nil).get_column_values(custom_property_struct.field_name) # TODO: the where(nil). is likely unneeded
             result = result.flatten.uniq.compact if custom_property_struct.opts[:style] == :simple
             result
