@@ -41,6 +41,7 @@ describe "metadata with supported operating systems" do
       gem_dependencies:
         - name: "test"
           version: "1.0.0"
+      entitlement_id: "test-entitlement-id"
 EOF
       ENV["USERNAME"] = "dummy_user"
       ENV["API_KEY"] = "dummy_pass"
@@ -53,6 +54,7 @@ EOF
       _(res.params[:depends][0][:password]).must_equal "dummy_pass"
       _(res.params[:gem_dependencies][0][:name]).must_equal "test"
       _(res.params[:gem_dependencies][0][:version]).must_equal "1.0.0"
+      _(res.params[:entitlement_id]).must_equal "test-entitlement-id"
     end
 
     it "finalizes a loaded metadata via Profile ID" do
@@ -256,6 +258,49 @@ EOF
       m = version_meta("> #{next_version}")
       refute_predicate m, :valid?
     end
+  end
+end
+
+describe "entitlement_id validation" do
+  let(:logger) { Minitest::Mock.new }
+  let(:empty_options) { {} }
+  let(:backend) { MockLoader.new(:ubuntu).backend }
+
+  def entitlement_id_check(entitlement_id)
+    data = <<~EOF
+name: dummy
+title: InSpec Profile
+version: 0.1.0
+maintainer: human@example.com
+summary: A test profile
+description: A test profile
+copyright: The Authors
+copyright_email: you@example.com
+license: Apache-2.0
+#{entitlement_id}
+    EOF
+    md = Inspec::Metadata.from_yaml("mock", data, nil)
+    Inspec::Metadata.finalize(md, "mock", empty_options)
+    md.valid
+  end
+
+  it "validates well formatted entitlement_id" do
+    data = <<~EOF
+entitlement_id: "test-entitlement-id"
+    EOF
+    err, wrn = entitlement_id_check(data)
+    _(err).must_be_empty
+    _(wrn).must_be_empty
+  end
+
+  it "invalidates blank or empty entitlement_id" do
+    data = <<~EOF
+entitlement_id: " "
+    EOF
+    err, wrn = entitlement_id_check(data)
+    _(err.count).must_equal 1
+    _(err[0]).must_match(/Entitlement ID should not be blank./)
+    _(wrn).must_be_empty
   end
 end
 
