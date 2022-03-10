@@ -447,6 +447,8 @@ class MockLoader
       "crontab -l -u foouser" => cmd.call("crontab-foouser"),
       # crontab display for special time strings
       "crontab -l -u special" => cmd.call("crontab-special"),
+      # crontab exit status check
+      "crontab -l -u testuser" => cmd_exit_1.call,
       # zfs output for dataset tank/tmp
       "/sbin/zfs get -Hp all tank/tmp" => cmd.call("zfs-get-all-tank-tmp"),
       # zfs output for pool tank
