@@ -17,9 +17,14 @@
       "prefix": "Inputs should be specified by using the 'inputs' key in profile metadata, not 'attributes'."
     },
     "aws_resources_in_resource_pack": {
-      "comment": "See #3822",
-      "action": "warn",
-      "prefix": "AWS resources shipped with core InSpec are being to moved to a resource pack for faster iteration. Please update your profiles to depend on git@github.com:inspec/inspec-aws.git ."
+      "comment": "Deprecated in InSpec 5",
+      "action": "exit",
+      "prefix": "AWS resources shipped with core InSpec are deprecated and are part of resource pack for faster iteration. Please update your profiles to depend on git@github.com:inspec/inspec-aws.git ."
+    },
+    "azure_resources_in_resource_pack": {
+      "comment": "Deprecated in InSpec 5",
+      "action": "exit",
+      "prefix": "Azure resources shipped with core InSpec are deprecated and are part of resource pack for faster iteration. Please update your profiles to depend on git@github.com:inspec/inspec-azure.git ."
     },
     "cli_option_json_config": {
       "action": "ignore",
@@ -55,10 +60,6 @@
       "action": "fail_control",
       "suffix": "This property was removed in InSpec 4.0."
     },
-    "properties_aws_iam_user": {
-      "action": "fail_control",
-      "suffix": "This property was removed in InSpec 4.0."
-    },
     "properties_shadow": {
       "action": "fail_control",
       "suffix": "This property was removed in InSpec 4.0."
@@ -71,10 +72,6 @@
     "resource_apache": {
       "action": "exit",
       "suffix": "This resource was removed in InSpec 4.0."
-    },
-    "resource_azure_generic_resource": {
-      "action": "warn",
-      "prefix": "The azure_generic_resource is deprecated. Please use a specific resource. See: 'https://github.com/inspec/inspec/issues/3131'"
     },
     "resource_iis_website": {
       "action": "exit",

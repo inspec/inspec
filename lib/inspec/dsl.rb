@@ -1,6 +1,7 @@
 # copyright: 2015, Dominik Richter
 require "inspec/log"
 require "inspec/plugin/v2"
+require "inspec/utils/deprecated_cloud_resources_list"
 
 module Inspec::DSL
   attr_accessor :backend
@@ -38,8 +39,16 @@ module Inspec::DSL
 
     begin
       require "inspec/resources/#{id}"
-    rescue LoadError
-      require "resources/aws/#{id}"
+    rescue LoadError => e
+      include DeprecatedCloudResourcesList
+      cloud_resource = id.start_with?("aws_") ? "aws" : "azure"
+
+      # this check raises deprecation warning for aws and azure resources that were part of InSpec.
+      if CLOUD_RESOURCES_DEPRECATED.include? id
+        Inspec.deprecate(:"#{cloud_resource}_resources_in_resource_pack", "Resource '#{id}'")
+      else
+        raise LoadError, "#{e.message}"
+      end
     end
 
     klass = Inspec::Resource.registry[id.to_s]
