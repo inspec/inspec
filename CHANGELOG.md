@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.13 -->
-## [v4.56.13](https://github.com/inspec/inspec/tree/v4.56.13) (2022-03-09)
+<!-- latest_release 4.56.14 -->
+## [v4.56.14](https://github.com/inspec/inspec/tree/v4.56.14) (2022-03-10)
 
 #### Merged Pull Requests
-- Bump omnibus-software from `f64a223` to `5947560` in /omnibus [#5910](https://github.com/inspec/inspec/pull/5910) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- CFINSPEC-125 cassandra unit test fix for windows - inspec-4 [#5896](https://github.com/inspec/inspec/pull/5896) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- CFINSPEC-125 cassandra unit test fix for windows - inspec-4 [#5896](https://github.com/inspec/inspec/pull/5896) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.14 -->
 - Bump omnibus-software from `f64a223` to `5947560` in /omnibus [#5910](https://github.com/inspec/inspec/pull/5910) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.13 -->
 - Temporarily disable habitat builds to unbreak the pipeline - inspec-4 [#5905](https://github.com/inspec/inspec/pull/5905) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.12 -->
 - Disable resource integration tests inspec-4 [#5899](https://github.com/inspec/inspec/pull/5899) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.11 -->
