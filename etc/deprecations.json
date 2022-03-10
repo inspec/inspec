@@ -19,12 +19,12 @@
     "aws_resources_in_resource_pack": {
       "comment": "Deprecated in InSpec 5",
       "action": "exit",
-      "prefix": "AWS resources shipped with core InSpec are deprecated and are part of resource pack for faster iteration. Please update your profiles to depend on git@github.com:inspec/inspec-aws.git ."
+      "prefix": "AWS resources in core InSpec are deprecated and have been removed in InSpec 5. They are now part of a resource pack. Please update your profiles to depend on git@github.com:inspec/inspec-aws.git ."
     },
     "azure_resources_in_resource_pack": {
       "comment": "Deprecated in InSpec 5",
       "action": "exit",
-      "prefix": "Azure resources shipped with core InSpec are deprecated and are part of resource pack for faster iteration. Please update your profiles to depend on git@github.com:inspec/inspec-azure.git ."
+      "prefix": "Azure resources in core InSpec are deprecated and have been removed in InSpec 5. They are now part of a resource pack. Please update your profiles to depend on git@github.com:inspec/inspec-azure.git ."
     },
     "cli_option_json_config": {
       "action": "ignore",
