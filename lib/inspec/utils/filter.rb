@@ -114,6 +114,7 @@ module FilterTable
         raise(ArgumentError, "'#{decorate_symbols(raw_field_name)}' is not a recognized criterion - expected one of #{decorate_symbols(list_fields).join(", ")}'") unless field?(raw_field_name)
 
         populate_lazy_field(raw_field_name, desired_value) if is_field_lazy?(raw_field_name)
+        populate_lazy_instance_field(raw_field_name, desired_value) if is_field_lazy_instance?(raw_field_name)
         new_criteria_string += " #{raw_field_name} == #{desired_value.inspect}"
         filtered_raw_data = filter_raw_data(filtered_raw_data, raw_field_name, desired_value)
       end
@@ -385,12 +386,18 @@ module FilterTable
       # args of the row struct; also the Struct class will already have provided
       # a setter for each field.
       @custom_properties.values.each do |property_info|
-        next unless property_info.opts[:lazy]
+        next unless property_info.opts[:lazy] || property_info.opts[:lazy_instance]
 
         field_name = property_info.field_name.to_sym
         row_eval_context_type.send(:define_method, field_name) do
           unless filter_table.field_populated?(field_name)
-            filter_table.populate_lazy_field(field_name, NoCriteriaProvided) # No access to criteria here
+            if property_info.opts[:lazy]
+              filter_table.populate_lazy_field(field_name, NoCriteriaProvided)
+            end # No access to criteria here
+            if property_info.opts[:lazy_instance]
+              filter_table.populate_lazy_instance_field(field_name,
+                                                        NoCriteriaProvided)
+            end
             # OK, the underlying raw data has the value in the first row
             # (because we would trigger population only on the first row)
             # We could just return the value, but we need to set it on this Struct in case it is referenced multiple times
