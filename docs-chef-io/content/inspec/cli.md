@@ -285,6 +285,8 @@ This subcommand has the following additional options:
 
 * ``--attrs=one two three``
     Legacy name for --input-file - deprecated.
+* ``--auto-install-gems``
+    Auto installs gem dependencies of the profile or resource pack.
 * ``-b``, ``--backend=BACKEND``
     Choose a backend: local, ssh, winrm, docker.
 * ``--backend-cache``, ``--no-backend-cache``

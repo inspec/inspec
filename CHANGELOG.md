@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.5.0 -->
-## [v5.5.0](https://github.com/inspec/inspec/tree/v5.5.0) (2022-03-07)
+<!-- latest_release 5.6.0 -->
+## [v5.6.0](https://github.com/inspec/inspec/tree/v5.6.0) (2022-03-10)
 
 #### Merged Pull Requests
-- CFINSPEC-10 Added Progress Bar streaming reporter plugin [#5863](https://github.com/inspec/inspec/pull/5863) ([Nik08](https://github.com/Nik08))
+- CFINSPEC-13:  Adds support for specifying gem dependencies in the metadata file of InSpec Profile. [#5871](https://github.com/inspec/inspec/pull/5871) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,10 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- CFINSPEC-13:  Adds support for specifying gem dependencies in the metadata file of InSpec Profile. [#5871](https://github.com/inspec/inspec/pull/5871) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.6.0 -->
+- Bump omnibus from `55e74ac` to `124d596` in /omnibus [#5847](https://github.com/inspec/inspec/pull/5847) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.5.3 -->
+- Enable habitat builds [#5912](https://github.com/inspec/inspec/pull/5912) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.5.2 -->
+- Bump omnibus-software from `a4f4849` to `5947560` in /omnibus [#5911](https://github.com/inspec/inspec/pull/5911) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.5.1 -->
 - CFINSPEC-10 Added Progress Bar streaming reporter plugin [#5863](https://github.com/inspec/inspec/pull/5863) ([Nik08](https://github.com/Nik08)) <!-- 5.5.0 -->
 - CFINSPEC-70 resource_id support take 3 [#5903](https://github.com/inspec/inspec/pull/5903) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.4.4 -->
 - Disable habitat build and artifact pipeline defs, too [#5906](https://github.com/inspec/inspec/pull/5906) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.4.3 -->

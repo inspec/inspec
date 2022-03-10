@@ -105,6 +105,7 @@ module Inspec
 
         write_lockfile(profile) if @create_lockfile
         profile.locked_dependencies
+        profile.load_gem_dependencies
         profile_context = profile.load_libraries
 
         profile_context.dependencies.list.values.each do |requirement|
