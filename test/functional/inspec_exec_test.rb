@@ -991,6 +991,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
     describe "when using the legacy --json-config" do
       let(:cli_args) { "--json-config " + File.join(config_dir_path, "json-config", "good.json") }
       it "should override the custom target ID value with platform uuid" do
+        skip_windows!
         _(stderr).must_be_empty # TODO: one day deprecate the --json-config option
         _(seen_target_id).wont_equal "from-config-file"
         _(seen_target_id).must_equal platform_uuid
@@ -1000,6 +1001,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
     describe "when using the --config option to read from a custom file" do
       let(:cli_args) { "--config " + File.join(config_dir_path, "json-config", "good.json") }
       it "should override the custom target ID value with platform uuid" do
+        skip_windows!
         _(stderr).must_be_empty
         _(seen_target_id).wont_equal "from-config-file"
         _(seen_target_id).must_equal platform_uuid
@@ -1048,6 +1050,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
       let(:cli_args) { "" }
       let(:platform_uuid) { inspec_os_uuid }
       it "should override override the homedir target ID value with platform uuid" do
+        skip_windows!
         _(stderr).must_be_empty
         _(seen_target_id).wont_equal "from-fakehome-config-file"
         _(seen_target_id).must_equal platform_uuid
@@ -1100,6 +1103,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
     describe "when neither target nor backend is specified" do
       let(:cli_args) { "" }
       it "should connect to the local platform" do
+        skip_windows!
         _(seen_platform).must_equal local_plat
       end
     end
@@ -1107,6 +1111,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
     describe "when local:// is specified" do
       let(:cli_args) { " -t local:// " }
       it "should connect to the local platform" do
+        skip_windows!
         _(seen_platform).must_equal local_plat
       end
     end

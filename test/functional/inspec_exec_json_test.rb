@@ -47,6 +47,7 @@ describe "inspec exec with json formatter" do
   end
 
   it "can execute a profile and validate the json schema and override the tagret id with platform uuid" do
+    skip_windows!
     out = inspec("exec " + complete_profile + " --reporter json --no-create-lockfile --target-id 1d3e399f-4d71-4863-ac54-84d437fbc444")
     data = JSON.parse(out.stdout)
     _(data["platform"]["target_id"]).wont_equal "1d3e399f-4d71-4863-ac54-84d437fbc444"
