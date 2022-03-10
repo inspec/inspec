@@ -14,10 +14,9 @@ module Inspec::Resources
 
     # Resource initialization.
     def initialize(container_name)
-      
       skip_resource "The `lxc` resource is not yet available on your OS." unless inspec.os.linux?
       @container_name = container_name
-      @lxc_info_cmd = lxc_info_cmd 
+      @lxc_info_cmd = lxc_info_cmd
       @container_info = []
     end
 
@@ -30,13 +29,13 @@ module Inspec::Resources
     end
 
     def exists?
-      return @lxc_info_cmd.exit_status.to_i == 0
+      @lxc_info_cmd.exit_status.to_i == 0
     end
 
     def running?
       exists?
       @container_info = @lxc_info_cmd.stdout.split(":").map(&:strip)
-      return @container_info[0] == "Status" && @container_info[1] == "Running"
+      @container_info[0] == "Status" && @container_info[1] == "Running"
     end
 
     private
@@ -54,7 +53,7 @@ module Inspec::Resources
       bin = find_lxc_or_error
       info_cmd = "info #{@container_name} | grep -i Status"
       lxc_cmd = format("%s %s", bin, info_cmd).strip
-      cmd = inspec.command(lxc_cmd)
+      inspec.command(lxc_cmd)
     end
   end
 end
