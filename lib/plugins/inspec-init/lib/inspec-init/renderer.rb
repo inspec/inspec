@@ -39,7 +39,7 @@ module InspecPlugins
 
         # check that the directory does not exist
         if File.exist?(full_destination_path) && !overwrite_mode && template_values[:name] != "."
-          ui.plain_line "#{ui.emphasis(full_destination_path)} exists already, use --overwrite"
+          ui.plain_line "#{ui.emphasis(full_destination_path)} exists already, use --overwrite or move to #{ui.emphasis(full_destination_path)} to create the resource"
           ui.exit(:usage_error)
         end
 
