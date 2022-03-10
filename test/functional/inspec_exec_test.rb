@@ -1176,7 +1176,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
       # An actual stacktrace then will appear as sole stderr output
       let(:args) { "-t aws://" }
       it "should fail to connect to aws due to lack of creds and stacktrace" do
-        skip unless ENV['AWS_REGION']
+        skip unless ENV["AWS_REGION"]
         _(run_result.stderr).must_include"unable to sign request without credentials set"
       end
     end
