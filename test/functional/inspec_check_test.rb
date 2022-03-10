@@ -42,8 +42,7 @@ describe "inspec check" do
   describe "inspec check with a aws profile" do
     it "ignore train connection error" do
       out = inspec("check " + File.join(examples_path, "profile-aws"))
-
-      assert_exit_code 0, out
+      assert_exit_code 3, out
     end
   end
 
@@ -51,7 +50,7 @@ describe "inspec check" do
     it "ignore train connection error" do
       out = inspec("check " + File.join(examples_path, "profile-azure"))
 
-      assert_exit_code 0, out
+      assert_exit_code 3, out
     end
   end
 

@@ -470,15 +470,28 @@ Test Summary: 0 successful, 0 failures, 0 skipped
   end
 
   describe "with a profile that contains skipped resources" do
-    let(:out) { inspec("exec " + File.join(profile_path, "aws-profile")) }
+    let(:out) { inspec("exec " + File.join(examples_path, "profile-aws")) }
     it "exits with an error" do
-      skip if ENV["NO_AWS"]
-      _(stdout).must_include "Unsupported resource/backend combination: aws_iam_users"
-      _(stdout).must_include "Unsupported resource/backend combination: aws_iam_access_keys"
-      _(stdout).must_include "Unsupported resource/backend combination: aws_s3_bucket"
-      _(stdout).must_include "3 failures"
+      _(stdout).must_include "Skipping profile: 'profile-aws' on unsupported platform"
+      assert_exit_code 101, out
+    end
+  end
 
-      assert_exit_code 100, out
+  # Deprecation tests are called without aws:// and azure:// due to lack of creds
+  # aws-profile and azure-profiles does not have platforms as aws and azure for testing this scenario
+  describe "with a profile that contains deprecated aws resources" do
+    let(:out) { inspec("exec " + File.join(profile_path, "aws-profile")) }
+    it "exits with deprecation error" do
+      _(stdout).must_include "DEPRECATION: AWS resources in core InSpec are deprecated and have been removed in InSpec 5"
+      assert_exit_code 3, out
+    end
+  end
+
+  describe "with a profile that contains deprecated azure resources" do
+    let(:out) { inspec("exec " + File.join(profile_path, "azure-profile")) }
+    it "exits with deprecation error" do
+      _(stdout).must_include "DEPRECATION: Azure resources in core InSpec are deprecated and have been removed in InSpec 5"
+      assert_exit_code 3, out
     end
   end
 
