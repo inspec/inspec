@@ -210,7 +210,14 @@ module FunctionalHelper
 
     if opts[:json] && !run_result.stdout.empty?
       begin
-        @json = JSON.parse(run_result.stdout)
+        out = run_result.stdout.split("\n")
+        if out.count > 1
+          @deprication_msg = out[1].include?("The --target-id option is deprecated in InSpec 5") ? out[0] : nil
+          out = out[1]
+        else
+          out = out[0]
+        end
+        @json = JSON.parse(out)
       rescue JSON::ParserError => e
         warn "JSON PARSE ERROR: %s" % [e.message]
         warn "OUT: <<%s>>"          % [run_result.stdout]

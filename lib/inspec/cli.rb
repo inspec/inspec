@@ -302,6 +302,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   def exec(*targets)
     o = config
     diagnose(o)
+    deprecate_target_id(config)
     configure_logger(o)
 
     runner = Inspec::Runner.new(o)
@@ -320,6 +321,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :format, type: :string
   def detect
     o = config
+    deprecate_target_id(config)
     o[:command] = "platform.params"
 
     configure_logger(o)
@@ -360,6 +362,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "Specify one or more inputs directly on the command line to the shell, as --input NAME=VALUE. Accepts single-quoted YAML and JSON structures."
   def shell_func
     o = config
+    deprecate_target_id(config)
     diagnose(o)
     o[:debug_shell] = true
 
@@ -446,6 +449,12 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   end
 
   private
+
+  def deprecate_target_id(config)
+    unless config[:target_id].nil?
+      Inspec.deprecate "cli_option_target_id"
+    end
+  end
 
   def run_command(opts)
     runner = Inspec::Runner.new(Inspec::Config.new(opts))
