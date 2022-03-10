@@ -41,6 +41,7 @@ module Inspec
       description
       version
       inspec_version
+      entitlement_id
     }.each do |name|
       define_method name.to_sym do |arg|
         params[name.to_sym] = arg
@@ -96,6 +97,10 @@ module Inspec
       # if version is set, ensure it is correct
       if !params[:version].nil? && !valid_version?(params[:version])
         errors.push("Version needs to be in SemVer format")
+      end
+
+      if params[:entitlement_id] && params[:entitlement_id].strip.empty?
+        errors.push("Entitlement ID should not be blank.")
       end
 
       unless supports_runtime?
