@@ -145,6 +145,8 @@ module Inspec
         desc: "Folder which contains referenced profiles."
       option :vendor_cache, type: :string,
         desc: "Use the given path for caching dependencies. (default: ~/.inspec/cache)"
+      option :auto_install_gems, type: :boolean, default: false,
+        desc: "Auto installs gem dependencies of the profile or resource pack."
     end
 
     def self.supermarket_options

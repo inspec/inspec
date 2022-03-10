@@ -51,6 +51,10 @@ module Inspec
       params[:depends] || []
     end
 
+    def gem_dependencies
+      params[:gem_dependencies] || []
+    end
+
     def supports(sth, version = nil)
       # Ignore supports with metadata.rb. This file is legacy and the way it
       # it handles `supports` deprecated. A deprecation warning will be printed
@@ -107,6 +111,33 @@ module Inspec
       # if license is set, ensure it is in SPDX format or marked as proprietary
       if !params[:license].nil? && !valid_license?(params[:license])
         warnings.push("License '#{params[:license]}' needs to be in SPDX format or marked as 'Proprietary'. See https://spdx.org/licenses/.")
+      end
+
+      # If gem_dependencies is set, it must be an array of hashes with keys name and optional version
+      unless params[:gem_dependencies].nil?
+        list = params[:gem_dependencies]
+        if list.is_a?(Array) && list.all? { |e| e.is_a? Hash }
+          list.each do |entry|
+            errors.push("gem_dependencies entries must all have a 'name' field") unless entry.key?(:name)
+            if entry[:version]
+              orig = entry[:version]
+              begin
+                # Split on commas as we may have a complex dep
+                orig.split(",").map { |c| Gem::Requirement.parse(c) }
+              rescue Gem::Requirement::BadRequirementError
+                errors.push "Unparseable gem dependency '#{orig}' for #{entry[:name]}"
+              rescue Inspec::GemDependencyInstallError => e
+                errors.push e.message
+              end
+            end
+            extra = (entry.keys - %i{name version})
+            unless extra.empty?
+              warnings.push "Unknown gem_dependencies key(s) #{extra.join(",")} seen for entry '#{entry[:name]}'"
+            end
+          end
+        else
+          errors.push("gem_dependencies must be a List of Hashes")
+        end
       end
 
       [errors, warnings]

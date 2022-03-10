@@ -28,3 +28,6 @@ require "inspec/base_cli"
 require "inspec/fetcher"
 require "inspec/source_reader"
 require "inspec/resource"
+
+require "inspec/dependency_loader"
+require "inspec/dependency_installer"
