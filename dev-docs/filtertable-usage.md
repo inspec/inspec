@@ -388,6 +388,8 @@ In some cases, the raw data may require multiple actions to populate.  For examp
 
 Lazy loaded columns are absent in the raw data, until they are accessed (either by method-where, block-where, or a list property).  When they are accessed, a user-provided Lambda is called, which populates one or more columns.  FilterTable remembers which lazy columns have been populated, and will not call the lambda again.
 
+If you know you want to access the resource instance in your lazy method callback, see `lazy_instance`.
+
 ### Declaring a lazy field
 
 You declare a field to be lazy by providing an option, `lazy`, whose value is the lambda to be called.
@@ -463,6 +465,30 @@ You can even have multiple lazy columns share an implementation; the first one t
 ### Can I set multiple rows at once?
 
 Yes.  Using `table.raw_data`, you could perform a column-at-once population.  After the fetcher was called for the first row, all other rows would already be populated, so the fetcher would not be called again due to the no-clobber effect.
+
+## `lazy_instance`
+
+If you wish to do lazy loading but wish that you could use an instance method of the resource, you can do so using the `lazy_instance` property to set the callback.
+
+```ruby
+filter_table_config.register_column(
+  :colors,
+  field: :color,
+  lazy_instance: :make_it_red },
+)
+
+# instance, not class method
+def make_it_red(row, condition, table)
+  row[:color] = :red
+end
+
+```
+
+The method will be provided three arguments:
+
+1. `row`.  This is a Hash, the current row of the raw_data. You will likely need to examine this to find an ID value or other field that will act as a search key for your fetch.  You are expected to add one or more entries to this hash, as a result of your fetch.
+2. `condition`.  In some cases, a condition (desired value) is provided; the semantics of this are up to you.
+3. `table`. A reference to the FilterTable.  You can use this to access other context - including the entire raw data (`table.raw_data`).
 
 ## Gotchas and Surprises
 
