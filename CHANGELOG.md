@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.7.3 -->
-## [v5.7.3](https://github.com/inspec/inspec/tree/v5.7.3) (2022-03-10)
+<!-- latest_release 5.7.4 -->
+## [v5.7.4](https://github.com/inspec/inspec/tree/v5.7.4) (2022-03-10)
 
 #### Merged Pull Requests
-- [W.I.P] CFINSPEC-68 Adds target_id in the reporter. [#5895](https://github.com/inspec/inspec/pull/5895) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-129 Removed cloud resources ( AWS &amp; Azure ) from inspec-core [#5915](https://github.com/inspec/inspec/pull/5915) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- CFINSPEC-129 Removed cloud resources ( AWS &amp; Azure ) from inspec-core [#5915](https://github.com/inspec/inspec/pull/5915) ([Nik08](https://github.com/Nik08)) <!-- 5.7.4 -->
 - [W.I.P] CFINSPEC-68 Adds target_id in the reporter. [#5895](https://github.com/inspec/inspec/pull/5895) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.7.3 -->
 - CFINSPEC-128 : Create a resource generator [#5913](https://github.com/inspec/inspec/pull/5913) ([ahasunos](https://github.com/ahasunos)) <!-- 5.7.2 -->
 - CFINSPEC-26: Adds entitlement_id field in metadata file [#5914](https://github.com/inspec/inspec/pull/5914) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.7.1 -->
