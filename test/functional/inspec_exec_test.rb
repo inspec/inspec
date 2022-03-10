@@ -1169,9 +1169,9 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
       let(:cloud_profile) { cloud_path + "test-aws" }
       # Use log level FATAL to absorb WARNs from deprecataions and ERRORs from not having credentials set.
       # An actual stacktrace then will appear as sole stderr output
-      let(:args) { "-t aws://fakecreds --log-level fatal " }
+      let(:args) { "-t aws://" }
       it "should fail to connect to aws due to lack of creds and stacktrace" do
-        _(run_result.stderr).wont_match looks_like_a_stacktrace
+        _(run_result.stderr).must_include "unable to sign request without credentials set"
       end
     end
 
