@@ -30,6 +30,6 @@ class LazyLoader < Inspec.resource(1)
 
   def increment_lazy_6(row, _crit, _table)
     # BUG: self here is different every time this is called, and appears not to be initialized
-    row[:lazy_6] = (self.lazy_6_call_count += 1)
+    row[:lazy_6] = (@lazy_6_call_count += 1)
   end
 end
