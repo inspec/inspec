@@ -28,7 +28,7 @@ class LazyLoader < Inspec.resource(1)
   filter_table_generator.add(:lazy_6s, field: :lazy_6, lazy_instance: :increment_lazy_6 )
   filter_table_generator.connect(self, :plain_data)
 
-  def increment_lazy_6(row, crit, table)
+  def increment_lazy_6(row, _crit, _table)
     # BUG: self here is different every time this is called, and appears not to be initialized
     row[:lazy_6] = (self.lazy_6_call_count += 1)
   end
