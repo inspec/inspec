@@ -1,8 +1,7 @@
-# If we can load the InSpec globals definition file...
+# Load (require) the InSpec globals definition file.
 require "inspec/globals"
-# ... we can find the core test unit helper file
+# Load (require) the core test unit helper file
 require "#{Inspec.src_root}/test/helper"
-require_relative "../../../lib/inspec/resource"
 # Load (require) the resource library file
 require_relative "../../../lib/inspec/resources/lxc"
 
@@ -12,6 +11,13 @@ describe "Inspec::Resources::Lxc" do
     resource = MockLoader.new(:ubuntu).load_resource("lxc", "my-ubuntu-container")
     _(resource.exists?).must_equal true
     _(resource.running?).must_equal true
+  end
+
+  # ubuntu
+  it "verify lxc resource on ubuntu for non exisiting container" do
+    resource = MockLoader.new(:ubuntu).load_resource("lxc", "my-ubuntu-container-1")
+    _(resource.exists?).must_equal false
+    _(resource.running?).must_equal false
   end
 
   # windows
