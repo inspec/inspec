@@ -222,7 +222,7 @@ module FilterTable
 
         lazy_caller = callback_for_lazy_instance_field(field_name)
         if lazy_caller.is_a?(Proc)
-          lazy_caller.call(row, criterion, self.resource_instance)
+          lazy_caller.call(row, criterion, resource_instance)
         elsif lazy_caller.is_a?(Symbol)
           resource_instance.send(lazy_caller, row, criterion, self)
         end
