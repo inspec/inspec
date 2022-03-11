@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.7.6 -->
-## [v5.7.6](https://github.com/inspec/inspec/tree/v5.7.6) (2022-03-11)
+<!-- latest_release 5.7.7 -->
+## [v5.7.7](https://github.com/inspec/inspec/tree/v5.7.7) (2022-03-11)
 
 #### Merged Pull Requests
-- Fix test failure for plugin due to ambiguity in method name [#5920](https://github.com/inspec/inspec/pull/5920) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-137: Deprecate --target-id option [#5918](https://github.com/inspec/inspec/pull/5918) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- CFINSPEC-137: Deprecate --target-id option [#5918](https://github.com/inspec/inspec/pull/5918) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.7.7 -->
 - Fix test failure for plugin due to ambiguity in method name [#5920](https://github.com/inspec/inspec/pull/5920) ([ahasunos](https://github.com/ahasunos)) <!-- 5.7.6 -->
 - Firewalld update -- exposed more fields, updated docs, added custom matchers [#5597](https://github.com/inspec/inspec/pull/5597) ([wdower](https://github.com/wdower)) <!-- 5.7.5 -->
 - CFINSPEC-129 Removed cloud resources ( AWS &amp; Azure ) from inspec-core [#5915](https://github.com/inspec/inspec/pull/5915) ([Nik08](https://github.com/Nik08)) <!-- 5.7.4 -->
