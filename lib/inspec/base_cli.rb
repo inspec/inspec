@@ -131,7 +131,7 @@ module Inspec
       option :insecure, type: :boolean, default: false,
         desc: "Disable SSL verification on select targets"
       option :target_id, type: :string,
-        desc: "Provide a ID which will be included on reports"
+        desc: "Provide a ID which will be included on reports - deprecated"
       option :winrm_shell_type, type: :string, default: "powershell",
         desc: "Specify a shell type for winrm (eg. 'elevated' or 'powershell')"
       option :docker_url, type: :string,

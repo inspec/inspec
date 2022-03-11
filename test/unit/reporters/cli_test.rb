@@ -41,13 +41,7 @@ describe Inspec::Reporters::CLI do
 
   describe "#print_profile_header" do
     it "confirm header output" do
-      expected = <<~EOF
-        Profile: InSpec Profile (long_commands)
-        Version: 0.1.0
-        Target:  local://
-
-      EOF
-      _(report.send(:print_profile_header, profile)).must_equal expected
+      _(report.send(:print_profile_header, profile)).must_equal "Profile:   InSpec Profile (long_commands)\nVersion:   0.1.0\nTarget:    local://\nTarget ID: \n\n"
     end
   end
 

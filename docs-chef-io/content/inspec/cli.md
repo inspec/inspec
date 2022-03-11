@@ -380,7 +380,7 @@ This subcommand has the following additional options:
 * ``-t``, ``--target=TARGET``
     Simple targeting option using URIs, e.g. ssh://user:pass@host:port.
 * ``--target-id=TARGET_ID``
-    Provide a ID which will be included on reports.
+    Provide a ID which will be included on reports - deprecated.
 * ``--tags=one two three``
     A list of tags or a list of regular expressions that match tags. `exec` will run controls referenced by the listed or matching tags.
 * ``--user=USER``

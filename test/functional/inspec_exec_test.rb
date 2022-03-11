@@ -59,15 +59,11 @@ describe "inspec exec" do
   it "executes a minimum metadata-only profile" do
     inspec("exec " + File.join(profile_path, "simple-metadata") + " --no-create-lockfile")
 
-    _(stdout).must_equal "
-Profile: yumyum profile
-Version: (not specified)
-Target:  local://
-
-     No tests executed.
-
-Test Summary: 0 successful, 0 failures, 0 skipped
-"
+    _(stdout).must_include "Profile:   yumyum profile"
+    _(stdout).must_include "Version:   (not specified)"
+    _(stdout).must_include "Target:    local://"
+    _(stdout).must_include "No tests executed."
+    _(stdout).must_include "Test Summary: 0 successful, 0 failures, 0 skipped"
     _(stderr).must_equal ""
 
     assert_exit_code 0, out
@@ -115,10 +111,12 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     assert_exit_code 0, out
   end
 
-  it "can execute the profile with a target_id passthrough" do
+  it "shows deprecation warning for --target-id opition ignore the its value." do
+    skip_windows!
     inspec("exec #{complete_profile} --no-create-lockfile --target-id 1d3e399f-4d71-4863-ac54-84d437fbc444")
 
-    _(stdout).must_include "Target ID: 1d3e399f-4d71-4863-ac54-84d437fbc444"
+    _(stdout).must_include "The --target-id option is deprecated in InSpec 5. Its value will be ignored."
+    _(stdout).must_include "Target ID: #{inspec_os_uuid}"
 
     _(stderr).must_equal ""
 
@@ -127,17 +125,11 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 
   it "executes a metadata-only profile" do
     inspec("exec " + File.join(profile_path, "complete-metadata") + " --no-create-lockfile")
-
-    _(stdout).must_equal "
-Profile: title (name)
-Version: 1.2.3
-Target:  local://
-
-     No tests executed.
-
-Test Summary: 0 successful, 0 failures, 0 skipped
-"
-
+    _(stdout).must_include "Profile:   title (name)"
+    _(stdout).must_include "Target:    local://"
+    _(stdout).must_include "Version:   1.2.3"
+    _(stdout).must_include "No tests executed."
+    _(stdout).must_include "Test Summary: 0 successful, 0 failures, 0 skipped\n"
     _(stderr).must_equal ""
 
     assert_exit_code 0, out
@@ -155,7 +147,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 
   it "executes a specs-only profile" do
     inspec("exec " + File.join(profile_path, "spec_only") + " --no-create-lockfile")
-    _(stdout).must_include "Target:  local://"
+    _(stdout).must_include "Target:    local://"
     _(stdout).must_include "working"
     _(stdout).must_include "✔  is expected to eq \"working\""
     _(stdout).must_include "skippy\n"
@@ -528,17 +520,12 @@ Test Summary: 0 successful, 0 failures, 0 skipped
   describe "with a profile that inherits core resource into custom reosuce" do
     let(:out) { inspec("exec " + File.join(profile_path, "custom-resource-inheritance") + " --no-create-lockfile") }
     it "executes the custom resoruc without error" do
-      _(stdout).must_equal "
-Profile: InSpec Profile (custom-resource-inheritance)
-Version: 0.1.0
-Target:  local://
-
-  Node Json
-     ✔  name is expected to eq \"hello\"
-     ✔  [\"meta\", \"creator\"] is expected to eq \"John Doe\"
-
-Test Summary: 2 successful, 0 failures, 0 skipped
-"
+      _(stdout).must_include "Profile:   InSpec Profile (custom-resource-inheritance)"
+      _(stdout).must_include "Version:   0.1.0"
+      _(stdout).must_include "local://"
+      _(stdout).must_include "✔  name is expected to eq \"hello\""
+      _(stdout).must_include "✔  [\"meta\", \"creator\"] is expected to eq \"John Doe\""
+      _(stdout).must_include "Test Summary: 2 successful, 0 failures, 0 skipped"
       _(stderr).must_equal ""
       assert_exit_code 0, out
     end
@@ -548,19 +535,13 @@ Test Summary: 2 successful, 0 failures, 0 skipped
     let(:out) { inspec("exec " + example_control + " --no-create-lockfile") }
 
     it "prints the control results, then the anonymous describe block results" do
-      _(stdout).must_match(/Profile: tests from .*test.fixtures.profiles.old-examples.profile.controls.example-tmp.rb/)
-      _(stdout).must_include "
-Version: (not specified)
-Target:  local://
-
-  \xE2\x9C\x94  tmp-1.0: Create / directory
-     \xE2\x9C\x94  File / is expected to be directory
-
-  File /
-     \xE2\x9C\x94  is expected to be directory
-
-Profile Summary: 1 successful control, 0 control failures, 0 controls skipped
-Test Summary: 2 successful, 0 failures, 0 skipped\n"
+      _(stdout).must_include("test.fixtures.profiles.old-examples.profile.controls.example-tmp.rb")
+      _(stdout).must_include "Version:   (not specified)"
+      _(stdout).must_include "Target:    local://"
+      _(stdout).must_include "✔  tmp-1.0: Create / directory"
+      _(stdout).must_include "✔  File / is expected to be directory"
+      _(stdout).must_include "Profile Summary: 1 successful control, 0 control failures, 0 controls skipped"
+      _(stdout).must_include "Test Summary: 2 successful, 0 failures, 0 skipped\n"
     end
   end
 
@@ -1003,7 +984,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
 
     describe "when using the legacy --json-config" do
       let(:cli_args) { "--json-config " + File.join(config_dir_path, "json-config", "good.json") }
-      it "should override the custom target ID value with platform uuid" do
+      it "should ignore the custom target ID value and override it with platform uuid" do
         skip_windows!
         _(stderr).must_be_empty # TODO: one day deprecate the --json-config option
         _(seen_target_id).wont_equal "from-config-file"
@@ -1172,8 +1153,8 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
 
     describe "when a target URI with a known credset is used" do
       let(:cli_args) { "--target mock://mycredset" + " --config " + File.join(config_dir_path, "json-config", "mock-credset.json") }
-      it "should connect to the mock platform" do
-        _(seen_platform).must_equal({ "name" => "mock", "release" => "unknown", "target_id" => "from-mock-credset-config-file" })
+      it "should connect to the mock platform and ignore the target_id set in the config file." do
+        _(seen_platform).must_equal({ "name" => "mock", "release" => "unknown", "target_id" => "" })
       end
     end
   end

@@ -168,7 +168,7 @@ describe "running profiles with git-based dependencies" do
     it "should use default HEAD branch" do
       inspec("exec #{git_default_main_profile_url}")
       assert_empty stderr
-      assert_includes stdout, "Profile: InSpec Profile (default-main)"
+      assert_includes stdout, "Profile:   InSpec Profile (default-main)"
       assert_includes stdout, "Profile Summary: 1 successful control, 0 control failures, 0 controls skipped\n"
       assert_includes stdout, "Test Summary: 2 successful, 0 failures, 0 skipped\n"
       assert_exit_code 0, out
