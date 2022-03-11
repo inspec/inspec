@@ -29,7 +29,7 @@ module Inspec::Reporters
       {
         name:      run_data[:platform][:name],
         release:   run_data[:platform][:release],
-        target_id: run_data[:platform][:target_id] || @config["target_id"],
+        target_id: run_data[:platform][:target_id] || "",
       }.reject { |_k, v| v.nil? }
     end
 

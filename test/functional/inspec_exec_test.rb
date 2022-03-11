@@ -111,10 +111,11 @@ describe "inspec exec" do
     assert_exit_code 0, out
   end
 
-  it "can execute the profile with a target_id passthrough and overrides the --target-id with platform uuid" do
+  it "shows deprecation warning for --target-id opition ignore the its value." do
     skip_windows!
     inspec("exec #{complete_profile} --no-create-lockfile --target-id 1d3e399f-4d71-4863-ac54-84d437fbc444")
 
+    _(stdout).must_include "The --target-id option is deprecated in InSpec 5. Its value will be ignored."
     _(stdout).must_include "Target ID: #{inspec_os_uuid}"
 
     _(stderr).must_equal ""
@@ -983,7 +984,7 @@ describe "inspec exec" do
 
     describe "when using the legacy --json-config" do
       let(:cli_args) { "--json-config " + File.join(config_dir_path, "json-config", "good.json") }
-      it "should override the custom target ID value with platform uuid" do
+      it "should ignore the custom target ID value and override it with platform uuid" do
         skip_windows!
         _(stderr).must_be_empty # TODO: one day deprecate the --json-config option
         _(seen_target_id).wont_equal "from-config-file"
@@ -1152,8 +1153,8 @@ describe "inspec exec" do
 
     describe "when a target URI with a known credset is used" do
       let(:cli_args) { "--target mock://mycredset" + " --config " + File.join(config_dir_path, "json-config", "mock-credset.json") }
-      it "should connect to the mock platform" do
-        _(seen_platform).must_equal({ "name" => "mock", "release" => "unknown", "target_id" => "from-mock-credset-config-file" })
+      it "should connect to the mock platform and ignore the target_id set in the config file." do
+        _(seen_platform).must_equal({ "name" => "mock", "release" => "unknown", "target_id" => "" })
       end
     end
   end
