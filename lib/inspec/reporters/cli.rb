@@ -76,7 +76,7 @@ module Inspec::Reporters
       }
       header["Failure Message"] = profile[:status_message] if profile[:status] == "failed"
       header["Target"] = run_data[:platform][:target] unless run_data[:platform][:target].nil?
-      header["Target ID"] = run_data[:platform][:target_id] || @config["target_id"]# unless @config["target_id"].nil?
+      header["Target ID"] = run_data[:platform][:target_id] || @config["target_id"]
 
       pad = header.keys.max_by(&:length).length + 1
       header.each do |title, value|
