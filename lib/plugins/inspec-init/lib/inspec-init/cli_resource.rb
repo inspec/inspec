@@ -20,7 +20,7 @@ module InspecPlugins
       option :path, type: :string, default: ".", desc: "Subdirectory under which to create files"
 
       # Wishlist:
-      #  Make make_rename_map dynamic:
+      #  Make make_rename_map_resource dynamic:
       #   + Add a --path option which defaults to ., which will create the tree under that path
       #   + Add a --layout option which changes all the tree to act as placing the files in core inspec (lib/inspec/resources, docs-chef-io/)
       #   - Add a --template=plural option which changes the templates to use a set of Filtertable based templates
@@ -35,7 +35,7 @@ module InspecPlugins
       #  + Add --overwrite option
 
       def resource(resource_name)
-        resource_vars_from_opts
+        resource_vars_from_opts_resource
         template_vars = {
           name: options[:path], # This is used for the path prefix
           resource_name: resource_name,
@@ -46,7 +46,7 @@ module InspecPlugins
         render_opts = {
           templates_path: TEMPLATES_PATH,
           overwrite: options[:overwrite],
-          file_rename_map: make_rename_map(template_vars),
+          file_rename_map: make_rename_map_resource(template_vars),
         }
         renderer = InspecPlugins::Init::Renderer.new(ui, render_opts)
         renderer.render_with_values(template_path, "resource", template_vars)
@@ -54,7 +54,7 @@ module InspecPlugins
 
       private
 
-      def make_rename_map(vars)
+      def make_rename_map_resource(vars)
         if vars["layout"] == "resource-pack"
           {
             File.join("libraries", "inspec-resource-template.erb") => File.join("libraries", vars[:resource_name] + ".rb"),
@@ -73,9 +73,9 @@ module InspecPlugins
         end
       end
 
-      def resource_vars_from_opts
+      def resource_vars_from_opts_resource
         if options[:prompt] && ui.interactive?
-          options.dup.merge(prompt_for_options)
+          options.dup.merge(prompt_for_options_resource)
         elsif !options[:prompt]
           # Nothing to do - unless we need to calculate dynamic defaults in the future
         else
@@ -84,7 +84,7 @@ module InspecPlugins
         end
       end
 
-      def prompt_for_options # rubocop: disable Metrics/AbcSize
+      def prompt_for_options_resource # rubocop: disable Metrics/AbcSize
         option_defs = self.class.all_commands["resource"].options
         options_order = {
           path: {},
@@ -98,8 +98,8 @@ module InspecPlugins
           template: {
             mode: :select,
             choices: [
-              { name: "Basic",  value: "basic",  default: true },
-              { name: "Plural", value: "plural",               },
+              { name: "Basic", value: "basic", default: true },
+              { name: "Plural", value: "plural" },
             ],
           },
           supports_platform: {},
