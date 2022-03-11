@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.7.5 -->
-## [v5.7.5](https://github.com/inspec/inspec/tree/v5.7.5) (2022-03-10)
+<!-- latest_release 5.7.6 -->
+## [v5.7.6](https://github.com/inspec/inspec/tree/v5.7.6) (2022-03-11)
 
 #### Merged Pull Requests
-- Firewalld update -- exposed more fields, updated docs, added custom matchers [#5597](https://github.com/inspec/inspec/pull/5597) ([wdower](https://github.com/wdower))
+- Fix test failure for plugin due to ambiguity in method name [#5920](https://github.com/inspec/inspec/pull/5920) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- Fix test failure for plugin due to ambiguity in method name [#5920](https://github.com/inspec/inspec/pull/5920) ([ahasunos](https://github.com/ahasunos)) <!-- 5.7.6 -->
 - Firewalld update -- exposed more fields, updated docs, added custom matchers [#5597](https://github.com/inspec/inspec/pull/5597) ([wdower](https://github.com/wdower)) <!-- 5.7.5 -->
 - CFINSPEC-129 Removed cloud resources ( AWS &amp; Azure ) from inspec-core [#5915](https://github.com/inspec/inspec/pull/5915) ([Nik08](https://github.com/Nik08)) <!-- 5.7.4 -->
 - [W.I.P] CFINSPEC-68 Adds target_id in the reporter. [#5895](https://github.com/inspec/inspec/pull/5895) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.7.3 -->
