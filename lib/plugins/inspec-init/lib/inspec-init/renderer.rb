@@ -60,7 +60,7 @@ module InspecPlugins
           if File.file?(source_file)
             # Be git-like and only create directories if they contain a file
             containing_directory = full_destination_item_path.dirname
-            unless File.exists?(containing_directory)
+            unless File.exist?(containing_directory)
               ui.list_item "Creating directory #{ui.emphasis(containing_directory)}"
               FileUtils.mkdir_p(containing_directory)
             end
