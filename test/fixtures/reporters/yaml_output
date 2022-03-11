@@ -2,6 +2,7 @@
 :platform:
   :name: fedora
   :release: '28'
+  :target_id: ''
 :profiles:
 - :name: tests from t.rb
   :sha256: 9260af15d2b7568443df4d9d2556f773f425f92491c97eb1d201c535c7a9f5e0

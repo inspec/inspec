@@ -27,7 +27,7 @@ describe Inspec::Reporters::Json do
 
   describe "#platform" do
     it "confirm platform output" do
-      hash = { name: "mac_os_x", release: "17.2.0" }
+      hash = { name: "mac_os_x", release: "17.2.0", target_id: "" }
       _(report.send(:platform)).must_equal hash
     end
   end

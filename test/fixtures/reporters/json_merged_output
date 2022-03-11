@@ -1,7 +1,8 @@
 {
   "platform": {
     "name": "mac_os_x",
-    "release": "17.5.0"
+    "release": "17.5.0",
+    "target_id": ""
   },
   "profiles": [
     {
