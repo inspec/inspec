@@ -2,6 +2,7 @@
 Profile:   InSpec Profile (long_commands)
 Version:   0.1.0
 Target:    local://
+Target ID: 
 
 [0;1;32m  [PASS]  tmp-1.0: Create /tmp directory[0m
 [0;1;32m     [PASS]  File /tmp should be directory[0m
