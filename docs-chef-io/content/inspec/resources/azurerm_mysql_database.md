@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< azurerm_deprecated resource="azure_mysql_database" >}}
+
 Use the `azurerm_mysql_database` InSpec audit resource to test properties and configuration of
 an Azure MySQL Database on a MySQL Server.
 

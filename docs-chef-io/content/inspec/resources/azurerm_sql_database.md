@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< azurerm_deprecated resource="azure_sql_database" >}}
+
 Use the `azurerm_sql_database` InSpec audit resource to test properties and configuration of
 an Azure SQL Database on a SQL Server.
 

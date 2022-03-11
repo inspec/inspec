@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< azurerm_deprecated resource="azure_aks_clusters" >}}
+
 Use the `azurerm_aks_clusters` InSpec audit resource to enumerate AKS Clusters.
 
 ## Azure REST API version

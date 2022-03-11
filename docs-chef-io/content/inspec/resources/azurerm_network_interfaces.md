@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< azurerm_deprecated resource="azure_network_interfaces" >}}
+
 Use the `azurerm_network_interfaces` InSpec audit resource to test properties and configuration of Azure Network interfaces.
 
 ## Azure REST API version

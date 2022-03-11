@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< azurerm_deprecated resource="azure_monitor_activity_log_alerts" >}}
+
 Use the `azurerm_monitor_activity_log_alerts` InSpec audit resource to verify that an
 Activity Log Alert exists.
 

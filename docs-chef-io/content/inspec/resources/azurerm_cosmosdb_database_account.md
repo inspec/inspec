@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< azurerm_deprecated resource="azure_cosmosdb_database_account" >}}
+
 Use the `azurerm_cosmosdb_database_account` InSpec audit resource to test properties and configuration of
 an Azure CosmosDb Database Account within a Resource Group.
 

@@ -11,6 +11,12 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< warning >}}
+
+This resource will be deprecated when version 2 of the inspec-azure resource pack is released.
+
+{{< /warning >}}
+
 Use the `azurerm_ad_users` InSpec audit resource to test properties of
 some or all Azure Active Directory users within a Tenant.
 

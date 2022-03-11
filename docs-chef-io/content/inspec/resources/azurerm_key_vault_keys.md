@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< azurerm_deprecated resource="azure_key_vault_keys" >}}
+
 Use the `azurerm_key_vault_keys` InSpec audit resource to test properties and
 configuration of Azure Keys within Vaults.
 

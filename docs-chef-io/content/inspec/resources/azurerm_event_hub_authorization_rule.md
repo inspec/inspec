@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< azurerm_deprecated resource="azure_event_hub_authorization_rule" >}}
+
 Use the `azurerm_event_hub_authorization_rule` InSpec audit resource to test properties and configuration of
 an Azure Event Hub Authorization Rule within a Resource Group.
 
