@@ -122,7 +122,7 @@ module InspecPlugins::StreamingReporterProgressBar
     def format_it(control_id, title, full_description, control_impact)
       control_status = if full_description.match?(/Source Code Error/)
                          'error'
-                       elsif control_impact.zero?
+                       elsif control_impact == 0
                          'na'
                        elsif @status_mapping[control_id].uniq.include?('failed')
                          'failed'
@@ -135,8 +135,6 @@ module InspecPlugins::StreamingReporterProgressBar
       indicator = INDICATORS[control_status]
       message_to_format = ''
       message_to_format += "#{indicator} "
-      # message_to_format += "#{control_id.to_s.lstrip.force_encoding(Encoding::UTF_8)} "
-      # message_to_format += "#{title.gsub!(/\n+\s+/, " ").force_encoding(Encoding::UTF_8)}"
       message_to_format += "#{control_id.to_s.lstrip} "
       message_to_format += title.gsub!(/\n*\s+/, ' ').to_s
       format_with_color(control_status, message_to_format)
