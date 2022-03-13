@@ -1,5 +1,4 @@
 require 'progress_bar'
-require 'pry'
 
 module InspecPlugins::StreamingReporterProgressBar
   # This class will provide the actual Streaming Reporter implementation.
