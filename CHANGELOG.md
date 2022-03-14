@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.16 -->
-## [v4.56.16](https://github.com/inspec/inspec/tree/v4.56.16) (2022-03-11)
+<!-- latest_release 4.56.17 -->
+## [v4.56.17](https://github.com/inspec/inspec/tree/v4.56.17) (2022-03-14)
 
 #### Merged Pull Requests
-- Backport firewalld update - inspec-4 [#5919](https://github.com/inspec/inspec/pull/5919) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Backport filtertable lazy instance to inspec-4 [#5922](https://github.com/inspec/inspec/pull/5922) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- Backport filtertable lazy instance to inspec-4 [#5922](https://github.com/inspec/inspec/pull/5922) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.17 -->
 - Backport firewalld update - inspec-4 [#5919](https://github.com/inspec/inspec/pull/5919) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.16 -->
 - CFINSPEC-68 backport target id inspec 4 [#5917](https://github.com/inspec/inspec/pull/5917) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.15 -->
 - CFINSPEC-125 cassandra unit test fix for windows - inspec-4 [#5896](https://github.com/inspec/inspec/pull/5896) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.14 -->
