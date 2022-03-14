@@ -13,6 +13,8 @@ end
 # lazy_2 populates with a constant symbol but encounters a collision
 # lazy_3 increments on each call
 # lazy_4 throws an exception on call
+# lazy_5 increments on each call via a lazy_instance hook set with a lambda
+# lazy_6 increments on each call via a lazy_instance hook set with a Symbol ref to an instance method
 
 control '2370_where_block' do
   desc 'When we call where as a block, lazy columns should load if referenced'
@@ -24,14 +26,26 @@ control '2370_where_block' do
   describe lazy_loader(fresh_data.call).where { lazy_3 == 1 } do
     its('count') { should cmp 1 }
     its('lazy_3s.first') { should cmp 1 }
-    its('resource.lazy_3_call_count') { should == 3 }    
+    its('resource.lazy_3_call_count') { should == 3 }
+  end
+
+  describe lazy_loader(fresh_data.call).where { lazy_5 == 1 } do
+    its('count') { should cmp 1 }
+    its('lazy_5s.first') { should cmp 1 }
+    its('resource.lazy_5_call_count') { should == 3 }
+  end
+
+  describe lazy_loader(fresh_data.call).where { lazy_6 == 1 } do
+    its('count') { should cmp 1 }
+    its('lazy_6s.first') { should cmp 1 }
+    its('resource.lazy_6_call_count') { should == 3 }
   end
 end
 
 control '2370_where_block_only_referenced' do
   desc 'When we call where as a block, lazy columns should not load unless referenced'
   describe lazy_loader(fresh_data.call).where { color == :red } do
-    [ :lazy_1, :lazy_2, :lazy_3, :lazy_4 ].each do |lazy_field|
+    [ :lazy_1, :lazy_2, :lazy_3, :lazy_4, :lazy_5, :lazy_6 ].each do |lazy_field|
       its('raw_data.first.keys') { should_not include lazy_field }
     end
   end
@@ -47,14 +61,26 @@ control '2370_where_method' do
   describe lazy_loader(fresh_data.call).where(lazy_3: 1) do
     its('count') { should cmp 1 }
     its('lazy_3s.first') { should cmp 1 }
-    its('resource.lazy_3_call_count') { should == 3 }    
+    its('resource.lazy_3_call_count') { should == 3 }
+  end
+
+  describe lazy_loader(fresh_data.call).where(lazy_5: 1) do
+    its('count') { should cmp 1 }
+    its('lazy_5s.first') { should cmp 1 }
+    its('resource.lazy_5_call_count') { should == 3 }
+  end
+
+  describe lazy_loader(fresh_data.call).where(lazy_6: 1) do
+    its('count') { should cmp 1 }
+    its('lazy_6s.first') { should cmp 1 }
+    its('resource.lazy_6_call_count') { should == 3 }
   end
 end
 
 control '2370_where_method_only_referenced' do
   desc 'When we call where as a method, lazy columns should not load unless referenced'
   describe lazy_loader(fresh_data.call).where(color: :red) do
-    [ :lazy_1, :lazy_2, :lazy_3, :lazy_4 ].each do |lazy_field|
+    [ :lazy_1, :lazy_2, :lazy_3, :lazy_4, :lazy_5, :lazy_6 ].each do |lazy_field|
       its('params.first.keys') { should_not include lazy_field }
     end
   end
@@ -72,7 +98,7 @@ end
 control '2370_no_side_populate' do
   desc 'When we trigger a populate on one column, it should not trigger a populate on another column.'
   describe lazy_loader(fresh_data.call).where( lazy_1: :lazy_1_loaded ) do
-    [ :lazy_2, :lazy_3, :lazy_4 ].each do |lazy_field|
+    [ :lazy_2, :lazy_3, :lazy_4, :lazy_5, :lazy_6 ].each do |lazy_field|
       its('params.first.keys') { should_not include lazy_field }
     end
   end
@@ -114,6 +140,8 @@ control '2370_no_rows' do
   desc 'When the data has no rows, the lazy populator should not get called'
   describe lazy_loader([]).where { lazy_3 } do
     its('resource.lazy_3_call_count') { should be_zero }
+    its('resource.lazy_5_call_count') { should be_zero }
+    its('resource.lazy_6_call_count') { should be_zero }
   end
 end
 
