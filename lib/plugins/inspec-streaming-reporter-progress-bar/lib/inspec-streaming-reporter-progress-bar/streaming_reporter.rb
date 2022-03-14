@@ -115,7 +115,7 @@ module InspecPlugins::StreamingReporterProgressBar
       sleep 0.1
       @bar.increment!
       @bar.puts format_it(control_id, title, full_description, control_impact)
-    rescue Exception => e
+    rescue StandardError => e
       raise "Exception in Progress Bar streaming reporter: #{e}"
     end
 
@@ -131,23 +131,29 @@ module InspecPlugins::StreamingReporterProgressBar
                        elsif @status_mapping[control_id].uniq.any? { |val| /"passed"||"skipped"/ =~ val }
                          'passed'
                        end
-
       indicator = INDICATORS[control_status]
       message_to_format = ''
-      message_to_format += "#{indicator} "
-      message_to_format += "#{control_id.to_s.lstrip} "
-      message_to_format += title.gsub!(/\n*\s+/, ' ').to_s
+      message_to_format += "#{indicator}  "
+      message_to_format += "#{control_id.to_s.lstrip.dup.force_encoding(Encoding::UTF_8)}  "
+      message_to_format += "#{title.gsub(/\n*\s+/, ' ').to_s.force_encoding(Encoding::UTF_8)}  " if title
+      message_to_format += "#{full_description.gsub(/\n*\s+/, ' ').to_s.force_encoding(Encoding::UTF_8)}  " unless title
       format_with_color(control_status, message_to_format)
+    rescue StandardError => e
+      raise "Exception in show_progress: #{e}"
     end
 
     def format_with_color(color_name, text)
       "#{COLORS[color_name]}#{text}#{COLORS['reset']}"
+    rescue StandardError => e
+      raise "Exception in format_with_color: #{e}"
     end
 
     # status mapping with control id to decide the final state of the control
     def set_status_mapping(control_id, status)
       @status_mapping[control_id] = [] if @status_mapping[control_id].nil?
       @status_mapping[control_id].push(status)
+    rescue StandardError => e
+      raise "Exception in format_with_color: #{e}"
     end
   end
 end
