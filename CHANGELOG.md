@@ -1,61 +1,59 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.17 -->
-## [v4.56.17](https://github.com/inspec/inspec/tree/v4.56.17) (2022-03-14)
-
-#### Merged Pull Requests
-- Backport filtertable lazy instance to inspec-4 [#5922](https://github.com/inspec/inspec/pull/5922) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.52.9 -->
-### Changes since 4.52.9 release
-
-#### New Features
-- CFINSPEC-3 Added kernel_parameters resource [#5782](https://github.com/inspec/inspec/pull/5782) ([Nik08](https://github.com/Nik08)) <!-- 4.56.0 -->
-- Adds user_permissions property and be_inherited matcher to the file resource for Windows. [#5775](https://github.com/inspec/inspec/pull/5775) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.55.0 -->
-- Adds user_permissions property and be_inherited matcher to the registry_key resource [#5778](https://github.com/inspec/inspec/pull/5778) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.54.0 -->
-- Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
-
-#### Merged Pull Requests
-- Backport filtertable lazy instance to inspec-4 [#5922](https://github.com/inspec/inspec/pull/5922) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.17 -->
-- Backport firewalld update - inspec-4 [#5919](https://github.com/inspec/inspec/pull/5919) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.16 -->
-- CFINSPEC-68 backport target id inspec 4 [#5917](https://github.com/inspec/inspec/pull/5917) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.15 -->
-- CFINSPEC-125 cassandra unit test fix for windows - inspec-4 [#5896](https://github.com/inspec/inspec/pull/5896) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.14 -->
-- Bump omnibus-software from `f64a223` to `5947560` in /omnibus [#5910](https://github.com/inspec/inspec/pull/5910) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.13 -->
-- Temporarily disable habitat builds to unbreak the pipeline - inspec-4 [#5905](https://github.com/inspec/inspec/pull/5905) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.12 -->
-- Disable resource integration tests inspec-4 [#5899](https://github.com/inspec/inspec/pull/5899) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.11 -->
-- backport automate version fix inspec 4 [#5897](https://github.com/inspec/inspec/pull/5897) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.10 -->
-- Only test Ruby 2.7 on InSpec 4 [#5888](https://github.com/inspec/inspec/pull/5888) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.9 -->
-- Pin openssl to 1.1.1m -inspec4 [#5889](https://github.com/inspec/inspec/pull/5889) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.8 -->
-- Backport 5884 to inspec-4, --no-diff fix [#5887](https://github.com/inspec/inspec/pull/5887) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.8 -->
-- Use ruby 2.7 in habitat for inspec 4 [#5876](https://github.com/inspec/inspec/pull/5876) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.7 -->
-- Bump omnibus-software from `ab23925` to `f64a223` in /omnibus [#5878](https://github.com/inspec/inspec/pull/5878) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.6 -->
-- CFINSPEC-45 Bump rspec to 3.11 - inspec 4 [#5867](https://github.com/inspec/inspec/pull/5867) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.5 -->
-- CFINSPEC-38 Adds new release branch for InSpec 5 release. [#5835](https://github.com/inspec/inspec/pull/5835) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.4 -->
-- Bump omnibus from `2bf77bb` to `55e74ac` in /omnibus [#5813](https://github.com/inspec/inspec/pull/5813) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.3 -->
-- Bump omnibus-software from `b646bed` to `c7a43ec` in /omnibus [#5824](https://github.com/inspec/inspec/pull/5824) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.2 -->
-- CFINSPEC-30 Fix sestatus command not found error on Amazon Linux 2 [#5828](https://github.com/inspec/inspec/pull/5828) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.1 -->
-- [WIP] Setting up test coverage reporting [#5823](https://github.com/inspec/inspec/pull/5823) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.55.10 -->
-- CFINSPEC-15 Allows inheritance of core resource into the custom resource. [#5816](https://github.com/inspec/inspec/pull/5816) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.55.9 -->
-- CFINSPEC-5 Added more detailed description about waivers expiration date. [#5806](https://github.com/inspec/inspec/pull/5806) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.55.8 -->
-- CFINSPEC-4 Fix in grub_conf resource to capture non indented grub conf values [#5810](https://github.com/inspec/inspec/pull/5810) ([Nik08](https://github.com/Nik08)) <!-- 4.55.7 -->
-- Bump ffi from 1.15.4 to 1.15.5 in /omnibus [#5791](https://github.com/inspec/inspec/pull/5791) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.55.6 -->
-- Bump omnibus-software from `c2fb9a4` to `b646bed` in /omnibus [#5808](https://github.com/inspec/inspec/pull/5808) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.55.5 -->
-- IP Table resource: Added option to ignore rule comments [#5777](https://github.com/inspec/inspec/pull/5777) ([Nik08](https://github.com/Nik08)) <!-- 4.55.4 -->
-- Fix for dependent profiles to run with --insecure [#5799](https://github.com/inspec/inspec/pull/5799) ([Nik08](https://github.com/Nik08)) <!-- 4.55.3 -->
-- Bump omnibus-software from `94ef29b` to `c2fb9a4` in /omnibus [#5804](https://github.com/inspec/inspec/pull/5804) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.55.2 -->
-- Latest package version fetching regex fix - Package resource [#5797](https://github.com/inspec/inspec/pull/5797) ([Nik08](https://github.com/Nik08)) <!-- 4.55.1 -->
-- Check for latest - package resource [#5771](https://github.com/inspec/inspec/pull/5771) ([Nik08](https://github.com/Nik08)) <!-- 4.52.17 -->
-- Mssql session fix : Parsing multiline results [#5776](https://github.com/inspec/inspec/pull/5776) ([Nik08](https://github.com/Nik08)) <!-- 4.52.16 -->
-- Fix broken link in README. Obvious fix. [#5772](https://github.com/inspec/inspec/pull/5772) ([guyzyl](https://github.com/guyzyl)) <!-- 4.52.15 -->
-- Fix downloads links [#5773](https://github.com/inspec/inspec/pull/5773) ([IanMadd](https://github.com/IanMadd)) <!-- 4.52.14 -->
-- Remove support for EOL Ruby 2.5 [#5783](https://github.com/inspec/inspec/pull/5783) ([tas50](https://github.com/tas50)) <!-- 4.52.13 -->
-- Bump omnibus-software from `d2525ab` to `94ef29b` in /omnibus [#5788](https://github.com/inspec/inspec/pull/5788) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.52.12 -->
-- Adds esx platform support for bash resource [#5785](https://github.com/inspec/inspec/pull/5785) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.52.11 -->
-- Bump Hugo to 0.91.2 [#5780](https://github.com/inspec/inspec/pull/5780) ([IanMadd](https://github.com/IanMadd)) <!-- 4.52.10 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.56.17](https://github.com/inspec/inspec/tree/v4.56.17) (2022-03-15)
+
+#### New Features
+- Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08))
+- Adds user_permissions property and be_inherited matcher to the registry_key resource [#5778](https://github.com/inspec/inspec/pull/5778) ([Vasu1105](https://github.com/Vasu1105))
+- Adds user_permissions property and be_inherited matcher to the file resource for Windows. [#5775](https://github.com/inspec/inspec/pull/5775) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-3 Added kernel_parameters resource [#5782](https://github.com/inspec/inspec/pull/5782) ([Nik08](https://github.com/Nik08))
+
+#### Merged Pull Requests
+- Bump Hugo to 0.91.2 [#5780](https://github.com/inspec/inspec/pull/5780) ([IanMadd](https://github.com/IanMadd))
+- Adds esx platform support for bash resource [#5785](https://github.com/inspec/inspec/pull/5785) ([Vasu1105](https://github.com/Vasu1105))
+- Bump omnibus-software from `d2525ab` to `94ef29b` in /omnibus [#5788](https://github.com/inspec/inspec/pull/5788) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Remove support for EOL Ruby 2.5 [#5783](https://github.com/inspec/inspec/pull/5783) ([tas50](https://github.com/tas50))
+- Fix downloads links [#5773](https://github.com/inspec/inspec/pull/5773) ([IanMadd](https://github.com/IanMadd))
+- Fix broken link in README. Obvious fix. [#5772](https://github.com/inspec/inspec/pull/5772) ([guyzyl](https://github.com/guyzyl))
+- Mssql session fix : Parsing multiline results [#5776](https://github.com/inspec/inspec/pull/5776) ([Nik08](https://github.com/Nik08))
+- Check for latest - package resource [#5771](https://github.com/inspec/inspec/pull/5771) ([Nik08](https://github.com/Nik08))
+- Latest package version fetching regex fix - Package resource [#5797](https://github.com/inspec/inspec/pull/5797) ([Nik08](https://github.com/Nik08))
+- Bump omnibus-software from `94ef29b` to `c2fb9a4` in /omnibus [#5804](https://github.com/inspec/inspec/pull/5804) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Fix for dependent profiles to run with --insecure [#5799](https://github.com/inspec/inspec/pull/5799) ([Nik08](https://github.com/Nik08))
+- IP Table resource: Added option to ignore rule comments [#5777](https://github.com/inspec/inspec/pull/5777) ([Nik08](https://github.com/Nik08))
+- Bump omnibus-software from `c2fb9a4` to `b646bed` in /omnibus [#5808](https://github.com/inspec/inspec/pull/5808) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump ffi from 1.15.4 to 1.15.5 in /omnibus [#5791](https://github.com/inspec/inspec/pull/5791) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- CFINSPEC-4 Fix in grub_conf resource to capture non indented grub conf values [#5810](https://github.com/inspec/inspec/pull/5810) ([Nik08](https://github.com/Nik08))
+- CFINSPEC-5 Added more detailed description about waivers expiration date. [#5806](https://github.com/inspec/inspec/pull/5806) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-15 Allows inheritance of core resource into the custom resource. [#5816](https://github.com/inspec/inspec/pull/5816) ([Vasu1105](https://github.com/Vasu1105))
+- [WIP] Setting up test coverage reporting [#5823](https://github.com/inspec/inspec/pull/5823) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- CFINSPEC-30 Fix sestatus command not found error on Amazon Linux 2 [#5828](https://github.com/inspec/inspec/pull/5828) ([Vasu1105](https://github.com/Vasu1105))
+- Bump omnibus-software from `b646bed` to `c7a43ec` in /omnibus [#5824](https://github.com/inspec/inspec/pull/5824) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump omnibus from `2bf77bb` to `55e74ac` in /omnibus [#5813](https://github.com/inspec/inspec/pull/5813) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- CFINSPEC-38 Adds new release branch for InSpec 5 release. [#5835](https://github.com/inspec/inspec/pull/5835) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-45 Bump rspec to 3.11 - inspec 4 [#5867](https://github.com/inspec/inspec/pull/5867) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Bump omnibus-software from `ab23925` to `f64a223` in /omnibus [#5878](https://github.com/inspec/inspec/pull/5878) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Use ruby 2.7 in habitat for inspec 4 [#5876](https://github.com/inspec/inspec/pull/5876) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Backport 5884 to inspec-4, --no-diff fix [#5887](https://github.com/inspec/inspec/pull/5887) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Pin openssl to 1.1.1m -inspec4 [#5889](https://github.com/inspec/inspec/pull/5889) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Only test Ruby 2.7 on InSpec 4 [#5888](https://github.com/inspec/inspec/pull/5888) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- backport automate version fix inspec 4 [#5897](https://github.com/inspec/inspec/pull/5897) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Disable resource integration tests inspec-4 [#5899](https://github.com/inspec/inspec/pull/5899) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Temporarily disable habitat builds to unbreak the pipeline - inspec-4 [#5905](https://github.com/inspec/inspec/pull/5905) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Bump omnibus-software from `f64a223` to `5947560` in /omnibus [#5910](https://github.com/inspec/inspec/pull/5910) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- CFINSPEC-125 cassandra unit test fix for windows - inspec-4 [#5896](https://github.com/inspec/inspec/pull/5896) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- CFINSPEC-68 backport target id inspec 4 [#5917](https://github.com/inspec/inspec/pull/5917) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Backport firewalld update - inspec-4 [#5919](https://github.com/inspec/inspec/pull/5919) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Backport filtertable lazy instance to inspec-4 [#5922](https://github.com/inspec/inspec/pull/5922) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v4.52.9](https://github.com/inspec/inspec/tree/v4.52.9) (2021-12-20)
 
 #### New Features
@@ -88,7 +86,6 @@
 - Active support version fix for ruby versions less then 2.7 [#5770](https://github.com/inspec/inspec/pull/5770) ([Nik08](https://github.com/Nik08))
 - Apply cookstyle to the example profile [#5680](https://github.com/inspec/inspec/pull/5680) ([tas50](https://github.com/tas50))
 - Adds tls1.3 support in ssl resource. [#5762](https://github.com/inspec/inspec/pull/5762) ([Vasu1105](https://github.com/Vasu1105))
-<!-- latest_stable_release -->
 
 ## [v4.50.3](https://github.com/inspec/inspec/tree/v4.50.3) (2021-11-19)
 
