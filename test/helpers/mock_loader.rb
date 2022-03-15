@@ -369,6 +369,12 @@ class MockLoader
       # ip6tables
       "/usr/sbin/ip6tables  -S" => cmd.call("ip6tables-s"),
       %{sh -c 'type "/usr/sbin/ip6tables"'} => empty.call,
+      # ipnat
+      "/usr/sbin/ipnat -l" => cmd.call("ipnat-l"),
+      %{type "/usr/sbin/ipnat"} => empty.call,
+      # ipfilter
+      "/usr/sbin/ipfstat -io" => cmd.call("ipfstat-io"),
+      %{type "/usr/sbin/ipfstat"} => empty.call,
       # apache_conf
       "sh -c 'find /etc/apache2/ports.conf -type f -maxdepth 1'" => cmd.call("find-apache2-ports-conf"),
       "sh -c 'find /etc/httpd/conf.d/*.conf -type f -maxdepth 1'" => cmd.call("find-httpd-ssl-conf"),
@@ -441,6 +447,8 @@ class MockLoader
       "crontab -l -u foouser" => cmd.call("crontab-foouser"),
       # crontab display for special time strings
       "crontab -l -u special" => cmd.call("crontab-special"),
+      # crontab exit status check
+      "crontab -l -u testuser" => cmd_exit_1.call,
       # zfs output for dataset tank/tmp
       "/sbin/zfs get -Hp all tank/tmp" => cmd.call("zfs-get-all-tank-tmp"),
       # zfs output for pool tank
@@ -515,16 +523,25 @@ class MockLoader
       "firewall-cmd --get-default-zone" => cmd.call("firewall-cmd--get-default-zone"),
       "firewall-cmd --get-active-zones" => cmd.call("firewall-cmd--get-active-zones"),
       "firewall-cmd --state" => cmd.call("firewall-cmd--state"),
-      "firewall-cmd --zone=public --query-service=ssh" => cmd.call("firewall-cmd--service-enabled-in-zone"),
-      "firewall-cmd --zone=public --query-port=22/udp" => cmd.call("firewall-cmd-has-port-enabled-in-zone"),
-      "firewall-cmd --zone=public --query-rich-rule='rule family=ipv4 source address=192.168.0.14 accept'" => cmd.call("firewall-cmd-has-rule-enabled"),
-      "firewall-cmd --zone=public --service=ssh --get-ports --permanent" => cmd.call("firewall-cmd-service-ports-enabled-in-zone"),
-      "firewall-cmd --zone=public --service=ssh --get-protocols --permanent" => cmd.call("firewall-cmd-service-protocols-enabled-in-zone"),
-      "firewall-cmd --zone=public --list-services" => cmd.call("firewall-cmd-services-bound"),
-      "firewall-cmd --zone=default --list-services" => cmd.call("firewall-cmd-services-bound"),
-      "firewall-cmd --zone=public --list-sources" => cmd.call("firewall-cmd-sources-bound"),
-      "firewall-cmd --zone=default --list-sources" => cmd.call("firewall-cmd-sources-bound"),
-      "firewall-cmd --zone=public --query-rich-rule=rule family=ipv4 source address=192.168.0.14 accept" => cmd.call("firewall-cmd-has-rule-enabled"),
+      "firewall-cmd --permanent --zone=public --query-service=ssh" => cmd.call("firewall-cmd--service-enabled-in-zone"),
+      "firewall-cmd --permanent --zone=public --query-port=22/udp" => cmd.call("firewall-cmd-has-port-enabled-in-zone"),
+      "firewall-cmd --permanent --zone=public --query-rich-rule='rule family=ipv4 source address=192.168.0.14 accept'" => cmd.call("firewall-cmd-has-rule-enabled"),
+      "firewall-cmd --permanent --zone=public --service=ssh --get-ports" => cmd.call("firewall-cmd-service-ports-enabled-in-zone"),
+      "firewall-cmd --permanent --zone=public --service=ssh --get-protocols" => cmd.call("firewall-cmd-service-protocols-enabled-in-zone"),
+      "firewall-cmd --permanent --zone=public --list-services" => cmd.call("firewall-cmd-services-bound"),
+      "firewall-cmd --permanent --zone=default --list-services" => cmd.call("firewall-cmd-services-bound"),
+      "firewall-cmd --permanent --zone=public --list-sources" => cmd.call("firewall-cmd-sources-bound"),
+      "firewall-cmd --permanent --zone=default --list-sources" => cmd.call("firewall-cmd-sources-bound"),
+      "firewall-cmd --permanent --zone=public --get-target" => cmd.call("firewall-cmd-get-target"),
+      "firewall-cmd --permanent --zone=public --query-icmp-block-inversion" => cmd.call("firewall-cmd-query-icmp-block-inversion"),
+      "firewall-cmd --permanent --zone=public --list-ports" => cmd.call("firewall-cmd-list-ports"),
+      "firewall-cmd --permanent --zone=public --list-protocols" => cmd.call("firewall-cmd-list-protocols"),
+      "firewall-cmd --permanent --zone=public --query-masquerade" => cmd.call("firewall-cmd-query-masquerade"),
+      "firewall-cmd --permanent --zone=public --list-forward-ports" => cmd.call("firewall-cmd-list-forward-ports"),
+      "firewall-cmd --permanent --zone=public --list-source-ports" => cmd.call("firewall-cmd-list-source-ports"),
+      "firewall-cmd --permanent --zone=public --list-icmp-blocks" => cmd.call("firewall-cmd-list-icmp-blocks"),
+      "firewall-cmd --permanent --zone=public --list-rich-rules" => cmd.call("firewall-cmd-list-rich-rules"),
+      "firewall-cmd --permanent --zone=public --query-rich-rule=rule family=ipv4 source address=192.168.0.14 accept" => cmd.call("firewall-cmd-has-rule-enabled"),
       "sh -c 'type \"firewall-cmd\"'" => cmd.call("firewall-cmd"),
       "rpm -qia firewalld" => cmd.call("pkg-info-firewalld"),
       "systemctl is-active sshd --quiet" => empty.call,

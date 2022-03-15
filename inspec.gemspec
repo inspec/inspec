@@ -31,6 +31,9 @@ Gem::Specification.new do |spec|
   spec.add_dependency "cookstyle"
   spec.add_dependency "rake"
 
+  # progress bar streaming reporter plugin support
+  spec.add_dependency "progress_bar", "~> 1.3.3"
+
   # Used for Azure profile until integrated into train
   spec.add_dependency "faraday_middleware", ">= 0.12.2", "< 1.1"
 

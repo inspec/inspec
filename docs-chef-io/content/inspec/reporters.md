@@ -173,6 +173,10 @@ This legacy reporter outputs nonstandard JUnit XML and is provided only for back
 
 This reporter is very condensed and gives you a `.`(pass), `f`(fail), or `*`(skip) character per test and a small summary at the end.
 
+### progress-bar
+
+This reporter outputs real-time progress of a running InSpec profile using a progress bar and prints running control's ID with an indicator of control's status (Passed, failed or skipped).
+
 ### json-rspec
 
 This reporter includes all information from the rspec runner. Unlike the json reporter this includes rspec specific details.

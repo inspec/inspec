@@ -45,15 +45,6 @@ describe "inspec exec" do
     _(stdout).must_include "0 failures"
   end
 
-  it "cleanly fails if mixing incompatible resource and transports" do
-    # TODO: It should be possible to test this more directly.
-    inspec "exec -t aws:// #{profile_path}/incompatible_resource_for_transport.rb"
-
-    _(stderr).must_be_empty
-    _(stdout).must_include "Unsupported resource/backend combination: file / aws. Exiting."
-    assert_exit_code 100, out
-  end
-
   it "can execute the profile" do
     inspec("exec " + complete_profile + " --no-create-lockfile")
 
@@ -68,15 +59,11 @@ describe "inspec exec" do
   it "executes a minimum metadata-only profile" do
     inspec("exec " + File.join(profile_path, "simple-metadata") + " --no-create-lockfile")
 
-    _(stdout).must_equal "
-Profile: yumyum profile
-Version: (not specified)
-Target:  local://
-
-     No tests executed.
-
-Test Summary: 0 successful, 0 failures, 0 skipped
-"
+    _(stdout).must_include "Profile:   yumyum profile"
+    _(stdout).must_include "Version:   (not specified)"
+    _(stdout).must_include "Target:    local://"
+    _(stdout).must_include "No tests executed."
+    _(stdout).must_include "Test Summary: 0 successful, 0 failures, 0 skipped"
     _(stderr).must_equal ""
 
     assert_exit_code 0, out
@@ -124,10 +111,12 @@ Test Summary: 0 successful, 0 failures, 0 skipped
     assert_exit_code 0, out
   end
 
-  it "can execute the profile with a target_id passthrough" do
+  it "shows deprecation warning for --target-id opition ignore the its value." do
+    skip_windows!
     inspec("exec #{complete_profile} --no-create-lockfile --target-id 1d3e399f-4d71-4863-ac54-84d437fbc444")
 
-    _(stdout).must_include "Target ID: 1d3e399f-4d71-4863-ac54-84d437fbc444"
+    _(stdout).must_include "The --target-id option is deprecated in InSpec 5. Its value will be ignored."
+    _(stdout).must_include "Target ID: #{inspec_os_uuid}"
 
     _(stderr).must_equal ""
 
@@ -136,17 +125,11 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 
   it "executes a metadata-only profile" do
     inspec("exec " + File.join(profile_path, "complete-metadata") + " --no-create-lockfile")
-
-    _(stdout).must_equal "
-Profile: title (name)
-Version: 1.2.3
-Target:  local://
-
-     No tests executed.
-
-Test Summary: 0 successful, 0 failures, 0 skipped
-"
-
+    _(stdout).must_include "Profile:   title (name)"
+    _(stdout).must_include "Target:    local://"
+    _(stdout).must_include "Version:   1.2.3"
+    _(stdout).must_include "No tests executed."
+    _(stdout).must_include "Test Summary: 0 successful, 0 failures, 0 skipped\n"
     _(stderr).must_equal ""
 
     assert_exit_code 0, out
@@ -164,7 +147,7 @@ Test Summary: 0 successful, 0 failures, 0 skipped
 
   it "executes a specs-only profile" do
     inspec("exec " + File.join(profile_path, "spec_only") + " --no-create-lockfile")
-    _(stdout).must_include "Target:  local://"
+    _(stdout).must_include "Target:    local://"
     _(stdout).must_include "working"
     _(stdout).must_include "✔  is expected to eq \"working\""
     _(stdout).must_include "skippy\n"
@@ -479,15 +462,28 @@ Test Summary: 0 successful, 0 failures, 0 skipped
   end
 
   describe "with a profile that contains skipped resources" do
-    let(:out) { inspec("exec " + File.join(profile_path, "aws-profile")) }
+    let(:out) { inspec("exec " + File.join(examples_path, "profile-aws")) }
     it "exits with an error" do
-      skip if ENV["NO_AWS"]
-      _(stdout).must_include "Unsupported resource/backend combination: aws_iam_users"
-      _(stdout).must_include "Unsupported resource/backend combination: aws_iam_access_keys"
-      _(stdout).must_include "Unsupported resource/backend combination: aws_s3_bucket"
-      _(stdout).must_include "3 failures"
+      _(stdout).must_include "Skipping profile: 'profile-aws' on unsupported platform"
+      assert_exit_code 101, out
+    end
+  end
 
-      assert_exit_code 100, out
+  # Deprecation tests are called without aws:// and azure:// due to lack of creds
+  # aws-profile and azure-profiles does not have platforms as aws and azure for testing this scenario
+  describe "with a profile that contains deprecated aws resources" do
+    let(:out) { inspec("exec " + File.join(profile_path, "aws-profile")) }
+    it "exits with deprecation error" do
+      _(stdout).must_include "DEPRECATION: AWS resources in core InSpec are deprecated and have been removed in InSpec 5"
+      assert_exit_code 3, out
+    end
+  end
+
+  describe "with a profile that contains deprecated azure resources" do
+    let(:out) { inspec("exec " + File.join(profile_path, "azure-profile")) }
+    it "exits with deprecation error" do
+      _(stdout).must_include "DEPRECATION: Azure resources in core InSpec are deprecated and have been removed in InSpec 5"
+      assert_exit_code 3, out
     end
   end
 
@@ -524,17 +520,12 @@ Test Summary: 0 successful, 0 failures, 0 skipped
   describe "with a profile that inherits core resource into custom reosuce" do
     let(:out) { inspec("exec " + File.join(profile_path, "custom-resource-inheritance") + " --no-create-lockfile") }
     it "executes the custom resoruc without error" do
-      _(stdout).must_equal "
-Profile: InSpec Profile (custom-resource-inheritance)
-Version: 0.1.0
-Target:  local://
-
-  Node Json
-     ✔  name is expected to eq \"hello\"
-     ✔  [\"meta\", \"creator\"] is expected to eq \"John Doe\"
-
-Test Summary: 2 successful, 0 failures, 0 skipped
-"
+      _(stdout).must_include "Profile:   InSpec Profile (custom-resource-inheritance)"
+      _(stdout).must_include "Version:   0.1.0"
+      _(stdout).must_include "local://"
+      _(stdout).must_include "✔  name is expected to eq \"hello\""
+      _(stdout).must_include "✔  [\"meta\", \"creator\"] is expected to eq \"John Doe\""
+      _(stdout).must_include "Test Summary: 2 successful, 0 failures, 0 skipped"
       _(stderr).must_equal ""
       assert_exit_code 0, out
     end
@@ -544,19 +535,13 @@ Test Summary: 2 successful, 0 failures, 0 skipped
     let(:out) { inspec("exec " + example_control + " --no-create-lockfile") }
 
     it "prints the control results, then the anonymous describe block results" do
-      _(stdout).must_match(/Profile: tests from .*test.fixtures.profiles.old-examples.profile.controls.example-tmp.rb/)
-      _(stdout).must_include "
-Version: (not specified)
-Target:  local://
-
-  \xE2\x9C\x94  tmp-1.0: Create / directory
-     \xE2\x9C\x94  File / is expected to be directory
-
-  File /
-     \xE2\x9C\x94  is expected to be directory
-
-Profile Summary: 1 successful control, 0 control failures, 0 controls skipped
-Test Summary: 2 successful, 0 failures, 0 skipped\n"
+      _(stdout).must_include("test.fixtures.profiles.old-examples.profile.controls.example-tmp.rb")
+      _(stdout).must_include "Version:   (not specified)"
+      _(stdout).must_include "Target:    local://"
+      _(stdout).must_include "✔  tmp-1.0: Create / directory"
+      _(stdout).must_include "✔  File / is expected to be directory"
+      _(stdout).must_include "Profile Summary: 1 successful control, 0 control failures, 0 controls skipped"
+      _(stdout).must_include "Test Summary: 2 successful, 0 failures, 0 skipped\n"
     end
   end
 
@@ -993,22 +978,27 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
   describe "when specifying a config file" do
     let(:run_result) { run_inspec_process("exec " + File.join(profile_path, "simple-metadata") + " " + cli_args, json: true, env: env) }
     let(:seen_target_id) { @json["platform"]["target_id"] }
+    let(:platform_uuid) { inspec_os_uuid }
     let(:stderr) { run_result.stderr }
     let(:env) { {} }
 
-    describe "when using the legacy --json-config option" do
+    describe "when using the legacy --json-config" do
       let(:cli_args) { "--json-config " + File.join(config_dir_path, "json-config", "good.json") }
-      it "should see the custom target ID value" do
+      it "should ignore the custom target ID value and override it with platform uuid" do
+        skip_windows!
         _(stderr).must_be_empty # TODO: one day deprecate the --json-config option
-        _(seen_target_id).must_equal "from-config-file"
+        _(seen_target_id).wont_equal "from-config-file"
+        _(seen_target_id).must_equal platform_uuid
       end
     end
 
     describe "when using the --config option to read from a custom file" do
       let(:cli_args) { "--config " + File.join(config_dir_path, "json-config", "good.json") }
-      it "should see the custom target ID value" do
+      it "should override the custom target ID value with platform uuid" do
+        skip_windows!
         _(stderr).must_be_empty
-        _(seen_target_id).must_equal "from-config-file"
+        _(seen_target_id).wont_equal "from-config-file"
+        _(seen_target_id).must_equal platform_uuid
       end
     end
 
@@ -1018,14 +1008,16 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
         let(:cli_args) { "--config -" }
         let(:opts) { { prefix: "cat " + json_path + " | ", json: true, env: env } }
         let(:njopts) { opts.merge(json: false) }
+        let(:platform_uuid) { inspec_os_uuid }
 
         # DO NOT use the `let`-defined run_result through here
         # If you do, it will execute twice, and cause STDIN to read empty on the second time
-        it "exec should see the custom target ID value" do
+        it "exec should override the the custom target ID value if platform uuid is present." do
           result = run_inspec_process( "exec " + File.join(profile_path, "simple-metadata") + " " + cli_args + " ", opts )
 
           _(result.stderr).must_be_empty
-          _(@json["platform"]["target_id"]).must_equal "from-config-file"
+          _(@json["platform"]["target_id"]).wont_equal "from-config-file"
+          _(@json["platform"]["target_id"]).must_equal platform_uuid
         end
 
         it "detect should exit 0" do
@@ -1050,10 +1042,12 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
       # Should read from File.join(config_dir_path, 'fakehome-2', '.inspec', 'config.json')
       let(:env) { { "HOME" => File.join(config_dir_path, "fakehome-2") } }
       let(:cli_args) { "" }
-      it "should see the homedir target ID value" do
+      let(:platform_uuid) { inspec_os_uuid }
+      it "should override override the homedir target ID value with platform uuid" do
+        skip_windows!
         _(stderr).must_be_empty
-
-        _(seen_target_id).must_equal "from-fakehome-config-file"
+        _(seen_target_id).wont_equal "from-fakehome-config-file"
+        _(seen_target_id).must_equal platform_uuid
       end
     end
 
@@ -1094,7 +1088,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
   describe "when specifying the execution target" do
     let(:local_plat) do
       json = run_inspec_process("detect --format json", {}).stdout
-      JSON.parse(json).slice("name", "release")
+      JSON.parse(json).slice("name", "release").merge({ "target_id" => inspec_os_uuid })
     end
     let(:run_result) { run_inspec_process("exec " + File.join(profile_path, "simple-metadata") + " " + cli_args, json: true) }
     let(:seen_platform) { run_result; @json["platform"].select { |k, v| %w{name release target_id}.include? k } }
@@ -1103,6 +1097,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
     describe "when neither target nor backend is specified" do
       let(:cli_args) { "" }
       it "should connect to the local platform" do
+        skip_windows!
         _(seen_platform).must_equal local_plat
       end
     end
@@ -1110,6 +1105,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
     describe "when local:// is specified" do
       let(:cli_args) { " -t local:// " }
       it "should connect to the local platform" do
+        skip_windows!
         _(seen_platform).must_equal local_plat
       end
     end
@@ -1157,8 +1153,8 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
 
     describe "when a target URI with a known credset is used" do
       let(:cli_args) { "--target mock://mycredset" + " --config " + File.join(config_dir_path, "json-config", "mock-credset.json") }
-      it "should connect to the mock platform" do
-        _(seen_platform).must_equal({ "name" => "mock", "release" => "unknown", "target_id" => "from-mock-credset-config-file" })
+      it "should connect to the mock platform and ignore the target_id set in the config file." do
+        _(seen_platform).must_equal({ "name" => "mock", "release" => "unknown", "target_id" => "" })
       end
     end
   end
@@ -1172,9 +1168,10 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
       let(:cloud_profile) { cloud_path + "test-aws" }
       # Use log level FATAL to absorb WARNs from deprecataions and ERRORs from not having credentials set.
       # An actual stacktrace then will appear as sole stderr output
-      let(:args) { "-t aws://fakecreds --log-level fatal " }
-      it "should fail to connect to aws due to lack of creds but not stacktrace" do
-        _(run_result.stderr).must_be_empty
+      let(:args) { "-t aws://" }
+      it "should fail to connect to aws due to lack of creds and stacktrace" do
+        skip unless ENV["AWS_REGION"]
+        _(run_result.stderr).must_include"unable to sign request without credentials set"
       end
     end
 
@@ -1297,6 +1294,15 @@ EOT
 EOT
       _(run_result.stdout).must_include expected
 
+    end
+  end
+
+  describe "when evalutating profiles that reference resource_id" do
+    let(:run_result) { run_inspec_process("exec #{profile}", json: true) }
+    let(:profile) { "#{profile_path}/resource_ids" } # A profile with custom resources and test controls that exercise resource ids
+    it "should evaluate all test controls correctly" do
+      _(run_result.stderr).must_be_empty
+      assert_json_controls_passing
     end
   end
 end

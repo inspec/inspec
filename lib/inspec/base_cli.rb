@@ -131,7 +131,7 @@ module Inspec
       option :insecure, type: :boolean, default: false,
         desc: "Disable SSL verification on select targets"
       option :target_id, type: :string,
-        desc: "Provide a ID which will be included on reports"
+        desc: "Provide a ID which will be included on reports - deprecated"
       option :winrm_shell_type, type: :string, default: "powershell",
         desc: "Specify a shell type for winrm (eg. 'elevated' or 'powershell')"
       option :docker_url, type: :string,
@@ -145,6 +145,8 @@ module Inspec
         desc: "Folder which contains referenced profiles."
       option :vendor_cache, type: :string,
         desc: "Use the given path for caching dependencies. (default: ~/.inspec/cache)"
+      option :auto_install_gems, type: :boolean, default: false,
+        desc: "Auto installs gem dependencies of the profile or resource pack."
     end
 
     def self.supermarket_options
@@ -162,7 +164,7 @@ module Inspec
         desc: "A list of tags names that are part of controls to filter and run controls, or a list of /regexes/ to match against tags names of controls. Ignore all other tests."
       option :reporter, type: :array,
         banner: "one two:/output/file/path",
-        desc: "Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml"
+        desc: "Enable one or more output reporters: cli, documentation, html, progress, progress-bar, json, json-min, json-rspec, junit, yaml"
       option :reporter_message_truncation, type: :string,
         desc: "Number of characters to truncate failure messages and code_desc in report data to (default: no truncation)"
       option :reporter_backtrace_inclusion, type: :boolean,

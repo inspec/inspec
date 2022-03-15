@@ -27,7 +27,7 @@ describe Inspec::Reporters::Json do
 
   describe "#platform" do
     it "confirm platform output" do
-      hash = { name: "mac_os_x", release: "17.2.0" }
+      hash = { name: "mac_os_x", release: "17.2.0", target_id: "" }
       _(report.send(:platform)).must_equal hash
     end
   end
@@ -56,6 +56,7 @@ describe Inspec::Reporters::Json do
         run_time: 0.002058,
         start_time: "2018-01-05 11:43:04 -0500",
         resource_params: "",
+        resource_id: "File /tmp",
       }
       result = report.send(:profile_results, control)
       _(result.first).must_equal hash
@@ -70,6 +71,7 @@ describe Inspec::Reporters::Json do
         run_time: 0.002058,
         start_time: "2018-01-05 11:43:04 -0500",
         resource_params: "",
+        resource_id: "File /tmp",
         resource: "File",
         skip_message: "skipping",
       }

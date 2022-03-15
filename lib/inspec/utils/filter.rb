@@ -114,6 +114,7 @@ module FilterTable
         raise(ArgumentError, "'#{decorate_symbols(raw_field_name)}' is not a recognized criterion - expected one of #{decorate_symbols(list_fields).join(", ")}'") unless field?(raw_field_name)
 
         populate_lazy_field(raw_field_name, desired_value) if is_field_lazy?(raw_field_name)
+        populate_lazy_instance_field(raw_field_name, desired_value) if is_field_lazy_instance?(raw_field_name)
         new_criteria_string += " #{raw_field_name} == #{desired_value.inspect}"
         filtered_raw_data = filter_raw_data(filtered_raw_data, raw_field_name, desired_value)
       end
@@ -188,6 +189,8 @@ module FilterTable
       is_field ||= list_fields.include?(proposed_field.to_sym)
       is_field ||= is_field_lazy?(proposed_field.to_s)
       is_field ||= is_field_lazy?(proposed_field.to_sym)
+      is_field ||= is_field_lazy_instance?(proposed_field.to_s)
+      is_field ||= is_field_lazy_instance?(proposed_field.to_sym)
 
       is_field
     end
@@ -210,10 +213,34 @@ module FilterTable
       mark_lazy_field_populated(field_name)
     end
 
+    def populate_lazy_instance_field(field_name, criterion)
+      return unless is_field_lazy_instance?(field_name)
+      return if field_populated?(field_name)
+
+      raw_data.each do |row|
+        next if row.key?(field_name) # skip row if pre-existing data is present
+
+        lazy_caller = callback_for_lazy_instance_field(field_name)
+        if lazy_caller.is_a?(Proc)
+          lazy_caller.call(row, criterion, resource_instance)
+        elsif lazy_caller.is_a?(Symbol)
+          resource_instance.send(lazy_caller, row, criterion, self)
+        end
+      end
+      mark_lazy_field_populated(field_name)
+    end
+
     def is_field_lazy?(sought_field_name)
       custom_properties_schema.values.any? do |property_struct|
         sought_field_name == property_struct.field_name && \
           property_struct.opts[:lazy]
+      end
+    end
+
+    def is_field_lazy_instance?(sought_field_name)
+      custom_properties_schema.values.any? do |property_struct|
+        sought_field_name == property_struct.field_name && \
+          property_struct.opts[:lazy_instance]
       end
     end
 
@@ -223,6 +250,14 @@ module FilterTable
       custom_properties_schema.values.find do |property_struct|
         property_struct.field_name == field_name
       end.opts[:lazy]
+    end
+
+    def callback_for_lazy_instance_field(field_name)
+      return unless is_field_lazy_instance?(field_name)
+
+      custom_properties_schema.values.find do |property_struct|
+        property_struct.field_name == field_name
+      end.opts[:lazy_instance]
     end
 
     def field_populated?(field_name)
@@ -349,12 +384,18 @@ module FilterTable
       # args of the row struct; also the Struct class will already have provided
       # a setter for each field.
       @custom_properties.values.each do |property_info|
-        next unless property_info.opts[:lazy]
+        next unless property_info.opts[:lazy] || property_info.opts[:lazy_instance]
 
         field_name = property_info.field_name.to_sym
         row_eval_context_type.send(:define_method, field_name) do
           unless filter_table.field_populated?(field_name)
-            filter_table.populate_lazy_field(field_name, NoCriteriaProvided) # No access to criteria here
+            if property_info.opts[:lazy]
+              filter_table.populate_lazy_field(field_name, NoCriteriaProvided)
+            end # No access to criteria here
+            if property_info.opts[:lazy_instance]
+              filter_table.populate_lazy_instance_field(field_name,
+                                                        NoCriteriaProvided)
+            end
             # OK, the underlying raw data has the value in the first row
             # (because we would trigger population only on the first row)
             # We could just return the value, but we need to set it on this Struct in case it is referenced multiple times
@@ -449,7 +490,10 @@ module FilterTable
             result = where(nil)
             if custom_property_struct.opts[:lazy]
               result.populate_lazy_field(custom_property_struct.field_name, filter_criteria_value)
+            elsif custom_property_struct.opts[:lazy_instance]
+              result.populate_lazy_instance_field(custom_property_struct.field_name, filter_criteria_value)
             end
+
             result = where(nil).get_column_values(custom_property_struct.field_name) # TODO: the where(nil). is likely unneeded
             result = result.flatten.uniq.compact if custom_property_struct.opts[:style] == :simple
             result

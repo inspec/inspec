@@ -285,6 +285,8 @@ This subcommand has the following additional options:
 
 * ``--attrs=one two three``
     Legacy name for --input-file - deprecated.
+* ``--auto-install-gems``
+    Auto installs gem dependencies of the profile or resource pack.
 * ``-b``, ``--backend=BACKEND``
     Choose a backend: local, ssh, winrm, docker.
 * ``--backend-cache``, ``--no-backend-cache``
@@ -342,7 +344,7 @@ This subcommand has the following additional options:
 * ``--proxy-command=PROXY_COMMAND``
     Specifies the command to use to connect to the server.
 * ``--reporter=one two:/output/file/path``
-    Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit, yaml.
+    Enable one or more output reporters: cli, documentation, html, progress, progress-bar, json, json-min, json-rspec, junit, yaml.
 * ``--reporter-backtrace-inclusion``, ``--no-reporter-backtrace-inclusion``
     Include a code backtrace in report data (default: true).
 * ``--reporter-include-source``
@@ -378,7 +380,7 @@ This subcommand has the following additional options:
 * ``-t``, ``--target=TARGET``
     Simple targeting option using URIs, e.g. ssh://user:pass@host:port.
 * ``--target-id=TARGET_ID``
-    Provide a ID which will be included on reports.
+    Provide a ID which will be included on reports - deprecated.
 * ``--tags=one two three``
     A list of tags or a list of regular expressions that match tags. `exec` will run controls referenced by the listed or matching tags.
 * ``--user=USER``

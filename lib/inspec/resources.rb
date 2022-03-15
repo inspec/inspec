@@ -8,21 +8,6 @@
 # glob so this remains a sort of manifest for our resources.
 
 require "inspec/resource"
-
-# Detect if we are running the stripped-down inspec-core
-# This relies on AWS being stripped from the inspec-core gem
-inspec_core_only = ENV["NO_AWS"] || !File.exist?(File.join(File.dirname(__FILE__), "..", "resource_support", "aws.rb"))
-
-# Do not attempt to load cloud resources if we are in inspec-core mode
-unless inspec_core_only
-  require "resource_support/aws"
-  require "resources/azure/azure_backend"
-  require "resources/azure/azure_generic_resource"
-  require "resources/azure/azure_resource_group"
-  require "resources/azure/azure_virtual_machine"
-  require "resources/azure/azure_virtual_machine_data_disk"
-end
-
 require "inspec/resources/aide_conf"
 require "inspec/resources/apache"
 require "inspec/resources/apache_conf"
@@ -41,6 +26,7 @@ require "inspec/resources/cassandradb_session"
 require "inspec/resources/cassandradb_conf"
 require "inspec/resources/cassandra"
 require "inspec/resources/crontab"
+require "inspec/resources/cron"
 require "inspec/resources/timezone"
 require "inspec/resources/dh_params"
 require "inspec/resources/directory"
@@ -138,7 +124,8 @@ require "inspec/resources/xinetd_conf"
 require "inspec/resources/yum"
 require "inspec/resources/zfs_dataset"
 require "inspec/resources/zfs_pool"
-
+require "inspec/resources/ipnat"
+require "inspec/resources/ipfilter"
 # file formats, depend on json implementation
 require "inspec/resources/json"
 require "inspec/resources/yaml"

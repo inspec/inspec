@@ -105,6 +105,10 @@ The entry point is the file that will be `require`d at load time (*not* activati
 require_relative 'inspec-my-plugin/plugin'
 ```
 
+### Types of plugins
+
+Types of plugins that are handled within the loader logic are `bundle`, `core`, `user_gem` or `system_gem`.
+
 ### Plugin Definition File
 
 The plugin definition file uses the plugin DSL to declare a small amount of metadata, followed by as many activation hooks as your plugin needs.
@@ -423,6 +427,7 @@ The `run_data` object contains all data from the Chef InSpec run. Here is an ove
 |`run_data.profiles[0].controls[0].results[0].resource`| Undocumented and usually unpopulated; try exploring resource_title |
 |`run_data.profiles[0].controls[0].results[0].resource_name`| String, name of the resource used in the test|
 |`run_data.profiles[0].controls[0].results[0].resource_title`| Anonymous Class, the actual instance of the Resource. Responds to to_s with the name of the resource.|
+|`run_data.profiles[0].controls[0].results[0].resource_title.resource_id`| String, unique identifier of each resource node.|
 |`run_data.profiles[0].controls[0].results[0].run_time`| Float, execution time in seconds for the test|
 |`run_data.profiles[0].controls[0].results[0].skip_message`| String, if the test was skipped, explains why (user provided)|
 |`run_data.profiles[0].controls[0].results[0].start_time`| DateTime, time the test started executing|

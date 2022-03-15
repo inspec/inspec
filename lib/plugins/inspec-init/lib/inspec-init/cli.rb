@@ -10,6 +10,7 @@ module InspecPlugins
 
       require_relative "cli_profile"
       require_relative "cli_plugin"
+      require_relative "cli_resource"
     end
   end
 end

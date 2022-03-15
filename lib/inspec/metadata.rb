@@ -41,6 +41,7 @@ module Inspec
       description
       version
       inspec_version
+      entitlement_id
     }.each do |name|
       define_method name.to_sym do |arg|
         params[name.to_sym] = arg
@@ -49,6 +50,10 @@ module Inspec
 
     def dependencies
       params[:depends] || []
+    end
+
+    def gem_dependencies
+      params[:gem_dependencies] || []
     end
 
     def supports(sth, version = nil)
@@ -94,6 +99,10 @@ module Inspec
         errors.push("Version needs to be in SemVer format")
       end
 
+      if params[:entitlement_id] && params[:entitlement_id].strip.empty?
+        errors.push("Entitlement ID should not be blank.")
+      end
+
       unless supports_runtime?
         warnings.push("The current inspec version #{Inspec::VERSION} cannot satisfy profile inspec_version constraint #{params[:inspec_version]}")
       end
@@ -107,6 +116,33 @@ module Inspec
       # if license is set, ensure it is in SPDX format or marked as proprietary
       if !params[:license].nil? && !valid_license?(params[:license])
         warnings.push("License '#{params[:license]}' needs to be in SPDX format or marked as 'Proprietary'. See https://spdx.org/licenses/.")
+      end
+
+      # If gem_dependencies is set, it must be an array of hashes with keys name and optional version
+      unless params[:gem_dependencies].nil?
+        list = params[:gem_dependencies]
+        if list.is_a?(Array) && list.all? { |e| e.is_a? Hash }
+          list.each do |entry|
+            errors.push("gem_dependencies entries must all have a 'name' field") unless entry.key?(:name)
+            if entry[:version]
+              orig = entry[:version]
+              begin
+                # Split on commas as we may have a complex dep
+                orig.split(",").map { |c| Gem::Requirement.parse(c) }
+              rescue Gem::Requirement::BadRequirementError
+                errors.push "Unparseable gem dependency '#{orig}' for #{entry[:name]}"
+              rescue Inspec::GemDependencyInstallError => e
+                errors.push e.message
+              end
+            end
+            extra = (entry.keys - %i{name version})
+            unless extra.empty?
+              warnings.push "Unknown gem_dependencies key(s) #{extra.join(",")} seen for entry '#{entry[:name]}'"
+            end
+          end
+        else
+          errors.push("gem_dependencies must be a List of Hashes")
+        end
       end
 
       [errors, warnings]
