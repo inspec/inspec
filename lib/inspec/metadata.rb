@@ -1,3 +1,4 @@
+name 'inspec'
 # Copyright 2015 Dominik Richter
 
 require "logger"
