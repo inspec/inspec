@@ -28,10 +28,6 @@ An   `lxc` Chef InSpec audit resource allows testing if the container exists or 
       it { should be_running }
     end
 
-where
-
-- `exist` and `be_running` are matchers of this resource.
-
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](https://docs.chef.io/inspec/matchers/).
