@@ -67,11 +67,11 @@ Output cli to screen.
 
 ```json
 {
-    "reporter": {
-        "cli" : {
-            "stdout" : true
-        }
+  "reporter": {
+    "cli": {
+      "stdout": true
     }
+  }
 }
 ```
 
@@ -79,24 +79,25 @@ Output cli to screen and write json to a file.
 
 ```json
 {
-    "reporter": {
-        "cli" : {
-            "stdout" : true
-        },
-        "json" : {
-            "file" : "/tmp/output.json",
-            "stdout" : false
-        }
+  "reporter": {
+    "cli": {
+      "stdout": true
+    },
+    "json": {
+      "file": "/tmp/output.json",
+      "stdout": false
     }
+  }
 }
 ```
+
 ## Reporter Options
 
 The following are CLI options that may be used to modify reporter behavior. Many of these options allow you to limit the size of the report, because some reporters (such as the json-automate reporter) have a limit on the total size of the report that can be processed.
 
 `--diff`, `--no-diff`
 
-: Include a `diff` comparison of textual differences in failed test output (default: `true`).
+: Include a `diff` comparison of textual differences in failed test output (default: `false`).
 
 : Use `--no-diff` to limit the size of the report output when tests contain large amounts of text output.
 
@@ -136,15 +137,15 @@ For example:
 
 ```json
 {
-    "reporter": {
-      "json": {
-        "stdout": true,
-        "passthrough": {
-          "a": 1,
-          "b": false
-        }
+  "reporter": {
+    "json": {
+      "stdout": true,
+      "passthrough": {
+        "a": 1,
+        "b": false
       }
     }
+  }
 }
 ```
 
@@ -193,8 +194,8 @@ For example:
   "version": "1.2",
   "plugins": {
     "inspec-reporter-html2": {
-      "alternate_js_file":"/var/www/js/my-javascript.js",
-      "alternate_css_file":"/var/www/css/my-style.css"
+      "alternate_js_file": "/var/www/js/my-javascript.js",
+      "alternate_css_file": "/var/www/css/my-style.css"
     }
   }
 }
@@ -216,16 +217,16 @@ Example config:
 
 ```json
 {
-    "reporter": {
-        "automate" : {
-            "stdout" : false,
-            "url" : "https://YOUR_A2_URL/data-collector/v0/",
-            "token" : "YOUR_A2_ADMIN_TOKEN",
-            "insecure" : true,
-            "node_name" : "inspec_test_node",
-            "environment" : "prod"
-        }
+  "reporter": {
+    "automate": {
+      "stdout": false,
+      "url": "https://YOUR_A2_URL/data-collector/v0/",
+      "token": "YOUR_A2_ADMIN_TOKEN",
+      "insecure": true,
+      "node_name": "inspec_test_node",
+      "environment": "prod"
     }
+  }
 }
 ```
 
@@ -268,7 +269,7 @@ This will set the environment metadata for Automate.
 
 The `json-automate` reporter is a special reporter that prepares the data format used by the Automate reporter. `json-automate` does not communicate on the network; rather it simply produces the JSON report format that Automate would be consuming. Notably, the report is based on the `json` reporter, with the following modifications:
 
- * Controls that appear in child profiles are de-duplicated by ID, merging up into the parent profile.
- * Child profiles are deleted, flattening the report.
+- Controls that appear in child profiles are de-duplicated by ID, merging up into the parent profile.
+- Child profiles are deleted, flattening the report.
 
 The `json-automate` reporter is primarily used for internal needs, but some users may find it useful if they want a JSON based reporter that merges controls.
