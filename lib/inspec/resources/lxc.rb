@@ -15,10 +15,8 @@ module Inspec::Resources
     # Resource initialization.
     def initialize(container_name)
       @container_name = container_name
-      return if  inspec.os.linux?
 
-      @container_info = []
-      skip_resource "The `lxc` resource is not supported on your OS yet."
+      raise Inspec::Exceptions::ResourceSkipped, "The `lxc` resource is not supported on your OS yet." unless inspec.os.linux?
     end
 
     def resource_id
@@ -30,16 +28,12 @@ module Inspec::Resources
     end
 
     def exists?
-      return false if defined?(@container_info)
-
       lxc_info_cmd.exit_status.to_i == 0
     end
 
     def running?
-      return false if defined?(@container_info)
-
-      @container_info = lxc_info_cmd.stdout.split(":").map(&:strip)
-      @container_info[0] == "Status" && @container_info[1] == "Running"
+      container_info = lxc_info_cmd.stdout.split(":").map(&:strip)
+      container_info[0] == "Status" && container_info[1] == "Running"
     end
 
     private
