@@ -1,10 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.7.8 -->
-## [v5.7.8](https://github.com/inspec/inspec/tree/v5.7.8) (2022-03-11)
+<!-- latest_release 5.7.9 -->
+## [v5.7.9](https://github.com/inspec/inspec/tree/v5.7.9) (2022-03-16)
 
 #### Merged Pull Requests
-- RESOURCE-312 extend filter table to lazy loading for resource instances [#5916](https://github.com/inspec/inspec/pull/5916) ([sathish-progress](https://github.com/sathish-progress))
+- Update copyright year in README [#5928](https://github.com/inspec/inspec/pull/5928) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.52.9 -->
@@ -17,6 +17,7 @@
 - Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
 
 #### Merged Pull Requests
+- Update copyright year in README [#5928](https://github.com/inspec/inspec/pull/5928) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.7.9 -->
 - RESOURCE-312 extend filter table to lazy loading for resource instances [#5916](https://github.com/inspec/inspec/pull/5916) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.7.8 -->
 - CFINSPEC-137: Deprecate --target-id option [#5918](https://github.com/inspec/inspec/pull/5918) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.7.7 -->
 - Fix test failure for plugin due to ambiguity in method name [#5920](https://github.com/inspec/inspec/pull/5920) ([ahasunos](https://github.com/ahasunos)) <!-- 5.7.6 -->
