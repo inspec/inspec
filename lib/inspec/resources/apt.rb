@@ -135,19 +135,25 @@ module Inspec::Resources
 
   class PpaRepository < AptRepository
     name "ppa"
+    desc "Use the ppa InSpec audit resource to verify PPA repositories on the Debian-based linux platforms."
+    example <<~EXAMPLE
+      describe ppa('ubuntu-wine/ppa') do
+        it { should exist }
+        it { should be_enabled }
+      end
+    
+      describe ppa('ppa:ubuntu-wine/ppa') do
+        it { should exist }
+        it { should be_enabled }
+      end
+    EXAMPLE
 
     def exists?
-      deprecated
       super()
     end
 
     def enabled?
-      deprecated
       super()
-    end
-
-    def deprecated
-      Inspec.deprecate(:resource_ppa, "The `ppa` resource is deprecated. Please use `apt`")
     end
   end
 end
