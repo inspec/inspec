@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 5.7.10 -->
+## [v5.7.10](https://github.com/inspec/inspec/tree/v5.7.10) (2022-03-17)
+
+#### Merged Pull Requests
+- Update docs makefile [#5927](https://github.com/inspec/inspec/pull/5927) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=5.7.9 -->
+### Changes since 5.7.9 release
+
+#### Merged Pull Requests
+- Update docs makefile [#5927](https://github.com/inspec/inspec/pull/5927) ([IanMadd](https://github.com/IanMadd)) <!-- 5.7.10 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
