@@ -1,91 +1,89 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.7.9 -->
-## [v5.7.9](https://github.com/inspec/inspec/tree/v5.7.9) (2022-03-16)
-
-#### Merged Pull Requests
-- Update copyright year in README [#5928](https://github.com/inspec/inspec/pull/5928) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.52.9 -->
-### Changes since 4.52.9 release
-
-#### New Features
-- CFINSPEC-3 Added kernel_parameters resource [#5782](https://github.com/inspec/inspec/pull/5782) ([Nik08](https://github.com/Nik08)) <!-- 4.56.0 -->
-- Adds user_permissions property and be_inherited matcher to the file resource for Windows. [#5775](https://github.com/inspec/inspec/pull/5775) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.55.0 -->
-- Adds user_permissions property and be_inherited matcher to the registry_key resource [#5778](https://github.com/inspec/inspec/pull/5778) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.54.0 -->
-- Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08)) <!-- 4.53.0 -->
-
-#### Merged Pull Requests
-- Update copyright year in README [#5928](https://github.com/inspec/inspec/pull/5928) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.7.9 -->
-- RESOURCE-312 extend filter table to lazy loading for resource instances [#5916](https://github.com/inspec/inspec/pull/5916) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.7.8 -->
-- CFINSPEC-137: Deprecate --target-id option [#5918](https://github.com/inspec/inspec/pull/5918) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.7.7 -->
-- Fix test failure for plugin due to ambiguity in method name [#5920](https://github.com/inspec/inspec/pull/5920) ([ahasunos](https://github.com/ahasunos)) <!-- 5.7.6 -->
-- Firewalld update -- exposed more fields, updated docs, added custom matchers [#5597](https://github.com/inspec/inspec/pull/5597) ([wdower](https://github.com/wdower)) <!-- 5.7.5 -->
-- CFINSPEC-129 Removed cloud resources ( AWS &amp; Azure ) from inspec-core [#5915](https://github.com/inspec/inspec/pull/5915) ([Nik08](https://github.com/Nik08)) <!-- 5.7.4 -->
-- [W.I.P] CFINSPEC-68 Adds target_id in the reporter. [#5895](https://github.com/inspec/inspec/pull/5895) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.7.3 -->
-- CFINSPEC-128 : Create a resource generator [#5913](https://github.com/inspec/inspec/pull/5913) ([ahasunos](https://github.com/ahasunos)) <!-- 5.7.2 -->
-- CFINSPEC-26: Adds entitlement_id field in metadata file [#5914](https://github.com/inspec/inspec/pull/5914) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.7.1 -->
-- CFINSPEC-74 Adds the cron resource. [#5891](https://github.com/inspec/inspec/pull/5891) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.7.0 -->
-- Fix failing test for ibmdb2_session resource. [#5909](https://github.com/inspec/inspec/pull/5909) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.6.1 -->
-- CFINSPEC-13:  Adds support for specifying gem dependencies in the metadata file of InSpec Profile. [#5871](https://github.com/inspec/inspec/pull/5871) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.6.0 -->
-- Bump omnibus from `55e74ac` to `124d596` in /omnibus [#5847](https://github.com/inspec/inspec/pull/5847) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.5.3 -->
-- Enable habitat builds [#5912](https://github.com/inspec/inspec/pull/5912) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.5.2 -->
-- Bump omnibus-software from `a4f4849` to `5947560` in /omnibus [#5911](https://github.com/inspec/inspec/pull/5911) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.5.1 -->
-- CFINSPEC-10 Added Progress Bar streaming reporter plugin [#5863](https://github.com/inspec/inspec/pull/5863) ([Nik08](https://github.com/Nik08)) <!-- 5.5.0 -->
-- CFINSPEC-70 resource_id support take 3 [#5903](https://github.com/inspec/inspec/pull/5903) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.4.4 -->
-- Disable habitat build and artifact pipeline defs, too [#5906](https://github.com/inspec/inspec/pull/5906) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.4.3 -->
-- Temporarily disable habitat builds to unbreak the pipeline [#5904](https://github.com/inspec/inspec/pull/5904) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.4.2 -->
-- CFINSPEC-70 Revert - Added resource_id attribute for the custom resources in the base class [#5901](https://github.com/inspec/inspec/pull/5901) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.4.1 -->
-- CFINSPEC-66 : Add Ipfilter resource [#5880](https://github.com/inspec/inspec/pull/5880) ([ahasunos](https://github.com/ahasunos)) <!-- 5.4.0 -->
-- CFINSPEC-77 : Add Ipnat resource [#5883](https://github.com/inspec/inspec/pull/5883) ([ahasunos](https://github.com/ahasunos)) <!-- 5.3.0 -->
-- CFINSPEC-70 Added resource_id attribute for the custom resources in the base class [#5875](https://github.com/inspec/inspec/pull/5875) ([Nik08](https://github.com/Nik08)) <!-- 5.2.0 -->
-- Disable resource integration tests [#5898](https://github.com/inspec/inspec/pull/5898) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.1.6 -->
-- CFINSPEC-123 Automate version command fix [#5893](https://github.com/inspec/inspec/pull/5893) ([Nik08](https://github.com/Nik08)) <!-- 5.1.5 -->
-- CFINSPEC-125 Cassandra unit test fix for windows [#5894](https://github.com/inspec/inspec/pull/5894) ([Nik08](https://github.com/Nik08)) <!-- 5.1.4 -->
-- Pin openssl to 1.1.1m [#5851](https://github.com/inspec/inspec/pull/5851) ([jayashrig158](https://github.com/jayashrig158)) <!-- 5.1.3 -->
-- CFINSPEC-39 Set sonarscanner options using properties file [#5872](https://github.com/inspec/inspec/pull/5872) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.1.3 -->
-- No diff fix [#5884](https://github.com/inspec/inspec/pull/5884) ([wdower](https://github.com/wdower)) <!-- 5.1.2 -->
-- Delete resource docs from inspec/inspec [#5868](https://github.com/inspec/inspec/pull/5868) ([IanMadd](https://github.com/IanMadd)) <!-- 5.1.1 -->
-- CFINSPEC-2 Added options to allow winrm SSL connection with certificates  [#5793](https://github.com/inspec/inspec/pull/5793) ([Nik08](https://github.com/Nik08)) <!-- 5.1.0 -->
-- Descriptions for all the schema attributes [#5790](https://github.com/inspec/inspec/pull/5790) ([Amndeep7](https://github.com/Amndeep7)) <!-- 5.0.6 -->
-- CFINSPEC-45: Update rspec version to 3.11 [#5837](https://github.com/inspec/inspec/pull/5837) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.0.5 -->
-- Always expire the git cache when running omnibus jobs [#5865](https://github.com/inspec/inspec/pull/5865) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.0.4 -->
-- CFINSPEC-38: Fix test failing after release branch update. [#5862](https://github.com/inspec/inspec/pull/5862) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.0.3 -->
-- Make sure verify pipeline is marked public [#5858](https://github.com/inspec/inspec/pull/5858) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.0.2 -->
-- Add sonarscanner [#5856](https://github.com/inspec/inspec/pull/5856) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.0.1 -->
-- Update README to update ruby version support. [#5855](https://github.com/inspec/inspec/pull/5855) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.0.0 -->
-- CFINSPEC-17 Ruby 3 support [#5822](https://github.com/inspec/inspec/pull/5822) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.10 -->
-- Fix The Broken Links [#5840](https://github.com/inspec/inspec/pull/5840) ([dishanktiwari2501](https://github.com/dishanktiwari2501)) <!-- 4.56.9 -->
-- Bump omnibus-software from `c7a43ec` to `a4f4849` in /omnibus [#5849](https://github.com/inspec/inspec/pull/5849) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.8 -->
-- Resolve bugs detected on SonarCloud [#5845](https://github.com/inspec/inspec/pull/5845) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.7 -->
-- CFINSPEC-43 Init plugin functionality extended for streaming_reporter [#5836](https://github.com/inspec/inspec/pull/5836) ([Nik08](https://github.com/Nik08)) <!-- 4.56.6 -->
-- CFINSPEC-38 Adds label in expeditor configuration file for major version bump [#5839](https://github.com/inspec/inspec/pull/5839) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.5 -->
-- CFINSPEC-38 Adds new release branch for InSpec 5 release. [#5835](https://github.com/inspec/inspec/pull/5835) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.4 -->
-- Bump omnibus from `2bf77bb` to `55e74ac` in /omnibus [#5813](https://github.com/inspec/inspec/pull/5813) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.3 -->
-- Bump omnibus-software from `b646bed` to `c7a43ec` in /omnibus [#5824](https://github.com/inspec/inspec/pull/5824) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.2 -->
-- CFINSPEC-30 Fix sestatus command not found error on Amazon Linux 2 [#5828](https://github.com/inspec/inspec/pull/5828) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.1 -->
-- [WIP] Setting up test coverage reporting [#5823](https://github.com/inspec/inspec/pull/5823) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.55.10 -->
-- CFINSPEC-15 Allows inheritance of core resource into the custom resource. [#5816](https://github.com/inspec/inspec/pull/5816) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.55.9 -->
-- CFINSPEC-5 Added more detailed description about waivers expiration date. [#5806](https://github.com/inspec/inspec/pull/5806) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.55.8 -->
-- CFINSPEC-4 Fix in grub_conf resource to capture non indented grub conf values [#5810](https://github.com/inspec/inspec/pull/5810) ([Nik08](https://github.com/Nik08)) <!-- 4.55.7 -->
-- Bump ffi from 1.15.4 to 1.15.5 in /omnibus [#5791](https://github.com/inspec/inspec/pull/5791) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.55.6 -->
-- Bump omnibus-software from `c2fb9a4` to `b646bed` in /omnibus [#5808](https://github.com/inspec/inspec/pull/5808) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.55.5 -->
-- IP Table resource: Added option to ignore rule comments [#5777](https://github.com/inspec/inspec/pull/5777) ([Nik08](https://github.com/Nik08)) <!-- 4.55.4 -->
-- Fix for dependent profiles to run with --insecure [#5799](https://github.com/inspec/inspec/pull/5799) ([Nik08](https://github.com/Nik08)) <!-- 4.55.3 -->
-- Bump omnibus-software from `94ef29b` to `c2fb9a4` in /omnibus [#5804](https://github.com/inspec/inspec/pull/5804) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.55.2 -->
-- Latest package version fetching regex fix - Package resource [#5797](https://github.com/inspec/inspec/pull/5797) ([Nik08](https://github.com/Nik08)) <!-- 4.55.1 -->
-- Check for latest - package resource [#5771](https://github.com/inspec/inspec/pull/5771) ([Nik08](https://github.com/Nik08)) <!-- 4.52.17 -->
-- Mssql session fix : Parsing multiline results [#5776](https://github.com/inspec/inspec/pull/5776) ([Nik08](https://github.com/Nik08)) <!-- 4.52.16 -->
-- Fix broken link in README. Obvious fix. [#5772](https://github.com/inspec/inspec/pull/5772) ([guyzyl](https://github.com/guyzyl)) <!-- 4.52.15 -->
-- Fix downloads links [#5773](https://github.com/inspec/inspec/pull/5773) ([IanMadd](https://github.com/IanMadd)) <!-- 4.52.14 -->
-- Remove support for EOL Ruby 2.5 [#5783](https://github.com/inspec/inspec/pull/5783) ([tas50](https://github.com/tas50)) <!-- 4.52.13 -->
-- Bump omnibus-software from `d2525ab` to `94ef29b` in /omnibus [#5788](https://github.com/inspec/inspec/pull/5788) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.52.12 -->
-- Adds esx platform support for bash resource [#5785](https://github.com/inspec/inspec/pull/5785) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.52.11 -->
-- Bump Hugo to 0.91.2 [#5780](https://github.com/inspec/inspec/pull/5780) ([IanMadd](https://github.com/IanMadd)) <!-- 4.52.10 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v5.7.9](https://github.com/inspec/inspec/tree/v5.7.9) (2022-03-17)
+
+#### New Features
+- Added Timezone Resource [#5758](https://github.com/inspec/inspec/pull/5758) ([Nik08](https://github.com/Nik08))
+- Adds user_permissions property and be_inherited matcher to the registry_key resource [#5778](https://github.com/inspec/inspec/pull/5778) ([Vasu1105](https://github.com/Vasu1105))
+- Adds user_permissions property and be_inherited matcher to the file resource for Windows. [#5775](https://github.com/inspec/inspec/pull/5775) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-3 Added kernel_parameters resource [#5782](https://github.com/inspec/inspec/pull/5782) ([Nik08](https://github.com/Nik08))
+
+#### Merged Pull Requests
+- Bump Hugo to 0.91.2 [#5780](https://github.com/inspec/inspec/pull/5780) ([IanMadd](https://github.com/IanMadd))
+- Adds esx platform support for bash resource [#5785](https://github.com/inspec/inspec/pull/5785) ([Vasu1105](https://github.com/Vasu1105))
+- Bump omnibus-software from `d2525ab` to `94ef29b` in /omnibus [#5788](https://github.com/inspec/inspec/pull/5788) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Remove support for EOL Ruby 2.5 [#5783](https://github.com/inspec/inspec/pull/5783) ([tas50](https://github.com/tas50))
+- Fix downloads links [#5773](https://github.com/inspec/inspec/pull/5773) ([IanMadd](https://github.com/IanMadd))
+- Fix broken link in README. Obvious fix. [#5772](https://github.com/inspec/inspec/pull/5772) ([guyzyl](https://github.com/guyzyl))
+- Mssql session fix : Parsing multiline results [#5776](https://github.com/inspec/inspec/pull/5776) ([Nik08](https://github.com/Nik08))
+- Check for latest - package resource [#5771](https://github.com/inspec/inspec/pull/5771) ([Nik08](https://github.com/Nik08))
+- Latest package version fetching regex fix - Package resource [#5797](https://github.com/inspec/inspec/pull/5797) ([Nik08](https://github.com/Nik08))
+- Bump omnibus-software from `94ef29b` to `c2fb9a4` in /omnibus [#5804](https://github.com/inspec/inspec/pull/5804) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Fix for dependent profiles to run with --insecure [#5799](https://github.com/inspec/inspec/pull/5799) ([Nik08](https://github.com/Nik08))
+- IP Table resource: Added option to ignore rule comments [#5777](https://github.com/inspec/inspec/pull/5777) ([Nik08](https://github.com/Nik08))
+- Bump omnibus-software from `c2fb9a4` to `b646bed` in /omnibus [#5808](https://github.com/inspec/inspec/pull/5808) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump ffi from 1.15.4 to 1.15.5 in /omnibus [#5791](https://github.com/inspec/inspec/pull/5791) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- CFINSPEC-4 Fix in grub_conf resource to capture non indented grub conf values [#5810](https://github.com/inspec/inspec/pull/5810) ([Nik08](https://github.com/Nik08))
+- CFINSPEC-5 Added more detailed description about waivers expiration date. [#5806](https://github.com/inspec/inspec/pull/5806) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-15 Allows inheritance of core resource into the custom resource. [#5816](https://github.com/inspec/inspec/pull/5816) ([Vasu1105](https://github.com/Vasu1105))
+- [WIP] Setting up test coverage reporting [#5823](https://github.com/inspec/inspec/pull/5823) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- CFINSPEC-30 Fix sestatus command not found error on Amazon Linux 2 [#5828](https://github.com/inspec/inspec/pull/5828) ([Vasu1105](https://github.com/Vasu1105))
+- Bump omnibus-software from `b646bed` to `c7a43ec` in /omnibus [#5824](https://github.com/inspec/inspec/pull/5824) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump omnibus from `2bf77bb` to `55e74ac` in /omnibus [#5813](https://github.com/inspec/inspec/pull/5813) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- CFINSPEC-38 Adds new release branch for InSpec 5 release. [#5835](https://github.com/inspec/inspec/pull/5835) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-38 Adds label in expeditor configuration file for major version bump [#5839](https://github.com/inspec/inspec/pull/5839) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-43 Init plugin functionality extended for streaming_reporter [#5836](https://github.com/inspec/inspec/pull/5836) ([Nik08](https://github.com/Nik08))
+- Resolve bugs detected on SonarCloud [#5845](https://github.com/inspec/inspec/pull/5845) ([ahasunos](https://github.com/ahasunos))
+- Bump omnibus-software from `c7a43ec` to `a4f4849` in /omnibus [#5849](https://github.com/inspec/inspec/pull/5849) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Fix The Broken Links [#5840](https://github.com/inspec/inspec/pull/5840) ([dishanktiwari2501](https://github.com/dishanktiwari2501))
+- CFINSPEC-17 Ruby 3 support [#5822](https://github.com/inspec/inspec/pull/5822) ([Vasu1105](https://github.com/Vasu1105))
+- Update README to update ruby version support. [#5855](https://github.com/inspec/inspec/pull/5855) ([Vasu1105](https://github.com/Vasu1105))
+- Add sonarscanner [#5856](https://github.com/inspec/inspec/pull/5856) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Make sure verify pipeline is marked public [#5858](https://github.com/inspec/inspec/pull/5858) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- CFINSPEC-38: Fix test failing after release branch update. [#5862](https://github.com/inspec/inspec/pull/5862) ([Vasu1105](https://github.com/Vasu1105))
+- Always expire the git cache when running omnibus jobs [#5865](https://github.com/inspec/inspec/pull/5865) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- CFINSPEC-45: Update rspec version to 3.11 [#5837](https://github.com/inspec/inspec/pull/5837) ([Vasu1105](https://github.com/Vasu1105))
+- Descriptions for all the schema attributes [#5790](https://github.com/inspec/inspec/pull/5790) ([Amndeep7](https://github.com/Amndeep7))
+- CFINSPEC-2 Added options to allow winrm SSL connection with certificates  [#5793](https://github.com/inspec/inspec/pull/5793) ([Nik08](https://github.com/Nik08))
+- Delete resource docs from inspec/inspec [#5868](https://github.com/inspec/inspec/pull/5868) ([IanMadd](https://github.com/IanMadd))
+- No diff fix [#5884](https://github.com/inspec/inspec/pull/5884) ([wdower](https://github.com/wdower))
+- CFINSPEC-39 Set sonarscanner options using properties file [#5872](https://github.com/inspec/inspec/pull/5872) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Pin openssl to 1.1.1m [#5851](https://github.com/inspec/inspec/pull/5851) ([jayashrig158](https://github.com/jayashrig158))
+- CFINSPEC-125 Cassandra unit test fix for windows [#5894](https://github.com/inspec/inspec/pull/5894) ([Nik08](https://github.com/Nik08))
+- CFINSPEC-123 Automate version command fix [#5893](https://github.com/inspec/inspec/pull/5893) ([Nik08](https://github.com/Nik08))
+- Disable resource integration tests [#5898](https://github.com/inspec/inspec/pull/5898) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- CFINSPEC-70 Added resource_id attribute for the custom resources in the base class [#5875](https://github.com/inspec/inspec/pull/5875) ([Nik08](https://github.com/Nik08))
+- CFINSPEC-77 : Add Ipnat resource [#5883](https://github.com/inspec/inspec/pull/5883) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-66 : Add Ipfilter resource [#5880](https://github.com/inspec/inspec/pull/5880) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-70 Revert - Added resource_id attribute for the custom resources in the base class [#5901](https://github.com/inspec/inspec/pull/5901) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Temporarily disable habitat builds to unbreak the pipeline [#5904](https://github.com/inspec/inspec/pull/5904) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Disable habitat build and artifact pipeline defs, too [#5906](https://github.com/inspec/inspec/pull/5906) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- CFINSPEC-70 resource_id support take 3 [#5903](https://github.com/inspec/inspec/pull/5903) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- CFINSPEC-10 Added Progress Bar streaming reporter plugin [#5863](https://github.com/inspec/inspec/pull/5863) ([Nik08](https://github.com/Nik08))
+- Bump omnibus-software from `a4f4849` to `5947560` in /omnibus [#5911](https://github.com/inspec/inspec/pull/5911) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Enable habitat builds [#5912](https://github.com/inspec/inspec/pull/5912) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Bump omnibus from `55e74ac` to `124d596` in /omnibus [#5847](https://github.com/inspec/inspec/pull/5847) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- CFINSPEC-13:  Adds support for specifying gem dependencies in the metadata file of InSpec Profile. [#5871](https://github.com/inspec/inspec/pull/5871) ([Vasu1105](https://github.com/Vasu1105))
+- Fix failing test for ibmdb2_session resource. [#5909](https://github.com/inspec/inspec/pull/5909) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-74 Adds the cron resource. [#5891](https://github.com/inspec/inspec/pull/5891) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-26: Adds entitlement_id field in metadata file [#5914](https://github.com/inspec/inspec/pull/5914) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-128 : Create a resource generator [#5913](https://github.com/inspec/inspec/pull/5913) ([ahasunos](https://github.com/ahasunos))
+- [W.I.P] CFINSPEC-68 Adds target_id in the reporter. [#5895](https://github.com/inspec/inspec/pull/5895) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-129 Removed cloud resources ( AWS &amp; Azure ) from inspec-core [#5915](https://github.com/inspec/inspec/pull/5915) ([Nik08](https://github.com/Nik08))
+- Firewalld update -- exposed more fields, updated docs, added custom matchers [#5597](https://github.com/inspec/inspec/pull/5597) ([wdower](https://github.com/wdower))
+- Fix test failure for plugin due to ambiguity in method name [#5920](https://github.com/inspec/inspec/pull/5920) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-137: Deprecate --target-id option [#5918](https://github.com/inspec/inspec/pull/5918) ([Vasu1105](https://github.com/Vasu1105))
+- RESOURCE-312 extend filter table to lazy loading for resource instances [#5916](https://github.com/inspec/inspec/pull/5916) ([sathish-progress](https://github.com/sathish-progress))
+- Update copyright year in README [#5928](https://github.com/inspec/inspec/pull/5928) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v4.52.9](https://github.com/inspec/inspec/tree/v4.52.9) (2021-12-20)
 
 #### New Features
@@ -118,7 +116,6 @@
 - Active support version fix for ruby versions less then 2.7 [#5770](https://github.com/inspec/inspec/pull/5770) ([Nik08](https://github.com/Nik08))
 - Apply cookstyle to the example profile [#5680](https://github.com/inspec/inspec/pull/5680) ([tas50](https://github.com/tas50))
 - Adds tls1.3 support in ssl resource. [#5762](https://github.com/inspec/inspec/pull/5762) ([Vasu1105](https://github.com/Vasu1105))
-<!-- latest_stable_release -->
 
 ## [v4.50.3](https://github.com/inspec/inspec/tree/v4.50.3) (2021-11-19)
 
