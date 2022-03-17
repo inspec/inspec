@@ -141,7 +141,7 @@ module Inspec::Resources
         it { should exist }
         it { should be_enabled }
       end
-    
+
       describe ppa('ppa:ubuntu-wine/ppa') do
         it { should exist }
         it { should be_enabled }
