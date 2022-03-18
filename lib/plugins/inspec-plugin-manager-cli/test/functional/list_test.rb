@@ -6,22 +6,20 @@ class PluginManagerCliList < Minitest::Test
 
   # Listing all plugins is now default behavior
   LIST_CASES = [
-    { arg: "-c", name: "inspec-plugin-manager-cli", type: "core" },
-    { arg: "-c", name: "inspec-supermarket", type: "core" },
-    { arg: "-s", name: "train-aws", type: "gem (system)" },
+    { arg: "-c", name: "inspec-plugin-manager-cli", type: "core", description: "CLI plugin for InSpec" },
+    { arg: "-c", name: "inspec-supermarket", type: "core", description: "" },
+    { arg: "-s", name: "train-aws", type: "gem (system)", description: "AWS API Transport for Train" },
   ].freeze
 
   def test_list_all_when_no_user_plugins_installed
     result = run_inspec_process_with_this_plugin("plugin list --all")
-    assert_empty result.stderr
-
-    plugins_seen = parse_plugin_list_lines(result.stdout)
-
+    plugins_seen = parse_plugin_list_lines(result.stdout, result.stderr)
     # Look for a specific plugin of each type - core, bundle, and system
     LIST_CASES.each do |test_case|
       plugin_line = plugins_seen.detect { |plugin| plugin[:name] == test_case[:name] }
       refute_nil plugin_line, "#{test_case[:name]} should be detected in plugin list --all output"
       assert_equal test_case[:type], plugin_line[:type], "#{test_case[:name]} should be detected as a '#{test_case[:type]}' type in list --all "
+      assert_equal test_case[:description], plugin_line[:description], "#{test_case[:name]} should have description '#{test_case[:description]}' in list --all "
     end
     assert_exit_code 0, result
   end
@@ -29,12 +27,11 @@ class PluginManagerCliList < Minitest::Test
   def test_list_selective_when_no_user_plugins_installed
     LIST_CASES.each do |test_case|
       result = run_inspec_process_with_this_plugin("plugin list #{test_case[:arg]}")
-
-      assert_empty result.stderr
-      plugins_seen = parse_plugin_list_lines(result.stdout)
+      plugins_seen = parse_plugin_list_lines(result.stdout, result.stderr)
       plugin_line = plugins_seen.detect { |plugin| plugin[:name] == test_case[:name] }
       refute_nil plugin_line, "#{test_case[:name]} should be detected in plugin list #{test_case[:arg]} output"
       assert_equal plugin_line[:type], test_case[:type], "#{test_case[:name]} should be detected as a '#{test_case[:type]}' type in list #{test_case[:arg]} "
+      assert_equal test_case[:description], plugin_line[:description], "#{test_case[:name]} should have description '#{test_case[:description]}' in list --all "
       assert_exit_code 0, result
     end
   end
@@ -48,13 +45,13 @@ class PluginManagerCliList < Minitest::Test
     result = run_inspec_process_with_this_plugin("plugin list --user ", pre_run: pre_block)
 
     assert_empty result.stderr
-    plugins_seen = parse_plugin_list_lines(result.stdout)
+    plugins_seen = parse_plugin_list_lines(result.stdout, result.stderr)
     assert_equal 2, plugins_seen.count
-    # Plugin Name                   Version   Via         ApiVer
-    # ---------------------------------------------------------
+    # Plugin Name                   Version   Via         ApiVer  Description
+    # -----------------------------------------------------------------------------
     #  inspec-meaning-of-life        src       path         2
-    #  inspec-test-fixture           0.1.0     gem (user)   2
-    # ---------------------------------------------------------
+    #  inspec-test-fixture           0.1.0     gem (user)   2      A simple test plugin gem for InSpec
+    # -----------------------------------------------------------------------------
     #  2 plugin(s) total
     meaning = plugins_seen.detect { |p| p[:name] == "inspec-meaning-of-life" }
     refute_nil meaning
@@ -77,14 +74,14 @@ class PluginManagerCliList < Minitest::Test
     result = run_inspec_process_with_this_plugin("plugin list --user ", pre_run: pre_block)
 
     assert_empty result.stderr
-    plugins_seen = parse_plugin_list_lines(result.stdout)
+    plugins_seen = parse_plugin_list_lines(result.stdout, result.stderr)
     assert_equal 1, plugins_seen.count
     assert_includes result.stdout, "1 plugin(s) total", "list train should show one plugins"
 
-    # Plugin Name                   Version   Via        ApiVer
-    # -------------------------------------------------------------
-    #  train-test-fixture            0.1.0    gem (user)  train-1
-    # -------------------------------------------------------------
+    # Plugin Name                   Version   Via        ApiVer     Description
+    # -------------------------------------------------------------------------------
+    #  train-test-fixture            0.1.0    gem (user)  train-1    Test train plugin. Not intended for use as an example
+    # -------------------------------------------------------------------------------
     #  1 plugin(s) total
     train_plugin = plugins_seen.detect { |p| p[:name] == "train-test-fixture" }
     refute_nil train_plugin

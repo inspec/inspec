@@ -35,8 +35,9 @@ module PluginManagerHelpers
     end
   end
 
-  def parse_plugin_list_lines(stdout)
+  def parse_plugin_list_lines(stdout, stderr = "")
     plugins = []
+    plugin_data = {}
 
     stdout.force_encoding("UTF-8").lines.each do |line|
       next if line.strip.empty?
@@ -45,13 +46,31 @@ module PluginManagerHelpers
       next if line.include? "plugin(s) total"
 
       parts = line.split(/│/u).map(&:strip!).compact
-      plugins << {
-        name: parts[0],
-        version: parts[1],
-        type: parts[2],
-        generation: parts[3],
-        raw: line,
-      }
+      if stderr.match(/vertical orientation/)
+        # logic to parse data from vertical view if the ui breaks in existing width
+        if line.match(/Plugin/)
+          plugin_data = {} # reset this again when one row in vertical view is parsed
+          plugin_data[:name] = line.split(" ")[-2]
+        elsif line.match(/Version/)
+          plugin_data[:version] = parts[1]
+        elsif line.match(/Via/)
+          plugin_data[:type] = parts[1]
+        elsif line.match(/ApiVer/)
+          plugin_data[:generation] = parts[1]
+        elsif line.match(/Descrip/)
+          plugin_data[:description] = parts[1]
+          plugins << plugin_data # assuming this will be end of row
+        end
+      else
+        plugins << {
+          name: parts[0],
+          version: parts[1],
+          type: parts[2],
+          generation: parts[3],
+          description: parts[4],
+          raw: line,
+        }
+      end
     end
     plugins
   end
