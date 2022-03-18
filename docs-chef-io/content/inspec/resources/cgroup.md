@@ -11,7 +11,7 @@ platform = "linux"
     parent = "inspec/resources/os"
 +++
 
-Use the `cgroup` Chef InSpec audit resource to test the ...
+Use the `cgroup` Chef InSpec audit resource to test different parameters values of the cgroup resource controllers. A control group (cgroup) is a Linux kernel feature that limits, accounts for, and isolates the resource usage (CPU, memory, disk I/O, network, and so on) of a collection of processes.
 
 
 ## Availability
@@ -22,56 +22,59 @@ This resource is distributed along with Chef InSpec itself. You can use it autom
 
 ## Syntax
 
-A `cgroup` Chef InSpec audit resource ...
+A `cgroup` Chef InSpec audit resource tests different parameters value of the cgroup resource controllers.
 
-    describe cgroup do
-      its('shoe_size') { should cmp 42 }
-      it { should be_purple }
-      it { should have_bells }
+    describe cgroup("carrotking") do
+      its("cupset.cpus") { should eq 0 }
     end
 where
 
-- `'shoe_size'` is some property of this resource
-- `42` is the value to test for shoe size
-- `be_purple` is a matcher of this resource
-- `have_bells` is a matcher of this resource
+- `'cupset.cpus'` is a property of this resource and a parameter of the cpuset resource controller
+- `'carrotking'` is the name of cgroup directory
 
 ## Properties
 
-- Properties of the resources: `shoe_size`
-
-### shoe_size
-
-The shoe_size property tests ....
+- All parameters of the cgroup resource controller are valid properties of this resource. Some of them are: `cupset.cpus`, `memory.limit_in_bytes`, `memory.stat`, `freezer.state`, `cpu.stat`, `cpuacct.usage`, `pids.current`, `blkio.throttle.io_service_bytes`, etc.
 
 ## Matchers
+- For a full list of available matchers, please visit our [matchers page](https://docs.chef.io/inspec/matchers/).
+- The matchers applicable for this resource are: `eq`, `cmp`, `match`.
 
-For a full list of available matchers, please visit our [matchers page](https://docs.chef.io/inspec/matchers/).
+### eq
+`eq` tests for exact equality of two values. It fails if types don’t match. Please keep this in mind, when comparing configuration entries that are numbers. For less restrictive comparisons, please use `cmp`
 
-The specific matchers of this resource are: `be_purple`, `have_bells`
+### cmp
+Unlike `eq`, `cmp` is a matcher for less-restrictive comparisons. It will try to fit the actual value to the type you are comparing it to. This is meant to relieve the user from having to write type-casts and resolutions.
 
-### be_purple
-
-The `be_purple` matcher tests the ...:
-
-    it { should be_purple }
+### match
+`match` checks if a string matches a regular expression. Use `match` when the output of `cgget -n -r [subsytem.parameters] [cgroup-name]` is a multi-line output.
 
 ## Examples
 The following examples show how to use this Chef InSpec audit resource.
 
 ### Example 1
 
-`shoe_size` returns ...
+Use `eq` to test for parameters that have an integer value
 
-    describe cgroup do
-      its("shoe_size") { should eq 42 }
+    describe cgroup("carrotking") do
+      its("cupset.cpus") { should eq 0 }
     end
-
 ### Example 2
 
-`be_purple` checks for ...
+Use `cmp` to test for parameters with less-restrictive comparisons
 
-    describe cgroup do
-      it { should be_purple }
+    describe cgroup("carrotking") do
+      its("memory.limit_in_bytes") { should cmp 9223372036854771712 }
     end
+
+### Example 3
+
+Use `match` to test for parameters that have multi-line values
+
+    describe cgroup("carrotking") do
+      its("memory.stat") { should match /\bhierarchical_memory_limit 9223372036854771712\b/ }
+    end
+
+
+**Note**: Use appropriate matchers while testing. Resource controller parameters having single-line integer values can be tested using `eq` or `cmp` whereas `match` can be used for testing multi-line values where the value to be checked can be passed as regex. The value here considered is the output obtained on `cgget -n -r [subsytem.parameters] [cgroup-name]`
 
