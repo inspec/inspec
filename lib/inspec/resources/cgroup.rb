@@ -10,107 +10,19 @@ module Inspec::Resources
       describe cgroup("foo") do
         its("cpuset.cpus") { should eq 0 }
         its("memory.limit_in_bytes") { should eq 499712 }
-      end
-      describe cgroup("bar") do
-        its("cpuset.cpus") { should eq 1 }
         its("memory.limit_in_bytes") { should be <= 500000 }
+        its("memory.numa_stat") { should match /total=0/ }
       end
     EXAMPLE
-
-    # Obnoxious list obtained using `cgget -a lxc.pivot | grep ':' | cut -f1 -d: | sort | grep -v lxc.pivot`
-    VALID_QUERIES = %w{
-blkio.throttle.io_service_bytes
-blkio.throttle.io_service_bytes_recursive
-blkio.throttle.io_serviced
-blkio.throttle.io_serviced_recursive
-blkio.throttle.read_bps_device
-blkio.throttle.read_iops_device
-blkio.throttle.write_bps_device
-blkio.throttle.write_iops_device
-cpu.cfs_period_us
-cpu.cfs_quota_us
-cpu.shares
-cpu.stat
-cpu.uclamp.max
-cpu.uclamp.min
-cpuacct.stat
-cpuacct.usage
-cpuacct.usage_all
-cpuacct.usage_percpu
-cpuacct.usage_percpu_sys
-cpuacct.usage_percpu_user
-cpuacct.usage_sys
-cpuacct.usage_user
-cpuset.cpu_exclusive
-cpuset.cpus
-cpuset.effective_cpus
-cpuset.effective_mems
-cpuset.mem_exclusive
-cpuset.mem_hardwall
-cpuset.memory_migrate
-cpuset.memory_pressure
-cpuset.memory_spread_page
-cpuset.memory_spread_slab
-cpuset.mems
-cpuset.sched_load_balance
-cpuset.sched_relax_domain_level
-devices.list
-freezer.parent_freezing
-freezer.self_freezing
-freezer.state
-hugetlb.2MB.failcnt
-hugetlb.2MB.limit_in_bytes
-hugetlb.2MB.max_usage_in_bytes
-hugetlb.2MB.rsvd.failcnt
-hugetlb.2MB.rsvd.limit_in_bytes
-hugetlb.2MB.rsvd.max_usage_in_bytes
-hugetlb.2MB.rsvd.usage_in_bytes
-hugetlb.2MB.usage_in_bytes
-memory.failcnt
-memory.kmem.failcnt
-memory.kmem.limit_in_bytes
-memory.kmem.max_usage_in_bytes
-memory.kmem.slabinfo
-memory.kmem.tcp.failcnt
-memory.kmem.tcp.limit_in_bytes
-memory.kmem.tcp.max_usage_in_bytes
-memory.kmem.tcp.usage_in_bytes
-memory.kmem.usage_in_bytes
-memory.limit_in_bytes
-memory.max_usage_in_bytes
-memory.memsw.failcnt
-memory.memsw.limit_in_bytes
-memory.memsw.max_usage_in_bytes
-memory.memsw.usage_in_bytes
-memory.move_charge_at_immigrate
-memory.numa_stat
-memory.oom_control
-memory.soft_limit_in_bytes
-memory.stat
-memory.swappiness
-memory.usage_in_bytes
-memory.use_hierarchy
-net_cls.classid
-net_prio.ifpriomap
-net_prio.prioidx
-pids.current
-pids.events
-pids.max
-rdma.current
-rdma.max
-    }
 
     # Resource initialization.
     def initialize(cgroup_name)
       @cgroup_name = cgroup_name
-
+      @valid_queries, @valid_queries_split = [], []
+      find_valid_queries
       # Used to track the method calls in an "its" query
       @cgroup_info_query = []
-
-      return if inspec.os.linux?
-
-      @unsupported_os = true
-      skip_resource "The `cgroup` resource is not supported on your OS yet."
+      raise Inspec::Exceptions::ResourceSkipped, "The `cgroup` resource is not supported on your OS yet." unless inspec.os.linux?
     end
 
     def resource_id
@@ -122,27 +34,30 @@ rdma.max
     end
 
     def method_missing(param)
-      return skip_resource "The `cgroup` resource is not supported on your OS yet." if @unsupported_os
-
-      # Add the latest thing we've seen to the list.
+      # Add the latest param we've seen to the list and form the query with all the params we've seen so far.
       @cgroup_info_query << param.to_s
       query = @cgroup_info_query.join(".")
 
-      if VALID_QUERIES.include?(query)
-        @cgroup_info_query = []
-        find_cgroup_info(query)
-      elsif @cgroup_info_query.length > 3
-        # Presumably an error.
-        raise Inspec::Exceptions::ResourceFailed, "The query #{query} does not appear to be valid."
+      # The ith level param must match with atleast one row's ith column of @valid_queries_split
+      # Else there is no way, we would find any valid query in further iteration, so raise exception.
+      if @valid_queries_split.map{|e| e[@cgroup_info_query.length-1]}.include?(param.to_s)
+        # If the query form so far is part of @valid_queries, we are good to trigger find_cgroup_info
+        # else go for next level of param
+        if @valid_queries.include?(query)
+          @cgroup_info_query = []
+          find_cgroup_info(query)
+        else
+          self 
+        end 
       else
-        # Else return self for chaining. There are other error conditions here, though!
-        self
+        @cgroup_info_query = []
+        raise Inspec::Exceptions::ResourceFailed, "The query #{query} does not appear to be valid."
       end
     end
 
     private
 
-    # Method to find cgget
+    # Method to find cgget tool
     def find_cgget_or_error
       %w{/usr/sbin/cgget /sbin/cgget cgget}.each do |cmd|
         return cmd if inspec.command(cmd).exist?
@@ -151,18 +66,32 @@ rdma.max
       raise Inspec::Exceptions::ResourceFailed, "Could not find `cgget`"
     end
 
+    # find the cgroup info of the query which is given as input by the user
     def find_cgroup_info(query)
       bin = find_cgget_or_error
       cgget_cmd = "#{bin} -n -r #{query} #{@cgroup_name}"
       cmd = inspec.command(cgget_cmd)
       raise Inspec::Exceptions::ResourceFailed, "Executing cgget failed: #{cmd.stderr}" if cmd.exit_status.to_i != 0
 
-      # TODO: some queries have complex returns, like cpu.stat
-      # This assumes we are splitting on whitespace and taking the second value.
-      param_value = cmd.stdout.split(/\s/)[1]&.strip
+      # For complex returns the user must use match /the_regex/
+      param_value = cmd.stdout.split(":")
       return nil if param_value.nil? || param_value.empty?
 
+      param_value = param_value[1].strip.split("\t").join
       param_value.match(/^\d+$/) ? param_value.to_i : param_value
+    end
+
+    # find all the information about all relevant controllers for the current cgroup
+    def find_valid_queries
+      bin = find_cgget_or_error
+      cgget_all_cmd = "#{bin} -n -a #{@cgroup_name}"
+      cmd = inspec.command(cgget_all_cmd)
+      raise Inspec::Exceptions::ResourceFailed, "Executing cgget failed: #{cmd.stderr}" if cmd.exit_status.to_i != 0
+      queries = cmd.stdout.to_s.gsub(/:.*/, "").gsub(/^\s+.*/, "").split("\n")
+
+      # store the relevant controller parameters in @valid_queries and the dot splitted paramters into @valid_queries_split
+      @valid_queries = queries.map {|q| q if q.length > 0 }.compact
+      @valid_queries_split = @valid_queries.map {|q| q.split(".") }.compact
     end
   end
 end
