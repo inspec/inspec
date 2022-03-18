@@ -41,13 +41,14 @@ module InspecPlugins
 
         unless plugin_statuses.empty?
           ui.table do |t|
-            t.header = ["Plugin Name", "Version", "Via", "ApiVer"]
+            t.header = ["Plugin Name", "Version", "Via", "ApiVer", "Description"]
             plugin_statuses.sort_by { |s| s.name.to_s }.each do |status|
               t << [
                 status.name,
                 make_pretty_version(status),
                 make_pretty_install_type(status),
                 status.api_generation,
+                status.description,
               ]
             end
           end
@@ -83,14 +84,15 @@ module InspecPlugins
         end
 
         puts
-        ui.bold(format(" %-30s%-50s\n", "Plugin Name", "Versions Available"))
-        ui.line
+        ui.bold(format(" %-30s%-30s%-20s\n", "Plugin Name", "Versions Available", "Description"))
+        ui.line_with_width(100)
         search_results.keys.sort.each do |plugin_name|
-          versions = options[:all] ? search_results[plugin_name] : [search_results[plugin_name].first]
+          versions = options[:all] ? search_results[plugin_name]["versions"] : [search_results[plugin_name]["versions"].first]
           versions = "(" + versions.join(", ") + ")"
-          ui.plain_line(format(" %-30s%-50s", plugin_name, versions))
+          description = search_results[plugin_name]["description"]
+          ui.plain_line(format(" %-30s%-30s%-20s", plugin_name, versions, description))
         end
-        ui.line
+        ui.line_with_width(100)
         ui.plain_line(" #{search_results.count} plugin(s) found")
         puts
 
@@ -381,9 +383,11 @@ module InspecPlugins
         # Do an expensive search to determine the latest version.
         unless requested_version
           latest_version = installer.search(plugin_name, exact: true, scope: :latest)
-          latest_version = latest_version[plugin_name]&.last
-          if latest_version && !requested_version
-            requested_version = latest_version
+          if latest_version[plugin_name]
+            latest_version = latest_version[plugin_name]["versions"]&.last
+            if latest_version && !requested_version
+              requested_version = latest_version
+            end
           end
         end
 
@@ -429,7 +433,7 @@ module InspecPlugins
         if results.empty?
           ui.red("No such plugin gem #{plugin_name} could be found on " \
                  "#{source_host} - installation failed.\n")
-        elsif options[:version] && !results[plugin_name].include?(options[:version])
+        elsif options[:version] && results[plugin_name] && !results[plugin_name]["versions"].include?(options[:version])
           ui.red("No such version - #{plugin_name} exists, but no such " \
                  "version #{options[:version]} found on #{source_host} - " \
                  "installation failed.\n")
@@ -460,7 +464,7 @@ module InspecPlugins
 
         # Check for latest version (and implicitly, existence)
         latest_version = installer.search(plugin_name, exact: true, scope: :latest)
-        latest_version = latest_version[plugin_name]&.last
+        latest_version = latest_version[plugin_name] ? latest_version[plugin_name]["versions"]&.last : nil
 
         if pre_update_versions.include?(latest_version)
           ui.plain_line("#{ui.bold("Already installed at latest version:", print: false)} " \

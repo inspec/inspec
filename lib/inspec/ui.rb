@@ -140,6 +140,15 @@ module Inspec
       print_or_return(result, opts[:print])
     end
 
+    def line_with_width(width = 80, opts = { print: true } )
+      if color?
+        result = ANSI_CODES[:bold] + GLYPHS[:heavy_dash] * width + ANSI_CODES[:reset] + "\n"
+      else
+        result = "-" * width + "\n"
+      end
+      print_or_return(result, opts[:print])
+    end
+
     # Makes a bullet point.
     def list_item(str, opts = { print: true })
       bullet = color? ? ANSI_CODES[:bold] + ANSI_CODES[:color][:white] + GLYPHS[:bullet] + ANSI_CODES[:reset] : "*"
