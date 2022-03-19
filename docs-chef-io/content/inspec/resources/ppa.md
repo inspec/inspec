@@ -28,7 +28,7 @@ This resource is distributed along with Chef InSpec itself. You can use it autom
 
 A `ppa` Chef InSpec audit resource verifies PPA repositories on Debian-based linux distributions
 
-    describe ppa('path) do
+    describe ppa('path') do
       it { should exist }
       it { should be_enabled }
     end
