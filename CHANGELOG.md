@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.7.11 -->
-## [v5.7.11](https://github.com/inspec/inspec/tree/v5.7.11) (2022-03-19)
+<!-- latest_release 5.8.0 -->
+## [v5.8.0](https://github.com/inspec/inspec/tree/v5.8.0) (2022-03-19)
 
 #### Merged Pull Requests
-- CFINSPEC-1 Adds the ability to detect the Kubernetes container and Podman container. [#5796](https://github.com/inspec/inspec/pull/5796) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-79: Add linux container resource [#5921](https://github.com/inspec/inspec/pull/5921) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.7.9 -->
 ### Changes since 5.7.9 release
 
 #### Merged Pull Requests
+- CFINSPEC-79: Add linux container resource [#5921](https://github.com/inspec/inspec/pull/5921) ([ahasunos](https://github.com/ahasunos)) <!-- 5.8.0 -->
 - CFINSPEC-1 Adds the ability to detect the Kubernetes container and Podman container. [#5796](https://github.com/inspec/inspec/pull/5796) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.7.11 -->
 - Update docs makefile [#5927](https://github.com/inspec/inspec/pull/5927) ([IanMadd](https://github.com/IanMadd)) <!-- 5.7.10 -->
 <!-- release_rollup -->
