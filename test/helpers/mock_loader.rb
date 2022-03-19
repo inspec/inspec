@@ -375,6 +375,9 @@ class MockLoader
       # ipfilter
       "/usr/sbin/ipfstat -io" => cmd.call("ipfstat-io"),
       %{type "/usr/sbin/ipfstat"} => empty.call,
+      # lxc
+      "/usr/sbin/lxc info my-ubuntu-container | grep -i Status" => cmd.call("lxcinfo"),
+      %{sh -c 'type "/usr/sbin/lxc"'} => empty.call,
       # apache_conf
       "sh -c 'find /etc/apache2/ports.conf -type f -maxdepth 1'" => cmd.call("find-apache2-ports-conf"),
       "sh -c 'find /etc/httpd/conf.d/*.conf -type f -maxdepth 1'" => cmd.call("find-httpd-ssl-conf"),
