@@ -190,7 +190,7 @@ module Inspec::Resources
       true
     end
 
-    # Detect LXC/Docker
+    # Detect LXC/Docker/k8s/podman
     #
     # /proc/self/cgroup will look like this inside a docker container:
     # <index #>:<subsystem>:/lxc/<hexadecimal container id>
@@ -208,13 +208,19 @@ module Inspec::Resources
     #
     # Full notes, https://tickets.opscode.com/browse/OHAI-551
     # Kernel docs, https://www.kernel.org/doc/Documentation/cgroups
-    def detect_lxc_docker
+    def detect_container
       return false unless inspec.file("/proc/self/cgroup").exist?
 
       cgroup_content = inspec.file("/proc/self/cgroup").content
       if cgroup_content =~ %r{^\d+:[^:]+:/(lxc|docker)/.+$} ||
           cgroup_content =~ %r{^\d+:[^:]+:/[^/]+/(lxc|docker)-.+$} # rubocop:disable Layout/MultilineOperationIndentation
         @virtualization_data[:system] = $1 # rubocop:disable Style/PerlBackrefs
+        @virtualization_data[:role] = "guest"
+      elsif cgroup_content =~ %r{^\d+:[^:]+:/(kubepods)/.+$}
+        @virtualization_data[:system] = $1
+        @virtualization_data[:role] = "guest"
+      elsif /container=podman/.match?(file_read("/proc/1/environ"))
+        @virtualization_data[:system] = "podman"
         @virtualization_data[:role] = "guest"
       elsif lxc_version_exists? && cgroup_content =~ %r{\d:[^:]+:/$}
         # lxc-version shouldn't be installed by default
@@ -297,7 +303,7 @@ module Inspec::Resources
       return if detect_docker
       return if detect_virtualbox
       return if detect_lxd
-      return if detect_lxc_docker
+      return if detect_container
       return if detect_linux_vserver
       return if detect_kvm_from_cpuinfo
       return if detect_kvm_from_sys
