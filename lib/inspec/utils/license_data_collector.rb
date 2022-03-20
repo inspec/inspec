@@ -24,7 +24,7 @@ module Inspec
       return Inspec::LicenseDataCollector::Null if Inspec::Dist::EXEC_NAME != "inspec"
 
       # TODO: Switch between Offline and Online intelligently
-      Inspec::LicenseDataCollector::Mock
+      Inspec::LicenseDataCollector::Online
     end
 
     class Base
@@ -50,7 +50,7 @@ module Inspec
             },
             Summary: {
               Nodes: { Total: 0, Active: 0 },
-              Scans: { Targets: 1, Active: 1 },
+              Scans: { Targets: 1, Total: 1 },
             },
             Evidence: {
               Nodes: [],
@@ -94,16 +94,6 @@ module Inspec
       def fetch_customer_id
         # TODO: obtain customer ID from some mechanism
         "TODOTODOTODOTODOTO"
-      end
-
-
-    end
-
-    # TODO: move this into test code
-    class Mock < Base
-      def scan_finishing(opts)
-        super(opts)
-        # require "byebug"; byebug
       end
     end
 
