@@ -1,0 +1,11 @@
+name: unsigned-id
+title: InSpec Profile
+maintainer: The Authors
+copyright: The Authors
+copyright_email: you@example.com
+license: Apache-2.0
+summary: An InSpec Compliance Profile
+version: 0.1.0
+entitlement_id: 85ad6967-42d7-4e00-8d40-4f221bf4194d
+supports:
+  platform: os
