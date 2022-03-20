@@ -3,7 +3,7 @@ require_relative "../version"
 require "time"
 
 module Inspec
-  class LicenseDataCollection
+  class LicenseDataCollector
 
     @@instance = nil
 
@@ -20,11 +20,11 @@ module Inspec
     end
 
     def self.determine_backend_class
-      # Don't perform license data collection if we are not the official Progress Chef InSpec distro
-      return Inspec::LicenseDataCollection::Null if Inspec::Dist::EXEC_NAME != "inspec"
+      # Don't perform license data Collector if we are not the official Progress Chef InSpec distro
+      return Inspec::LicenseDataCollector::Null if Inspec::Dist::EXEC_NAME != "inspec"
 
       # TODO: Switch between Offline and Online intelligently
-      Inspec::LicenseDataCollection::Mock
+      Inspec::LicenseDataCollector::Mock
     end
 
     class Base
@@ -108,7 +108,7 @@ module Inspec
     end
 
     class Offline < Base
-      # TODO: Aggregate the reports for eventual collection using an out of band means
+      # TODO: Aggregate the reports for eventual Collector using an out of band means
     end
 
     class Online < Base
