@@ -11,6 +11,7 @@ require "inspec/dependencies/cache"
 require "inspec/dist"
 require "inspec/reporters"
 require "inspec/runner_rspec"
+require_relative "utils/license_data_collection"
 # spec requirements
 
 module Inspec
@@ -150,6 +151,7 @@ module Inspec
 
     def run(with = nil)
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
+      Inspec::LicenseDataCollection.scan_starting(runner: self)
       load
       run_tests(with)
     end
@@ -182,6 +184,7 @@ module Inspec
     def run_tests(with = nil)
       @run_data = @test_collector.run(with)
       # dont output anything if we want a report
+      Inspec::LicenseDataCollection.scan_finishing(run_data: @run_data)
       render_output(@run_data) unless @conf["report"]
       @test_collector.exit_code
     end
