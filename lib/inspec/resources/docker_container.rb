@@ -44,6 +44,10 @@ module Inspec::Resources
     end
 
     def has_volume?(destination, source)
+      # Todo:
+      # [+] Raise proper exception for containers with no mounted volume instead of saying undefined method `Destination' for nil:NilClass
+      raise Inspec::Exceptions::ResourceFailed, "Could not find any mounted volumes for your container" unless volume_info.Mounts[0]
+
       volume_info.Mounts[0].Destination == destination && volume_info.Mounts[0].Source == source
     end
 
