@@ -25,6 +25,7 @@ class PluginLoaderTests < Minitest::Test
   end
 
   def setup
+    WebMock.disable_net_connect!(allow: %r{(api\.)?rubygems\.org/.*})
     reset_globals
 
     @config_dir_path = File.expand_path "test/fixtures/config_dirs"
