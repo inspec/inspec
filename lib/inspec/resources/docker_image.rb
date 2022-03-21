@@ -48,6 +48,23 @@ module Inspec::Resources
       object_info.tags[0] if object_info.entries.size == 1
     end
 
+    def [](hashkeys)
+      hash_value = image_inspect_info
+      keys = hashkeys.split(".")
+      keys.each do |k|
+        if hash_value.include?(k.to_sym)
+          hash_value = hash_value[k.to_sym]
+        else
+          raise Inspec::Exceptions::ResourceFailed, "#{hashkeys} is not a valid key for your image, #{k} not found."
+        end
+      end
+      hash_value
+    end
+
+    def inspection
+      image_inspect_info
+    end
+
     def to_s
       img = @opts[:image] || @opts[:id]
       "Docker Image #{img}"
@@ -79,6 +96,12 @@ module Inspec::Resources
       @info = inspec.docker.images.where do
         (repository == opts[:repo] && tag == opts[:tag]) || (!id.nil? && !opts[:id].nil? && (id == opts[:id] || id.start_with?(opts[:id])))
       end
+    end
+
+    def image_inspect_info
+      return @inspect_info if defined?(@inspect_info)
+
+      @inspect_info = inspec.docker.object(@opts[:image] || (!opts[:id].nil? && @opts[:id]))
     end
   end
 end
