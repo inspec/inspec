@@ -43,6 +43,10 @@ module Inspec::Resources
       status.downcase.start_with?("up") if object_info.entries.length == 1
     end
 
+    def has_volume?(destination, source)
+      volume_info.Mounts[0].Destination == destination && volume_info.Mounts[0].Source == source
+    end
+
     def status
       object_info.status[0] if object_info.entries.length == 1
     end
@@ -86,6 +90,12 @@ module Inspec::Resources
 
       opts = @opts
       @info = inspec.docker.containers.where { names == opts[:name] || (!id.nil? && !opts[:id].nil? && (id == opts[:id] || id.start_with?(opts[:id]))) }
+    end
+
+    def volume_info
+      return @mount_info if defined?(@mount_info)
+
+      @mount_info = inspec.docker.object(@opts[:name] || (!id.nil? && !opts[:id].nil? && (id == opts[:id] || id.start_with?(opts[:id]))))
     end
   end
 end
