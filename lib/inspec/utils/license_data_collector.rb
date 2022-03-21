@@ -2,6 +2,8 @@ require_relative "../dist"
 require_relative "../version"
 require "time"
 
+require_relative "license_data_collector/http"
+
 module Inspec
   class LicenseDataCollector
 
@@ -23,8 +25,9 @@ module Inspec
       # Don't perform license data Collector if we are not the official Progress Chef InSpec distro
       return Inspec::LicenseDataCollector::Null if Inspec::Dist::EXEC_NAME != "inspec"
 
-      # TODO: Switch between Offline and Online intelligently
-      Inspec::LicenseDataCollector::Online
+      # TODO: Switch between Offline and Http intelligently
+      # Inspec::LicenseDataCollector::Http
+      Inspec::LicenseDataCollector::Offline
     end
 
     class Base
@@ -99,12 +102,6 @@ module Inspec
 
     class Offline < Base
       # TODO: Aggregate the reports for eventual Collector using an out of band means
-    end
-
-    class Online < Base
-      # TODO: spawn a thread
-      # TODO: Actually send the report
-      # TODO: Detect multiple send errors and switch to offline
     end
 
     class Null < Base

@@ -184,8 +184,9 @@ module Inspec
     def run_tests(with = nil)
       @run_data = @test_collector.run(with)
       # dont output anything if we want a report
-      Inspec::LicenseDataCollector.scan_finishing(run_data: @run_data)
+      th = Inspec::LicenseDataCollector.scan_finishing(run_data: @run_data)
       render_output(@run_data) unless @conf["report"]
+      th.join if th.respond_to? :join
       @test_collector.exit_code
     end
 
