@@ -152,14 +152,14 @@ module Inspec::Plugin::V2
         gem_info[tuple.first.name] ||= {}
         gem_info[tuple.first.name]["versions"] ||= []
         gem_info[tuple.first.name]["versions"] << tuple.first.version.to_s
-        gem_info[tuple.first.name]["description"] ||= fetch_summary_from_specs(fetcher, tuple.first.name)
+        gem_info[tuple.first.name]["description"] ||= fetch_plugin_specs(fetcher, tuple.first.name)&.summary
       end
       gem_info
     end
 
-    def fetch_summary_from_specs(fetcher, gem_name)
+    def fetch_plugin_specs(fetcher, gem_name)
       plugin_dependency = Gem::Dependency.new(gem_name)
-      fetcher.spec_for_dependency(plugin_dependency).flatten.first&.summary || ""
+      fetcher.spec_for_dependency(plugin_dependency).flatten.first
     end
 
     # Testing API.  Performs a hard reset on the installer and registry, and reloads the loader.

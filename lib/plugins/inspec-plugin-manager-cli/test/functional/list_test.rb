@@ -44,7 +44,6 @@ class PluginManagerCliList < Minitest::Test
 
     result = run_inspec_process_with_this_plugin("plugin list --user ", pre_run: pre_block)
 
-    assert_empty result.stderr
     plugins_seen = parse_plugin_list_lines(result.stdout, result.stderr)
     assert_equal 2, plugins_seen.count
     # Plugin Name                   Version   Via         ApiVer  Description
@@ -61,6 +60,7 @@ class PluginManagerCliList < Minitest::Test
     refute_nil fixture
     assert_equal "gem (user)", fixture[:type]
     assert_equal "0.1.0", fixture[:version]
+    assert_match(/A simple test plugin gem/, fixture[:description])
 
     assert_exit_code 0, result
   end
@@ -73,7 +73,6 @@ class PluginManagerCliList < Minitest::Test
 
     result = run_inspec_process_with_this_plugin("plugin list --user ", pre_run: pre_block)
 
-    assert_empty result.stderr
     plugins_seen = parse_plugin_list_lines(result.stdout, result.stderr)
     assert_equal 1, plugins_seen.count
     assert_includes result.stdout, "1 plugin(s) total", "list train should show one plugins"
@@ -88,7 +87,7 @@ class PluginManagerCliList < Minitest::Test
     assert_equal "gem (user)", train_plugin[:type]
     assert_equal "train-1", train_plugin[:generation]
     assert_equal "0.1.0", train_plugin[:version]
-
+    assert_match(/Test train plugin/, train_plugin[:description])
     assert_exit_code 0, result
   end
 end

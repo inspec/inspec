@@ -278,12 +278,19 @@ module Inspec::Plugin::V2
         when :user_gem
           status.entry_point = status.name.to_s
           status.version = plugin_entry[:version]
+          status.description = fetch_plugin_specs(status.name.to_s)&.summary
         when :path
           status.entry_point = plugin_entry[:installation_path]
         end
 
         registry[status.name] = status
       end
+    end
+
+    def fetch_plugin_specs(plugin_name)
+      fetcher = Gem::SpecFetcher.fetcher
+      plugin_dependency = Gem::Dependency.new(plugin_name)
+      fetcher.spec_for_dependency(plugin_dependency).flatten.first
     end
 
     def fixup_train_plugin_status(status)
