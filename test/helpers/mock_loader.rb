@@ -473,6 +473,7 @@ class MockLoader
       "docker inspect 71b5df59442b" => cmd.call("docker-inspec"),
       # docker images
       "83c36bfade9375ae1feb91023cd1f7409b786fd992ad4013bf0f2259d33d6406" => cmd.call("docker-images"),
+      "docker inspect ubuntu:latest" => cmd.call("docker-inspect-image"),
       # docker services
       %{docker service ls --format '{"ID": {{json .ID}}, "Name": {{json .Name}}, "Mode": {{json .Mode}}, "Replicas": {{json .Replicas}}, "Image": {{json .Image}}, "Ports": {{json .Ports}}}'} => cmd.call("docker-service-ls"),
       # docker plugins

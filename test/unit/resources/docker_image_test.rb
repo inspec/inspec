@@ -12,6 +12,15 @@ describe "Inspec::Resources::DockerImage" do
       _(resource.repo).must_equal "alpine"
     end
 
+    it "check attributes returned by docker inspect [docker_image]" do
+      resource = load_resource("docker_image", "ubuntu:latest")
+      _(resource["Architecture"]).must_equal "arm64"
+      _(resource["Config.Cmd"]).must_include "bash"
+      # Check, minitest equivalent for: 'Architecture' => 'arm64
+      _(resource::inspection).must_include 'Architecture'
+      _(resource::inspection.Architecture).must_equal 'arm64'
+    end
+
     it "prints as a docker_image resource" do
       resource = load_resource("docker_image", "alpine")
       _(resource.to_s).must_equal "Docker Image alpine:latest"
