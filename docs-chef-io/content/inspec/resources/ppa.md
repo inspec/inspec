@@ -27,13 +27,13 @@ This resource is distributed with Chef InSpec.
 
 ## Syntax
 
-    describe ppa('path') do
+    describe ppa('PATH') do
       it { should exist }
       it { should be_enabled }
     end
 where
 
-- `ppa('path')` represents PPA repository
+- `ppa('PATH')` represents PPA repository
 - `exist` and `be_enabled` are a valid matchers for this resource.
 
 ## Matchers
