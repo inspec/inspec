@@ -40,7 +40,7 @@ where
 
 ### eq
 
-`eq` tests whether the two values are the same and used to compare configuration entries that are numbers. It fails if the types do not match. Use `cmp` for less restrictive comparisons.
+`eq` tests whether the two values are of same data type and includes configuration entries that are numbers. It fails if the types do not match. Use `cmp` for less restrictive comparisons that ignores data type while comparing.
 
 ### cmp
 
