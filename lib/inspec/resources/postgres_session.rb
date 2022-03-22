@@ -55,8 +55,10 @@ module Inspec::Resources
       psql_cmd = create_psql_cmd(query, db)
       cmd = inspec.command(psql_cmd, redact_regex: %r{(:\/\/[a-z]*:).*(@)})
       out = cmd.stdout + "\n" + cmd.stderr
-      if cmd.exit_status != 0 || out =~ /could not connect to .*/ || out.downcase =~ /^error:.*/
-        raise Inspec::Exceptions::ResourceFailed, "PostgreSQL query with errors: #{out}"
+      if cmd.exit_status != 0 && ( out =~ /could not connect to/ || out =~ /password authentication failed/ ) && out.downcase =~ /error:/
+        raise Inspec::Exceptions::ResourceFailed, "PostgreSQL connection error: #{out}"
+      elsif cmd.exit_status != 0 && out.downcase =~ /error:/
+        Lines.new(out, "PostgreSQL query with error: #{query}")
       else
         Lines.new(cmd.stdout.strip, "PostgreSQL query: #{query}")
       end
