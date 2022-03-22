@@ -35,12 +35,12 @@ where
 
 ## Matchers
 
-- For a full list of available matchers, please visit our [matchers page](https://docs.chef.io/inspec/matchers/).
+- For a full list of available matchers, refer [matchers page](https://docs.chef.io/inspec/matchers/).
 - The matchers applicable for this resource are: `eq`, `cmp`, and `match`.
 
 ### eq
 
-`eq` tests whether the two values are the same. It fails if the types do not match. Please keep this in mind, when comparing configuration entries that are numbers. Use `cmp` for less restrictive comparisons.
+`eq` tests whether the two values are the same and used to compare configuration entries that are numbers. It fails if the types do not match. Use `cmp` for less restrictive comparisons.
 
 ### cmp
 
