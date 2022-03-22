@@ -471,6 +471,7 @@ class MockLoader
       "docker version --format '{{ json . }}'" => cmd.call("docker-version"),
       "docker info --format '{{ json . }}'" => cmd.call("docker-info"),
       "docker inspect 71b5df59442b" => cmd.call("docker-inspec"),
+      "docker inspect trusting_williams" => cmd.call("docker-inspect"), # inspect container to check for mounted volumes
       # docker images
       "83c36bfade9375ae1feb91023cd1f7409b786fd992ad4013bf0f2259d33d6406" => cmd.call("docker-images"),
       # docker services

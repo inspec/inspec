@@ -48,5 +48,10 @@ describe "Inspec::Resources::DockerContainer" do
       resource = load_resource("docker_container", "laughing_austin")
       _(resource.to_s).must_equal "Docker Container laughing_austin"
     end
+
+    it "checks if a volume has been mounted for the docker resource" do
+      resource = load_resource("docker_container", "trusting_williams")
+      _(resource.has_volume?('/app', '/var/lib/docker/volumes/myvol2/_data')).must_equal true
+    end
   end
 end
