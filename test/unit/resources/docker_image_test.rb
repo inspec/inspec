@@ -17,8 +17,8 @@ describe "Inspec::Resources::DockerImage" do
       _(resource["Architecture"]).must_equal "arm64"
       _(resource["Config.Cmd"]).must_include "bash"
       # Check, minitest equivalent for: 'Architecture' => 'arm64
-      _(resource::inspection).must_include 'Architecture'
-      _(resource::inspection.Architecture).must_equal 'arm64'
+      _(resource.inspection).must_include "Architecture"
+      _(resource.inspection.Architecture).must_equal "arm64"
     end
 
     it "prints as a docker_image resource" do
