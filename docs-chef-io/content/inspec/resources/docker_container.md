@@ -108,3 +108,50 @@ The `command` property tests the value of the container run command:
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+The specific matchers of this resource are: `exist`, `be_running`, `have_volume?`.
+
+### exist
+
+The `exist` matcher is used to specify if the container exists:
+
+    it { should exist }
+
+### be_running
+
+The `be_running` matcher is used to check if the container is running:
+
+    it { should be_running }
+
+### have_volume?
+
+The `have_volume?` matcher is used to check if the container has a mounted volumes:
+
+    it { should have_volume?(destination_path_in_container, source_path_in_source) }
+
+## Examples
+
+The following examples show how to use this Chef InSpec audit resource.
+
+### Ensures container exists
+
+The below test passes if the container `wonderful_wozniak` exists as part of the Docker instances.
+
+    describe docker_container('wonderful_wozniak') do
+      it { should exist }
+    end
+
+### Ensures container is in running status
+
+The below test passes if the container `trusting_williams` exists as part of the Docker instances and the status is running.
+
+    describe docker_container('trusting_williams') do
+      it { should be_running }
+    end
+
+### Ensures container has mounted volumes
+
+The below test passes if the container `quizzical_williamson` exists as part of the Docker instances, the status is running and has mounted volume on `/app` in the container from the source path of `/var/lib/docker/volumes/myvol2/_data`
+
+    describe docker_container('quizzical_williamson') do
+      it { should have_volume('/app', '/var/lib/docker/volumes/myvol2/_data') }
+    end
