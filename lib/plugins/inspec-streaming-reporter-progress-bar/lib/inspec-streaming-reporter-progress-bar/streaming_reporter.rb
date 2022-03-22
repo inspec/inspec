@@ -1,5 +1,4 @@
-require 'progress_bar'
-
+require "progress_bar"
 module InspecPlugins::StreamingReporterProgressBar
   # This class will provide the actual Streaming Reporter implementation.
   # Its superclass is provided by another call to Inspec.plugin,
@@ -10,54 +9,45 @@ module InspecPlugins::StreamingReporterProgressBar
 
   class StreamingReporter < Inspec.plugin(2, :streaming_reporter)
     # Registering these methods with RSpec::Core::Formatters class is mandatory
-    RSpec::Core::Formatters.register self, :example_passed, :example_failed, :example_pending, :example_error,
-                                     :example_na
+    RSpec::Core::Formatters.register self, :example_passed, :example_failed, :example_pending
 
     case RUBY_PLATFORM
     when /windows|mswin|msys|mingw|cygwin/
       # Most currently available Windows terminals have poor support
       # for ANSI extended colors
       COLORS = {
-        'failed' => "\033[0;1;31m",
-        'passed' => "\033[0;1;32m",
-        'skipped' => "\033[0;37m",
-        'error' => "\033[0;33m",
-        'na' => "\033[0;34m",
-        'reset' => "\033[0m"
+        "failed" => "\033[0;1;31m",
+        "passed" => "\033[0;1;32m",
+        "skipped" => "\033[0;37m",
+        "reset" => "\033[0m",
       }.freeze
 
       # Most currently available Windows terminals have poor support
       # for UTF-8 characters so use these boring indicators
       INDICATORS = {
-        'failed' => '[FAIL]',
-        'skipped' => '[SKIP]',
-        'passed' => '[PASS]',
-        'na' => '[NA]',
-        'error' => '[ERROR]'
+        "failed" => "[FAIL]",
+        "skipped" => "[SKIP]",
+        "passed" => "[PASS]",
       }.freeze
     else
       # Extended colors for everyone else
       COLORS = {
-        'failed' => "\033[38;5;9m",
-        'passed' => "\033[38;5;41m",
-        'skipped' => "\033[38;5;247m",
-        'error' => "\033[38:5:11m",
-        'na' => "\033[38;5;4m",
-        'reset' => "\033[0m"
+        "failed" => "\033[38;5;9m",
+        "passed" => "\033[38;5;41m",
+        "skipped" => "\033[38;5;247m",
+        "reset" => "\033[0m",
       }.freeze
 
       # Groovy UTF-8 characters for everyone else...
       # ...even though they probably only work on Mac
       INDICATORS = {
-        'failed' => '× [FAILED] ',
-        'skipped' => '↺ [SKIPPED]',
-        'passed' => '✔ [PASSED] ',
-        'na' => '↺ [NA]     ',
-        'error' => '! [ERROR]  '
+        "failed" => "×",
+        "skipped" => "↺",
+        "passed" => "✔",
       }.freeze
     end
 
-    def initialize(_output)
+    def initialize(output)
       @bar = nil
       @status_mapping = {}
       initialize_streaming_reporter
@@ -65,52 +55,25 @@ module InspecPlugins::StreamingReporterProgressBar
 
     def example_passed(notification)
       control_id = notification.example.metadata[:id]
-      title = notification.example.metadata[:title]
-      full_description = notification.example.metadata[:full_description]
-      control_impact = notification.example.metadata[:impact]
-      set_status_mapping(control_id, 'passed')
-      show_progress(control_id, title, full_description, control_impact) if control_ended?(control_id)
+      set_status_mapping(control_id, "passed")
+      show_progress(control_id) if control_ended?(control_id)
     end
 
     def example_failed(notification)
       control_id = notification.example.metadata[:id]
-      title = notification.example.metadata[:title]
-      full_description = notification.example.metadata[:full_description]
-      control_impact = notification.example.metadata[:impact]
-      set_status_mapping(control_id, 'failed')
-      show_progress(control_id, title, full_description, control_impact) if control_ended?(control_id)
+      set_status_mapping(control_id, "failed")
+      show_progress(control_id) if control_ended?(control_id)
     end
 
     def example_pending(notification)
       control_id = notification.example.metadata[:id]
-      title = notification.example.metadata[:title]
-      full_description = notification.example.metadata[:full_description]
-      control_impact = notification.example.metadata[:impact]
-      set_status_mapping(control_id, 'skipped')
-      show_progress(control_id, title, full_description, control_impact) if control_ended?(control_id)
-    end
-
-    def example_error(notification)
-      control_id = notification.example.metadata[:id]
-      title = notification.example.metadata[:title]
-      full_description = notification.example.metadata[:full_description]
-      control_impact = notification.example.metadata[:impact]
-      set_status_mapping(control_id, 'error')
-      show_progress(control_id, title, full_description, control_impact) if control_ended?(control_id)
-    end
-
-    def example_na(notification)
-      control_id = notification.example.metadata[:id]
-      title = notification.example.metadata[:title]
-      full_description = notification.example.metadata[:full_description]
-      control_impact = notification.example.metadata[:impact]
-      set_status_mapping(control_id, 'na')
-      show_progress(control_id, title, full_description, control_impact) if control_ended?(control_id)
+      set_status_mapping(control_id, "skipped")
+      show_progress(control_id) if control_ended?(control_id)
     end
 
     private
 
-    def show_progress(control_id, title, full_description, control_impact)
+    def show_progress(control_id)
       @bar ||= ProgressBar.new(controls_count, :bar, :counter, :percentage)
       sleep 0.1
       @bar.increment!
@@ -136,7 +99,7 @@ module InspecPlugins::StreamingReporterProgressBar
       binding.pry
       message_to_format = ''
       message_to_format += "#{indicator}  "
-      message_to_format += "#{control_id.to_s.lstrip.dup.force_encoding(Encoding::UTF_8)}  "
+      message_to_format += "#{control_id.to_s.lstrip.force_encoding(Encoding::UTF_8)}  "
       message_to_format += "#{title.gsub!(/\n*\s+/, ' ').to_s.force_encoding(Encoding::UTF_8)}  " if title
       message_to_format += "#{full_description.gsub(/\n*\s+/, ' ').to_s.force_encoding(Encoding::UTF_8)}  " unless title
       format_with_color(control_status, message_to_format)
@@ -157,5 +120,6 @@ module InspecPlugins::StreamingReporterProgressBar
     rescue StandardError => e
       raise "Exception in format_with_color: #{e}"
     end
+
   end
 end
