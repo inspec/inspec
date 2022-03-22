@@ -54,7 +54,7 @@ You can also pass in repository and tag as separate values
       ...
     end
 
-## Property Examples
+## Properties
 
 ### id
 
@@ -80,15 +80,22 @@ The `tag` property tests the value of image tag:
 
     its('tag') { should eq 'latest' }
 
-### Test a Docker Image
+### Low-level information of docker image as `docker_image`'s Property
+`:inspection` property allows testing the low-level information of docker image returned by `docker inspect [docker_image]`. Use hash format `'key' => 'value` for testing the information.
 
-    describe docker_image('alpine:latest') do
-      it { should exist }
-      its('id') { should eq 'sha256:4a415e...a526' }
-      its('image') { should eq 'alpine:latest' }
-      its('repo') { should eq 'alpine' }
-      its('tag') { should eq 'latest' }
-    end
+    its(:inspection) { should include "Key" => "Value" }
+    its(:inspection) { should include "Key" =>
+      {
+        "SubKey" => "Value1",
+        "SubKey" => "Value2"
+      }
+    }
+
+Additionally, all keys of the low-level information are valid properties and can be passed in square brackets when writing the test.
+
+    its([key]) { should eq some_value }
+    its([key1.key2]) { should include some_value }
+
 
 ## Matchers
 
@@ -99,3 +106,35 @@ For a full list of available matchers, please visit our [matchers page](/inspec/
 The `exist` matcher tests if the image is available on the node:
 
     it { should exist }
+
+## Examples
+### Test if a docker image exists and verify the image properties: `id`, `image`, `repo` and `tag`.
+
+    describe docker_image('alpine:latest') do
+      it { should exist }
+      its('id') { should eq 'sha256:4a415e...a526' }
+      its('image') { should eq 'alpine:latest' }
+      its('repo') { should eq 'alpine' }
+      its('tag') { should eq 'latest' }
+    end
+
+### Test if a docker image exists and verify the low level information: `Architecture`, `Config.Cmd`, `Os`, and `GraphDriver`
+
+    describe docker_image('ubuntu:latest') do
+      it { should exist }
+      its(['Architecture']) { should eq 'arm64' }
+      its(['Config.Cmd']) { should include 'bash' }
+      its(['GraphDriver.Data.MergedDir']) { should include "/var/lib/docker/overlay2/4336ba2a87c8d82abaa9ee5afd3ac20ea275bf05502d74d8d8396f8f51a4736c/merged" }
+      its(:inspection) { should include 'Architecture' => 'arm64' }
+      its(:inspection) { should_not include 'Architecture' => 'i386' }
+      its(:inspection) { should include "GraphDriver" =>
+        {
+          "Data" => {
+            "MergedDir" => "/var/lib/docker/overlay2/4336ba2a87c8d82abaa9ee5afd3ac20ea275bf05502d74d8d8396f8f51a4736c/merged",
+            "UpperDir" => "/var/lib/docker/overlay2/4336ba2a87c8d82abaa9ee5afd3ac20ea275bf05502d74d8d8396f8f51a4736c/diff",
+            "WorkDir"=> "/var/lib/docker/overlay2/4336ba2a87c8d82abaa9ee5afd3ac20ea275bf05502d74d8d8396f8f51a4736c/work"
+          },
+          "Name" => "overlay2"
+        }
+      }
+    end
