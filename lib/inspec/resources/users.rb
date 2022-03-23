@@ -258,13 +258,11 @@ module Inspec::Resources
 
     # implement 'mindays' method to be compatible with serverspec
     def minimum_days_between_password_change
-      Inspec.deprecate(:resource_user_serverspec_compat, "The user resource `minimum_days_between_password_change` property is deprecated. Please use `mindays`.")
       mindays
     end
 
     # implement 'maxdays' method to be compatible with serverspec
     def maximum_days_between_password_change
-      Inspec.deprecate(:resource_user_serverspec_compat, "The user resource `maximum_days_between_password_change` property is deprecated. Please use `maxdays`.")
       maxdays
     end
 
