@@ -61,9 +61,13 @@ module Inspec::Resources
         raise Inspec::Exceptions::ResourceFailed, "Oracle query with errors: #{out}"
       else
         begin
-          DatabaseHelper::SQLQueryResult.new(inspec_cmd, parse_csv_result(inspec_cmd.stdout))
-        rescue
-          raise Inspec::Exceptions::ResourceFailed, "Oracle query with errors: #{out}"
+          unless inspec_cmd.stdout.empty?
+            DatabaseHelper::SQLQueryResult.new(inspec_cmd, parse_csv_result(inspec_cmd.stdout))
+          else
+            inspec_cmd.stdout
+          end
+        rescue Exception => ex
+          raise Inspec::Exceptions::ResourceFailed, "Oracle query with exception: #{ex}"
         end
       end
     end
