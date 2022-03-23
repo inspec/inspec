@@ -537,9 +537,22 @@ module Inspec::Resources
     end
 
     def info(service_name)
+      # `service -l` lists all files in /etc/rc.d and the local startup directories
+      # % service -l
+      # accounting
+      # addswap
+      # adjkerntz
+      # apm
+      # archdep
+      cmd = inspec.command("#{service_ctl} -l")
+      return nil if cmd.exit_status != 0
+
+      # search for the service
+      srv = /^#{service_name}$/.match(cmd.stdout)
+      return nil if srv.nil? || srv[0].nil?
+
       # check if service is enabled
       cmd = inspec.command("#{service_ctl} #{service_name} enabled")
-
       enabled = cmd.exit_status == 0
 
       # check if the service is running
