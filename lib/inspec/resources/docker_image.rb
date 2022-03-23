@@ -101,7 +101,7 @@ module Inspec::Resources
     def image_inspect_info
       return @inspect_info if defined?(@inspect_info)
 
-      @inspect_info = inspec.docker.object(@opts[:image] || (!opts[:id].nil? && @opts[:id]))
+      @inspect_info = inspec.docker.object(@opts[:image] || (!@opts[:id].nil? && @opts[:id]))
     end
   end
 end
