@@ -99,7 +99,7 @@ module Inspec::Resources
     def volume_info
       return @mount_info if defined?(@mount_info)
 
-      @mount_info = inspec.docker.object(@opts[:name] || (!id.nil? && !opts[:id].nil? && (id == opts[:id] || id.start_with?(opts[:id]))))
+      @mount_info = inspec.docker.object(@opts[:name] || @opts[:id])
     end
   end
 end
