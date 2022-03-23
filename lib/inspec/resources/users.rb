@@ -285,6 +285,22 @@ module Inspec::Resources
       raise NotImplementedError
     end
 
+    def belongs_to_primary_group?(group_name)
+      groupname = group_name
+    end
+
+    def belongs_to_group?(group_name)
+      groupsname = groups
+      is_valid_group = false
+      groupsname.each do |g|
+        if g == group_name
+          is_valid_group = true
+          break
+        end
+      end
+      is_valid_group
+    end
+
     def to_s
       "User #{@username}"
     end
