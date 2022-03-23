@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.56.18 -->
+## [v4.56.18](https://github.com/inspec/inspec/tree/v4.56.18) (2022-03-23)
+
+#### Merged Pull Requests
+- Backport empty postgres query fix to inspec 4 [#5942](https://github.com/inspec/inspec/pull/5942) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.56.17 -->
+### Changes since 4.56.17 release
+
+#### Merged Pull Requests
+- Backport empty postgres query fix to inspec 4 [#5942](https://github.com/inspec/inspec/pull/5942) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.18 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
