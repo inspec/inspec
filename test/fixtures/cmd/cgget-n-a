@@ -1,0 +1,146 @@
+devices.list: a *:* rwm
+cpuset.memory_pressure: 0
+cpuset.memory_migrate: 0
+cpuset.mem_exclusive: 0
+cpuset.memory_spread_slab: 0
+cpuset.cpu_exclusive: 0
+cpuset.effective_mems: 0
+cpuset.effective_cpus: 0
+cpuset.sched_load_balance: 1
+cpuset.mems: 0
+cpuset.mem_hardwall: 0
+cpuset.sched_relax_domain_level: -1
+cpuset.cpus: 0
+cpuset.memory_spread_page: 0
+freezer.self_freezing: 0
+freezer.parent_freezing: 0
+freezer.state: THAWED
+hugetlb.2MB.limit_in_bytes: 9223372036852678656
+hugetlb.2MB.usage_in_bytes: 0
+hugetlb.2MB.rsvd.failcnt: 0
+hugetlb.2MB.max_usage_in_bytes: 0
+hugetlb.2MB.rsvd.limit_in_bytes: 9223372036852678656
+hugetlb.2MB.rsvd.usage_in_bytes: 0
+hugetlb.2MB.rsvd.max_usage_in_bytes: 0
+hugetlb.2MB.failcnt: 0
+net_cls.classid: 0
+net_prio.prioidx: 7
+net_prio.ifpriomap: lo 0
+	eth0 0
+	lxdbr0 0
+	vethb7b9a0f5 0
+	lxcbr0 0
+	veth72d3ce6b 0
+blkio.throttle.read_iops_device:
+blkio.throttle.io_service_bytes: Total 0
+blkio.throttle.write_iops_device:
+blkio.throttle.read_bps_device:
+blkio.throttle.write_bps_device:
+blkio.throttle.io_serviced: Total 0
+blkio.throttle.io_service_bytes_recursive: Total 0
+blkio.throttle.io_serviced_recursive: Total 0
+rdma.current:
+rdma.max:
+cpu.cfs_period_us: 100000
+cpu.stat: nr_periods 0
+	nr_throttled 0
+	throttled_time 0
+cpu.shares: 1024
+cpu.cfs_quota_us: -1
+cpu.uclamp.min: 0.00
+cpu.uclamp.max: max
+cpuacct.usage_percpu_sys: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+cpuacct.usage_percpu: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+cpuacct.stat: user 0
+	system 0
+cpuacct.usage: 0
+cpuacct.usage_sys: 0
+cpuacct.usage_all: cpu user system
+	0 0 0
+	1 0 0
+	2 0 0
+	3 0 0
+	4 0 0
+	5 0 0
+	6 0 0
+	7 0 0
+	8 0 0
+	9 0 0
+	10 0 0
+	11 0 0
+	12 0 0
+	13 0 0
+	14 0 0
+cpuacct.usage_percpu_user: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+cpuacct.usage_user: 0
+memory.use_hierarchy: 1
+memory.kmem.tcp.usage_in_bytes: 0
+memory.soft_limit_in_bytes: 9223372036854771712
+memory.move_charge_at_immigrate: 0
+memory.memsw.failcnt: 0
+memory.kmem.tcp.max_usage_in_bytes: 0
+memory.max_usage_in_bytes: 0
+memory.oom_control: oom_kill_disable 0
+	under_oom 0
+	oom_kill 0
+memory.stat: cache 0
+	rss 0
+	rss_huge 0
+	shmem 0
+	mapped_file 0
+	dirty 0
+	writeback 0
+	swap 0
+	pgpgin 0
+	pgpgout 0
+	pgfault 0
+	pgmajfault 0
+	inactive_anon 0
+	active_anon 0
+	inactive_file 0
+	active_file 0
+	unevictable 0
+	hierarchical_memory_limit 9223372036854771712
+	hierarchical_memsw_limit 9223372036854771712
+	total_cache 0
+	total_rss 0
+	total_rss_huge 0
+	total_shmem 0
+	total_mapped_file 0
+	total_dirty 0
+	total_writeback 0
+	total_swap 0
+	total_pgpgin 0
+	total_pgpgout 0
+	total_pgfault 0
+	total_pgmajfault 0
+	total_inactive_anon 0
+	total_active_anon 0
+	total_inactive_file 0
+	total_active_file 0
+	total_unevictable 0
+memory.kmem.slabinfo:
+memory.limit_in_bytes: 9223372036854771712
+memory.swappiness: 60
+memory.memsw.max_usage_in_bytes: 0
+memory.numa_stat: total=0 N0=0
+	file=0 N0=0
+	anon=0 N0=0
+	unevictable=0 N0=0
+	hierarchical_total=0 N0=0
+	hierarchical_file=0 N0=0
+	hierarchical_anon=0 N0=0
+	hierarchical_unevictable=0 N0=0
+memory.kmem.failcnt: 0
+memory.kmem.max_usage_in_bytes: 0
+memory.usage_in_bytes: 0
+memory.memsw.limit_in_bytes: 9223372036854771712
+memory.failcnt: 0
+memory.kmem.tcp.failcnt: 0
+memory.kmem.limit_in_bytes: 9223372036854771712
+memory.memsw.usage_in_bytes: 0
+memory.kmem.usage_in_bytes: 0
+memory.kmem.tcp.limit_in_bytes: 9223372036854771712
+pids.current: 0
+pids.events: max 0
+pids.max: max
