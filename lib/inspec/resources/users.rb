@@ -280,7 +280,6 @@ module Inspec::Resources
     end
 
     def has_login_shell?(compare_shell)
-      Inspec.deprecate(:resource_user_serverspec_compat, "The user resource `has_login_shell?` matcher is deprecated. Please use `its('shell')`.")
       shell == compare_shell
     end
 
