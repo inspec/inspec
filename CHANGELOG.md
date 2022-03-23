@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.10.4 -->
-## [v5.10.4](https://github.com/inspec/inspec/tree/v5.10.4) (2022-03-23)
+<!-- latest_release 5.10.5 -->
+## [v5.10.5](https://github.com/inspec/inspec/tree/v5.10.5) (2022-03-23)
 
 #### Merged Pull Requests
-- Bump omnibus-software from `5947560` to `82b14e3` in /omnibus [#5940](https://github.com/inspec/inspec/pull/5940) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Fix plugin list smoke test [#5946](https://github.com/inspec/inspec/pull/5946) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.7.9 -->
 ### Changes since 5.7.9 release
 
 #### Merged Pull Requests
+- Fix plugin list smoke test [#5946](https://github.com/inspec/inspec/pull/5946) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.10.5 -->
 - Bump omnibus-software from `5947560` to `82b14e3` in /omnibus [#5940](https://github.com/inspec/inspec/pull/5940) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.10.4 -->
 - CFINSPEC-156 Oracle query fix when empty result [#5938](https://github.com/inspec/inspec/pull/5938) ([Nik08](https://github.com/Nik08)) <!-- 5.10.3 -->
 - CFINSPEC-118 Description added in plugin list and search command [#5936](https://github.com/inspec/inspec/pull/5936) ([Nik08](https://github.com/Nik08)) <!-- 5.10.2 -->
