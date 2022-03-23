@@ -51,7 +51,7 @@ describe "Inspec::Resources::DockerContainer" do
 
     it "checks if a volume has been mounted for the docker resource" do
       resource = load_resource("docker_container", "trusting_williams")
-      _(resource.has_volume?('/app', '/var/lib/docker/volumes/myvol2/_data')).must_equal true
+      _(resource.has_volume?("/app", "/var/lib/docker/volumes/myvol2/_data")).must_equal true
     end
   end
 end
