@@ -1,21 +1,19 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.19 -->
-## [v4.56.19](https://github.com/inspec/inspec/tree/v4.56.19) (2022-03-23)
-
-#### Merged Pull Requests
-- Backport Oracle session resource fix when empty results and zero rows [#5943](https://github.com/inspec/inspec/pull/5943) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.56.17 -->
-### Changes since 4.56.17 release
-
-#### Merged Pull Requests
-- Backport Oracle session resource fix when empty results and zero rows [#5943](https://github.com/inspec/inspec/pull/5943) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.19 -->
-- Backport empty postgres query fix to inspec 4 [#5942](https://github.com/inspec/inspec/pull/5942) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.18 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.56.19](https://github.com/inspec/inspec/tree/v4.56.19) (2022-03-23)
+
+#### Merged Pull Requests
+- Backport empty postgres query fix to inspec 4 [#5942](https://github.com/inspec/inspec/pull/5942) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Backport Oracle session resource fix when empty results and zero rows [#5943](https://github.com/inspec/inspec/pull/5943) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v4.56.17](https://github.com/inspec/inspec/tree/v4.56.17) (2022-03-15)
 
 #### New Features
@@ -61,7 +59,6 @@
 - CFINSPEC-68 backport target id inspec 4 [#5917](https://github.com/inspec/inspec/pull/5917) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Backport firewalld update - inspec-4 [#5919](https://github.com/inspec/inspec/pull/5919) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Backport filtertable lazy instance to inspec-4 [#5922](https://github.com/inspec/inspec/pull/5922) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v4.52.9](https://github.com/inspec/inspec/tree/v4.52.9) (2021-12-20)
 
