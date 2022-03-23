@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.10.0 -->
-## [v5.10.0](https://github.com/inspec/inspec/tree/v5.10.0) (2022-03-23)
+<!-- latest_release 5.10.1 -->
+## [v5.10.1](https://github.com/inspec/inspec/tree/v5.10.1) (2022-03-23)
 
 #### Merged Pull Requests
-- CFINSPEC-73: Add cgroup resource [#5935](https://github.com/inspec/inspec/pull/5935) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-154: postgres_session resource allow query errors to be treat as failures. [#5937](https://github.com/inspec/inspec/pull/5937) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.7.9 -->
 ### Changes since 5.7.9 release
 
 #### Merged Pull Requests
+- CFINSPEC-154: postgres_session resource allow query errors to be treat as failures. [#5937](https://github.com/inspec/inspec/pull/5937) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.10.1 -->
 - CFINSPEC-73: Add cgroup resource [#5935](https://github.com/inspec/inspec/pull/5935) ([ahasunos](https://github.com/ahasunos)) <!-- 5.10.0 -->
 - CFINSPEC-82: Add ppa resource  [#5931](https://github.com/inspec/inspec/pull/5931) ([ahasunos](https://github.com/ahasunos)) <!-- 5.9.0 -->
 - CFINSPEC-79: Add linux container resource [#5921](https://github.com/inspec/inspec/pull/5921) ([ahasunos](https://github.com/ahasunos)) <!-- 5.8.0 -->
