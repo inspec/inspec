@@ -276,7 +276,6 @@ module Inspec::Resources
     end
 
     def has_home_directory?(compare_home)
-      Inspec.deprecate(:resource_user_serverspec_compat, "The user resource `has_home_directory?` matcher is deprecated. Please use `its('home')`.")
       home == compare_home
     end
 
