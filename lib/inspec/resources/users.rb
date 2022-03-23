@@ -271,7 +271,6 @@ module Inspec::Resources
     # implements rspec has matcher, to be compatible with serverspec
     # @see: https://github.com/rspec/rspec-expectations/blob/master/lib/rspec/matchers/built_in/has.rb
     def has_uid?(compare_uid)
-      Inspec.deprecate(:resource_user_serverspec_compat, "The user resource `has_uid?` matcher is deprecated.")
       uid == compare_uid
     end
 
