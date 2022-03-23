@@ -17,12 +17,13 @@ module Inspec::Resources
 
     # Resource initialization.
     def initialize(cgroup_name)
+      raise Inspec::Exceptions::ResourceSkipped, "The `cgroup` resource is not supported on your OS yet." unless inspec.os.linux?
+
       @cgroup_name = cgroup_name
       @valid_queries, @valid_queries_split = [], []
       find_valid_queries
       # Used to track the method calls in an "its" query
       @cgroup_info_query = []
-      raise Inspec::Exceptions::ResourceSkipped, "The `cgroup` resource is not supported on your OS yet." unless inspec.os.linux?
     end
 
     def resource_id
@@ -40,17 +41,18 @@ module Inspec::Resources
 
       # The ith level param must match with atleast one row's ith column of @valid_queries_split
       # Else there is no way, we would find any valid query in further iteration, so raise exception.
-      if @valid_queries_split.map{|e| e[@cgroup_info_query.length-1]}.include?(param.to_s)
+      if @valid_queries_split.map { |e| e[@cgroup_info_query.length - 1] }.include?(param.to_s)
         # If the query form so far is part of @valid_queries, we are good to trigger find_cgroup_info
         # else go for next level of param
         if @valid_queries.include?(query)
           @cgroup_info_query = []
           find_cgroup_info(query)
         else
-          self 
-        end 
+          self
+        end
       else
         @cgroup_info_query = []
+
         raise Inspec::Exceptions::ResourceFailed, "The query #{query} does not appear to be valid."
       end
     end
@@ -71,6 +73,7 @@ module Inspec::Resources
       bin = find_cgget_or_error
       cgget_cmd = "#{bin} -n -r #{query} #{@cgroup_name}"
       cmd = inspec.command(cgget_cmd)
+
       raise Inspec::Exceptions::ResourceFailed, "Executing cgget failed: #{cmd.stderr}" if cmd.exit_status.to_i != 0
 
       # For complex returns the user must use match /the_regex/
@@ -86,12 +89,13 @@ module Inspec::Resources
       bin = find_cgget_or_error
       cgget_all_cmd = "#{bin} -n -a #{@cgroup_name}"
       cmd = inspec.command(cgget_all_cmd)
-      raise Inspec::Exceptions::ResourceFailed, "Executing cgget failed: #{cmd.stderr}" if cmd.exit_status.to_i != 0
-      queries = cmd.stdout.to_s.gsub(/:.*/, "").gsub(/^\s+.*/, "").split("\n")
 
+      raise Inspec::Exceptions::ResourceFailed, "Executing cgget failed: #{cmd.stderr}" if cmd.exit_status.to_i != 0
+
+      queries = cmd.stdout.to_s.gsub(/:.*/, "").gsub(/^\s+.*/, "").split("\n")
       # store the relevant controller parameters in @valid_queries and the dot splitted paramters into @valid_queries_split
-      @valid_queries = queries.map {|q| q if q.length > 0 }.compact
-      @valid_queries_split = @valid_queries.map {|q| q.split(".") }.compact
+      @valid_queries = queries.map { |q| q if q.length > 0 }.compact
+      @valid_queries_split = @valid_queries.map { |q| q.split(".") }.compact
     end
   end
 end

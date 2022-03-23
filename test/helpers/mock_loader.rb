@@ -378,6 +378,11 @@ class MockLoader
       # lxc
       "/usr/sbin/lxc info my-ubuntu-container | grep -i Status" => cmd.call("lxcinfo"),
       %{sh -c 'type "/usr/sbin/lxc"'} => empty.call,
+      # cgroup
+      "cgget -n -a carrotking" => cmd.call("cgget-n-a"),
+      "cgget -n -r cpuset.cpus carrotking" => cmd.call("cgget-n-r"),
+      "cgget -n -r memory.stat carrotking" => cmd.call("cgget-n-r-stat"),
+      %{sh -c 'type "cgget"'} => empty.call,
       # apache_conf
       "sh -c 'find /etc/apache2/ports.conf -type f -maxdepth 1'" => cmd.call("find-apache2-ports-conf"),
       "sh -c 'find /etc/httpd/conf.d/*.conf -type f -maxdepth 1'" => cmd.call("find-httpd-ssl-conf"),
