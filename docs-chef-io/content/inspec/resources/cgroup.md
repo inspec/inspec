@@ -22,16 +22,16 @@ This resource is distributed with Chef InSpec.
 ## Syntax
 
     describe cgroup("CARROTKING") do
-      its("cupset.cpus") { should eq 0 }
+      its("cpuset.cpus") { should eq 0 }
     end
 where
 
-- `cupset.cpus` is a property of this resource and a parameter of the *cpuset* resource controller.
-- `carrotking` is the name of cgroup directory.
+- `cpuset.cpus` is a property of this resource and a parameter of the *cpuset* resource controller.
+- `CARROTKING` is the name of cgroup directory.
 
 ## Properties
 
-- All parameters of the cgroup resource controller are valid properties of this resource. Some of them are: `cupset.cpus`, `memory.limit_in_bytes`, `memory.stat`, `freezer.state`, `cpu.stat`, `cpuacct.usage`, `pids.current`, `blkio.throttle.io_service_bytes`.
+- All parameters of the cgroup resource controller are valid properties of this resource. Some of them are: `cpuset.cpus`, `memory.limit_in_bytes`, `memory.stat`, `freezer.state`, `cpu.stat`, `cpuacct.usage`, `pids.current`, `blkio.throttle.io_service_bytes`.
 
 ## Matchers
 
@@ -48,7 +48,7 @@ Unlike `eq`, `cmp` is a matcher for less-restrictive comparisons. This matcher a
 
 ### match
 
-`match` checks if a string matches a regular expression. Use `match` when the output of `cgget -n -r [subsytem.parameters] [cgroup-name]` is a multi-line output.
+`match` checks if a string matches a regular expression. Use `match` when the output of `cgget -n -r [subsystem.parameters] [cgroup-name]` is a multi-line output.
 
 ## Examples
 
@@ -56,15 +56,15 @@ The following examples show how to use this Chef InSpec audit resource.
 
 ### Example 1
 
-Use `eq` to test for parameters that have a single line integer value. The value considered is the output obtained on `cgget -n -r [subsytem.parameters] [cgroup-name]`.
+Use `eq` to test for parameters that have a single line integer value. The value considered is the output obtained on `cgget -n -r [subsystem.parameters] [cgroup-name]`.
 
     describe cgroup("CARROTKING") do
-      its("cupset.cpus") { should eq 0 }
+      its("cpuset.cpus") { should eq 0 }
     end
 
 ### Example 2
 
-Use `cmp` to test for parameters with less-restrictive comparisons and has a single line integer value. The value considered is the output obtained on `cgget -n -r [subsytem.parameters] [cgroup-name]`.
+Use `cmp` to test for parameters with less-restrictive comparisons and has a single line integer value. The value considered is the output obtained on `cgget -n -r [subsystem.parameters] [cgroup-name]`.
 
     describe cgroup("CARROTKING") do
       its("memory.limit_in_bytes") { should cmp 9223372036854771712 }
@@ -72,7 +72,7 @@ Use `cmp` to test for parameters with less-restrictive comparisons and has a sin
 
 ### Example 3
 
-Use `match` to test for parameters that have multi-line values and can be passed as *regex*. The value considered is the output obtained on `cgget -n -r [subsytem.parameters] [cgroup-name]`.
+Use `match` to test for parameters that have multi-line values and can be passed as *regex*. The value considered is the output obtained on `cgget -n -r [subsystem.parameters] [cgroup-name]`.
 
     describe cgroup("CARROTKING") do
       its("memory.stat") { should match /\bhierarchical_memory_limit 9223372036854771712\b/ }
