@@ -188,7 +188,7 @@ module Inspec
       option :silence_deprecations, type: :array,
         banner: "[all]|[GROUP GROUP...]",
         desc: "Suppress deprecation warnings. See install_dir/etc/deprecations.json for list of GROUPs or use 'all'."
-      option :diff, type: :boolean, default: false,
+      option :diff, type: :boolean, default: true,
         desc: "Use --no-diff to suppress 'diff' output of failed textual test results."
       option :sort_results_by, type: :string, default: "file", banner: "--sort-results-by=none|control|file|random",
         desc: "After normal execution order, results are sorted by control ID, or by file (default), or randomly. None uses legacy unsorted mode."
