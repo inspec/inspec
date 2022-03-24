@@ -153,6 +153,16 @@
                 "Mode": "z",
                 "RW": true,
                 "Propagation": ""
+            },
+            {
+                "Type": "volume",
+                "Name": "myvol3",
+                "Source": "/var/lib/docker/volumes/myvol3/_data",
+                "Destination": "/app2",
+                "Driver": "local",
+                "Mode": "z",
+                "RW": true,
+                "Propagation": ""
             }
         ],
         "Config": {

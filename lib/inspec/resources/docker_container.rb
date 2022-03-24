@@ -48,7 +48,9 @@ module Inspec::Resources
       # [+] Raise proper exception for containers with no mounted volume instead of saying undefined method `Destination' for nil:NilClass
       raise Inspec::Exceptions::ResourceFailed, "Could not find any mounted volumes for your container" unless volume_info.Mounts[0]
 
-      volume_info.Mounts[0].Destination == destination && volume_info.Mounts[0].Source == source
+      is_mounted = false
+      volume_info.Mounts.detect { |mount| is_mounted = mount.Destination == destination && mount.Source == source }
+      is_mounted
     end
 
     def status
