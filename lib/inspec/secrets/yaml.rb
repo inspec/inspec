@@ -16,7 +16,13 @@ module Secrets
 
     # array of yaml file paths
     def initialize(target)
-      @inputs = ::YAML.load_file(target, permitted_classes: [Date, Time])
+      # Ruby 3.1 treats YAML load as a dangerous operation by default, requiring us to declare date and time classes as permitted
+      # It's not a valid option in 3.0.x
+      if Gem.ruby_version >= Gem::Version.new("3.1.0")
+        @inputs = ::YAML.load_file(target, permitted_classes: [Date, Time])
+      else
+        @inputs = ::YAML.load_file(target)
+      end
 
       if @inputs == false || !@inputs.is_a?(Hash)
         Inspec::Log.warn("#{self.class} unable to parse #{target}: invalid YAML or contents is not a Hash")
