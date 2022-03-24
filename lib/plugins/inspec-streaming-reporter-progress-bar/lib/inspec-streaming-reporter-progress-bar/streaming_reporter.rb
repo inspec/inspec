@@ -1,5 +1,4 @@
 require 'progress_bar'
-require 'pry'
 
 module InspecPlugins::StreamingReporterProgressBar
   # This class will provide the actual Streaming Reporter implementation.
@@ -21,8 +20,6 @@ module InspecPlugins::StreamingReporterProgressBar
         'failed' => "\033[0;1;31m",
         'passed' => "\033[0;1;32m",
         'skipped' => "\033[0;37m",
-        'error' => "\033[0;33m",
-        'na' => "\033[0;34m",
         'reset' => "\033[0m",
       }.freeze
 
@@ -32,8 +29,6 @@ module InspecPlugins::StreamingReporterProgressBar
         'failed' => '[FAIL]',
         'skipped' => '[SKIP]',
         'passed' => '[PASS]',
-        'na' => '[NA]',
-        'error' => '[ERROR]',
       }.freeze
     else
       # Extended colors for everyone else
@@ -41,8 +36,6 @@ module InspecPlugins::StreamingReporterProgressBar
         'failed' => "\033[38;5;9m",
         'passed' => "\033[38;5;41m",
         'skipped' => "\033[38;5;247m",
-        'error' => "\033[38:5:11m",
-        'na' => "\033[38;5;4m",
         'reset' => "\033[0m",
       }.freeze
 
@@ -52,12 +45,10 @@ module InspecPlugins::StreamingReporterProgressBar
         'failed' => '× [FAILED] ',
         'skipped' => '↺ [SKIPPED]',
         'passed' => '✔ [PASSED] ',
-        'na' => '↺ [NA]     ',
-        'error' => '! [ERROR]  ',
       }.freeze
     end
 
-    def initialize(output)
+    def initialize(_output)
       @bar = nil
       @status_mapping = {}
       initialize_streaming_reporter
@@ -70,7 +61,7 @@ module InspecPlugins::StreamingReporterProgressBar
       full_description = notification.example.metadata[:full_description]
       control_impact = notification.example.metadata[:impact]
       set_status_mapping(control_id, 'passed')
-      show_progress(notification, control_id, title, full_description, control_impact) if control_ended?(control_id)
+      show_progress(control_id, title, full_description, control_impact) if control_ended?(control_id)
     end
 
     def example_failed(notification)
@@ -79,7 +70,7 @@ module InspecPlugins::StreamingReporterProgressBar
       full_description = notification.example.metadata[:full_description]
       control_impact = notification.example.metadata[:impact]
       set_status_mapping(control_id, 'failed')
-      show_progress(notification, control_id, title, full_description, control_impact) if control_ended?(control_id)
+      show_progress(control_id, title, full_description, control_impact) if control_ended?(control_id)
     end
 
     def example_pending(notification)
@@ -88,53 +79,22 @@ module InspecPlugins::StreamingReporterProgressBar
       full_description = notification.example.metadata[:full_description]
       control_impact = notification.example.metadata[:impact]
       set_status_mapping(control_id, 'skipped')
-      show_progress(notification, control_id, title, full_description, control_impact) if control_ended?(control_id)
-    end
-
-    def example_error(notification)
-      control_id = notification.example.metadata[:id]
-      title = notification.example.metadata[:title]
-      full_description = notification.example.metadata[:full_description]
-      control_impact = notification.example.metadata[:impact]
-      set_status_mapping(control_id, 'error')
-      show_progress(notification, control_id, title, full_description, control_impact) if control_ended?(control_id)
-    end
-
-    def example_na(notification)
-      control_id = notification.example.metadata[:id]
-      title = notification.example.metadata[:title]
-      full_description = notification.example.metadata[:full_description]
-      control_impact = notification.example.metadata[:impact]
-      set_status_mapping(control_id, 'na')
-      show_progress(notification, control_id, title, full_description, control_impact) if control_ended?(control_id)
+      show_progress(control_id, title, full_description, control_impact) if control_ended?(control_id)
     end
 
     private
 
-    def show_progress(notification, control_id, title, full_description, control_impact)
+    def show_progress(control_id, title, full_description, control_impact)
       @bar ||= ProgressBar.new(controls_count, :bar, :counter, :percentage)
       sleep 0.1
       @bar.increment!
-      @bar.puts format_it(notification, control_id, title, full_description, control_impact)
+      @bar.puts format_it(control_id, title, full_description, control_impact)
     rescue StandardError => e
       raise "Exception in Progress Bar streaming reporter: #{e}"
     end
 
-    def format_it(_notification, control_id, title, full_description, control_impact)
-      control_status = if @advanced
-                         if full_description.match?(/Source Code Error/)
-                           'error'
-                         elsif control_impact == 0
-                           'na'
-                         elsif @status_mapping[control_id].include?('failed')
-                           'failed'
-                         elsif @status_mapping[control_id].include?('skipped') && @status_mapping[control_id].uniq.one?
-                           'skipped'
-                         else
-                           @status_mapping[control_id].any? { |val| /"passed"||"skipped"/ =~ val }
-                           'passed'
-                         end
-                       elsif @status_mapping[control_id].include? 'failed'
+    def format_it(control_id, title, full_description, _control_impact)
+      control_status = if @status_mapping[control_id].include? 'failed'
                          'failed'
                        elsif @status_mapping[control_id].include? 'passed'
                          'passed'
@@ -149,7 +109,7 @@ module InspecPlugins::StreamingReporterProgressBar
       message_to_format += "#{title.gsub(/\n*\s+/, ' ').to_s.force_encoding(Encoding::UTF_8)}  " if title
       message_to_format += "#{full_description.gsub(/\n*\s+/, ' ').to_s.force_encoding(Encoding::UTF_8)}  " unless title
       format_with_color(control_status, message_to_format)
-    rescue Exception => e
+    rescue StandardError => e
       raise "Exception in show_progress: #{e}"
     end
 
@@ -166,6 +126,5 @@ module InspecPlugins::StreamingReporterProgressBar
     rescue StandardError => e
       raise "Exception in format_with_color: #{e}"
     end
-
   end
 end
