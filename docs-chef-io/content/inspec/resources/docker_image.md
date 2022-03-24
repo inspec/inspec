@@ -81,6 +81,8 @@ The `tag` property tests the value of image tag:
     its('tag') { should eq 'latest' }
 
 ### Low-level information of docker image as `docker_image`'s Property
+
+#### inspection
 `:inspection` property allows testing the low-level information of docker image returned by `docker inspect [docker_image]`. Use hash format `'key' => 'value` for testing the information.
 
     its(:inspection) { should include "Key" => "Value" }
@@ -91,11 +93,21 @@ The `tag` property tests the value of image tag:
       }
     }
 
-Additionally, all keys of the low-level information are valid properties and can be passed in square brackets when writing the test.
-
-    its([key]) { should eq some_value }
-    its([key1.key2]) { should include some_value }
-
+#### Additionally, all keys of the low-level information are valid properties and can be passed in three ways when writing the test.
+- Serverspec's syntax
+```
+  its(['key']) { should eq some_value }
+  its(['key1.key2.key3']) { should include some_value }
+```
+- InSpec's syntax
+```
+  its(['key']) { should eq some_value }
+  its(['key1', 'key2', 'key3']) { should include some_value }
+```
+- Combination of Serverspec and InSpec
+```
+  its(['key1.key2', 'key3']) { should include some_value }
+```
 
 ## Matchers
 
