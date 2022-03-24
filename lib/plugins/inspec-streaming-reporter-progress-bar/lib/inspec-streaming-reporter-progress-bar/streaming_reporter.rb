@@ -52,7 +52,6 @@ module InspecPlugins::StreamingReporterProgressBar
       @bar = nil
       @status_mapping = {}
       initialize_streaming_reporter
-      @advanced = Inspec::Config.cached.final_options[:advanced_reporting]
     end
 
     def example_passed(notification)
