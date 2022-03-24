@@ -62,6 +62,7 @@ module Inspec::Resources
       image_hash_inspection(hash_keys)
     end
 
+    # inspection property allows to test any of the hash key-value pairs as part of the image_inspect_info
     def inspection
       image_inspect_info
     end
