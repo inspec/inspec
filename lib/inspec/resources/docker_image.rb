@@ -49,16 +49,10 @@ module Inspec::Resources
     end
 
     def [](hashkeys)
-      hash_value = image_inspect_info
-      keys = hashkeys.split(".")
-      keys.each do |k|
-        if hash_value.include?(k.to_sym)
-          hash_value = hash_value[k.to_sym]
-        else
-          raise Inspec::Exceptions::ResourceFailed, "#{hashkeys} is not a valid key for your image, #{k} not found."
-        end
-      end
-      hash_value
+      hashkeys = hashkeys.split(".").map(&:to_sym)
+      image_inspect_info.dig(*hashkeys)
+    rescue
+      raise Inspec::Exceptions::ResourceFailed, "#{hashkeys.join(".")} is not a valid key for your image"
     end
 
     def inspection
