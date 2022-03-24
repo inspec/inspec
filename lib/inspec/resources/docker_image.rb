@@ -2,10 +2,11 @@
 # Copyright 2017, Christoph Hartmann
 
 require "inspec/resources/docker"
+require "inspec/resources/json"
 require_relative "docker_object"
 
 module Inspec::Resources
-  class DockerImage < Inspec.resource(1)
+  class DockerImage < JsonConfig
     include Inspec::Resources::DockerObject
 
     name "docker_image"
@@ -34,6 +35,7 @@ module Inspec::Resources
       o = opts.dup
       o = { image: opts } if opts.is_a?(String)
       @opts = sanitize_options(o)
+      super({ content: image_inspect_info.to_json })
     end
 
     def image
@@ -48,11 +50,12 @@ module Inspec::Resources
       object_info.tags[0] if object_info.entries.size == 1
     end
 
-    def [](hashkeys)
-      hashkeys = hashkeys.split(".").map(&:to_sym)
-      image_inspect_info.dig(*hashkeys)
-    rescue
-      raise Inspec::Exceptions::ResourceFailed, "#{hashkeys.join(".")} is not a valid key for your image"
+    def method_missing(*keys)
+      keys.shift if keys.is_a?(Array) && keys[0] == :[]
+      inspect_value = value(keys.map { |key| key.split(".") }.flatten)
+      raise Inspec::Exceptions::ResourceFailed, "#{keys.join(".")} is not a valid key for your image" if inspect_value.nil?
+
+      inspect_value
     end
 
     def inspection
