@@ -1,17 +1,27 @@
 module InspecPlugins
   module Parallel
     class Base
-      attr_accessor :options
+      attr_accessor :options, :default_profile, :sub_cmd
 
-      def initialize(options)
+      def initialize(options, default_profile, sub_cmd = "exec")
+        @default_profile = default_profile
         @options = options
-        @option_file = options[:option_file]
+        @sub_cmd = sub_cmd
       end
 
-      def run_scan(default_profile)
-        @parsed_option_strings = parse_option_file
+      def run
+        execute_pre_run_process
+        run_commands
+      end
+
+      def dry_run
+        execute_pre_run_process
+        dry_run_commands
+      end
+
+      def execute_pre_run_process
+        @parsed_options = parse_options_file
         validate_option_strings
-        execute_option_strings
       end
 
       private
@@ -20,15 +30,28 @@ module InspecPlugins
         # TBD
       end
 
-      def parse_option_file
-        # TBD
-        []
+      def parse_options_file
+        opts = []
+        content = File.read(options[:option_file])
+        content.split("\n").each do |str|
+          if str.start_with?("-")
+            opts << "#{default_profile} #{str}"
+          else
+            opts << "#{str}"
+          end
+        end
+        opts
       end
 
-      def execute_option_strings
+      def run_commands
         # TBD
       end
 
+      def dry_run_commands
+        @parsed_options.each do |opts|
+          puts "inspec #{sub_cmd} #{opts}"
+        end
+      end
     end
   end
 end
