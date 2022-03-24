@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< azurerm_deprecated resource="azure_webapps" >}}
+
 Use the `azurerm_webapps` InSpec audit resource to enumerate Webapps.
 
 ## Azure REST API version

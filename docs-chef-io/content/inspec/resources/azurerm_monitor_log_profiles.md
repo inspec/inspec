@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< azurerm_deprecated resource="azure_monitor_log_profiles" >}}
+
 Use the `azurerm_monitor_log_profiles` InSpec audit resource to verify that a Log Profile
 exists.
 

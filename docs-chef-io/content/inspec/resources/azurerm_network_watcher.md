@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< azurerm_deprecated resource="azure_network_watcher" >}}
+
 Use the `azurerm_network_watcher` InSpec audit resource to test properties of an Azure
 Network Watcher.
 

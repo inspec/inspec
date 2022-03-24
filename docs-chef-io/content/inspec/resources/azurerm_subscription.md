@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< azurerm_deprecated resource="azure_subscription" >}}
+
 Use the `azurerm_subscription` InSpec audit resource to test properties related to the current subscription
 subscription.
 

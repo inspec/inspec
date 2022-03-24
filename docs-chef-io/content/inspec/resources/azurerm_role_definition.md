@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< azurerm_deprecated resource="azure_role_definition" >}}
+
 Use the `azurerm_role_definition` InSpec audit resource to test properties of
 an Azure Role Definition.
 

@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< azurerm_deprecated resource="azure_security_center_policies" >}}
+
 Use the `azurerm_security_center_policies` InSpec audit resource to test
 properties of some or all Azure Security Center Policies.
 

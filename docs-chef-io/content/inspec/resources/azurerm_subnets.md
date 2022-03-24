@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< azurerm_deprecated resource="azure_subnet" >}}
+
 Use the `azurerm_subnets` InSpec audit resource to test properties related to
 subnets for a resource group.
 

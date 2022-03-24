@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< azurerm_deprecated resource="azure_aks_cluster" >}}
+
 Use the `azurerm_aks_cluster` InSpec audit resource to test properties of an Azure AKS Cluster.
 
 ## Azure REST API version

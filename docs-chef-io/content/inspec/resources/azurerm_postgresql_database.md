@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< azurerm_deprecated resource="azure_postgresql_database" >}}
+
 Use the `azurerm_postgresql_database` InSpec audit resource to test properties and configuration of
 an Azure PostgreSQL Database on a PostgreSQL Server.
 
