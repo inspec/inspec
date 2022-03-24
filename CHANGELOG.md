@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 5.10.6 -->
+## [v5.10.6](https://github.com/inspec/inspec/tree/v5.10.6) (2022-03-24)
+
+#### Merged Pull Requests
+- Deprecation note for azurerm resources [#5923](https://github.com/inspec/inspec/pull/5923) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=5.10.5 -->
+### Changes since 5.10.5 release
+
+#### Merged Pull Requests
+- Deprecation note for azurerm resources [#5923](https://github.com/inspec/inspec/pull/5923) ([IanMadd](https://github.com/IanMadd)) <!-- 5.10.6 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
