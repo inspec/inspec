@@ -280,13 +280,12 @@ module Inspec::Resources
       shell == compare_shell
     end
 
-    def has_authorized_key?(_compare_key)
-      Inspec.deprecate(:resource_user_serverspec_compat, "The user resource `has_authorized_key?` matcher is deprecated. There is no currently implemented alternative")
-      raise NotImplementedError
+    def has_authorized_key?(compare_key)
+      authorized_key(compare_key)
     end
 
     def belongs_to_primary_group?(group_name)
-      groupname = group_name
+      groupname == group_name
     end
 
     def belongs_to_group?(group_name)
@@ -324,6 +323,13 @@ module Inspec::Resources
       return @cred_cache if defined?(@cred_cache)
 
       @cred_cache = @user_provider.credentials(@username) unless @user_provider.nil?
+    end
+
+    def authorized_key(key)
+      # Todo
+      # - 1. Split standard output and compare each line if it matches with the given key and not grep.
+      # - 2. Handling needs to be done for windows systems
+      inspec.command("cat ~/.ssh/authorized_keys | grep '#{key}'").exit_status == 0 || inspec.command("cat ~/.ssh/authorized_keys2 | grep '#{key}'").exit_status == 0
     end
   end
 
