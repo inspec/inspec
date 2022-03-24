@@ -16,7 +16,7 @@ module Secrets
 
     # array of yaml file paths
     def initialize(target)
-      @inputs = ::YAML.load_file(target)
+      @inputs = ::YAML.load_file(target, permitted_classes: [Date, Time])
 
       if @inputs == false || !@inputs.is_a?(Hash)
         Inspec::Log.warn("#{self.class} unable to parse #{target}: invalid YAML or contents is not a Hash")
