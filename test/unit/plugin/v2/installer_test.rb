@@ -424,6 +424,7 @@ class PluginInstallerUninstallTests < Minitest::Test
   end
 
   def test_uninstall_a_gem_plugin
+    WebMock.disable_net_connect!(allow: %r{(api\.)?rubygems\.org/.*})
     skip_slow_tests # not that slow, just noisy
 
     copy_in_config_dir("test-fixture-1-float")
@@ -451,6 +452,7 @@ class PluginInstallerUninstallTests < Minitest::Test
   end
 
   def test_uninstall_a_gem_plugin_removes_deps
+    WebMock.disable_net_connect!(allow: %r{(api\.)?rubygems\.org/.*})
     skip_slow_tests # not that slow, just noisy
 
     copy_in_config_dir("test-fixture-2-float")

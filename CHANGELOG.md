@@ -22,6 +22,27 @@
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
+## [v5.10.5](https://github.com/inspec/inspec/tree/v5.10.5) (2022-03-23)
+
+#### Merged Pull Requests
+- Update docs makefile [#5927](https://github.com/inspec/inspec/pull/5927) ([IanMadd](https://github.com/IanMadd))
+- CFINSPEC-1 Adds the ability to detect the Kubernetes container and Podman container. [#5796](https://github.com/inspec/inspec/pull/5796) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-79: Add linux container resource [#5921](https://github.com/inspec/inspec/pull/5921) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-82: Add ppa resource  [#5931](https://github.com/inspec/inspec/pull/5931) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-73: Add cgroup resource [#5935](https://github.com/inspec/inspec/pull/5935) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-154: postgres_session resource allow query errors to be treat as failures. [#5937](https://github.com/inspec/inspec/pull/5937) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-118 Description added in plugin list and search command [#5936](https://github.com/inspec/inspec/pull/5936) ([Nik08](https://github.com/Nik08))
+- CFINSPEC-156 Oracle query fix when empty result [#5938](https://github.com/inspec/inspec/pull/5938) ([Nik08](https://github.com/Nik08))
+- Bump omnibus-software from `5947560` to `82b14e3` in /omnibus [#5940](https://github.com/inspec/inspec/pull/5940) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Fix plugin list smoke test [#5946](https://github.com/inspec/inspec/pull/5946) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
 
 ## [v5.7.9](https://github.com/inspec/inspec/tree/v5.7.9) (2022-03-17)
 
@@ -100,7 +121,6 @@
 - CFINSPEC-137: Deprecate --target-id option [#5918](https://github.com/inspec/inspec/pull/5918) ([Vasu1105](https://github.com/Vasu1105))
 - RESOURCE-312 extend filter table to lazy loading for resource instances [#5916](https://github.com/inspec/inspec/pull/5916) ([sathish-progress](https://github.com/sathish-progress))
 - Update copyright year in README [#5928](https://github.com/inspec/inspec/pull/5928) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v4.52.9](https://github.com/inspec/inspec/tree/v4.52.9) (2021-12-20)
 

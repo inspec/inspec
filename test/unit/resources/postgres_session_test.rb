@@ -33,13 +33,96 @@ describe "Inspec::Resources::PostgresSession" do
     _(resource.resource_failed?).must_equal true
     _(resource.resource_exception_message).must_equal "Can't run PostgreSQL SQL checks without authentication."
   end
-  it "fails when no connection established" do
-    resource = load_resource("postgres_session", "postgres", "postgres", "localhost", 5432)
-    _(proc { resource.send(:query, "Select 5;", ["mydatabase"]) }).must_raise Inspec::Exceptions::ResourceFailed
-  end
-
   it "verify postgres_session create_psql_cmd in socket connection" do
     resource = load_resource("postgres_session", "myuser", "mypass", "127.0.0.1", 5432, "/var/run/postgresql")
     _(resource.send(:create_psql_cmd, "SELECT * FROM STUDENTS;", ["testdb"])).must_equal "psql -d postgresql://myuser:mypass@/testdb?host=/var/run/postgresql -A -t -w -c SELECT\\ \\*\\ FROM\\ STUDENTS\\;"
+  end
+
+  it "fails when no connection established in linux" do
+    resource = quick_resource(:postgres_session, :linux, "postgres", "postgres", "localhost", 5432) do |cmd, opts|
+      cmd.strip!
+      case cmd
+      when ("psql -d postgresql://postgres:postgres@localhost:5432/mydatabase -A -t -w -c Select\\ 5\\;") then
+        result(nil, "test/fixtures/cmd/psql-connection-error", 1)
+      else
+        raise cmd.inspect
+      end
+    end
+    ex = assert_raises(Inspec::Exceptions::ResourceFailed) { resource.query("Select 5;", ["mydatabase"]) }
+    _(ex.message).must_include("PostgreSQL connection error")
+  end
+
+  it "fails when no password authentication fails" do
+    resource = quick_resource(:postgres_session, :linux, "postgres", "wrongpassword", "localhost", 5432) do |cmd, opts|
+      cmd.strip!
+      case cmd
+      when ("psql -d postgresql://postgres:wrongpassword@localhost:5432/mydatabase -A -t -w -c Select\\ 5\\;") then
+        result(nil, "test/fixtures/cmd/psql-password-authentication-error", 1)
+      else
+        raise cmd.inspect
+      end
+    end
+    ex = assert_raises(Inspec::Exceptions::ResourceFailed) { resource.query("Select 5;", ["mydatabase"]) }
+    _(ex.message).must_include("PostgreSQL connection error")
+  end
+
+  it "returns stderr as output if there is error in the query." do
+    resource = quick_resource(:postgres_session, :linux, "postgres", "postgres", "localhost", 5432) do |cmd, opts|
+      cmd.strip!
+      case cmd
+      when ("psql -d postgresql://postgres:postgres@localhost:5432/mydatabase -A -t -w -c DROP\\ TABLE\\ accounts\\;") then
+        result(nil, "test/fixtures/cmd/psql-query-error", 1)
+      else
+        raise cmd.inspect
+      end
+    end
+
+    _(resource.resource_failed?).must_equal false
+    query = resource.query("DROP TABLE accounts;", ["mydatabase"])
+    _(query.output).must_match(/must be owner of table accounts/)
+  end
+
+  it "fails when no connection established on Windows" do
+    resource = quick_resource(:postgres_session, :windows, "postgres", "postgres", "localhost", 5432) do |cmd, opts|
+      cmd.strip!
+      case cmd
+      when ("psql -d postgresql://postgres:postgres@localhost:5432/mydatabase -A -t -w -c \"Select 5;\"") then
+        result(nil, "test/fixtures/cmd/psql-connection-error", 1)
+      else
+        raise cmd.inspect
+      end
+    end
+    ex = assert_raises(Inspec::Exceptions::ResourceFailed) { resource.query("Select 5;", ["mydatabase"]) }
+    _(ex.message).must_include("PostgreSQL connection error")
+  end
+
+  it "fails when no password authentication fails on Windows" do
+    resource = quick_resource(:postgres_session, :windows, "postgres", "wrongpassword", "localhost", 5432) do |cmd, opts|
+      cmd.strip!
+      case cmd
+      when ("psql -d postgresql://postgres:wrongpassword@localhost:5432/mydatabase -A -t -w -c \"Select 5;\"") then
+        result(nil, "test/fixtures/cmd/psql-password-authentication-error", 1)
+      else
+        raise cmd.inspect
+      end
+    end
+    ex = assert_raises(Inspec::Exceptions::ResourceFailed) { resource.query("Select 5;", ["mydatabase"]) }
+    _(ex.message).must_include("PostgreSQL connection error")
+  end
+
+  it "returns stderr as output if there is error in the query on Windows." do
+    resource = quick_resource(:postgres_session, :windows, "postgres", "postgres", "localhost", 5432) do |cmd, opts|
+      cmd.strip!
+      case cmd
+      when ("psql -d postgresql://postgres:postgres@localhost:5432/mydatabase -A -t -w -c \"DROP TABLE accounts;\"") then
+        result(nil, "test/fixtures/cmd/psql-query-error", 1)
+      else
+        raise cmd.inspect
+      end
+    end
+
+    _(resource.resource_failed?).must_equal false
+    query = resource.query("DROP TABLE accounts;", ["mydatabase"])
+    _(query.output).must_match(/must be owner of table accounts/)
   end
 end
