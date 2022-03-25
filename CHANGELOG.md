@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.10.6 -->
-## [v5.10.6](https://github.com/inspec/inspec/tree/v5.10.6) (2022-03-24)
+<!-- latest_release 5.10.7 -->
+## [v5.10.7](https://github.com/inspec/inspec/tree/v5.10.7) (2022-03-25)
 
 #### Merged Pull Requests
-- Deprecation note for azurerm resources [#5923](https://github.com/inspec/inspec/pull/5923) ([IanMadd](https://github.com/IanMadd))
+- Extend CI test timeout to 60 minutes [#5949](https://github.com/inspec/inspec/pull/5949) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.10.5 -->
 ### Changes since 5.10.5 release
 
 #### Merged Pull Requests
+- Extend CI test timeout to 60 minutes [#5949](https://github.com/inspec/inspec/pull/5949) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.10.7 -->
 - Deprecation note for azurerm resources [#5923](https://github.com/inspec/inspec/pull/5923) ([IanMadd](https://github.com/IanMadd)) <!-- 5.10.6 -->
 <!-- release_rollup -->
 
