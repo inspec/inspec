@@ -68,12 +68,12 @@ module InspecPlugins::StreamingReporterProgressBar
     private
 
     def set_example(notification, status)
-      @control_id = notification.example.metadata[:id]
-      @title = notification.example.metadata[:title]
-      @full_description = notification.example.metadata[:full_description]
-      @control_impact = notification.example.metadata[:impact]
-      set_status_mapping(@control_id, status)
-      show_progress(@control_id, @title, @full_description, @control_impact) if control_ended?(@control_id)
+      control_id = notification.example.metadata[:id]
+      title = notification.example.metadata[:title]
+      full_description = notification.example.metadata[:full_description]
+      control_impact = notification.example.metadata[:impact]
+      set_status_mapping(control_id, status)
+      show_progress(control_id, title, full_description, control_impact) if control_ended?(control_id)
     end
 
     def show_progress(control_id, title, full_description, control_impact)
