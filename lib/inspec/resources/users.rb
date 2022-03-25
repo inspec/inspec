@@ -268,26 +268,32 @@ module Inspec::Resources
 
     # implements rspec has matcher, to be compatible with serverspec
     # @see: https://github.com/rspec/rspec-expectations/blob/master/lib/rspec/matchers/built_in/has.rb
+    # has_uid matcher: compatibility with serverspec
     def has_uid?(compare_uid)
       uid == compare_uid
     end
 
+    # has_home_directory matcher: compatibility with serverspec
     def has_home_directory?(compare_home)
       home == compare_home
     end
 
+    # has_login_shell matcher: compatibility with serverspec
     def has_login_shell?(compare_shell)
       shell == compare_shell
     end
 
+    # has_authorized_key matcher: compatibility with serverspec
     def has_authorized_key?(compare_key)
       authorized_key(compare_key)
     end
 
+    # belongs_to_primary_group matcher: compatibility with serverspec
     def belongs_to_primary_group?(group_name)
       groupname == group_name
     end
 
+    # belongs_to_group matcher: compatibility with serverspec
     def belongs_to_group?(group_name)
       groupsname = groups
       is_valid_group = false
@@ -325,11 +331,33 @@ module Inspec::Resources
       @cred_cache = @user_provider.credentials(@username) unless @user_provider.nil?
     end
 
+    # helper method for has_authorized_key matcher; 
+    # checks for key is present as part of authorized keys on the server
     def authorized_key(key)
-      # Todo
-      # - 1. Split standard output and compare each line if it matches with the given key and not grep.
-      # - 2. Handling needs to be done for windows systems
-      inspec.command("cat ~/.ssh/authorized_keys | grep '#{key}'").exit_status == 0 || inspec.command("cat ~/.ssh/authorized_keys2 | grep '#{key}'").exit_status == 0
+      # cat is used in unix system to display content of file; similarly type is used for windows
+      inspec.os.windows? ? bin = "type" : bin = "cat"
+
+      # auth_path gets assigned with the valid path for authorized_keys
+      # auth_keys gets list of keys from authorized_keys
+      auth_path, auth_keys = "", []
+
+      # possible paths where authorized_keys are stored
+      %w(~/.ssh/authorized_keys ~/.ssh/authorized_keys2).each do |path|
+        if inspec.command("#{bin} #{path}").exit_status == 0
+          auth_path = path
+          break
+        end
+      end
+
+      # if auth_path is empty, no valid path was found, hence raise exception
+      raise Inspec::Exceptions::ResourceSkipped, "Can't find any valid path for authorized_keys" if auth_path.empty?
+
+      # authorized_keys are obtained in the standard output;
+      # split keys on newline if more than one keys are part of authorized_keys
+      auth_keys = inspec.command("#{bin} #{auth_path}").stdout.split("\n").map(&:strip)
+
+      # check if the input key is part of the auth_keys
+      auth_keys.include?(key)
     end
   end
 
