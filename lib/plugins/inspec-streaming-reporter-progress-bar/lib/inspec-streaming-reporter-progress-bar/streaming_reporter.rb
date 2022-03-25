@@ -54,33 +54,27 @@ module InspecPlugins::StreamingReporterProgressBar
     end
 
     def example_passed(notification)
-      control_id = notification.example.metadata[:id]
-      title = notification.example.metadata[:title]
-      full_description = notification.example.metadata[:full_description]
-      control_impact = notification.example.metadata[:impact]
-      set_status_mapping(control_id, "passed")
-      show_progress(control_id, title, full_description, control_impact) if control_ended?(control_id)
+      set_example(notification, "passed")
     end
 
     def example_failed(notification)
-      control_id = notification.example.metadata[:id]
-      title = notification.example.metadata[:title]
-      full_description = notification.example.metadata[:full_description]
-      control_impact = notification.example.metadata[:impact]
-      set_status_mapping(control_id, "failed")
-      show_progress(control_id, title, full_description, control_impact) if control_ended?(control_id)
+      set_example(notification, "failed")
     end
 
     def example_pending(notification)
-      control_id = notification.example.metadata[:id]
-      title = notification.example.metadata[:title]
-      full_description = notification.example.metadata[:full_description]
-      control_impact = notification.example.metadata[:impact]
-      set_status_mapping(control_id, "skipped")
-      show_progress(control_id, title, full_description, control_impact) if control_ended?(control_id)
+      set_example(notification, "skipped")
     end
 
     private
+
+    def set_example(notification, status)
+      @control_id = notification.example.metadata[:id]
+      @title = notification.example.metadata[:title]
+      @full_description = notification.example.metadata[:full_description]
+      @control_impact = notification.example.metadata[:impact]
+      set_status_mapping(@control_id, status)
+      show_progress(@control_id, @title, @full_description, @control_impact) if control_ended?(@control_id)
+    end
 
     def show_progress(control_id, title, full_description, control_impact)
       @bar ||= ProgressBar.new(controls_count, :bar, :counter, :percentage)
