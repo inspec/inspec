@@ -306,6 +306,17 @@ module Inspec::Resources
       is_valid_group
     end
 
+    # encrypted_password property allows to run test against the hashed passwords of the given user
+    def encrypted_password
+      # encrypted_password property won't be applicable for windows users
+      # because on Windows users' password is stored in Security Account Manager(SAM) (which is a database file)
+      # In windows SAM file is locked from copying/reading unlike /etc/shadow on Linux and Unix systems
+
+      raise Inspec::Exceptions::ResourceSkipped, "encrypted_password is not applicable for your system" if inspec.os.windows?
+
+      encrypted_password_info
+    end
+
     def to_s
       "User #{@username}"
     end
@@ -358,6 +369,21 @@ module Inspec::Resources
 
       # check if the input key is part of the auth_keys
       auth_keys.include?(key)
+    end
+
+    # Helper method for encrypted_password property
+    def encrypted_password_info
+      # Todo:
+      # [-] Linux
+      # [-] BSD
+      # [-] Check if feasible on: Darwin, hpux, and aix
+      bin = 'getent'
+      cmd = inspec.command("#{bin} passwd #{@username}")
+
+      raise Inspec::Exceptions::ResourceSkipped, "Cannot view encrypted_password information" if cmd.exit_status != 0
+
+      shadow_info = cmd.stdout.split(":").map(&:strip)
+      shadow_info[1]
     end
   end
 
