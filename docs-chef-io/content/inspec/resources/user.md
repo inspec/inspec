@@ -90,6 +90,13 @@ The `maxdays` property tests the maximum number of days between password changes
 
 where `99` represents the maximum number of days.
 
+### maximum_days_between_password_change
+The `maximum_days_between_password_change` property is equivalent to `maxdays`.
+
+    its('maximum_days_between_password_change') { should eq 99 }
+
+where `99` represents the maximum number of days.
+
 ### mindays
 
 The `mindays` property tests the minimum number of days between password changes:
@@ -97,6 +104,14 @@ The `mindays` property tests the minimum number of days between password changes
     its('mindays') { should eq 0 }
 
 where `0` represents the maximum number of days.
+
+### minimum_days_between_password_change
+The `minimum_days_between_password_change` property is equivalent to `mindays`.
+
+    its('minimum_days_between_password_change') { should eq 0 }
+
+where `0` represents the maximum number of days.
+
 
 ### shell
 
@@ -154,6 +169,13 @@ The `lastlogin` property tests the last login date for a specific user.
 
 The `nil` value means this user has never logged in.
 
+### encrypted_password
+The `encrypted_password` property allows tests against the hashed password stored in shadow file on unix systems with `getent` utility.
+
+    its('encrypted_password') { should eq "!" }
+
+The `!` value means the user will not be able to login to the system using password authentication.
+
 ## Examples
 
 The following examples show how to use this Chef InSpec audit resource.
@@ -190,3 +212,35 @@ For a full list of available matchers, please visit our [matchers page](/inspec/
 The `exist` matcher tests if the named user exists:
 
     it { should exist }
+
+### have_home_directory
+The `have_home_directory` matcher tests if the given path is the home directory path. This is similar to `home` property.
+
+    it { should have_home_directory '/home/ubuntu' }
+
+### have_login_shell
+The `have_login_shell` matcher tests if the given path to shell is the default shell for the user. This is similar to `shell` property.
+
+    it { should have_login_shell '/bin/bash' }
+
+### have_uid
+The `have_uid` matcher tests if the given user identifier is true. This is similar to `uid` property.
+
+    it { should have_uid 1234 }
+
+where `1234` represents the user identifier.
+
+### belong_to_primary_group
+The `belong_to_primary_group` matcher tests if the given group is the primary group for the user. This is similar to `group` property.
+
+    it { should belong_to_primary_group 'ubuntu' }
+
+### belong_to_group
+The `belong_to_group` matcher tests if the given group is a valid group for the user. This can be either primary or any other group the user is a part of.
+
+    it { should belong_to_group 'sudo' }
+
+### have_authorized_keys
+The `have_authorized_keys` matcher tests if the given key is a valid key as part of the `authorized_keys` file.
+
+    it { should have_authorized_key 'ssh-ed25519 50m3r4nd0m57r1ng mockkey' }
