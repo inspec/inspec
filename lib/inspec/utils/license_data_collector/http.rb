@@ -10,8 +10,8 @@ module Inspec
     class Http < Base
 
       LDC_URL = "https://postman-echo.com/post".freeze # TODO: get real URL
-      # LDC_URL = "https://postman-echo.com/error/404" # Not a real endpoint but does 404 :-)
-      # LDC_URL = "https://postman-echo.com/delay/5" # Only works for GET
+      # LDC_URL = "https://postman-echo.com/error/404".freeze # Not a real endpoint but does 404 :-)
+      # LDC_URL = "https://postman-echo.com/delay/5".freeze # Only works for GET
 
       def scan_finishing(opts)
         super(opts)

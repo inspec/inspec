@@ -40,7 +40,7 @@ module Inspec
       def scan_finishing(opts)
         super(opts)
 
-        aggregate_files
+        Thread.new { aggregate_files }
       end
 
       # Aggregate the reports for eventual collection using an out of band means
