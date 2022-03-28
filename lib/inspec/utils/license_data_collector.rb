@@ -3,6 +3,8 @@ require_relative "../version"
 require "time"
 
 require_relative "license_data_collector/http"
+require_relative "license_data_collector/offline"
+require_relative "../globals"
 
 module Inspec
   class LicenseDataCollector
@@ -22,17 +24,24 @@ module Inspec
     end
 
     def self.determine_backend_class
-      # Don't perform license data Collector if we are not the official Progress Chef InSpec distro
+      # Don't perform license data collection if we are not the official Progress Chef InSpec distro
       return Inspec::LicenseDataCollector::Null if Inspec::Dist::EXEC_NAME != "inspec"
 
-      # TODO: Switch between Offline and Http intelligently
-      # Inspec::LicenseDataCollector::Http
-      Inspec::LicenseDataCollector::Offline
+      # Switch between Offline and Http intelligently
+      if Inspec::LicenseDataCollector::Offline.airgap_mode?
+        Inspec::LicenseDataCollector::Offline
+      else
+        Inspec::LicenseDataCollector::Http
+      end
     end
 
     class Base
       attr_accessor :payload
       attr_accessor :headers
+
+      def self.license_data_dir
+        File.join(Inspec.config_dir, "license-data")
+      end
 
       def scan_starting(opts)
         start_time = Time.now.getutc.iso8601
@@ -98,10 +107,21 @@ module Inspec
         # TODO: obtain customer ID from some mechanism
         "TODOTODOTODOTODOTO"
       end
-    end
 
-    class Offline < Base
-      # TODO: Aggregate the reports for eventual Collector using an out of band means
+      # Merge two payloads
+      def aggregate_ldc_payload(merged, newer)
+
+        # Merge headers
+        # Header is always the newer
+        merged[:headers] = newer[:headers]
+
+        # Merge payloads
+        # Append new payload to merged Periods
+        merged[:payload] ||= {}
+        merged[:payload][:Periods] ||= []
+        merged[:payload][:Periods] << newer[:payload][:Periods][0]
+
+      end
     end
 
     class Null < Base

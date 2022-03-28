@@ -283,6 +283,8 @@ inspec exec LOCATIONS
 
 This subcommand has the following additional options:
 
+* ``--airgap``, ``--no-airgap``
+    Avoid making certain network calls unrelated to profile execution.
 * ``--attrs=one two three``
     Legacy name for --input-file - deprecated.
 * ``--auto-install-gems``

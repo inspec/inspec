@@ -1,6 +1,7 @@
 require "uri"
 require "net/http"
 require "json"
+require "fileutils"
 
 module Inspec
   class LicenseDataCollector
@@ -8,6 +9,8 @@ module Inspec
     class Http < Base
 
       LDC_URL = "https://postman-echo.com/post" # TODO: get real URL
+      # LDC_URL = "https://postman-echo.com/error/404" # Not a real endpoint but does 404 :-)
+      # LDC_URL = "https://postman-echo.com/delay/5" # Only works for GET
 
       def scan_finishing(opts)
         super(opts)
@@ -15,6 +18,8 @@ module Inspec
       end
 
       def send_license_data
+        # TODO: check for and send aggregate file if present
+
         # Construct HTTP query
         url = URI(LDC_URL)
         https = Net::HTTP.new(url.host, url.port)
@@ -32,7 +37,12 @@ module Inspec
         end
         request["Content-Type"] = "application/json"
 
-        # TODO: write to file
+        # Write POST contents to file for fallback aggregation
+        file_basename = "http-" + Time.now.getutc.strftime("%Y%m%d-%H%M%S-%L")
+        FileUtils.mkdir_p(Base.license_data_dir)
+        json_file = File.join(Base.license_data_dir, "#{file_basename}.json")
+        fail_file = File.join(Base.license_data_dir, "#{file_basename}.fail")
+        File.write(json_file, JSON.generate({headers: headers, payload: payload}))
 
         begin
           # make POST
@@ -40,13 +50,26 @@ module Inspec
 
           case response
           when Net::HTTPSuccess, Net::HTTPRedirection
-            #   TODO: if POST succeeds, delete file
+            # cleanup http-TIMESTAMP.json
+            FileUtils.rm(json_file)
           else
             # Something went wrong.
-            # TODO: track failures?
+            error = {
+              type: "http_error",
+              code: response.code,
+              body: response.body,
+              url: url
+            }
+            File.write(fail_file, JSON.generate(error))
           end
-        rescue Net::OpenTimeout, Net::ReadTimeout
-            # TODO: track failures?
+        rescue Net::OpenTimeout, Net::ReadTimeout => e
+          error = {
+            type: "net_error",
+            class: e.class.name,
+            body: e.message,
+            url: url
+          }
+          File.write(fail_file, JSON.generate(error))
         end
       end
     end
