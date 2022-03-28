@@ -306,13 +306,11 @@ module Inspec::Resources
       is_valid_group
     end
 
-    # encrypted_password property allows to run test against the hashed passwords of the given user
+    # encrypted_password property: compatibility with serverspec
+    # it allows to run test against the hashed passwords of the given user
+    # applicable for unix/linux systems with getent utility.
     def encrypted_password
-      # encrypted_password property won't be applicable for windows users
-      # because on Windows users' password is stored in Security Account Manager(SAM) (which is a database file)
-      # In windows SAM file is locked from copying/reading unlike /etc/shadow on Linux and Unix systems
-
-      raise Inspec::Exceptions::ResourceSkipped, "encrypted_password is not applicable for your system" if inspec.os.windows?
+      raise Inspec::Exceptions::ResourceSkipped, "encrypted_password property is not applicable for your system" if inspec.os.windows? || inspec.os.darwin?
 
       encrypted_password_info
     end
@@ -342,18 +340,17 @@ module Inspec::Resources
       @cred_cache = @user_provider.credentials(@username) unless @user_provider.nil?
     end
 
-    # helper method for has_authorized_key matcher; 
+    # helper method for has_authorized_key matcher
     # checks for key is present as part of authorized keys on the server
     def authorized_key(key)
       # cat is used in unix system to display content of file; similarly type is used for windows
       inspec.os.windows? ? bin = "type" : bin = "cat"
 
       # auth_path gets assigned with the valid path for authorized_keys
-      # auth_keys gets list of keys from authorized_keys
-      auth_path, auth_keys = "", []
+      auth_path = ""
 
       # possible paths where authorized_keys are stored
-      %w(~/.ssh/authorized_keys ~/.ssh/authorized_keys2).each do |path|
+      %w{~/.ssh/authorized_keys ~/.ssh/authorized_keys2}.each do |path|
         if inspec.command("#{bin} #{path}").exit_status == 0
           auth_path = path
           break
@@ -373,25 +370,27 @@ module Inspec::Resources
 
     # Helper method for encrypted_password property
     def encrypted_password_info
-      # Todo:
-      # [+] Linux
-      # [+] BSD: works same as linux; using getent
-      # [-] Check if feasible on: Darwin, hpux, and aix
-      bin = find_getent_or_equiv_utility
+      # check if getent is available on the system
+      bin = find_getent_utility
+
+      # fetch details of the passwd file for the current user using getent
       cmd = inspec.command("#{bin} passwd #{@username}")
 
       raise Inspec::Exceptions::ResourceSkipped, "Cannot view encrypted_password information" if cmd.exit_status != 0
 
+      # passwd information are : separated values
+      # split it and the value at 1st index is the hashed information
       shadow_info = cmd.stdout.split(":").map(&:strip)
       shadow_info[1]
     end
 
-    def find_getent_or_equiv_utility
+    # check if getent exist in the system
+    def find_getent_utility
       %w{/usr/bin/getent /bin/getent getent}.each do |cmd|
         return cmd if inspec.command(cmd).exist?
       end
 
-      raise Inspec::Exceptions::ResourceFailed, "Could not find `getent`"
+      raise Inspec::Exceptions::ResourceFailed, "Could not find `getent` on your system."
     end
   end
 
