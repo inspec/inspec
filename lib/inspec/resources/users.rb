@@ -374,16 +374,24 @@ module Inspec::Resources
     # Helper method for encrypted_password property
     def encrypted_password_info
       # Todo:
-      # [-] Linux
-      # [-] BSD
+      # [+] Linux
+      # [+] BSD: works same as linux; using getent
       # [-] Check if feasible on: Darwin, hpux, and aix
-      bin = 'getent'
+      bin = find_getent_or_equiv_utility
       cmd = inspec.command("#{bin} passwd #{@username}")
 
       raise Inspec::Exceptions::ResourceSkipped, "Cannot view encrypted_password information" if cmd.exit_status != 0
 
       shadow_info = cmd.stdout.split(":").map(&:strip)
       shadow_info[1]
+    end
+
+    def find_getent_or_equiv_utility
+      %w{/usr/bin/getent /bin/getent getent}.each do |cmd|
+        return cmd if inspec.command(cmd).exist?
+      end
+
+      raise Inspec::Exceptions::ResourceFailed, "Could not find `getent`"
     end
   end
 
