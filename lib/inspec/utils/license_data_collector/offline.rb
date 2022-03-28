@@ -46,6 +46,7 @@ module Inspec
       # Aggregate the reports for eventual collection using an out of band means
       def aggregate_files
         # TODO: compress aggregate file
+        # TODO: consider flocking the file, to handle contention during parallel execution
         aggregate_path = File.join(Base.license_data_dir, "aggregate.json")
         # If aggregate file exists, read it
         merged = {}
