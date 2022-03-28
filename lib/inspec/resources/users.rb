@@ -137,20 +137,17 @@ module Inspec::Resources
   #   its('badpasswordattempts') { should eq 0 }
   # end
   #
-  # The following  Serverspec  matchers are deprecated in favor for direct value access
+  # The following  Serverspec  matchers were deprecated in favor for direct value access
+  # but are made available as part of Serverspec compatibility in March, 2022.
   #
   # describe user('root') do
   #   it { should belong_to_group 'root' }
+  #   it { should belong_to_primary_group 'root' }
   #   it { should have_uid 0 }
   #   it { should have_home_directory '/root' }
   #   it { should have_login_shell '/bin/bash' }
   #   its('minimum_days_between_password_change') { should eq 0 }
   #   its('maximum_days_between_password_change') { should eq 99 }
-  # end
-  #
-  # ServerSpec tests that are not supported:
-  #
-  # describe user('root') do
   #   it { should have_authorized_key 'ssh-rsa ADg54...3434 user@example.local' }
   #   its(:encrypted_password) { should eq 1234 }
   # end
