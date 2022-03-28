@@ -1,6 +1,6 @@
 require_relative "../dist"
 require_relative "../version"
-require "time"
+require "time" unless defined?(Time.zone_offset)
 
 require_relative "license_data_collector/http"
 require_relative "license_data_collector/offline"
@@ -69,14 +69,14 @@ module Inspec
               Scans: [
                 {
                   Identifier: opts[:runner].backend.backend.platform.uuid,
-                  Executions: 1,  # TODO: Do they mean resource count here?
+                  Executions: 1, # TODO: Do they mean resource count here?
                   Version: "#{Inspec::VERSION}",
-                  Activity: { Start: start_time,  },
-                }
+                  Activity: { Start: start_time },
+                },
               ],
-              Content: [],  # Populated dynamically below
-            }
-          ]
+              Content: [], # Populated dynamically below
+            },
+          ],
         }
 
         # Create one content evidence for each licensed profile to be scanned
@@ -89,7 +89,7 @@ module Inspec
             # Version: "#{Inspec::VERSION}",
             Version: profile.metadata.params[:version],
             Type: "Profile",
-            Activity: { Start: start_time,  },
+            Activity: { Start: start_time },
           }
         end
       end
@@ -100,7 +100,7 @@ module Inspec
         payload[:Periods][0][:Evidence][:Scans][0][:Activity][:End] = end_time
 
         # TODO: Arguably, we should be looking through run_data and finding each profile's end time
-        payload[:Periods][0][:Evidence][:Content].each {|c| c[:Activity][:End] = end_time }
+        payload[:Periods][0][:Evidence][:Content].each { |c| c[:Activity][:End] = end_time }
       end
 
       def fetch_customer_id
@@ -110,7 +110,6 @@ module Inspec
 
       # Merge two payloads
       def aggregate_ldc_payload(merged, newer)
-
         # Merge headers
         # Header is always the newer
         merged[:headers] = newer[:headers]
@@ -120,7 +119,6 @@ module Inspec
         merged[:payload] ||= {}
         merged[:payload][:Periods] ||= []
         merged[:payload][:Periods] << newer[:payload][:Periods][0]
-
       end
     end
 

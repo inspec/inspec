@@ -1,20 +1,20 @@
-require "json"
-require "fileutils"
+require "json" unless defined?(JSON)
+require "fileutils" unless defined?(FileUtils)
 require_relative "../../config"
-
 
 module Inspec
   class LicenseDataCollector
     class Base; end
+
     class Offline < Base
 
-      AIRGAP_MARKER_FILE = "airgap-mode"
+      AIRGAP_MARKER_FILE = "airgap-mode".freeze
 
       # Return true if the system should operate offline.
       def self.airgap_mode?
         airgap_by_cli_option? ||
           airgap_by_file_marker? ||
-            too_many_recent_http_errors?
+          too_many_recent_http_errors?
       end
 
       # Return true if the user passed the --airgap option.
@@ -30,11 +30,11 @@ module Inspec
       # Return true if ~/.inspec/license-data/http-*.fail exists
       # and has at least 5 failures in the last 7 days
       def self.too_many_recent_http_errors?
-        seven_days_ago = Time.now - 7*24*60*60
-        Dir.glob(File.join(license_data_dir, "http-*.fail")).
-          map { |f| File.stat(f).mtime }.
-            filter {|t| t > seven_days_ago }.
-              length >= 5
+        seven_days_ago = Time.now - 7 * 24 * 60 * 60
+        Dir.glob(File.join(license_data_dir, "http-*.fail"))
+          .map { |f| File.stat(f).mtime }
+          .filter { |t| t > seven_days_ago }
+          .length >= 5
       end
 
       def scan_finishing(opts)
@@ -42,7 +42,6 @@ module Inspec
 
         aggregate_files
       end
-
 
       # Aggregate the reports for eventual collection using an out of band means
       def aggregate_files
@@ -61,7 +60,7 @@ module Inspec
         end
 
         # Merge in current payload and headers
-        aggregate_ldc_payload(merged, {headers: headers, payload: payload} )
+        aggregate_ldc_payload(merged, { headers: headers, payload: payload } )
 
         # Write new aggregate file
         FileUtils.mkdir_p(Base.license_data_dir)
@@ -69,7 +68,6 @@ module Inspec
 
         # Delete the http-*.json files.
         FileUtils.rm(File.join(license_data_dir, "http-*.json"))
-
       end
     end
   end

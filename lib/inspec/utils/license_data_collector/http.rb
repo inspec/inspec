@@ -1,14 +1,15 @@
-require "uri"
-require "net/http"
-require "json"
-require "fileutils"
+require "uri" unless defined?(URI)
+require "net/http" unless defined?(Net::HTTP)
+require "json" unless defined?(JSON)
+require "fileutils" unless defined?(FileUtils)
 
 module Inspec
   class LicenseDataCollector
     class Base; end
+
     class Http < Base
 
-      LDC_URL = "https://postman-echo.com/post" # TODO: get real URL
+      LDC_URL = "https://postman-echo.com/post".freeze # TODO: get real URL
       # LDC_URL = "https://postman-echo.com/error/404" # Not a real endpoint but does 404 :-)
       # LDC_URL = "https://postman-echo.com/delay/5" # Only works for GET
 
@@ -32,7 +33,7 @@ module Inspec
         request.body = JSON.generate(payload)
 
         # Set headers
-        headers.each do |k,v|
+        headers.each do |k, v|
           request[k.to_s] = v
         end
         request["Content-Type"] = "application/json"
@@ -42,7 +43,7 @@ module Inspec
         FileUtils.mkdir_p(Base.license_data_dir)
         json_file = File.join(Base.license_data_dir, "#{file_basename}.json")
         fail_file = File.join(Base.license_data_dir, "#{file_basename}.fail")
-        File.write(json_file, JSON.generate({headers: headers, payload: payload}))
+        File.write(json_file, JSON.generate({ headers: headers, payload: payload }))
 
         begin
           # make POST
@@ -58,7 +59,7 @@ module Inspec
               type: "http_error",
               code: response.code,
               body: response.body,
-              url: url
+              url: url,
             }
             File.write(fail_file, JSON.generate(error))
           end
@@ -67,7 +68,7 @@ module Inspec
             type: "net_error",
             class: e.class.name,
             body: e.message,
-            url: url
+            url: url,
           }
           File.write(fail_file, JSON.generate(error))
         end
