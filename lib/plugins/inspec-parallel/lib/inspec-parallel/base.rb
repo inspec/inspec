@@ -1,3 +1,4 @@
+require_relative "runner"
 module InspecPlugins
   module Parallel
     class Base
@@ -27,8 +28,20 @@ module InspecPlugins
       private
 
       def validate_option_strings
-        # TBD
+        # TBD validate options passed according to sub_cmd and also for reporters format
       end
+
+      def run_commands
+        Runner.new(@parsed_options, sub_cmd.to_sym).run
+      end
+
+      def dry_run_commands
+        @parsed_options.each do |opts|
+          puts "inspec #{sub_cmd} #{opts}"
+        end
+      end
+
+      ## Utility functions
 
       def parse_options_file
         opts = []
@@ -41,16 +54,6 @@ module InspecPlugins
           end
         end
         opts
-      end
-
-      def run_commands
-        # TBD
-      end
-
-      def dry_run_commands
-        @parsed_options.each do |opts|
-          puts "inspec #{sub_cmd} #{opts}"
-        end
       end
     end
   end

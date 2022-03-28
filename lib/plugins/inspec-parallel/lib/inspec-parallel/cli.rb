@@ -8,9 +8,9 @@ module InspecPlugins::Parallel
     subcommand_desc "parallel SUBCOMMAND [options]", "Runs #{PRODUCT_NAME} operations parallely"
 
     desc "exec", "Executes profile parallely"
-    option :option_file, aliases: :o, type: :string, default: "",
+    option :option_file, aliases: :o, type: :string, required: true,
       desc: "File that contains list of option strings"
-    option :dry_run, type: :boolean, default: true,
+    option :dry_run, type: :boolean,
       desc: "Print commands that will run"
     def exec(default_profile = nil)
       parallel_base = InspecPlugins::Parallel::Base.new(options, default_profile)
@@ -19,6 +19,8 @@ module InspecPlugins::Parallel
       else
         parallel_base.run
       end
+    rescue StandardError => e
+      # TBD
     end
   end
 end
