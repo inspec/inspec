@@ -371,7 +371,7 @@ module Inspec::Resources
       bin = find_getent_utility
 
       # fetch details of the passwd file for the current user using getent
-      cmd = inspec.command("#{bin} passwd #{@username}")
+      cmd = inspec.command("#{bin} shadow #{@username}")
 
       raise Inspec::Exceptions::ResourceSkipped, "Cannot view encrypted_password information" if cmd.exit_status != 0
 
