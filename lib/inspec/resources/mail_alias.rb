@@ -32,16 +32,11 @@ module Inspec::Resources
       "mail_alias #{resource_id}"
     end
 
-    def is_aliased_to?(alias_value)
-      # positive or negative expectations specific to this resource instance
-      true
-    end
+    def aliased_to?(alias_value)
+      cmd = inspec.command("cat /etc/aliases | grep #{@alias_key}")
+      raise Inspec::Exceptions::ResourceFailed, "#{@alias_key} is not a valid key in the aliases" if cmd.exit_status.to_i != 0
 
-    private
-
-    # Methods to help the resource's public methods
-    def helper_method
-      # Add anything you need here
+      alias_value == cmd.stdout.split(":").map(&:strip)[1]
     end
   end
 end
