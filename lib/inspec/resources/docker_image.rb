@@ -48,6 +48,25 @@ module Inspec::Resources
       object_info.tags[0] if object_info.entries.size == 1
     end
 
+    # method_missing handles when hash_keys are invoked to check information obtained on docker inspect [image_name]
+    def method_missing(*hash_keys)
+      # User can test the low-level inspect information in three ways:
+      # Way 1: Serverspec style: its(['Config.Cmd']) { should include some_value }
+      #        here, the value for hash_keys recieved is [:[], "Config.Cmd"]
+      # Way 2: InSpec style: its(['Config','Cmd']) { should include some_value }
+      #        here, the value for hash_keys recieved is [:[], "Config", "Cmd"]
+      # Way 3: Mix of both: its(['GraphDriver.Data','MergedDir']) { should include some_value }
+      #        here, the value for hash_keys recieved is [:[], "GraphDriver.Data", "MergedDir"]
+
+      # hash_keys are passed to this method to evaluate the value
+      image_hash_inspection(hash_keys)
+    end
+
+    # inspection property allows to test any of the hash key-value pairs as part of the image_inspect_info
+    def inspection
+      image_inspect_info
+    end
+
     def to_s
       img = @opts[:image] || @opts[:id]
       "Docker Image #{img}"
@@ -79,6 +98,40 @@ module Inspec::Resources
       @info = inspec.docker.images.where do
         (repository == opts[:repo] && tag == opts[:tag]) || (!id.nil? && !opts[:id].nil? && (id == opts[:id] || id.start_with?(opts[:id])))
       end
+    end
+
+    # image_inspect_info returns the complete inspect hash_values of the image
+    def image_inspect_info
+      return @inspect_info if defined?(@inspect_info)
+
+      @inspect_info = inspec.docker.object(@opts[:image] || (!@opts[:id].nil? && @opts[:id]))
+    end
+
+    # image_hash_inspection formats the input hash_keys and checks if any value exists for such keys in @inspect_info(image_inspect_info)
+    def image_hash_inspection(hash_keys)
+      # The hash_keys recieved are in three formats as mentioned in method_missing
+      # The hash_keys recieved must be in array format [] and the zeroth index must be :[]
+      # Check for the conditions and remove the zeroth element from the hash_keys
+
+      hash_keys.shift if hash_keys.is_a?(Array) && hash_keys[0] == :[]
+
+      # When received hash_keys in Serverspec style or mix of both
+      # The hash_keys are to be splitted at '.' (dot) and flatten it so that it doesn't become array of arrays
+      # After splitting and flattening is done, hash_keys is now an array with individual keys
+      hash_keys = hash_keys.map { |key| key.split(".") }.flatten
+
+      # image_inspect_info returns the complete inspect hash_values of the image
+      # dig() finds the nested value specified by the sequence of the key object by calling dig at each step.
+      # hash_keys is the key object. If one of the key is bad, value will be nil.
+      hash_value = image_inspect_info.dig(*hash_keys)
+
+      # If one of the key is bad, hash_value will be nil, so raise exception which throws it in rescue block
+      # else return hash_value
+      raise Inspec::Exceptions::ResourceFailed if hash_value.nil?
+
+      hash_value
+    rescue
+      raise Inspec::Exceptions::ResourceFailed, "#{hash_keys.join(".")} is not a valid key for your image or has nil value."
     end
   end
 end
