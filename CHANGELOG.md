@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.10.9 -->
-## [v5.10.9](https://github.com/inspec/inspec/tree/v5.10.9) (2022-03-30)
+<!-- latest_release 5.10.10 -->
+## [v5.10.10](https://github.com/inspec/inspec/tree/v5.10.10) (2022-03-30)
 
 #### Merged Pull Requests
-- CFINSPEC-85: Enhance docker_container resource with have_volume matcher [#5944](https://github.com/inspec/inspec/pull/5944) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-86: Enhance docker_image resource [#5945](https://github.com/inspec/inspec/pull/5945) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.10.5 -->
 ### Changes since 5.10.5 release
 
 #### Merged Pull Requests
+- CFINSPEC-86: Enhance docker_image resource [#5945](https://github.com/inspec/inspec/pull/5945) ([ahasunos](https://github.com/ahasunos)) <!-- 5.10.10 -->
 - CFINSPEC-85: Enhance docker_container resource with have_volume matcher [#5944](https://github.com/inspec/inspec/pull/5944) ([ahasunos](https://github.com/ahasunos)) <!-- 5.10.9 -->
 - updates to reporting detail on progress bar [#5956](https://github.com/inspec/inspec/pull/5956) ([aaronlippold](https://github.com/aaronlippold)) <!-- 5.10.8 -->
 - Extend CI test timeout to 60 minutes [#5949](https://github.com/inspec/inspec/pull/5949) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.10.7 -->
