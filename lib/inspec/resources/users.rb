@@ -282,7 +282,8 @@ module Inspec::Resources
 
     # has_authorized_key matcher: compatibility with serverspec
     def has_authorized_key?(compare_key)
-      authorized_key(compare_key)
+      # get_authorized_keys returns the list of key, check if given key is included.
+      get_authorized_keys.include?(compare_key)
     end
 
     # belongs_to_primary_group matcher: compatibility with serverspec
@@ -309,7 +310,9 @@ module Inspec::Resources
     def encrypted_password
       raise Inspec::Exceptions::ResourceSkipped, "encrypted_password property is not applicable for your system" if inspec.os.windows? || inspec.os.darwin?
 
-      encrypted_password_info
+      # shadow_information returns array of the information from the shadow file
+      # the value at 1st index is the encrypted_password information
+      shadow_information[1]
     end
 
     def to_s
@@ -338,10 +341,10 @@ module Inspec::Resources
     end
 
     # helper method for has_authorized_key matcher
-    # checks for key is present as part of authorized keys on the server
-    def authorized_key(key)
+    # get_authorized_keys return the key/keys stored in the authorized_keys path
+    def get_authorized_keys
       # cat is used in unix system to display content of file; similarly type is used for windows
-      inspec.os.windows? ? bin = "type" : bin = "cat"
+      bin = inspec.os.windows? ? "type" : "cat"
 
       # auth_path gets assigned with the valid path for authorized_keys
       auth_path = ""
@@ -359,26 +362,20 @@ module Inspec::Resources
 
       # authorized_keys are obtained in the standard output;
       # split keys on newline if more than one keys are part of authorized_keys
-      auth_keys = inspec.command("#{bin} #{auth_path}").stdout.split("\n").map(&:strip)
-
-      # check if the input key is part of the auth_keys
-      auth_keys.include?(key)
+      inspec.command("#{bin} #{auth_path}").stdout.split("\n").map(&:strip)
     end
 
     # Helper method for encrypted_password property
-    def encrypted_password_info
+    def shadow_information
       # check if getent is available on the system
       bin = find_getent_utility
 
       # fetch details of the passwd file for the current user using getent
       cmd = inspec.command("#{bin} shadow #{@username}")
+      raise Inspec::Exceptions::ResourceFailed, "Executing #{bin} shadow #{@username} failed: #{cmd.stderr}" if cmd.exit_status.to_i != 0
 
-      raise Inspec::Exceptions::ResourceSkipped, "Cannot view encrypted_password information" if cmd.exit_status != 0
-
-      # passwd information are : separated values
-      # split it and the value at 1st index is the hashed information
-      shadow_info = cmd.stdout.split(":").map(&:strip)
-      shadow_info[1]
+      # shadow information are : separated values, split and return
+      cmd.stdout.split(":").map(&:strip)
     end
 
     # check if getent exist in the system
