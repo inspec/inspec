@@ -41,9 +41,9 @@ module InspecPlugins::StreamingReporterProgressBar
       # Groovy UTF-8 characters for everyone else...
       # ...even though they probably only work on Mac
       INDICATORS = {
-        "failed" => "×",
-        "skipped" => "↺",
-        "passed" => "✔",
+        "failed" => "× [FAILED] ",
+        "skipped" => "↺ [SKIPPED]",
+        "passed" => "✔ [PASSED] ",
       }.freeze
     end
 
@@ -54,58 +54,69 @@ module InspecPlugins::StreamingReporterProgressBar
     end
 
     def example_passed(notification)
-      control_id = notification.example.metadata[:id]
-      set_status_mapping(control_id, "passed")
-      show_progress(control_id) if control_ended?(control_id)
+      set_example(notification, "passed")
     end
 
     def example_failed(notification)
-      control_id = notification.example.metadata[:id]
-      set_status_mapping(control_id, "failed")
-      show_progress(control_id) if control_ended?(control_id)
+      set_example(notification, "failed")
     end
 
     def example_pending(notification)
-      control_id = notification.example.metadata[:id]
-      set_status_mapping(control_id, "skipped")
-      show_progress(control_id) if control_ended?(control_id)
+      set_example(notification, "skipped")
     end
 
     private
 
-    def show_progress(control_id)
+    def set_example(notification, status)
+      control_id = notification.example.metadata[:id]
+      title = notification.example.metadata[:title]
+      full_description = notification.example.metadata[:full_description]
+      control_impact = notification.example.metadata[:impact]
+      set_status_mapping(control_id, status)
+      show_progress(control_id, title, full_description, control_impact) if control_ended?(control_id)
+    end
+
+    def show_progress(control_id, title, full_description, control_impact)
       @bar ||= ProgressBar.new(controls_count, :bar, :counter, :percentage)
       sleep 0.1
       @bar.increment!
-      @bar.puts format_it(control_id)
-    rescue Exception => ex
-      raise "Exception in Progress Bar streaming reporter: #{ex}"
+      @bar.puts format_it(control_id, title, full_description, control_impact)
+    rescue StandardError => e
+      raise "Exception in Progress Bar streaming reporter: #{e}"
     end
 
-    def format_it(control_id)
+    def format_it(control_id, title, full_description, control_impact)
       control_status = if @status_mapping[control_id].include? "failed"
                          "failed"
-                       elsif @status_mapping[control_id].include? "skipped"
-                         "skipped"
                        elsif @status_mapping[control_id].include? "passed"
                          "passed"
+                       else
+                         @status_mapping[control_id].include? "skipped"
+                         "skipped"
                        end
-
       indicator = INDICATORS[control_status]
       message_to_format = ""
       message_to_format += "#{indicator}  "
-      message_to_format += control_id.to_s.lstrip.force_encoding(Encoding::UTF_8)
+      message_to_format += "#{control_id.to_s.strip.dup.force_encoding(Encoding::UTF_8)}  "
+      message_to_format += "#{title.gsub(/\n*\s+/, " ").to_s.force_encoding(Encoding::UTF_8)}  " if title
+      message_to_format += "#{full_description.gsub(/\n*\s+/, " ").to_s.force_encoding(Encoding::UTF_8)}  " unless title
       format_with_color(control_status, message_to_format)
+    rescue Exception => e
+      raise "Exception in show_progress: #{e}"
     end
 
     def format_with_color(color_name, text)
       "#{COLORS[color_name]}#{text}#{COLORS["reset"]}"
+    rescue StandardError => e
+      raise "Exception in format_with_color: #{e}"
     end
 
     # status mapping with control id to decide the final state of the control
     def set_status_mapping(control_id, status)
       @status_mapping[control_id] = [] if @status_mapping[control_id].nil?
       @status_mapping[control_id].push(status)
+    rescue StandardError => e
+      raise "Exception in format_with_color: #{e}"
     end
 
   end
