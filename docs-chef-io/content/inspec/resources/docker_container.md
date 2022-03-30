@@ -40,7 +40,7 @@ A `docker_container` resource block declares the configuration data to be tested
 
 ## Resource Parameter Examples
 
-### Name
+### name
 
 The container name can be provided with the `name` resource parameter.
 
@@ -49,9 +49,9 @@ The container name can be provided with the `name` resource parameter.
       it { should be_running }
     end
 
-### Container ID
+### container id
 
-Alternatively, you can pass in the container ID.
+Alternatively, you can pass in the container id.
 
     describe docker_container(id: '71b5df59442b') do
       it { should exist }
@@ -62,31 +62,31 @@ Alternatively, you can pass in the container ID.
 
 The following examples show how to use this Chef InSpec resource.
 
-### ID
+### id
 
 The `id` property tests the container ID.
 
     its('id') { should eq 'sha:71b5df59...442b' }
 
-### Repository
+### Repo
 
 The `repo` property tests the value of the image repository.
 
     its('repo') { should eq 'REPO' }
 
-### Tag
+### tag
 
 The `tag` property tests the value of the image tag.
 
     its('tag') { should eq 'LATEST' }
 
-### Ports
+### ports
 
 The `ports` property tests the value of the Docker ports.
 
     its('ports') { should eq '0.0.0.0:1234->1234/tcp' }
 
-### Command
+### command
 
 The `command` property tests the value of the container run command.
 
