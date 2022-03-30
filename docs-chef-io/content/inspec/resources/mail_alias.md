@@ -11,67 +11,49 @@ platform = "unix"
     parent = "inspec/resources/os"
 +++
 
-Use the `mail_alias` Chef InSpec audit resource to test the ...
-
+Use the `mail_alias` Chef InSpec audit resource to test mail alias present in the aliases file.
 
 ## Availability
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+This resource is distributed along with Chef InSpec itself.
 
 ## Syntax
 
-A `mail_alias` Chef InSpec audit resource ...
+A `mail_alias` Chef InSpec audit resource allows to test mail alias present in the aliases file.
 
-    describe mail_alias do
-      its('shoe_size') { should cmp 42 }
-      it { should be_purple }
-      it { should have_bells }
+    describe mail_alias("daemon") do
+        it { should be_aliased_to "root" }
     end
 where
 
-- `'shoe_size'` is some property of this resource
-- `42` is the value to test for shoe size
-- `be_purple` is a matcher of this resource
-- `have_bells` is a matcher of this resource
-
-## Properties
-
-- Properties of the resources: `shoe_size`
-
-### shoe_size
-
-The shoe_size property tests ....
+- `'daemon'` is an alias present in `/etc/aliases` of the target system
+- `'root'` is the value assigned to the alias
+- `be_aliased_to` is a matcher of this resource
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](https://docs.chef.io/inspec/matchers/).
+For a full list of available matchers, please visit our [matchers page](https://docs.chef.io/inspec/matchers/). The specific matchers of this resource is: `be_aliased_to`.
 
-The specific matchers of this resource are: `be_purple`, `have_bells`
+### be_aliased_to
 
-### be_purple
+The `be_aliased_to` matcher tests if the given input value is assigned to the initialized alias.
 
-The `be_purple` matcher tests the ...:
-
-    it { should be_purple }
+    it { should be_aliased_to "root" }
 
 ## Examples
 The following examples show how to use this Chef InSpec audit resource.
 
-### Example 1
+### Check if the alias `daemon` is aliased to `root`
 
-`shoe_size` returns ...
-
-    describe mail_alias do
-      its("shoe_size") { should eq 42 }
+    describe mail_alias("daemon") do
+      it { should be_aliased_to "root" }
     end
 
-### Example 2
+### Check if the alias `mailadmin` are aliased to `inspecadmin@chef.io` and `chefadmin@chef.io`
 
-`be_purple` checks for ...
-
-    describe mail_alias do
-      it { should be_purple }
+    describe mail_alias("mailadmin") do
+      it { should be_aliased_to "inspecadmin@chef.io" }
+      it { should be_aliased_to "chefadmin@chef.io" }
     end
-
