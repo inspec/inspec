@@ -82,11 +82,9 @@ The `tag` property tests the value of the image tag.
 
 ### Low-level information of docker image as docker_image's property
 
-#### Inspection
+#### inspection
 
-:inspection
-  
-  The property allows testing the low-level information of docker image returned by `docker inspect [docker_image]`. Use hash format `'key' => 'value` for testing the information.
+The property allows testing the low-level information of docker image returned by `docker inspect [docker_image]`. Use hash format `'key' => 'value` for testing the information.
 
     its(:inspection) { should include "Key" => "Value" }
     its(:inspection) { should include "Key" =>
@@ -124,7 +122,7 @@ The `exist` matcher tests if the image is available on the node.
 
 ## Examples
 
-### Test if a docker image exists and verifies the image properties: ID, image, repository, and tag
+### Test if a docker image exists and verifies the image properties: ID, image, repo, and tag
 
     describe docker_image('ALPINE:LATEST') do
       it { should exist }
@@ -134,7 +132,7 @@ The `exist` matcher tests if the image is available on the node.
       its('tag') { should eq 'LATEST' }
     end
 
-### Test if a docker image exists and verifies the low-level information: Architecture, Config.Cmd, OS, and GraphDriver
+### Test if a docker image exists and verifies the low-level information: Architecture, Config.Cmd, and GraphDriver
 
     describe docker_image('ubuntu:latest') do
       it { should exist }
