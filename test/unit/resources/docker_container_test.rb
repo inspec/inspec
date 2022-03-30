@@ -48,5 +48,26 @@ describe "Inspec::Resources::DockerContainer" do
       resource = load_resource("docker_container", "laughing_austin")
       _(resource.to_s).must_equal "Docker Container laughing_austin"
     end
+
+    # Test case for has_volume? matcher - Case 1: Volumes are mounted on the container
+    it "checks if a volume has been mounted for the docker resource" do
+      resource = load_resource("docker_container", "trusting_williams")
+      _(resource.has_volume?("/app", "/var/lib/docker/volumes/myvol2/_data")).must_equal true
+      _(resource.has_volume?("/app2", "/var/lib/docker/volumes/myvol3/_data")).must_equal true
+    end
+
+    # Test case for has_volume? matcher - Case 2: Volumes are not mounted on the container
+    it "checks exception when no volume has been mounted for the docker resource" do
+      resource = load_resource("docker_container", "fried_water")
+      ex = _ { resource.has_volume?("/app", "/var/lib/docker/volumes/myvol2/_data") }.must_raise(Inspec::Exceptions::ResourceFailed)
+      _(ex.message).must_include "Could not find any mounted volumes for your container"
+    end
+
+    # Test case for has_volume? matcher - Case 3: The container doesn't exist
+    it "checks exception when no volume has been mounted for the docker resource and the container doesnt'e exist" do
+      resource = load_resource("docker_container", "non_existing_container")
+      ex = _ { resource.has_volume?("/app", "/var/lib/docker/volumes/myvol2/_data") }.must_raise(NoMethodError)
+      _(ex.message).must_include "undefined method `[]' for nil:NilClass"
+    end
   end
 end

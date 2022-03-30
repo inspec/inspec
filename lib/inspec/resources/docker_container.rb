@@ -43,6 +43,19 @@ module Inspec::Resources
       status.downcase.start_with?("up") if object_info.entries.length == 1
     end
 
+    # has_volume? matcher checks if the volume specified in source path of host is mounted in destination path of docker
+    def has_volume?(destination, source)
+      # volume_info is the hash which contains the low-level information about the container
+      # if Mounts key is not present or is nil; raise exception
+      raise Inspec::Exceptions::ResourceFailed, "Could not find any mounted volumes for your container" unless volume_info.Mounts[0]
+
+      # Iterate through the list of mounted volumes and check if it matches with the given destination and source
+      # is_mounted flag is used to handle to return explict boolean values of true or false
+      is_mounted = false
+      volume_info.Mounts.detect { |mount| is_mounted = mount.Destination == destination && mount.Source == source }
+      is_mounted
+    end
+
     def status
       object_info.status[0] if object_info.entries.length == 1
     end
@@ -86,6 +99,14 @@ module Inspec::Resources
 
       opts = @opts
       @info = inspec.docker.containers.where { names == opts[:name] || (!id.nil? && !opts[:id].nil? && (id == opts[:id] || id.start_with?(opts[:id]))) }
+    end
+
+    # volume_info returns the low-level information obtained on docker inspect [container_name/id]
+    def volume_info
+      return @mount_info if defined?(@mount_info)
+
+      # Check for either docker inspect [container_name] or docker inspect [container_id]
+      @mount_info = inspec.docker.object(@opts[:name] || @opts[:id])
     end
   end
 end
