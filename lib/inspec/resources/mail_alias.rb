@@ -34,7 +34,7 @@ module Inspec::Resources
     # aliased_to matcher checks if the given alias_value is set to the initialized alias_key
     def aliased_to?(alias_value)
       # /etc/aliases if the file where the alias and its value(s) are stored
-      cmd = inspec.command("cat /etc/aliases | grep #{@alias_key}")
+      cmd = inspec.command("cat /etc/aliases | grep '^#{@alias_key}:'")
       raise Inspec::Exceptions::ResourceFailed, "#{@alias_key} is not a valid key in the aliases" if cmd.exit_status.to_i != 0
 
       # in general aliases file contains : separated values like alias_key : alias_value1, alias_value2
