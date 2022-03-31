@@ -91,7 +91,7 @@ module Inspec
           next unless profile.licensed?
 
           payload[:Periods][0][:Evidence][:Content] << {
-            Identifier: profile.metadata.params[:entitlement_id],
+            Identifier: profile.metadata.params[:profile_content_id],
             Executions: 1,
             # Version: "#{Inspec::VERSION}",
             Version: profile.metadata.params[:version],

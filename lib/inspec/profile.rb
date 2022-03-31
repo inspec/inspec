@@ -211,7 +211,7 @@ module Inspec
 
     def licensed?
       # TODO - several unmentionable things here
-      !metadata.params[:entitlement_id].nil?
+      !metadata.params[:profile_content_id].nil?
     end
 
     def params
