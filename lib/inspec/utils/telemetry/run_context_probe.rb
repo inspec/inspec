@@ -11,7 +11,7 @@ module Inspec
         Inspec::Config.cached[:reporter]
           .keys
           .map(&:to_s)
-          .any? {|n| n =~ /automate/ }
+          .any? { |n| n =~ /automate/ }
       end
 
       # Guess, using stack introspection, if we were called under

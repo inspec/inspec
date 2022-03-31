@@ -117,16 +117,68 @@ module Inspec
 
       # Merge two payloads
       def aggregate_ldc_payload(merged, newer)
+        if merged.empty?
+          merged[:headers] = newer[:headers]
+          merged[:payload] = newer[:payload]
+          return
+        end
+
         # Merge headers
         # Header is always the newer
         merged[:headers] = newer[:headers]
 
         # Merge payloads
-        # Append new payload to merged Periods
-        # TODO: Perform more intelligent merge
-        merged[:payload] ||= {}
-        merged[:payload][:Periods] ||= []
-        merged[:payload][:Periods] << newer[:payload][:Periods][0]
+        mp0 = merged[:payload][:Periods][0]
+        np0 = newer[:payload][:Periods][0]
+
+        mp0[:Version] = np0[:Version] # Take newer version
+        # Use original Date
+        # Use earlier of Period:Start
+        mp0[:Period][:Start] = np0[:Period][:Start] < mp0[:Period][:Start] ? np0[:Period][:Start] : mp0[:Period][:Start]
+        # Use later of Period:End
+        mp0[:Period][:End] = np0[:Period][:End] > mp0[:Period][:End] ? np0[:Period][:End] : mp0[:Period][:End]
+        # Use original Summary:Nodes
+        # Calculate Summary:Scans later
+
+        # Determine if a new scan has occured
+        new_target_id = np0[:Evidence][:Scans][0][:Identifier]
+        existing_scan_record = mp0[:Evidence][:Scans].detect { |s| s[:Identifier] == new_target_id }
+        if existing_scan_record
+          existing_scan_record[:Executions] += 1
+          # Keep existing Identifier (we matched on that)
+          # Use greater of the two versions
+          existing_scan_record[:Version] = Gem::Version.new(np0[:Evidence][:Scans][0][:Version]) > Gem::Version.new(existing_scan_record[:Version]) ? np0[:Evidence][:Scans][0][:Version] : existing_scan_record[:Version]
+          # Use earlier of the two start records
+          existing_scan_record[:Activity][:Start] = np0[:Evidence][:Scans][0][:Activity][:Start] < existing_scan_record[:Activity][:Start] ? np0[:Evidence][:Scans][0][:Activity][:Start] : existing_scan_record[:Activity][:Start]
+          # Use later of the two end records
+          existing_scan_record[:Activity][:End] = np0[:Evidence][:Scans][0][:Activity][:End] > existing_scan_record[:Activity][:End] ? np0[:Evidence][:Scans][0][:Activity][:End] : existing_scan_record[:Activity][:End]
+        else
+          # Simply append the new Scan record
+          mp0[:Evidence][:Scans] << np0[:Evidence][:Scans][0]
+        end
+
+        # Now we can calculate new Summary:Scan numbers
+        mp0[:Summary][:Scans][:Targets] = mp0[:Evidence][:Scans].length
+        mp0[:Summary][:Scans][:Total] = mp0[:Evidence][:Scans].length
+
+        # Determine if a new content record is needed
+        # This section is optional
+        unless np0[:Evidence][:Content].empty?
+          new_audit_id = np0[:Evidence][:Content][0][:Identifier]
+          new_audit_version = np0[:Evidence][:Content][0][:Version]
+          existing_content = mp0[:Evidence][:Content].detect { |c| c[:Identifier] == new_audit_id && c[:Version] == new_audit_version }
+          if existing_content
+            existing_content[:Executions] += 1
+            # Keep existing Identifier and Version (we matched on those)
+            # Use earlier of the two start records
+            existing_content[:Activity][:Start] = np0[:Evidence][:Content][0][:Activity][:Start] < existing_content[:Activity][:Start] ? np0[:Evidence][:Content][0][:Activity][:Start] : existing_content[:Activity][:Start]
+            # Use later of the two end records
+            existing_content[:Activity][:End] = np0[:Evidence][:Content][0][:Activity][:End] > existing_content[:Activity][:End] ? np0[:Evidence][:Content][0][:Activity][:End] : existing_content[:Activity][:End]
+          else
+            # Simply append the new Content record
+            mp0[:Evidence][:Content] << np0[:Evidence][:Content][0]
+          end
+        end
       end
 
       def aggregate_payload_to_file(file)
@@ -145,7 +197,7 @@ module Inspec
         file.rewind
         file.write(JSON.generate(merged))
         file.flush
-        return merged
+        merged
       end
 
       # We need to lock the aggregate file because certain commands like
@@ -155,7 +207,7 @@ module Inspec
       def lock_aggregate_file
         FileUtils.mkdir_p(Base.license_data_dir)
         aggregate_path = File.join(Base.license_data_dir, "aggregate.json")
-        File.open(aggregate_path, File::RDWR|File::CREAT) do |file|
+        File.open(aggregate_path, File::RDWR | File::CREAT) do |file|
           file.flock(File::LOCK_EX)
           yield(file)
           file.flock(File::LOCK_UN)
