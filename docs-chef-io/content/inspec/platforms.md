@@ -134,7 +134,7 @@ inspec exec my-profile -t azure://2fbdbb02-df2e-11e6-bf01-fe55135034f3
 
 ## AliCloud Platform Support in InSpec
 
-You will need to install AliCloud SDK v ersion 0.8.0 and require AliCloud credentials to use the Chef InSpec AliCloud resources.
+You will need to install AliCloud SDK version 0.8.0 and require AliCloud credentials to use the Chef InSpec AliCloud resources.
 
 ### Setting up AliCloud credentials for InSpec
 
@@ -149,7 +149,7 @@ export ALICLOUD_REGION="eu-west-1"
 
 ### Train and InSpec Dependencies
 
-InSpec AliCloud depends on AliCloud SDK version 0.0.4, which is provided via Train AliCloud. InSpec does not ship with Train AliCloud and it is explicitly listed in the Gemfile.
+InSpec AliCloud depends on AliCloud SDK version 0.0.4, which is provided via Train AliCloud. InSpec does not ship with Train AliCloud and is explicitly listed in the Gemfile.
 
 ### Executing Run Linting Test
 
@@ -166,13 +166,15 @@ Inspecting 16 files
 
 ### Configuring Integration Tests
 
-The integration tests requires **Terraform** to be configured. Execute the `$ bundle exec rake test:setup_integration_tests` command.
+The integration tests requires **Terraform** to be configured. 
 
-You can run `terraform plan` command to view any changes required for your infrastructure. Rerun the same command to reinitialize your working directory if you have modified Terraform modules or backend configuration.
+- Execute the `$ bundle exec rake test:setup_integration_tests` command.
 
-Execute the command `terraform plan -var-file=inspec-alicloud.tfvars.json -out inspec-alicloud.plan` to generate Terraform and InSpec variable files and the respective plan. The plan is saved in the `inspec-alicloud.plan` path
+- You can run `terraform plan` command to view any changes required for your infrastructure. Rerun the same command to reinitialize your working directory if you have modified Terraform modules or backend configuration.
 
-Execute the command `terraform apply "inspec-alicloud.plan"` to apply the plan.
+- Execute the command `terraform plan -var-file=inspec-alicloud.tfvars.json -out inspec-alicloud.plan` to generate Terraform and InSpec variable files and the respective plan. The plan is saved in the `inspec-alicloud.plan` path
+
+- Execute the command `terraform apply "inspec-alicloud.plan"` to apply the plan.
 
 ### Executing Integration Tests
 
