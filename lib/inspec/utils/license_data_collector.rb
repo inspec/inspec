@@ -123,9 +123,29 @@ module Inspec
 
         # Merge payloads
         # Append new payload to merged Periods
+        # TODO: Perform more intelligent merge
         merged[:payload] ||= {}
         merged[:payload][:Periods] ||= []
         merged[:payload][:Periods] << newer[:payload][:Periods][0]
+      end
+
+      def aggregate_payload_to_file
+        # TODO: compress aggregate file
+        # TODO: consider flocking the file, to handle contention during parallel execution
+        aggregate_path = File.join(Base.license_data_dir, "aggregate.json")
+        # If aggregate file exists, read it
+        merged = {}
+        if File.exist?(aggregate_path)
+          merged = JSON.parse(File.read(aggregate_path), symbolize_names: true)
+        end
+
+        # Merge in current payload and headers
+        aggregate_ldc_payload(merged, { headers: headers, payload: payload } )
+
+        # Write new aggregate file
+        FileUtils.mkdir_p(Base.license_data_dir)
+        File.write(aggregate_path, JSON.generate(merged))
+        return [merged, aggregate_path]
       end
     end
 

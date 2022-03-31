@@ -19,10 +19,10 @@ module Inspec
       end
 
       def send_license_data
-        # TODO: update aggregate file
-        # TODO: always send aggregate file
-        # TODO: delete aggregate file on success
         # TODO: flock the aggregate file
+
+        # Update the aggregate file
+        merged, aggregate_path = aggregate_payload_to_file
 
         # Construct HTTP query
         url = URI(LDC_URL)
@@ -33,7 +33,8 @@ module Inspec
         request = Net::HTTP::Post.new(url)
 
         # Set request body
-        request.body = JSON.generate(payload)
+        # TODO - what if payload is huge?
+        request.body = JSON.generate(merged[:payload])
 
         # Set headers
         headers.each do |k, v|
@@ -41,12 +42,8 @@ module Inspec
         end
         request["Content-Type"] = "application/json"
 
-        # Write POST contents to file for fallback aggregation
         file_basename = "http-" + Time.now.getutc.strftime("%Y%m%d-%H%M%S-%L")
-        FileUtils.mkdir_p(Base.license_data_dir)
-        json_file = File.join(Base.license_data_dir, "#{file_basename}.json")
         fail_file = File.join(Base.license_data_dir, "#{file_basename}.fail")
-        File.write(json_file, JSON.generate({ headers: headers, payload: payload }))
 
         begin
           # make POST
@@ -54,8 +51,8 @@ module Inspec
 
           case response
           when Net::HTTPSuccess, Net::HTTPRedirection
-            # cleanup http-TIMESTAMP.json
-            FileUtils.rm(json_file)
+            # Delete aggregate file
+            FileUtils.rm(aggregate_path)
           else
             # Something went wrong.
             error = {

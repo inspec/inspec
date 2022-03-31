@@ -40,35 +40,8 @@ module Inspec
       def scan_finishing(opts)
         super(opts)
 
-        Thread.new { aggregate_files }
-      end
-
-      # Aggregate the reports for eventual collection using an out of band means
-      def aggregate_files
-        # TODO: compress aggregate file
-        # TODO: consider flocking the file, to handle contention during parallel execution
-        aggregate_path = File.join(Base.license_data_dir, "aggregate.json")
-        # If aggregate file exists, read it
-        merged = {}
-        if File.exist?(aggregate_path)
-          merged = JSON.parse(File.read(aggregate_path), symbolize_names: true)
-        end
-
-        # Read each http-*.json file and merge it into the aggregate file
-        Dir.glob(File.join(Base.license_data_dir, "http-*.json")).sort.each do |http_file|
-          data = JSON.parse(File.read(http_file), symbolize_names: true)
-          aggregate_ldc_payload(merged, data)
-        end
-
-        # Merge in current payload and headers
-        aggregate_ldc_payload(merged, { headers: headers, payload: payload } )
-
-        # Write new aggregate file
-        FileUtils.mkdir_p(Base.license_data_dir)
-        File.write(aggregate_path, JSON.generate(merged))
-
-        # Delete the http-*.json files.
-        FileUtils.rm_f(File.join(Base.license_data_dir, "http-*.json"))
+        # Aggregate the reports for eventual collection using an out of band means
+        Thread.new { aggregate_payload_to_file }
       end
     end
   end
