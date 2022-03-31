@@ -15,14 +15,16 @@ module Inspec
 
       def scan_finishing(opts)
         super(opts)
-        Thread.new { send_license_data }
+        Thread.new do
+          lock_aggregate_file do |f|
+            send_license_data(f)
+          end
+        end
       end
 
-      def send_license_data
-        # TODO: flock the aggregate file
-
+      def send_license_data(file)
         # Update the aggregate file
-        merged, aggregate_path = aggregate_payload_to_file
+        merged = aggregate_payload_to_file(file)
 
         # Construct HTTP query
         url = URI(LDC_URL)
@@ -51,8 +53,8 @@ module Inspec
 
           case response
           when Net::HTTPSuccess, Net::HTTPRedirection
-            # Delete aggregate file
-            FileUtils.rm(aggregate_path)
+            # Remove old aggregate data, we've successfully sent it
+            file.truncate(0)
           else
             # Something went wrong.
             error = {

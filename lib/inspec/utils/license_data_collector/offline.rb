@@ -40,8 +40,13 @@ module Inspec
       def scan_finishing(opts)
         super(opts)
 
-        # Aggregate the reports for eventual collection using an out of band means
-        Thread.new { aggregate_payload_to_file }
+        # Aggregate the reports for eventual collection using
+        # an out of band means
+        Thread.new do
+          lock_aggregate_file do |file|
+            aggregate_payload_to_file(file)
+          end
+        end
       end
     end
   end

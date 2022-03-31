@@ -129,24 +129,40 @@ module Inspec
         merged[:payload][:Periods] << newer[:payload][:Periods][0]
       end
 
-      def aggregate_payload_to_file
+      def aggregate_payload_to_file(file)
         # TODO: compress aggregate file
         # TODO: consider flocking the file, to handle contention during parallel execution
-        aggregate_path = File.join(Base.license_data_dir, "aggregate.json")
+
         # If aggregate file exists, read it
         merged = {}
-        if File.exist?(aggregate_path)
-          merged = JSON.parse(File.read(aggregate_path), symbolize_names: true)
+        if file.size > 0
+          merged = JSON.parse(file.read, symbolize_names: true)
         end
 
         # Merge in current payload and headers
         aggregate_ldc_payload(merged, { headers: headers, payload: payload } )
 
         # Write new aggregate file
-        FileUtils.mkdir_p(Base.license_data_dir)
-        File.write(aggregate_path, JSON.generate(merged))
-        return [merged, aggregate_path]
+        file.rewind
+        file.write(JSON.generate(merged))
+        file.flush
+        return merged
       end
+
+      # We need to lock the aggregate file because certain commands like
+      # `inspec parallel` use multiprocess parallelism and could corrupt
+      # the file with multiple simultaneous writes
+      # TODO: verify cross platform support for flock()
+      def lock_aggregate_file
+        FileUtils.mkdir_p(Base.license_data_dir)
+        aggregate_path = File.join(Base.license_data_dir, "aggregate.json")
+        File.open(aggregate_path, File::RDWR|File::CREAT) do |file|
+          file.flock(File::LOCK_EX)
+          yield(file)
+          file.flock(File::LOCK_UN)
+        end
+      end
+
     end
 
     class Null < Base
