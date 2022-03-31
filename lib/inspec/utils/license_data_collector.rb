@@ -25,7 +25,8 @@ module Inspec
     end
 
     def self.determine_backend_class
-      # TODO: always use Null backend unless feature flagged on
+      # Don't perform license data collection unless feature flag enabled
+      return Inspec::LicenseDataCollector::Null unless ENV["CHEF_FEATURE_LDC_CLIENT"]
 
       # Don't perform license data collection if we are not the official Progress Chef InSpec distro
       return Inspec::LicenseDataCollector::Null if Inspec::Dist::EXEC_NAME != "inspec"
