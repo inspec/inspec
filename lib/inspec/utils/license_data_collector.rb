@@ -131,7 +131,6 @@ module Inspec
 
       def aggregate_payload_to_file(file)
         # TODO: compress aggregate file
-        # TODO: consider flocking the file, to handle contention during parallel execution
 
         # If aggregate file exists, read it
         merged = {}
