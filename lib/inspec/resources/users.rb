@@ -293,15 +293,7 @@ module Inspec::Resources
 
     # belongs_to_group matcher: compatibility with serverspec
     def belongs_to_group?(group_name)
-      groupsname = groups
-      is_valid_group = false
-      groupsname.each do |g|
-        if g == group_name
-          is_valid_group = true
-          break
-        end
-      end
-      is_valid_group
+      groups.include?(group_name)
     end
 
     # encrypted_password property: compatibility with serverspec
