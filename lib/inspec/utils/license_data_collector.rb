@@ -4,6 +4,7 @@ require "time" unless defined?(Time.zone_offset)
 
 require_relative "license_data_collector/http"
 require_relative "license_data_collector/offline"
+require_relative "telemetry/run_context_probe"
 require_relative "../globals"
 
 module Inspec
@@ -24,12 +25,14 @@ module Inspec
     end
 
     def self.determine_backend_class
+      # TODO: always use Null backend unless feature flagged on
+
       # Don't perform license data collection if we are not the official Progress Chef InSpec distro
       return Inspec::LicenseDataCollector::Null if Inspec::Dist::EXEC_NAME != "inspec"
 
-      # TODO: use Null backend if running under Automate
+      # Don't perform LDC if running under Automate - assume Automate does LDC tracking for us
+      return Inspec::LicenseDataCollector::Null if Inspec::Telemetry::RunContextProbe.under_automate?
 
-      # TODO: always use Null backend unless feature flagged on
       # Switch between Offline and Http intelligently
       if Inspec::LicenseDataCollector::Offline.airgap_mode?
         Inspec::LicenseDataCollector::Offline
