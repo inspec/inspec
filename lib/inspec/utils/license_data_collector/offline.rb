@@ -68,7 +68,7 @@ module Inspec
         File.write(aggregate_path, JSON.generate(merged))
 
         # Delete the http-*.json files.
-        FileUtils.rm(File.join(license_data_dir, "http-*.json"))
+        FileUtils.rm_f(File.join(Base.license_data_dir, "http-*.json"))
       end
     end
   end

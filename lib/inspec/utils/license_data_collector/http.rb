@@ -19,7 +19,10 @@ module Inspec
       end
 
       def send_license_data
-        # TODO: check for and send aggregate file if present
+        # TODO: update aggregate file
+        # TODO: always send aggregate file
+        # TODO: delete aggregate file on success
+        # TODO: flock the aggregate file
 
         # Construct HTTP query
         url = URI(LDC_URL)

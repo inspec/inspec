@@ -27,6 +27,9 @@ module Inspec
       # Don't perform license data collection if we are not the official Progress Chef InSpec distro
       return Inspec::LicenseDataCollector::Null if Inspec::Dist::EXEC_NAME != "inspec"
 
+      # TODO: use Null backend if running under Automate
+
+      # TODO: always use Null backend unless feature flagged on
       # Switch between Offline and Http intelligently
       if Inspec::LicenseDataCollector::Offline.airgap_mode?
         Inspec::LicenseDataCollector::Offline
