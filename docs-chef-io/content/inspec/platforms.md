@@ -151,41 +151,6 @@ export ALICLOUD_REGION="eu-west-1"
 
 InSpec AliCloud depends on AliCloud SDK version 0.0.4, which is provided via Train AliCloud. InSpec does not ship with Train AliCloud and is explicitly listed in the Gemfile.
 
-### Executing Run Linting Test
-
-AliCloud credentials can be updated with environmental variables by executing following command:
-
-```bash
-$ bundle exec rake
-Running RuboCop...
-Inspecting 16 files
-................
-
-16 files inspected, no offenses detected
-```
-
-### Configuring Integration Tests
-
-The integration tests requires **Terraform** to be configured. 
-
-- Execute the `$ bundle exec rake test:setup_integration_tests` command.
-
-- You can run `terraform plan` command to view any changes required for your infrastructure. Rerun the same command to reinitialize your working directory if you have modified Terraform modules or backend configuration.
-
-- Execute the command `terraform plan -var-file=inspec-alicloud.tfvars.json -out inspec-alicloud.plan` to generate Terraform and InSpec variable files and the respective plan. The plan is saved in the `inspec-alicloud.plan` path
-
-- Execute the command `terraform apply "inspec-alicloud.plan"` to apply the plan.
-
-### Executing Integration Tests
-
-Execute following commands to run the integration tests:
-
-```bash
-$ bundle exec rake test:run_integration_tests
-
-bundle exec inspec exec test/integration/verify -t alicloud:// --input-file test/integration/build/alicloud-inspec-attributes.yaml --reporter cli json:inspec-output.json html:inspec-output.html --chef-license=accept-silent; rc=$?; if [ $rc -eq 0 ] || [ $rc -eq 101 ]; then exit 0; else exit 1; fi
-```
-
 ### Destroying Created Resources Terraform
 
 Execute following command to destroy the created resources in Terraform:
@@ -232,7 +197,7 @@ Then, download the credential JSON file, e.g. `project-credentials.json`, to you
 gcloud auth activate-service-account --key-file project-credentials.json
 ```
 
-#### Using Environment variables to provide credentials
+#### Using Environment variables for providing credentials
 
 You may also set the GCP credentials json file via the `GOOGLE_APPLICATION_CREDENTIALS` environment variable.
 
