@@ -106,7 +106,7 @@ The `mindays` property tests the minimum number of days between password changes
 
     its('mindays') { should eq 0 }
 
-    where `0` represents the maximum number of days.
+> where `0` represents the maximum number of days.
 
 ### minimum_days_between_password_change
 
