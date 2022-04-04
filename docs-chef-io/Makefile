@@ -12,7 +12,7 @@ preview_netlify: chef_web_docs
 
 serve: chef_web_docs
 	echo "replace github.com/inspec/inspec/docs-chef-io => ../" >> chef-web-docs/go.mod
-	pushd chef-web-docs && make bundle; hugo server --buildDrafts --buildFuture --noHTTPCache && popd
+	pushd chef-web-docs && make bundle; hugo server --buildDrafts --buildFuture --noHTTPCache --ignoreVendorPaths "github.com/inspec/inspec/*" && popd
 
 chef_web_docs:
 	if [ -d "chef-web-docs/" ]; then \
