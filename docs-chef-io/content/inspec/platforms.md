@@ -147,17 +147,6 @@ export ALICLOUD_SECRET_KEY="asecretkey"
 export ALICLOUD_REGION="eu-west-1"
 ```
 
-### Train and InSpec Dependencies
-
-InSpec AliCloud depends on AliCloud SDK version 0.0.4, which is provided via Train AliCloud. InSpec does not ship with Train AliCloud and is explicitly listed in the Gemfile.
-
-### Destroying Created Resources Terraform
-
-Execute following command to destroy the created resources in Terraform:
-
-- `$ bundle exec rake test:cleanup_integration_tests`
-- `terraform destroy -force -var-file=inspec-alicloud.tfvars.json`
-
 ## GCP Platform Support in InSpec
 
 ### Setting up GCP credentials for InSpec
