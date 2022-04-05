@@ -17,7 +17,7 @@ describe Inspec::Resources::Routingtable do
     _(resource.has_entry?(destination: "172.31.80.1", interface: "eth0", gateway: "0.0.0.0")).must_equal true
   end
 
-  # darwin
+  # Ubuntu with missing key
   it "check routing table information on ubuntu with missing key input" do
     resource = MockLoader.new("ubuntu".to_sym).load_resource("routing_table")
     ex = _ { resource.has_entry?(destination: "172.31.80.1", interface: "eth0") }.must_raise(Inspec::Exceptions::ResourceSkipped)
