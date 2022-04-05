@@ -10,21 +10,21 @@ module Inspec::Resources
     supports platform: "unix"
     supports platform: "windows"
 
-    desc "It allows testing routing table parameters"
+    desc "Use the `routing_table` Chef InSpec audit resource to test the routing information parameters(destination, gateway and interface) present in the routing table."
 
     example <<~EXAMPLE
-      describe "routing_table" do
+      describe routing_table do
         it do
           should have_entry(
-            :destination => '192.168.100.0/24',
-            :interface   => 'eth1',
-            :gateway     => '192.168.10.1',
+            :destination => '192.168.43.1/32',
+            :interface   => 'lxdbr0',
+            :gateway     => '172.31.80.1',
           )
         end
       end
 
       describe routing_table do
-        it { should have_entry(:destination => '192.168.100.0/24', :interface => 'eth1', :gateway => '192.168.10.1') }
+        it { should have_entry(destination: '0.0.0.0', interface: 'eth0', gateway: '172.31.80.1') }
       end
     EXAMPLE
 
@@ -43,6 +43,8 @@ module Inspec::Resources
     def has_entry?(input_route)
       # check if the destination, gateway, interface exists as part of the routing_info
       if input_route.key?(:destination) && input_route.key?(:gateway) && input_route.key?(:interface)
+        # check if there is key with destination's value in hash;
+        # if yes, check if destination and gateway is present else return false
         @routing_info.key?(input_route[:destination]) ? @routing_info[input_route[:destination]].include?([input_route[:gateway], input_route[:interface]]) : false
       else
         raise Inspec::Exceptions::ResourceSkipped, "One or more missing key, have_entry? matcher expects a hash with 3 keys: destination, gateway and interface"
@@ -123,6 +125,7 @@ module Inspec::Resources
       end
     end
 
+    # check if netstat is available on the system
     def find_netstat_or_error
       %w{/usr/sbin/netstat /sbin/netstat /usr/bin/netstat /bin/netstat netstat}.each do |cmd|
         return cmd if inspec.command(cmd).exist?
