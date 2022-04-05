@@ -44,7 +44,7 @@ module InspecPlugins
 
       def validate_options(each_line_opts)
         invalid_options = []
-        each_line_opts.each do |option_name, option_value|
+        each_line_opts.each do |option_name|
           if thor_options_for_sub_cmd[option_name.to_sym].nil? && aliases_mapping[option_name.to_sym].nil?
             invalid_options << option_name
           end
@@ -54,8 +54,8 @@ module InspecPlugins
 
       def check_for_required_fields(each_line_opts)
         required_fields = thor_options_for_sub_cmd.collect { |_, thor_option| thor_option.name if thor_option.required }.compact
-        option_keys = each_line_opts.keys
-        each_line_opts.keys.map { |key| option_keys.push(aliases_mapping[key.to_sym]) if aliases_mapping[key.to_sym] }
+        option_keys = each_line_opts
+        each_line_opts.map { |key| option_keys.push(aliases_mapping[key.to_sym]) if aliases_mapping[key.to_sym] }
         if !required_fields.empty? && (option_keys & required_fields).empty?
           @validation_error_each_line += "No value provided for required options: #{required_fields} |"
         end
@@ -66,9 +66,8 @@ module InspecPlugins
       def get_options(option_line)
         splitted_result = option_line.split(" ")
         splitted_result.delete_at(0)
-        splitted_result = splitted_result.map { |res| res.gsub("-", "") }
-        options_to_run_with = Hash[*splitted_result.flatten(1)]
-        options_to_run_with
+        splitted_result = splitted_result.select { |res| res.start_with?("-") }
+        splitted_result.map { |res| res.gsub("-", "") }
       end
     end
   end
