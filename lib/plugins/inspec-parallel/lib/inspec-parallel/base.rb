@@ -1,42 +1,38 @@
 require_relative "runner"
+require_relative "validator"
+
 module InspecPlugins
   module Parallel
     class Base
-      attr_accessor :options, :default_profile, :sub_cmd
+      attr_accessor :options, :default_profile, :sub_cmd, :parsed_options, :validation_passed
 
       def initialize(options, default_profile, sub_cmd = "exec")
         @default_profile = default_profile
         @options = options
         @sub_cmd = sub_cmd
+        @logger  = Inspec::Log
+        @validation_passed = true
+        @parsed_options = parse_options_file
       end
 
       def run
-        execute_pre_run_process
-        run_commands
+        Runner.new(parsed_options, sub_cmd).run
       end
 
       def dry_run
-        execute_pre_run_process
-        dry_run_commands
-      end
-
-      def execute_pre_run_process
-        @parsed_options = parse_options_file
         validate_option_strings
+        dry_run_commands if validation_passed
       end
 
       private
 
       def validate_option_strings
-        # TBD validate options passed according to sub_cmd and also for reporters format
-      end
-
-      def run_commands
-        Runner.new(@parsed_options, sub_cmd.to_sym).run
+        @validation_passed = Validator.new(parsed_options, sub_cmd).validate!
+        @logger.error "Please fix the options file to proceed further." unless @validation_passed
       end
 
       def dry_run_commands
-        @parsed_options.each do |opts|
+        parsed_options.each do |opts|
           puts "inspec #{sub_cmd} #{opts}"
         end
       end
