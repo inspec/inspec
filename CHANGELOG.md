@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.10.11 -->
-## [v5.10.11](https://github.com/inspec/inspec/tree/v5.10.11) (2022-03-31)
+<!-- latest_release 5.10.12 -->
+## [v5.10.12](https://github.com/inspec/inspec/tree/v5.10.12) (2022-04-05)
 
 #### Merged Pull Requests
-- fix(service): ensure `installed: true` isn&#39;t always returned on FreeBSD [#5948](https://github.com/inspec/inspec/pull/5948) ([myii](https://github.com/myii))
+- AliCloud Platform Instructions [#5960](https://github.com/inspec/inspec/pull/5960) ([dkumaras](https://github.com/dkumaras))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.10.5 -->
 ### Changes since 5.10.5 release
 
 #### Merged Pull Requests
+- AliCloud Platform Instructions [#5960](https://github.com/inspec/inspec/pull/5960) ([dkumaras](https://github.com/dkumaras)) <!-- 5.10.12 -->
 - fix(service): ensure `installed: true` isn&#39;t always returned on FreeBSD [#5948](https://github.com/inspec/inspec/pull/5948) ([myii](https://github.com/myii)) <!-- 5.10.11 -->
 - CFINSPEC-86: Enhance docker_image resource [#5945](https://github.com/inspec/inspec/pull/5945) ([ahasunos](https://github.com/ahasunos)) <!-- 5.10.10 -->
 - CFINSPEC-85: Enhance docker_container resource with have_volume matcher [#5944](https://github.com/inspec/inspec/pull/5944) ([ahasunos](https://github.com/ahasunos)) <!-- 5.10.9 -->
