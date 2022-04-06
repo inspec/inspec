@@ -1,5 +1,6 @@
 require_relative "base"
 require "inspec/dist"
+require "inspec/base_cli"
 
 module InspecPlugins::Parallel
   class CLI < Inspec.plugin(2, :cli_command)
@@ -12,6 +13,7 @@ module InspecPlugins::Parallel
       desc: "File that contains list of option strings"
     option :dry_run, type: :boolean,
       desc: "Print commands that will run"
+    exec_options
     def exec(default_profile = nil)
       parallel_base = InspecPlugins::Parallel::Base.new(options, default_profile)
       if options[:dry_run]
@@ -19,7 +21,7 @@ module InspecPlugins::Parallel
       else
         parallel_base.run
       end
-    rescue StandardError => e
+      # rescue StandardError => e
       # TBD
     end
   end

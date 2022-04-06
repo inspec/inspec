@@ -4,7 +4,7 @@ require_relative "validator"
 module InspecPlugins
   module Parallel
     class Base
-      attr_accessor :options, :default_profile, :sub_cmd, :parsed_options, :validation_passed
+      attr_accessor :options, :default_profile, :sub_cmd, :parsed_options
 
       def initialize(options, default_profile, sub_cmd = "exec")
         @default_profile = default_profile
@@ -21,7 +21,7 @@ module InspecPlugins
 
       def dry_run
         validate_option_strings
-        dry_run_commands if validation_passed
+        dry_run_commands if @validation_passed
       end
 
       private
@@ -50,6 +50,10 @@ module InspecPlugins
           end
         end
         opts
+      end
+
+      def parallel_exec_options
+        options.keys - Inspec::InspecCLI.commands[sub_cmd].options.keys.map(&:to_s)
       end
     end
   end
