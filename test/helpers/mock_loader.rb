@@ -386,6 +386,8 @@ class MockLoader
       "cgget -n -r cpuset.cpus carrotking" => cmd.call("cgget-n-r"),
       "cgget -n -r memory.stat carrotking" => cmd.call("cgget-n-r-stat"),
       %{sh -c 'type "cgget"'} => empty.call,
+      # mail_alias
+      "cat /etc/aliases | grep '^daemon:'" => cmd.call("mail-alias"),
       # apache_conf
       "sh -c 'find /etc/apache2/ports.conf -type f -maxdepth 1'" => cmd.call("find-apache2-ports-conf"),
       "sh -c 'find /etc/httpd/conf.d/*.conf -type f -maxdepth 1'" => cmd.call("find-httpd-ssl-conf"),
