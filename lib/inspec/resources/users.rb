@@ -137,20 +137,17 @@ module Inspec::Resources
   #   its('badpasswordattempts') { should eq 0 }
   # end
   #
-  # The following  Serverspec  matchers are deprecated in favor for direct value access
+  # The following  Serverspec  matchers were deprecated in favor for direct value access
+  # but are made available as part of Serverspec compatibility in March, 2022.
   #
   # describe user('root') do
   #   it { should belong_to_group 'root' }
+  #   it { should belong_to_primary_group 'root' }
   #   it { should have_uid 0 }
   #   it { should have_home_directory '/root' }
   #   it { should have_login_shell '/bin/bash' }
   #   its('minimum_days_between_password_change') { should eq 0 }
   #   its('maximum_days_between_password_change') { should eq 99 }
-  # end
-  #
-  # ServerSpec tests that are not supported:
-  #
-  # describe user('root') do
   #   it { should have_authorized_key 'ssh-rsa ADg54...3434 user@example.local' }
   #   its(:encrypted_password) { should eq 1234 }
   # end
@@ -258,36 +255,56 @@ module Inspec::Resources
 
     # implement 'mindays' method to be compatible with serverspec
     def minimum_days_between_password_change
-      Inspec.deprecate(:resource_user_serverspec_compat, "The user resource `minimum_days_between_password_change` property is deprecated. Please use `mindays`.")
       mindays
     end
 
     # implement 'maxdays' method to be compatible with serverspec
     def maximum_days_between_password_change
-      Inspec.deprecate(:resource_user_serverspec_compat, "The user resource `maximum_days_between_password_change` property is deprecated. Please use `maxdays`.")
       maxdays
     end
 
     # implements rspec has matcher, to be compatible with serverspec
     # @see: https://github.com/rspec/rspec-expectations/blob/master/lib/rspec/matchers/built_in/has.rb
+    # has_uid matcher: compatibility with serverspec
     def has_uid?(compare_uid)
-      Inspec.deprecate(:resource_user_serverspec_compat, "The user resource `has_uid?` matcher is deprecated.")
       uid == compare_uid
     end
 
+    # has_home_directory matcher: compatibility with serverspec
     def has_home_directory?(compare_home)
-      Inspec.deprecate(:resource_user_serverspec_compat, "The user resource `has_home_directory?` matcher is deprecated. Please use `its('home')`.")
       home == compare_home
     end
 
+    # has_login_shell matcher: compatibility with serverspec
     def has_login_shell?(compare_shell)
-      Inspec.deprecate(:resource_user_serverspec_compat, "The user resource `has_login_shell?` matcher is deprecated. Please use `its('shell')`.")
       shell == compare_shell
     end
 
-    def has_authorized_key?(_compare_key)
-      Inspec.deprecate(:resource_user_serverspec_compat, "The user resource `has_authorized_key?` matcher is deprecated. There is no currently implemented alternative")
-      raise NotImplementedError
+    # has_authorized_key matcher: compatibility with serverspec
+    def has_authorized_key?(compare_key)
+      # get_authorized_keys returns the list of key, check if given key is included.
+      get_authorized_keys.include?(compare_key)
+    end
+
+    # belongs_to_primary_group matcher: compatibility with serverspec
+    def belongs_to_primary_group?(group_name)
+      groupname == group_name
+    end
+
+    # belongs_to_group matcher: compatibility with serverspec
+    def belongs_to_group?(group_name)
+      groups.include?(group_name)
+    end
+
+    # encrypted_password property: compatibility with serverspec
+    # it allows to run test against the hashed passwords of the given user
+    # applicable for unix/linux systems with getent utility.
+    def encrypted_password
+      raise Inspec::Exceptions::ResourceSkipped, "encrypted_password property is not applicable for your system" if inspec.os.windows? || inspec.os.darwin?
+
+      # shadow_information returns array of the information from the shadow file
+      # the value at 1st index is the encrypted_password information
+      shadow_information[1]
     end
 
     def to_s
@@ -313,6 +330,54 @@ module Inspec::Resources
       return @cred_cache if defined?(@cred_cache)
 
       @cred_cache = @user_provider.credentials(@username) unless @user_provider.nil?
+    end
+
+    # helper method for has_authorized_key matcher
+    # get_authorized_keys return the key/keys stored in the authorized_keys path
+    def get_authorized_keys
+      # cat is used in unix system to display content of file; similarly type is used for windows
+      bin = inspec.os.windows? ? "type" : "cat"
+
+      # auth_path gets assigned with the valid path for authorized_keys
+      auth_path = ""
+
+      # possible paths where authorized_keys are stored
+      # inspec.command is used over inspec.file because inspec.file requires absolute path
+      %w{~/.ssh/authorized_keys ~/.ssh/authorized_keys2}.each do |path|
+        if inspec.command("#{bin} #{path}").exit_status == 0
+          auth_path = path
+          break
+        end
+      end
+
+      # if auth_path is empty, no valid path was found, hence raise exception
+      raise Inspec::Exceptions::ResourceSkipped, "Can't find any valid path for authorized_keys" if auth_path.empty?
+
+      # authorized_keys are obtained in the standard output;
+      # split keys on newline if more than one keys are part of authorized_keys
+      inspec.command("#{bin} #{auth_path}").stdout.split("\n").map(&:strip)
+    end
+
+    # Helper method for encrypted_password property
+    def shadow_information
+      # check if getent is available on the system
+      bin = find_getent_utility
+
+      # fetch details of the passwd file for the current user using getent
+      cmd = inspec.command("#{bin} shadow #{@username}")
+      raise Inspec::Exceptions::ResourceFailed, "Executing #{bin} shadow #{@username} failed: #{cmd.stderr}" if cmd.exit_status.to_i != 0
+
+      # shadow information are : separated values, split and return
+      cmd.stdout.split(":").map(&:strip)
+    end
+
+    # check if getent exist in the system
+    def find_getent_utility
+      %w{/usr/bin/getent /bin/getent getent}.each do |cmd|
+        return cmd if inspec.command(cmd).exist?
+      end
+
+      raise Inspec::Exceptions::ResourceFailed, "Could not find `getent` on your system."
     end
   end
 
