@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.11.0 -->
-## [v5.11.0](https://github.com/inspec/inspec/tree/v5.11.0) (2022-04-06)
+<!-- latest_release 5.12.0 -->
+## [v5.12.0](https://github.com/inspec/inspec/tree/v5.12.0) (2022-04-06)
 
 #### Merged Pull Requests
-- CFINSPEC-80: Add mail alias resource [#5961](https://github.com/inspec/inspec/pull/5961) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-83: Add routing table resource [#5972](https://github.com/inspec/inspec/pull/5972) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.10.5 -->
 ### Changes since 5.10.5 release
 
 #### Merged Pull Requests
+- CFINSPEC-83: Add routing table resource [#5972](https://github.com/inspec/inspec/pull/5972) ([ahasunos](https://github.com/ahasunos)) <!-- 5.12.0 -->
 - CFINSPEC-80: Add mail alias resource [#5961](https://github.com/inspec/inspec/pull/5961) ([ahasunos](https://github.com/ahasunos)) <!-- 5.11.0 -->
 - CFINSPEC-94: Enhance user resource [#5959](https://github.com/inspec/inspec/pull/5959) ([ahasunos](https://github.com/ahasunos)) <!-- 5.10.13 -->
 - AliCloud Platform Instructions [#5960](https://github.com/inspec/inspec/pull/5960) ([dkumaras](https://github.com/dkumaras)) <!-- 5.10.12 -->
