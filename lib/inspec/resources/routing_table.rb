@@ -43,9 +43,9 @@ module Inspec::Resources
     def has_entry?(input_route)
       # check if the destination, gateway, interface exists as part of the routing_info
       if input_route.key?(:destination) && input_route.key?(:gateway) && input_route.key?(:interface)
-        @routing_info[input_route[:destination]].include?([input_route[:gateway], input_route[:interface]])
+        @routing_info.key?(input_route[:destination]) ? @routing_info[input_route[:destination]].include?([input_route[:gateway], input_route[:interface]]) : false
       else
-        raise Inspec::Exceptions::ResourceSkipped, "One or more missing key, have_entry? matcher expects a hash with 3 keys: destination, gateway and interfacer"
+        raise Inspec::Exceptions::ResourceSkipped, "One or more missing key, have_entry? matcher expects a hash with 3 keys: destination, gateway and interface"
       end
     end
 
