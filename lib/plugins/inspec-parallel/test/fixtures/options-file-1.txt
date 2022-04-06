@@ -1,0 +1,8 @@
+# This is testing a comment in an option file
+
+# I also added a blank line above.
+
+  # This lines has a comment but it is not properly indented.
+
+-t ssh://vagrant@127.0.0.1:2201 --reporter cli
+test/fixtures/profiles/control-tags -t ssh://vagrant@127.0.0.1:2201 --reporter cli

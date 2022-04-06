@@ -43,8 +43,9 @@ module InspecPlugins
         opts = []
         content = File.read(options[:option_file])
         content.split("\n").each do |str|
-          str_has_comment = str.strip.start_with?("#")
-          if !str.strip.empty? && !str_has_comment
+          str = str.strip
+          str_has_comment = str.start_with?("#")
+          if !str.empty? && !str_has_comment
             if str.start_with?("-")
               opts << "#{default_profile} #{str}"
             else
