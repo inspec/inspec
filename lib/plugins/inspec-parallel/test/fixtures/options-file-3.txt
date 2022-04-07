@@ -1,0 +1,8 @@
+# This is testing a comment in an option file
+
+# I also added a blank line above.
+
+  # This lines has a comment but it is not properly indented.
+
+--reporter json
+test/fixtures/profiles/control-tags --reporter cli

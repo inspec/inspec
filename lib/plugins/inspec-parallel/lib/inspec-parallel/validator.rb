@@ -65,9 +65,15 @@ module InspecPlugins
 
       def get_options(option_line)
         splitted_result = option_line.split(" ")
-        splitted_result.delete_at(0)
         splitted_result = splitted_result.select { |res| res.start_with?("-") }
-        splitted_result.map { |res| res.gsub("-", "") }
+        splitted_result.map do |res|
+          to_replace = if res.start_with?("--")
+                         res.start_with?("--no-") ? "--no-" : "--"
+                       else
+                         "-"
+                       end
+          res.delete_prefix(to_replace).gsub("-", "_")
+        end
       end
     end
   end

@@ -4,5 +4,6 @@
 
   # This lines has a comment but it is not properly indented.
 
--t ssh://vagrant@127.0.0.1:2201 --reporter cli
+-t ssh://vagrant@127.0.0.1:2201 --reporter cli --no-create-lockfile
 test/fixtures/profiles/control-tags -t ssh://vagrant@127.0.0.1:2201 --reporter cli
+test/fixtures/profiles/control-tags input input1=testvalue1 input2=testvalue2 command-timeout 10
