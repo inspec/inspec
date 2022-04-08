@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.12.1 -->
-## [v5.12.1](https://github.com/inspec/inspec/tree/v5.12.1) (2022-04-08)
+<!-- latest_release 5.12.2 -->
+## [v5.12.2](https://github.com/inspec/inspec/tree/v5.12.2) (2022-04-08)
 
 #### Merged Pull Requests
-- Bump omnibus-software from `82b14e3` to `960cb6e` in /omnibus [#5973](https://github.com/inspec/inspec/pull/5973) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Move shortcodes from chef-web-docs to inspec repo [#5969](https://github.com/inspec/inspec/pull/5969) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.10.5 -->
 ### Changes since 5.10.5 release
 
 #### Merged Pull Requests
+- Move shortcodes from chef-web-docs to inspec repo [#5969](https://github.com/inspec/inspec/pull/5969) ([IanMadd](https://github.com/IanMadd)) <!-- 5.12.2 -->
 - Bump omnibus-software from `82b14e3` to `960cb6e` in /omnibus [#5973](https://github.com/inspec/inspec/pull/5973) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.12.1 -->
 - CFINSPEC-83: Add routing table resource [#5972](https://github.com/inspec/inspec/pull/5972) ([ahasunos](https://github.com/ahasunos)) <!-- 5.12.0 -->
 - CFINSPEC-80: Add mail alias resource [#5961](https://github.com/inspec/inspec/pull/5961) ([ahasunos](https://github.com/ahasunos)) <!-- 5.11.0 -->
