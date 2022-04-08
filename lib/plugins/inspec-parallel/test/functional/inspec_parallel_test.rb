@@ -18,7 +18,7 @@ class ParallelCli < Minitest::Test
     stdout = out.stdout
     assert_includes stdout, "complete-profile -t ssh://vagrant@127.0.0.1:2201 --reporter cli"
     assert_includes stdout, "control-tags -t ssh://vagrant@127.0.0.1:2201 --reporter cli"
-    assert_equal stdout.split("\n").count, 3
+    assert_equal stdout.split("\n").count, 7
     assert_exit_code 0, out
   end
 
@@ -38,5 +38,22 @@ class ParallelCli < Minitest::Test
   def test_parallel_run_with_typo_in_option
     out = run_inspec_process("parallel exec #{complete_profile} -o #{options_file_2}")
     refute_empty out.stderr
+  end
+
+  def test_parallel_with_default_opts
+    out = run_inspec_process("parallel exec #{complete_profile} -o #{options_file_3} --reporter json")
+    assert_empty out.stderr
+    assert_exit_code 0, out
+  end
+
+  def test_parallel_dry_run_with_default_opts
+    out = run_inspec_process("parallel exec #{complete_profile} -o #{options_file_1} -t docker://8b5ec1a0344b --reporter json --dry-run")
+    stdout = out.stdout
+    assert_includes stdout, "basic_profile -t docker://8b5ec1a0344b --reporter json"
+    assert_includes stdout, "complete-profile -t docker://1870886821c3 --reporter cli"
+    assert_includes stdout, "complete-profile --reporter cli  --target docker://8b5ec1a0344b"
+    assert_includes stdout, "complete-profile -t docker://1870886821c3  --reporter json"
+    assert_equal stdout.split("\n").count, 7
+    assert_exit_code 0, out
   end
 end
