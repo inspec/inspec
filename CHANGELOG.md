@@ -1,31 +1,29 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.12.2 -->
-## [v5.12.2](https://github.com/inspec/inspec/tree/v5.12.2) (2022-04-08)
-
-#### Merged Pull Requests
-- Move shortcodes from chef-web-docs to inspec repo [#5969](https://github.com/inspec/inspec/pull/5969) ([IanMadd](https://github.com/IanMadd))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=5.10.5 -->
-### Changes since 5.10.5 release
-
-#### Merged Pull Requests
-- Move shortcodes from chef-web-docs to inspec repo [#5969](https://github.com/inspec/inspec/pull/5969) ([IanMadd](https://github.com/IanMadd)) <!-- 5.12.2 -->
-- Bump omnibus-software from `82b14e3` to `960cb6e` in /omnibus [#5973](https://github.com/inspec/inspec/pull/5973) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.12.1 -->
-- CFINSPEC-83: Add routing table resource [#5972](https://github.com/inspec/inspec/pull/5972) ([ahasunos](https://github.com/ahasunos)) <!-- 5.12.0 -->
-- CFINSPEC-80: Add mail alias resource [#5961](https://github.com/inspec/inspec/pull/5961) ([ahasunos](https://github.com/ahasunos)) <!-- 5.11.0 -->
-- CFINSPEC-94: Enhance user resource [#5959](https://github.com/inspec/inspec/pull/5959) ([ahasunos](https://github.com/ahasunos)) <!-- 5.10.13 -->
-- AliCloud Platform Instructions [#5960](https://github.com/inspec/inspec/pull/5960) ([dkumaras](https://github.com/dkumaras)) <!-- 5.10.12 -->
-- fix(service): ensure `installed: true` isn&#39;t always returned on FreeBSD [#5948](https://github.com/inspec/inspec/pull/5948) ([myii](https://github.com/myii)) <!-- 5.10.11 -->
-- CFINSPEC-86: Enhance docker_image resource [#5945](https://github.com/inspec/inspec/pull/5945) ([ahasunos](https://github.com/ahasunos)) <!-- 5.10.10 -->
-- CFINSPEC-85: Enhance docker_container resource with have_volume matcher [#5944](https://github.com/inspec/inspec/pull/5944) ([ahasunos](https://github.com/ahasunos)) <!-- 5.10.9 -->
-- updates to reporting detail on progress bar [#5956](https://github.com/inspec/inspec/pull/5956) ([aaronlippold](https://github.com/aaronlippold)) <!-- 5.10.8 -->
-- Extend CI test timeout to 60 minutes [#5949](https://github.com/inspec/inspec/pull/5949) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.10.7 -->
-- Deprecation note for azurerm resources [#5923](https://github.com/inspec/inspec/pull/5923) ([IanMadd](https://github.com/IanMadd)) <!-- 5.10.6 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v5.12.2](https://github.com/inspec/inspec/tree/v5.12.2) (2022-04-08)
+
+#### Merged Pull Requests
+- Deprecation note for azurerm resources [#5923](https://github.com/inspec/inspec/pull/5923) ([IanMadd](https://github.com/IanMadd))
+- Extend CI test timeout to 60 minutes [#5949](https://github.com/inspec/inspec/pull/5949) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- updates to reporting detail on progress bar [#5956](https://github.com/inspec/inspec/pull/5956) ([aaronlippold](https://github.com/aaronlippold))
+- CFINSPEC-85: Enhance docker_container resource with have_volume matcher [#5944](https://github.com/inspec/inspec/pull/5944) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-86: Enhance docker_image resource [#5945](https://github.com/inspec/inspec/pull/5945) ([ahasunos](https://github.com/ahasunos))
+- fix(service): ensure `installed: true` isn&#39;t always returned on FreeBSD [#5948](https://github.com/inspec/inspec/pull/5948) ([myii](https://github.com/myii))
+- AliCloud Platform Instructions [#5960](https://github.com/inspec/inspec/pull/5960) ([dkumaras](https://github.com/dkumaras))
+- CFINSPEC-94: Enhance user resource [#5959](https://github.com/inspec/inspec/pull/5959) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-80: Add mail alias resource [#5961](https://github.com/inspec/inspec/pull/5961) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-83: Add routing table resource [#5972](https://github.com/inspec/inspec/pull/5972) ([ahasunos](https://github.com/ahasunos))
+- Bump omnibus-software from `82b14e3` to `960cb6e` in /omnibus [#5973](https://github.com/inspec/inspec/pull/5973) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Move shortcodes from chef-web-docs to inspec repo [#5969](https://github.com/inspec/inspec/pull/5969) ([IanMadd](https://github.com/IanMadd))
+<!-- latest_stable_release -->
+
 ## [v5.10.5](https://github.com/inspec/inspec/tree/v5.10.5) (2022-03-23)
 
 #### Merged Pull Requests
@@ -39,7 +37,6 @@
 - CFINSPEC-156 Oracle query fix when empty result [#5938](https://github.com/inspec/inspec/pull/5938) ([Nik08](https://github.com/Nik08))
 - Bump omnibus-software from `5947560` to `82b14e3` in /omnibus [#5940](https://github.com/inspec/inspec/pull/5940) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Fix plugin list smoke test [#5946](https://github.com/inspec/inspec/pull/5946) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v5.7.9](https://github.com/inspec/inspec/tree/v5.7.9) (2022-03-17)
 
