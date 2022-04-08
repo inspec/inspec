@@ -271,6 +271,12 @@ module Inspec::Resources
       info[:startname]
     end
 
+    # matcher equivalent to startmode property; compares start-up mode
+    # supported only on windows.
+    def has_start_mode?(mode)
+      mode == startmode
+    end
+
     def to_s
       "Service #{@service_name}"
     end
