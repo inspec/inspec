@@ -76,7 +76,9 @@ module Inspec
               Scans: [
                 {
                   Identifier: opts[:runner].backend.backend.platform.uuid,
+                  Transport: opts[:runner].backend.backend.backend_type,
                   Executions: 1, # TODO: Do they mean resource count here?
+                  # TODO: Add resource count. Aggregate by summing like executions
                   Version: "#{Inspec::VERSION}",
                   Activity: { Start: start_time },
                 },
@@ -101,12 +103,15 @@ module Inspec
         end
       end
 
-      def scan_finishing(_opts)
+      def scan_finishing(opts)
         end_time = Time.now.getutc.iso8601
         payload[:Periods][0][:Period][:End] = end_time
         payload[:Periods][0][:Evidence][:Scans][0][:Activity][:End] = end_time
-
-        # TODO: Arguably, we should be looking through run_data and finding each profile's end time
+        payload[:Periods][0][:Evidence][:Scans][0][:ResourceCount] =
+          opts[:run_data][:profiles].map { |p| p[:controls] }
+            .flatten
+            .map { |c| c[:results]&.length || 0 }
+            .sum
         payload[:Periods][0][:Evidence][:Content].each { |c| c[:Activity][:End] = end_time }
       end
 
@@ -144,8 +149,12 @@ module Inspec
         new_target_id = np0[:Evidence][:Scans][0][:Identifier]
         existing_scan_record = mp0[:Evidence][:Scans].detect { |s| s[:Identifier] == new_target_id }
         if existing_scan_record
-          existing_scan_record[:Executions] += 1
           # Keep existing Identifier (we matched on that)
+          # Keep existing Transport - unlikely they would mismatch without the Identifier changing too
+          # Increment Executions
+          existing_scan_record[:Executions] += 1
+          # Sum ResourceCounts
+          existing_scan_record[:ResourceCount] += np0[:Evidence][:Scans][0][:ResourceCount]
           # Use greater of the two versions
           existing_scan_record[:Version] = Gem::Version.new(np0[:Evidence][:Scans][0][:Version]) > Gem::Version.new(existing_scan_record[:Version]) ? np0[:Evidence][:Scans][0][:Version] : existing_scan_record[:Version]
           # Use earlier of the two start records
@@ -159,7 +168,7 @@ module Inspec
 
         # Now we can calculate new Summary:Scan numbers
         mp0[:Summary][:Scans][:Targets] = mp0[:Evidence][:Scans].length
-        mp0[:Summary][:Scans][:Total] = mp0[:Evidence][:Scans].length
+        mp0[:Summary][:Scans][:Total] = mp0[:Evidence][:Scans].map { |s| s[:Executions] }.sum
 
         # Determine if a new content record is needed
         # This section is optional

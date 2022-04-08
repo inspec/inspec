@@ -11,6 +11,7 @@ LDC_REGEX = {
   semver: /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/,
   datetime: /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)((-(\d{2}):(\d{2})|Z)?)$/,
   uuid: /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/, # Not in LDC standard
+  transport: /^[a-z0-9\-\_]+$/, # not in LDC standard
 }.freeze
 
 describe "LicenseDataCollector" do
@@ -26,7 +27,6 @@ describe "LicenseDataCollector" do
     it "sets the header" do
       Inspec::LicenseDataCollector.expects(:instance).returns(ldc).at_least_once
       runner.add_target(profile)
-      runner.load
       runner.run
       _(ldc.headers).wont_be_empty
       _(ldc.headers).must_be_kind_of Hash
@@ -37,7 +37,6 @@ describe "LicenseDataCollector" do
     it "sets the payload" do
       Inspec::LicenseDataCollector.expects(:instance).returns(ldc).at_least_once
       runner.add_target(profile)
-      runner.load
       runner.run
       p = ldc.payload
       _(p).wont_be_empty
@@ -59,7 +58,9 @@ describe "LicenseDataCollector" do
       _(pp0[:Evidence][:Scans].length).must_equal 1
       pp0es0 = pp0[:Evidence][:Scans][0]
       _(pp0es0[:Identifier]).must_match LDC_REGEX[:uuid]
+      _(pp0es0[:Transport]).must_match LDC_REGEX[:transport]
       _(pp0es0[:Executions]).must_equal 1
+      _(pp0es0[:ResourceCount]).must_equal 4
       _(pp0es0[:Version]).must_match LDC_REGEX[:semver]
       _(pp0es0[:Activity][:Start]).must_match LDC_REGEX[:datetime]
       _(pp0es0[:Activity][:End]).must_match LDC_REGEX[:datetime]
@@ -75,7 +76,6 @@ describe "LicenseDataCollector" do
     it "sets the payload" do
       Inspec::LicenseDataCollector.expects(:instance).returns(ldc).at_least_once
       runner.add_target(profile)
-      runner.load
       runner.run
       p = ldc.payload
       _(p).wont_be_empty
@@ -97,7 +97,9 @@ describe "LicenseDataCollector" do
       _(pp0[:Evidence][:Scans].length).must_equal 1
       pp0es0 = pp0[:Evidence][:Scans][0]
       _(pp0es0[:Identifier]).must_match LDC_REGEX[:uuid]
+      _(pp0es0[:Transport]).must_match LDC_REGEX[:transport]
       _(pp0es0[:Executions]).must_equal 1
+      _(pp0es0[:ResourceCount]).must_equal 2
       _(pp0es0[:Version]).must_match LDC_REGEX[:semver]
       _(pp0es0[:Activity][:Start]).must_match LDC_REGEX[:datetime]
       _(pp0es0[:Activity][:End]).must_match LDC_REGEX[:datetime]
@@ -143,7 +145,9 @@ describe "LicenseDataCollector" do
                 Scans: [
                   {
                     Identifier: "target-uuid1",
+                    Transport: "ssh",
                     Executions: 1,
+                    ResourceCount: 5,
                     Version: "5.10.1",
                     Activity: {
                       Start: time1,
@@ -192,7 +196,9 @@ describe "LicenseDataCollector" do
                 Scans: [
                   {
                     Identifier: "target-uuid1",
+                    Transport: "ssh",
                     Executions: 1,
+                    ResourceCount: 5,
                     Version: "5.10.1",
                     Activity: {
                       Start: time3,
@@ -227,10 +233,12 @@ describe "LicenseDataCollector" do
         _(pp0[:Period][:Start]).must_equal time1 # Preserve earliest start date
         _(pp0[:Period][:End]).must_equal time4 # Use latest end date
         _(pp0[:Summary][:Scans][:Targets]).must_equal 1 # Just one target, the same
-        _(pp0[:Summary][:Scans][:Total]).must_equal 1 # Just one target, the same
+        _(pp0[:Summary][:Scans][:Total]).must_equal 2 # Sum of Executions
         _(pp0[:Evidence][:Scans].length).must_equal 1 # Just one scan record
         _(pp0[:Evidence][:Scans][0][:Identifier]).must_equal "target-uuid1" # Just one target, the same
+        _(pp0[:Evidence][:Scans][0][:Transport]).must_equal "ssh" # Matching transport
         _(pp0[:Evidence][:Scans][0][:Executions]).must_equal 2 # 2 Scans
+        _(pp0[:Evidence][:Scans][0][:ResourceCount]).must_equal 10 # Sum of ResourceCount of the 2 scans
         _(pp0[:Evidence][:Scans][0][:Activity][:Start]).must_equal time1
         _(pp0[:Evidence][:Scans][0][:Activity][:End]).must_equal time4
         _(pp0[:Evidence][:Content].length).must_equal 1 # Just one content record
@@ -252,10 +260,12 @@ describe "LicenseDataCollector" do
         _(pp0[:Period][:Start]).must_equal time1 # Preserve earliest start date
         _(pp0[:Period][:End]).must_equal time4 # Use latest end date
         _(pp0[:Summary][:Scans][:Targets]).must_equal 1 # Just one target, the same
-        _(pp0[:Summary][:Scans][:Total]).must_equal 1 # Just one target, the same
+        _(pp0[:Summary][:Scans][:Total]).must_equal 2 # Sum of Executions
         _(pp0[:Evidence][:Scans].length).must_equal 1 # Just one scan record
         _(pp0[:Evidence][:Scans][0][:Identifier]).must_equal "target-uuid1" # Just one target, the same
+        _(pp0[:Evidence][:Scans][0][:Transport]).must_equal "ssh" # Matching transport
         _(pp0[:Evidence][:Scans][0][:Executions]).must_equal 2 # 2 Scans
+        _(pp0[:Evidence][:Scans][0][:ResourceCount]).must_equal 10 # Sum of ResourceCount of the 2 scans
         _(pp0[:Evidence][:Scans][0][:Activity][:Start]).must_equal time1
         _(pp0[:Evidence][:Scans][0][:Activity][:End]).must_equal time4
         _(pp0[:Evidence][:Content].length).must_equal 2 # 2 separate content records
@@ -277,10 +287,12 @@ describe "LicenseDataCollector" do
         _(pp0[:Period][:Start]).must_equal time1 # Preserve earliest start date
         _(pp0[:Period][:End]).must_equal time4 # Use latest end date
         _(pp0[:Summary][:Scans][:Targets]).must_equal 1 # Just one target, the same
-        _(pp0[:Summary][:Scans][:Total]).must_equal 1 # Just one target, the same
+        _(pp0[:Summary][:Scans][:Total]).must_equal 2 # Sum of Executions
         _(pp0[:Evidence][:Scans].length).must_equal 1 # Just one scan record
         _(pp0[:Evidence][:Scans][0][:Identifier]).must_equal "target-uuid1" # Just one target, the same
+        _(pp0[:Evidence][:Scans][0][:Transport]).must_equal "ssh" # Matching transport
         _(pp0[:Evidence][:Scans][0][:Executions]).must_equal 2 # 2 Scans
+        _(pp0[:Evidence][:Scans][0][:ResourceCount]).must_equal 10 # Sum of ResourceCount of the 2 scans
         _(pp0[:Evidence][:Scans][0][:Activity][:Start]).must_equal time1
         _(pp0[:Evidence][:Scans][0][:Activity][:End]).must_equal time4
         _(pp0[:Evidence][:Content].length).must_equal 2 # 2 separate content records
@@ -304,7 +316,7 @@ describe "LicenseDataCollector" do
         _(pp0[:Period][:Start]).must_equal time1 # Preserve earliest start date
         _(pp0[:Period][:End]).must_equal time4 # Use latest end date
         _(pp0[:Summary][:Scans][:Targets]).must_equal 2 # Two targets
-        _(pp0[:Summary][:Scans][:Total]).must_equal 2 # Two targets
+        _(pp0[:Summary][:Scans][:Total]).must_equal 2 # Sum of Executions
         _(pp0[:Evidence][:Scans].length).must_equal 2 # 2 scan record
         _(pp0[:Evidence][:Scans][0][:Identifier]).must_equal "target-uuid1" # First target
         _(pp0[:Evidence][:Scans][0][:Executions]).must_equal 1 # 1 scan of this target
@@ -330,7 +342,7 @@ describe "LicenseDataCollector" do
         _(pp0[:Period][:Start]).must_equal time1 # Preserve earliest start date
         _(pp0[:Period][:End]).must_equal time4 # Use latest end date
         _(pp0[:Summary][:Scans][:Targets]).must_equal 2 # Two targets
-        _(pp0[:Summary][:Scans][:Total]).must_equal 2 # Two targets
+        _(pp0[:Summary][:Scans][:Total]).must_equal 2 # Sum of Executions
         _(pp0[:Evidence][:Scans].length).must_equal 2 # 2 scan record
         _(pp0[:Evidence][:Scans][0][:Identifier]).must_equal "target-uuid1" # First target
         _(pp0[:Evidence][:Scans][0][:Executions]).must_equal 1 # 1 scan of this target
@@ -342,8 +354,6 @@ describe "LicenseDataCollector" do
         _(pp0[:Evidence][:Content][1][:Identifier]).must_equal "audit-uuid2" # Second audit, different ID
         _(pp0[:Evidence][:Content][1][:Executions]).must_equal 1
       end
-
     end
   end
-
 end
