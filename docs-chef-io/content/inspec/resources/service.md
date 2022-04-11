@@ -129,3 +129,15 @@ The `be_installed` matcher tests if the named service is installed:
 The `be_running` matcher tests if the named service is running:
 
     it { should be_running }
+
+### be_monitored_by
+
+The `be_monitored_by` matcher accepts name of a monitoring tool as an input and tests if the named service is monitored by the given monitoring tool. The monitoring tools currently supported by this resource are: `monit` and `god`.
+
+    it { should be_monitored_by("god") }
+
+### have_start_mode
+
+The `have_start_mode` matcher tests accepts a mode as an input and tests if the named service's start mode is the same as specified in the input. This matcher is currently supported only on Windows system.
+
+    it { should have_start_mode('Manual') }
