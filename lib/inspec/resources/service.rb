@@ -277,6 +277,19 @@ module Inspec::Resources
       mode == startmode
     end
 
+    # matcher to check if the service is monitored by the given monitoring tool/software
+    def monitored_by?(monitoring_tool)
+      case monitoring_tool
+      when "monit"
+        current_monitoring_tool = Monit.new(inspec, @service_name)
+      when "god"
+        current_monitoring_tool = God.new(inspec, @service_name)
+      else
+        puts "The monitoring tool #{monitoring_tool} is not yet supported by InSpec."
+      end
+      current_monitoring_tool.is_service_monitored?
+    end
+
     def to_s
       "Service #{@service_name}"
     end
@@ -897,6 +910,75 @@ module Inspec::Resources
 
     def select_service_mgmt
       Runit.new(inspec, service_ctl)
+    end
+  end
+
+  # Helper class for monitored_by matcher
+  class MonitoringTool
+    attr_reader :inspec, :service_name
+    def initialize(inspec, service_name)
+      @inspec = inspec
+      @service_name ||= service_name
+    end
+
+    def find_utility_or_error(utility_name)
+      [ "/usr/sbin/#{utility_name}" , "/sbin/#{utility_name}" , "/usr/bin/#{utility_name}" , "/bin/#{utility_name}" , "#{utility_name}" ].each do |cmd|
+        return cmd if inspec.command(cmd).exist?
+      end
+
+      raise Inspec::Exceptions::ResourceFailed, "Could not find `#{utility_name}`"
+    end
+  end
+
+  class Monit < MonitoringTool
+    def initialize(inspec, service_name)
+      super
+    end
+
+    def is_service_monitored?
+      utility = find_utility_or_error("monit")
+      utility_cmd = inspec.command("#{utility} summary")
+
+      raise Inspec::Exceptions::ResourceFailed, "Executing #{utility} failed: #{cmd.stderr}" if utility_cmd.exit_status.to_i != 0
+
+      monitoring_info = utility_cmd.stdout.split("\n")
+      monitoring_info.map! { |info| info.strip.squeeze(" ") }
+      is_monitored = false
+      monitoring_info.each do |info|
+        if info =~ /^#{service_name} OK.*/
+          is_monitored = true
+          break
+        end
+      end
+      is_monitored
+    end
+
+    private
+
+    def find_utility_or_error(utility_name)
+      super
+    end
+  end
+
+  class God < MonitoringTool
+    def initialize(inspec, service_name)
+      super
+    end
+
+    def is_service_monitored?
+      utility = find_utility_or_error("god")
+      utility_cmd = inspec.command("#{utility} status #{service_name}")
+
+      raise Inspec::Exceptions::ResourceFailed, "Executing #{utility} failed: #{cmd.stderr}" if utility_cmd.exit_status.to_i != 0
+
+      monitoring_info = utility_cmd.stdout.strip
+      monitoring_info =~ /^#{service_name}: up/
+    end
+
+    private
+
+    def find_utility_or_error(utility_name)
+      super
     end
   end
 end
