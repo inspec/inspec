@@ -302,24 +302,24 @@ describe "Inspec::Resources::Service" do
   it "verify freebsd10 service parsing" do
     resource = MockLoader.new(:freebsd10).load_resource("service", "sendmail")
     params = Hashie::Mash.new({})
-    _(resource.type).must_equal "bsd-init"
+    assert_nil(resource.type)
     _(resource.name).must_equal "sendmail"
     _(resource.description).must_be_nil
-    _(resource.installed?).must_equal true
-    _(resource.enabled?).must_equal true
-    _(resource.running?).must_equal true
+    _(resource.installed?).must_equal false
+    _(resource.enabled?).must_equal false
+    _(resource.running?).must_equal false
     _(resource.params).must_equal params
   end
 
   it "verify freebsd10 service parsing with default bsd_service" do
     resource = MockLoader.new(:freebsd10).load_resource("bsd_service", "sendmail")
     params = Hashie::Mash.new({})
-    _(resource.type).must_equal "bsd-init"
+    assert_nil(resource.type)
     _(resource.name).must_equal "sendmail"
     _(resource.description).must_be_nil
-    _(resource.installed?).must_equal true
-    _(resource.enabled?).must_equal true
-    _(resource.running?).must_equal true
+    _(resource.installed?).must_equal false
+    _(resource.enabled?).must_equal false
+    _(resource.running?).must_equal false
     _(resource.params).must_equal params
   end
 
