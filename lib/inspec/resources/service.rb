@@ -274,11 +274,16 @@ module Inspec::Resources
     # matcher equivalent to startmode property; compares start-up mode
     # supported only on windows.
     def has_start_mode?(mode)
+      raise Inspec::Exceptions::ResourceSkipped, "The `has_start_mode` matcher is not supported on your OS yet." unless inspec.os.windows?
+
       mode == startmode
     end
 
     # matcher to check if the service is monitored by the given monitoring tool/software
     def monitored_by?(monitoring_tool)
+      # Currently supported monitoring tools are: monit & god
+      # To add support for new monitoring tools, extend the case statement with additional monitoring tool and
+      # add the definition and logic in a new class (inheriting the base class MonitoringTool: optional)
       case monitoring_tool
       when "monit"
         current_monitoring_tool = Monit.new(inspec, @service_name)
