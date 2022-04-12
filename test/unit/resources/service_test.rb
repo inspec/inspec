@@ -544,5 +544,21 @@ describe "Inspec::Resources::Service" do
     it "checks disabled false if some services are not disabled" do
       _(service.runlevels(0, 4).enabled?).must_equal false
     end
+
+    # windows
+    it "verify serverspec compatible matchers on windows" do
+      resource = MockLoader.new(:windows).load_resource("service", "dhcp")
+      _(resource.name).must_equal "dhcp"
+      _(resource.has_start_mode?("Auto")).must_equal true
+    end
+
+    # ubuntu
+    it "verify serverspec compatible matchers on ubuntu" do
+      resource = MockLoader.new(:ubuntu1404).load_resource("service", "ssh")
+      _(resource.name).must_equal "ssh"
+      _(resource.monitored_by?("monit")).must_equal true
+      ex = _ { resource.has_start_mode?("Auto") }.must_raise(Inspec::Exceptions::ResourceSkipped)
+      _(ex.message).must_include "The `has_start_mode` matcher is not supported on your OS yet."
+    end
   end
 end
