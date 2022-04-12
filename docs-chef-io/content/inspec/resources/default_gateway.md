@@ -30,9 +30,9 @@ A `default_gateway` Chef InSpec audit resource allows to test the assigned ip ad
     end
 where
 
-- `'ipaddress' and 'interface'` are property of this resource
+- `'ipaddress' and 'interface'` are properties of this resource
 - `172.26.0.1` is the expected value for `'ipaddress'`
-- `172.26.4.74` is the expected value for `'interface'`
+- `eth0` is the expected value for `'interface'`
 
 ## Properties
 
