@@ -944,7 +944,7 @@ module Inspec::Resources
       utility = find_utility_or_error("monit")
       utility_cmd = inspec.command("#{utility} summary")
 
-      raise Inspec::Exceptions::ResourceFailed, "Executing #{utility} failed: #{cmd.stderr}" if utility_cmd.exit_status.to_i != 0
+      raise Inspec::Exceptions::ResourceFailed, "Executing #{utility} summary failed: #{utility_cmd.stderr}" if utility_cmd.exit_status.to_i != 0
 
       monitoring_info = utility_cmd.stdout.split("\n")
       monitoring_info.map! { |info| info.strip.squeeze(" ") }
@@ -974,7 +974,7 @@ module Inspec::Resources
       utility = find_utility_or_error("god")
       utility_cmd = inspec.command("#{utility} status #{service_name}")
 
-      raise Inspec::Exceptions::ResourceFailed, "Executing #{utility} failed: #{cmd.stderr}" if utility_cmd.exit_status.to_i != 0
+      raise Inspec::Exceptions::ResourceFailed, "Executing #{utility} status #{service_name} failed: #{utility_cmd.stderr}" if utility_cmd.exit_status.to_i != 0
 
       monitoring_info = utility_cmd.stdout.strip
       monitoring_info =~ /^#{service_name}: up/
