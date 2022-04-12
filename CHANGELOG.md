@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 5.12.3 -->
+## [v5.12.3](https://github.com/inspec/inspec/tree/v5.12.3) (2022-04-12)
+
+#### Merged Pull Requests
+- Fix unit test for service resource [#5980](https://github.com/inspec/inspec/pull/5980) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=5.12.2 -->
+### Changes since 5.12.2 release
+
+#### Merged Pull Requests
+- Fix unit test for service resource [#5980](https://github.com/inspec/inspec/pull/5980) ([ahasunos](https://github.com/ahasunos)) <!-- 5.12.3 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
