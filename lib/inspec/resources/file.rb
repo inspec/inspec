@@ -434,7 +434,7 @@ module Inspec::Resources
       utility = find_utility_or_error("lsattr")
       utility_cmd = inspec.command("#{utility} #{file_path}")
 
-      raise Inspec::Exceptions::ResourceFailed, "Executing #{utility} #{file_path} failed: #{cmd.stderr}" if utility_cmd.exit_status.to_i != 0
+      raise Inspec::Exceptions::ResourceFailed, "Executing #{utility} #{file_path} failed: #{utility_cmd.stderr}" if utility_cmd.exit_status.to_i != 0
 
       # General output for lsattr file_name is:
       # ----i---------e----- file_name
@@ -466,7 +466,7 @@ module Inspec::Resources
       # But on some bsd system (eg: freebsd) ls -lo is used instead of ls -lO
       utility_cmd = inspec.command("ls -lo #{file_path}") if utility_cmd.exit_status.to_i != 0
 
-      raise Inspec::Exceptions::ResourceFailed, "Executing ls -lo #{file_path} and ls -lO #{file_path} failed: #{cmd.stderr}" if utility_cmd.exit_status.to_i != 0
+      raise Inspec::Exceptions::ResourceFailed, "Executing ls -lo #{file_path} and ls -lO #{file_path} failed: #{utility_cmd.stderr}" if utility_cmd.exit_status.to_i != 0
 
       # General output for ls -lO file_name is:
       # -rw-r--r--  1 current_user  1083951318  uchg 0 Apr  6 12:45 file_name
