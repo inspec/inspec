@@ -201,6 +201,14 @@ module Inspec::Resources
       raise Inspec::Exceptions::ResourceFailed, "Unable to parse the given JSON file: #{e.message}"
     end
 
+    # parse the yaml file content and returns the content
+    def content_as_yaml
+      require "yaml" unless defined?(YAML)
+      YAML.load(file.content)
+    rescue => e
+      raise Inspec::Exceptions::ResourceFailed, "Unable to parse the given YAML file: #{e.message}"
+    end
+
     def to_s
       if file
         "File #{source_path}"
