@@ -193,6 +193,14 @@ module Inspec::Resources
       file_info.is_immutable?
     end
 
+    # parse the json file content and returns the content
+    def content_as_json
+      require "json" unless defined?(JSON)
+      JSON.parse(file.content)
+    rescue => e
+      raise Inspec::Exceptions::ResourceFailed, "Unable to parse the given JSON file: #{e.message}"
+    end
+
     def to_s
       if file
         "File #{source_path}"
