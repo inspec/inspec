@@ -103,3 +103,9 @@ The `be_local` matcher tests if the group is a local group:
 The `exist` matcher tests if the named group exists:
 
     it { should exist }
+
+### have_gid
+
+The `have_gid` matcher tests if the named group has the given gid.
+
+    it { should have_gid 0 }
