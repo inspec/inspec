@@ -145,6 +145,11 @@ module Inspec::Resources
       true
     end
 
+    # matcher equivalent to gid property.
+    def has_gid?(gid_value)
+      gid_value == gid
+    end
+
     def to_s
       "Group #{@group}"
     end
