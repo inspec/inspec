@@ -42,6 +42,8 @@ where
 ### General Properties
 
 - `content`
+- `content_as_json`
+- `content_as_yaml`
 - `size`
 - `basename`
 - `path`
@@ -86,6 +88,49 @@ The following complete example tests the `pg_hba.conf` file in PostgreSQL for MD
       its('content') { should match(%r{local\s.*?all\s.*?all\s.*?md5}) }
       its('content') { should match(%r{host\s.*?all\s.*?all\s.*?127.0.0.1\/32\s.*?md5}) }
       its('content') { should match(%r{host\s.*?all\s.*?all\s.*?::1\/128\s.*?md5}) }
+    end
+
+### content_as_json
+The `content_as_json` property tests if contents in the specified json file matches the value specified in hash format. The value can be either key or key-value pair of the hash.
+
+    its('content_as_json') { should include('key') }
+    its('content_as_json') { should include('key' => 'value') }
+
+Assuming the file helloworld.json has the following content
+
+    {
+      "name" : "InSpec",
+      "technology" : {
+        "language" : "Ruby"
+      }
+    }
+
+The syntax to test for the content is as follows:
+
+    describe file('/home/helloworld.json') do
+      its('content_as_json') { should include('name') }
+      its('content_as_json') { should include('name' => 'InSpec') }
+      its('content_as_json') { should include('technology' => { 'language' => 'Ruby' }) }
+    end
+
+### content_as_yaml
+The `content_as_yaml` property tests if contents in the specified yaml file matches the value specified in hash format. The value can be either key of the hash or key-value pair of hash.
+
+    its('content_as_yaml') { should include('key') }
+    its('content_as_yaml') { should include('key' => 'value') }
+
+Assuming the file helloworld.yml has the following content
+
+    name: "InSpec"
+    technology:
+      language: "Ruby"
+
+The syntax to test for the content is as follows:
+
+    describe file('/home/helloworld.yml') do
+      its('content_as_yaml') { should include('name') }
+      its('content_as_yaml') { should include('name' => 'InSpec') }
+      its('content_as_yaml') { should include('technology' => { 'language' => 'Ruby' }) }
     end
 
 ### file_version
@@ -603,4 +648,12 @@ return `true` if your file has a mode with greater permissions than specified.
 
     describe file('C://Example') do
       it { should be_inherited }
+    end
+
+### `be_immutable`
+`be_immutable` is a boolean matcher which returns `true` if the specified file has the immutable flag set, otherwise `false`. This matcher is supported only on Unix systems.
+
+    describe file("/home/example") do
+      it { should be_readable }
+      it { should be_immutable }
     end
