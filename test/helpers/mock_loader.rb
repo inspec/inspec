@@ -180,6 +180,10 @@ class MockLoader
       "/etc/selinux/selinux_conf" => mockfile.call("selinux_conf"),
       "/etc/apache2/apache2.conf" => mockfile.call("apache2.conf"),
       "/etc/test-serverroot/apache2/apache2.conf" => mockfile.call("apache2_server_root_void.conf"),
+      # myjson.json, myyaml.yml and myinvalid.file mocks are used for file unit test in file_test
+      "myjson.json" => mockfile.call("node.json"),
+      "myyaml.yml" => mockfile.call("kitchen.yml"),
+      "myinvalid.file" => mockfile.call("default.xml"),
     }
 
     mock.files = mock_files
@@ -393,6 +397,9 @@ class MockLoader
       # routing_table
       "netstat -rn" => cmd.call("netstat-rn-linux"),
       %{sh -c 'type "netstat"'} => empty.call,
+      # mocks for be_immutable matcher for file resource
+      "lsattr constantfile.txt" => cmd.call("lsattr-output"),
+      %{sh -c 'type "lsattr"'} => empty.call,
       # apache_conf
       "sh -c 'find /etc/apache2/ports.conf -type f -maxdepth 1'" => cmd.call("find-apache2-ports-conf"),
       "sh -c 'find /etc/httpd/conf.d/*.conf -type f -maxdepth 1'" => cmd.call("find-httpd-ssl-conf"),
