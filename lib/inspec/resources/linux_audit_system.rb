@@ -42,7 +42,12 @@ module Inspec::Resources
     end
 
     def running?
-      true
+      auditctl_cmd = inspec.command("#{auditctl_utility} -s | grep pid")
+
+      raise Inspec::Exceptions::ResourceFailed, "Executing #{auditctl_utility} -s | grep enabled failed: #{auditctl_cmd.stderr}" if auditctl_cmd.exit_status.to_i != 0
+
+      auditctl_running_status = auditctl_cmd.stdout.strip.split
+      !auditctl_running_status[1].nil? && auditctl_running_status[1].to_i != 0
     end
 
     def rules
