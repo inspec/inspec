@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.12.3 -->
-## [v5.12.3](https://github.com/inspec/inspec/tree/v5.12.3) (2022-04-12)
+<!-- latest_release 5.13.0 -->
+## [v5.13.0](https://github.com/inspec/inspec/tree/v5.13.0) (2022-04-13)
 
 #### Merged Pull Requests
-- Fix unit test for service resource [#5980](https://github.com/inspec/inspec/pull/5980) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-75: Add default_gateway resource [#5979](https://github.com/inspec/inspec/pull/5979) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.12.2 -->
 ### Changes since 5.12.2 release
 
 #### Merged Pull Requests
+- CFINSPEC-75: Add default_gateway resource [#5979](https://github.com/inspec/inspec/pull/5979) ([ahasunos](https://github.com/ahasunos)) <!-- 5.13.0 -->
 - Fix unit test for service resource [#5980](https://github.com/inspec/inspec/pull/5980) ([ahasunos](https://github.com/ahasunos)) <!-- 5.12.3 -->
 <!-- release_rollup -->
 
