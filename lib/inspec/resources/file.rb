@@ -426,11 +426,9 @@ module Inspec::Resources
   end
 
   class LinuxImmutableFlagCheck < ImmutableFlagCheck
-    def initialize(inspec, file_path)
-      super
-    end
-
     def is_immutable?
+      # Check if lsattr is available. In general, all linux system has lsattr & chattr
+      # This logic check is valid for immutable flag set with chattr
       utility = find_utility_or_error("lsattr")
       utility_cmd = inspec.command("#{utility} #{file_path}")
 
@@ -442,22 +440,12 @@ module Inspec::Resources
       lsattr_info = utility_cmd.stdout.strip.squeeze(" ")
       lsattr_info =~ /^.{4}i.{15} .*/
     end
-
-    private
-
-    # checks if lsattr is available. In general, all linux system has lsattr & chattr
-    def find_utility_or_error(utility_name)
-      super
-    end
   end
 
   class UnixImmutableFlagCheck < ImmutableFlagCheck
-    def initialize(inspec, file_path)
-      super
-    end
-
     def is_immutable?
-      # the logic check is valid for immutable flag set with chflags
+      # Check if chflags is available on the system. Most unix-like system comes with chflags.
+      # This logic check is valid for immutable flag set with chflags
       find_utility_or_error("chflags")
 
       # In general ls -lO is used to check immutable flag set by chflags
@@ -474,13 +462,6 @@ module Inspec::Resources
       # uchg => user immutable flag, schg => system immutable flag.
       file_info = utility_cmd.stdout.strip.split
       file_info.include?("uchg") || file_info.include?("schg")
-    end
-
-    private
-
-    # checks if chflags is available on the system. Most unix-like system comes with chflags.
-    def find_utility_or_error(utility_name)
-      super
     end
   end
 end
