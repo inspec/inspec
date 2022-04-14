@@ -936,10 +936,6 @@ module Inspec::Resources
   end
 
   class Monit < MonitoringTool
-    def initialize(inspec, service_name)
-      super
-    end
-
     def is_service_monitored?
       utility = find_utility_or_error("monit")
       utility_cmd = inspec.command("#{utility} summary")
@@ -957,19 +953,9 @@ module Inspec::Resources
       end
       is_monitored
     end
-
-    private
-
-    def find_utility_or_error(utility_name)
-      super
-    end
   end
 
   class God < MonitoringTool
-    def initialize(inspec, service_name)
-      super
-    end
-
     def is_service_monitored?
       utility = find_utility_or_error("god")
       utility_cmd = inspec.command("#{utility} status #{service_name}")
@@ -978,12 +964,6 @@ module Inspec::Resources
 
       monitoring_info = utility_cmd.stdout.strip
       monitoring_info =~ /^#{service_name}: up/
-    end
-
-    private
-
-    def find_utility_or_error(utility_name)
-      super
     end
   end
 end
