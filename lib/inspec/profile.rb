@@ -105,6 +105,7 @@ module Inspec
       @check_mode = options[:check_mode] || false
       @parent_profile = options[:parent_profile]
       @legacy_profile_path = options[:profiles_path] || false
+      @check_cookstyle = options[:with_cookstyle]
       Metadata.finalize(@source_reader.metadata, @profile_id, options)
 
       # if a backend has already been created, clone it so each profile has its own unique backend object
@@ -655,12 +656,13 @@ module Inspec
       end
 
       # Running cookstyle to check for code offenses
-      cookstyle_linting_check.each do |lint_output|
-        data = lint_output.split(":")
-        msg = "#{data[-2]}:#{data[-1]}"
-        offense.call(data[0], data[1], data[2], nil, msg)
+      if @check_cookstyle
+        cookstyle_linting_check.each do |lint_output|
+          data = lint_output.split(":")
+          msg = "#{data[-2]}:#{data[-1]}"
+          offense.call(data[0], data[1], data[2], nil, msg)
+        end
       end
-
       # profile is valid if we could not find any error & offenses
       result[:summary][:valid] = result[:errors].empty? && result[:offenses].empty?
 

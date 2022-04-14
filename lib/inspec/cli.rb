@@ -95,6 +95,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   desc "check PATH", "verify all tests at the specified PATH"
   option :format, type: :string,
     desc: "The output format to use doc (default), json. If valid format is not provided then it will use the default."
+  option :with_cookstyle, type: :boolean,
+    desc: "Enable or disable cookstyle checks.", default: false
   profile_options
   def check(path) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     o = config
