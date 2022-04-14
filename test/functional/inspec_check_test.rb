@@ -119,16 +119,16 @@ describe "inspec check" do
   end
 
   describe "inspec check also check for cookstyle offenses" do
-    it "finds no offenses in a complete profile" do
+    it "finds no offenses in a complete profile when --with-cookstyle option is provided" do
       skip if windows? # see #5723
-      out = inspec("check #{profile_path}/complete-profile")
+      out = inspec("check #{profile_path}/complete-profile --with-cookstyle")
       _(out.stdout).must_match(/No errors, warnings, or offenses/)
       assert_exit_code 0, out
     end
 
-    it "fails and returns offenses in a profile" do
+    it "fails and returns offenses in a profile when --with-cookstyle option is provided" do
       skip if windows? # see #5723
-      out = inspec("check #{profile_path}/inputs/metadata-basic")
+      out = inspec("check #{profile_path}/inputs/metadata-basic --with-cookstyle")
       _(out.stdout).must_match(/1 offenses/)
       assert_exit_code 1, out
     end
