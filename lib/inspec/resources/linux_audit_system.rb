@@ -51,7 +51,11 @@ module Inspec::Resources
     end
 
     def rules
-      "some_value"
+      auditctl_cmd = inspec.command("#{auditctl_utility} -l")
+
+      raise Inspec::Exceptions::ResourceFailed, "Executing #{auditctl_utility} -l: #{auditctl_cmd.stderr}" if auditctl_cmd.exit_status.to_i != 0
+
+      auditctl_cmd.stdout.strip.split("\n")
     end
 
     private
