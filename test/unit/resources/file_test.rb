@@ -132,7 +132,7 @@ describe Inspec::Resources::FileResource do
   it "checks if the given file is immutable on windows" do
     resource = MockLoader.new(:windows).load_resource("file", "constantfile.txt")
     ex = _ { resource.immutable? }.must_raise(Inspec::Exceptions::ResourceSkipped)
-    _(ex.message).must_include "The `has_start_mode` matcher is not supported on your OS yet."
+    _(ex.message).must_include "The `be_immutable` matcher is not supported on your OS yet."
   end
 
   it "checks the content_as_json property" do

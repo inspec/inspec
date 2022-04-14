@@ -182,7 +182,7 @@ module Inspec::Resources
     end
 
     def immutable?
-      raise Inspec::Exceptions::ResourceSkipped, "The `has_start_mode` matcher is not supported on your OS yet." unless inspec.os.unix?
+      raise Inspec::Exceptions::ResourceSkipped, "The `be_immutable` matcher is not supported on your OS yet." unless inspec.os.unix?
 
       if inspec.os.linux?
         file_info = LinuxImmutableFlagCheck.new(inspec, file)
