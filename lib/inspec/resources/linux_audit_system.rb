@@ -11,11 +11,12 @@ module Inspec::Resources
     desc "Use the `linux_audit_system` Chef InSpec audit resource to test the configuration of linux audit system."
 
     example <<~EXAMPLE
-      describe "linux_audit_system" do
-        its("shoe_size") { should cmp 10 }
-      end
-      describe "linux_audit_system" do
-        it { should be_purple }
+      describe linux_audit_system do
+        it { should be_enabled }
+        it { should be_running }
+        its("rules") { should include "-w /etc -p wa" }
+        its("rules") { should include %r{-w /etc -p wa} }
+        its("rules") { should include %r!-w /etc -p wa! }
       end
     EXAMPLE
 
@@ -32,24 +33,32 @@ module Inspec::Resources
       "linux_audit_system"
     end
 
+    # The be_enabled matcher checks if the auditing is enabled.
+    # The enabled flag 1 indicates that the auditing is enabled.
     def enabled?
       auditctl_cmd = inspec.command("#{auditctl_utility} -s | grep enabled")
 
       raise Inspec::Exceptions::ResourceFailed, "Executing #{auditctl_utility} -s | grep enabled failed: #{auditctl_cmd.stderr}" if auditctl_cmd.exit_status.to_i != 0
 
+      # Sample stdout: enabled 1
       auditctl_enabled_status = auditctl_cmd.stdout.strip.split
       auditctl_enabled_status[1].to_i == 1
     end
 
+    # The be_running matcher checks if the audit daemon is running.
+    # A pid of 0 indicates that the audit daemon is not running.
     def running?
       auditctl_cmd = inspec.command("#{auditctl_utility} -s | grep pid")
 
       raise Inspec::Exceptions::ResourceFailed, "Executing #{auditctl_utility} -s | grep enabled failed: #{auditctl_cmd.stderr}" if auditctl_cmd.exit_status.to_i != 0
 
+      # Sample stdout: pid 682462
       auditctl_running_status = auditctl_cmd.stdout.strip.split
       !auditctl_running_status[1].nil? && auditctl_running_status[1].to_i != 0
     end
 
+    # The rules property returns the array of audit rules obtained on auditctl -l.
+    # The auditctl -l list all rules, 1 per line.
     def rules
       auditctl_cmd = inspec.command("#{auditctl_utility} -l")
 
@@ -60,7 +69,7 @@ module Inspec::Resources
 
     private
 
-    # Method to help the resource's matchers and property
+    # Check if auditctl is available on the system.
     def find_auditctl_or_error
       %w{/usr/sbin/auditctl /sbin/auditctl auditctl}.each do |cmd|
         return cmd if inspec.command(cmd).exist?
