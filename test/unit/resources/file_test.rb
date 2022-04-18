@@ -119,3 +119,47 @@ describe Inspec::Resources::FileResource do
     assert_nil(resource.send(:more_permissive_than?, nil))
   end
 end
+
+# Test for be_immutable matcher and content_as_json, content_as_yaml properties
+describe Inspec::Resources::FileResource do
+
+  it "checks if the given file is immutable on ubuntu" do
+    resource = MockLoader.new(:ubuntu).load_resource("file", "constantfile.txt")
+    _(resource.immutable?).wont_be_nil
+  end
+
+  # be_immutable is supported on unix systems only.
+  it "checks if the given file is immutable on windows" do
+    resource = MockLoader.new(:windows).load_resource("file", "constantfile.txt")
+    ex = _ { resource.immutable? }.must_raise(Inspec::Exceptions::ResourceSkipped)
+    _(ex.message).must_include "The `be_immutable` matcher is not supported on your OS yet."
+  end
+
+  it "checks the content_as_json property" do
+    resource = MockLoader.new(:ubuntu).load_resource("file", "myjson.json")
+    _(resource.exist?).must_equal true
+    _(resource.content_as_json).must_include("name")
+    _(resource.content_as_json["name"]).must_equal("hello")
+    _(resource.content_as_json).must_include("meta")
+    _(resource.content_as_json["meta"]).must_include("creator")
+    _(resource.content_as_json).must_include("array")
+    _(resource.content_as_json["array"]).must_equal(%W{ zero one })
+  end
+
+  it "checks the content_as_yaml property" do
+    resource = MockLoader.new(:ubuntu).load_resource("file", "myyaml.yml")
+    _(resource.exist?).must_equal true
+    _(resource.content_as_yaml).must_include("name")
+    _(resource.content_as_yaml["name"]).must_equal("vagrant")
+    _(resource.content_as_yaml).must_include("symbol_key".to_sym)
+    _(resource.content_as_yaml["symbol_key".to_sym]).must_equal(123)
+    _(resource.content_as_yaml["driver"]).must_include("customize")
+  end
+
+  it "checks the content_as_json for file with invalid content" do
+    resource = MockLoader.new(:ubuntu).load_resource("file", "myinvalid.file")
+    _(resource.exist?).must_equal true
+    ex = _ { resource.content_as_json }.must_raise(Inspec::Exceptions::ResourceFailed)
+    _(ex.message).must_include "Unable to parse the given JSON file"
+  end
+end

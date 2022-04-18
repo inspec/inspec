@@ -181,6 +181,34 @@ module Inspec::Resources
       inv_mode & file.mode != 0
     end
 
+    def immutable?
+      raise Inspec::Exceptions::ResourceSkipped, "The `be_immutable` matcher is not supported on your OS yet." unless inspec.os.unix?
+
+      if inspec.os.linux?
+        file_info = LinuxImmutableFlagCheck.new(inspec, file)
+      else
+        file_info = UnixImmutableFlagCheck.new(inspec, file)
+      end
+
+      file_info.is_immutable?
+    end
+
+    # parse the json file content and returns the content
+    def content_as_json
+      require "json" unless defined?(JSON)
+      JSON.parse(file.content)
+    rescue => e
+      raise Inspec::Exceptions::ResourceFailed, "Unable to parse the given JSON file: #{e.message}"
+    end
+
+    # parse the yaml file content and returns the content
+    def content_as_yaml
+      require "yaml" unless defined?(YAML)
+      YAML.load(file.content)
+    rescue => e
+      raise Inspec::Exceptions::ResourceFailed, "Unable to parse the given YAML file: #{e.message}"
+    end
+
     def to_s
       if file
         "File #{source_path}"
@@ -371,6 +399,69 @@ module Inspec::Resources
       when "read-permissions"
         translate_perm_names("read") + %w{ReadPermissions}
       end
+    end
+  end
+
+  # Helper class for immutable matcher.
+  class ImmutableFlagCheck
+    attr_reader :inspec, :file_path
+    def initialize(inspec, file)
+      @inspec = inspec
+      @file_path = file.path
+    end
+
+    def find_utility_or_error(utility_name)
+      [
+        "/usr/sbin/#{utility_name}",
+        "/sbin/#{utility_name}",
+        "/usr/bin/#{utility_name}",
+        "/bin/#{utility_name}",
+        "#{utility_name}",
+      ].each do |cmd|
+        return cmd if inspec.command(cmd).exist?
+      end
+
+      raise Inspec::Exceptions::ResourceFailed, "Could not find `#{utility_name}`"
+    end
+  end
+
+  class LinuxImmutableFlagCheck < ImmutableFlagCheck
+    def is_immutable?
+      # Check if lsattr is available. In general, all linux system has lsattr & chattr
+      # This logic check is valid for immutable flag set with chattr
+      utility = find_utility_or_error("lsattr")
+      utility_cmd = inspec.command("#{utility} #{file_path}")
+
+      raise Inspec::Exceptions::ResourceFailed, "Executing #{utility} #{file_path} failed: #{utility_cmd.stderr}" if utility_cmd.exit_status.to_i != 0
+
+      # General output for lsattr file_name is:
+      # ----i---------e----- file_name
+      # The fifth char resembles the immutable flag. Total 20 flags are allowed.
+      lsattr_info = utility_cmd.stdout.strip.squeeze(" ")
+      lsattr_info =~ /^.{4}i.{15} .*/
+    end
+  end
+
+  class UnixImmutableFlagCheck < ImmutableFlagCheck
+    def is_immutable?
+      # Check if chflags is available on the system. Most unix-like system comes with chflags.
+      # This logic check is valid for immutable flag set with chflags
+      find_utility_or_error("chflags")
+
+      # In general ls -lO is used to check immutable flag set by chflags
+      utility_cmd = inspec.command("ls -lO #{file_path}")
+
+      # But on some bsd system (eg: freebsd) ls -lo is used instead of ls -lO
+      utility_cmd = inspec.command("ls -lo #{file_path}") if utility_cmd.exit_status.to_i != 0
+
+      raise Inspec::Exceptions::ResourceFailed, "Executing ls -lo #{file_path} and ls -lO #{file_path} failed: #{utility_cmd.stderr}" if utility_cmd.exit_status.to_i != 0
+
+      # General output for ls -lO file_name is:
+      # -rw-r--r--  1 current_user  1083951318  uchg 0 Apr  6 12:45 file_name
+      # The schg flag and the uchg flag represents the immutable flags
+      # uchg => user immutable flag, schg => system immutable flag.
+      file_info = utility_cmd.stdout.strip.split
+      file_info.include?("uchg") || file_info.include?("schg")
     end
   end
 end
