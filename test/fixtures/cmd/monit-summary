@@ -1,0 +1,4 @@
+Monit 5.26.0 uptime: 3d 17h 59m 
+Service Name                     Status                      Type          
+ip-172-31-83-240                 OK                          System         
+ssh                              OK                          Process       
