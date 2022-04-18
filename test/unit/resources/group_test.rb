@@ -130,4 +130,16 @@ describe "Inspec::Resources::Group" do
     _(resource.exists?).must_equal true
     _(resource.members).must_equal ""
   end
+
+  # ubuntu
+  it "verify have_gid matcher on ubuntu" do
+    resource = MockLoader.new(:ubuntu).load_resource("group", "root")
+    _(resource.has_gid?(0)).must_equal true
+  end
+
+  # freebsd
+  it "verify have_gid matcher on freebsd" do
+    resource = MockLoader.new(:freebsd10).load_resource("group", "root")
+    _(resource.has_gid?(0)).must_equal true
+  end
 end
