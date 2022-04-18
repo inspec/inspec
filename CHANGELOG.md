@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.13.0 -->
-## [v5.13.0](https://github.com/inspec/inspec/tree/v5.13.0) (2022-04-13)
+<!-- latest_release 5.13.1 -->
+## [v5.13.1](https://github.com/inspec/inspec/tree/v5.13.1) (2022-04-18)
 
 #### Merged Pull Requests
-- CFINSPEC-75: Add default_gateway resource [#5979](https://github.com/inspec/inspec/pull/5979) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-181: Fix unable to upload inspec compliance profile using to… [#5989](https://github.com/inspec/inspec/pull/5989) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.12.2 -->
 ### Changes since 5.12.2 release
 
 #### Merged Pull Requests
+- CFINSPEC-181: Fix unable to upload inspec compliance profile using to… [#5989](https://github.com/inspec/inspec/pull/5989) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.13.1 -->
 - CFINSPEC-75: Add default_gateway resource [#5979](https://github.com/inspec/inspec/pull/5979) ([ahasunos](https://github.com/ahasunos)) <!-- 5.13.0 -->
 - Fix unit test for service resource [#5980](https://github.com/inspec/inspec/pull/5980) ([ahasunos](https://github.com/ahasunos)) <!-- 5.12.3 -->
 <!-- release_rollup -->
