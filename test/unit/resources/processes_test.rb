@@ -230,4 +230,10 @@ describe "Inspec::Resources::Processes" do
     resource.expects(:busybox_ps?).returns(false)
     _(resource.send(:ps_configuration_for_linux)[0]).must_equal "ps wwaxo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command"
   end
+
+  # Verify count property on BSD
+  it "verify count property of processes resource" do
+    resource = MockLoader.new(:freebsd10).load_resource("processes", "login -fp apop")
+    _(resource.count).must_equal 2
+  end
 end
