@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.13.3 -->
-## [v5.13.3](https://github.com/inspec/inspec/tree/v5.13.3) (2022-04-18)
+<!-- latest_release 5.13.4 -->
+## [v5.13.4](https://github.com/inspec/inspec/tree/v5.13.4) (2022-04-18)
 
 #### Merged Pull Requests
-- CFINSPEC-93: Enhance `service` resource [#5981](https://github.com/inspec/inspec/pull/5981) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-89: Enhance `group` resource [#5987](https://github.com/inspec/inspec/pull/5987) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.12.2 -->
 ### Changes since 5.12.2 release
 
 #### Merged Pull Requests
+- CFINSPEC-89: Enhance `group` resource [#5987](https://github.com/inspec/inspec/pull/5987) ([ahasunos](https://github.com/ahasunos)) <!-- 5.13.4 -->
 - CFINSPEC-93: Enhance `service` resource [#5981](https://github.com/inspec/inspec/pull/5981) ([ahasunos](https://github.com/ahasunos)) <!-- 5.13.3 -->
 - CFINSPEC-87: Enhance `file` resource [#5986](https://github.com/inspec/inspec/pull/5986) ([ahasunos](https://github.com/ahasunos)) <!-- 5.13.2 -->
 - CFINSPEC-181: Fix unable to upload inspec compliance profile using to… [#5989](https://github.com/inspec/inspec/pull/5989) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.13.1 -->
