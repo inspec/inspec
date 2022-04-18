@@ -17,7 +17,7 @@ Use the `processes` Chef InSpec audit resource to test properties for programs t
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+This resource is distributed with Chef InSpec.
 
 ### Version
 
@@ -33,8 +33,29 @@ A `processes` resource block declares the name of the process to be tested, and 
 
 where
 
-- `processes('process_name')` specifies the name of a process to check. If this is a string, it will be converted to a Regexp. For more specificity, pass a Regexp directly. If left blank, all processes will be returned.
-- `property_name` may be used to test user (`its('users')`) and state properties (`its('states')`)
+- `'process_name'` specifies the name of a process to check. If this is a string, it will be converted to a Regexp. For more specificity, pass a Regexp directly. If left blank, all processes will be returned.
+- `property_name` is some valid property of this resource.
+- `property_value` is the expected value for the specified property.
+
+## Properties
+
+The specific properties of this resource are: `labels`, `pids`, `cpus`, `mem`, `vsz`, `rss`, `tty`, `states`, `start`, `time`, `users`, `commands`, `count` and `list`
+
+The properties can be used as:
+
+    its('property_name') { should eq ['property_value'] }
+
+## Matchers
+
+For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+
+The specific matcher of this resource is: `be_running`
+
+### be_running
+
+The `be_running` matcher tests if the named process is running:
+
+    it { should be_running }
 
 ## Examples
 
@@ -44,6 +65,12 @@ The following examples show how to use this Chef InSpec audit resource.
 
     describe processes('mysqld') do
       its('list.length') { should eq 1 }
+    end
+
+### Test if the process count for the mysqld process is 1
+
+    describe processes('mysqld') do
+      its('count') { should eq 1 }
     end
 
 ### Test if the process is owned by a specific user
@@ -70,6 +97,12 @@ The following examples show how to use this Chef InSpec audit resource.
 
     describe processes('some_process') do
       it { should exist }
+    end
+
+### Test if a process is running on the system
+
+    describe processes('some_process') do
+      it { should be_running }
     end
 
 ### Test for a process using a specific Regexp
@@ -107,12 +140,3 @@ Below is a mapping table to help you understand what property the unix field map
 |      users      |           UserName            |
 |    commands     |             Path              |
 
-## Matchers
-
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
-
-### property_name
-
-The `property_name` matcher tests the named property for the specified value:
-
-    its('property_name') { should eq ['property_value'] }
