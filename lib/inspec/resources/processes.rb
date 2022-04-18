@@ -60,6 +60,15 @@ module Inspec::Resources
       @list
     end
 
+    # Matcher to check if the process is running
+    def running?
+      # Check if Regex needs to be tightened.
+      # States value can be as:
+      # for Unix: R, R< or R+
+      # for Windows "True" or "False"
+      states.any? and !!(states[0] =~ /True/ || states[0] =~ /^R+/)
+    end
+
     filter = FilterTable.create
     filter.register_column(:labels, field: "label")
       .register_column(:pids,     field: "pid")
