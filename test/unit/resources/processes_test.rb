@@ -231,9 +231,17 @@ describe "Inspec::Resources::Processes" do
     _(resource.send(:ps_configuration_for_linux)[0]).must_equal "ps wwaxo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command"
   end
 
-  # Verify count property on BSD
-  it "verify count property of processes resource" do
-    resource = MockLoader.new(:freebsd10).load_resource("processes", "login -fp apop")
-    _(resource.count).must_equal 2
+  # `count` & `be_running` verification on BSD(Unix/Linux) system
+  it "verify count property and be_running matcher of processes resource" do
+    resource = MockLoader.new(:freebsd10).load_resource("processes", "some_linux_process")
+    _(resource.count).must_equal 1
+    _(resource.running?).must_equal true
+  end
+
+  # `count` & `be_running` verification on Windows
+  it "verify count property and be_running matcher of processes resource on Windows" do
+    resource = MockLoader.new(:windows).load_resource("processes", "winlogon.exe")
+    _(resource.count).must_equal 1
+    _(resource.running?).must_equal true
   end
 end
