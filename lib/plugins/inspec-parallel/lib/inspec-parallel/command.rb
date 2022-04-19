@@ -3,7 +3,7 @@ require_relative "validator"
 
 module InspecPlugins
   module Parallel
-    class Base
+    class Command
       attr_accessor :options, :default_profile, :sub_cmd, :parsed_options
 
       def initialize(options, default_profile, sub_cmd = "exec")
@@ -27,7 +27,7 @@ module InspecPlugins
       private
 
       def validate_option_strings
-        @validation_passed = Validator.new(parsed_options, sub_cmd).validate!
+        @validation_passed = Validator.new(parsed_options, sub_cmd).validate
         @logger.error "Please fix the options file to proceed further." unless @validation_passed
       end
 

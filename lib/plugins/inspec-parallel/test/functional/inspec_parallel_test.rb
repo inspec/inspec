@@ -31,7 +31,7 @@ class ParallelCli < Minitest::Test
   def test_parallel_dry_run_with_typo_in_option
     out = run_inspec_process("parallel exec #{complete_profile} -o #{options_file_2} --dry-run")
     stdout = out.stdout
-    assert_includes stdout, "Invalid options: [\"targetss\"]"
+    assert_includes stdout, "No such option: [\"targetss\"]"
     assert_exit_code 0, out
   end
 

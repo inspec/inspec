@@ -1,4 +1,4 @@
-require_relative "base"
+require_relative "command"
 require "inspec/dist"
 require "inspec/base_cli"
 
@@ -15,11 +15,11 @@ module InspecPlugins::Parallel
       desc: "Print commands that will run"
     exec_options
     def exec(default_profile = nil)
-      parallel_base = InspecPlugins::Parallel::Base.new(options, default_profile)
+      parallel_cmd = InspecPlugins::Parallel::Command.new(options, default_profile)
       if options[:dry_run]
-        parallel_base.dry_run
+        parallel_cmd.dry_run
       else
-        parallel_base.run
+        parallel_cmd.run
       end
       # rescue StandardError => e
       # TBD

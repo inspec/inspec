@@ -2,28 +2,28 @@ require "inspec/cli"
 module InspecPlugins
   module Parallel
     class Validator
-      attr_accessor :parsed_options, :sub_cmd, :thor_options_for_sub_cmd, :aliases_mapping
+      attr_accessor :option_lines, :sub_cmd, :thor_options_for_sub_cmd, :aliases_mapping
 
-      def initialize(parsed_options, sub_cmd = "exec")
-        @parsed_options = parsed_options
+      def initialize(option_lines, sub_cmd = "exec")
+        @option_lines = option_lines
         @sub_cmd = sub_cmd
         @thor_options_for_sub_cmd = Inspec::InspecCLI.commands[sub_cmd].options
         @aliases_mapping = create_aliases_mapping
         @logger = Inspec::Log
-        @validation_error_each_line = ""
+        @validation_error_each_line = []
       end
 
-      def validate!
+      def validate
         validation_passed = true
-        parsed_options.each.with_index(1) do |opts, index|
-          @validation_error_each_line = ""
-          each_line_opts = get_options(opts)
-          validate_options(each_line_opts)
-          check_for_required_fields(each_line_opts)
+        option_lines.each.with_index(1) do |raw_line, index|
+          @validation_error_each_line = []
+          thor_opts_ary = convert_cli_to_thor_options(raw_line)
+          validate_options(thor_opts_ary)
+          check_for_required_fields(thor_opts_ary)
 
-          @validation_error_each_line.split("|").each do |error_message|
+          @validation_error_each_line.each do |error_message|
             validation_passed = false
-            @logger.error "Line#{index}: " + error_message
+            @logger.error "Line #{index}: " + error_message
           end
         end
         validation_passed
@@ -42,28 +42,28 @@ module InspecPlugins
         alias_mapping
       end
 
-      def validate_options(each_line_opts)
+      def validate_options(thor_opts)
         invalid_options = []
-        each_line_opts.each do |option_name|
+        thor_opts.each do |option_name|
           if thor_options_for_sub_cmd[option_name.to_sym].nil? && aliases_mapping[option_name.to_sym].nil?
             invalid_options << option_name
           end
         end
-        @validation_error_each_line += "Invalid options: #{invalid_options} |" unless invalid_options.empty?
+        @validation_error_each_line.push "No such option: #{invalid_options}" unless invalid_options.empty?
       end
 
-      def check_for_required_fields(each_line_opts)
+      def check_for_required_fields(thor_opts)
         required_fields = thor_options_for_sub_cmd.collect { |_, thor_option| thor_option.name if thor_option.required }.compact
-        option_keys = each_line_opts
-        each_line_opts.map { |key| option_keys.push(aliases_mapping[key.to_sym]) if aliases_mapping[key.to_sym] }
+        option_keys = thor_opts
+        thor_opts.map { |key| option_keys.push(aliases_mapping[key.to_sym]) if aliases_mapping[key.to_sym] }
         if !required_fields.empty? && (option_keys & required_fields).empty?
-          @validation_error_each_line += "No value provided for required options: #{required_fields} |"
+          @validation_error_each_line.push "No value provided for required options: #{required_fields}"
         end
       end
 
       ## Utility functions
 
-      def get_options(option_line)
+      def convert_cli_to_thor_options(option_line)
         splitted_result = option_line.split(" ")
         splitted_result = splitted_result.select { |res| res.start_with?("-") }
         splitted_result.map do |res|
