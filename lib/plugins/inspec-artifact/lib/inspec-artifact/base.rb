@@ -18,10 +18,11 @@ module InspecPlugins
       INSPEC_PROFILE_VERSION_1 = "INSPEC-PROFILE-1".freeze
       INSPEC_REPORT_VERSION_1 = "INSPEC-REPORT-1".freeze
 
+      INSPEC_PROFILE_VERSION_2 = "INSPEC-PROFILE-2".freeze
       ARTIFACT_DIGEST = OpenSSL::Digest::SHA512
       ARTIFACT_DIGEST_NAME = "SHA512".freeze
 
-      VALID_PROFILE_VERSIONS = Set.new [INSPEC_PROFILE_VERSION_1]
+      VALID_PROFILE_VERSIONS = Set.new [INSPEC_PROFILE_VERSION_1, INSPEC_PROFILE_VERSION_2]
       VALID_PROFILE_DIGESTS = Set.new [ARTIFACT_DIGEST_NAME]
 
       SIGNED_PROFILE_SUFFIX = "iaf".freeze
@@ -57,14 +58,12 @@ module InspecPlugins
           signature = signing_key.sign sha, content
           # convert the signature to Base64
           signature_base64 = Base64.encode64(signature)
-          tar_content = IO.binread(tarfile)
+
+          header = "#{ARTIFACT_DIGEST_NAME}.#{signature_base64}".unpack("H*").pack("h*")+".#{content}"
           File.open(artifact_filename, "wb") do |f|
-            f.puts(INSPEC_PROFILE_VERSION_1)
-            f.puts(options["keyname"])
-            f.puts(ARTIFACT_DIGEST_NAME)
-            f.puts(signature_base64)
-            f.puts("") # newline separates artifact header with body
-            f.write(tar_content)
+            f.puts INSPEC_PROFILE_VERSION_2
+            f.puts "#{options["keyname"]}"
+            f.write(header)
           end
           puts "Successfully generated #{artifact_filename}"
         end
@@ -77,6 +76,7 @@ module InspecPlugins
         artifact = new
         file_to_verifiy = options["infile"]
         puts "Verifying #{file_to_verifiy}"
+
         artifact.verify(file_to_verifiy) do ||
           puts "Artifact is valid"
         end
@@ -90,7 +90,9 @@ module InspecPlugins
         artifact.verify(file_to_verifiy) do |content|
           Dir.mktmpdir do |workdir|
             tmpfile = Pathname.new(workdir).join("artifact_to_install.tar.gz")
-            File.write(tmpfile, content)
+            File.open(tmpfile, "wb") do |f|
+              f.write content
+            end
             puts "Installing to #{dest_dir}"
             `tar xzf #{tmpfile} -C #{dest_dir}`
           end
@@ -131,47 +133,55 @@ module InspecPlugins
         outfile_name
       end
 
-      def valid_header?(file_alg, file_version, file_keyname)
-        public_keyfile = "#{file_keyname}.pem.pub"
-        puts "Looking for #{public_keyfile} to verify artifact"
-        unless File.exist? public_keyfile
-          raise "Can't find #{public_keyfile}"
-        end
-
-        raise "Invalid artifact digest algorithm detected" unless VALID_PROFILE_DIGESTS.member?(file_alg)
-        raise "Invalid artifact version detected" unless VALID_PROFILE_VERSIONS.member?(file_version)
-      end
-
       def verify(file_to_verifiy, &content_block)
-        f = File.open(file_to_verifiy, "r")
-        file_version = f.readline.strip!
-        file_keyname = f.readline.strip!
-        file_alg = f.readline.strip!
+        header = []
+        f = File.open(file_to_verifiy, "rb")
+        version = f.readline.strip!
+        if version == INSPEC_PROFILE_VERSION_1
+          header << version
+          header <<  f.readline.strip!
+          header <<  f.readline.strip!
 
-        file_sig = ""
-        # the signature is multi-line
-        while (line = f.readline) != "\n"
-          file_sig += line
+          file_sig = ""
+          # the signature is multi-line
+          while (line = f.readline) != "\n"
+            file_sig += line
+          end
+          header << file_sig.strip!
+          f.close
+
+          f = File.open(file_to_verifiy, "rb")
+          while f.readline != "\n" do end
+          content = f.read
+          f.close
+        else
+          header << version
+          header <<  f.readline.strip!
+          content = f.read
+          f.close
+
+          header.concat(content[0..356].unpack("h*").pack("H*").split("."))
+          content = content[358..content.length]
         end
-        file_sig.strip!
-        f.close
 
-        valid_header?(file_alg, file_version, file_keyname)
-
-        public_keyfile = "#{file_keyname}.pem.pub"
-        verification_key = KEY_ALG.new File.read public_keyfile
-
-        f = File.open(file_to_verifiy, "r")
-        while f.readline != "\n" do end
-        content = f.read
-
-        signature = Base64.decode64(file_sig)
+        verify_file_header?(header)
+        verification_key = KEY_ALG.new File.read "#{header[1]}.pem.pub"
+        signature = Base64.decode64(header[3])
         digest = ARTIFACT_DIGEST.new
         if verification_key.verify digest, signature, content
           content_block.yield(content)
         else
           raise "Artifact is invalid"
         end
+      end
+
+      def verify_file_header?(header)
+        unless File.exist? "#{header[1]}.pem.pub"
+          raise "Can't find #{header[1]}.pem.pub}"
+        end
+
+        raise "Invalid artifact version detected" unless VALID_PROFILE_VERSIONS.member?(header[0])
+        raise "Invalid artifact digest algorithm detected" unless VALID_PROFILE_DIGESTS.member?(header[2])
       end
 
       def self.write_inspec_json(root_path, opts)
