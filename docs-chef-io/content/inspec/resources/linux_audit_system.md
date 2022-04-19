@@ -81,7 +81,7 @@ The following examples show how to use this Chef InSpec audit resource.
 
 ```ruby
     describe linux_audit_system do
-      it { should be_purple }
+      it { should be_enabled }
     end
 ```
 
