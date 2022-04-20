@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.13.4 -->
-## [v5.13.4](https://github.com/inspec/inspec/tree/v5.13.4) (2022-04-18)
+<!-- latest_release 5.14.0 -->
+## [v5.14.0](https://github.com/inspec/inspec/tree/v5.14.0) (2022-04-20)
 
 #### Merged Pull Requests
-- CFINSPEC-89: Enhance `group` resource [#5987](https://github.com/inspec/inspec/pull/5987) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-78: Add `linux_audit_system` resource [#5988](https://github.com/inspec/inspec/pull/5988) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.12.2 -->
 ### Changes since 5.12.2 release
 
 #### Merged Pull Requests
+- CFINSPEC-78: Add `linux_audit_system` resource [#5988](https://github.com/inspec/inspec/pull/5988) ([ahasunos](https://github.com/ahasunos)) <!-- 5.14.0 -->
 - CFINSPEC-89: Enhance `group` resource [#5987](https://github.com/inspec/inspec/pull/5987) ([ahasunos](https://github.com/ahasunos)) <!-- 5.13.4 -->
 - CFINSPEC-93: Enhance `service` resource [#5981](https://github.com/inspec/inspec/pull/5981) ([ahasunos](https://github.com/ahasunos)) <!-- 5.13.3 -->
 - CFINSPEC-87: Enhance `file` resource [#5986](https://github.com/inspec/inspec/pull/5986) ([ahasunos](https://github.com/ahasunos)) <!-- 5.13.2 -->
