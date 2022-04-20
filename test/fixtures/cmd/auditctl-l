@@ -1,0 +1,4 @@
+-a always,exit -S open,truncate -F dir=/etc -F success=0
+-a always,exit -S open -F success=0
+-w /etc -p wa
+-w /etc/ -p wa
