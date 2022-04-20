@@ -182,12 +182,13 @@ module Inspec::Resources
       when "aix"
         SrcMstr.new(inspec)
       when "amazon"
-        inspec.command("initctl").exist? ? Upstart.new(inspec, service_ctl) : Systemd.new(inspec, service_ctl)
-        # if os[:release] =~ /^20\d\d/
-        #   Upstart.new(inspec, service_ctl)
-        # else
-        #   Systemd.new(inspec, service_ctl)
-        # end
+        # If `initctl` exists on the system, use `Upstart`. Else use `Systemd` since all-new Amazon Linux supports `systemctl`.
+        # This way, it is not dependent on the version of Amazon Linux.
+        if inspec.command("initctl").exist? || inspec.command("/sbin/initctl").exist?
+          Upstart.new(inspec, service_ctl)
+        else
+          Systemd.new(inspec, service_ctl)
+        end
       when "solaris", "smartos", "omnios", "openindiana", "opensolaris", "nexentacore"
         Svcs.new(inspec)
       when "yocto"
