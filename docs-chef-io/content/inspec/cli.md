@@ -80,6 +80,8 @@ This subcommand has the following additional options:
     Folder which contains referenced profiles.
 * ``--vendor-cache=VENDOR_CACHE``
     Use the given path for caching dependencies, (default: `~/.inspec/cache`).
+* ``--with-cookstyle``, ``--no-with-cookstyle``
+    Enable or disable cookstyle checks.
 
 ## detect
 
