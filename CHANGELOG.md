@@ -1,26 +1,23 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.20 -->
-## [v4.56.20](https://github.com/inspec/inspec/tree/v4.56.20) (2022-04-19)
-
-#### Merged Pull Requests
-- CFINSPEC-181: Make cookstyle checks optional by default - backport to inspec 4 [#5992](https://github.com/inspec/inspec/pull/5992) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.56.19 -->
-### Changes since 4.56.19 release
-
-#### Merged Pull Requests
-- CFINSPEC-181: Make cookstyle checks optional by default - backport to inspec 4 [#5992](https://github.com/inspec/inspec/pull/5992) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.20 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.56.20](https://github.com/inspec/inspec/tree/v4.56.20) (2022-04-20)
+
+#### Merged Pull Requests
+- CFINSPEC-181: Make cookstyle checks optional by default - backport to inspec 4 [#5992](https://github.com/inspec/inspec/pull/5992) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v4.56.19](https://github.com/inspec/inspec/tree/v4.56.19) (2022-03-23)
 
 #### Merged Pull Requests
 - Backport empty postgres query fix to inspec 4 [#5942](https://github.com/inspec/inspec/pull/5942) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Backport Oracle session resource fix when empty results and zero rows [#5943](https://github.com/inspec/inspec/pull/5943) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v4.56.17](https://github.com/inspec/inspec/tree/v4.56.17) (2022-03-15)
 
