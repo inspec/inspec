@@ -15,15 +15,15 @@ module InspecPlugins
 
       def validate
         validation_passed = true
-        option_lines.each.with_index(1) do |raw_line, index|
+        option_lines.each do |data|
           @validation_error_each_line = []
-          thor_opts_ary = convert_cli_to_thor_options(raw_line)
+          thor_opts_ary = convert_cli_to_thor_options(data[:value])
           validate_options(thor_opts_ary)
           check_for_required_fields(thor_opts_ary)
 
           @validation_error_each_line.each do |error_message|
             validation_passed = false
-            @logger.error "Line #{index}: " + error_message
+            @logger.error "Line #{data[:line_no]}: " + error_message
           end
         end
         validation_passed

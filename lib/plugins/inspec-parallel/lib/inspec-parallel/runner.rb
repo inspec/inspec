@@ -11,7 +11,7 @@ module InspecPlugins
 
       def run
         runner_options.each do |runner_option|
-          runner_invocation(runner_option)
+          runner_invocation(runner_option[:value])
         rescue SystemExit
           next
         end

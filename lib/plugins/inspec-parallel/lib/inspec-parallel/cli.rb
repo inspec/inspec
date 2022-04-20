@@ -13,6 +13,8 @@ module InspecPlugins::Parallel
       desc: "File that contains list of option strings"
     option :dry_run, type: :boolean,
       desc: "Print commands that will run"
+    option :verbose, type: :boolean,
+      desc: "Prints all thor options on dry run"
     exec_options
     def exec(default_profile = nil)
       parallel_cmd = InspecPlugins::Parallel::Command.new(options, default_profile)

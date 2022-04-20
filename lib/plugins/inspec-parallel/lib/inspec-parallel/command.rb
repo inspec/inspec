@@ -4,7 +4,7 @@ require_relative "validator"
 module InspecPlugins
   module Parallel
     class Command
-      attr_accessor :options, :default_profile, :sub_cmd, :parsed_options
+      attr_accessor :options, :default_profile, :sub_cmd, :option_lines
 
       def initialize(options, default_profile, sub_cmd = "exec")
         @default_profile = default_profile
@@ -12,11 +12,11 @@ module InspecPlugins
         @sub_cmd = sub_cmd
         @logger  = Inspec::Log
         @validation_passed = true
-        @parsed_options = parse_options_file
+        @option_lines = read_options_file
       end
 
       def run
-        Runner.new(parsed_options, sub_cmd).run
+        Runner.new(option_lines, sub_cmd).run
       end
 
       def dry_run
@@ -27,33 +27,34 @@ module InspecPlugins
       private
 
       def validate_option_strings
-        @validation_passed = Validator.new(parsed_options, sub_cmd).validate
+        @validation_passed = Validator.new(option_lines, sub_cmd).validate
         @logger.error "Please fix the options file to proceed further." unless @validation_passed
       end
 
       def dry_run_commands
-        parsed_options.each do |opts|
-          puts "inspec #{sub_cmd} #{opts}"
+        option_lines.each do |opts|
+          puts "inspec #{sub_cmd} #{opts[:value]}"
         end
       end
 
       ## Utility functions
 
-      def parse_options_file
+      def read_options_file
         opts = []
-        content = File.read(options[:option_file])
-        content.split("\n").each do |str|
+        content = File.readlines(options[:option_file])
+        content.each.with_index(1) do |str, index|
+          data_hash = { line_no: index }
           str = str.strip
           str_has_comment = str.start_with?("#")
-          if !str.empty? && !str_has_comment
-            # fetch default options passed in the cli to append
-            default_options = fetch_default_options(str.split(" ")).lstrip
-            if str.start_with?("-")
-              opts << "#{default_profile} #{str} #{default_options}"
-            else
-              opts << "#{str} #{default_options}"
-            end
+          next if str.empty? || str_has_comment
+
+          default_options = fetch_default_options(str.split(" ")).lstrip
+          if str.start_with?("-")
+            data_hash[:value] = "#{default_profile} #{str} #{default_options}"
+          else
+            data_hash[:value] = "#{str} #{default_options}"
           end
+          opts << data_hash
         end
         opts
       end
@@ -87,7 +88,7 @@ module InspecPlugins
         parallel_cmd_default_opts = options.keys & sub_cmd_opts.keys.map(&:to_s)
         options_to_append = parallel_cmd_default_opts
 
-        if options["dry_run"]
+        if options["dry_run"] && !options["verbose"]
           # to not show thor default options of inspec commands in dry run
           sub_cmd_opts_with_defaults = fetch_sub_cmd_default_options(sub_cmd_opts)
           options_to_append -= sub_cmd_opts_with_defaults
