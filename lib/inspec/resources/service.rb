@@ -182,11 +182,12 @@ module Inspec::Resources
       when "aix"
         SrcMstr.new(inspec)
       when "amazon"
-        if os[:release] =~ /^20\d\d/
-          Upstart.new(inspec, service_ctl)
-        else
-          Systemd.new(inspec, service_ctl)
-        end
+        inspec.command("initctl").exist? ? Upstart.new(inspec, service_ctl) : Systemd.new(inspec, service_ctl)
+        # if os[:release] =~ /^20\d\d/
+        #   Upstart.new(inspec, service_ctl)
+        # else
+        #   Systemd.new(inspec, service_ctl)
+        # end
       when "solaris", "smartos", "omnios", "openindiana", "opensolaris", "nexentacore"
         Svcs.new(inspec)
       when "yocto"
