@@ -8,7 +8,7 @@ require "inspec/dist"
 require "inspec/utils/json_profile_summary"
 
 module InspecPlugins
-  module Artifact
+  module Sign
     class Base
       include Inspec::Dist
 
@@ -75,25 +75,10 @@ module InspecPlugins
 
       def self.profile_verify(options)
         artifact = new
-        file_to_verifiy = options["infile"]
+        file_to_verifiy = options["signed_profile"]
         puts "Verifying #{file_to_verifiy}"
         artifact.verify(file_to_verifiy) do ||
           puts "Artifact is valid"
-        end
-      end
-
-      def self.profile_install(options)
-        artifact = new
-        puts "Installing profile"
-        file_to_verifiy = options["infile"]
-        dest_dir = options["destdir"]
-        artifact.verify(file_to_verifiy) do |content|
-          Dir.mktmpdir do |workdir|
-            tmpfile = Pathname.new(workdir).join("artifact_to_install.tar.gz")
-            File.write(tmpfile, content)
-            puts "Installing to #{dest_dir}"
-            `tar xzf #{tmpfile} -C #{dest_dir}`
-          end
         end
       end
 
