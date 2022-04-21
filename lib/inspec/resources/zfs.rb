@@ -13,7 +13,7 @@ module Inspec::Resources
     example <<~EXAMPLE
       describe zfs("new-pool") do
         it { should exist }
-        it { should have_property({"failmode" => "wait", "capacity"=>"0"}) }
+        it { should have_property({"failmode" => "wait", "capacity" => "0"}) }
       end
     EXAMPLE
 
@@ -34,10 +34,12 @@ module Inspec::Resources
     def has_property?(properties_hash)
       raise Inspec::Exceptions::ResourceSkipped, "Provide a valid key-value pair of the zfs properties." if properties_hash.empty?
 
-      # Transform all the keys to string, since hash keys provided by user can be symbols or strings.
+      # Transform all the key & values provided by user to string,
+      # since hash keys can be symbols or strings & values can be integers or strings.
       # @params is a hash populated in the parent class with the properties(key-value) of the current zfs pool.
-      # The keys in the @params are of string type.
+      # and the key-value in @params are of string type.
       properties_hash.transform_keys(&:to_s)
+      properties_hash.transform_values(&:to_s)
 
       # check if the given properties is a subset of @params
       properties_hash <= @params
