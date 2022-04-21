@@ -13,7 +13,7 @@ module Inspec::Resources
     example <<~EXAMPLE
       describe zfs("new-pool") do
         it { should exist }
-        it { should have_property({"failmode" => "wait", "capacity" => "0"}) }
+        it { should have_property({ "failmode" => "wait", "capacity" => "0" }) }
       end
     EXAMPLE
 
