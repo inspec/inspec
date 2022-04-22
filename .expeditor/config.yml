@@ -12,12 +12,11 @@ rubygems:
     gemspec_path: ./inspec-bin/
 
 pipelines:
-   # DISABLE HABITAT BUILDS 2022-03-04
-   # - habitat/build:
-   #  env:
-   #   - HAB_NONINTERACTIVE: "true"
-   #   - HAB_NOCOLORING: "true"
-   #   - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+ - habitat/build:
+    env:
+     - HAB_NONINTERACTIVE: "true"
+     - HAB_NOCOLORING: "true"
+     - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
  - docker/build
  - omnibus/release:
     env:
@@ -43,15 +42,14 @@ pipelines:
 #     definition: .expeditor/integration.resources.yml
 #     trigger: pull_request
 
-# DISABLE HABITAT BUILDS 2022-03-04
-#  - artifact/habitat:
-#     description: Execute tests against the habitat artifact
-#     definition: .expeditor/artifact.habitat.yml
-#     env:
-#      - HAB_NONINTERACTIVE: "true"
-#      - HAB_NOCOLORING: "true"
-#      - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
-#     trigger: pull_request
+ - artifact/habitat:
+    description: Execute tests against the habitat artifact
+    definition: .expeditor/artifact.habitat.yml
+    env:
+     - HAB_NONINTERACTIVE: "true"
+     - HAB_NOCOLORING: "true"
+     - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+    trigger: pull_request
 
 slack:
  notify_channel: inspec-notify
@@ -108,23 +106,21 @@ subscriptions:
         ignore_labels:
          - "Expeditor: Skip Omnibus"
          - "Expeditor: Skip All"
-   # DISABLE HABITAT BUILDS 2022-03-04
-   #   - trigger_pipeline:artifact/habitat:
-   #      only_if: built_in:bump_version
-   #      ignore_labels:
-   #       - "Expeditor: Skip Habitat"
-   #       - "Expeditor: Skip All"
+     - trigger_pipeline:artifact/habitat:
+        only_if: built_in:bump_version
+        ignore_labels:
+         - "Expeditor: Skip Habitat"
+         - "Expeditor: Skip All"
      - trigger_pipeline:omnibus/release:
         only_if: built_in:bump_version
         ignore_labels:
          - "Expeditor: Skip Omnibus"
          - "Expeditor: Skip All"
-   # DISABLE HABITAT BUILDS 2022-03-04
-   #   - trigger_pipeline:habitat/build:
-   #      only_if: built_in:bump_version
-   #      ignore_labels:
-   #       - "Expeditor: Skip Habitat"
-   #       - "Expeditor: Skip All"
+     - trigger_pipeline:habitat/build:
+        only_if: built_in:bump_version
+        ignore_labels:
+         - "Expeditor: Skip Habitat"
+         - "Expeditor: Skip All"
      - built_in:build_gem:
         only_if:
          - built_in:bump_version
@@ -136,8 +132,7 @@ subscriptions:
   - workload: artifact_published:current:inspec:{{version_constraint}}
     actions:
      - built_in:promote_docker_images
-   # DISABLE HABITAT BUILDS 2022-03-04
-   #  - built_in:promote_habitat_packages
+     - built_in:promote_habitat_packages
   - workload: project_promoted:{{agent_id}}:*
     actions:
       - built_in:promote_artifactory_artifact
@@ -148,8 +143,7 @@ subscriptions:
      - built_in:publish_rubygems
      - built_in:create_github_release
      - built_in:promote_docker_images
-    # DISABLE HABITAT BUILDS 2022-03-04
-    # - built_in:promote_habitat_packages
+     - built_in:promote_habitat_packages
      - bash:.expeditor/publish-release-notes.sh:
         post_commit: true
      - purge_packages_chef_io_fastly:{{target_channel}}/inspec/latest:
