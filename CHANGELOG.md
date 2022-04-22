@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 4.56.21 -->
+## [v4.56.21](https://github.com/inspec/inspec/tree/v4.56.21) (2022-04-22)
+
+#### Merged Pull Requests
+- Re-enable habitat builds on inspec-4 branch [#6008](https://github.com/inspec/inspec/pull/6008) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.56.20 -->
+### Changes since 4.56.20 release
+
+#### Merged Pull Requests
+- Re-enable habitat builds on inspec-4 branch [#6008](https://github.com/inspec/inspec/pull/6008) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.21 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
