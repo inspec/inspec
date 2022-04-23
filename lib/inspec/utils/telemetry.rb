@@ -1,3 +1,1 @@
-require "inspec/utils/telemetry/collector"
-require "inspec/utils/telemetry/data_series"
-require "inspec/utils/telemetry/global_methods"
+# TODO: Add any require_relatives needed here
