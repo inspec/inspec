@@ -50,8 +50,10 @@ module Inspec::Resources
 
       raise Inspec::Exceptions::ResourceFailed, "Executing #{php_cmd} failed: #{config_value_cmd.stderr}" if config_value_cmd.exit_status.to_i != 0
 
-      # Return the standard output of the command executed.
-      config_value_cmd.stdout.strip
+      config_value = config_value_cmd.stdout.strip
+
+      # Convert value to integer if the config value are digits.
+      config_value.match(/^(\d)+$/) ? config_value.to_i : config_value
     end
 
     private
