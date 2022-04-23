@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.21 -->
-## [v4.56.21](https://github.com/inspec/inspec/tree/v4.56.21) (2022-04-22)
+<!-- latest_release 4.56.22 -->
+## [v4.56.22](https://github.com/inspec/inspec/tree/v4.56.22) (2022-04-23)
 
 #### Merged Pull Requests
-- Re-enable habitat builds on inspec-4 branch [#6008](https://github.com/inspec/inspec/pull/6008) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Bump omnibus-software from `5947560` to `b2bc35b` in /omnibus [#6005](https://github.com/inspec/inspec/pull/6005) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.56.20 -->
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `5947560` to `b2bc35b` in /omnibus [#6005](https://github.com/inspec/inspec/pull/6005) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.22 -->
 - Re-enable habitat builds on inspec-4 branch [#6008](https://github.com/inspec/inspec/pull/6008) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.21 -->
 <!-- release_rollup -->
 
