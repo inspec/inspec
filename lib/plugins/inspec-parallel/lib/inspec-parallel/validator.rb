@@ -1,6 +1,6 @@
 require "inspec/cli"
 module InspecPlugins
-  module Parallel
+  module Parallelism
     class Validator
       attr_accessor :option_lines, :sub_cmd, :thor_options_for_sub_cmd, :aliases_mapping
 

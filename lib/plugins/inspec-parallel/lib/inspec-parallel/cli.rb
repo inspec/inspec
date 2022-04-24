@@ -2,7 +2,7 @@ require_relative "command"
 require "inspec/dist"
 require "inspec/base_cli"
 
-module InspecPlugins::Parallel
+module InspecPlugins::Parallelism
   class CLI < Inspec.plugin(2, :cli_command)
     include Inspec::Dist
 
@@ -15,9 +15,11 @@ module InspecPlugins::Parallel
       desc: "Print commands that will run"
     option :verbose, type: :boolean,
       desc: "Prints all thor options on dry run"
+    option :jobs, aliases: :j, type: :numeric,
+      desc: "Number of jobs to run parallely"
     exec_options
     def exec(default_profile = nil)
-      parallel_cmd = InspecPlugins::Parallel::Command.new(options, default_profile)
+      parallel_cmd = InspecPlugins::Parallelism::Command.new(options, default_profile)
       if options[:dry_run]
         parallel_cmd.dry_run
       else

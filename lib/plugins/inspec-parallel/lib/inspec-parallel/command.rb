@@ -2,7 +2,7 @@ require_relative "runner"
 require_relative "validator"
 
 module InspecPlugins
-  module Parallel
+  module Parallelism
     class Command
       attr_accessor :options, :default_profile, :sub_cmd, :option_lines
 
@@ -16,7 +16,7 @@ module InspecPlugins
       end
 
       def run
-        Runner.new(option_lines, sub_cmd).run
+        Runner.new(option_lines, sub_cmd, options).run
       end
 
       def dry_run
