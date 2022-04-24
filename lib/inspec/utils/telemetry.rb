@@ -1,6 +1,7 @@
 require "time" unless defined?(Time.zone_offset)
 require_relative "../dist"
 require "securerandom" unless defined?(SecureRandom)
+require "digest" unless defined?(Digest)
 
 module Inspec
   class Telemetry
@@ -39,7 +40,7 @@ module Inspec
 
       def fetch_customer_id
         # TODO: obtain customer ID from some mechanism
-        "(unknown)"
+        "unknown"
       end
 
       def fetch_session_id
@@ -65,12 +66,64 @@ module Inspec
       end
 
       def run_ending(opts)
-        # TODO: construct a Job record and send it
-        # https://chefio.atlassian.net/wiki/spaces/AR/pages/2566455325/Telemetry+schemas+catalog#Jobs
         payload = create_wrapper("job")
+
+        train_platform = opts[:runner].backend.backend.platform
+
+        payload[:jobs] = [{
+          type: "InSpec",
+
+          # Target platform info
+          environment: {
+            host: obscure(URI(opts[:runner].backend.backend.uri).host) || "unknown",
+            os: train_platform.name,
+            version: train_platform.release,
+            architecture: train_platform.arch || "",
+            id: train_platform.uuid,
+          },
+
+          runtime: Inspec::VERSION,
+          content: [], # one content == one profile
+          steps: [],   # one step == one control
+        }]
+
+        opts[:run_data][:profiles].each do |profile|
+          payload[:jobs][0][:content] << {
+            name: obscure(profile[:name]),
+            version: profile[:version],
+            sha256: profile[:sha256],
+            maintainer: profile[:maintainer],
+            parentProfile: obscure(profile[:parent_profile]) || "",
+            # TODO: add profileContentId
+          }
+
+          profile[:controls].each do |control|
+            payload[:jobs][0][:steps] << {
+              id: obscure(control[:id]),
+              name: "inspec-control",
+              resources: [],
+              # features: [], # TODO: consider injecting feature usage here?
+            }
+            control[:results]&.each do |resource_block|
+              payload[:jobs][0][:steps].last[:resources] << {
+                type: "inspec-resource",
+                name: resource_block[:resource_class],
+                id: obscure(resource_block[:resource_title].resource_id) || "unknown",
+              }
+            end
+          end
+        end
 
         # Return payload object for testing
         payload
+      end
+
+      # Hash text if non-nil
+      def obscure(cleartext)
+        return nil if cleartext.nil?
+        return nil if cleartext.empty?
+
+        Digest::SHA2.new(256).hexdigest(cleartext)
       end
     end
 
