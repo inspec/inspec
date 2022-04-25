@@ -16,7 +16,7 @@ module InspecPlugins
       end
 
       def run
-        Runner.new(option_lines, sub_cmd, options).run
+        Runner.new(option_lines, options, sub_cmd).run
       end
 
       def dry_run

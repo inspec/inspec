@@ -25,8 +25,6 @@ module InspecPlugins::Parallelism
       else
         parallel_cmd.run
       end
-      # rescue StandardError => e
-      # TBD
     end
   end
 end
