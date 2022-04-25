@@ -831,7 +831,8 @@ The `have_mode` matcher tests if a file has a mode assigned to it.
 ```
 
 ### be_mounted
-`be_mounted` is a boolean matcher which returns `true` if the specified directory is mounted on the system, otherwise `false`. Additionally, to test the attributes of the mounted directory, use the `mount` resource.
+
+`be_mounted` is a boolean matcher which returns `true` if the specified directory is mounted on the system. Else `false`. In addition, to test the attributes of the mounted directory, use the `mount` resource.
 
 ```ruby
     describe file("/") do
