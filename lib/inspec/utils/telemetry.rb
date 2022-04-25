@@ -20,7 +20,7 @@ module Inspec
 
       # TODO: implement online telemetry collection using chef-telemtry gem
 
-      Inspec::Telemetry::Null
+      Inspec::Telemetry::Debug
     end
 
     ######
@@ -32,6 +32,10 @@ module Inspec
 
     def self.run_ending(opts)
       instance.run_ending(opts)
+    end
+
+    def self.note_feature_usage(feature_name)
+      instance.note_feature_usage(feature_name)
     end
 
     class Base
@@ -51,7 +55,7 @@ module Inspec
         {
           version: "2.0",
           createdTimeUTC: Time.now.getutc.iso8601, # like 3339 but always uses T
-          environment: "CLI",
+          environment: "CLI", # TODO: Consider replacing this with run context probe
           # licenseId # We will never have this
           customerId: fetch_customer_id,
           source: "#{Inspec::Dist::EXEC_NAME}:#{Inspec::VERSION}",
@@ -60,12 +64,21 @@ module Inspec
         }
       end
 
+      def note_feature_usage(feature_name)
+        @scratch ||= {}
+        @scratch[:features] ||= []
+        @scratch[:features] << feature_name
+      end
+
       def run_starting(_opts)
         @scratch ||= {}
-        @scratch[:run_start_time] = Time.now
+        @scratch[:features] ||= []
+        @scratch[:run_start_time] = Time.now # TODO: This is not used
       end
 
       def run_ending(opts)
+        note_per_run_features(opts)
+
         payload = create_wrapper("job")
 
         train_platform = opts[:runner].backend.backend.platform
@@ -83,8 +96,9 @@ module Inspec
           },
 
           runtime: Inspec::VERSION,
-          content: [], # one content == one profile
-          steps: [],   # one step == one control
+          content: [],  # one content == one profile
+          steps: [],    # one step == one control
+          features: scratch[:features].dup, # TODO: proposed new field (promoted up from steps)
         }]
 
         opts[:run_data][:profiles].each do |profile|
@@ -102,15 +116,20 @@ module Inspec
               id: obscure(control[:id]),
               name: "inspec-control",
               resources: [],
-              # features: [], # TODO: consider injecting feature usage here?
+              features: [],
             }
+
             control[:results]&.each do |resource_block|
               payload[:jobs][0][:steps].last[:resources] << {
                 type: "inspec-resource",
                 name: resource_block[:resource_class],
-                id: obscure(resource_block[:resource_title].resource_id) || "unknown",
+                id: obscure(resource_block[:resource_title].respond_to?(:resource_id) ? resource_block[:resource_title].resource_id : nil) || "unknown",
               }
             end
+
+            # Per-control features.
+            # Waivers
+            payload[:jobs][0][:steps].last[:features] << "waivers" unless control[:waiver_data].empty?
           end
         end
 
@@ -125,11 +144,40 @@ module Inspec
 
         Digest::SHA2.new(256).hexdigest(cleartext)
       end
+
+      def note_per_run_features(opts)
+        note_reporters
+        note_gem_dependency_usage(opts)
+        # TODO: what other features should be observed?
+      end
+
+      def note_reporters
+        Inspec::Config.cached[:reporter]
+          .keys
+          .each { |name| Inspec::Telemetry.note_feature_usage("reporter:#{name}") }
+      end
+
+      def note_gem_dependency_usage(opts)
+        unless opts[:runner].target_profiles.map do |tp|
+          tp.metadata.gem_dependencies + \
+              tp.locked_dependencies.list.map { |_k, v| v.profile.metadata.gem_dependencies }.flatten
+        end.flatten.empty?
+          Inspec::Telemetry.note_feature_usage("gem-deps-in-profiles")
+        end
+      end
     end
 
     class Null < Base
       def run_starting(_opts); end
       def run_ending(_opts); end
+    end
+
+    class Debug < Base
+      def run_ending(opts)
+        # payload = super(opts)
+        # require "byebug"; byebug
+        # 1
+      end
     end
 
   end
