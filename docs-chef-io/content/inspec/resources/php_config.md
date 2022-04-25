@@ -2,6 +2,7 @@
 title = "php_config resource"
 draft = false
 gh_repo = "inspec"
+platform = "os"
 
 [menu]
   [menu.inspec]

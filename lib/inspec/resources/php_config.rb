@@ -4,6 +4,8 @@ module Inspec::Resources
   class PhpConfig < Inspec.resource(1)
     # Resource's internal name.
     name "php_config"
+    supports platform: "unix"
+    supports platform: "windows"
     desc "Use the php_config InSpec audit resource to test PHP config parameters"
 
     example <<~EXAMPLE
