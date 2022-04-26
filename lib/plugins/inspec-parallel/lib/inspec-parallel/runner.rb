@@ -1,6 +1,23 @@
 require "inspec/cli"
 require "parallel"
 require "concurrent"
+
+
+# Monkeypatch IO to have a nonblocking readline
+# https://stackoverflow.com/questions/9803019/ruby-non-blocking-line-read
+class IO
+  def readline_nonblock
+    buffer = ""
+    buffer << read_nonblock(1) while buffer[-1] != "\n"
+
+    buffer
+  rescue IO::WaitReadable => blocking
+    raise blocking if buffer.empty?
+
+    buffer
+  end
+end
+
 module InspecPlugins
   module Parallelism
     class Runner
@@ -14,7 +31,7 @@ module InspecPlugins
 
       def run
         @child_tracker = {}
-        if Inspec.locally_windows? || true
+        if Inspec.locally_windows? || ENV["CHEF_FEATURE_FORCE_SPAWN"]
           run_using_spawn
         else
           run_using_fork
@@ -24,7 +41,7 @@ module InspecPlugins
       def run_using_spawn
         until invocations.empty? && @child_tracker.empty? do
           spawn_more_processes
-          fork_do_cleanup
+          cleanup_child_processes
         end
       end
 
@@ -33,7 +50,7 @@ module InspecPlugins
         # maintain a hash by PID of child processes with read handles and other info
         until invocations.empty? && @child_tracker.empty? do
           fork_more_processes
-          fork_do_cleanup
+          cleanup_child_processes
         end
       end
 
@@ -41,10 +58,12 @@ module InspecPlugins
         while @child_tracker.length < [invocations.length, total_jobs].min do
           invocation = invocations.shift[:value]
 
+          child_reader, parent_writer = IO.pipe
+
           # Construct command-line invocation
           cmd = "#{$0} #{sub_cmd} #{invocation}"
-          child_pid = Process.spawn(cmd) # TODO: plumbing
-          @child_tracker[child_pid] = {} # TODO: store read handle?
+          child_pid = Process.spawn(cmd, out: parent_writer)
+          @child_tracker[child_pid] = {io: child_reader}
           puts "[#{Time.now.iso8601}] Spawned child PID #{child_pid}"
         end
       end
@@ -53,15 +72,18 @@ module InspecPlugins
       def fork_more_processes
         while @child_tracker.length < [invocations.length, total_jobs].min do
           invocation = invocations.shift[:value] # Be sure to do this shift() in parent process
-
+          child_reader, parent_writer = IO.pipe
           if (child_pid = Process.fork) then
             # In parent with newly forked child
-            @child_tracker[child_pid] = {} # TODO: store read handle?
+            parent_writer.close
+            @child_tracker[child_pid] = {io: child_reader}
             puts "[#{Time.now.iso8601}] Forked child PID #{child_pid}"
           else
             # In child
 
-            # TODO: handle plumbing
+            child_reader.close
+            # replace stdout with writer
+            $stdout = parent_writer
             runner_invocation(invocation)
 
             # should be unreachable but child must exit
@@ -72,19 +94,34 @@ module InspecPlugins
 
       # Still in parent
       # Loop over children and check for finished processes
-      def fork_do_cleanup
+      def cleanup_child_processes
         @child_tracker.each do |pid, info|
+          # read handles and update UI
+          update_ui_for_child(pid)
+
           if Process.wait(pid, Process::WNOHANG)
             # child exited - status in $?
-            # TODO: handle UI child exit
+            # TODO: handle child exit
             puts "[#{Time.now.iso8601}] Exited child PID #{pid} status #{$?}"
+            @child_tracker[pid][:io].close
             @child_tracker.delete pid
           else
             # nothing happened
-            # TODO: read handles and update UI
             sleep 0.1
           end
         end
+      end
+
+      def update_ui_for_child(pid)
+        # TODO: one day plugin-ify this interface?
+        while update_line = @child_tracker[pid][:io].readline_nonblock do
+          control_serial, status, control_count, title = update_line.split("/")
+          # TODO: make a real interface
+          percent = 100.0 * control_serial.to_i / control_count.to_i.to_f
+          puts "[#{Time.now.iso8601}] #{pid} #{percent}%"
+        end
+      rescue Errno::EWOULDBLOCK, EOFError
+        # Don't care, nothing to read, move along
       end
 
       def run_using_parallel
