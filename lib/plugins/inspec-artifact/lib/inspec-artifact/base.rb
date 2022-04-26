@@ -154,7 +154,7 @@ module InspecPlugins
           while f.readline != "\n" do end
           content = f.read
           f.close
-        else
+        elsif version == INSPEC_PROFILE_VERSION_2
           header << version
           header <<  f.readline.strip!
           content = f.read
@@ -162,6 +162,8 @@ module InspecPlugins
 
           header.concat(content[0..356].unpack("h*").pack("H*").split("."))
           content = content[358..content.length]
+        else
+          raise "Invalid artifact version detected."
         end
 
         verify_file_header?(header)
