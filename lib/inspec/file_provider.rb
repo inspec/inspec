@@ -2,6 +2,7 @@ require "rubygems/package" unless defined?(Gem::Package)
 require "pathname" unless defined?(Pathname)
 require "zlib" unless defined?(Zlib)
 require "zip" unless defined?(Zip)
+require "inspec/verify_signature"
 
 module Inspec
   class FileProvider
@@ -14,6 +15,8 @@ module Inspec
         TarProvider.new(path)
       elsif File.exist?(path) && path.end_with?(".zip")
         ZipProvider.new(path)
+      elsif File.exist?(path) && path.end_with?(".iaf") && VerifySignature.valid(path)
+        IafProvider.new(path)
       elsif File.exist?(path)
         DirProvider.new(path)
       else
@@ -215,6 +218,31 @@ module Inspec
       tar_file.close if tar_file
     end
   end # class TarProvider
+
+  class IafProvider < TarProvider
+    attr_reader :files
+
+    def initialize(path)
+      f = File.open(path, "rb")
+      version = f.readline.strip!
+      if version == "INSPEC-PROFILE-1"
+        while f.readline != "\n" do end
+        content = f.read
+        f.close
+      else
+        key = f.readline.strip!
+        content = f.read
+        f.close
+      end
+
+      tmpfile = nil
+      Dir.mktmpdir do |workdir|
+        tmpfile = Pathname.new(workdir).join("artifact_to_install.tar.gz")
+        File.open(tmpfile, "wb") { |fl| fl.write(content[358..content.length]) }
+        super(tmpfile)
+      end
+    end
+  end # class IafProvider
 
   class RelativeFileProvider
     BLACKLIST_FILES = [
