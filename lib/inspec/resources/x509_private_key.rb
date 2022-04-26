@@ -1,5 +1,3 @@
-require "openssl" unless defined?(OpenSSL)
-require "inspec/utils/file_reader"
 require "inspec/resources/file"
 
 module Inspec::Resources
@@ -15,11 +13,18 @@ module Inspec::Resources
     desc "Use the ipnat InSpec audit resource to test the x509 private key"
 
     example <<~EXAMPLE
-      describe "x509_private_key" do
-        its("shoe_size") { should cmp 10 }
+      # With passphrase
+      describe x509_private_key("/home/openssl_activity/alice_private.pem", "password@123") do
+        it { should be_valid }
+        it { should be_encrypted }
+        it { should have_matching_certificate("/home/openssl_activity/alice_certificate.crt") }
       end
-      describe "x509_private_key" do
-        it { should be_purple }
+
+      # Without passphrase
+      describe x509_private_key("/home/openssl_activity/bob_private.pem") do
+        it { should be_valid }
+        it { should_not be_encrypted }
+        it { should have_matching_certificate("/home/openssl_activity/bob_certificate.crt") }
       end
     EXAMPLE
 
@@ -31,7 +36,6 @@ module Inspec::Resources
       @passphrase = passphrase
     end
 
-
     # Resource appearance in test reports.
     def to_s
       "x509_private_key"
@@ -40,9 +44,10 @@ module Inspec::Resources
     # Matcher to check if the given key is valid.
     def valid?
       # If passphrase is provided append it to check_key_validity_cmd with passin argument.
-      cmd = passphrase ? check_key_validity_cmd.concat(" -passin pass:#{passphrase}") : check_key_validity_cmd
-      exec_cmd = inspec.command(cmd)
-      exec_cmd.exit_status.to_i == 0
+      openssl_key_validity_cmd = "#{openssl_utility} rsa -in #{secret_key_path} -check -noout"
+      openssl_key_validity_cmd.concat(" -passin pass:#{passphrase}") if passphrase
+      openssl_key_validity = inspec.command(openssl_key_validity_cmd)
+      openssl_key_validity.exit_status.to_i == 0
     end
 
     # Matcher to check if the given key is encrypted.
@@ -54,6 +59,18 @@ module Inspec::Resources
       key_file.content =~ /Proc-Type: 4,ENCRYPTED/
     end
 
+    # Matcher to verify if the private key maatches the certificate
+    def has_matching_certificate?(cert_file_or_path)
+      cert_hash_cmd = "openssl x509 -noout -modulus -in #{cert_file_or_path} | openssl md5"
+      cert_hash = inspec.command(cert_hash_cmd)
+
+      key_hash_cmd = "openssl rsa -noout -modulus -in #{secret_key_path}"
+      passphrase ? key_hash_cmd.concat(" -passin pass:#{passphrase} | openssl md5") : key_hash_cmd.concat(" | openssl md5")
+      key_hash = inspec.command(key_hash_cmd)
+
+      cert_hash.stdout == key_hash.stdout && cert_hash.exit_status.to_i == 0 && key_hash.exit_status.to_i == 0
+    end
+
     private
 
     # This resource requires openssl to be available on the system
@@ -63,11 +80,6 @@ module Inspec::Resources
       end
 
       raise Inspec::Exceptions::ResourceFailed, "Could not find `openssl` on your system."
-    end
-
-    # Returns the general command to check for validity of a key
-    def check_key_validity_cmd
-      "#{openssl_utility} rsa -in #{secret_key_path} -check -noout"
     end
   end
 end
