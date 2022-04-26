@@ -1,5 +1,6 @@
 require "openssl" unless defined?(OpenSSL)
 require "inspec/utils/file_reader"
+require "inspec/resources/file"
 
 module Inspec::Resources
   class X509PrivateKey < Inspec.resource(1)
@@ -30,43 +31,28 @@ module Inspec::Resources
       @passphrase = passphrase
     end
 
-    # Define a resource ID. This is used in reporting engines to uniquely identify the individual resource.
-    # This might be a file path, or a process ID, or a cloud instance ID. Only meaningful to the implementation.
-    # Must be a string. Defaults to the empty string if not implemented.
-    def resource_id
-      # replace value specific unique to this individual resource instance
-      "something special"
-    end
 
-    # Define how you want your resource to appear in test reports. Commonly, this is just the resource name and the resource ID.
+    # Resource appearance in test reports.
     def to_s
-      "x509_private_key #{resource_id}"
+      "x509_private_key"
     end
 
-    def has_bells?
-      # positive or negative expectations specific to this resource instance
-      true # Jingle all the way
-    end
-
+    # Matcher to check if the given key is valid.
     def valid?
-      # - With passphrase
-      # `openssl rsa -in alice_private.pem -check -noout -passin pass:alice123`
-      # - Without passphrase - 1
-      # `openssl rsa -in chloe_private.pem -check -noout -passin pass:stdin`
-      # - Without passphrase - 2
-      # `openssl rsa -in chloe_private.pem -check -noout`
-      openssl_valid_cmd = "#{openssl_utility} rsa -in #{secret_key_path} -check -noout"
-      openssl_valid_cmd.concat(" -passin pass:#{passphrase}") if passphrase
-      exec_openssl_valid_cmd = inspec.command(openssl_valid_cmd)
-      # require "byebug"; byebug
-      exec_openssl_valid_cmd.exit_status.to_i == 0
-
+      # If passphrase is provided append it to check_key_validity_cmd with passin argument.
+      cmd = passphrase ? check_key_validity_cmd.concat(" -passin pass:#{passphrase}") : check_key_validity_cmd
+      exec_cmd = inspec.command(cmd)
+      exec_cmd.exit_status.to_i == 0
     end
 
+    # Matcher to check if the given key is encrypted.
     def encrypted?
-    end
+      raise Inspec::Exceptions::ResourceFailed, "The given secret key #{secret_key_path} does not exist." unless inspec.file(secret_key_path).exist?
 
-    
+      # All encrypted keys have the header of Proc-Type: 4,ENCRYPTED
+      key_file = inspec.file(secret_key_path)
+      key_file.content =~ /Proc-Type: 4,ENCRYPTED/
+    end
 
     private
 
@@ -79,8 +65,9 @@ module Inspec::Resources
       raise Inspec::Exceptions::ResourceFailed, "Could not find `openssl` on your system."
     end
 
-    # def openssl_cmd
-    #   "#{openssl_utility} rsa -in #{secret_key_path} -check -noout"
-    # end
+    # Returns the general command to check for validity of a key
+    def check_key_validity_cmd
+      "#{openssl_utility} rsa -in #{secret_key_path} -check -noout"
+    end
   end
 end
