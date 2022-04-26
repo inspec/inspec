@@ -30,6 +30,7 @@ module Inspec::Resources
 
     # Resource initialization.
     attr_reader :secret_key_path, :passphrase, :openssl_utility
+
     def initialize(secret_key_path, passphrase = nil)
       @openssl_utility = check_openssl_or_error
       @secret_key_path = secret_key_path
@@ -43,9 +44,12 @@ module Inspec::Resources
 
     # Matcher to check if the given key is valid.
     def valid?
-      # If passphrase is provided append it to check_key_validity_cmd with passin argument.
+      # Below is the command to check if the key is valid.
       openssl_key_validity_cmd = "#{openssl_utility} rsa -in #{secret_key_path} -check -noout"
+
+      # Additionally, if key is password protected, passphrase needs to be given with -passin argument
       openssl_key_validity_cmd.concat(" -passin pass:#{passphrase}") if passphrase
+
       openssl_key_validity = inspec.command(openssl_key_validity_cmd)
       openssl_key_validity.exit_status.to_i == 0
     end
