@@ -2,7 +2,6 @@ require "inspec/cli"
 require "parallel"
 require "concurrent"
 
-
 # Monkeypatch IO to have a nonblocking readline
 # https://stackoverflow.com/questions/9803019/ruby-non-blocking-line-read
 class IO
@@ -39,7 +38,7 @@ module InspecPlugins
       end
 
       def run_using_spawn
-        until invocations.empty? && @child_tracker.empty? do
+        until invocations.empty? && @child_tracker.empty?
           spawn_more_processes
           cleanup_child_processes
         end
@@ -48,14 +47,14 @@ module InspecPlugins
       def run_using_fork
         # parent_read, parent_write = IO.pipe
         # maintain a hash by PID of child processes with read handles and other info
-        until invocations.empty? && @child_tracker.empty? do
+        until invocations.empty? && @child_tracker.empty?
           fork_more_processes
           cleanup_child_processes
         end
       end
 
       def spawn_more_processes
-        while @child_tracker.length < [invocations.length, total_jobs].min do
+        while @child_tracker.length < [invocations.length, total_jobs].min
           invocation = invocations.shift[:value]
 
           child_reader, parent_writer = IO.pipe
@@ -63,20 +62,19 @@ module InspecPlugins
           # Construct command-line invocation
           cmd = "#{$0} #{sub_cmd} #{invocation}"
           child_pid = Process.spawn(cmd, out: parent_writer)
-          @child_tracker[child_pid] = {io: child_reader}
+          @child_tracker[child_pid] = { io: child_reader }
           puts "[#{Time.now.iso8601}] Spawned child PID #{child_pid}"
         end
       end
 
-
       def fork_more_processes
-        while @child_tracker.length < [invocations.length, total_jobs].min do
+        while @child_tracker.length < [invocations.length, total_jobs].min
           invocation = invocations.shift[:value] # Be sure to do this shift() in parent process
           child_reader, parent_writer = IO.pipe
-          if (child_pid = Process.fork) then
+          if (child_pid = Process.fork)
             # In parent with newly forked child
             parent_writer.close
-            @child_tracker[child_pid] = {io: child_reader}
+            @child_tracker[child_pid] = { io: child_reader }
             puts "[#{Time.now.iso8601}] Forked child PID #{child_pid}"
           else
             # In child
@@ -114,7 +112,7 @@ module InspecPlugins
 
       def update_ui_for_child(pid)
         # TODO: one day plugin-ify this interface?
-        while update_line = @child_tracker[pid][:io].readline_nonblock do
+        while update_line = @child_tracker[pid][:io].readline_nonblock
           control_serial, status, control_count, title = update_line.split("/")
           # TODO: make a real interface
           percent = 100.0 * control_serial.to_i / control_count.to_i.to_f

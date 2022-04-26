@@ -3,7 +3,6 @@ module InspecPlugins::ReporterChildStatus
     # Registering these methods with RSpec::Core::Formatters class is mandatory
     RSpec::Core::Formatters.register self, :example_passed, :example_failed, :example_pending
 
-
     def initialize(output)
       @status_mapping = {}
       @control_counter = 0
@@ -31,14 +30,18 @@ module InspecPlugins::ReporterChildStatus
       output_status(control_id, title) if control_ended?(control_id)
     end
 
-    private
-
     def output_status(control_id, title)
       @control_counter += 1
       stat = @status_mapping[control_id]
-      stat = stat.include?("failed") ? "F" :
-             stat.include?("skipped") ? "S" :
-             stat.include?("passed") ? "P" : "E"
+      stat = if stat.include?("failed")
+               "F"
+             else
+               if stat.include?("skipped")
+                 "S"
+               else
+                 stat.include?("passed") ? "P" : "E"
+               end
+             end
       display_name = title.gsub(/\n*\s+/, " ").to_s.force_encoding(Encoding::UTF_8) if title
       display_name = control_id.to_s.lstrip.force_encoding(Encoding::UTF_8) unless title
 
