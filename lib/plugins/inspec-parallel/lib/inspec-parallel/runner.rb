@@ -1,5 +1,4 @@
 require "inspec/cli"
-require "parallel"
 require "concurrent"
 
 # Monkeypatch IO to have a nonblocking readline
@@ -78,7 +77,6 @@ module InspecPlugins
             puts "[#{Time.now.iso8601}] Forked child PID #{child_pid}"
           else
             # In child
-
             child_reader.close
             # replace stdout with writer
             $stdout = parent_writer
@@ -120,27 +118,6 @@ module InspecPlugins
         end
       rescue Errno::EWOULDBLOCK, EOFError
         # Don't care, nothing to read, move along
-      end
-
-      def run_using_parallel
-        parent_read, parent_write = IO.pipe
-        Parallel.map(invocations, in_processes: total_jobs) do |runner_option|
-          # In child
-          parent_write.puts "Writing from child #{Parallel.worker_number}"
-          parent_read.close # close copy in child
-          profile_to_run = runner_option[:value].split(" ")[0].split("/")[-1]
-          begin
-            puts "Worker #{Parallel.worker_number}: Running #{profile_to_run}" # DANGEROUS - writing to shared STDOUT
-            runner_invocation(runner_option[:value])
-          rescue SystemExit
-            next
-          end
-        rescue StandardError => e
-          failure_file = File.join(Inspec.src_root, "#{profile_to_run}_#{Time.now.getutc.strftime("%Y%m%d-%H%M%S-%L")}.fail")
-          File.write(failure_file, e)
-        end
-        parent_write.close
-        puts "Parent read: [#{Time.now.iso8601}]" + parent_read.read
       end
 
       private
