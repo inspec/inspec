@@ -184,6 +184,9 @@ class MockLoader
       "myjson.json" => mockfile.call("node.json"),
       "myyaml.yml" => mockfile.call("kitchen.yml"),
       "myinvalid.file" => mockfile.call("default.xml"),
+      # x509_secret_key
+      "/home/openssl_activity/bob_private.pem" => mockfile.call("x509-secret-key"),
+      "/home/openssl_activity/alice_private.pem" => mockfile.call("x509-encrypted-secret-key"),
     }
 
     mock.files = mock_files
@@ -408,6 +411,16 @@ class MockLoader
       "/usr/sbin/auditctl -s | grep pid" => cmd.call("auditctl-s-pid"),
       "/usr/sbin/auditctl -l" => cmd.call("auditctl-l"),
       %{sh -c 'type "/usr/sbin/auditctl"'} => empty.call,
+      # x509_private_key
+      %{sh -c 'type "openssl"'} => empty.call,
+      %{type "openssl"} => empty.call,
+      "openssl rsa -in /home/openssl_activity/bob_private.pem -check -noout" => empty.call,
+      "openssl rsa -in /home/openssl_activity/alice_private.pem -check -noout -passin pass:password@123" => empty.call,
+      "openssl x509 -noout -modulus -in /home/openssl_activity/bob_certificate.crt | openssl md5" => cmd.call("x509-certificate-modulus"),
+      "openssl rsa -noout -modulus -in /home/openssl_activity/bob_private.pem | openssl md5" => cmd.call("x509-certificate-modulus"),
+      "openssl x509 -noout -modulus -in /home/openssl_activity/alice_certificate.crt | openssl md5" => cmd.call("x509-certificate-modulus"),
+      "openssl rsa -noout -modulus -in /home/openssl_activity/alice_private.pem -passin pass:password@123 | openssl md5" => cmd.call("x509-certificate-modulus"),
+
       # apache_conf
       "sh -c 'find /etc/apache2/ports.conf -type f -maxdepth 1'" => cmd.call("find-apache2-ports-conf"),
       "sh -c 'find /etc/httpd/conf.d/*.conf -type f -maxdepth 1'" => cmd.call("find-httpd-ssl-conf"),
