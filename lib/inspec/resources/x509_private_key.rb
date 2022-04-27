@@ -68,11 +68,15 @@ module Inspec::Resources
       cert_hash_cmd = "openssl x509 -noout -modulus -in #{cert_file_or_path} | openssl md5"
       cert_hash = inspec.command(cert_hash_cmd)
 
+      raise Inspec::Exceptions::ResourceFailed, "Executing #{cert_hash_cmd} failed: #{cert_hash.stderr}" if cert_hash.exit_status.to_i != 0
+
       key_hash_cmd = "openssl rsa -noout -modulus -in #{secret_key_path}"
       passphrase ? key_hash_cmd.concat(" -passin pass:#{passphrase} | openssl md5") : key_hash_cmd.concat(" | openssl md5")
       key_hash = inspec.command(key_hash_cmd)
 
-      cert_hash.stdout == key_hash.stdout && cert_hash.exit_status.to_i == 0 && key_hash.exit_status.to_i == 0
+      raise Inspec::Exceptions::ResourceFailed, "Executing #{key_hash_cmd} failed: #{key_hash.stderr}" if key_hash.exit_status.to_i != 0
+
+      cert_hash.stdout == key_hash.stdout
     end
 
     private
