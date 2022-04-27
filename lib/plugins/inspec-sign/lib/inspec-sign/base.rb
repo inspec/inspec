@@ -149,7 +149,7 @@ module InspecPlugins
           raise "Invalid artifact version detected."
         end
 
-        verify_file_header?(header)
+        valid_header?(header)
         verification_key = KEY_ALG.new File.read "#{header[1]}.pem.pub"
         signature = Base64.decode64(header[3])
         digest = ARTIFACT_DIGEST.new
@@ -160,7 +160,7 @@ module InspecPlugins
         end
       end
 
-      def verify_file_header?(header)
+      def valid_header?(header)
         unless File.exist? "#{header[1]}.pem.pub"
           raise "Can't find #{header[1]}.pem.pub}"
         end
