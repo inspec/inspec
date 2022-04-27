@@ -6,6 +6,7 @@ require "tempfile" unless defined?(Tempfile)
 require "yaml"
 require "inspec/dist"
 require "inspec/utils/json_profile_summary"
+require "inspec/iaf_file"
 
 module InspecPlugins
   module Sign
@@ -59,7 +60,7 @@ module InspecPlugins
           # convert the signature to Base64
           signature_base64 = Base64.encode64(signature)
 
-          header = "#{ARTIFACT_DIGEST_NAME}.#{signature_base64}".unpack("H*").pack("h*")+".#{content}"
+          header = "#{ARTIFACT_DIGEST_NAME}.#{signature_base64}".unpack("H*").pack("h*") + ".#{content}"
           File.open(artifact_filename, "wb") do |f|
             f.puts INSPEC_PROFILE_VERSION_2
             f.puts "#{options["keyname"]}"
@@ -73,12 +74,14 @@ module InspecPlugins
       end
 
       def self.profile_verify(options)
-        artifact = new
         file_to_verifiy = options["signed_profile"]
         puts "Verifying #{file_to_verifiy}"
 
-        artifact.verify(file_to_verifiy) do ||
+        iaf_file = Inspec::IafFile.new(file_to_verifiy)
+        if iaf_file.valid?
           puts "Artifact is valid"
+        else
+          puts "Artifact is invalid"
         end
       end
 
@@ -114,59 +117,6 @@ module InspecPlugins
         outfile_name = "#{workdir}/#{profile_name}-#{profile_version}.tar.gz"
         `tar czf #{outfile_name} -C #{path_to_profile} .`
         outfile_name
-      end
-
-      def verify(file_to_verifiy, &content_block)
-        header = []
-        f = File.open(file_to_verifiy, "rb")
-        version = f.readline.strip!
-        if version == INSPEC_PROFILE_VERSION_1
-          header << version
-          header <<  f.readline.strip!
-          header <<  f.readline.strip!
-
-          file_sig = ""
-          # the signature is multi-line
-          while (line = f.readline) != "\n"
-            file_sig += line
-          end
-          header << file_sig.strip!
-          f.close
-
-          f = File.open(file_to_verifiy, "rb")
-          while f.readline != "\n" do end
-          content = f.read
-          f.close
-        elsif version == INSPEC_PROFILE_VERSION_2
-          header << version
-          header <<  f.readline.strip!
-          content = f.read
-          f.close
-
-          header.concat(content[0..356].unpack("h*").pack("H*").split("."))
-          content = content[358..content.length]
-        else
-          raise "Invalid artifact version detected."
-        end
-
-        valid_header?(header)
-        verification_key = KEY_ALG.new File.read "#{header[1]}.pem.pub"
-        signature = Base64.decode64(header[3])
-        digest = ARTIFACT_DIGEST.new
-        if verification_key.verify digest, signature, content
-          content_block.yield(content)
-        else
-          raise "Artifact is invalid"
-        end
-      end
-
-      def valid_header?(header)
-        unless File.exist? "#{header[1]}.pem.pub"
-          raise "Can't find #{header[1]}.pem.pub}"
-        end
-
-        raise "Invalid artifact version detected" unless VALID_PROFILE_VERSIONS.member?(header[0])
-        raise "Invalid artifact digest algorithm detected" unless VALID_PROFILE_DIGESTS.member?(header[2])
       end
 
       def self.write_inspec_json(root_path, opts)

@@ -2,7 +2,7 @@ require "rubygems/package" unless defined?(Gem::Package)
 require "pathname" unless defined?(Pathname)
 require "zlib" unless defined?(Zlib)
 require "zip" unless defined?(Zip)
-require "inspec/verify_signature"
+require "inspec/iaf_file"
 
 module Inspec
   class FileProvider
@@ -15,8 +15,13 @@ module Inspec
         TarProvider.new(path)
       elsif File.exist?(path) && path.end_with?(".zip")
         ZipProvider.new(path)
-      elsif File.exist?(path) && path.end_with?(".iaf") && VerifySignature.valid(path)
-        IafProvider.new(path)
+      elsif File.exist?(path) && path.end_with?(".iaf")
+        iaf_file = IafFile.new(path)
+        if iaf_file.valid?
+          IafProvider.new(path)
+        else
+          raise "Artifact is invalid"
+        end
       elsif File.exist?(path)
         DirProvider.new(path)
       else
@@ -230,15 +235,15 @@ module Inspec
         content = f.read
         f.close
       else
-        key = f.readline.strip!
-        content = f.read
+        f.readline.strip!
+        content = f.read[358..content.length]
         f.close
       end
 
       tmpfile = nil
       Dir.mktmpdir do |workdir|
         tmpfile = Pathname.new(workdir).join("artifact_to_install.tar.gz")
-        File.open(tmpfile, "wb") { |fl| fl.write(content[358..content.length]) }
+        File.open(tmpfile, "wb") { |fl| fl.write(content) }
         super(tmpfile)
       end
     end
