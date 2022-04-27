@@ -11,3 +11,6 @@
 
 # Scenario 2: Use the profile specified in the option file
 test/fixtures/profiles/control-tags --reporter cli
+
+# Scenario 3: Using ERB templating syntax in options file
+test/fixtures/profiles/control-tags --reporter <%= "cli" %>

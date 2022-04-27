@@ -1,4 +1,5 @@
 require_relative "../../../shared/core_plugin_test_helper"
+require_relative "../../../../../test/functional/helper"
 
 class ParallelCli < Minitest::Test
   include CorePluginFunctionalHelper
@@ -6,6 +7,7 @@ class ParallelCli < Minitest::Test
   let(:options_file_1) { File.join("lib", "plugins", "inspec-parallel", "test", "fixtures", "options-file-1.txt") }
   let(:options_file_2) { File.join("lib", "plugins", "inspec-parallel", "test", "fixtures", "options-file-2.txt") }
   let(:options_file_3) { File.join("lib", "plugins", "inspec-parallel", "test", "fixtures", "options-file-3.txt") }
+  let(:options_shell_file_1) { File.join("lib", "plugins", "inspec-parallel", "test", "fixtures", "options-file-shell-1.sh") }
 
   def test_help_output
     out = run_inspec_process("parallel help")
@@ -42,6 +44,23 @@ class ParallelCli < Minitest::Test
 
   def test_parallel_with_default_opts
     out = run_inspec_process("parallel exec #{complete_profile} -o #{options_file_3} --reporter json")
+    assert_empty out.stderr
+    assert_exit_code 0, out
+  end
+
+  def test_parallel_run_with_shell_file_as_options_file
+    skip_windows!
+    out = run_inspec_process("parallel exec #{complete_profile} -o #{options_shell_file_1} --reporter json")
+    assert_empty out.stderr
+    assert_exit_code 0, out
+  end
+
+  def test_parallel_dry_run_with_shell_file_as_options_file
+    skip_windows!
+    out = run_inspec_process("parallel exec #{complete_profile} -o #{options_shell_file_1} --reporter json --dry-run")
+    stdout = out.stdout
+    assert_includes stdout, "complete-profile --reporter json --create-lockfile false"
+    assert_includes stdout, "control-tags --reporter cli --create-lockfile false"
     assert_empty out.stderr
     assert_exit_code 0, out
   end
