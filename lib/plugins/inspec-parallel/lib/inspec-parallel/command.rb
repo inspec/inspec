@@ -73,7 +73,7 @@ module InspecPlugins
                 output = `bash "#{option_file}"`
                 output.split("\n")
               else
-                "Bash not supported in your system."
+                raise "Bash not supported in your system."
               end
             else
               raise "Powershell not supported in your system."
