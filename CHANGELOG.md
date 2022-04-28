@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.14.1 -->
-## [v5.14.1](https://github.com/inspec/inspec/tree/v5.14.1) (2022-04-28)
+<!-- latest_release 5.14.2 -->
+## [v5.14.2](https://github.com/inspec/inspec/tree/v5.14.2) (2022-04-28)
 
 #### Merged Pull Requests
-- CFINSPEC-88: Extend `file` resource documentation with be_mounted matcher [#5999](https://github.com/inspec/inspec/pull/5999) ([ahasunos](https://github.com/ahasunos))
-- chore: Set permissions for GitHub actions [#5990](https://github.com/inspec/inspec/pull/5990) ([neilnaveen](https://github.com/neilnaveen))
+- CFINSPEC-185: Updates inspec check cli docs to include --with-cookstyle option [#6000](https://github.com/inspec/inspec/pull/6000) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.14.0 -->
 ### Changes since 5.14.0 release
 
 #### Merged Pull Requests
+- CFINSPEC-185: Updates inspec check cli docs to include --with-cookstyle option [#6000](https://github.com/inspec/inspec/pull/6000) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.14.2 -->
 - CFINSPEC-88: Extend `file` resource documentation with be_mounted matcher [#5999](https://github.com/inspec/inspec/pull/5999) ([ahasunos](https://github.com/ahasunos)) <!-- 5.14.1 -->
 - chore: Set permissions for GitHub actions [#5990](https://github.com/inspec/inspec/pull/5990) ([neilnaveen](https://github.com/neilnaveen)) <!-- 5.14.0 -->
 <!-- release_rollup -->
