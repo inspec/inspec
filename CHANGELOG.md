@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release unreleased -->
+## Unreleased
+
+#### Merged Pull Requests
+- chore: Set permissions for GitHub actions [#5990](https://github.com/inspec/inspec/pull/5990) ([neilnaveen](https://github.com/neilnaveen))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=5.14.0 -->
+### Changes since 5.14.0 release
+
+#### Merged Pull Requests
+- chore: Set permissions for GitHub actions [#5990](https://github.com/inspec/inspec/pull/5990) ([neilnaveen](https://github.com/neilnaveen)) <!-- 5.14.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
