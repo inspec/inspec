@@ -10,7 +10,7 @@ module Inspec::Resources
     supports platform: "unix"
     supports platform: "windows"
 
-    desc "Use the ipnat InSpec audit resource to test the x509 private key"
+    desc "Use the x509_private_key InSpec audit resource to test the x509 private key"
 
     example <<~EXAMPLE
       # With passphrase
