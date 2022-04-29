@@ -1,4 +1,4 @@
-module InspecPlugins::ReporterChildStatus
+module InspecPlugins::Parallelism
   class StreamingReporter < Inspec.plugin(2, :streaming_reporter)
     # Registering these methods with RSpec::Core::Formatters class is mandatory
     RSpec::Core::Formatters.register self, :example_passed, :example_failed, :example_pending

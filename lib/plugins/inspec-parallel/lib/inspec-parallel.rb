@@ -7,6 +7,12 @@ module InspecPlugins
         require_relative "inspec-parallel/cli"
         InspecPlugins::Parallelism::CLI
       end
+
+      streaming_reporter :"child-status" do
+        require_relative "inspec-parallel/child_status_reporter"
+        InspecPlugins::Parallelism::StreamingReporter
+      end
+
     end
   end
 end
