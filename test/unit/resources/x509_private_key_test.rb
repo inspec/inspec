@@ -40,9 +40,9 @@ describe Inspec::Resources::X509PrivateKey do
     secret_key_path = "/home/openssl_activity/ghost_private.pem"
     resource = MockLoader.new("ubuntu".to_sym).load_resource("x509_private_key", secret_key_path)
     _(resource.valid?).must_equal false
-    ex = _{ resource.encrypted? }.must_raise(Inspec::Exceptions::ResourceFailed)
+    ex = _ { resource.encrypted? }.must_raise(Inspec::Exceptions::ResourceFailed)
     _(ex.message).must_include "The given secret key #{secret_key_path} does not exist."
-    ex = _{ resource.has_matching_certificate?("/home/openssl_activity/ghost_cert.crt") }.must_raise(Inspec::Exceptions::ResourceFailed)
+    ex = _ { resource.has_matching_certificate?("/home/openssl_activity/ghost_cert.crt") }.must_raise(Inspec::Exceptions::ResourceFailed)
     _(ex.message).must_include "Executing openssl x509 -noout -modulus -in /home/openssl_activity/ghost_cert.crt | openssl md5 failed:"
   end
 end
