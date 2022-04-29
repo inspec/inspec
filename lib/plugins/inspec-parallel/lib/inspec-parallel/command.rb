@@ -1,5 +1,6 @@
 require_relative "runner"
 require_relative "validator"
+require "erb" unless defined?(Erb)
 
 module InspecPlugins
   module Parallelism
@@ -41,10 +42,10 @@ module InspecPlugins
 
       def read_options_file
         opts = []
-        content = File.readlines(options[:option_file])
+        content = content_from_file(options[:option_file])
         content.each.with_index(1) do |str, index|
           data_hash = { line_no: index }
-          str = str.strip
+          str = ERB.new(str).result.strip
           str_has_comment = str.start_with?("#")
           next if str.empty? || str_has_comment
 
@@ -57,6 +58,30 @@ module InspecPlugins
           opts << data_hash
         end
         opts
+      end
+
+      def content_from_file(option_file)
+        if File.exist?(option_file)
+          unless [".sh", ".csh", ".ps1"].include? File.extname(option_file)
+            File.readlines(option_file)
+          else
+            if Inspec.locally_windows? && (File.extname(option_file) == ".ps1")
+              output = `powershell -File "#{option_file}"`
+              output.split("\n")
+            elsif [".sh", ".csh"].include? File.extname(option_file)
+              if system("bash #{option_file}", out: File::NULL)
+                output = `bash "#{option_file}"`
+                output.split("\n")
+              else
+                raise "Bash not supported in your system."
+              end
+            else
+              raise "Powershell not supported in your system."
+            end
+          end
+        else
+          raise "Option file not found."
+        end
       end
 
       # this must return empty string or default option string which are not part of option file
