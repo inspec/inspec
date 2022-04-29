@@ -46,6 +46,10 @@ module InspecPlugins::ReporterChildStatus
       display_name = control_id.to_s.lstrip.force_encoding(Encoding::UTF_8) unless title
 
       puts "#{@control_counter}/#{stat}/#{controls_count}/#{display_name}"
+      # HACK: if we've reached the end of the execution, send a special marker, to ease EOF detection on Windows
+      if @control_counter == controls_count
+        puts 'EOF_MARKER'
+      end
     end
 
     def set_status_mapping(control_id, status)

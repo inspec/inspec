@@ -8,6 +8,7 @@ For each control executed, after it is complete, the plugin emits a line to STDO
 ```
 12/P/24/Control Title Here
 ```
+When the run is complete, the single line 'EOF_MARKER' is emitted.
 
 Where:
 
