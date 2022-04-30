@@ -2,31 +2,23 @@ require "inspec/cli"
 module InspecPlugins
   module Parallelism
     class Validator
-      attr_accessor :option_lines, :sub_cmd, :thor_options_for_sub_cmd, :aliases_mapping
+      attr_accessor :invocations, :sub_cmd, :thor_options_for_sub_cmd, :aliases_mapping
 
-      def initialize(option_lines, sub_cmd = "exec")
-        @option_lines = option_lines
+      def initialize(invocations, sub_cmd = "exec")
+        @invocations = invocations
         @sub_cmd = sub_cmd
         @thor_options_for_sub_cmd = Inspec::InspecCLI.commands[sub_cmd].options
         @aliases_mapping = create_aliases_mapping
-        @logger = Inspec::Log
-        @validation_error_each_line = []
       end
 
       def validate
-        validation_passed = true
-        option_lines.each do |data|
-          @validation_error_each_line = []
-          thor_opts_ary = convert_cli_to_thor_options(data[:value])
-          validate_options(thor_opts_ary)
-          check_for_required_fields(thor_opts_ary)
+        invocations.each do |invocation_data|
+          invocation_data[:validation_errors] = []
 
-          @validation_error_each_line.each do |error_message|
-            validation_passed = false
-            @logger.error "Line #{data[:line_no]}: " + error_message
-          end
+          convert_cli_to_thor_options(invocation_data)
+          check_for_spurious_options(invocation_data)
+          check_for_required_fields(invocation_data)
         end
-        validation_passed
       end
 
       private
@@ -42,31 +34,32 @@ module InspecPlugins
         alias_mapping
       end
 
-      def validate_options(thor_opts)
+      def check_for_spurious_options(invocation_data)
         invalid_options = []
-        thor_opts.each do |option_name|
+        invocation_data[:thor_opts].each do |option_name|
           if thor_options_for_sub_cmd[option_name.to_sym].nil? && aliases_mapping[option_name.to_sym].nil?
             invalid_options << option_name
           end
         end
-        @validation_error_each_line.push "No such option: #{invalid_options}" unless invalid_options.empty?
+        invocation_data[:validation_errors].push "No such option: #{invalid_options}" unless invalid_options.empty?
       end
 
-      def check_for_required_fields(thor_opts)
+      def check_for_required_fields(invocation_data)
         required_fields = thor_options_for_sub_cmd.collect { |_, thor_option| thor_option.name if thor_option.required }.compact
-        option_keys = thor_opts
-        thor_opts.map { |key| option_keys.push(aliases_mapping[key.to_sym]) if aliases_mapping[key.to_sym] }
+        option_keys = invocation_data[:thor_opts]
+        invocation_data[:thor_opts].map { |key| option_keys.push(aliases_mapping[key.to_sym]) if aliases_mapping[key.to_sym] }
         if !required_fields.empty? && (option_keys & required_fields).empty?
-          @validation_error_each_line.push "No value provided for required options: #{required_fields}"
+          invocation_data[:validation_errors].push "No value provided for required options: #{required_fields}"
         end
       end
 
       ## Utility functions
 
-      def convert_cli_to_thor_options(option_line)
-        splitted_result = option_line.split(" ")
+      def convert_cli_to_thor_options(invocation_data)
+        invocation_string = invocation_data[:value]
+        splitted_result = invocation_string.split(" ")
         splitted_result = splitted_result.select { |res| res.start_with?("-") }
-        splitted_result.map do |res|
+        invocation_data[:thor_opts] = splitted_result.map do |res|
           to_replace = if res.start_with?("--")
                          res.start_with?("--no-") ? "--no-" : "--"
                        else
