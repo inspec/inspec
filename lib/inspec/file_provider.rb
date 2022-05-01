@@ -20,7 +20,7 @@ module Inspec
         if iaf_file.valid?
           IafProvider.new(path)
         else
-          raise "Artifact is invalid"
+          raise Inspec::InvalidProfile, "Profile is invalid."
         end
       elsif File.exist?(path)
         DirProvider.new(path)
@@ -234,10 +234,12 @@ module Inspec
         while f.readline != "\n" do end
         content = f.read
         f.close
-      else
-        f.readline.strip!
-        content = f.read[358..content.length]
+      elsif version == "INSPEC-PROFILE-2"
+        content = f.read
         f.close
+        content = content.slice(490, content.length).lstrip
+      else
+        raise Inspec::InvalidProfile, "Profile is invalid."
       end
 
       tmpfile = nil

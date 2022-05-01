@@ -1,7 +1,6 @@
 require "base64" unless defined?(Base64)
 require "openssl" unless defined?(OpenSSL)
 
-# TODO: Refactor this once the binary format work gets merged.
 module Inspec
   class IafFile
     KEY_ALG = OpenSSL::PKey::RSA
@@ -42,18 +41,20 @@ module Inspec
         f.close
       elsif version == INSPEC_PROFILE_VERSION_2
         header << version
-        header << f.readline.strip!
         content = f.read
         f.close
 
-        header.concat(content[0..356].unpack("h*").pack("H*").split("."))
-        content = content[358..content.length]
+        header_content = content.unpack("h*").pack("H*")
+        header << header_content.slice(0, 100).rstrip
+        header << header_content.slice(100, 20).rstrip
+        header << header_content.slice(120, 370).rstrip + "\n" # \n at the end is require in this field
+        content = content.slice(490, content.length).lstrip
       else
         valid = false
       end
 
       unless File.exist?("#{header[1]}.pem.pub")
-        raise "Key not found"
+        raise Inspec::Exceptions::ProfileValidationKeyNotFound, "Profile validation key not found."
       end
 
       unless valid_header?(header)
