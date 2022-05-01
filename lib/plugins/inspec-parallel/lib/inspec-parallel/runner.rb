@@ -90,6 +90,7 @@ module InspecPlugins
         pipes_for_reading.reject! { |p| p.closed? }
         ready_pipes = IO.select(pipes_for_reading, [], [], 0.1)
         return unless ready_pipes
+
         ready_pipes[0].each do |pipe_ready_for_reading|
           # If we weren't provided a PID, hackishly look up the pid from the matching IO.
           pid = target_pid || @child_tracker.keys.detect { |p| @child_tracker[p][:io] == pipe_ready_for_reading }

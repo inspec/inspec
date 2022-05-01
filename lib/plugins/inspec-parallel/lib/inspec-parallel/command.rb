@@ -5,7 +5,7 @@ require "erb" unless defined?(Erb)
 module InspecPlugins
   module Parallelism
 
-    class OptionFileNotReadable < Exception
+    class OptionFileNotReadable < RuntimeError
     end
 
     class Command

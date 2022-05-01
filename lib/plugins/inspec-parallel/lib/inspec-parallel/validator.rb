@@ -5,8 +5,8 @@ module InspecPlugins
 
       # TODO: make this list dynamic so plugins can self-declare
       PARALLEL_SAFE_REPORTERS = [
-        'automate',      # Performs HTTP transactions, silent on STDOUT
-        'child-status',  # Writes dedicated protocol to STDOUT, expected by parent
+        "automate",      # Performs HTTP transactions, silent on STDOUT
+        "child-status",  # Writes dedicated protocol to STDOUT, expected by parent
       ]
 
       attr_accessor :invocations, :sub_cmd, :thor_options_for_sub_cmd, :aliases_mapping
