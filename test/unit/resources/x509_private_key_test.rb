@@ -28,7 +28,7 @@ describe Inspec::Resources::X509PrivateKey do
   end
 
   # freebsd
-  it "checks x509 secret key with no passphrase on darwin" do
+  it "checks x509 secret key with no passphrase on freebsd" do
     resource = MockLoader.new(:freebsd10).load_resource("x509_private_key", "/home/openssl_activity/bob_private.pem")
     _(resource.valid?).must_equal true
     _(resource.encrypted?).must_be_nil
