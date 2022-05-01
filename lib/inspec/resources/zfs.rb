@@ -1,7 +1,7 @@
 require "inspec/resources/zfs_pool"
 
 module Inspec::Resources
-  class MyCustomResource < ZfsPool
+  class Zfs < ZfsPool
     # resource's internal name.
     name "zfs"
 

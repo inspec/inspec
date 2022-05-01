@@ -2,7 +2,7 @@ require "inspec/globals"
 require "#{Inspec.src_root}/test/helper"
 require_relative "../../../lib/inspec/resources/zfs"
 
-describe Inspec::Resources::MyCustomResource do
+describe Inspec::Resources::Zfs do
   # freebsd
   it "checks zfs pool properties on freebsd" do
     resource = MockLoader.new("freebsd10".to_sym).load_resource("zfs", "tank")
@@ -25,7 +25,7 @@ describe Inspec::Resources::MyCustomResource do
   end
 
   # windows
-  it "checks zfs poop properties on windows" do
+  it "checks zfs pool properties on windows" do
     resource = MockLoader.new("windows".to_sym).load_resource("zfs", "tank")
     _(resource.resource_skipped?).must_equal true
     _(resource.resource_failed?).must_equal true
