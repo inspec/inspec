@@ -1,5 +1,6 @@
 require "base64" unless defined?(Base64)
 require "openssl" unless defined?(OpenSSL)
+require "set" unless defined?(Set)
 
 module Inspec
   class IafFile
