@@ -59,12 +59,11 @@ module InspecPlugins
           signature = signing_key.sign sha, content
           # convert the signature to Base64
           signature_base64 = Base64.encode64(signature)
+          content = (format("%-100s", options[:keyname]) + format("%-20s", ARTIFACT_DIGEST_NAME) + format("%-370s", signature_base64)).gsub(" ", "\0").unpack("H*").pack("h*") + "#{content}"
 
-          header = "#{ARTIFACT_DIGEST_NAME}.#{signature_base64}".unpack("H*").pack("h*") + ".#{content}"
           File.open(artifact_filename, "wb") do |f|
             f.puts INSPEC_PROFILE_VERSION_2
-            f.puts "#{options["keyname"]}"
-            f.write(header)
+            f.write(content)
           end
           puts "Successfully generated #{artifact_filename}"
         end
@@ -79,10 +78,13 @@ module InspecPlugins
 
         iaf_file = Inspec::IafFile.new(file_to_verifiy)
         if iaf_file.valid?
-          puts "Artifact is valid"
+          puts "Profile is valid."
         else
-          puts "Artifact is invalid"
+          puts "Profile is invalid"
         end
+      rescue Inspec::Exceptions::ProfileValidationKeyNotFound => e
+        $stderr.puts e.message
+        exit 1
       end
 
       def read_profile_metadata(path_to_profile)
