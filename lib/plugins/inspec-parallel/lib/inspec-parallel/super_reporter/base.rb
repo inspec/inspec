@@ -1,12 +1,12 @@
 module InspecPlugins::Parallelism
   class SuperReporter
 
-    def self.make(type, invocations)
-      Object.const_get("InspecPlugins::Parallelism::SuperReporter::" + (type[0].upcase + type[1..-1])).new(invocations)
+    def self.make(type, job_count, invocations)
+      Object.const_get("InspecPlugins::Parallelism::SuperReporter::" + (type[0].upcase + type[1..-1])).new(job_count, invocations)
     end
 
     class Base
-      def initialize(invocations); end
+      def initialize(job_count, invocations); end
 
       def child_spawned(pid, invocation); end
 
