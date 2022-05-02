@@ -244,7 +244,7 @@ module Inspec
 
       tmpfile = nil
       Dir.mktmpdir do |workdir|
-        tmpfile = Pathname.new(workdir).join("artifact_to_install.tar.gz")
+        tmpfile = Pathname.new(workdir).join("temp_profile.tar.gz")
         File.open(tmpfile, "wb") { |fl| fl.write(content) }
         super(tmpfile)
       end
