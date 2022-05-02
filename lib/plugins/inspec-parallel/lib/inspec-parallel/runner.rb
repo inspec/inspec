@@ -5,7 +5,7 @@ require_relative "super_reporter/base"
 module InspecPlugins
   module Parallelism
     class Runner
-      attr_accessor :invocations, :sub_cmd, :total_jobs
+      attr_accessor :invocations, :sub_cmd, :total_jobs, :run_in_background
 
       def initialize(invocations, cli_options, sub_cmd = "exec")
         @invocations = invocations
@@ -13,11 +13,12 @@ module InspecPlugins
         @total_jobs = cli_options["jobs"] || Concurrent.physical_processor_count
         @child_tracker = {}
         @ui = InspecPlugins::Parallelism::SuperReporter.make(cli_options["ui"], total_jobs, invocations)
+        @run_in_background = cli_options["daemon"]
       end
 
       def run
+        initiate_background_run if run_in_background
         until invocations.empty? && @child_tracker.empty?
-
           while should_start_more_jobs?
             if Inspec.locally_windows?
               spawn_another_process
@@ -29,6 +30,14 @@ module InspecPlugins
           update_ui_poll_select
           cleanup_child_processes
           sleep 0.1
+        end
+      end
+
+      def initiate_background_run
+        if Inspec.locally_windows?
+          #TBD
+        else
+          Process.daemon(true, false)
         end
       end
 

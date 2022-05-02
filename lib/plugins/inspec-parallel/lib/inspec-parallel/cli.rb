@@ -19,6 +19,8 @@ module InspecPlugins::Parallelism
       desc: "Number of jobs to run parallely"
     option :ui, type: :string, default: "status",
       desc: "Which UI to use: status, text"
+    option :daemon, aliases: :d, type: :boolean,
+      desc: "Runs parallel processes in background"
     exec_options
     def exec(default_profile = nil)
       parallel_cmd = InspecPlugins::Parallelism::Command.new(options, default_profile)
