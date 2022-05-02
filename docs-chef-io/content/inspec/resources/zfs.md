@@ -11,14 +11,13 @@ platform = "linux"
     parent = "inspec/resources/os"
 +++
 
-Use the `zfs` Chef InSpec audit resource to test if the named ZFS Pool is present and/or has certain properties.
-
+Use the `zfs` Chef InSpec audit resource to test the named ZFS Pool file system and its respective properties.
 
 ## Availability
 
 ### Installation
 
-This resource is distributed with Chef InSpec.
+Chef Inspec distributes this resource.
 
 ## Syntax
 
