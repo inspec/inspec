@@ -1,5 +1,6 @@
 require "inspec/cli"
 require "concurrent"
+require_relative "super_reporter/base"
 
 module InspecPlugins
   module Parallelism
@@ -11,6 +12,7 @@ module InspecPlugins
         @sub_cmd = sub_cmd
         @total_jobs = cli_options["jobs"] || Concurrent.physical_processor_count
         @child_tracker = {}
+        @ui = InspecPlugins::Parallelism::SuperReporter.make(cli_options["ui"], invocations)
       end
 
       def run
@@ -43,7 +45,7 @@ module InspecPlugins
         cmd = "#{$0} #{sub_cmd} #{invocation}"
         child_pid = Process.spawn(cmd, out: parent_writer)
         @child_tracker[child_pid] = { io: child_reader }
-        puts "[#{Time.now.iso8601}] Spawned child PID #{child_pid}"
+        @ui.child_spawned(child_pid, invocation)
       end
 
       def fork_another_process
@@ -54,7 +56,7 @@ module InspecPlugins
           # In parent with newly forked child
           parent_writer.close
           @child_tracker[child_pid] = { io: child_reader }
-          puts "[#{Time.now.iso8601}] Forked child PID #{child_pid}"
+          @ui.child_forked(child_pid, invocation)
         else
           # In child
           child_reader.close
@@ -77,7 +79,7 @@ module InspecPlugins
             update_ui_poll_select(pid)
 
             # child exited - status in $?
-            puts "[#{Time.now.iso8601}] Exited child PID #{pid} status #{$?}"
+            @ui.child_exited(pid)
             @child_tracker.delete pid
           end
         end
@@ -90,6 +92,7 @@ module InspecPlugins
         pipes_for_reading.reject! { |p| p.closed? }
         ready_pipes = IO.select(pipes_for_reading, [], [], 0.1)
         return unless ready_pipes
+
         ready_pipes[0].each do |pipe_ready_for_reading|
           # If we weren't provided a PID, hackishly look up the pid from the matching IO.
           pid = target_pid || @child_tracker.keys.detect { |p| @child_tracker[p][:io] == pipe_ready_for_reading }
@@ -114,10 +117,7 @@ module InspecPlugins
       end
 
       def update_ui_with_line(pid, update_line)
-        control_serial, status, control_count, title = update_line.split("/")
-        # TODO: make a real interface
-        percent = 100.0 * control_serial.to_i / control_count.to_i.to_f
-        puts "[#{Time.now.iso8601}] #{pid} #{percent}%"
+        @ui.child_status_update_line(pid, update_line)
       end
 
       private

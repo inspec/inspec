@@ -48,7 +48,7 @@ module InspecPlugins::Parallelism
       puts "#{@control_counter}/#{stat}/#{controls_count}/#{display_name}"
       # HACK: if we've reached the end of the execution, send a special marker, to ease EOF detection on Windows
       if @control_counter == controls_count
-        puts 'EOF_MARKER'
+        puts "EOF_MARKER"
       end
     end
 

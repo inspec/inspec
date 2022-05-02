@@ -17,6 +17,8 @@ module InspecPlugins::Parallelism
       desc: "Prints all thor options on dry run"
     option :jobs, aliases: :j, type: :numeric,
       desc: "Number of jobs to run parallely"
+    option :ui, type: :string, default: "text",
+      desc: "Which UI to use: text"
     exec_options
     def exec(default_profile = nil)
       parallel_cmd = InspecPlugins::Parallelism::Command.new(options, default_profile)
