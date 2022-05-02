@@ -45,21 +45,25 @@ module InspecPlugins
         artifact = new
         path_to_profile = options["profile"]
 
-        # Write inspec.json file within artifact
-        write_inspec_json(path_to_profile, options)
-
         Dir.mktmpdir do |workdir|
           puts "Signing #{options["profile"]} with key #{options["keyname"]}"
           profile_md = artifact.read_profile_metadata(path_to_profile)
           artifact_filename = "#{profile_md["name"]}-#{profile_md["version"]}.#{SIGNED_PROFILE_SUFFIX}"
-          tarfile = artifact.profile_compress(path_to_profile, profile_md, workdir)
+          # Generating tar.gz file using archive method of Inspec Cli
+          Dir.chdir(workdir) do
+            Inspec::InspecCLI.new.archive(path_to_profile)
+          end
+
+          tarfile = "#{workdir}/#{profile_md["name"]}-#{profile_md["version"]}.tar.gz"
           content = IO.binread(tarfile)
           signing_key = KEY_ALG.new File.read "#{options["keyname"]}.pem.key"
           sha = ARTIFACT_DIGEST.new
           signature = signing_key.sign sha, content
           # convert the signature to Base64
           signature_base64 = Base64.encode64(signature)
-          content = (format("%-100s", options[:keyname]) + format("%-20s", ARTIFACT_DIGEST_NAME) + format("%-370s", signature_base64)).gsub(" ", "\0").unpack("H*").pack("h*") + "#{content}"
+          content = (format("%-100s", options[:keyname]) +
+                    format("%-20s", ARTIFACT_DIGEST_NAME) +
+                    format("%-370s", signature_base64)).gsub(" ", "\0").unpack("H*").pack("h*") + "#{content}"
 
           File.open(artifact_filename, "wb") do |f|
             f.puts INSPEC_PROFILE_VERSION_2
@@ -67,9 +71,6 @@ module InspecPlugins
           end
           puts "Successfully generated #{artifact_filename}"
         end
-
-        # Cleanup
-        File.delete("#{path_to_profile}/inspec.json")
       end
 
       def self.profile_verify(options)
@@ -107,27 +108,11 @@ module InspecPlugins
           end
         rescue => e
           # rewrap it and pass it up to the CLI
-          raise "Error reading #{PRODUCT_NAME} profile metadata: #{e}"
+          $stderr.puts "Error reading profile metadata file #{e.message}"
+          exit 1
         end
 
         yaml
-      end
-
-      def profile_compress(path_to_profile, profile_md, workdir)
-        profile_name = profile_md["name"]
-        profile_version = profile_md["version"]
-        outfile_name = "#{workdir}/#{profile_name}-#{profile_version}.tar.gz"
-        `tar czf #{outfile_name} -C #{path_to_profile} .`
-        outfile_name
-      end
-
-      def self.write_inspec_json(root_path, opts)
-        profile = Inspec::Profile.for_path(root_path, opts)
-        Inspec::Utils::JsonProfileSummary.produce_json(
-          info: profile.info,
-          write_path: "#{root_path}/inspec.json",
-          suppress_output: true
-        )
       end
     end
   end
