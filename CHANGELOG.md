@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.14.3 -->
-## [v5.14.3](https://github.com/inspec/inspec/tree/v5.14.3) (2022-04-28)
+<!-- latest_release 5.14.4 -->
+## [v5.14.4](https://github.com/inspec/inspec/tree/v5.14.4) (2022-05-03)
 
 #### Merged Pull Requests
-- Fix for issue 5809 Service checks failing on Amazon linux 2022 [#5998](https://github.com/inspec/inspec/pull/5998) ([ahasunos](https://github.com/ahasunos))
+- Bump berkshelf from 7.2.2 to 8.0.0 in /omnibus [#6020](https://github.com/inspec/inspec/pull/6020) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.14.0 -->
 ### Changes since 5.14.0 release
 
 #### Merged Pull Requests
+- Bump berkshelf from 7.2.2 to 8.0.0 in /omnibus [#6020](https://github.com/inspec/inspec/pull/6020) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.14.4 -->
 - Fix for issue 5809 Service checks failing on Amazon linux 2022 [#5998](https://github.com/inspec/inspec/pull/5998) ([ahasunos](https://github.com/ahasunos)) <!-- 5.14.3 -->
 - CFINSPEC-185: Updates inspec check cli docs to include --with-cookstyle option [#6000](https://github.com/inspec/inspec/pull/6000) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.14.2 -->
 - CFINSPEC-88: Extend `file` resource documentation with be_mounted matcher [#5999](https://github.com/inspec/inspec/pull/5999) ([ahasunos](https://github.com/ahasunos)) <!-- 5.14.1 -->
