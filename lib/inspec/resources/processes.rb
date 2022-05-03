@@ -62,11 +62,13 @@ module Inspec::Resources
 
     # Matcher to check if the process is running
     def running?
-      # Check if Regex needs to be tightened.
-      # States value can be as:
-      # for Unix: R, R< or R+
-      # for Windows "True" or "False"
-      states.any? and !!(states[0] =~ /True/ || states[0] =~ /^R+/)
+      # A process is considered running if:
+      # unix: it is in running(R) state or either of sleep state(D: Uninterruptible or S: Interruptible)
+      # windows: it is responding i.e. state is True.
+
+      # Other codes like <(high priorty), N(low priority), +(foreground process group) etc. may appear after the state code in unix.
+      # Hence the regex used is /^statecode+/ where statecode is either R, S, or D.
+      states.any? and !!(states[0] =~ /True/ || states[0] =~ /^R+/ || states[0] =~ /^D+/ || states[0] =~ /^S+/)
     end
 
     filter = FilterTable.create
