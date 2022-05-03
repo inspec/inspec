@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.23 -->
-## [v4.56.23](https://github.com/inspec/inspec/tree/v4.56.23) (2022-04-28)
+<!-- latest_release 4.56.24 -->
+## [v4.56.24](https://github.com/inspec/inspec/tree/v4.56.24) (2022-05-03)
 
 #### Merged Pull Requests
-- Backport amazonlinux2022 service resource fix to inspec-4 [#6017](https://github.com/inspec/inspec/pull/6017) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Bump berkshelf from 7.2.2 to 8.0.0 in /omnibus [#6021](https://github.com/inspec/inspec/pull/6021) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.56.20 -->
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Bump berkshelf from 7.2.2 to 8.0.0 in /omnibus [#6021](https://github.com/inspec/inspec/pull/6021) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.24 -->
 - Backport amazonlinux2022 service resource fix to inspec-4 [#6017](https://github.com/inspec/inspec/pull/6017) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.23 -->
 - Bump omnibus-software from `5947560` to `b2bc35b` in /omnibus [#6005](https://github.com/inspec/inspec/pull/6005) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.22 -->
 - Re-enable habitat builds on inspec-4 branch [#6008](https://github.com/inspec/inspec/pull/6008) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.21 -->
