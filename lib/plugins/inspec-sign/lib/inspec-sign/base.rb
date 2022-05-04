@@ -31,11 +31,15 @@ module InspecPlugins
 
       def self.keygen(options)
         key = KEY_ALG.new KEY_BITS
-        puts "Generating private key"
+
+        path = File.join(Inspec.config_dir, "keys")
+        FileUtils.mkdir_p(path)
+
+        puts "Generating signing key in #{path}/#{options["keyname"]}.pem.key"
         open "#{options["keyname"]}.pem.key", "w" do |io|
           io.write key.to_pem
         end
-        puts "Generating public key"
+        puts "Generating validation key in #{path}/#{options["keyname"]}.pem.pub"
         open "#{options["keyname"]}.pem.pub", "w" do |io|
           io.write key.public_key.to_pem
         end
@@ -46,6 +50,7 @@ module InspecPlugins
         path_to_profile = options["profile"]
 
         puts "Signing #{options["profile"]} with key #{options["keyname"]}"
+        keypath = Inspec::IafFile.find_signing_key(options["keyname"])
 
         # Read name and version from metadata and use them to form the filename
         profile_md = artifact.read_profile_metadata(path_to_profile)
@@ -58,7 +63,7 @@ module InspecPlugins
         FileUtils.rm(tarfile)
 
         # Generate the signature
-        signing_key = KEY_ALG.new File.read "#{options["keyname"]}.pem.key"
+        signing_key = KEY_ALG.new File.read keypath
         sha = ARTIFACT_DIGEST.new
         signature = signing_key.sign sha, tar_content
         # convert the signature to Base64

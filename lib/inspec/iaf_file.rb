@@ -14,6 +14,30 @@ module Inspec
     VALID_PROFILE_VERSIONS = Set.new [INSPEC_PROFILE_VERSION_1, INSPEC_PROFILE_VERSION_2]
     VALID_PROFILE_DIGESTS = Set.new [ARTIFACT_DIGEST_NAME]
 
+    def self.find_validation_key(keyname)
+      [
+        ".",
+        File.join(Inspec.config_dir, "keys"),
+        File.join(Inspec.src_root, "etc", "keys"),
+      ].each do |path|
+        filename = File.join(path, "#{keyname}.pem.pub")
+        return filename if File.exist?(filename)
+      end
+
+      # TODO
+      # Check https://github.com/inspec/inspec/ and download to user keys directory
+
+      raise Inspec::Exceptions::ProfileValidationKeyNotFound.new("#{keyname} not found")
+    end
+
+    def self.find_signing_key(keyname)
+      [".", File.join(Inspec.config_dir, "keys")].each do |path|
+        filename = File.join(path, "#{keyname}.pem.key")
+        return filename if File.exist?(filename)
+      end
+      raise Inspec::Exceptions::ProfileSigningKeyNotFound.new("#{keyname} not found")
+    end
+
     def initialize(path)
       @path = path
     end
@@ -54,15 +78,13 @@ module Inspec
         valid = false
       end
 
-      unless File.exist?("#{header[1]}.pem.pub")
-        raise Inspec::Exceptions::ProfileValidationKeyNotFound, "Profile validation key not found."
-      end
+      validation_key_path = Inspec::IafFile.find_validation_key(header[1])
 
       unless valid_header?(header)
         valid = false
       end
 
-      verification_key = KEY_ALG.new File.read "#{header[1]}.pem.pub"
+      verification_key = KEY_ALG.new File.read validation_key_path
       signature = Base64.decode64(header[3])
       digest = ARTIFACT_DIGEST.new
       unless verification_key.verify digest, signature, content
