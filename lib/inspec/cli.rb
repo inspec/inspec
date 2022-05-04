@@ -189,12 +189,12 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "Fallback to using local archives if fetching fails."
   option :ignore_errors, type: :boolean, default: false,
     desc: "Ignore profile warnings."
-  def archive(path)
+  def archive(path, log_level = nil)
     o = config
     diagnose(o)
 
     o[:logger] = Logger.new($stdout)
-    o[:logger].level = get_log_level(o[:log_level])
+    o[:logger].level = get_log_level(log_level || o[:log_level])
     o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
 
     # Force vendoring with overwrite when archiving
