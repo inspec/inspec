@@ -17,7 +17,7 @@ module InspecPlugins
       end
 
       def run
-        initiate_background_run if run_in_background
+        initiate_background_run if run_in_background # running a process as daemon changes parent process pid
         until invocations.empty? && @child_tracker.empty?
           while should_start_more_jobs?
             if Inspec.locally_windows?
@@ -31,6 +31,7 @@ module InspecPlugins
           cleanup_child_processes
           sleep 0.1
         end
+        cleanup_daemon_process if run_in_background
       end
 
       def initiate_background_run
@@ -39,6 +40,13 @@ module InspecPlugins
         else
           Process.daemon(true, false)
         end
+      end
+
+      def cleanup_daemon_process
+        current_process_id = Process.pid
+        Process.kill(9, current_process_id)
+        # DO NOT TRY TO REFACTOR IT THIS WAY
+        # Calling Process.kill(9,Process.pid) kills the "stopper" process itself, rather than the one it's trying to stop.
       end
 
       def should_start_more_jobs?
