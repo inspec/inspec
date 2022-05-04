@@ -9,6 +9,7 @@ module InspecPlugins::Parallelism
       def initialize(job_count, invocations)
         @status_by_pid = {}
         @slots = Array.new(job_count)
+        paint_header(job_count, invocations)
         paint
       end
 
@@ -91,12 +92,29 @@ module InspecPlugins::Parallelism
             line += "idle".center(slot_width)
           else
             pid = slots[idx]
-            line += format("%s: %0.1f%%", pid, status_by_pid[pid][:pct]).center(slot_width)
+            with_pid = format("%s: %0.1f%%", pid, status_by_pid[pid][:pct])
+            if with_pid.length <= slot_width - 2
+              line += with_pid.center(slot_width)
+            else
+              line += format("%0.1f%%", status_by_pid[pid][:pct]).center(slot_width)
+            end
           end
         end
 
         print "\r" + (" " * terminal_width) + "\r"
         print line
+      end
+
+      def paint_header(jobs, invocations)
+        puts "InSpec Parallel".center(terminal_width)
+        puts "Running #{invocations.length} invocations in #{jobs} slots".center(terminal_width)
+        puts "-" * terminal_width
+        slot_width = terminal_width / slots.length
+        slots.each_index do |idx|
+          print "Slot #{idx + 1}".center(slot_width)
+        end
+        puts
+        puts "-" * terminal_width
       end
     end
   end
