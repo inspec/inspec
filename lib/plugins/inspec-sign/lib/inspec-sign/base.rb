@@ -45,32 +45,34 @@ module InspecPlugins
         artifact = new
         path_to_profile = options["profile"]
 
-        Dir.mktmpdir do |workdir|
-          puts "Signing #{options["profile"]} with key #{options["keyname"]}"
-          profile_md = artifact.read_profile_metadata(path_to_profile)
-          artifact_filename = "#{profile_md["name"]}-#{profile_md["version"]}.#{SIGNED_PROFILE_SUFFIX}"
-          # Generating tar.gz file using archive method of Inspec Cli
-          Dir.chdir(workdir) do
-            Inspec::InspecCLI.new.archive(path_to_profile)
-          end
+        puts "Signing #{options["profile"]} with key #{options["keyname"]}"
 
-          tarfile = "#{workdir}/#{profile_md["name"]}-#{profile_md["version"]}.tar.gz"
-          content = IO.binread(tarfile)
-          signing_key = KEY_ALG.new File.read "#{options["keyname"]}.pem.key"
-          sha = ARTIFACT_DIGEST.new
-          signature = signing_key.sign sha, content
-          # convert the signature to Base64
-          signature_base64 = Base64.encode64(signature)
-          content = (format("%-100s", options[:keyname]) +
-                    format("%-20s", ARTIFACT_DIGEST_NAME) +
-                    format("%-370s", signature_base64)).gsub(" ", "\0").unpack("H*").pack("h*") + "#{content}"
+        # Read name and version from metadata and use them to form the filename
+        profile_md = artifact.read_profile_metadata(path_to_profile)
+        artifact_filename = "#{profile_md["name"]}-#{profile_md["version"]}.#{SIGNED_PROFILE_SUFFIX}"
 
-          File.open(artifact_filename, "wb") do |f|
-            f.puts INSPEC_PROFILE_VERSION_2
-            f.write(content)
-          end
-          puts "Successfully generated #{artifact_filename}"
+        # Generating tar.gz file using archive method of Inspec Cli
+        Inspec::InspecCLI.new.archive(path_to_profile, "error")
+        tarfile = "#{profile_md["name"]}-#{profile_md["version"]}.tar.gz"
+        tar_content = IO.binread(tarfile)
+        FileUtils.rm(tarfile)
+
+        # Generate the signature
+        signing_key = KEY_ALG.new File.read "#{options["keyname"]}.pem.key"
+        sha = ARTIFACT_DIGEST.new
+        signature = signing_key.sign sha, tar_content
+        # convert the signature to Base64
+        signature_base64 = Base64.encode64(signature)
+
+        content = (format("%-100s", options[:keyname]) +
+                  format("%-20s", ARTIFACT_DIGEST_NAME) +
+                  format("%-370s", signature_base64)).gsub(" ", "\0").unpack("H*").pack("h*") + "#{tar_content}"
+
+        File.open(artifact_filename, "wb") do |f|
+          f.puts INSPEC_PROFILE_VERSION_2
+          f.write(content)
         end
+        puts "Successfully generated #{artifact_filename}"
       end
 
       def self.profile_verify(options)
@@ -80,12 +82,14 @@ module InspecPlugins
         iaf_file = Inspec::IafFile.new(file_to_verify)
         if iaf_file.valid?
           puts "Profile is valid."
+          Inspec::UI.new.exit(:normal)
         else
           puts "Profile is invalid"
+          Inspec::UI.new.exit(:bad_signature)
         end
       rescue Inspec::Exceptions::ProfileValidationKeyNotFound => e
         $stderr.puts e.message
-        exit 1
+        Inspec::UI.new.exit(:usage_error)
       end
 
       def read_profile_metadata(path_to_profile)
@@ -109,7 +113,7 @@ module InspecPlugins
         rescue => e
           # rewrap it and pass it up to the CLI
           $stderr.puts "Error reading profile metadata file #{e.message}"
-          exit 1
+          Inspec::UI.new.exit(:usage_error)
         end
 
         yaml
