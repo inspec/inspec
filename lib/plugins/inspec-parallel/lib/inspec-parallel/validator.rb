@@ -2,31 +2,32 @@ require "inspec/cli"
 module InspecPlugins
   module Parallelism
     class Validator
-      attr_accessor :option_lines, :sub_cmd, :thor_options_for_sub_cmd, :aliases_mapping
 
-      def initialize(option_lines, sub_cmd = "exec")
-        @option_lines = option_lines
+      # TODO: make this list dynamic so plugins can self-declare
+      PARALLEL_SAFE_REPORTERS = [
+        "automate",      # Performs HTTP transactions, silent on STDOUT
+        "child-status",  # Writes dedicated protocol to STDOUT, expected by parent
+      ]
+
+      attr_accessor :invocations, :sub_cmd, :thor_options_for_sub_cmd, :aliases_mapping
+
+      def initialize(invocations, sub_cmd = "exec")
+        @invocations = invocations
         @sub_cmd = sub_cmd
         @thor_options_for_sub_cmd = Inspec::InspecCLI.commands[sub_cmd].options
         @aliases_mapping = create_aliases_mapping
-        @logger = Inspec::Log
-        @validation_error_each_line = []
       end
 
       def validate
-        validation_passed = true
-        option_lines.each do |data|
-          @validation_error_each_line = []
-          thor_opts_ary = convert_cli_to_thor_options(data[:value])
-          validate_options(thor_opts_ary)
-          check_for_required_fields(thor_opts_ary)
+        invocations.each do |invocation_data|
+          invocation_data[:validation_errors] = []
 
-          @validation_error_each_line.each do |error_message|
-            validation_passed = false
-            @logger.error "Line #{data[:line_no]}: " + error_message
-          end
+          convert_cli_to_thor_options(invocation_data)
+          check_for_spurious_options(invocation_data)
+          check_for_required_fields(invocation_data)
+          check_for_reporter_options(invocation_data)
+
         end
-        validation_passed
       end
 
       private
@@ -42,38 +43,77 @@ module InspecPlugins
         alias_mapping
       end
 
-      def validate_options(thor_opts)
-        invalid_options = []
-        thor_opts.each do |option_name|
-          if thor_options_for_sub_cmd[option_name.to_sym].nil? && aliases_mapping[option_name.to_sym].nil?
-            invalid_options << option_name
-          end
-        end
-        @validation_error_each_line.push "No such option: #{invalid_options}" unless invalid_options.empty?
+      def check_for_spurious_options(invocation_data)
+        # LIMITATION: Assume the first arg is the profile name, and there is exactly one of them.
+        invalid_options = invocation_data[:thor_args][1..-1]
+        invocation_data[:validation_errors].push "No such option: #{invalid_options}" unless invalid_options.empty?
       end
 
-      def check_for_required_fields(thor_opts)
+      def check_for_required_fields(invocation_data)
         required_fields = thor_options_for_sub_cmd.collect { |_, thor_option| thor_option.name if thor_option.required }.compact
-        option_keys = thor_opts
-        thor_opts.map { |key| option_keys.push(aliases_mapping[key.to_sym]) if aliases_mapping[key.to_sym] }
+        option_keys = invocation_data[:thor_opts].keys
+        invocation_data[:thor_opts].keys.map { |key| option_keys.push(aliases_mapping[key.to_sym]) if aliases_mapping[key.to_sym] }
         if !required_fields.empty? && (option_keys & required_fields).empty?
-          @validation_error_each_line.push "No value provided for required options: #{required_fields}"
+          invocation_data[:validation_errors].push "No value provided for required options: #{required_fields}"
+        end
+      end
+
+      def check_for_reporter_options(invocation_data)
+        # if no reporter option, that's an error
+        unless invocation_data[:thor_opts].include?("reporter")
+          invocation_data[:validation_errors] << "A --reporter option must be specified for each invocation in the options file"
+          return
+        end
+
+        have_child_status_reporter = false
+
+        # Reporter option is formatted as an array
+        invocation_data[:thor_opts]["reporter"].each do |reporter_spec|
+          reporter_name, file_output = reporter_spec.split(":")
+
+          hvae_child_status_reporter = true if reporter_name == "child-status"
+
+          # if there is a reporter option, each entry must either write to a file or
+          # else be the special child-status reporter or the automate reporter
+          next if PARALLEL_SAFE_REPORTERS.include?(reporter_name)
+
+          unless file_output
+            invocation_data[:validation_errors] << "The #{reporter_name} reporter requires being directed to a file, like #{reporter_name}:filename.out"
+          end
+        end
+
+        # if there is no child-status reporter, add one to the raw value and the parsed array
+        unless have_child_status_reporter
+          # Eww
+          invocation_data[:thor_opts]["reporter"] << "child-status"
+          invocation_data[:value] += " --reporter child-status"
         end
       end
 
       ## Utility functions
 
-      def convert_cli_to_thor_options(option_line)
-        splitted_result = option_line.split(" ")
-        splitted_result = splitted_result.select { |res| res.start_with?("-") }
-        splitted_result.map do |res|
-          to_replace = if res.start_with?("--")
-                         res.start_with?("--no-") ? "--no-" : "--"
-                       else
-                         "-"
-                       end
-          res.delete_prefix(to_replace).gsub("-", "_")
-        end
+      # Parse the invocation string using Thor into Thor options
+      # This approach was reverse engineered from studying
+      # https://github.com/rails/thor/blob/ab3b5be455791f4efb79f0efb4f88cc6b59c8ccf/lib/thor/base.rb#L53
+
+      def convert_cli_to_thor_options(invocation_data)
+        invocation_words = invocation_data[:value].split(" ")
+
+        # LIMITATION: this approach is limited to having exactly one profile in the invocation
+        args = [invocation_words.shift] # That is, the profile path
+
+        # Here we're piggybacking on on a hook used by the start() method, and provides the
+        # specifics for the subcommand
+        config = { command_options: thor_options_for_sub_cmd }
+
+        # This performs the parse
+        thor = Inspec::InspecCLI.new(args, invocation_words, config)
+
+        # A hash (with indifferent access) of option names to option config data
+        invocation_data[:thor_opts] = thor.options
+
+        # A list of everything else it could not parse, including the profile
+        invocation_data[:thor_args] = thor.args
       end
     end
   end
