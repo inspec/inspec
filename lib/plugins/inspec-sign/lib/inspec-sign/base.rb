@@ -74,10 +74,10 @@ module InspecPlugins
       end
 
       def self.profile_verify(options)
-        file_to_verifiy = options["signed_profile"]
-        puts "Verifying #{file_to_verifiy}"
+        file_to_verify = options["signed_profile"]
+        puts "Verifying #{file_to_verify}"
 
-        iaf_file = Inspec::IafFile.new(file_to_verifiy)
+        iaf_file = Inspec::IafFile.new(file_to_verify)
         if iaf_file.valid?
           puts "Profile is valid."
         else
