@@ -1,20 +1,123 @@
 require "inspec/cli"
-module InspecPlugins
-  module Parallel
-    class Runner
-      attr_accessor :runner_options, :sub_cmd
+require "concurrent"
+require_relative "super_reporter/base"
 
-      def initialize(runner_options, sub_cmd = "exec")
-        @runner_options = runner_options
+module InspecPlugins
+  module Parallelism
+    class Runner
+      attr_accessor :invocations, :sub_cmd, :total_jobs
+
+      def initialize(invocations, cli_options, sub_cmd = "exec")
+        @invocations = invocations
         @sub_cmd = sub_cmd
+        @total_jobs = cli_options["jobs"] || Concurrent.physical_processor_count
+        @child_tracker = {}
+        @ui = InspecPlugins::Parallelism::SuperReporter.make(cli_options["ui"], total_jobs, invocations)
       end
 
       def run
-        runner_options.each do |runner_option|
-          runner_invocation(runner_option[:value])
-        rescue SystemExit
-          next
+        until invocations.empty? && @child_tracker.empty?
+
+          while should_start_more_jobs?
+            if Inspec.locally_windows?
+              spawn_another_process
+            else
+              fork_another_process
+            end
+          end
+
+          update_ui_poll_select
+          cleanup_child_processes
+          sleep 0.1
         end
+      end
+
+      def should_start_more_jobs?
+        @child_tracker.length < total_jobs && !invocations.empty?
+      end
+
+      def spawn_another_process
+        invocation = invocations.shift[:value]
+
+        child_reader, parent_writer = IO.pipe
+
+        # Construct command-line invocation
+        cmd = "#{$0} #{sub_cmd} #{invocation}"
+        child_pid = Process.spawn(cmd, out: parent_writer)
+        @child_tracker[child_pid] = { io: child_reader }
+        @ui.child_spawned(child_pid, invocation)
+      end
+
+      def fork_another_process
+        invocation = invocations.shift[:value] # Be sure to do this shift() in parent process
+        # thing_that_reads_from_the_child, thing_that_writes_to_the_parent = IO.pipe
+        child_reader, parent_writer = IO.pipe
+        if (child_pid = Process.fork)
+          # In parent with newly forked child
+          parent_writer.close
+          @child_tracker[child_pid] = { io: child_reader }
+          @ui.child_forked(child_pid, invocation)
+        else
+          # In child
+          child_reader.close
+          # replace stdout with writer
+          $stdout = parent_writer
+          # TODO: redirect stderr to a file
+          runner_invocation(invocation)
+
+          # should be unreachable but child MUST exit
+          exit(42)
+        end
+      end
+
+      # Still in parent
+      # Loop over children and check for finished processes
+      def cleanup_child_processes
+        @child_tracker.each do |pid, info|
+          if Process.wait(pid, Process::WNOHANG)
+            # Expect to (probably) find EOF marker on the pipe, and close it if so
+            update_ui_poll_select(pid)
+
+            # child exited - status in $?
+            @ui.child_exited(pid)
+            @child_tracker.delete pid
+          end
+        end
+      end
+
+      def update_ui_poll_select(target_pid = nil)
+        # Focus on one pid's pipe if specified, otherwise poll all pipes
+        pipes_for_reading = target_pid ? [ @child_tracker[target_pid][:io] ] : @child_tracker.values.map { |i| i[:io] }
+        # Next line is due to a race between the close() and the wait()... shouldn't need it, but it fixes the race.
+        pipes_for_reading.reject! { |p| p.closed? }
+        ready_pipes = IO.select(pipes_for_reading, [], [], 0.1)
+        return unless ready_pipes
+
+        ready_pipes[0].each do |pipe_ready_for_reading|
+          # If we weren't provided a PID, hackishly look up the pid from the matching IO.
+          pid = target_pid || @child_tracker.keys.detect { |p| @child_tracker[p][:io] == pipe_ready_for_reading }
+          begin
+            while (update_line = pipe_ready_for_reading.readline) && ! pipe_ready_for_reading.closed?
+              if update_line =~ /EOF_MARKER/
+                pipe_ready_for_reading.close
+                break
+              end
+              update_ui_with_line(pid, update_line)
+              # Only pull one line if we are doing normal updates; slurp the whole file
+              # if we are doing a final pull on a targeted PID
+              break unless target_pid
+            end
+          rescue EOFError
+            # On unix, readline throws an EOFError when we hit the end. On Windows, nothing apparently happens.
+            pipe_ready_for_reading.close
+            next
+          end
+        end
+        # TODO: loop over ready_pipes[2] and handle errors?
+      end
+
+      def update_ui_with_line(pid, update_line)
+        @ui.child_status_update_line(pid, update_line)
       end
 
       private
@@ -25,8 +128,6 @@ module InspecPlugins
         splitted_result.delete_at(0)
 
         # thor invocation
-        puts "\n"
-        puts "Running command: inspec exec #{runner_option}\n"
         arguments = [sub_cmd, profile_to_run, splitted_result].flatten
         Inspec::InspecCLI.start(arguments, enforce_license: true)
       end
