@@ -1,6 +1,7 @@
 require "base64" unless defined?(Base64)
 require "openssl" unless defined?(OpenSSL)
 require "set" unless defined?(Set)
+require "uri" unless defined?(URI)
 
 module Inspec
   class IafFile
@@ -13,6 +14,47 @@ module Inspec
 
     VALID_PROFILE_VERSIONS = Set.new [INSPEC_PROFILE_VERSION_1, INSPEC_PROFILE_VERSION_2]
     VALID_PROFILE_DIGESTS = Set.new [ARTIFACT_DIGEST_NAME]
+
+    def self.find_validation_key(keyname)
+      [
+        ".",
+        File.join(Inspec.config_dir, "keys"),
+        File.join(Inspec.src_root, "etc", "keys"),
+      ].each do |path|
+        filename = File.join(path, "#{keyname}.pem.pub")
+        return filename if File.exist?(filename)
+      end
+
+      # Retry if we can fetch it from github
+      return find_validation_key(keyname) if fetch_validation_key_from_github(keyname)
+
+      raise Inspec::Exceptions::ProfileValidationKeyNotFound.new("Validation key #{keyname} not found")
+    end
+
+    def self.find_signing_key(keyname)
+      [".", File.join(Inspec.config_dir, "keys")].each do |path|
+        filename = File.join(path, "#{keyname}.pem.key")
+        return filename if File.exist?(filename)
+      end
+      raise Inspec::Exceptions::ProfileSigningKeyNotFound.new("Signing key #{keyname} not found")
+    end
+
+    def self.fetch_validation_key_from_github(keyname)
+      URI.open("https://raw.githubusercontent.com/inspec/inspec/main/etc/keys/#{keyname}.pem.pub") do |r|
+        puts "Fetching validation key '#{keyname}' from github"
+        dir = File.join(Inspec.config_dir, "keys")
+        FileUtils.mkdir_p dir
+        key_file = File.join(dir, "#{keyname}.pem.pub")
+        File.open(key_file, "w") do |f|
+          r.each_line do |line|
+            f.puts line
+          end
+        end
+      end
+      true
+    rescue OpenURI::HTTPError
+      false
+    end
 
     def initialize(path)
       @path = path
@@ -54,15 +96,13 @@ module Inspec
         valid = false
       end
 
-      unless File.exist?("#{header[1]}.pem.pub")
-        raise Inspec::Exceptions::ProfileValidationKeyNotFound, "Profile validation key not found."
-      end
+      validation_key_path = Inspec::IafFile.find_validation_key(header[1])
 
       unless valid_header?(header)
         valid = false
       end
 
-      verification_key = KEY_ALG.new File.read "#{header[1]}.pem.pub"
+      verification_key = KEY_ALG.new File.read validation_key_path
       signature = Base64.decode64(header[3])
       digest = ARTIFACT_DIGEST.new
       unless verification_key.verify digest, signature, content
