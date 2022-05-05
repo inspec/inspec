@@ -78,6 +78,9 @@ module InspecPlugins
           f.write(content)
         end
         puts "Successfully generated #{artifact_filename}"
+      rescue Inspec::Exceptions::ProfileValidationKeyNotFound => e
+        $stderr.puts e.message
+        Inspec::UI.new.exit(:usage_error)
       end
 
       def self.profile_verify(options)
