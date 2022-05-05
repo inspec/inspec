@@ -143,6 +143,25 @@ module Inspec::Resources
       @extensions
     end
 
+    # check purpose of the certificate
+    def has_purpose?(purpose)
+      openssl_utility = check_openssl_or_error
+
+      # openssl x509 -noout -purpose -in certificate_file_or_path command is used to view the Certificate purposes
+      # -in parameter expects a file or filepath; so appending certificate content to a temporary file.
+      cert_file = Tempfile.new("foo.pem")
+      begin
+        cert_file.write(@cert.to_pem)
+        cert_file.rewind
+        cert_purpose_cmd = "#{openssl_utility} x509 -noout -purpose -in #{cert_file.path}"
+        cert_purpose = inspec.command(cert_purpose_cmd)
+        has_given_purpose = cert_purpose.stdout =~ /^#{purpose}/ ? true : false
+      ensure
+        cert_file.close!
+      end
+      has_given_purpose
+    end
+
     def to_s
       cert = @opts[:filepath]
       cert ||= subject.CN
@@ -157,6 +176,14 @@ module Inspec::Resources
       else
         opts
       end
+    end
+
+    def check_openssl_or_error
+      %w{/usr/sbin/openssl /usr/bin/openssl /sbin/openssl /bin/openssl openssl}.each do |cmd|
+        return cmd if inspec.command(cmd).exist?
+      end
+
+      raise Inspec::Exceptions::ResourceFailed, "Could not find `openssl` on your system."
     end
   end
 end
