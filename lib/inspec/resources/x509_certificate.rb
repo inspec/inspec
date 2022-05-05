@@ -155,6 +155,9 @@ module Inspec::Resources
         cert_file.rewind
         cert_purpose_cmd = "#{openssl_utility} x509 -noout -purpose -in #{cert_file.path}"
         cert_purpose = inspec.command(cert_purpose_cmd)
+
+        raise Inspec::Exceptions::ResourceFailed, "Executing #{cert_purpose_cmd} failed: #{cert_purpose.stderr}" if cert_purpose.exit_status.to_i != 0
+
         has_given_purpose = cert_purpose.stdout =~ /^#{purpose}/ ? true : false
       ensure
         cert_file.close!
