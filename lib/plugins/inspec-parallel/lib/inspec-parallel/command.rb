@@ -66,21 +66,25 @@ module InspecPlugins
             File.readlines(option_file)
           else
             if Inspec.locally_windows? && (File.extname(option_file) == ".ps1")
-              output = `powershell -File "#{option_file}"`
-              output.split("\n")
+              begin
+                output = `powershell -File "#{option_file}"`
+                output.split("\n")
+              rescue StandardError => e
+                raise "Error reading powershell file #{option_file}: #{e.message}"
+              end
             elsif [".sh", ".csh"].include? File.extname(option_file)
-              if system("bash #{option_file}", out: File::NULL)
+              begin
                 output = `bash "#{option_file}"`
                 output.split("\n")
-              else
-                raise "Bash not supported in your system."
+              rescue StandardError => e
+                raise "Error reading shell file #{option_file}: #{e.message}"
               end
             else
               raise "Powershell not supported in your system."
             end
           end
         else
-          raise "Option file not found."
+          raise "Option file #{option_file} not found."
         end
       end
 
