@@ -109,6 +109,8 @@ module Inspec::Resources
       @cert.public_key.n.num_bytes * 8
     end
 
+    alias :keylength :key_length
+
     def validity_in_days
       (not_after - Time.now.utc) / 86400
     end
