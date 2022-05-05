@@ -1,6 +1,7 @@
 require "base64" unless defined?(Base64)
 require "openssl" unless defined?(OpenSSL)
 require "set" unless defined?(Set)
+require "uri" unless defined?(URI)
 
 module Inspec
   class IafFile
@@ -24,10 +25,10 @@ module Inspec
         return filename if File.exist?(filename)
       end
 
-      # TODO
-      # Check https://github.com/inspec/inspec/ and download to user keys directory
+      # Retry if we can fetch it from github
+      return find_validation_key(keyname) if fetch_validation_key_from_github(keyname)
 
-      raise Inspec::Exceptions::ProfileValidationKeyNotFound.new("#{keyname} not found")
+      raise Inspec::Exceptions::ProfileValidationKeyNotFound.new("Validation key #{keyname} not found")
     end
 
     def self.find_signing_key(keyname)
@@ -35,7 +36,24 @@ module Inspec
         filename = File.join(path, "#{keyname}.pem.key")
         return filename if File.exist?(filename)
       end
-      raise Inspec::Exceptions::ProfileSigningKeyNotFound.new("#{keyname} not found")
+      raise Inspec::Exceptions::ProfileSigningKeyNotFound.new("Signing key #{keyname} not found")
+    end
+
+    def self.fetch_validation_key_from_github(keyname)
+      URI.open("https://raw.githubusercontent.com/inspec/inspec/main/etc/keys/#{keyname}.pem.pub") do |r|
+        puts "Fetching validation key '#{keyname}' from github"
+        dir = File.join(Inspec.config_dir, "keys")
+        FileUtils.mkdir_p dir
+        key_file = File.join(dir, "#{keyname}.pem.pub")
+        File.open(key_file, "w") do |f|
+          r.each_line do |line|
+            f.puts line
+          end
+        end
+      end
+      true
+    rescue OpenURI::HTTPError
+      false
     end
 
     def initialize(path)
