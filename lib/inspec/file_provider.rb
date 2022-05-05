@@ -20,7 +20,7 @@ module Inspec
         if iaf_file.valid?
           IafProvider.new(path)
         else
-          raise Inspec::InvalidProfile, "Profile is invalid."
+          raise Inspec::InvalidProfileSignature, "Profile signature is invalid."
         end
       elsif File.exist?(path)
         DirProvider.new(path)
@@ -239,7 +239,7 @@ module Inspec
         f.close
         content = content.slice(490, content.length).lstrip
       else
-        raise Inspec::InvalidProfile, "Profile is invalid."
+        raise Inspec::InvalidProfileSignature, "Unrecognized IAF version."
       end
 
       tmpfile = nil
