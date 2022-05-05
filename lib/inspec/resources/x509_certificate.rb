@@ -83,6 +83,11 @@ module Inspec::Resources
       @parsed_subject = Hashie::Mash.new(Hash[@cert.subject.to_a.map { |k, v, _| [k, v] }])
     end
 
+    # This property is equivalent to subject.emailAddress
+    def email
+      subject.emailAddress
+    end
+
     def issuer_dn
       return if @cert.nil?
 
