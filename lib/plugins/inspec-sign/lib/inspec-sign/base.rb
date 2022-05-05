@@ -36,11 +36,11 @@ module InspecPlugins
         FileUtils.mkdir_p(path)
 
         puts "Generating signing key in #{path}/#{options["keyname"]}.pem.key"
-        open "#{options["keyname"]}.pem.key", "w" do |io|
+        open "#{path}/#{options["keyname"]}.pem.key", "w" do |io|
           io.write key.to_pem
         end
         puts "Generating validation key in #{path}/#{options["keyname"]}.pem.pub"
-        open "#{options["keyname"]}.pem.pub", "w" do |io|
+        open "#{path}/#{options["keyname"]}.pem.pub", "w" do |io|
           io.write key.public_key.to_pem
         end
       end
@@ -89,9 +89,13 @@ module InspecPlugins
 
         iaf_file = Inspec::IafFile.new(file_to_verify)
         if iaf_file.valid?
+          puts "Detected format version '#{iaf_file.version}'"
+          puts "Attempting to verify using key '#{iaf_file.key_name}'"
           puts "Profile is valid."
           Inspec::UI.new.exit(:normal)
         else
+          puts "Detected format version '#{iaf_file.version}'"
+          puts "Attempting to verify using key '#{iaf_file.key_name}'" if iaf_file.key_name
           puts "Profile is invalid"
           Inspec::UI.new.exit(:bad_signature)
         end

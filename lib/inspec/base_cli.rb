@@ -323,6 +323,9 @@ module Inspec
 
     def pretty_handle_exception(exception)
       case exception
+      when Inspec::InvalidProfileSignature
+        $stderr.puts exception.message
+        Inspec::UI.new.exit(:bad_signature)
       when Inspec::Error
         $stderr.puts exception.message
         exit(1)

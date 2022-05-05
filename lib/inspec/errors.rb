@@ -23,5 +23,5 @@ module Inspec
     attr_accessor :version
   end
 
-  class InvalidProfile < Error; end
+  class InvalidProfileSignature < Error; end
 end
