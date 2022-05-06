@@ -17,6 +17,7 @@ class SignCli < Minitest::Test
       assert_includes stdout, "Generating validation key"
 
       assert_exit_code 0, out
+      delete_keys(unique_key_name)
     end
   end
 
@@ -41,6 +42,12 @@ class SignCli < Minitest::Test
 
       assert_includes out.stdout.force_encoding(Encoding::UTF_8), "Verifying artifact-profile-0.1.0.iaf"
       assert_exit_code 0, out
+      delete_keys(unique_key_name)
     end
+  end
+
+  def delete_keys(unique_key_name)
+    File.delete("#{Inspec.config_dir}/keys/#{unique_key_name}.pem.key") if File.exist?("#{Inspec.config_dir}/keys/#{unique_key_name}.pem.key")
+    File.delete("#{Inspec.config_dir}/keys/#{unique_key_name}.pem.pub") if File.exist?("#{Inspec.config_dir}/keys/#{unique_key_name}.pem.pub")
   end
 end
