@@ -56,15 +56,18 @@ module Inspec
       false
     end
 
+    attr_reader :key_name, :version
+
     def initialize(path)
       @path = path
+      @key_name = nil
     end
 
     def valid?
       header = []
       valid = true
       f = File.open(@path, "rb")
-      version = f.readline.strip!
+      @version = f.readline.strip!
       if version == INSPEC_PROFILE_VERSION_1
         header << version
         header << f.readline.strip!
@@ -96,6 +99,7 @@ module Inspec
         valid = false
       end
 
+      @key_name = header[1]
       validation_key_path = Inspec::IafFile.find_validation_key(header[1])
 
       unless valid_header?(header)
