@@ -13,7 +13,7 @@ module InspecPlugins
         @total_jobs = cli_options["jobs"] || Concurrent.physical_processor_count
         @child_tracker = {}
         @ui = InspecPlugins::Parallelism::SuperReporter.make(cli_options["ui"], total_jobs, invocations)
-        @run_in_background = cli_options["daemon"]
+        @run_in_background = cli_options["bg"]
       end
 
       def run
@@ -36,7 +36,7 @@ module InspecPlugins
 
       def initiate_background_run
         if Inspec.locally_windows?
-          #TBD
+          Inspec::UI.new.exit(:usage_error)
         else
           Process.daemon(true, false)
         end
