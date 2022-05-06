@@ -151,6 +151,7 @@ module Inspec::Resources
       # Else, we create a temporary file and write the content to that file.
       # Then, use the temporary file to fetch the purposes.
       # Todo: Check if this can be optimized or improved.
+
       if @opts[:filepath]
         cert_purpose = fetch_purpose(@opts[:filepath])
       else
