@@ -22,6 +22,8 @@ describe "inspec exec" do
 
       out = run_inspec_process("exec profile_a-0.1.0.iaf --no-create-lockfile", prefix: "cd #{dir};")
       assert_exit_code 0, out
+
+      delete_keys(unique_key_name)
     end
   end
 
@@ -41,7 +43,7 @@ describe "inspec exec" do
       out = run_inspec_process("sign profile --profile #{profile} --keyname #{unique_key_name}", prefix: "cd #{dir};")
       assert_exit_code 0, out
 
-      File.delete("#{dir}/#{unique_key_name}.pem.pub")
+      delete_keys(unique_key_name)
 
       out = run_inspec_process("exec profile_a-0.1.0.iaf --no-create-lockfile", prefix: "cd #{dir};")
       assert_exit_code 1, out
@@ -69,8 +71,15 @@ describe "inspec exec" do
 
       assert_includes out.stdout.force_encoding(Encoding::UTF_8), "InSpec Profile (profile_c)"
 
+      delete_keys(unique_key_name)
+
       # Removing vendors directory from the profile once the test is performed.
       FileUtils.rm_rf("#{profile}/vendor/")
     end
+  end
+
+  def delete_keys(unique_key_name)
+    File.delete("#{Inspec.config_dir}/keys/#{unique_key_name}.pem.key") if File.exist?("#{Inspec.config_dir}/keys/#{unique_key_name}.pem.key")
+    File.delete("#{Inspec.config_dir}/keys/#{unique_key_name}.pem.pub") if File.exist?("#{Inspec.config_dir}/keys/#{unique_key_name}.pem.pub")
   end
 end
