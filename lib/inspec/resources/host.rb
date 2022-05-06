@@ -113,6 +113,16 @@ module Inspec::Resources
       resolve.nil? || resolve.empty? ? nil : resolve
     end
 
+    # returns an array of the ipv4 addresses
+    def ipv4_address
+      ipaddress.select { |ip| ip.match(Resolv::IPv4::Regex) }
+    end
+
+    # returns an array of the ipv6 addresses
+    def ipv6_address
+      ipaddress.select { |ip| ip.match(Resolv::IPv6::Regex) }
+    end
+
     def to_s
       resource_name = "Host #{hostname}"
       resource_name += " port #{port} proto #{protocol}" if port
