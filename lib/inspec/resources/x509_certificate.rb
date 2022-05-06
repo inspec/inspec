@@ -149,13 +149,15 @@ module Inspec::Resources
     def has_purpose?(purpose)
       openssl_utility = check_openssl_or_error
 
-      # openssl x509 -noout -purpose -in certificate_file_or_path command is used to view the Certificate purposes
       # -in parameter expects a file or filepath; so appending certificate content to a temporary file.
       cert_file = Tempfile.new("foo.pem")
       begin
         cert_file.write(@cert.to_pem)
         cert_file.rewind
+
+        # The below command is used to view the Certificate purposes
         cert_purpose_cmd = "#{openssl_utility} x509 -noout -purpose -in #{cert_file.path}"
+
         cert_purpose = inspec.command(cert_purpose_cmd)
 
         raise Inspec::Exceptions::ResourceFailed, "Executing #{cert_purpose_cmd} failed: #{cert_purpose.stderr}" if cert_purpose.exit_status.to_i != 0
@@ -165,6 +167,29 @@ module Inspec::Resources
         cert_file.close!
       end
       has_given_purpose
+    end
+
+    def subject_alt_names
+      openssl_utility = check_openssl_or_error
+
+      # -in parameter of openssl command expects a file or filepath; so appending certificate content to a temporary file.
+      cert_file = Tempfile.new("foo.pem")
+      begin
+        cert_file.write(@cert.to_pem)
+        cert_file.rewind
+
+        # The options in the below command limits the output of -text to just the extensions which includes the X509v3 Subject Alternative Name
+        sub_alt_names_cmd = "#{openssl_utility} x509 -text -noout -in #{cert_file.path} -certopt no_subject,no_header,no_version,no_serial,no_signame,no_validity,no_issuer,no_pubkey,no_sigdump,no_aux"
+
+        sub_alt_names = inspec.command(sub_alt_names_cmd)
+
+        raise Inspec::Exceptions::ResourceFailed, "Executing #{sub_alt_names_cmd} failed: #{sub_alt_names.stderr}" if sub_alt_names.exit_status.to_i != 0
+
+        alt_names = sub_alt_names.stdout.split(/\n|,/).map(&:strip)
+      ensure
+        cert_file.close!
+      end
+      alt_names
     end
 
     def to_s
