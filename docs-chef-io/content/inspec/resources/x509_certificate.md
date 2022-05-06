@@ -110,6 +110,14 @@ More bits increase security, but at the cost of speed and in extreme cases, comp
       its('key_length') { should be 2048 }
     end
 
+### keylength
+
+The `keylength` property is an alias of the `key_length` property.
+
+    describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
+      its('keylength') { should be 2048 }
+    end
+
 ### signature_algorithm (String)
 
 The `signature_algorithm` property describes which hash function was used by the CA to
@@ -175,4 +183,53 @@ The `extensions` hash property is mainly used to determine what the certificate 
 
       # Check examples of 'subjectAltName'
       its('extensions.subjectAltName') { should include 'email:support@chef.io' }
+    end
+
+### email
+
+The `email` property checks for the email address of the certificate. This is equivalent to invoking the property `subject.emailAddress`.
+
+    describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
+      its('email') { should_not be_empty }
+      its('email') { should eq 'admin@mywebsite.com' }
+    end
+
+### subject_alt_names
+
+The `subject_alt_names` property checks for the subject alternative names of the certificate.
+
+    describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
+      its('subject_alt_names') { should include 'DNS:example.com' }
+      its('subject_alt_names') { should include 'DNS:www.example.com' }
+    end
+
+## Matchers
+
+For a full list of available matchers, please visit our [matchers page](https://docs.chef.io/inspec/matchers/).
+
+The specific matchers of this resource are: `be_valid`, `be_certificate` and `have_purpose`
+
+### be_valid
+
+The `be_valid` matcher tests if the given certificate is valid.
+
+    describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
+      it { should be_valid }
+    end
+
+### be_certificate
+
+The `be_certificate` matcher tests if the given content or file is a certificate.
+
+    describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
+      it { should be_certificate }
+    end
+
+### have_purpose
+
+The `have_purpose` matcher tests if the certificate has the specified purpose enabled or not.
+
+    describe x509_certificate('/etc/pki/www.mywebsite.com.pem') do
+      it { should have_purpose('SSL client CA : Yes') }
+      it { should have_purpose('SSL server CA : Yes') }
     end
