@@ -69,25 +69,46 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "A list of tags to filter controls and include only those. Ignore all other tests."
   profile_options
   def json(target)
-    require "json" unless defined?(JSON)
+    # This deprecation warning is ignored currently.
+    Inspec.deprecate(:renamed_to_inspec_export)
+    export(target)
+  end
 
+  desc "export PATH", "read all tests in PATH and generate a summary in json/yaml format."
+  option :format, type: :string,
+    desc: "The output format to use json (default), yaml. If valid format is not provided then it will use the default."
+  option :output, aliases: :o, type: :string,
+    desc: "Save the created profile to a path"
+  option :controls, type: :array,
+    desc: "A list of controls to include. Ignore all other tests."
+  option :tags, type: :array,
+    desc: "A list of tags to filter controls and include only those. Ignore all other tests."
+  profile_options
+  def export(target)
     o = config
     diagnose(o)
     o["log_location"] = $stderr
     configure_logger(o)
 
+    # default is json
+    format = o[:format] || "json"
     o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
     o[:check_mode] = true
     o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
 
-    profile = Inspec::Profile.for_target(target, o)
-    dst = o[:output].to_s
+    if format == "json"
+      require "json" unless defined?(JSON)
+      profile = Inspec::Profile.for_target(target, o)
+      dst = o[:output].to_s
 
-    # Write JSON
-    Inspec::Utils::JsonProfileSummary.produce_json(
-      info: profile.info,
-      write_path: dst
-    )
+      # Write JSON
+      Inspec::Utils::JsonProfileSummary.produce_json(
+        info: profile.info,
+        write_path: dst
+      )
+    elsif format == "yaml"
+      # TODO:
+    end
   rescue StandardError => e
     pretty_handle_exception(e)
   end
