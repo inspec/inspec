@@ -44,9 +44,19 @@ where
 
 ### ipaddress
 
-The `ipaddress` property returns the ipaddress of the host.
+The `ipaddress` property returns the ipaddresses of the host.
 
     its('ipaddress') { should include '93.184.216.34' }
+
+### ipv4_address
+The `ipv4_address` property returns the IPv4 address of the host.
+
+    its('ipv4_address') { should include '93.184.216.34' }
+
+### ipv6_address
+The `ipv6_address` property returns the IPv6 addresses of the host.
+
+    its('ipv6_address') { should include '2404:6800:4009:82a::200e' }
 
 ### connection
 
@@ -63,6 +73,23 @@ The `protocol` property returns the protocol that given host is using.
 ### `socket`property returns the socket for the given host.
 
     its('socket') { should match /STATUS_OK/ }
+
+## Matchers
+
+This Chef InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+
+### be_reachable
+
+The `be_reachable` matcher tests if the host name is available:
+
+    it { should be_reachable }
+
+### be_resolvable
+
+The `be_resolvable` matcher tests for host name resolution, i.e. "resolvable to an IP address":
+
+    it { should be_resolvable }
+
 
 ## Examples
 
@@ -93,18 +120,14 @@ The `protocol` property returns the protocol that given host is using.
       its('socket') { should match /STATUS_OK/ }
     end
 
-## Matchers
+### Verify host name is resolveable to specific IPv4 address.
 
-This Chef InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+    describe host('example.com') do
+      its('ipv4_address') { should include '93.184.216.34' }
+    end
 
-### be_reachable
+### Verify host name is resolveable to specific IPv6 address.
 
-The `be_reachable` matcher tests if the host name is available:
-
-    it { should be_reachable }
-
-### be_resolvable
-
-The `be_resolvable` matcher tests for host name resolution, i.e. "resolvable to an IP address":
-
-    it { should be_resolvable }
+    describe host('example.com') do
+      its('ipv6_address') { should include '2404:6800:4009:82a::200e' }
+    end
