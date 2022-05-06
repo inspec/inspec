@@ -95,6 +95,9 @@ describe "inspec matchers" do
       assert_cmp "FALSE", false
       refute_cmp "false", true
       refute_cmp "false", nil
+      assert_cmp true, "true"
+      refute_cmp false, "true"
+      refute_cmp false, nil
     end
 
     it "Int cmp String(int)" do
