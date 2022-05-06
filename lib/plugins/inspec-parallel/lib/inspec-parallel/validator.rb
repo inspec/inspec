@@ -71,7 +71,7 @@ module InspecPlugins
         invocation_data[:thor_opts]["reporter"].each do |reporter_spec|
           reporter_name, file_output = reporter_spec.split(":")
 
-          hvae_child_status_reporter = true if reporter_name == "child-status"
+          have_child_status_reporter = true if reporter_name == "child-status"
 
           # if there is a reporter option, each entry must either write to a file or
           # else be the special child-status reporter or the automate reporter
