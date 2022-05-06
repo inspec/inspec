@@ -5,6 +5,7 @@ require "inspec/dist"
 require "inspec/backend"
 require "inspec/dependencies/cache"
 require "inspec/utils/json_profile_summary"
+require "inspec/utils/yaml_profile_summary"
 
 module Inspec # TODO: move this somewhere "better"?
   autoload :BaseCLI,       "inspec/base_cli"
@@ -95,19 +96,21 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
     o[:check_mode] = true
     o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
+    profile = Inspec::Profile.for_target(target, o)
+    dst = o[:output].to_s
 
     if format == "json"
       require "json" unless defined?(JSON)
-      profile = Inspec::Profile.for_target(target, o)
-      dst = o[:output].to_s
-
       # Write JSON
       Inspec::Utils::JsonProfileSummary.produce_json(
         info: profile.info,
         write_path: dst
       )
     elsif format == "yaml"
-      # TODO:
+      Inspec::Utils::YamlProfileSummary.produce_yaml(
+        info: profile.info,
+        write_path: dst
+      )
     end
   rescue StandardError => e
     pretty_handle_exception(e)
