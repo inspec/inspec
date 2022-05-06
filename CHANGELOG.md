@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.14.5 -->
-## [v5.14.5](https://github.com/inspec/inspec/tree/v5.14.5) (2022-05-05)
+<!-- latest_release 5.15.0 -->
+## [v5.15.0](https://github.com/inspec/inspec/tree/v5.15.0) (2022-05-06)
 
 #### Merged Pull Requests
-- Add a sample validation key, to be used in testing key fetching [#6030](https://github.com/inspec/inspec/pull/6030) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- CFINSPEC-96: Add `zfs` resource [#6004](https://github.com/inspec/inspec/pull/6004) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.14.0 -->
 ### Changes since 5.14.0 release
 
 #### Merged Pull Requests
+- CFINSPEC-96: Add `zfs` resource [#6004](https://github.com/inspec/inspec/pull/6004) ([ahasunos](https://github.com/ahasunos)) <!-- 5.15.0 -->
 - Add a sample validation key, to be used in testing key fetching [#6030](https://github.com/inspec/inspec/pull/6030) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.14.5 -->
 - Bump berkshelf from 7.2.2 to 8.0.0 in /omnibus [#6020](https://github.com/inspec/inspec/pull/6020) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.14.4 -->
 - Fix for issue 5809 Service checks failing on Amazon linux 2022 [#5998](https://github.com/inspec/inspec/pull/5998) ([ahasunos](https://github.com/ahasunos)) <!-- 5.14.3 -->
