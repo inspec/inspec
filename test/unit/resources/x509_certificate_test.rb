@@ -109,6 +109,7 @@ describe "Inspec::Resources::X509Certificate" do
     _(resource.email).must_equal "support@chef.io"
     _(resource.keylength).must_equal 2048
     _(resource.subject_alt_names).must_include "email:support@chef.io"
-    _(resource.has_purpose?("SSL server CA")).must_equal true
+    _(resource.has_purpose?("SSL server CA : Yes")).must_equal true
+    _(resource.has_purpose?("SSL client CA : Yes")).must_equal true
   end
 end
