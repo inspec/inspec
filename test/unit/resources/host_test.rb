@@ -32,7 +32,7 @@ describe "Inspec::Resources::Host" do
     resource = MockLoader.new(:windows).load_resource("host", "microsoft.com")
     _(resource.resolvable?).must_equal true
     _(resource.reachable?).must_equal false
-    _(resource.ipaddress).must_equal ["134.170.185.46", "134.170.188.221"]
+    _(resource.ipaddress).must_equal ["134.170.188.221", "2404:6800:4009:827::200e"]
     _(resource.to_s).must_equal "Host microsoft.com"
   end
 
@@ -96,7 +96,7 @@ describe "Inspec::Resources::Host" do
     resource = MockLoader.new(:windows).load_resource("host", "microsoft.com", port: 1234, protocol: "tcp")
     _(resource.resolvable?).must_equal true
     _(resource.reachable?).must_equal true
-    _(resource.ipaddress).must_equal ["134.170.185.46", "134.170.188.221"]
+    _(resource.ipaddress).must_equal ["134.170.188.221", "2404:6800:4009:827::200e"]
     _(resource.to_s).must_equal "Host microsoft.com port 1234 proto tcp"
   end
 

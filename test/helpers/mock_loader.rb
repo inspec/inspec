@@ -366,6 +366,7 @@ class MockLoader
       "Get-NetAdapterBinding -ComponentID ms_bridge | Get-NetAdapter | Select-Object -Property Name, InterfaceDescription | ConvertTo-Json" => cmd.call("get-netadapter-binding-bridge"),
       # host for Windows
       "Resolve-DnsName –Type A microsoft.com | ConvertTo-Json" => cmd.call("Resolve-DnsName"),
+      "Resolve-DnsName –Type AAAA microsoft.com | ConvertTo-Json" => cmd.call("Resolve-DnsName-ipv6"),
       "Test-NetConnection -ComputerName microsoft.com -WarningAction SilentlyContinue| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json" => cmd.call("Test-NetConnection"),
       # host for Linux
       "getent ahosts example.com" => cmd.call("getent-ahosts-example.com"),
