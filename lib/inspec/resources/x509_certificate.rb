@@ -147,26 +147,40 @@ module Inspec::Resources
 
     # check purpose of the certificate
     def has_purpose?(purpose)
+      # If we have the filepath in our options we use the filepath to fetch the purposes.
+      # Else, we create a temporary file and write the content to that file.
+      # Then, use the temporary file to fetch the purposes.
+      # Todo: Check if this can be optimized or improved.
+      if @opts[:filepath]
+        cert_purpose = fetch_purpose(@opts[:filepath])
+      else
+        f = File.open("temporary_certificate.pem", "w")
+        f.write(@cert.to_pem)
+        f.rewind
+        begin
+          f = File.open("temporary_certificate.pem", "w")
+          f.write(@cert.to_pem)
+          f.rewind
+          cert_purpose = fetch_purpose("temporary_certificate.pem")
+        ensure
+          f.close unless f.nil? || f.closed?
+          File.delete("temporary_certificate.pem") if File.exist? "temporary_certificate.pem"
+        end
+      end
+      cert_purpose =~ /purpose/ ? true : false
+    end
+
+    def fetch_purpose(cert_file_or_path)
       openssl_utility = check_openssl_or_error
 
-      # -in parameter expects a file or filepath; so appending certificate content to a temporary file.
-      cert_file = Tempfile.new("foo.pem")
-      begin
-        cert_file.write(@cert.to_pem)
-        cert_file.rewind
+      # The below command is used to view the Certificate purposes
+      # The -in argument expects a certificate file or path to certificate file.
+      cert_purpose_cmd = "#{openssl_utility} x509 -noout -purpose -in #{cert_file_or_path}"
+      cert_purpose = inspec.command(cert_purpose_cmd)
 
-        # The below command is used to view the Certificate purposes
-        cert_purpose_cmd = "#{openssl_utility} x509 -noout -purpose -in #{cert_file.path}"
+      raise Inspec::Exceptions::ResourceFailed, "Executing #{cert_purpose_cmd} failed: #{cert_purpose.stderr}" if cert_purpose.exit_status.to_i != 0
 
-        cert_purpose = inspec.command(cert_purpose_cmd)
-
-        raise Inspec::Exceptions::ResourceFailed, "Executing #{cert_purpose_cmd} failed: #{cert_purpose.stderr}" if cert_purpose.exit_status.to_i != 0
-
-        has_given_purpose = cert_purpose.stdout =~ /^#{purpose}/ ? true : false
-      ensure
-        cert_file.close!
-      end
-      has_given_purpose
+      cert_purpose.stdout
     end
 
     def subject_alt_names
