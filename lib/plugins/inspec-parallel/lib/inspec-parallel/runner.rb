@@ -12,8 +12,10 @@ module InspecPlugins
         @sub_cmd = sub_cmd
         @total_jobs = cli_options["jobs"] || Concurrent.physical_processor_count
         @child_tracker = {}
-        @ui = InspecPlugins::Parallelism::SuperReporter.make(cli_options["ui"], total_jobs, invocations)
         @run_in_background = cli_options["bg"]
+        unless run_in_background
+          @ui = InspecPlugins::Parallelism::SuperReporter.make(cli_options["ui"], total_jobs, invocations)
+        end
       end
 
       def run
