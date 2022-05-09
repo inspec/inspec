@@ -92,4 +92,12 @@ describe "inspec export" do
     _(out.stderr).must_equal ""
     _(out.stdout).must_equal File.read("#{profile_path}/old-examples/profile/README.md")
   end
+
+  it "exports missing readme as blank" do
+    out = run_inspec_process("export --what readme #{profile_path}/git-fetcher/basic")
+    assert_exit_code 0, out
+
+    _(out.stderr).must_equal ""
+    _(out.stdout).must_equal ""
+  end
 end
