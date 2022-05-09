@@ -94,6 +94,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     configure_logger(o)
 
     what = o[:what] || "profile"
+    what.downcase!
     raise Inspec::Error.new("Unrecognized option '#{what}' for --what - expected one of profile, readme, or metadata.") unless %w{profile readme metadata}.include?(what)
 
     default_format_for_what = {
@@ -117,18 +118,27 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     profile = Inspec::Profile.for_target(target, o)
     dst = o[:output].to_s
 
-    if format == "json"
-      require "json" unless defined?(JSON)
-      # Write JSON
-      Inspec::Utils::JsonProfileSummary.produce_json(
-        info: profile.info,
-        write_path: dst
-      )
-    elsif format == "yaml"
-      Inspec::Utils::YamlProfileSummary.produce_yaml(
-        info: profile.info,
-        write_path: dst
-      )
+    case what
+    when "profile"
+      if format == "json"
+        require "json" unless defined?(JSON)
+        # Write JSON
+        Inspec::Utils::JsonProfileSummary.produce_json(
+          info: profile.info,
+          write_path: dst
+        )
+      elsif format == "yaml"
+        Inspec::Utils::YamlProfileSummary.produce_yaml(
+          info: profile.info,
+          write_path: dst
+        )
+      end
+    when "readme"
+      out = dst.empty? ? $stdout : File.open(dst, "w")
+      out.write(profile.readme)
+    when "metadata"
+      out = dst.empty? ? $stdout : File.open(dst, "w")
+      out.write(profile.metadata_src)
     end
   rescue StandardError => e
     pretty_handle_exception(e)
