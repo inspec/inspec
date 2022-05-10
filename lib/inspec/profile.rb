@@ -747,7 +747,7 @@ module Inspec
     end
 
     def readme
-      @source_reader.readme&.values.first
+      @source_reader.readme&.values&.first
     end
 
     def metadata_src

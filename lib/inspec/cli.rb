@@ -93,7 +93,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     o["log_location"] = $stderr
     configure_logger(o)
 
-    what = o[:what] || "profile"
+    # using dup to resolve "can't modify frozen String" error.
+    what = o[:what].dup || "profile"
     what.downcase!
     raise Inspec::Error.new("Unrecognized option '#{what}' for --what - expected one of profile, readme, or metadata.") unless %w{profile readme metadata}.include?(what)
 
