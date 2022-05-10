@@ -2,8 +2,6 @@ module InspecPlugins::Parallelism
   class SuperReporter
 
     def self.make(type, job_count, invocations)
-      puts "Press CTL+C to stop\n"
-
       Object.const_get("InspecPlugins::Parallelism::SuperReporter::" + (type[0].upcase + type[1..-1])).new(job_count, invocations)
     end
 

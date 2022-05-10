@@ -17,8 +17,6 @@ module InspecPlugins
 
       def run
         until invocations.empty? && @child_tracker.empty?
-          catch_ctl_c_and_exit
-
           while should_start_more_jobs?
             if Inspec.locally_windows?
               spawn_another_process
@@ -30,14 +28,6 @@ module InspecPlugins
           update_ui_poll_select
           cleanup_child_processes
           sleep 0.1
-        end
-      end
-
-      def catch_ctl_c_and_exit
-        trap("SIGINT") do
-          puts "\n"
-          puts "Shutting down jobs..."
-          exit Inspec::UI::EXIT_TERMINATED_BY_CTL_C
         end
       end
 

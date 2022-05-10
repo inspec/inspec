@@ -9,7 +9,7 @@ module InspecPlugins
     end
 
     class Command
-      attr_accessor :cli_options_to_parallel_cmd, :default_profile, :sub_cmd, :invocations
+      attr_accessor :cli_options_to_parallel_cmd, :default_profile, :sub_cmd, :invocations, :run_in_background
 
       def initialize(cli_options_to_parallel_cmd, default_profile, sub_cmd = "exec")
         @default_profile = default_profile
@@ -17,10 +17,12 @@ module InspecPlugins
         @sub_cmd = sub_cmd
         @logger  = Inspec::Log
         @invocations = read_options_file
+        @run_in_background = cli_options_to_parallel_cmd["bg"]
       end
 
       def run
         validate_invocations!
+        catch_ctl_c_and_exit unless run_in_background
         Runner.new(invocations, cli_options_to_parallel_cmd, sub_cmd).run
       end
 
@@ -30,6 +32,15 @@ module InspecPlugins
       end
 
       private
+
+      def catch_ctl_c_and_exit
+        puts "Press CTL+C to stop\n"
+        trap("SIGINT") do
+          puts "\n"
+          puts "Shutting down jobs..."
+          exit Inspec::UI::EXIT_TERMINATED_BY_CTL_C
+        end
+      end
 
       def validate_invocations!
         # Validation logic stays in Validator class...
