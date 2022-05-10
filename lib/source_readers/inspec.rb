@@ -12,7 +12,7 @@ module SourceReaders
       nil
     end
 
-    attr_reader :metadata, :tests, :libraries, :data_files, :target
+    attr_reader :metadata, :metadata_src, :tests, :libraries, :data_files, :target, :readme
 
     # This create a new instance of an InSpec profile source reader
     #
@@ -24,14 +24,16 @@ module SourceReaders
       @tests      = load_tests
       @libraries  = load_libs
       @data_files = load_data_files
+      @readme     = load_readme
     end
 
     private
 
     def load_metadata(metadata_source)
+      @metadata_src = @target.read(metadata_source)
       Inspec::Metadata.from_ref(
         metadata_source,
-        @target.read(metadata_source),
+        @metadata_src,
         nil
       )
     rescue Psych::SyntaxError => e
@@ -61,6 +63,10 @@ module SourceReaders
 
     def load_data_files
       load_all(%r{^files/})
+    end
+
+    def load_readme
+      load_all(/README.md/)
     end
   end
 end
