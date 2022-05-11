@@ -61,10 +61,17 @@ module InspecPlugins
         child_reader, parent_writer = IO.pipe
 
         # Construct command-line invocation
-        cmd = "#{$0} #{sub_cmd} #{invocation}"
-        child_pid = Process.spawn(cmd, out: parent_writer)
-        @child_tracker[child_pid] = { io: child_reader }
-        @ui.child_spawned(child_pid, invocation)
+        child_pid = nil
+        begin
+          cmd = "#{$0} #{sub_cmd} #{invocation}"
+          log_msg = "#{Time.now.iso8601} Start Time: #{Time.now}\n#{Time.now.iso8601} Arguments: #{invocation}\n"
+          child_pid = Process.spawn(cmd, out: parent_writer)
+          @child_tracker[child_pid] = { io: child_reader }
+          @ui.child_spawned(child_pid, invocation)
+          create_run_logs(child_pid, log_msg)
+        rescue StandardError => e
+          create_run_logs(child_pid, nil, "#{Time.now.iso8601} Error: #{e.backtrace}\n")
+        end
       end
 
       def fork_another_process
@@ -81,8 +88,17 @@ module InspecPlugins
           child_reader.close
           # replace stdout with writer
           $stdout = parent_writer
-          # TODO: redirect stderr to a file
-          runner_invocation(invocation)
+
+          begin
+            create_run_logs(
+              Process.pid,
+              "#{Time.now.iso8601} Start Time: #{Time.now}\n#{Time.now.iso8601} Arguments: #{invocation}\n"
+            )
+
+            runner_invocation(invocation)
+          rescue StandardError => e
+            create_run_logs(Process.pid, nil, "#{Time.now.iso8601} Error: #{e.backtrace}\n")
+          end
 
           # should be unreachable but child MUST exit
           exit(42)
@@ -96,6 +112,8 @@ module InspecPlugins
           if Process.wait(pid, Process::WNOHANG)
             # Expect to (probably) find EOF marker on the pipe, and close it if so
             update_ui_poll_select(pid)
+
+            create_run_logs(pid, "#{Time.now.iso8601} Exit code: #{$?}\n")
 
             # child exited - status in $?
             @ui.child_exited(pid)
@@ -149,6 +167,19 @@ module InspecPlugins
         # thor invocation
         arguments = [sub_cmd, profile_to_run, splitted_result].flatten
         Inspec::InspecCLI.start(arguments, enforce_license: true)
+      end
+
+      def create_run_logs(child_pid, run_log , err_log = nil)
+        log_dir_name = "logs"
+        FileUtils.mkdir_p(log_dir_name) unless File.directory?(log_dir_name)
+
+        if err_log
+          log_file = File.join(log_dir_name, "#{child_pid}.err") unless File.exist?("#{child_pid}.err")
+          File.write(log_file, err_log, mode: "a")
+        else
+          log_file = File.join(log_dir_name, "#{child_pid}.log") unless File.exist?("#{child_pid}.log")
+          File.write(log_file, run_log, mode: "a")
+        end
       end
     end
   end
