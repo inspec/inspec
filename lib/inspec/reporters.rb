@@ -37,7 +37,7 @@ module Inspec::Reporters
     output = reporter.rendered_output
     config_file = config["file"]
     if config_file
-      config_file.gsub!("CHILD_PID", $$.to_s)
+      config_file.gsub!("CHILD_PID", Process.pid.to_s)
       # create destination directory if it does not exist
       dirname = File.dirname(config_file)
       FileUtils.mkdir_p(dirname) unless File.directory?(dirname)
