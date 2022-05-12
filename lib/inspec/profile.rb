@@ -410,7 +410,7 @@ module Inspec
           else
             ui = Inspec::UI.new
             gem_dependencies.each { |gem_dependency| ui.list_item("#{gem_dependency[:name]} #{gem_dependency[:version]}") }
-            choice = ui.prompt.select("Would you like to install profile gem dependencies listed above?", %w{Yes No})
+            choice = ui.prompt.select("The above listed gem dependencies are required to run the profile. Would you like to install them ?", %w{Yes No})
             if choice == "Yes"
               Inspec::Config.cached[:auto_install_gems] = true
               load_gem_dependencies
