@@ -17,7 +17,6 @@ module InspecPlugins
 
       def run
         until invocations.empty? && @child_tracker.empty?
-
           while should_start_more_jobs?
             if Inspec.locally_windows?
               spawn_another_process
