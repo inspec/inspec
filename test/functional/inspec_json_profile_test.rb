@@ -26,6 +26,10 @@ describe "inspec json" do
       _(json["generator"]["version"]).must_equal Inspec::VERSION
     end
 
+    it "has empty array of inputs" do
+      _(json["inputs"]).must_be_empty
+    end
+
     it "has a name" do
       _(json["name"]).must_equal "profile"
     end
@@ -82,6 +86,14 @@ describe "inspec json" do
       it "has a the source code" do
         _(control["code"]).must_match(/\Acontrol 'tmp-1.0' do.*end\n\Z/m)
       end
+    end
+  end
+
+  describe "json profile data with inputs" do
+    let(:json) { JSON.load(inspec("json " + examples_path + "/profile-attribute").stdout) }
+
+    it "has a inputs" do
+      _(json["inputs"]).must_equal [{ "name" => "user", "options" => { "value" => "alice" } }, { "name" => "password", "options" => { "value" => "Input 'password' does not have a value. Skipping test." } }]
     end
   end
 
