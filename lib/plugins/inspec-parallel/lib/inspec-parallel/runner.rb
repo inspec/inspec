@@ -5,17 +5,21 @@ require_relative "super_reporter/base"
 module InspecPlugins
   module Parallelism
     class Runner
-      attr_accessor :invocations, :sub_cmd, :total_jobs
+      attr_accessor :invocations, :sub_cmd, :total_jobs, :run_in_background
 
       def initialize(invocations, cli_options, sub_cmd = "exec")
         @invocations = invocations
         @sub_cmd = sub_cmd
         @total_jobs = cli_options["jobs"] || Concurrent.physical_processor_count
         @child_tracker = {}
-        @ui = InspecPlugins::Parallelism::SuperReporter.make(cli_options["ui"], total_jobs, invocations)
+        @run_in_background = cli_options["bg"]
+        unless run_in_background
+          @ui = InspecPlugins::Parallelism::SuperReporter.make(cli_options["ui"], total_jobs, invocations)
+        end
       end
 
       def run
+        initiate_background_run if run_in_background # running a process as daemon changes parent process pid
         until invocations.empty? && @child_tracker.empty?
           while should_start_more_jobs?
             if Inspec.locally_windows?
@@ -29,6 +33,22 @@ module InspecPlugins
           cleanup_child_processes
           sleep 0.1
         end
+        cleanup_daemon_process if run_in_background
+      end
+
+      def initiate_background_run
+        if Inspec.locally_windows?
+          Inspec::UI.new.exit(:usage_error)
+        else
+          Process.daemon(true, false)
+        end
+      end
+
+      def cleanup_daemon_process
+        current_process_id = Process.pid
+        Process.kill(9, current_process_id)
+        # DO NOT TRY TO REFACTOR IT THIS WAY
+        # Calling Process.kill(9,Process.pid) kills the "stopper" process itself, rather than the one it's trying to stop.
       end
 
       def should_start_more_jobs?

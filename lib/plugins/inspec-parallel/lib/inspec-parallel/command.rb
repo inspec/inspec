@@ -102,7 +102,7 @@ module InspecPlugins
                 output = `powershell -File "#{option_file}"`
                 output.split("\n")
               rescue StandardError => e
-                raise "Error reading powershell file #{option_file}: #{e.message}"
+                raise OptionFileNotReadable.new("Error reading powershell file #{option_file}: #{e.message}")
               end
             elsif [".sh", ".csh"].include? File.extname(option_file)
               begin
