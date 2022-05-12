@@ -51,7 +51,7 @@ A signed profile is checked for validity before being executed, and if it cannot
 
 ## How do I know which key was used to sign a profile?
 
-The inspec sign verify command will tell you.
+The `inspec sign verify` command will tell you.
 
 ```bash
 [cwolfe@lodi temp]$ inspec sign verify --signed-profile simple-0.1.0-v2.iaf
@@ -63,13 +63,67 @@ Profile is valid.
 
 ## How do I look inside a signed profile?
 
-Use the `inspec export` command to examine a signed profile's contents. You must be able to verify the profile in order to export the contents.
+Use the `inspec export` command to examine a signed profile's contents. You must be able to verify the profile in order to export the contents. By default, the export command will dump a summary of the profile in a human-readable YAML format, which will include most of the metadata as well as the control IDs, control source code, inputs, and other information you need to make use of the profile.
 
-To view the controls in a signed profile, run:
+To view a signed profile, run:
 ```bash
 [cwolfe@lodi temp]$ inspec export simple-0.1.0.iaf
 ---
-  # TODO - YAML representation by default
+:name: simple
+:title: InSpec Profile
+:maintainer: The Authors
+:copyright: The Authors
+:copyright_email: you@example.com
+:license: Apache-2.0
+:summary: An InSpec Compliance Profile
+:version: 0.1.0
+:supports:
+- :platform: os
+:controls:
+- :title:
+  :desc:
+  :descriptions: {}
+  :impact: 0.5
+  :refs: []
+  :tags: {}
+  :code: ''
+  :source_location:
+    :ref: "/Users/cwolfe/sandbox/inspec/inspec-5/lib/inspec/control_eval_context.rb"
+    :line: 92
+  :id: "(generated from example.rb:6 7007cd4757c4892cc89977e9847c1051)"
+- :title: Create /tmp directory
+  :desc: An optional description...
+  :descriptions:
+    :default: An optional description...
+  :impact: 0.7
+  :refs: []
+  :tags: {}
+  :code: |
+    control "tmp-1.0" do                        # A unique ID for this control
+      impact 0.7                                # The criticality, if this control fails.
+      title "Create /tmp directory"             # A human-readable title
+      desc "An optional description..."
+      describe file("/tmp") do                  # The actual test
+        it { should be_directory }
+      end
+    end
+  :source_location:
+    :ref: controls/example.rb
+    :line: 11
+  :id: tmp-1.0
+:groups:
+- :title: sample section
+  :controls:
+  - "(generated from example.rb:6 7007cd4757c4892cc89977e9847c1051)"
+  - tmp-1.0
+  :id: controls/example.rb
+:inputs: []
+:sha256: c1a5298d56f028386edf4c52573264ca38d476ce6156a053a2c412991fb0b646
+:status_message: ''
+:status: loaded
+:generator:
+  :name: inspec
+  :version: 5.14.5
 ```
 
 To read a profile's README, run:
