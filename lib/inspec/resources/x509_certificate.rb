@@ -155,9 +155,6 @@ module Inspec::Resources
       if @opts[:filepath]
         cert_purpose = fetch_purpose(@opts[:filepath])
       else
-        f = File.open("temporary_certificate.pem", "w")
-        f.write(@cert.to_pem)
-        f.rewind
         begin
           f = File.open("temporary_certificate.pem", "w")
           f.write(@cert.to_pem)
