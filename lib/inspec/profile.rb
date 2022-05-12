@@ -850,7 +850,12 @@ module Inspec
         f = load_rule_filepath(prefix, rule)
         load_rule(rule, f, controls, groups)
       end
-      params[:inputs] = Inspec::InputRegistry.list_inputs_for_profile(@profile_id)
+      if @profile_id.nil?
+        # identifying inputs using profile name
+        params[:inputs] = Inspec::InputRegistry.list_inputs_for_profile(params[:name])
+      else
+        params[:inputs] = Inspec::InputRegistry.list_inputs_for_profile(@profile_id)
+      end
       params
     end
 
