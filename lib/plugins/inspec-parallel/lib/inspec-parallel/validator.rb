@@ -85,8 +85,12 @@ module InspecPlugins
         # if there is no child-status reporter, add one to the raw value and the parsed array
         unless have_child_status_reporter
           # Eww
+          reporter_value = invocation_data[:thor_opts]["reporter"][0]
+          invocation_data[:value].gsub!(
+            "--reporter #{reporter_value}",
+            "--reporter child-status #{reporter_value}"
+          )
           invocation_data[:thor_opts]["reporter"] << "child-status"
-          invocation_data[:value] += " --reporter child-status"
         end
       end
 

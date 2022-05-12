@@ -77,6 +77,7 @@ module InspecPlugins
         end
         content.each.with_index(1) do |str, index|
           data_hash = { line_no: index }
+          str = "<% pid = 'CHILD_PID' %>" + str if str.include? "pid"
           str = ERB.new(str).result.strip
           str_has_comment = str.start_with?("#")
           next if str.empty? || str_has_comment
