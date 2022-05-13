@@ -5,7 +5,7 @@ require_relative "super_reporter/base"
 module InspecPlugins
   module Parallelism
     class Runner
-      attr_accessor :invocations, :sub_cmd, :total_jobs, :run_in_background
+      attr_accessor :invocations, :sub_cmd, :total_jobs, :run_in_background, :log_path
 
       def initialize(invocations, cli_options, sub_cmd = "exec")
         @invocations = invocations
@@ -16,6 +16,7 @@ module InspecPlugins
         unless run_in_background
           @ui = InspecPlugins::Parallelism::SuperReporter.make(cli_options["ui"], total_jobs, invocations)
         end
+        @log_path = cli_options["log_path"]
       end
 
       def run
@@ -170,14 +171,15 @@ module InspecPlugins
       end
 
       def create_run_logs(child_pid, run_log , err_log = nil)
-        log_dir_name = "logs"
-        FileUtils.mkdir_p(log_dir_name) unless File.directory?(log_dir_name)
+        logs_dir_path = log_path || Dir.pwd
+        log_dir = File.join(logs_dir_path, "logs")
+        FileUtils.mkdir_p(log_dir) unless File.directory?(log_dir)
 
         if err_log
-          log_file = File.join(log_dir_name, "#{child_pid}.err") unless File.exist?("#{child_pid}.err")
+          log_file = File.join(log_dir, "#{child_pid}.err") unless File.exist?("#{child_pid}.err")
           File.write(log_file, err_log, mode: "a")
         else
-          log_file = File.join(log_dir_name, "#{child_pid}.log") unless File.exist?("#{child_pid}.log")
+          log_file = File.join(log_dir, "#{child_pid}.log") unless File.exist?("#{child_pid}.log")
           File.write(log_file, run_log, mode: "a")
         end
       end

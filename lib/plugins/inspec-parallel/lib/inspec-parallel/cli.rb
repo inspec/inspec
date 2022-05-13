@@ -21,6 +21,8 @@ module InspecPlugins::Parallelism
       desc: "Which UI to use: status, text"
     option :bg, type: :boolean,
       desc: "Runs parallel processes in background"
+    option :log_path, type: :string,
+      desc: "Path to the runner and error logs"
     exec_options
     def exec(default_profile = nil)
       parallel_cmd = InspecPlugins::Parallelism::Command.new(options, default_profile)

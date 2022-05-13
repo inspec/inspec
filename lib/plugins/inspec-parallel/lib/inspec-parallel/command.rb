@@ -21,6 +21,7 @@ module InspecPlugins
       end
 
       def run
+        validate_thor_options
         validate_invocations!
         catch_ctl_c_and_exit unless run_in_background
         Runner.new(invocations, cli_options_to_parallel_cmd, sub_cmd).run
@@ -41,10 +42,23 @@ module InspecPlugins
           exit Inspec::UI::EXIT_TERMINATED_BY_CTL_C
         end
       end
+      
+      def validate_thor_options
+        # only log path validation needed for now
+        validate_log_path
+      end
+
+      def validate_log_path
+        error, message = Validator.new(invocations, cli_options_to_parallel_cmd, sub_cmd).validate_log_path
+        if error
+          @logger.error message
+          Inspec::UI.new.exit(:usage_error)
+        end
+      end
 
       def validate_invocations!
         # Validation logic stays in Validator class...
-        Validator.new(invocations, sub_cmd).validate
+        Validator.new(invocations, cli_options_to_parallel_cmd, sub_cmd).validate
         # UI logic stays in Command class.
         valid = true
         invocations.each do |invocation_data|

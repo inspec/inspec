@@ -9,13 +9,14 @@ module InspecPlugins
         "child-status",  # Writes dedicated protocol to STDOUT, expected by parent
       ].freeze
 
-      attr_accessor :invocations, :sub_cmd, :thor_options_for_sub_cmd, :aliases_mapping
+      attr_accessor :invocations, :sub_cmd, :thor_options_for_sub_cmd, :aliases_mapping, :cli_options
 
-      def initialize(invocations, sub_cmd = "exec")
+      def initialize(invocations, cli_options, sub_cmd = "exec")
         @invocations = invocations
         @sub_cmd = sub_cmd
         @thor_options_for_sub_cmd = Inspec::InspecCLI.commands[sub_cmd].options
         @aliases_mapping = create_aliases_mapping
+        @cli_options = cli_options
       end
 
       def validate
@@ -27,6 +28,16 @@ module InspecPlugins
           check_for_required_fields(invocation_data)
           check_for_reporter_options(invocation_data)
 
+        end
+      end
+
+      def validate_log_path
+        return [] unless cli_options["log_path"]
+
+        if File.directory?(cli_options["log_path"])
+          []
+        else
+          [true, "Log path #{cli_options["log_path"]} is not accessible"]
         end
       end
 
@@ -85,12 +96,8 @@ module InspecPlugins
         # if there is no child-status reporter, add one to the raw value and the parsed array
         unless have_child_status_reporter
           # Eww
-          reporter_value = invocation_data[:thor_opts]["reporter"][0]
-          invocation_data[:value].gsub!(
-            "--reporter #{reporter_value}",
-            "--reporter child-status #{reporter_value}"
-          )
           invocation_data[:thor_opts]["reporter"] << "child-status"
+          invocation_data[:value].gsub!("--reporter ", "--reporter child-status ")
         end
       end
 
