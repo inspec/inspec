@@ -108,7 +108,7 @@ module InspecPlugins
         # Focus on one pid's pipe if specified, otherwise poll all pipes
         pipes_for_reading = target_pid ? [ @child_tracker[target_pid][:io] ] : @child_tracker.values.map { |i| i[:io] }
         # Next line is due to a race between the close() and the wait()... shouldn't need it, but it fixes the race.
-        pipes_for_reading.reject! { |p| p.closed? }
+        pipes_for_reading.reject!(&:closed?)
         ready_pipes = IO.select(pipes_for_reading, [], [], 0.1)
         return unless ready_pipes
 

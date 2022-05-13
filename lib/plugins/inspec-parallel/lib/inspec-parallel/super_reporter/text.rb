@@ -14,7 +14,7 @@ module InspecPlugins::Parallelism
       end
 
       def child_status_update_line(pid, update_line)
-        control_serial, status, control_count, title = update_line.split("/")
+        control_serial, _status, control_count, _title = update_line.split("/")
         percent = 100.0 * control_serial.to_i / control_count.to_i.to_f
         puts "[#{Time.now.iso8601}] #{pid} " + format("%.1f%%", percent)
       end

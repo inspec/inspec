@@ -7,7 +7,7 @@ module InspecPlugins
       PARALLEL_SAFE_REPORTERS = [
         "automate",      # Performs HTTP transactions, silent on STDOUT
         "child-status",  # Writes dedicated protocol to STDOUT, expected by parent
-      ]
+      ].freeze
 
       attr_accessor :invocations, :sub_cmd, :thor_options_for_sub_cmd, :aliases_mapping
 
