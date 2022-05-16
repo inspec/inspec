@@ -35,7 +35,7 @@ A `host` resource block declares a host name, a port, and a protocol.
 
 > where
 >
-> - `host()` must specify a host name, a port number, and a protocol.
+> - `host()` must specify a host name. The port number and protocol are optional values.
 > - `example.com` is the host name.
 > - `port` is the port number.
 > - `protocol` is the internet protocol, TCP (`protocol: 'tcp'`), UDP (`protocol: 'udp'`), and ICMP (`protocol: 'icmp'`)
