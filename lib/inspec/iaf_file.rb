@@ -21,8 +21,12 @@ module Inspec
         File.join(Inspec.config_dir, "keys"),
         File.join(Inspec.src_root, "etc", "keys"),
       ].each do |path|
-        filename = File.join(path, "#{keyname}.pem.pub")
-        return filename if File.exist?(filename)
+        begin
+          filename = File.join(path, "#{keyname}.pem.pub")
+          return filename if File.exist?(filename)
+        rescue => e
+          raise Inspec::Exceptions::ProfileValidationKeyNotFound.new("Validation key #{keyname} not found")
+        end
       end
 
       # Retry if we can fetch it from github
