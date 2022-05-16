@@ -63,15 +63,22 @@ module InspecPlugins
 
         # Construct command-line invocation
         child_pid = nil
+        error_log_file_name = "#{Time.now.nsec}.err"
+
         begin
           cmd = "#{$0} #{sub_cmd} #{invocation}"
           log_msg = "#{Time.now.iso8601} Start Time: #{Time.now}\n#{Time.now.iso8601} Arguments: #{invocation}\n"
-          child_pid = Process.spawn(cmd, out: parent_writer)
+          child_pid = Process.spawn(cmd, out: parent_writer, err: error_log_file_name)
+          # Rename error log file if exist
+          rename_error_log(error_log_file_name, child_pid) if File.exist?(error_log_file_name)
+          # Logging
+          create_logs(child_pid, nil, $stderr)
+          create_logs(child_pid, log_msg)
           @child_tracker[child_pid] = { io: child_reader }
           @ui.child_spawned(child_pid, invocation)
-          create_run_logs(child_pid, log_msg)
         rescue StandardError => e
-          create_run_logs(child_pid, nil, "#{Time.now.iso8601} Error: #{e.backtrace}\n")
+          $stderr.puts "#{Time.now.iso8601} Error Message: #{e.message}"
+          $stderr.puts "#{Time.now.iso8601} Error Backtrace: #{e.backtrace}"
         end
       end
 
@@ -89,16 +96,17 @@ module InspecPlugins
           child_reader.close
           # replace stdout with writer
           $stdout = parent_writer
+          create_logs(Process.pid, nil, $stderr)
 
           begin
-            create_run_logs(
+            create_logs(
               Process.pid,
               "#{Time.now.iso8601} Start Time: #{Time.now}\n#{Time.now.iso8601} Arguments: #{invocation}\n"
             )
-
             runner_invocation(invocation)
           rescue StandardError => e
-            create_run_logs(Process.pid, nil, "#{Time.now.iso8601} Error: #{e.backtrace}\n")
+            $stderr.puts "#{Time.now.iso8601} Error Message: #{e.message}"
+            $stderr.puts "#{Time.now.iso8601} Error Backtrace: #{e.backtrace}"
           end
 
           # should be unreachable but child MUST exit
@@ -114,7 +122,7 @@ module InspecPlugins
             # Expect to (probably) find EOF marker on the pipe, and close it if so
             update_ui_poll_select(pid)
 
-            create_run_logs(pid, "#{Time.now.iso8601} Exit code: #{$?}\n")
+            create_logs(pid, "#{Time.now.iso8601} Exit code: #{$?}\n")
 
             # child exited - status in $?
             @ui.child_exited(pid)
@@ -170,18 +178,25 @@ module InspecPlugins
         Inspec::InspecCLI.start(arguments, enforce_license: true)
       end
 
-      def create_run_logs(child_pid, run_log , err_log = nil)
+      def create_logs(child_pid, run_log , stderr = nil)
         logs_dir_path = log_path || Dir.pwd
         log_dir = File.join(logs_dir_path, "logs")
         FileUtils.mkdir_p(log_dir) unless File.directory?(log_dir)
 
-        if err_log
+        if stderr
           log_file = File.join(log_dir, "#{child_pid}.err") unless File.exist?("#{child_pid}.err")
-          File.write(log_file, err_log, mode: "a")
+          stderr.reopen(log_file, "a")
         else
           log_file = File.join(log_dir, "#{child_pid}.log") unless File.exist?("#{child_pid}.log")
           File.write(log_file, run_log, mode: "a")
         end
+      end
+
+      def rename_error_log(error_log_file_name, child_pid)
+        logs_dir_path = log_path || Dir.pwd
+        log_dir = File.join(logs_dir_path, "logs")
+        FileUtils.mkdir_p(log_dir) unless File.directory?(log_dir)
+        File.rename(error_log_file_name, "#{log_dir}/#{child_pid}.err")
       end
     end
   end

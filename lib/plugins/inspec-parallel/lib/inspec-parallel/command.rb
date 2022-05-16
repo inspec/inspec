@@ -91,7 +91,7 @@ module InspecPlugins
         end
         content.each.with_index(1) do |str, index|
           data_hash = { line_no: index }
-          str = ERB.new(str).result_with_hash(pid: 'CHILD_PID').strip
+          str = ERB.new(str).result_with_hash(pid: "CHILD_PID").strip
           str_has_comment = str.start_with?("#")
           next if str.empty? || str_has_comment
 
