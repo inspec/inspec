@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.15.1 -->
-## [v5.15.1](https://github.com/inspec/inspec/tree/v5.15.1) (2022-05-12)
+<!-- latest_release 5.15.2 -->
+## [v5.15.2](https://github.com/inspec/inspec/tree/v5.15.2) (2022-05-17)
 
 #### Merged Pull Requests
-- CFINSPEC-250: Fix for inspec json command does not populate the inputs for the profile [#6056](https://github.com/inspec/inspec/pull/6056) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-252: Fix profile gem dependency installation is failing when  gem version is not specified [#6057](https://github.com/inspec/inspec/pull/6057) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.14.0 -->
 ### Changes since 5.14.0 release
 
 #### Merged Pull Requests
+- CFINSPEC-252: Fix profile gem dependency installation is failing when  gem version is not specified [#6057](https://github.com/inspec/inspec/pull/6057) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.15.2 -->
 - CFINSPEC-250: Fix for inspec json command does not populate the inputs for the profile [#6056](https://github.com/inspec/inspec/pull/6056) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.15.1 -->
 - CFINSPEC-96: Add `zfs` resource [#6004](https://github.com/inspec/inspec/pull/6004) ([ahasunos](https://github.com/ahasunos)) <!-- 5.15.0 -->
 - Add a sample validation key, to be used in testing key fetching [#6030](https://github.com/inspec/inspec/pull/6030) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.14.5 -->
