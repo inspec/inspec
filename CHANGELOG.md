@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.16.2 -->
-## [v5.16.2](https://github.com/inspec/inspec/tree/v5.16.2) (2022-05-17)
+<!-- latest_release 5.17.0 -->
+## [v5.17.0](https://github.com/inspec/inspec/tree/v5.17.0) (2022-05-17)
 
 #### Merged Pull Requests
-- CFINSPEC-92: Enhance `processes` resource [#5991](https://github.com/inspec/inspec/pull/5991) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-81: Add `php_config` resource [#6010](https://github.com/inspec/inspec/pull/6010) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.14.0 -->
 ### Changes since 5.14.0 release
 
 #### Merged Pull Requests
+- CFINSPEC-81: Add `php_config` resource [#6010](https://github.com/inspec/inspec/pull/6010) ([ahasunos](https://github.com/ahasunos)) <!-- 5.17.0 -->
 - CFINSPEC-92: Enhance `processes` resource [#5991](https://github.com/inspec/inspec/pull/5991) ([ahasunos](https://github.com/ahasunos)) <!-- 5.16.2 -->
 - CFINSPEC-90: Enhance `host` resource [#6045](https://github.com/inspec/inspec/pull/6045) ([ahasunos](https://github.com/ahasunos)) <!-- 5.16.1 -->
 - CFINSPEC-84: Add `x509_private_key` resource [#6018](https://github.com/inspec/inspec/pull/6018) ([ahasunos](https://github.com/ahasunos)) <!-- 5.16.0 -->
