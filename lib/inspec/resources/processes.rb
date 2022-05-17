@@ -60,6 +60,17 @@ module Inspec::Resources
       @list
     end
 
+    # Matcher to check if the process is running
+    def running?
+      # A process is considered running if:
+      # unix: it is in running(R) state or either of sleep state(D: Uninterruptible or S: Interruptible)
+      # windows: it is responding i.e. state is True.
+
+      # Other codes like <(high priorty), N(low priority), +(foreground process group) etc. may appear after the state code in unix.
+      # Hence the regex used is /^statecode+/ where statecode is either R, S, or D.
+      states.any? and !!(states[0] =~ /True/ || states[0] =~ /^R+/ || states[0] =~ /^D+/ || states[0] =~ /^S+/)
+    end
+
     filter = FilterTable.create
     filter.register_column(:labels, field: "label")
       .register_column(:pids,     field: "pid")
