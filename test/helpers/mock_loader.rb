@@ -401,6 +401,12 @@ class MockLoader
       %{sh -c 'type "cgget"'} => empty.call,
       # mail_alias
       "cat /etc/aliases | grep '^daemon:'" => cmd.call("mail-alias"),
+      # php_config
+      %{sh -c 'type "php"'} => empty.call,
+      'Get-Command "php"' => empty.call,
+      'type "php"' => empty.call,
+      "php  -r 'echo get_cfg_var(\"default_mimetype\");'" => cmd.call("get-cfg-var"),
+      "php -c /etc/php/7.4/cli/php.ini -r 'echo get_cfg_var(\"default_mimetype\");'" => cmd.call("get-cfg-var"),
       # routing_table
       "netstat -rn" => cmd.call("netstat-rn-linux"),
       %{sh -c 'type "netstat"'} => empty.call,
