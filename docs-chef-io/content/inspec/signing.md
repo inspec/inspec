@@ -17,13 +17,13 @@ This page documents the `inspec sign` command introduced in InSpec 5 and details
 
 ### What is a Signed Profile?
 
-A signed profile, or `.iaf` file, is an InSpec profile with a digital signature attests to its authenticity. Many Progress Chef authored profiles are available as signed profiles from 2022.
+A signed profile, or `.iaf` file, is an InSpec profile with a digital signature that attests to its authenticity. Starting in 2022, many Progress Chef authored profiles are available as signed profiles.
 
 ### How does Profile Signing Work?
 
-Profile signing uses a matched pair of keys. The _signing key_ is secret and used to sign the profile. The _validation key_ is widely distributed and verifies the signed profile signature.
+Profile signing uses a matched pair of keys. The _signing key_ is secret and is used to sign the profile. The _validation key_ is widely distributed and verifies the signed profile signature.
 
-Keypairs are first searched in the current directory and then in the user's `~/.inspec/keys` directory. Progress Chef validation keys are also distributed in the `etc/keys` directory of the InSpec installation tree. Finally, if a validation key is not found, the profile verification system attempts to download keys from the [InSpec Github](https://github.com/inspec/inspec/tree/main/etc/keys) repository.
+Keypairs are first searched for in the current directory and then in the user's `~/.inspec/keys` directory. Progress Chef validation keys are also distributed in the `etc/keys` directory of the InSpec installation tree. Finally, if a validation key is not found, the profile verification system attempts to download keys from the [InSpec Github](https://github.com/inspec/inspec/tree/main/etc/keys) repository.
 
 ### How do I execute a signed profile?
 
@@ -155,9 +155,9 @@ supports:
 
 ## Advanced Usage
 
-### How do I make my keys?
+### How do I create keys?
 
-Most users of signed profiles need not make their keys, unless they wish to create their own signed profiles. To generate keys of your own, use the `inspec sign generate-keys` command:
+Most users of signed profiles need not create keys of their own, unless they wish to create their own signed profiles. To generate keys of your own, use the `inspec sign generate-keys` command:
 
 ```bash
 [cwolfe@lodi temp]$ inspec sign generate-keys --keyname test-03
