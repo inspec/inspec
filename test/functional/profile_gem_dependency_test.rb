@@ -6,7 +6,8 @@ describe "profile with gem dependencies" do
   let(:config_dir_path) { File.expand_path "test/fixtures/config_dirs" }
   let(:depdent_profile_gem_dependency) { File.join(profile_path, "profile-with-dependent-gem-dependency") }
   let(:ruby_abi_version) { RbConfig::CONFIG["ruby_version"] }
-  let(:illformatted_gem_dependncy) { File.join(profile_path, "profile-with-illformed-gem-depedency") }
+  let(:illformatted_gem_dependency) { File.join(profile_path, "profile-with-illformed-gem-depedency") }
+  let(:profile_with_gem_dependency_without_gem_version) { File.join(profile_path, "profile-without-gem-version") }
 
   def reset_globals
     ENV["HOME"] = Dir.home
@@ -36,6 +37,13 @@ describe "profile with gem dependencies" do
     assert_exit_code 0, out
   end
 
+  it "installs the gem dependencies and load them if --auto-install-gems is provided and gem version is not mentioned." do
+    out = inspec_with_env("exec #{profile_with_gem_dependency_without_gem_version} --no-create-lockfile --auto-install-gems")
+    _(out.stderr).must_equal ""
+    _(File.directory?(File.join(config_dir_path, "profile_gems", ".inspec/gems/#{ruby_abi_version}/gems"))).must_equal true
+    assert_exit_code 0, out
+  end
+
   it "installs the gem dependencies in dendent profile and load them if --auto-install-gems is provided." do
     out = inspec_with_env("exec #{depdent_profile_gem_dependency} --no-create-lockfile --auto-install-gems")
     _(out.stderr).must_equal ""
@@ -44,7 +52,7 @@ describe "profile with gem dependencies" do
   end
 
   it "raises error for illformated gem dependencies found in the meta data file" do
-    out = inspec_with_env("exec #{illformatted_gem_dependncy} --no-create-lockfile --auto-install-gems")
+    out = inspec_with_env("exec #{illformatted_gem_dependency} --no-create-lockfile --auto-install-gems")
     _(out.stderr).must_include "Unparseable gem dependency '[\"+ 2.3.12\"]' for 'mongo'"
     assert_exit_code 1, out
   end
