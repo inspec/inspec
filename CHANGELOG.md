@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.16.0 -->
-## [v5.16.0](https://github.com/inspec/inspec/tree/v5.16.0) (2022-05-17)
+<!-- latest_release 5.16.1 -->
+## [v5.16.1](https://github.com/inspec/inspec/tree/v5.16.1) (2022-05-17)
 
 #### Merged Pull Requests
-- CFINSPEC-84: Add `x509_private_key` resource [#6018](https://github.com/inspec/inspec/pull/6018) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-90: Enhance `host` resource [#6045](https://github.com/inspec/inspec/pull/6045) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.14.0 -->
 ### Changes since 5.14.0 release
 
 #### Merged Pull Requests
+- CFINSPEC-90: Enhance `host` resource [#6045](https://github.com/inspec/inspec/pull/6045) ([ahasunos](https://github.com/ahasunos)) <!-- 5.16.1 -->
 - CFINSPEC-84: Add `x509_private_key` resource [#6018](https://github.com/inspec/inspec/pull/6018) ([ahasunos](https://github.com/ahasunos)) <!-- 5.16.0 -->
 - CFINSPEC-252: Fix profile gem dependency installation is failing when  gem version is not specified [#6057](https://github.com/inspec/inspec/pull/6057) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.15.2 -->
 - CFINSPEC-250: Fix for inspec json command does not populate the inputs for the profile [#6056](https://github.com/inspec/inspec/pull/6056) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.15.1 -->
