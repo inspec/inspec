@@ -1,0 +1,12 @@
+{
+    "IP6Address":  "2404:6800:4009:827::200e",
+    "Name":  "microsoft.com",
+    "Type":  28,
+    "CharacterSet":  1,
+    "Section":  1,
+    "DataLength":  16,
+    "TTL":  176,
+    "Address":  "2404:6800:4009:827::200e",
+    "IPAddress":  "2404:6800:4009:827::200e",
+    "QueryType":  28
+}

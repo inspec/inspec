@@ -113,6 +113,16 @@ module Inspec::Resources
       resolve.nil? || resolve.empty? ? nil : resolve
     end
 
+    # returns an array of the ipv4 addresses
+    def ipv4_address
+      ipaddress.select { |ip| ip.match(Resolv::IPv4::Regex) }
+    end
+
+    # returns an array of the ipv6 addresses
+    def ipv6_address
+      ipaddress.select { |ip| ip.match(Resolv::IPv6::Regex) }
+    end
+
     def to_s
       resource_name = "Host #{hostname}"
       resource_name += " port #{port} proto #{protocol}" if port
@@ -296,15 +306,44 @@ module Inspec::Resources
     end
 
     def resolve(hostname)
+      addresses = []
+      # -Type A is the DNS query for IPv4 server Address.
       cmd = inspec.command("Resolve-DnsName –Type A #{hostname} | ConvertTo-Json")
       begin
-        resolv = JSON.parse(cmd.stdout)
+        resolve_ipv4 = JSON.parse(cmd.stdout)
       rescue JSON::ParserError => _e
         return nil
       end
 
-      resolv = [resolv] unless resolv.is_a?(Array)
-      resolv.map { |entry| entry["IPAddress"] }
+      resolve_ipv4 = resolve_ipv4.inject(:merge) if resolve_ipv4.is_a?(Array)
+
+      # Append the ipv4 addresses
+      resolve_ipv4.each_value do |ip|
+        matched = ip.to_s.chomp.match(Resolv::IPv4::Regex)
+        next if matched.nil? || addresses.include?(matched.to_s)
+
+        addresses << matched.to_s
+      end
+
+      # -Type AAAA is the DNS query for IPv6 server Address.
+      cmd = inspec.command("Resolve-DnsName –Type AAAA #{hostname} | ConvertTo-Json")
+      begin
+        resolve_ipv6 = JSON.parse(cmd.stdout)
+      rescue JSON::ParserError => _e
+        return nil
+      end
+
+      resolve_ipv6 = resolve_ipv6.inject(:merge) if resolve_ipv6.is_a?(Array)
+
+      # Append the ipv6 addresses
+      resolve_ipv6.each_value do |ip|
+        matched = ip.to_s.chomp.match(Resolv::IPv6::Regex)
+        next if matched.nil? || addresses.include?(matched.to_s)
+
+        addresses << matched.to_s
+      end
+
+      addresses
     end
   end
 end
