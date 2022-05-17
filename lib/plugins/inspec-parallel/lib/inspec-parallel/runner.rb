@@ -41,7 +41,7 @@ module InspecPlugins
         if Inspec.locally_windows?
           Inspec::UI.new.exit(:usage_error)
         else
-          Process.daemon(true, false)
+          Process.daemon(true, true)
         end
       end
 
@@ -90,7 +90,7 @@ module InspecPlugins
           # In parent with newly forked child
           parent_writer.close
           @child_tracker[child_pid] = { io: child_reader }
-          @ui.child_forked(child_pid, invocation)
+          @ui.child_forked(child_pid, invocation) unless run_in_background
         else
           # In child
           child_reader.close
@@ -125,7 +125,7 @@ module InspecPlugins
             create_logs(pid, "#{Time.now.iso8601} Exit code: #{$?}\n")
 
             # child exited - status in $?
-            @ui.child_exited(pid)
+            @ui.child_exited(pid) unless run_in_background
             @child_tracker.delete pid
           end
         end
@@ -148,7 +148,7 @@ module InspecPlugins
                 pipe_ready_for_reading.close
                 break
               end
-              update_ui_with_line(pid, update_line)
+              update_ui_with_line(pid, update_line) unless run_in_background
               # Only pull one line if we are doing normal updates; slurp the whole file
               # if we are doing a final pull on a targeted PID
               break unless target_pid
