@@ -417,7 +417,7 @@ or,
       it { should_not be_file }
       it { should_not be_directory }
     end
-```ruby
+```
 
 ### Test if a file is a block device
 
@@ -428,7 +428,7 @@ or,
       it { should_not be_file }
       it { should_not be_directory }
     end
-```ruby
+```
 
 ### Test the mode for a file
 
@@ -436,7 +436,7 @@ or,
     describe file('/dev') do
      its('mode') { should cmp '00755' }
     end
-```ruby
+```
 
 ### Test the owner of a file
 
