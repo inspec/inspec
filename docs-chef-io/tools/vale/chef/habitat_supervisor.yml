@@ -1,0 +1,6 @@
+extends: substitution
+message: "Use Use '%s' instead of 'Supervisor'."
+level: error
+swap:
+  '(?:[^\s]* ){0,2}Supervisor': Chef Habitat Supervisor
+

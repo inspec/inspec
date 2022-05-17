@@ -1,0 +1,6 @@
+extends: substitution
+message: "Use Use '%s' instead of 'Studio'."
+level: error
+swap:
+  '(?:[^\s]* ){0,2}Studio': Chef Habitat Studio
+

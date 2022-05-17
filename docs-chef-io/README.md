@@ -73,7 +73,6 @@ There are two ways to preview the documentation in `inspec`:
 - submit a PR
 - `make serve`
 
-
 ### Submit a PR
 
 When you submit a PR to `inspec/inspec`, Netlify will build the documentation
