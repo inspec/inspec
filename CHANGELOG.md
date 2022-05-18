@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.17.0 -->
-## [v5.17.0](https://github.com/inspec/inspec/tree/v5.17.0) (2022-05-17)
+<!-- latest_release 5.17.1 -->
+## [v5.17.1](https://github.com/inspec/inspec/tree/v5.17.1) (2022-05-18)
 
 #### Merged Pull Requests
-- CFINSPEC-81: Add `php_config` resource [#6010](https://github.com/inspec/inspec/pull/6010) ([ahasunos](https://github.com/ahasunos))
+- UNIT_TESTS: update yaml reporter test for Ruby 3+ [#6040](https://github.com/inspec/inspec/pull/6040) ([marijus-ravickas](https://github.com/marijus-ravickas))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.14.0 -->
 ### Changes since 5.14.0 release
 
 #### Merged Pull Requests
+- UNIT_TESTS: update yaml reporter test for Ruby 3+ [#6040](https://github.com/inspec/inspec/pull/6040) ([marijus-ravickas](https://github.com/marijus-ravickas)) <!-- 5.17.1 -->
 - CFINSPEC-81: Add `php_config` resource [#6010](https://github.com/inspec/inspec/pull/6010) ([ahasunos](https://github.com/ahasunos)) <!-- 5.17.0 -->
 - CFINSPEC-92: Enhance `processes` resource [#5991](https://github.com/inspec/inspec/pull/5991) ([ahasunos](https://github.com/ahasunos)) <!-- 5.16.2 -->
 - CFINSPEC-90: Enhance `host` resource [#6045](https://github.com/inspec/inspec/pull/6045) ([ahasunos](https://github.com/ahasunos)) <!-- 5.16.1 -->
