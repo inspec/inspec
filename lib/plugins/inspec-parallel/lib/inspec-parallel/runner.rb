@@ -107,6 +107,12 @@ module InspecPlugins
           rescue StandardError => e
             $stderr.puts "#{Time.now.iso8601} Error Message: #{e.message}"
             $stderr.puts "#{Time.now.iso8601} Error Backtrace: #{e.backtrace}"
+          ensure
+            logs_dir_path = log_path || Dir.pwd
+            error_file_path = File.join(logs_dir_path, "logs", "#{Process.pid}.err")
+            if File.exist?("#{error_file_path}") && !File.size?("#{error_file_path}")
+              File.delete("#{error_file_path}")
+            end
           end
 
           # should be unreachable but child MUST exit
