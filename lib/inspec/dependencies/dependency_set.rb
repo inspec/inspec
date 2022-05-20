@@ -39,7 +39,8 @@ module Inspec
     def self.flatten_dep_tree(dep_tree)
       dep_list = {}
       dep_tree.each do |d|
-        dep_list[d.name] = d
+        key_name = "#{d.name}-#{d.source_version}"
+        dep_list[key_name] = d
         dep_list.merge!(flatten_dep_tree(d.dependencies))
       end
       dep_list
