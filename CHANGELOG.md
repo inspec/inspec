@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.17.2 -->
-## [v5.17.2](https://github.com/inspec/inspec/tree/v5.17.2) (2022-05-23)
+<!-- latest_release 5.17.3 -->
+## [v5.17.3](https://github.com/inspec/inspec/tree/v5.17.3) (2022-05-23)
 
 #### Merged Pull Requests
-- fixing bad markdown syntax [#6066](https://github.com/inspec/inspec/pull/6066) ([replicajune](https://github.com/replicajune))
+- Add vale config to docs in inspec repository [#6065](https://github.com/inspec/inspec/pull/6065) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.14.0 -->
 ### Changes since 5.14.0 release
 
 #### Merged Pull Requests
+- Add vale config to docs in inspec repository [#6065](https://github.com/inspec/inspec/pull/6065) ([IanMadd](https://github.com/IanMadd)) <!-- 5.17.3 -->
 - fixing bad markdown syntax [#6066](https://github.com/inspec/inspec/pull/6066) ([replicajune](https://github.com/replicajune)) <!-- 5.17.2 -->
 - UNIT_TESTS: update yaml reporter test for Ruby 3+ [#6040](https://github.com/inspec/inspec/pull/6040) ([marijus-ravickas](https://github.com/marijus-ravickas)) <!-- 5.17.1 -->
 - CFINSPEC-81: Add `php_config` resource [#6010](https://github.com/inspec/inspec/pull/6010) ([ahasunos](https://github.com/ahasunos)) <!-- 5.17.0 -->
