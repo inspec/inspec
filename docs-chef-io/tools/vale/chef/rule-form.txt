@@ -1,0 +1,33 @@
+# All rules should define the following header keys:
+#
+# `extends` indicates the extension point being used (see below for information
+# on the possible values).
+extends: existence
+# `message` is shown to the user when the rule is broken.
+#
+# Many extension points accept format specifiers (%s), which are replaced by
+# extracted values. See the exention-specific sections below for more details.
+message: "Consider removing '%s'"
+# `level` assigns the rule's severity.
+#
+# The accepted values are suggestion, warning, and error.
+level: warning
+# `scope` specifies where this rule should apply -- e.g., headings, sentences, etc.
+#
+# See the Markup section for more information on scoping.
+scope: heading
+# `code` determines whether or not the content of code spans -- e.g., `foo` for
+# Markdown -- is ignored.
+code: false
+# `link` gives the source for this rule.
+link: 'https://errata.ai/'
+
+# Example Style
+extends: existence
+message: Consider removing '%s'
+level: warning
+code: false
+ignorecase: true
+tokens:
+    - appears to be
+    - arguably

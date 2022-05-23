@@ -1,0 +1,6 @@
+extends: substitution
+message: "Use Use '%s' instead of 'Depot'."
+level: error
+swap:
+  'Depot': Chef Habitat Artifact storage
+

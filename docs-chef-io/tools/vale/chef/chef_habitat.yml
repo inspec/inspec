@@ -1,0 +1,6 @@
+extends: substitution
+message: "Use Use '%s' instead of 'Habitat'."
+level: error
+swap:
+  '(?:[^\s]* ){0,1}Habitat': Chef Habitat
+

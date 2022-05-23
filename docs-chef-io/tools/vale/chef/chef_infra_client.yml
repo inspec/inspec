@@ -1,0 +1,7 @@
+extends: substitution
+message: "Use '%s' instead of '%s'"
+level: error
+ignorecase: true
+swap:
+  'chef client': Chef Infra Client
+  'chef-client': Chef Infra Client
