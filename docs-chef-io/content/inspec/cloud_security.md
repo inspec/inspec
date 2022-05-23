@@ -21,7 +21,7 @@ As companies migrate to the cloud, understanding the security requirements for k
 
 Security threats have become more advanced as the digital landscape continues to evolve. These threats explicitly target cloud computing providers due to an organization's overall lack of visibility in data access and movement. Without taking active steps to improve their cloud security, organizations can face significant governance and compliance risks when managing client information, regardless of where it is stored.
 
-## What does AWS Shared Responsibility Model Mean?
+## What does Cloud Responsibility Model Mean?
 
 A shared responsibility model is a cloud security framework that dictates the security obligations of a cloud computing provider and its users to ensure accountability. This shared model can help relieve the customer's operational burden as AWS operates, manages and controls the components from the host operating system and virtualization layer down to the physical security of the facilities in which the service operates. Security and Compliance are a shared responsibility between AWS and the customer.
 
@@ -42,8 +42,6 @@ Security is one of the biggest concerns with companies migrating to the cloud. C
 The AWS Shared Responsibility model removes the ambiguity of cloud security responsibilities. Chef Cloud Security product also has inbuilt CSPM tools to power and secure your cloud infrastructure.
 
 ### Benefits of Chef's Cloud Security
-
-- Automated provisioning and remediation for security-critical resources.
 
 - Built-in compliance that maintains continuous compliance across the entire cloud estate.
 
@@ -120,11 +118,11 @@ The **AWS Shared Responsibility Model** outlines how AWS commits to the security
 
 As a customer/company managing your own IT infrastructure (either bare metal or VMs) need to create a strategy and practice to manage all the elements depicted on the screen. AWS commits to the security of their platform and distributed infrastructure as a service to their customer. While benefiting from their expertise and scale here is a huge boon for customers, it still means you need to have a plan to secure everything above the line.
 
-#### Categories in AWS Shared Responsibility Model
+#### Categories in Cloud Shared Responsibility Model
 
 There are three categories of responsibilities in the Shared Responsibility Model:
 
- ![AWS Shared Responsibility Model](/images/inspec/cloud_security_aws_shared_model.png)
+ ![Cloud Shared Responsibility Model](/images/inspec/cloud_security_aws_shared_model.png)
 
 - Inherited controls - Responsibilities that are always the provider’s.
 
@@ -196,14 +194,14 @@ The CIS benchmark for Kubernetes includes configuration checks on the following 
 
 Chef provides curated, codified, and ready-to-run CIS benchmark templates for Docker and Kubernetes clusters that performs security scans as an integrated part of automated DevSecOps workflows. You can validate that all your container and cloud-native environments are secure by integrating compliance checks with automated workflow.
 
-| Benchmark                                           | Level          | Audit          |
+| Benchmark                                            | Level          | Audit          |
 | :----------------------------------------------------| :------------- | ---------------|
 | CIS Docker Community Edition Benchmark               | 1 and 2        | Yes            |
+| Docker Security Benchmark                            | 1 and 2        | Yes            |
 | CIS Kubernetes Benchmark                             | 1 and 2        | Yes            |
+| CIS Benchmarks for Azure, AWS, and GCP               |                | Yes            |
+| Cloud based CIS K8 Benchmarks
 
 ### Mitigate OS Misconfigurations and Vulnerabilities
 
 Chef has built premium content that aids in hardening your host Operating Systems (OS) in the cloud-native environments to mitigate host security misconfigurations and vulnerabilities. Using Chef's premium content, you can scan the host operating systems for compliance to benchmarks such as CIS or DISA-STIG by running the corresponding profiles. In addition, Chef provides CIS security benchmarks such as RHEL, SUSE Linux, CentOS Linux, Debian, and Ubuntu for your container hosts.
-
-Scan live running containers - ??
-Validate K8 settings - ??
