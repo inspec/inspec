@@ -25,7 +25,7 @@ module InspecPlugins::Parallelism
       end
 
       def child_exited(pid)
-        slots[status_by_pid[pid][:slot]] = nil
+        slots[status_by_pid[pid][:slot]] = "exited"
 
         status_by_pid[pid][:pct] = 100.0
         status_by_pid[pid][:slot] = nil
@@ -62,7 +62,7 @@ module InspecPlugins::Parallelism
 
         # Assign first empty slot
         slots.each_index do |idx|
-          next unless slots[idx].nil?
+          next unless slots[idx].nil? || slots[idx] == "exited"
 
           slots[idx] = pid
           status_by_pid[pid][:slot] = idx
@@ -90,6 +90,8 @@ module InspecPlugins::Parallelism
         slots.each_index do |idx|
           if slots[idx].nil?
             line += "idle".center(slot_width)
+          elsif slots[idx] == "exited"
+            line += "Done".center(slot_width)
           else
             pid = slots[idx]
             with_pid = format("%s: %0.1f%%", pid, status_by_pid[pid][:pct])

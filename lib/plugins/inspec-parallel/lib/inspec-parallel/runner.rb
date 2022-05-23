@@ -5,7 +5,7 @@ require_relative "super_reporter/base"
 module InspecPlugins
   module Parallelism
     class Runner
-      attr_accessor :invocations, :sub_cmd, :total_jobs, :run_in_background
+      attr_accessor :invocations, :sub_cmd, :total_jobs, :run_in_background, :log_path
 
       def initialize(invocations, cli_options, sub_cmd = "exec")
         @invocations = invocations
@@ -16,6 +16,7 @@ module InspecPlugins
         unless run_in_background
           @ui = InspecPlugins::Parallelism::SuperReporter.make(cli_options["ui"], total_jobs, invocations)
         end
+        @log_path = cli_options["log_path"]
       end
 
       def run
@@ -40,7 +41,7 @@ module InspecPlugins
         if Inspec.locally_windows?
           Inspec::UI.new.exit(:usage_error)
         else
-          Process.daemon(true, false)
+          Process.daemon(true, true)
         end
       end
 
@@ -61,10 +62,24 @@ module InspecPlugins
         child_reader, parent_writer = IO.pipe
 
         # Construct command-line invocation
-        cmd = "#{$0} #{sub_cmd} #{invocation}"
-        child_pid = Process.spawn(cmd, out: parent_writer)
-        @child_tracker[child_pid] = { io: child_reader }
-        @ui.child_spawned(child_pid, invocation)
+        child_pid = nil
+        error_log_file_name = "#{Time.now.nsec}.err"
+
+        begin
+          cmd = "#{$0} #{sub_cmd} #{invocation}"
+          log_msg = "#{Time.now.iso8601} Start Time: #{Time.now}\n#{Time.now.iso8601} Arguments: #{invocation}\n"
+          child_pid = Process.spawn(cmd, out: parent_writer, err: error_log_file_name)
+          # Rename error log file if exist
+          rename_error_log(error_log_file_name, child_pid) if File.exist?(error_log_file_name)
+          # Logging
+          create_logs(child_pid, nil, $stderr)
+          create_logs(child_pid, log_msg)
+          @child_tracker[child_pid] = { io: child_reader }
+          @ui.child_spawned(child_pid, invocation)
+        rescue StandardError => e
+          $stderr.puts "#{Time.now.iso8601} Error Message: #{e.message}"
+          $stderr.puts "#{Time.now.iso8601} Error Backtrace: #{e.backtrace}"
+        end
       end
 
       def fork_another_process
@@ -75,14 +90,30 @@ module InspecPlugins
           # In parent with newly forked child
           parent_writer.close
           @child_tracker[child_pid] = { io: child_reader }
-          @ui.child_forked(child_pid, invocation)
+          @ui.child_forked(child_pid, invocation) unless run_in_background
         else
           # In child
           child_reader.close
           # replace stdout with writer
           $stdout = parent_writer
-          # TODO: redirect stderr to a file
-          runner_invocation(invocation)
+          create_logs(Process.pid, nil, $stderr)
+
+          begin
+            create_logs(
+              Process.pid,
+              "#{Time.now.iso8601} Start Time: #{Time.now}\n#{Time.now.iso8601} Arguments: #{invocation}\n"
+            )
+            runner_invocation(invocation)
+          rescue StandardError => e
+            $stderr.puts "#{Time.now.iso8601} Error Message: #{e.message}"
+            $stderr.puts "#{Time.now.iso8601} Error Backtrace: #{e.backtrace}"
+          ensure
+            logs_dir_path = log_path || Dir.pwd
+            error_file_path = File.join(logs_dir_path, "logs", "#{Process.pid}.err")
+            if File.exist?("#{error_file_path}") && !File.size?("#{error_file_path}")
+              File.delete("#{error_file_path}")
+            end
+          end
 
           # should be unreachable but child MUST exit
           exit(42)
@@ -97,8 +128,10 @@ module InspecPlugins
             # Expect to (probably) find EOF marker on the pipe, and close it if so
             update_ui_poll_select(pid)
 
+            create_logs(pid, "#{Time.now.iso8601} Exit code: #{$?}\n")
+
             # child exited - status in $?
-            @ui.child_exited(pid)
+            @ui.child_exited(pid) unless run_in_background
             @child_tracker.delete pid
           end
         end
@@ -121,7 +154,7 @@ module InspecPlugins
                 pipe_ready_for_reading.close
                 break
               end
-              update_ui_with_line(pid, update_line)
+              update_ui_with_line(pid, update_line) unless run_in_background
               # Only pull one line if we are doing normal updates; slurp the whole file
               # if we are doing a final pull on a targeted PID
               break unless target_pid
@@ -149,6 +182,27 @@ module InspecPlugins
         # thor invocation
         arguments = [sub_cmd, profile_to_run, splitted_result].flatten
         Inspec::InspecCLI.start(arguments, enforce_license: true)
+      end
+
+      def create_logs(child_pid, run_log , stderr = nil)
+        logs_dir_path = log_path || Dir.pwd
+        log_dir = File.join(logs_dir_path, "logs")
+        FileUtils.mkdir_p(log_dir) unless File.directory?(log_dir)
+
+        if stderr
+          log_file = File.join(log_dir, "#{child_pid}.err") unless File.exist?("#{child_pid}.err")
+          stderr.reopen(log_file, "a")
+        else
+          log_file = File.join(log_dir, "#{child_pid}.log") unless File.exist?("#{child_pid}.log")
+          File.write(log_file, run_log, mode: "a")
+        end
+      end
+
+      def rename_error_log(error_log_file_name, child_pid)
+        logs_dir_path = log_path || Dir.pwd
+        log_dir = File.join(logs_dir_path, "logs")
+        FileUtils.mkdir_p(log_dir) unless File.directory?(log_dir)
+        File.rename(error_log_file_name, "#{log_dir}/#{child_pid}.err")
       end
     end
   end
