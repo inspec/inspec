@@ -1,38 +1,34 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.18.7 -->
-## [v5.18.7](https://github.com/inspec/inspec/tree/v5.18.7) (2022-06-23)
+
+<!-- latest_release 5.17.4 -->
+## [v5.17.4](https://github.com/inspec/inspec/tree/v5.17.4) (2022-05-24)
 
 #### Merged Pull Requests
-- Bump octokit from 4.23.0 to 4.25.0 in /omnibus [#6146](https://github.com/inspec/inspec/pull/6146) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Remove Hugo version from Netlify config [#6075](https://github.com/inspec/inspec/pull/6075) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.17.4 -->
 ### Changes since 5.17.4 release
 
 #### Merged Pull Requests
-- Bump octokit from 4.23.0 to 4.25.0 in /omnibus [#6146](https://github.com/inspec/inspec/pull/6146) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.18.7 -->
-- Updated plugins doc with send_report functionality [#6144](https://github.com/inspec/inspec/pull/6144) ([Nik08](https://github.com/Nik08)) <!-- 5.18.6 -->
-- add ruby test 3.1 in verify pipeline [#5892](https://github.com/inspec/inspec/pull/5892) ([jayashrig158](https://github.com/jayashrig158)) <!-- 5.18.5 -->
-- Add inspec-6 branch as release branch [#6136](https://github.com/inspec/inspec/pull/6136) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.18.4 -->
-- Dk/matchers rewrite [#6007](https://github.com/inspec/inspec/pull/6007) ([dkumaras](https://github.com/dkumaras)) <!-- 5.18.3 -->
-- Fixed Lint/DuplicateMethods: Method Inspec::Resources::Service#resource_id is defined at both [#6132](https://github.com/inspec/inspec/pull/6132) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.18.2 -->
-- CFINSPEC-291: Fix `processes` resource to consider processes without `path` on Windows [#6100](https://github.com/inspec/inspec/pull/6100) ([ahasunos](https://github.com/ahasunos)) <!-- 5.18.1 -->
-- CFINSPEC-167: Profile Signing Rollup [#5995](https://github.com/inspec/inspec/pull/5995) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.18.0 -->
-- Bump berkshelf from 8.0.0 to 8.0.2 in /omnibus [#6114](https://github.com/inspec/inspec/pull/6114) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.17.18 -->
-- CFINSPEC-262 - Handle resource_id in error situation [#6119](https://github.com/inspec/inspec/pull/6119) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.17.17 -->
-- Handle resource_id in error situations [#6118](https://github.com/inspec/inspec/pull/6118) ([ahasunos](https://github.com/ahasunos)) <!-- 5.17.16 -->
-- CFINSPEC-273 Adds resource_id group 12 [#6112](https://github.com/inspec/inspec/pull/6112) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.17.15 -->
-- CFINSPEC-270 Adds resource_id group9 [#6111](https://github.com/inspec/inspec/pull/6111) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.17.14 -->
-- CFINSPEC-265  Group 4 - Added resource_id in resources [#6109](https://github.com/inspec/inspec/pull/6109) ([Nik08](https://github.com/Nik08)) <!-- 5.17.13 -->
-- CFINSPEC-269 Adds resource_id group 8 [#6107](https://github.com/inspec/inspec/pull/6107) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.17.12 -->
-- CFINSPEC-268 Adds resource_id group 7 [#6105](https://github.com/inspec/inspec/pull/6105) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.17.11 -->
-- Fix the key duplication error warning in the mock_loader.rb [#6120](https://github.com/inspec/inspec/pull/6120) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.17.10 -->
-- CFINSPEC-266: resource_ids group 5 [#6103](https://github.com/inspec/inspec/pull/6103) ([ahasunos](https://github.com/ahasunos)) <!-- 5.17.9 -->
-- CFINSPEC-262 Adds resource_id group 1 [#6102](https://github.com/inspec/inspec/pull/6102) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.17.8 -->
-- CFINSPEC-267: resource_ids group 6 [#6101](https://github.com/inspec/inspec/pull/6101) ([ahasunos](https://github.com/ahasunos)) <!-- 5.17.7 -->
-- CFINSPEC-95: Enhance `x509_certificate` resource [#6041](https://github.com/inspec/inspec/pull/6041) ([ahasunos](https://github.com/ahasunos)) <!-- 5.17.6 -->
-- Bump rack from 2.2.3 to 2.2.3.1 in /omnibus [#6098](https://github.com/inspec/inspec/pull/6098) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.17.5 -->
+- Remove Hugo version from Netlify config [#6075](https://github.com/inspec/inspec/pull/6075) ([IanMadd](https://github.com/IanMadd)) <!-- 5.17.4 -->
+- Add vale config to docs in inspec repository [#6065](https://github.com/inspec/inspec/pull/6065) ([IanMadd](https://github.com/IanMadd)) <!-- 5.17.3 -->
+- fixing bad markdown syntax [#6066](https://github.com/inspec/inspec/pull/6066) ([replicajune](https://github.com/replicajune)) <!-- 5.17.2 -->
+- UNIT_TESTS: update yaml reporter test for Ruby 3+ [#6040](https://github.com/inspec/inspec/pull/6040) ([marijus-ravickas](https://github.com/marijus-ravickas)) <!-- 5.17.1 -->
+- CFINSPEC-81: Add `php_config` resource [#6010](https://github.com/inspec/inspec/pull/6010) ([ahasunos](https://github.com/ahasunos)) <!-- 5.17.0 -->
+- CFINSPEC-92: Enhance `processes` resource [#5991](https://github.com/inspec/inspec/pull/5991) ([ahasunos](https://github.com/ahasunos)) <!-- 5.16.2 -->
+- CFINSPEC-90: Enhance `host` resource [#6045](https://github.com/inspec/inspec/pull/6045) ([ahasunos](https://github.com/ahasunos)) <!-- 5.16.1 -->
+- CFINSPEC-84: Add `x509_private_key` resource [#6018](https://github.com/inspec/inspec/pull/6018) ([ahasunos](https://github.com/ahasunos)) <!-- 5.16.0 -->
+- CFINSPEC-252: Fix profile gem dependency installation is failing when  gem version is not specified [#6057](https://github.com/inspec/inspec/pull/6057) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.15.2 -->
+- CFINSPEC-250: Fix for inspec json command does not populate the inputs for the profile [#6056](https://github.com/inspec/inspec/pull/6056) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.15.1 -->
+- CFINSPEC-96: Add `zfs` resource [#6004](https://github.com/inspec/inspec/pull/6004) ([ahasunos](https://github.com/ahasunos)) <!-- 5.15.0 -->
+- Add a sample validation key, to be used in testing key fetching [#6030](https://github.com/inspec/inspec/pull/6030) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.14.5 -->
+- Bump berkshelf from 7.2.2 to 8.0.0 in /omnibus [#6020](https://github.com/inspec/inspec/pull/6020) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.14.4 -->
+- Fix for issue 5809 Service checks failing on Amazon linux 2022 [#5998](https://github.com/inspec/inspec/pull/5998) ([ahasunos](https://github.com/ahasunos)) <!-- 5.14.3 -->
+- CFINSPEC-185: Updates inspec check cli docs to include --with-cookstyle option [#6000](https://github.com/inspec/inspec/pull/6000) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.14.2 -->
+- CFINSPEC-88: Extend `file` resource documentation with be_mounted matcher [#5999](https://github.com/inspec/inspec/pull/5999) ([ahasunos](https://github.com/ahasunos)) <!-- 5.14.1 -->
+- chore: Set permissions for GitHub actions [#5990](https://github.com/inspec/inspec/pull/5990) ([neilnaveen](https://github.com/neilnaveen)) <!-- 5.14.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
