@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.17.3 -->
-## [v5.17.3](https://github.com/inspec/inspec/tree/v5.17.3) (2022-05-23)
+<!-- latest_release 5.17.4 -->
+## [v5.17.4](https://github.com/inspec/inspec/tree/v5.17.4) (2022-05-24)
 
 #### Merged Pull Requests
-- Add vale config to docs in inspec repository [#6065](https://github.com/inspec/inspec/pull/6065) ([IanMadd](https://github.com/IanMadd))
+- Remove Hugo version from Netlify config [#6075](https://github.com/inspec/inspec/pull/6075) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.14.0 -->
 ### Changes since 5.14.0 release
 
 #### Merged Pull Requests
+- Remove Hugo version from Netlify config [#6075](https://github.com/inspec/inspec/pull/6075) ([IanMadd](https://github.com/IanMadd)) <!-- 5.17.4 -->
 - Add vale config to docs in inspec repository [#6065](https://github.com/inspec/inspec/pull/6065) ([IanMadd](https://github.com/IanMadd)) <!-- 5.17.3 -->
 - fixing bad markdown syntax [#6066](https://github.com/inspec/inspec/pull/6066) ([replicajune](https://github.com/replicajune)) <!-- 5.17.2 -->
 - UNIT_TESTS: update yaml reporter test for Ruby 3+ [#6040](https://github.com/inspec/inspec/pull/6040) ([marijus-ravickas](https://github.com/marijus-ravickas)) <!-- 5.17.1 -->
