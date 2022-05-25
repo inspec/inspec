@@ -1,36 +1,34 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.17.4 -->
-## [v5.17.4](https://github.com/inspec/inspec/tree/v5.17.4) (2022-05-24)
-
-#### Merged Pull Requests
-- Remove Hugo version from Netlify config [#6075](https://github.com/inspec/inspec/pull/6075) ([IanMadd](https://github.com/IanMadd))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=5.14.0 -->
-### Changes since 5.14.0 release
-
-#### Merged Pull Requests
-- Remove Hugo version from Netlify config [#6075](https://github.com/inspec/inspec/pull/6075) ([IanMadd](https://github.com/IanMadd)) <!-- 5.17.4 -->
-- Add vale config to docs in inspec repository [#6065](https://github.com/inspec/inspec/pull/6065) ([IanMadd](https://github.com/IanMadd)) <!-- 5.17.3 -->
-- fixing bad markdown syntax [#6066](https://github.com/inspec/inspec/pull/6066) ([replicajune](https://github.com/replicajune)) <!-- 5.17.2 -->
-- UNIT_TESTS: update yaml reporter test for Ruby 3+ [#6040](https://github.com/inspec/inspec/pull/6040) ([marijus-ravickas](https://github.com/marijus-ravickas)) <!-- 5.17.1 -->
-- CFINSPEC-81: Add `php_config` resource [#6010](https://github.com/inspec/inspec/pull/6010) ([ahasunos](https://github.com/ahasunos)) <!-- 5.17.0 -->
-- CFINSPEC-92: Enhance `processes` resource [#5991](https://github.com/inspec/inspec/pull/5991) ([ahasunos](https://github.com/ahasunos)) <!-- 5.16.2 -->
-- CFINSPEC-90: Enhance `host` resource [#6045](https://github.com/inspec/inspec/pull/6045) ([ahasunos](https://github.com/ahasunos)) <!-- 5.16.1 -->
-- CFINSPEC-84: Add `x509_private_key` resource [#6018](https://github.com/inspec/inspec/pull/6018) ([ahasunos](https://github.com/ahasunos)) <!-- 5.16.0 -->
-- CFINSPEC-252: Fix profile gem dependency installation is failing when  gem version is not specified [#6057](https://github.com/inspec/inspec/pull/6057) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.15.2 -->
-- CFINSPEC-250: Fix for inspec json command does not populate the inputs for the profile [#6056](https://github.com/inspec/inspec/pull/6056) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.15.1 -->
-- CFINSPEC-96: Add `zfs` resource [#6004](https://github.com/inspec/inspec/pull/6004) ([ahasunos](https://github.com/ahasunos)) <!-- 5.15.0 -->
-- Add a sample validation key, to be used in testing key fetching [#6030](https://github.com/inspec/inspec/pull/6030) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.14.5 -->
-- Bump berkshelf from 7.2.2 to 8.0.0 in /omnibus [#6020](https://github.com/inspec/inspec/pull/6020) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.14.4 -->
-- Fix for issue 5809 Service checks failing on Amazon linux 2022 [#5998](https://github.com/inspec/inspec/pull/5998) ([ahasunos](https://github.com/ahasunos)) <!-- 5.14.3 -->
-- CFINSPEC-185: Updates inspec check cli docs to include --with-cookstyle option [#6000](https://github.com/inspec/inspec/pull/6000) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.14.2 -->
-- CFINSPEC-88: Extend `file` resource documentation with be_mounted matcher [#5999](https://github.com/inspec/inspec/pull/5999) ([ahasunos](https://github.com/ahasunos)) <!-- 5.14.1 -->
-- chore: Set permissions for GitHub actions [#5990](https://github.com/inspec/inspec/pull/5990) ([neilnaveen](https://github.com/neilnaveen)) <!-- 5.14.0 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v5.17.4](https://github.com/inspec/inspec/tree/v5.17.4) (2022-05-25)
+
+#### Merged Pull Requests
+- chore: Set permissions for GitHub actions [#5990](https://github.com/inspec/inspec/pull/5990) ([neilnaveen](https://github.com/neilnaveen))
+- CFINSPEC-88: Extend `file` resource documentation with be_mounted matcher [#5999](https://github.com/inspec/inspec/pull/5999) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-185: Updates inspec check cli docs to include --with-cookstyle option [#6000](https://github.com/inspec/inspec/pull/6000) ([Vasu1105](https://github.com/Vasu1105))
+- Fix for issue 5809 Service checks failing on Amazon linux 2022 [#5998](https://github.com/inspec/inspec/pull/5998) ([ahasunos](https://github.com/ahasunos))
+- Bump berkshelf from 7.2.2 to 8.0.0 in /omnibus [#6020](https://github.com/inspec/inspec/pull/6020) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Add a sample validation key, to be used in testing key fetching [#6030](https://github.com/inspec/inspec/pull/6030) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- CFINSPEC-96: Add `zfs` resource [#6004](https://github.com/inspec/inspec/pull/6004) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-250: Fix for inspec json command does not populate the inputs for the profile [#6056](https://github.com/inspec/inspec/pull/6056) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-252: Fix profile gem dependency installation is failing when  gem version is not specified [#6057](https://github.com/inspec/inspec/pull/6057) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-84: Add `x509_private_key` resource [#6018](https://github.com/inspec/inspec/pull/6018) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-90: Enhance `host` resource [#6045](https://github.com/inspec/inspec/pull/6045) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-92: Enhance `processes` resource [#5991](https://github.com/inspec/inspec/pull/5991) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-81: Add `php_config` resource [#6010](https://github.com/inspec/inspec/pull/6010) ([ahasunos](https://github.com/ahasunos))
+- UNIT_TESTS: update yaml reporter test for Ruby 3+ [#6040](https://github.com/inspec/inspec/pull/6040) ([marijus-ravickas](https://github.com/marijus-ravickas))
+- fixing bad markdown syntax [#6066](https://github.com/inspec/inspec/pull/6066) ([replicajune](https://github.com/replicajune))
+- Add vale config to docs in inspec repository [#6065](https://github.com/inspec/inspec/pull/6065) ([IanMadd](https://github.com/IanMadd))
+- Remove Hugo version from Netlify config [#6075](https://github.com/inspec/inspec/pull/6075) ([IanMadd](https://github.com/IanMadd))
+<!-- latest_stable_release -->
+
 ## [v5.14.0](https://github.com/inspec/inspec/tree/v5.14.0) (2022-04-21)
 
 #### Merged Pull Requests
@@ -41,7 +39,6 @@
 - CFINSPEC-93: Enhance `service` resource [#5981](https://github.com/inspec/inspec/pull/5981) ([ahasunos](https://github.com/ahasunos))
 - CFINSPEC-89: Enhance `group` resource [#5987](https://github.com/inspec/inspec/pull/5987) ([ahasunos](https://github.com/ahasunos))
 - CFINSPEC-78: Add `linux_audit_system` resource [#5988](https://github.com/inspec/inspec/pull/5988) ([ahasunos](https://github.com/ahasunos))
-<!-- latest_stable_release -->
 
 ## [v5.12.2](https://github.com/inspec/inspec/tree/v5.12.2) (2022-04-08)
 
