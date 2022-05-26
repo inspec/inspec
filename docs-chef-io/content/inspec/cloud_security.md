@@ -120,7 +120,7 @@ The **AWS Shared Responsibility Model** outlines how AWS commits to their cloud'
 
 As a customer/company managing your own IT infrastructure (either bare metal or VMs) need to create a strategy and practice to manage all the elements depicted on the screen. AWS commits to the security of its platform and distributed infrastructure as a service to their customer. Their expertise and scale provide a massive benefit for customers, but you still need to have a plan to secure everything.
 
-![Cloud Shared Responsibility Model](/images/inspec/cloud_security_aws_shared_model.png)
+{{< figure src="/images/inspec/cloud_security_aws_shared_model.png" title="Cloud Shared Responsibility Model" >}}
 
 #### Categories in Cloud Shared Responsibility Model
 
@@ -130,7 +130,7 @@ There are three categories of responsibilities in the Shared Responsibility Mode
 
   The security responsibilities that are always the providers relate to safeguarding the infrastructure itself and access to, patching, and configuration of the physical hosts and the physical network on which the compute instances run, and where the storage and other resources reside. The security tasks extend by protecting end-user data, applications, operating systems, endpoints, and network traffic.
 
-- Customer-specific infrastructure - Responsibilities that are always the customer’s, and
+- Customer-specific infrastructure - Responsibilities that are always the customer’s.
 
   The security responsibilities that are always the customer’s include managing users and their access privileges (identity and access management), safeguarding cloud accounts from unauthorized access, the encryption and protection of cloud-based data assets, security of the zone data, and managing its security posture compliance.
 
