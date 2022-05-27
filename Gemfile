@@ -39,6 +39,7 @@ group :test do
   gem "simplecov", "~> 0.21"
   gem "simplecov_json_formatter"
   gem "webmock", "~> 3.0"
+  gem "license_scout"
 end
 
 group :deploy do
