@@ -279,6 +279,12 @@ namespace :test do
 
     sh("sh", "-c", sh_cmd)
   end
+
+  # Run license scout for license aggregation
+  desc "Run license scout"
+  task :license_scout do
+    license_scout
+  end
 end
 
 # Print the current version of this gem or update it.
