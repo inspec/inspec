@@ -6,7 +6,6 @@ require "rake/testtask"
 require "train"
 require_relative "tasks/spdx"
 require "fileutils"
-require "license_scout"
 
 Bundler::GemHelper.install_tasks name: "inspec-core"
 Bundler::GemHelper.install_tasks name: "inspec"
@@ -278,12 +277,6 @@ namespace :test do
     sh_cmd += " --format=#{ENV["format"]}" if ENV["format"]
 
     sh("sh", "-c", sh_cmd)
-  end
-
-  # Run license scout for license aggregation
-  desc "Run license scout"
-  task :license_scout do
-    license_scout
   end
 end
 

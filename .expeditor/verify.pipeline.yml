@@ -82,7 +82,7 @@ steps:
           image: rubydistros/windows-2019:3.1
   - label: license-scout
     command:
-      - RAKE_TASK=test:license_scout /workdir/.expeditor/buildkite/verify.sh
+      - /workdir/.expeditor/buildkite/license_scout.sh
     expeditor:
       executor:
         docker:
