@@ -74,9 +74,4 @@ if [ -n "${CI_ENABLE_COVERAGE:-}" ]; then
   -Dsonar.host.url=https://sonarcloud.io
 fi
 
-if [ -n "${ENABLE_LICENSE_SCOUT:-}" ]; then
-  echo "--- running license_scout"
-  license_scout
-fi
-
 exit $RAKE_EXIT
