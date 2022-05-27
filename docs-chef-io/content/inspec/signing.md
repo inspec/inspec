@@ -17,13 +17,13 @@ This page documents the `inspec sign` command introduced in InSpec 5 and details
 
 ### What is a Signed Profile?
 
-A signed profile, or `.iaf` file, is an InSpec profile with a digital signature that attests to its authenticity. Starting in 2022, many Progress Chef authored profiles are available as signed profiles.
+A signed profile, or `.iaf` file, is an InSpec profile with a digital signature that attests to its authenticity. Progress Chef authored profiles are available as signed profiles starting from 2022.
 
 ### How does Profile Signing Work?
 
 Profile signing uses a matched pair of keys. The _signing key_ is secret and is used to sign the profile. The _validation key_ is widely distributed and verifies the signed profile signature.
 
-Keypairs are first searched for in the current directory and then in the user's `~/.inspec/keys` directory. Progress Chef validation keys are also distributed in the `etc/keys` directory of the InSpec installation tree. Finally, if a validation key is not found, the profile verification system attempts to download keys from the [InSpec Github](https://github.com/inspec/inspec/tree/main/etc/keys) repository.
+Keypairs are first searched in the current directory and then in the user's `~/.inspec/keys` directory. Progress Chef validation keys are also distributed in the `etc/keys` directory of the InSpec installation tree. Finally, if a validation key is not found, the profile verification system attempts to download keys from the [InSpec Github](https://github.com/inspec/inspec/tree/main/etc/keys) repository.
 
 ### How do I execute a signed profile?
 
@@ -47,7 +47,7 @@ Profile Summary: 1 successful control, 0 control failures, 0 controls skipped
 Test Summary: 2 successful, 0 failures, 0 skipped
 ```
 
-A signed profile is checked for validity before being executed, and if it cannot be verified, then InSpec exits with code 5 (bad signature).
+A signed profile is checked for validity before being executed, and if it cannot be verified, then InSpec exits with `code 5` (bad signature).
 
 ### How do I know which key is used to sign a profile?
 
@@ -63,9 +63,9 @@ Profile is valid.
 
 ### How do I look inside a signed profile?
 
-Use the `inspec export` command to examine a signed profile's contents. You must be able to verify the profile to export the contents. By default, the `export` command dumps a summary of the profile in a human-readable YAML format, which includes most of the metadata and the control IDs, control source code, inputs, and other information you need to make use of the profile.
+Use the `inspec export` command to examine a signed profile's contents. You can verify the profile to export the contents. By default, the `export` command dumps a profile summary in a human-readable YAML format, including most of the metadata and the control IDs, control source code, inputs, and other profile information.
 
-To view a **signed profile**, run:
+- To view a **signed profile**, run:
 
 ```bash
 [cwolfe@lodi temp]$ inspec export simple-0.1.0.iaf
@@ -127,7 +127,7 @@ To view a **signed profile**, run:
   :version: 5.14.5
 ```
 
-To read a profile's **README**, run:
+- To read a profile's **README**, run:
 
 ```bash
 [cwolfe@lodi temp]$ inspec export --what readme simple-0.1.0.iaf
@@ -137,7 +137,7 @@ This example shows the implementation of an InSpec profile.
 
 ```
 
-To view a **signed profile's metadata file (inspec.yml)**, run:
+- To view a **signed profile's metadata file (inspec.yml)**, run:
 
 ```bash
 [cwolfe@lodi temp]$ inspec export --what metadata simple-0.1.0.iaf
@@ -157,7 +157,7 @@ supports:
 
 ### How do I create keys?
 
-Most users of signed profiles need not create keys of their own, unless they wish to create their own signed profiles. To generate keys of your own, use the `inspec sign generate-keys` command:
+Most users of signed profiles need not create keys of their own unless they wish for one. To generate keys of your own, use the `inspec sign generate-keys` command:
 
 ```bash
 [cwolfe@lodi temp]$ inspec sign generate-keys --keyname test-03
@@ -167,11 +167,11 @@ Generating validation key in /Users/cwolfe/.inspec/keys/test-03.pem.pub
 [cwolfe@lodi temp]$
 ```
 
-Keep your signing key secret. You need to devise a way of distributing the validation key to your profile users.
+Ensure to keep your signing key secret. It would help if you devised a way of distributing the validation key to your profile users.
 
 ### How do I sign profiles?
 
-If you wish to sign profiles yourself, you will need a signing key. Specify the name of the key and the name of the profile.
+You will need a signing key to sign profiles. Specify the name of the key and the name of the profile.
 
 ```bash
 [cwolfe@lodi temp]$ inspec sign profile --keyname test-03 --profile simple
