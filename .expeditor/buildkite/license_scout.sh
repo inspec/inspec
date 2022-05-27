@@ -4,11 +4,6 @@ echo "--- dependencies"
 . .expeditor/buildkite/cache_support.sh
 install_cache_deps sudo
 
-echo "--- setting up user"
-export LANG=C.UTF-8 LANGUAGE=C.UTF-8
-useradd -m -U --uid 2000 normal
-echo "normal ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/normal
-
 echo "--- updating rubygems"
 gem update -N --system 3.2.3 --force
 
@@ -32,7 +27,7 @@ echo "--- push bundle cache"
 push_bundle
 
 echo "--- running license_scout"
-license_scout
+bundle exec license_scout
 LICENSE_SCOUT_EXIT=$?
 
 exit $LICENSE_SCOUT_EXIT
