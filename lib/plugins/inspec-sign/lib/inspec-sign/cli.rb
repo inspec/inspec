@@ -95,7 +95,7 @@ module InspecPlugins
       option :keyname, type: :string, required: true,
         desc: "Desriptive name of key"
       option :profile_content_id, type: :string,
-        desc: "UUID of the profile. This will overwrite existing profile content id if already exist in the metadata file."
+        desc: "UUID of the profile. This will overwrite an existing profile content id if it already exists in the metadata file."
       def profile
         InspecPlugins::Sign::Base.profile_sign(options)
       end
