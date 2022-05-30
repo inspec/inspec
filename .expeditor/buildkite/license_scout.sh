@@ -5,15 +5,15 @@ echo "--- dependencies"
 # install_cache_deps sudo
 
 echo "--- updating rubygems"
-# gem update -N --system 3.2.3 --force
+gem update -N --system 3.2.3 --force
 
 echo "--- system details"
-# uname -a
-# gem env
-# bundle --version
-# mount
-# df /tmp
-# echo ${TMPDIR:-unknown}
+uname -a
+gem env
+bundle --version
+mount
+df /tmp
+echo ${TMPDIR:-unknown}
 
 echo "--- pull bundle cache"
 # pull_bundle
