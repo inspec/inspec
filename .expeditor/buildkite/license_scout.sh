@@ -25,15 +25,11 @@ bundle install --jobs=7 --retry=3
 #bundle update --jobs=7 --retry=3
 
 echo "--- push bundle cache"
-# push_bundle
-
-shasum -a 256 Gemfile.lock > bundle.sha256
-tar -czf bundle.tar.gz Gemfile.lock vendor/
-push_s3_file bundle.tar.gz
-push_s3_file bundle.sha256
+push_bundle
 
 echo "--- running license_scout"
-bundle exec license_scout
+gem install license_scout -v 1.3.1
+license_scout
 LICENSE_SCOUT_EXIT=$?
 
 exit $LICENSE_SCOUT_EXIT
