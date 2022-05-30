@@ -27,8 +27,7 @@ echo "--- push bundle cache"
 # push_bundle
 
 echo "--- running license_scout"
-#gem install license_scout -v 1.3.1
-gem install license_scout -v 2.5.1
+gem install license_scout -v 1.3.1
 license_scout
 LICENSE_SCOUT_EXIT=$?
 echo "--- License scout exited"
