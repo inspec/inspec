@@ -140,8 +140,17 @@ module InspecPlugins
         p = Pathname.new(path_to_profile)
         p = p.join("inspec.yml")
         yaml = YAML.load_file(p.to_s)
-        yaml["profile_content_id"] = profile_content_id
-        File.open("#{p}", "w") { |f| f.write yaml.to_yaml }
+        existing_profile_content_id = yaml["profile_content_id"]
+        motdobj = IO.readlines(p)
+        if existing_profile_content_id.nil?
+          motdobj << "profile_content_id: #{profile_content_id}\n"
+        else
+          motdobj = motdobj.map {|s| s.gsub("profile_content_id: #{existing_profile_content_id}", "profile_content_id: #{profile_content_id}")}
+        end
+
+        File.open("#{p}", "w" ) do | f |
+          f.puts motdobj
+        end
       end
     end
   end
