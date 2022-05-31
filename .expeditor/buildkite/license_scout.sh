@@ -20,7 +20,7 @@ echo "--- pull bundle cache"
 pull_bundle
 
 echo "--- bundle"
-bundle config --local path vendor/bundle
+bundle config --local path vendor/cache
 bundle config set --local without tools maintenance deploy
 bundle install --jobs=7 --retry=3
 
@@ -28,7 +28,7 @@ echo "--- push bundle cache"
 push_bundle
 
 echo "--- running license_scout"
-gem install license_scout -v 1.3.1
-license_scout
+#gem install license_scout -v 1.3.1
+bundle exec license_scout
 LICENSE_SCOUT_EXIT=$?
 exit $LICENSE_SCOUT_EXIT
