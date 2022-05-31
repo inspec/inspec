@@ -20,12 +20,12 @@ echo "--- pull bundle cache"
 pull_bundle
 
 echo "--- bundle"
-bundle config --local path vendor/bundle
+# bundle config --local path vendor/bundle
 bundle config set --local without tools maintenance deploy
 bundle install --jobs=7 --retry=3
 
 echo "--- push bundle cache"
-push_bundle
+# push_bundle
 
 echo "--- DEBUG: bundle info rake"
 bundle info rake
