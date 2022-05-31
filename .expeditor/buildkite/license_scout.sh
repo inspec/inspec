@@ -5,12 +5,12 @@ echo "--- dependencies"
 install_cache_deps sudo
 
 echo "--- updating rubygems"
+gem install bundler
 gem update -N --system 3.2.3 --force
 
 echo "--- system details"
 uname -a
 gem env
-gem install bundler
 bundle --version
 mount
 df /tmp
@@ -20,7 +20,7 @@ echo "--- pull bundle cache"
 pull_bundle
 
 echo "--- bundle"
-bundle config --local path vendor/cache
+bundle config --local path 'vendor/cache'
 bundle config set --local without tools maintenance deploy
 bundle install --jobs=7 --retry=3
 
