@@ -1,0 +1,5 @@
+Certificate purposes:
+SSL client : Yes
+SSL client CA : Yes (WARNING code=3)
+SSL server : Yes
+SSL server CA : Yes (WARNING code=3)

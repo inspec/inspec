@@ -103,4 +103,13 @@ describe "Inspec::Resources::X509Certificate" do
       _(resource_cert.send("validity_in_days")).must_equal(-31)
     end
   end
+
+  it "checks enhanced matchers & properties: email, keylength, subject_alt_names and has_purpose" do
+    resource = MockLoader.new("ubuntu".to_sym).load_resource("x509_certificate", "test_certificate.rsa.crt.pem")
+    _(resource.email).must_equal "support@chef.io"
+    _(resource.keylength).must_equal 2048
+    _(resource.subject_alt_names).must_include "email:support@chef.io"
+    _(resource.has_purpose?("SSL server CA : Yes")).must_equal true
+    _(resource.has_purpose?("SSL client CA : Yes")).must_equal true
+  end
 end

@@ -399,6 +399,9 @@ class MockLoader
       "cgget -n -r cpuset.cpus carrotking" => cmd.call("cgget-n-r"),
       "cgget -n -r memory.stat carrotking" => cmd.call("cgget-n-r-stat"),
       %{sh -c 'type "cgget"'} => empty.call,
+      # x509_certificate
+      %{sh -c 'type "openssl"'} => empty.call,
+      "openssl x509 -noout -purpose -in test_certificate.rsa.crt.pem" => cmd.call("x509-crt-purpose"),
       # mail_alias
       "cat /etc/aliases | grep '^daemon:'" => cmd.call("mail-alias"),
       # php_config
