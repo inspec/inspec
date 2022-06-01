@@ -11,21 +11,21 @@ gh_repo = "inspec"
     weight = 20
 +++
 
-InSpec can automatically manage multiple profile executions on a system, targeting multiple remote targets.
+InSpec can automatically manage multiple profile executions on a system targeting various remotes.
 
 ## InSpec Parallel Basics
 
-The `inspec` CLI supports parallelization by introducing a special command, `inspec parallel`. This command manages creating new processes, collecting their status updates, managing their exit codes, and providing updates to the user. Currently, only the `exec` command is supported for parallelization, but more command may be supported in the future.
+The `inspec` CLI supports parallelization by introducing a command, `inspec parallel`. This command manages to create new processes, collecting their status updates, managing their exit codes, and providing updates to the user. Currently, the `exec` command only is supported for parallelization. However, more commands may be supported in the future.
 
-InSpec Parallel was introduced in InSpec 6, and is supported on Windows, MacOS, and Linux installations. All supported target OSes and environments that can be addressed using `-t` are supported.
+InSpec Parallel is introduced in InSpec 6, and is supported on Windows, MacOS, and Linux environments. These target operating systems that can be addressed using `-t` are supported.
 
-### The `inspec parallel exec` Command
+### Command: `inspec parallel exec`
 
-To execute profiles in parallel, use the `inspec parallel exec PROFILE -o OPTIONFILE [COMMON OPTIONS]` command. An optionfile is a text file that contains CLI options to `inspec exec`, one invocation per line, that describes how to run each invocation.
+Use the `inspec parallel exec PROFILE -o OPTIONFILE [COMMON OPTIONS]` command to execute profiles in parallel. An option file is a text file that contains CLI options to `inspec exec`, one invocation per line, that describes how to run each invocation.
 
-For example, to run the Dev-Sec SSH Baseline profile against five servers, you could create an options file like this:
+For example, to run the **Dev-Sec SSH Baseline** profile against five servers, you can create an option file as follows:
 
-```
+```bash
 # five-servers.txt
 # Options file for running against multiple SSH targets
 -t ssh://server1 --reporter cli:server1.out
@@ -37,7 +37,7 @@ For example, to run the Dev-Sec SSH Baseline profile against five servers, you c
 
 and then invoke InSpec Parallel:
 
-```
+```bash
 inspec parallel exec https://github.com/dev-sec/ssh-baseline -o five-servers.txt -i my-key.pem
 Press CTL+C to stop
                                                              InSpec Parallel
@@ -52,13 +52,15 @@ As InSpec Parallel runs, it shows the progress (percentage of controls completed
 
 ### Option File Basics
 
-An Option File is a text file that contains options for `inspec exec`. Comments (starting with a `#`) and blank lines are ignored. Each non-comment, non-blank line is treated as an invocation of `inspec exec`.
+An Option File is a text file that contains options for `inspec exec`. Comments (starting with a `#`) and blank lines are ignored. For each non-comment, a non-blank line is treated as an invocation of `inspec exec`.
 
-The only constraint on the options is that every invocation MUST have a `--reporter` option, and that reporter option must write to a file (or use the `automate` reporter to send an API post to the Automate service). For details of which reporters are available and the full syntax of the reporter option, see the [Reporter Documentation](https://docs.chef.io/inspec/reporters/#syntax).
+The only constraint on the options is that every invocation must have a `--reporter` option. The reporter option must write to a file or use the `automate` reporter to send an API post to the Automate service.
 
-The simplest option file might look like this:
+For details of the available reporters and the full syntax of the reporter option, see the [Reporter Documentation](https://docs.chef.io/inspec/reporters/#syntax).
 
-```
+The most straightforward option file might look like this:
+
+```bash
 # simple.txt
 # Run five invocations, saving the output as ordinal names
 --reporter cli:first.out
@@ -68,47 +70,59 @@ The simplest option file might look like this:
 --reporter cli:fifth.out
 ```
 
-This will run five invocations - the target and profile will be specified on the command line. All this specifies is where to save the output of each invocation. Note that this will run the same profile 5 times on the same target - not very useful.
+This runs five invocations, the target and profile are specified on the command line. It specifies where to save the output of each invocation.
 
-You can pass any options you like on the invocation line, including `--controls` (to divide a profile into sections), `--input` (to paramaterize a profile and possibly target different resources), and `--target` (to target different machines / environments entirely). See the Examples section for how these may be used.
+{{< note >}}
+
+The option file runs the same profile five times on the same target, which is not very useful.
+
+{{< /note >}}
+
+You can pass any options on the invocation line, including `--controls` (to divide a profile into sections), `--input` (to parameterize a profile and possibly target different resources), and `--target` (to target different machines or environments).
+
+Refer to the [Examples]({{< relref "#Examples" >}}) section on how these profiles can be used.
 
 ### Advanced Option File Features
 
-#### Using ERB Templating in the Option File
+#### Using Embedded RuBy Templating in the Option File
 
-The optionfile may contain ERB template escapes, and it will be evaluated as an ERB template. This means you can directly embed Ruby code into your optionfile if you wish, including loops and conditionals. The rendered output of the optionfile will be used as invocations. This is especially useful with --dry-run mode.
+The option file may contain Embedded RuBy (ERB) template escapes, and it is evaluated as an ERB template. You can directly embed Ruby code into your option file, including loops and conditionals. The rendered output of the option file is used as invocations. This is especially useful with **--dry-run** mode.
 
-The most common ERB templating is to use the `pid` variable to reference the Process ID of the child process. See the Examples section.
+The most common ERB templating is to use the `pid` variable to reference the Process ID of the child process. See the [Examples]({{< relref "#Examples" >}}) section.
 
 #### Executing a Script as the Option File
 
-If the name of the optionfile ends in `.sh` (MacOS, Linux) or `.ps1`, then the file will be executed and it STDOUT will be used as the optionfile.
+If the name of the option file ends in `.sh` (MacOS, Linux) or `.ps1`, the file is executed, and `STDOUT` is used as the option file.
 
-This feature is experimental, and we'd love to have [feedback](https://github.com/inspec/inspec/issues/new/choose) on how it works for you.
+This feature is experimental, and we would love to hear [feedback](https://github.com/inspec/inspec/issues/new/choose) from you.
 
 ### The -j Job Count Option
 
-You can control how many job slots are used by passing the -j JOBS option. It will default to the number of hyperthread cores on your machine (for example, a dual core machine with hyperthreading will default to 4 jobs). The default is usually reasonable, but experimentation may be rewarding.
+You can control how many job slots are used by providing the `-j JOBS` option. It defaults to the number of hyperthreaded cores on your machine (for example, a dual-core machine with hyperthreading defaults to four jobs). The default is usually reasonable, but experimentation may be rewarding.
 
 ### Dry-run Mode
 
-When passed the `--dry-run` option, InSpec Parallel will interpret the optionfile, but not execute it. Instead, it will output to STDOUT the invocation lines that it would have executed. If you add `--verbose` as well, you will also see all of the CLI defaults that implicitly get added.
+When passed the `--dry-run` option, InSpec Parallel interprets the option file but does not execute it. It outputs to `STDOUT`, the invocation lines would have executed. If you add `--verbose`, you can see all the CLI defaults that implicitly get added.
 
-Note: You may notice when calling `--dry-run` that an extra reporter gets added to your invocation - `--reporter child-status`. This reporter is a special streaming reporter used to report status from the running child processes to the parent process, and is a necessary part of the plumbing of InSpec Parallel.
+{{< note >}}
+
+When calling `--dry-run`, you may notice that an extra reporter gets added to your invocation, `--reporter child-status`. This reporter is a special streaming reporter used to report status from the running child processes to the parent process and is a necessary part of the plumbing of InSpec Parallel.
+
+{{< /note >}}
 
 ## Examples
 
 ### Run with No Output to the Console
 
-To silence all output from the command and run it in the background, you can provide the `--bg` option. Logfiles will still be written.
+You can provide the `--bg` option to silence all output from the command and run it in the background. Logfiles are still written.
 
-### Use the Same Options to Each Invocation
+### Use the Same Options for Each Invocation
 
-`inspec parallel exec` accepts all options that `inspec exec` does, and passes them on to each individual invocation as defaults. This means that you don't have to specify repetitive options that are constant across all the invocations throughout your options file.
+`inspec parallel exec` accepts all options that `inspec exec` does and passes them to each invocation as defaults. This means that you do not have to specify repetitive options that are constant across all the invocations across the options file.
 
-For example, if all machines take the same SSH key, you can specify it once on the top-level command line. Using `-dry-run`, `inspec exec parallel` will show that it applies the `-i` option to all invocations:
+For example, if all machines take the same SSH key, you can specify it once on the top-level command line. Using `-dry-run` and `inspec exec parallel` shows that it applies the `-i` option to all invocations:
 
-```
+```bash
 # three-servers.txt
 # Options file for running against multiple SSH targets
 -t ssh://server1 --reporter cli:server1.out
@@ -116,7 +130,7 @@ For example, if all machines take the same SSH key, you can specify it once on t
 -t ssh://server3 --reporter cli:server3.out
 ```
 
-```
+```bash
 inspec parallel exec someprofile -o three-servers.txt -i mykey.pem --dry-run
 inspec exec someprofile -t ssh://server1 --reporter child-status cli:server1.out --key-files mykey.pem
 inspec exec someprofile -t ssh://server2 --reporter child-status cli:server2.out --key-files mykey.pem
@@ -125,9 +139,11 @@ inspec exec someprofile -t ssh://server3 --reporter child-status cli:server3.out
 
 ### Get JSON Output Named Like the Log Files
 
-If you would like your output files to be named like the logfiles (that is, named with the process ID and placed in the logs/ directory) InSpec Parallel offers a special ERB variable for that, `pid`. This example uses the `json` reporter, but of course this technique would work with any [reporter](https://docs.chef.io/inspec/reporters/) that can write to a file. Try this option file:
+You can name your output files like the logfiles (named with the process ID and placed in the **logs** directory). InSpec Parallel offers a special ERB variable, `pid`. This example uses the `json` reporter, however this technique would work with any [reporter](https://docs.chef.io/inspec/reporters/) that can write to a file.
 
-```
+Try this option file:
+
+```bash
 # pid-named-output.txt
 # Option file in which the output is named after the PID of the process
 --reporter json:logs/<%= pid %>.json
@@ -136,17 +152,18 @@ If you would like your output files to be named like the logfiles (that is, name
 --reporter json:logs/<%= pid %>.json
 ```
 
-This option file will run a given profile locally four times, leaving a logs/ directory that looks like:
+This option file runs a given profile locally four times, leaving a **logs** directory that looks like:
 
-```
+```bash
 ls logs
 1000.log  1000.json   1001.log  1001.json   1002.log   1002.json  1003.log  1003.json
 ```
+
 ### Run the Same Profile on Different Targets
 
-Running the same profile on multiple targets is easy with InSpec Parallel Exec. Create an option file that varies the `-t target` option on each invocation (you may also use the more complex -b backend syntax with multiple options).
+Running the same profile on multiple targets is easy with the `inspec parallel exec` command. Create an option file that varies the `-t target` option on each invocation (you may also use the more complex `-b backend` syntax with multiple options).
 
-```
+```bash
 # five-servers.txt
 # Options file for running against multiple SSH targets
 -t ssh://server1 --reporter cli:server1.out
@@ -158,43 +175,43 @@ Running the same profile on multiple targets is easy with InSpec Parallel Exec. 
 
 and then invoke InSpec Parallel:
 
-```
+```bash
 inspec parallel exec https://github.com/dev-sec/ssh-baseline -o five-servers.txt -i my-key.pem
 ```
 
-If you have many or variable targets to run against, consider using ERB templating to read the list of targets after reading them from a CSV file, or connecting to an API. You can also use a script to list your targets.
+If you have many or variable targets to run against, consider using ERB templating to read the list of targets after reading them from a CSV file or connecting to an API. You can also use a script to list your targets.
 
-### Run Different Profiles On the Same Target
+### Run Different Profiles on the Same Target
 
 To run different profiles on the same target, override the profile name by placing it at the front of the invocation in the option file.
 
-```
+```bash
 # multi-profile.txt
 https://github.com/dev-sec/ssh-baseline --reporter cli:ssh-baseline.out
 https://github.com/dev-sec/linux-baseline --reporter cli:linux-baseline.out
 ```
 
-Then invoke InSpec parallel passing the target as a top-level option, and a dummy name for the profile.
+Then invoke InSpec parallel, passing the target as a top-level option and a dummy name for the profile.
 
-```
+```bash
 inspec parallel exec dummy -o multi-profile.txt -t ssh://my-server
 ```
 
 ### Run Different Parts of a Profile in Parallel
 
-If your profile has well-named control IDs, you may be able to use the `--controls` option to divide the profile into sections. Suppose that the AWS-BP profile has sections named C, S, and N, and the controls in each section have control IDs that start with the given letter. Then you can divide the profile like so:
+If your profile has well-named control IDs, you can use the `--controls` option to divide the profile into sections. Suppose that the AWS-BP profile has sections named **C**, **S**, and **N**, and the controls in each section have control IDs that start with the given letter, you can divide the profile as follows:
 
-```
+```bash
 # divide-aws-bp.txt
 --reporter cli:C.out --controls /^C/
 --reporter cli:S.out --controls /^S/
 --reporter cli:N.out --controls /^N/
 ```
 
-Then when you run:
+When you run:
 
-```
+```bash
 inspec parallel exec aws-best-practices -o divide-aws-bp -t aws://myprofile@us-east-2
 ```
 
-InSpec Exec will be run three times, once each for the C, S, and N sections of the profile.
+The command `inspec exec` runs three times, each for the **C**, **S**, and **N** sections of the profile.
