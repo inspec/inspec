@@ -464,7 +464,6 @@ class MockLoader
       # modprobe for kernel_module
       "modprobe --showconfig" => cmd.call("modprobe-config"),
       # get-process cmdlet for processes resource
-      # '$Proc = Get-Process -IncludeUserName | Where-Object {$_.Path -ne $null } | Select-Object PriorityClass,Id,CPU,PM,VirtualMemorySize,NPM,SessionId,Responding,StartTime,TotalProcessorTime,UserName,Path | ConvertTo-Csv -NoTypeInformation;$Proc.Replace("""","").Replace("`r`n","`n")' => cmd.call("get-process_processes"),
       '$Proc = Get-Process -IncludeUserName | Select-Object PriorityClass,Id,CPU,PM,VirtualMemorySize,NPM,SessionId,Responding,StartTime,TotalProcessorTime,UserName,Path,ProcessName | ConvertTo-Csv -NoTypeInformation;$Proc.Replace("""","").Replace("`r`n","`n")' => cmd.call("get-process_processes"),
       # host resource: TCP/UDP reachability check on linux
       %{sh -c 'type "nc"'} => empty.call,
