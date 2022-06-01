@@ -1,5 +1,5 @@
 module Inspec
-  module Telemetry
+  class Telemetry
     # Guesses the run context of InSpec - how were we invoked?
     # All stack values here are determined experimentally
 

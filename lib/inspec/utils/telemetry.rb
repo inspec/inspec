@@ -2,6 +2,8 @@ require "time" unless defined?(Time.zone_offset)
 require_relative "../dist"
 require "securerandom" unless defined?(SecureRandom)
 require "digest" unless defined?(Digest)
+require_relative "telemetry/run_context_probe"
+require_relative "telemetry/install_context_probe"
 
 module Inspec
   class Telemetry
@@ -55,7 +57,7 @@ module Inspec
         {
           version: "2.0",
           createdTimeUTC: Time.now.getutc.iso8601, # like 3339 but always uses T
-          environment: "CLI", # TODO: Consider replacing this with run context probe
+          environment: Inspec::Telemetry::RunContextProbe.guess_run_context,
           # licenseId # We will never have this
           customerId: fetch_customer_id,
           source: "#{Inspec::Dist::EXEC_NAME}:#{Inspec::VERSION}",
@@ -93,6 +95,9 @@ module Inspec
             version: train_platform.release,
             architecture: train_platform.arch || "",
             id: train_platform.uuid,
+            trainTransport: opts[:runner].backend.backend.backend_type, # new field
+            localRubyPlatform: RUBY_PLATFORM, # new field
+            installContext: Inspec::Telemetry::InstallContextProbe.guess_install_context, # new field
           },
 
           runtime: Inspec::VERSION,
@@ -174,9 +179,9 @@ module Inspec
 
     class Debug < Base
       def run_ending(opts)
-        # payload = super(opts)
-        # require "byebug"; byebug
-        # 1
+        #payload = super(opts)
+        #require "byebug"; byebug
+        1
       end
     end
 
