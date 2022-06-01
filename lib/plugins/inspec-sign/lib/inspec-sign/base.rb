@@ -49,11 +49,17 @@ module InspecPlugins
         artifact = new
         path_to_profile = options["profile"]
 
+        # Writes the profile content id in the inspec.yml
+        if options[:profile_content_id] && !options[:profile_content_id].strip.empty?
+          artifact.write_profile_content_id(path_to_profile, options[:profile_content_id])
+        end
+
         puts "Signing #{options["profile"]} with key #{options["keyname"]}"
         keypath = Inspec::IafFile.find_signing_key(options["keyname"])
 
         # Read name and version from metadata and use them to form the filename
         profile_md = artifact.read_profile_metadata(path_to_profile)
+
         artifact_filename = "#{profile_md["name"]}-#{profile_md["version"]}.#{SIGNED_PROFILE_SUFFIX}"
 
         # Generating tar.gz file using archive method of Inspec Cli
@@ -129,6 +135,26 @@ module InspecPlugins
         end
 
         yaml
+      end
+
+      def write_profile_content_id(path_to_profile, profile_content_id)
+        p = Pathname.new(path_to_profile)
+        p = p.join("inspec.yml")
+        yaml = YAML.load_file(p.to_s)
+        existing_profile_content_id = yaml["profile_content_id"]
+
+        unless existing_profile_content_id.nil?
+          ui = Inspec::UI.new
+          ui.error("Cannot use --profile-content-id when profile_content_id already exists in metadata file.")
+          ui.exit(:usage_error)
+        end
+
+        lines = IO.readlines(p)
+        lines << "\nprofile_content_id: #{profile_content_id}\n"
+
+        File.open("#{p}", "w" ) do | f |
+          f.puts lines
+        end
       end
     end
   end
