@@ -19,6 +19,10 @@ echo ${TMPDIR:-unknown}
 echo "--- pull bundle cache"
 pull_bundle
 
+echo "--- installing rugged dependencies"
+apt-get install cmake -y
+apt-get install pkg-config -y
+
 echo "--- bundle"
 bundle config --local path vendor/bundle
 bundle config set --local without tools maintenance deploy
@@ -27,14 +31,8 @@ bundle install --jobs=7 --retry=3
 echo "--- push bundle cache"
 push_bundle
 
-echo "--- DEBUG: bundle info rake"
-bundle info rake
-
-echo "--- DEBUG: Verify existence of Gemfile"
-pwd
-ls Gemfile Gemfile.lock
-
 echo "--- running license_scout"
+
 bundle exec license_scout
 LICENSE_SCOUT_EXIT=$?
 exit $LICENSE_SCOUT_EXIT
