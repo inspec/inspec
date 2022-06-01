@@ -29,6 +29,7 @@ describe "Inspec::Resources::Processes" do
       time: "0:00.05",
       user: "root",
       command: "login -fp apop",
+      process_name: nil,
     })
   end
 
@@ -48,6 +49,7 @@ describe "Inspec::Resources::Processes" do
       time: "00:00:00",
       user: "opscode-pgsql",
       command: "postgres: bifrost bifrost 127.0.0.1(43699) idle",
+      process_name: nil,
     })
   end
 
@@ -68,6 +70,7 @@ describe "Inspec::Resources::Processes" do
       time: "00:00:00",
       user: "opscode-pgsql",
       command: "postgres: bifrost bifrost 127.0.0.1(43699) idle",
+      process_name: nil,
     })
   end
 
@@ -87,6 +90,7 @@ describe "Inspec::Resources::Processes" do
       time: "00:01:01",
       user: "root",
       command: "/usr/local/apache2/bin/httpd -k start",
+      process_name: nil,
     })
   end
 
@@ -96,7 +100,7 @@ describe "Inspec::Resources::Processes" do
     _(process.user).must_equal "opscode-pgsql"
     _(process[:user]).must_equal "opscode-pgsql"
     _(process["user"]).must_equal "opscode-pgsql"
-    _(process[-1]).must_equal "postgres: bifrost bifrost 127.0.0.1(43699) idle"
+    _(process[-2]).must_equal "postgres: bifrost bifrost 127.0.0.1(43699) idle"
     _(process[1]).must_equal 5127
   end
 
@@ -139,6 +143,7 @@ describe "Inspec::Resources::Processes" do
       time: "00:00:00",
       user: "ntp",
       command: "/usr/sbin/ntpd -p /var/run/ntpd.pid -g -u 112:117",
+      process_name: nil,
     })
   end
 
@@ -158,6 +163,7 @@ describe "Inspec::Resources::Processes" do
       time: "0:00",
       user: "joe",
       command: "/some/other/coolprogram",
+      process_name: nil,
     })
   end
 
@@ -177,6 +183,7 @@ describe "Inspec::Resources::Processes" do
       time: "3:50",
       user: "frank",
       command: "/a/bigger/program",
+      process_name: nil,
     })
   end
 
@@ -196,6 +203,7 @@ describe "Inspec::Resources::Processes" do
       time: "39:00",
       user: "tim",
       command: "/the/biggest/program",
+      process_name: nil,
     })
   end
 
