@@ -89,22 +89,18 @@ module InspecPlugins
         InspecPlugins::Sign::Base.keygen(options)
       end
 
-      desc "profile", "Create a signed .iaf artifact"
-      option :profile, type: :string, required: true,
-        desc: "Path to profile directory"
+      desc "profile PATH", "sign the profile in PATH and generate .iaf artifact."
       option :keyname, type: :string, required: true,
         desc: "Desriptive name of key"
       option :profile_content_id, type: :string,
         desc: "UUID of the profile. This will write the profile_content_id in the metadata file if it does not already exist in the metadata file."
-      def profile
-        InspecPlugins::Sign::Base.profile_sign(options)
+      def profile(profile_path)
+        InspecPlugins::Sign::Base.profile_sign(profile_path, options)
       end
 
-      desc "verify", "Verify a signed .iaf artifact"
-      option :signed_profile, type: :string, required: true,
-          desc: ".iaf file to verify"
-      def verify
-        InspecPlugins::Sign::Base.profile_verify(options)
+      desc "verify PATH", "Verify a signed profile .iaf artifact at given path."
+      def verify(signed_profile_path)
+        InspecPlugins::Sign::Base.profile_verify(signed_profile_path)
       end
     end
   end

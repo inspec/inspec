@@ -34,10 +34,10 @@ class SignCli < Minitest::Test
       out = run_inspec_process("sign generate-keys --keyname #{unique_key_name}", prefix: "cd #{dir};")
       assert_exit_code 0, out
 
-      out = run_inspec_process("sign profile --profile #{profile} --keyname #{unique_key_name}", prefix: "cd #{dir};")
+      out = run_inspec_process("sign profile #{profile} --keyname #{unique_key_name}", prefix: "cd #{dir};")
       assert_exit_code 0, out
 
-      out = run_inspec_process("sign verify --signed-profile artifact-profile-0.1.0.iaf", prefix: "cd #{dir};")
+      out = run_inspec_process("sign verify artifact-profile-0.1.0.iaf", prefix: "cd #{dir};")
       assert_exit_code 0, out
 
       assert_includes out.stdout.force_encoding(Encoding::UTF_8), "Verifying artifact-profile-0.1.0.iaf"

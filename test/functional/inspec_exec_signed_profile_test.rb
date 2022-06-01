@@ -17,7 +17,7 @@ describe "inspec exec" do
       out = run_inspec_process("sign generate-keys --keyname #{unique_key_name}", prefix: "cd #{dir};")
       assert_exit_code 0, out
 
-      out = run_inspec_process("sign profile --profile #{profile} --keyname #{unique_key_name}", prefix: "cd #{dir};")
+      out = run_inspec_process("sign profile #{profile} --keyname #{unique_key_name}", prefix: "cd #{dir};")
       assert_exit_code 0, out
 
       out = run_inspec_process("exec profile_a-0.1.0.iaf --no-create-lockfile", prefix: "cd #{dir};")
@@ -40,7 +40,7 @@ describe "inspec exec" do
       out = run_inspec_process("sign generate-keys --keyname #{unique_key_name}", prefix: "cd #{dir};")
       assert_exit_code 0, out
 
-      out = run_inspec_process("sign profile --profile #{profile} --keyname #{unique_key_name}", prefix: "cd #{dir};")
+      out = run_inspec_process("sign profile #{profile} --keyname #{unique_key_name}", prefix: "cd #{dir};")
       assert_exit_code 0, out
 
       delete_keys(unique_key_name)
@@ -63,7 +63,7 @@ describe "inspec exec" do
       out = run_inspec_process("sign generate-keys --keyname #{unique_key_name}", prefix: "cd #{dir};")
       assert_exit_code 0, out
 
-      out = run_inspec_process("sign profile --profile #{profile} --keyname #{unique_key_name}", prefix: "cd #{dir};")
+      out = run_inspec_process("sign profile #{profile} --keyname #{unique_key_name}", prefix: "cd #{dir};")
       assert_exit_code 0, out
 
       out = run_inspec_process("exec profile_a-0.1.0.iaf --no-create-lockfile", prefix: "cd #{dir};")

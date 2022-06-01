@@ -54,7 +54,7 @@ A signed profile is checked for validity before being executed, and if it cannot
 The `inspec sign verify` command specifies which key is used to sign a profile.
 
 ```bash
-[cwolfe@lodi temp]$ inspec sign verify --signed-profile simple-0.1.0-v2.iaf
+[cwolfe@lodi temp]$ inspec sign verify simple-0.1.0-v2.iaf
 Verifying simple-0.1.0-v2.iaf
 Detected format version 'INSPEC-PROFILE-2'
 Attempting to verify using key 'cwolfe-03'
@@ -171,10 +171,10 @@ Ensure to keep your signing key secret. It would help if you devised a way of di
 
 ### How do I sign profiles?
 
-You will need a signing key to sign profiles. Specify the name of the key and the name of the profile.
+You will need a signing key to sign profiles. Specify the path of profile and the name of the key.
 
 ```bash
-[cwolfe@lodi temp]$ inspec sign profile --keyname test-03 --profile simple
+[cwolfe@lodi temp]$ inspec sign profile simple --keyname test-03
 Signing simple with key cwolfe-03
 Dependencies for profile simple successfully vendored to /Users/cwolfe/sandbox/inspec/inspec-5/temp/simple/vendor
 Successfully generated simple-0.1.0.iaf

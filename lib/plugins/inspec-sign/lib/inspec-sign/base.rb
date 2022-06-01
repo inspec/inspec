@@ -45,25 +45,24 @@ module InspecPlugins
         end
       end
 
-      def self.profile_sign(options)
+      def self.profile_sign(profile_path, options)
         artifact = new
-        path_to_profile = options["profile"]
 
         # Writes the profile content id in the inspec.yml
         if options[:profile_content_id] && !options[:profile_content_id].strip.empty?
-          artifact.write_profile_content_id(path_to_profile, options[:profile_content_id])
+          artifact.write_profile_content_id(profile_path, options[:profile_content_id])
         end
 
-        puts "Signing #{options["profile"]} with key #{options["keyname"]}"
+        puts "Signing #{profile_path} with key #{options["keyname"]}"
         keypath = Inspec::IafFile.find_signing_key(options["keyname"])
 
         # Read name and version from metadata and use them to form the filename
-        profile_md = artifact.read_profile_metadata(path_to_profile)
+        profile_md = artifact.read_profile_metadata(profile_path)
 
         artifact_filename = "#{profile_md["name"]}-#{profile_md["version"]}.#{SIGNED_PROFILE_SUFFIX}"
 
         # Generating tar.gz file using archive method of Inspec Cli
-        Inspec::InspecCLI.new.archive(path_to_profile, "error")
+        Inspec::InspecCLI.new.archive(profile_path, "error")
         tarfile = "#{profile_md["name"]}-#{profile_md["version"]}.tar.gz"
         tar_content = IO.binread(tarfile)
         FileUtils.rm(tarfile)
@@ -89,8 +88,8 @@ module InspecPlugins
         Inspec::UI.new.exit(:usage_error)
       end
 
-      def self.profile_verify(options)
-        file_to_verify = options["signed_profile"]
+      def self.profile_verify(signed_profile_path)
+        file_to_verify = signed_profile_path
         puts "Verifying #{file_to_verify}"
 
         iaf_file = Inspec::IafFile.new(file_to_verify)
@@ -110,12 +109,12 @@ module InspecPlugins
         Inspec::UI.new.exit(:usage_error)
       end
 
-      def read_profile_metadata(path_to_profile)
+      def read_profile_metadata(profile_path)
         begin
-          p = Pathname.new(path_to_profile)
+          p = Pathname.new(profile_path)
           p = p.join("inspec.yml")
           unless p.exist?
-            raise "#{path_to_profile} doesn't appear to be a valid #{PRODUCT_NAME} profile"
+            raise "#{profile_path} doesn't appear to be a valid #{PRODUCT_NAME} profile"
           end
 
           yaml = YAML.load_file(p.to_s)
@@ -137,8 +136,8 @@ module InspecPlugins
         yaml
       end
 
-      def write_profile_content_id(path_to_profile, profile_content_id)
-        p = Pathname.new(path_to_profile)
+      def write_profile_content_id(profile_path, profile_content_id)
+        p = Pathname.new(profile_path)
         p = p.join("inspec.yml")
         yaml = YAML.load_file(p.to_s)
         existing_profile_content_id = yaml["profile_content_id"]
@@ -152,7 +151,7 @@ module InspecPlugins
         lines = IO.readlines(p)
         lines << "\nprofile_content_id: #{profile_content_id}\n"
 
-        File.open("#{p}", "w" ) do | f |
+        File.open("#{p}", "w" ) do |f|
           f.puts lines
         end
       end
