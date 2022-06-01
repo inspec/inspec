@@ -11,7 +11,7 @@ gh_repo = "inspec"
     weight = 40
 +++
 
-Chef InSpec includes **Matchers** testing framework inherited from **RSpec**, a unit test framework for the Ruby programming language. The Chef InSpec utilizes **Matchers** for comparing resource values to expectations. The following matchers are available:
+Chef InSpec includes **Matchers** testing framework inherited from **RSpec**, a unit test framework for the Ruby programming language. The following testing framework compares resource values to expectations:
 
 - [`be`](#be) - makes numeric comparisons.
 - [`be_in`](#be_in) - looks for the property value in a list.
@@ -20,15 +20,13 @@ Chef InSpec includes **Matchers** testing framework inherited from **RSpec**, a 
 - [`include`](#include) - looks for an expected value in a list-valued property.
 - [`match`](#match) - looks for patterns in text using regular expressions.
 
-You can use any matcher provided by [RSpec::Expectations](https://relishapp.com/rspec/rspec-expectations/docs), however these matchers are not [supported by InSpec](/inspec/inspec_and_friends/#rspec).
+You can use any matcher provided by [RSpec::Expectations](https://relishapp.com/rspec/rspec-expectations/docs); however, these matchers are not [supported by InSpec](/inspec/inspec_and_friends/#rspec).
 
 See [Explore Chef InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/) on **Learn Chef** to learn more about InSpec's built-in matchers.
 
 ## be
 
-This matcher can follow different comparison operators. Use numbers and not strings for these comparisons.
-
-Example:
+This matcher can follow different comparison operators. Use numbers and not strings for these comparisons. For Example:
 
 ```ruby
 describe file('/proc/cpuinfo') do
@@ -64,8 +62,7 @@ Use `cmp` for less restrictive comparisons.
 
 ## cmp
 
-Unlike `eq`, `cmp` is a matcher for less restrictive comparisons. It tries to fit the actual value to the type you are comparing. This matcher is
-meant to relieve the user from having to write type-casts and resolutions.
+Unlike `eq`, `cmp` is a matcher for less restrictive comparisons. It tries to fit the actual value to the type you are comparing. This matcher is meant to relieve the user from having to write type-casts and resolutions.
 
 Examples:
 
@@ -79,9 +76,9 @@ describe passwd.uid(0) do
 end
 ```
 
-`cmp` matcher is allowed in the following comparisions:
+The `cmp` matcher compares values in the following ways:
 
-### Compares strings to numbers
+- Compares strings to numbers
 
 ```ruby
 describe sshd_config do
@@ -94,7 +91,7 @@ describe sshd_config do
 end
 ```
 
-### Compares strings that are not case-sensitive
+- Compares strings that are not case-sensitive
 
 ```ruby
 describe auditd_conf do
@@ -141,9 +138,7 @@ got: 0444
 
 ## include
 
-Verifies if a value is included in a list.
-
-Example:
+Verifies if a value is included in a list. For Example:
 
 ```ruby
 describe passwd do
@@ -153,9 +148,7 @@ end
 
 ## be_in
 
-Verifies that an item is included in a list.
-
-Example:
+Verifies that an item is included in a list. For Example:
 
 ```ruby
 describe resource do
@@ -165,9 +158,7 @@ end
 
 ## match
 
-Check if a string matches a regular expression.
-
-Example:
+Check if a string matches a regular expression. For Example:
 
 ```ruby
 describe sshd_config do

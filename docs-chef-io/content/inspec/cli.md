@@ -15,7 +15,7 @@ Use the InSpec Command Line Interface (CLI) to run tests and audits against targ
 
 ## archive
 
-Archive a profile to *tar.gz* (default) or *zip*.
+Archive a profile to a tar file (default) or zip file.
 
 ### Syntax
 
@@ -60,7 +60,7 @@ inspec automate SUBCOMMAND
 
 ## check
 
-Verify the metadata in the *inspec.yml* file, verify that control blocks have the correct fields (title, description, impact) defined that all controls have visible tests, and the controls are not using deprecated InSpec DSL code.
+Verify the metadata in the `inspec.yml` file, verify that control blocks have the correct fields (title, description, impact) defined that all controls have visible tests, and the controls are not using deprecated InSpec DSL code.
 
 ### Syntax
 
