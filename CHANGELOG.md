@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 5.17.5 -->
+## [v5.17.5](https://github.com/inspec/inspec/tree/v5.17.5) (2022-06-01)
+
+#### Merged Pull Requests
+- Bump rack from 2.2.3 to 2.2.3.1 in /omnibus [#6098](https://github.com/inspec/inspec/pull/6098) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=5.17.4 -->
+### Changes since 5.17.4 release
+
+#### Merged Pull Requests
+- Bump rack from 2.2.3 to 2.2.3.1 in /omnibus [#6098](https://github.com/inspec/inspec/pull/6098) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.17.5 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
