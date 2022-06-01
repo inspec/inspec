@@ -1,0 +1,3 @@
+---
+environment:
+  - GEM_PATH=./vendor/bundle
