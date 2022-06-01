@@ -41,7 +41,6 @@ module Inspec::Resources
         grep = Regexp.new(grep)
       end
 
-      # require "byebug"; byebug
       all_cmds = ps_axo
       @list = all_cmds.find_all do |hm|
         hm[:command] =~ grep || hm[:process_name] =~ grep
@@ -190,7 +189,6 @@ module Inspec::Resources
     end
 
     def build_process_list(command, regex, field_map)
-      # require "byebug"; byebug
       cmd = inspec.command(command)
       all = cmd.stdout.split("\n")[1..-1]
       return [] if all.nil?
