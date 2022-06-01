@@ -11,13 +11,13 @@ gh_repo = "inspec"
     weight = 20
 +++
 
-InSpec can automatically manage multiple profile executions on a system targeting various remotes.
+InSpec can automatically manage multiple profile executions on a system targeting various remote systems and environments.
 
 ## InSpec Parallel Basics
 
-The `inspec` CLI supports parallelization by introducing a command, `inspec parallel`. This command manages to create new processes, collecting their status updates, managing their exit codes, and providing updates to the user. Currently, the `exec` command only is supported for parallelization. However, more commands may be supported in the future.
+The `inspec` CLI supports parallelization by introducing a command, `inspec parallel`. This command manages new processes, collecting their status updates, managing their exit codes, and providing updates to the user. Currently, only the `exec` command is supported for parallelization. However, more commands may be supported in the future.
 
-InSpec Parallel is introduced in InSpec 6, and is supported on Windows, MacOS, and Linux environments. These target operating systems that can be addressed using `-t` are supported.
+InSpec Parallel was introduced in InSpec 6, and is supported on Windows, MacOS, and Linux environments. All target operating systems and environments that can be addressed using `-t` are supported.
 
 ### Command: `inspec parallel exec`
 
@@ -52,11 +52,9 @@ As InSpec Parallel runs, it shows the progress (percentage of controls completed
 
 ### Option File Basics
 
-An Option File is a text file that contains options for `inspec exec`. Comments (starting with a `#`) and blank lines are ignored. For each non-comment, a non-blank line is treated as an invocation of `inspec exec`.
+An Option File is a text file that contains options for `inspec exec`. Comments (starting with a `#`) and blank lines are ignored. Each non-comment, non-blank line is treated as an invocation of `inspec exec`.
 
-The only constraint on the options is that every invocation must have a `--reporter` option. The reporter option must write to a file or use the `automate` reporter to send an API post to the Automate service.
-
-For details of the available reporters and the full syntax of the reporter option, see the [Reporter Documentation](https://docs.chef.io/inspec/reporters/#syntax).
+The only constraint on the options is that every invocation must have a `--reporter` option. The reporter option must write to a file (or use the `automate` reporter to send an API post to the Automate service). For details of the available reporters and the full syntax of the reporter option, see the [Reporter Documentation](https://docs.chef.io/inspec/reporters/#syntax).
 
 The most straightforward option file might look like this:
 
@@ -70,11 +68,11 @@ The most straightforward option file might look like this:
 --reporter cli:fifth.out
 ```
 
-This runs five invocations, the target and profile are specified on the command line. It specifies where to save the output of each invocation.
+This runs five invocations with the target and profile are specified on the command line. It specifies where to save the output of each invocation.
 
 {{< note >}}
 
-The option file runs the same profile five times on the same target, which is not very useful.
+This option file runs the same profile five times on the same target, which is not very useful.
 
 {{< /note >}}
 
@@ -92,7 +90,7 @@ The most common ERB templating is to use the `pid` variable to reference the Pro
 
 #### Executing a Script as the Option File
 
-If the name of the option file ends in `.sh` (MacOS, Linux) or `.ps1`, the file is executed, and `STDOUT` is used as the option file.
+If the name of the option file ends in `.sh` (MacOS, Linux) or `.ps1` (Windows), the file is executed, and `STDOUT` is used as the option file.
 
 This feature is experimental, and we would love to hear [feedback](https://github.com/inspec/inspec/issues/new/choose) from you.
 
@@ -102,7 +100,7 @@ You can control how many job slots are used by providing the `-j JOBS` option. I
 
 ### Dry-run Mode
 
-When passed the `--dry-run` option, InSpec Parallel interprets the option file but does not execute it. It outputs to `STDOUT`, the invocation lines would have executed. If you add `--verbose`, you can see all the CLI defaults that implicitly get added.
+When passed the `--dry-run` option, InSpec Parallel interprets the option file but does not execute it. It outputs to `STDOUT` the invocation lines would have executed. If you add `--verbose`, you can see all the CLI defaults that implicitly get added.
 
 {{< note >}}
 
@@ -120,7 +118,7 @@ You can provide the `--bg` option to silence all output from the command and run
 
 `inspec parallel exec` accepts all options that `inspec exec` does and passes them to each invocation as defaults. This means that you do not have to specify repetitive options that are constant across all the invocations across the options file.
 
-For example, if all machines take the same SSH key, you can specify it once on the top-level command line. Using `-dry-run` and `inspec exec parallel` shows that it applies the `-i` option to all invocations:
+For example, if all machines take the same SSH key, you can specify it once on the top-level command line. Using `-dry-run` and `inspec parallel exec` shows that it applies the `-i` option to all invocations:
 
 ```bash
 # three-servers.txt
@@ -139,7 +137,7 @@ inspec exec someprofile -t ssh://server3 --reporter child-status cli:server3.out
 
 ### Get JSON Output Named Like the Log Files
 
-You can name your output files like the logfiles (named with the process ID and placed in the **logs** directory). InSpec Parallel offers a special ERB variable, `pid`. This example uses the `json` reporter, however this technique would work with any [reporter](https://docs.chef.io/inspec/reporters/) that can write to a file.
+You can name your output files like the logfiles (named with the process ID and placed in the **logs** directory). InSpec Parallel offers a special ERB variable, `pid`. This example uses the `json` reporter, however, this technique would work with any [reporter](https://docs.chef.io/inspec/reporters/) that can write to a file.
 
 Try this option file:
 
@@ -199,7 +197,7 @@ inspec parallel exec dummy -o multi-profile.txt -t ssh://my-server
 
 ### Run Different Parts of a Profile in Parallel
 
-If your profile has well-named control IDs, you can use the `--controls` option to divide the profile into sections. Suppose that the AWS-BP profile has sections named **C**, **S**, and **N**, and the controls in each section have control IDs that start with the given letter, you can divide the profile as follows:
+If your profile has well-named control IDs, you can use the `--controls` option to divide the profile into sections. Suppose that the AWS-BP profile has sections named **C**, **S**, and **N**, and the controls in each section have control IDs that start with the given letter, then you can divide the profile as follows:
 
 ```bash
 # divide-aws-bp.txt
