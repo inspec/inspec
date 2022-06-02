@@ -50,6 +50,10 @@ module Inspec::Resources
       "Docker plugin #{plugin}"
     end
 
+    def resource_id
+      id || @opts[:id] || ""
+    end
+
     private
 
     def object_info

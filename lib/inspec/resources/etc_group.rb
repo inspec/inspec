@@ -95,6 +95,10 @@ module Inspec::Resources
       "/etc/group"
     end
 
+    def resource_id
+      @path
+    end
+
     private
 
     def parse_group(path)

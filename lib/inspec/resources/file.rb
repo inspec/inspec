@@ -35,11 +35,12 @@ module Inspec::Resources
       end
     EXAMPLE
 
-    attr_reader :file, :mount_options
+    attr_reader :file, :mount_options, :path
     def initialize(path)
       # select permissions style
       @perms_provider = select_file_perms_style(inspec.os)
       @file = inspec.backend.file(path)
+      @path = path
     end
 
     %w{
@@ -215,6 +216,10 @@ module Inspec::Resources
       else
         "Bad File on %s" % [inspec.backend.class]
       end
+    end
+
+    def resource_id
+      path
     end
 
     private

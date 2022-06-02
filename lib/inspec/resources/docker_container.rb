@@ -92,6 +92,10 @@ module Inspec::Resources
       "Docker Container #{name}"
     end
 
+    def resource_id
+      object_info.ids[0] || @opts[:id] || ""
+    end
+
     private
 
     def object_info

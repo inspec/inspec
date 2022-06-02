@@ -23,6 +23,9 @@ describe "Inspec::Resources::EtcHostsAllow" do
     it "has a to_s" do
       _(resource.to_s).must_equal "hosts.allow Configuration"
     end
+    it "has a resource_id" do
+      _(resource.resource_id).must_equal "/etc/hosts.allow"
+    end
   end
 
   describe "#parse_line" do
@@ -72,6 +75,9 @@ describe "Inspec::Resources::EtcHostsDeny" do
     end
     it "has a to_s" do
       _(resource.to_s).must_equal "hosts.deny Configuration"
+    end
+    it "has a resource_id" do
+      _(resource.resource_id).must_equal "/etc/hosts.deny"
     end
   end
 end
