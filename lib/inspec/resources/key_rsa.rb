@@ -59,6 +59,10 @@ module Inspec::Resources
       @key.public_key.n.num_bytes * 8
     end
 
+    def resource_id
+      @key_path
+    end
+
     def to_s
       "rsa_key #{@key_path}"
     end
