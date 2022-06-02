@@ -8,6 +8,7 @@ describe Inspec::Resources::Ksh do
 
   it "prints as a ksh command" do
     _(resource.to_s).must_equal 'KornShell command $("' + x + '")'
+    _(resource.resource_id).must_equal '$("' + x + '")'
   end
 
   it "wraps the command" do

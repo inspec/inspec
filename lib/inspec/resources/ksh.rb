@@ -26,6 +26,10 @@ module Inspec::Resources
       super(CommandWrapper.wrap(command, options))
     end
 
+    def resource_id
+      @raw_command
+    end
+
     def to_s
       "KornShell command #{@raw_command}"
     end
