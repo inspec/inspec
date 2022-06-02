@@ -15,4 +15,9 @@ describe "Inspec::Resources::ChronyConf" do
     }
     assert_nil resource.allow
   end
+
+  it "gets resource_id for the current resource" do
+    resource = load_resource("chrony_conf")
+    _(resource.resource_id).must_equal "/etc/chrony.conf"
+  end
 end

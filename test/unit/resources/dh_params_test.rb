@@ -71,6 +71,10 @@ describe "Inspec::Resources::DhParams" do
     EOF
   end
 
+  it "gets the resource_id for the current resource" do
+    _(resource_dh_params.resource_id).must_equal "dh_params.dh_pem"
+  end
+
   it "parses the generator used for the Diffie-Hellman operation" do
     _(resource_dh_params.send("generator")).must_equal 2
   end

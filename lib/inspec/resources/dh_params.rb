@@ -76,6 +76,10 @@ module Inspec::Resources
       @dh_params.params_ok?
     end
 
+    def resource_id
+      @dh_params_path
+    end
+
     def to_s
       "dh_params #{@dh_params_path}"
     end

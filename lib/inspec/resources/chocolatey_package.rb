@@ -45,6 +45,10 @@ module Inspec::Resources
       end
     end
 
+    def resource_id
+      @package_name
+    end
+
     def to_s
       "Chocolatey package #{package_name}"
     end
