@@ -70,7 +70,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      @path
+      @path || "csv"
     end
 
     private

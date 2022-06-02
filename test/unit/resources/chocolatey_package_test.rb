@@ -21,7 +21,6 @@ describe "Inspec::Resources::ChocoPkg" do
   end
 
   it "gets the resource_id for the current resource" do
-     pkg = { name: "nssm", installed: true, version: "2.24.101", type: "chocolatey" }
     resource = MockLoader.new(:windows).load_resource("chocolatey_package", "nssm")
     _(resource.resource_id).must_equal "nssm"
   end

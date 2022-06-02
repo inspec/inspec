@@ -95,7 +95,7 @@ module Inspec::Resources
 
     # to_s method outputs the command which we are using here as UUID to identify resource and also it take cares of Redact output
     def resource_id
-      to_s
+      to_s || "command"
     end
 
     def to_s
