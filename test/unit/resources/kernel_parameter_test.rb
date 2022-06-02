@@ -6,5 +6,6 @@ describe "Inspec::Resources::KernelParameter" do
   it "verify kernel_parameter parsing" do
     resource = load_resource("kernel_parameter", "net.ipv4.conf.all.forwarding")
     _(resource.value).must_equal 1
+    _(resource.resource_id).must_equal "net.ipv4.conf.all.forwarding"
   end
 end
