@@ -28,5 +28,9 @@ describe "Inspec::Resources::TOML" do
       _(resource.params["mytable"]).must_be_kind_of Hash
       _(resource.params["mytable"]).must_equal h
     end
+
+    it "gets resource_id of the current resource" do
+      _(resource.resource_id).must_equal "default.toml"
+    end
   end
 end
