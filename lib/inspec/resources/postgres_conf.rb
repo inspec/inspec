@@ -64,6 +64,10 @@ module Inspec::Resources
       param
     end
 
+    def resource_id
+      @conf_path || "postgres_conf"
+    end
+
     def to_s
       "PostgreSQL Configuration"
     end

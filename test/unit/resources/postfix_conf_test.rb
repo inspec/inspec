@@ -4,6 +4,11 @@ require "inspec/resources/postfix_conf"
 
 describe "Inspec::Resources::Postfix_Conf" do
 
+  it "generates the resource_id for the current resource" do
+    resource = MockLoader.new(:centos7).load_resource("postfix_conf")
+    _(resource.resource_id).must_equal "Postfix Conf"
+  end
+
   it "Test default parsing of main.cf on Centos 7" do
     resource = MockLoader.new(:centos7).load_resource("postfix_conf")
     result = { "test_parameter" => "value", "other_test_param" => "$value" }

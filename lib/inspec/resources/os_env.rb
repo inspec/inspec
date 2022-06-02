@@ -47,6 +47,10 @@ module Inspec::Resources
       @content = value_for(@osenv, @target) unless @osenv.nil?
     end
 
+    def resource_id
+      @osenv || ""
+    end
+
     def to_s
       if @osenv.nil?
         "Environment variables"

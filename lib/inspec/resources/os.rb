@@ -27,6 +27,10 @@ module Inspec::Resources
       end
     end
 
+    def resource_id
+      @platform.name || "OS"
+    end
+
     def to_s
       "Operating System Detection"
     end

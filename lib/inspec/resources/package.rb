@@ -96,6 +96,10 @@ module Inspec::Resources
       @latest_version ||= ( @pkgman.latest_version(@package_name) || info[:latest_version] )
     end
 
+    def resource_id
+      @package_name || "System Package"
+    end
+
     def to_s
       "System Package #{@package_name}"
     end
