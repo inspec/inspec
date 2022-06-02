@@ -77,6 +77,10 @@ module Inspec::Resources
       iis_site.nil? ? false : (iis_site[:bindings].include? binding)
     end
 
+    def resource_id
+      @site_name
+    end
+
     def to_s
       "iis_site '#{@site_name}'"
     end
