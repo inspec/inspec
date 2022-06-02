@@ -69,6 +69,10 @@ module Inspec::Resources
       end
     end
 
+    def resource_id
+      format("Iptables %s %s", @table && "table: #{@table}", @chain && "chain: #{@chain}").strip
+    end
+
     def to_s
       format("Iptables %s %s", @table && "table: #{@table}", @chain && "chain: #{@chain}").strip
     end
