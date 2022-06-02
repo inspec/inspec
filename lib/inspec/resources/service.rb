@@ -297,6 +297,10 @@ module Inspec::Resources
       current_monitoring_tool.is_service_monitored?
     end
 
+    def resource_id
+      @service_name
+    end
+
     def to_s
       "Service #{@service_name}"
     end

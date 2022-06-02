@@ -19,6 +19,7 @@ describe "Inspec::Resources::Service" do
     _(resource.startmode). must_equal "Auto"
     _(resource.startname). must_equal "LocalSystem"
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "dhcp"
   end
 
   # ubuntu
@@ -32,6 +33,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "ssh"
   end
 
   it "verify ubuntu service parsing with default upstart_service" do
@@ -45,6 +47,7 @@ describe "Inspec::Resources::Service" do
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
     _(resource.params.UnitFileState).must_be_nil
+    _(resource.resource_id).must_equal "ssh"
   end
 
   it "verify ubuntu service parsing" do
@@ -58,6 +61,7 @@ describe "Inspec::Resources::Service" do
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
     _(resource.params.SubState).must_equal "running"
+    _(resource.resource_id).must_equal "sshd"
   end
 
   it "verify ubuntu service parsing with default systemd_service" do
@@ -70,6 +74,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "sshd"
   end
 
   # linux mint 17 with upstart
@@ -83,6 +88,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "ssh"
   end
 
   it "verify mint service parsing with default upstart_service" do
@@ -96,6 +102,7 @@ describe "Inspec::Resources::Service" do
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
     _(resource.params.UnitFileState).must_be_nil
+    _(resource.resource_id).must_equal "ssh"
   end
 
   # mint 18 with systemd
@@ -110,6 +117,7 @@ describe "Inspec::Resources::Service" do
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
     _(resource.params.SubState).must_equal "running"
+    _(resource.resource_id).must_equal "sshd"
   end
 
   it "verify mint service parsing with default systemd_service" do
@@ -122,6 +130,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "sshd"
   end
 
   # [-] Todo: Check with team if we can remove the below unit test or find a way to include it.
@@ -154,6 +163,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "sshd"
   end
 
   # Aliyun Linux 3 (Alibaba)
@@ -167,6 +177,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "sshd"
   end
 
   # centos 6 with sysv
@@ -181,6 +192,7 @@ describe "Inspec::Resources::Service" do
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
     _(resource.params.SubState).must_be_nil
+    _(resource.resource_id).must_equal "sshd"
   end
 
   it "verify centos 6 service parsing with default sysv_service" do
@@ -193,6 +205,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "sshd"
   end
 
   # centos 7 with systemd
@@ -206,6 +219,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "sshd"
   end
 
   it "verify centos 7 service parsing with systemd_service and service_ctl override" do
@@ -218,6 +232,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "sshd"
   end
 
   it "verify centos 7 service parsing with static loaded service" do
@@ -232,6 +247,7 @@ describe "Inspec::Resources::Service" do
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
     _(resource.params.UnitFileState).must_equal "static"
+    _(resource.resource_id).must_equal "dbus"
   end
 
   # cloudlinux 7 with systemd
@@ -245,6 +261,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "sshd"
   end
 
   it "verify cloudlinux 7 service parsing with systemd_service and service_ctl override" do
@@ -257,6 +274,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "sshd"
   end
 
   it "verify cloudlinux 7 service parsing with static loaded service" do
@@ -271,6 +289,7 @@ describe "Inspec::Resources::Service" do
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
     _(resource.params.UnitFileState).must_equal "static"
+    _(resource.resource_id).must_equal "dbus"
   end
 
   # freebsd 9
@@ -284,6 +303,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "sendmail"
   end
 
   it "verify freebsd9 service parsing with default bsd_service" do
@@ -296,11 +316,13 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "sendmail"
   end
 
   it "verify freebsd9 service parsing when one service is a suffix of another" do
     resource = MockLoader.new(:freebsd9).load_resource("service", "mail") # "mail" is suffix of "sendmail", which is enabled
     _(resource.enabled?).must_equal false
+    _(resource.resource_id).must_equal "mail"
   end
 
   # freebsd 10+
@@ -314,6 +336,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "sendmail"
   end
 
   it "verify freebsd10 service parsing with default bsd_service" do
@@ -326,6 +349,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "sendmail"
   end
 
   # arch linux with systemd
@@ -339,6 +363,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "sshd"
   end
 
   # coreos linux with systemd
@@ -352,6 +377,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "sshd"
   end
 
   # debian 7 with systemv
@@ -365,6 +391,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "sshd"
   end
 
   # debian 8 with systemd
@@ -378,6 +405,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "sshd"
   end
 
   # debian 10 with systemd
@@ -391,6 +419,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "sshd"
   end
 
   # debian 8 with systemd but no service file
@@ -412,6 +441,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "apache2"
   end
 
   # macos test
@@ -425,6 +455,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "ssh"
   end
 
   it "verify macos 10.16 (11 / big sur) service parsing" do
@@ -437,6 +468,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "ssh"
   end
 
   it "verify mac osx service parsing with not-running service" do
@@ -449,6 +481,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal false
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "FilesystemUI"
   end
 
   it "verify mac osx service parsing with default launchd_service" do
@@ -461,6 +494,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "ssh"
   end
 
   # wrlinux
@@ -474,6 +508,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "sshd"
   end
 
   # yocto
@@ -487,6 +522,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "sshd"
   end
 
   it "verify alpine service parsing" do
@@ -499,6 +535,7 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal true
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "sshd"
   end
 
   # unknown OS
@@ -508,6 +545,7 @@ describe "Inspec::Resources::Service" do
     _(resource.installed?).must_equal false
     _(resource.description).must_be_nil
     _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "dhcp"
   end
 
   # runlevel detection
@@ -555,6 +593,7 @@ describe "Inspec::Resources::Service" do
       resource = MockLoader.new(:windows).load_resource("service", "dhcp")
       _(resource.name).must_equal "dhcp"
       _(resource.has_start_mode?("Auto")).must_equal true
+      _(resource.resource_id).must_equal "dhcp"
     end
 
     # ubuntu
@@ -564,6 +603,7 @@ describe "Inspec::Resources::Service" do
       _(resource.monitored_by?("monit")).must_equal true
       ex = _ { resource.has_start_mode?("Auto") }.must_raise(Inspec::Exceptions::ResourceSkipped)
       _(ex.message).must_include "The `has_start_mode` matcher is not supported on your OS yet."
+      _(resource.resource_id).must_equal "ssh"
     end
   end
 end
