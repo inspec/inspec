@@ -43,6 +43,7 @@ module Inspec::Resources
       @host = host
       @port = port
       @socket = socket
+      @db = nil
       init_fallback if user.nil? || pass.nil?
       raise Inspec::Exceptions::ResourceFailed, "Can't run MySQL SQL checks without authentication." if @user.nil? || @pass.nil?
 
@@ -52,7 +53,9 @@ module Inspec::Resources
     def query(q, db = "")
       raise Inspec::Exceptions::ResourceFailed, "#{resource_exception_message}" if resource_failed?
 
-      mysql_cmd = create_mysql_cmd(q, db)
+      @db = db
+      mysql_cmd = create_mysql_cmd(q, @db)
+
       cmd = if !@pass.nil?
               inspec.command(mysql_cmd, redact_regex: /(mysql -u\w+ -p).+(\s-(h|S).*)/)
             else
@@ -64,6 +67,10 @@ module Inspec::Resources
       else
         Lines.new(cmd.stdout.strip, "MySQL query: #{q}", cmd.exit_status)
       end
+    end
+
+    def resource_id
+      "mysql_session:User:#{@user}:Host:#{@host}:Database:#{@db}"
     end
 
     def to_s

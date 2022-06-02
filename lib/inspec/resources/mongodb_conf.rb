@@ -24,6 +24,10 @@ module Inspec::Resources
       super(@conf_path)
     end
 
+    def resource_id
+      @conf_path
+    end
+
     private
 
     def parse(content)

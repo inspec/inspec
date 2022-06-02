@@ -51,6 +51,10 @@ module Inspec::Resources
       @mount_options[name]
     end
 
+    def resource_id
+      "mount: #{@path}"
+    end
+
     def to_s
       "Mount #{@path}"
     end
