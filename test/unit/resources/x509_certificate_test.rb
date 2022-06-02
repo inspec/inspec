@@ -112,4 +112,10 @@ describe "Inspec::Resources::X509Certificate" do
     _(resource.has_purpose?("SSL server CA : Yes")).must_equal true
     _(resource.has_purpose?("SSL client CA : Yes")).must_equal true
   end
+
+  it "checks for resource_id for current resource" do
+    _(resource_cert.resource_id).must_equal "test_certificate.rsa.crt.pem"
+    _(resource_cert_with_content.resource_id).must_equal "Inspec Test Certificate"
+    _(resource_cert_with_filepath.resource_id).must_equal "test_certificate.rsa.crt.pem"
+  end
 end
