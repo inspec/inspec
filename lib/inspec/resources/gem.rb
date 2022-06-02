@@ -76,5 +76,9 @@ module Inspec::Resources
     def to_s
       "gem package #{@package_name}"
     end
+
+    def resource_id
+      "#{@package_name}-#{version}"
+    end
   end
 end

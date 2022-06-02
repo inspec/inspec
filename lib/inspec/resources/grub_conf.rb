@@ -69,6 +69,10 @@ module Inspec::Resources
       "Grub Config"
     end
 
+    def resource_id
+      @conf_path
+    end
+
     private
 
     ######################################################################

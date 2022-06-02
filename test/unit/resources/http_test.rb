@@ -16,6 +16,7 @@ describe "Inspec::Resources::Http" do
 
         _(worker.status).must_equal 200
         _(worker.body).must_equal "pong"
+        _(worker.resource_id).must_equal "pong"
       end
     end
 

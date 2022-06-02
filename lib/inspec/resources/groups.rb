@@ -154,6 +154,10 @@ module Inspec::Resources
       "Group #{@group}"
     end
 
+    def resource_id
+      gid ? "#{@group}-#{gid}" : ""
+    end
+
     private
 
     def flatten_entry(group_info, prop)

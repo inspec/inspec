@@ -125,6 +125,10 @@ module Inspec::Resources
         def proxy
           opts.fetch(:proxy, nil)
         end
+
+        def resource_id
+          @url
+        end
       end
 
       class Local < Base
