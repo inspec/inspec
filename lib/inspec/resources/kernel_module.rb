@@ -69,6 +69,10 @@ module Inspec::Resources
       cmd.exit_status == 0 ? cmd.stdout.delete("\n") : nil
     end
 
+    def resource_id
+      @module
+    end
+
     def to_s
       "Kernel Module #{@module}"
     end
