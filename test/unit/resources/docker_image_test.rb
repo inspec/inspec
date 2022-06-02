@@ -20,7 +20,7 @@ describe "Inspec::Resources::DockerImage" do
       _(resource["Config.Cmd"]).must_include "bash"
       _(resource.inspection).must_include "Architecture"
       _(resource.inspection.Architecture).must_equal "arm64"
-      _(resource.resource_id).must_equal ""
+      _(resource.resource_id).must_equal "ubuntu:latest"
     end
 
     # Test case for inspect image information with invalid keys

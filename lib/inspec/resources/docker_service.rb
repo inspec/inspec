@@ -74,7 +74,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      object_info.ids[0] || @opts[:id] || ""
+      object_info.ids[0] || @opts[:id] || @opts[:name] || ""
     end
 
     private
