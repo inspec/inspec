@@ -6,6 +6,12 @@ module Inspec::Resources
     supports platform: "unix"
     supports platform: "windows"
 
+    example <<~EXAMPLE
+      describe opa_cli(policy: "example.rego", data: "input.json", query: "data.example.allow") do
+        its(["result"]) { should eq "value" }
+      end
+    EXAMPLE
+
     def initialize(opts = {})
       @opa_executable_path = opts[:opa_executable_path] || "opa" # if this path is not provided then we will assume that it's been set in the ENV PATH
       @policy = opts[:policy] || nil
@@ -20,6 +26,14 @@ module Inspec::Resources
 
     def allow
       @content["result"][0]["expressions"][0]["value"] if @content["result"][0]["expressions"][0]["text"].include?("allow")
+    end
+
+    def resource_id
+      if @policy.nil? && @query.nil?
+        "opa_cli"
+      else
+        "#{@policy}:#{@query}"
+      end
     end
 
     def to_s
