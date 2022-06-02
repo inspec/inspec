@@ -59,6 +59,10 @@ module Inspec::Resources
       extract_value(key, params)
     end
 
+    def resource_id
+      @resource_name_supplement || "#{resource_base_name}'s content"
+    end
+
     def to_s
       "#{resource_base_name} #{@resource_name_supplement || "content"}"
     end

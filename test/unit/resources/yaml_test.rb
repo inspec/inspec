@@ -6,6 +6,10 @@ describe "Inspec::Resources::YAML" do
   describe "when loading a valid yaml" do
     let(:resource) { load_resource("yaml", "kitchen.yml") }
 
+    it "gets resource_id for the current resource" do
+      _(resource.resource_id).must_equal "kitchen.yml"
+    end
+
     it "gets params as a hashmap" do
       _(resource.params).must_be_kind_of Hash
     end
