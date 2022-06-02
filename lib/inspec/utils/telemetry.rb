@@ -49,9 +49,13 @@ module Inspec
       attr_accessor :scratch
       attr_reader :session_id
 
-      def fetch_customer_id
-        # TODO: obtain customer ID from some mechanism
-        "unknown"
+      def fetch_license_id
+        require "chef/telemetry/license_id_fetcher"
+        Chef::Telemetry::LicenseIdFetcher.fetch(
+          Inspec::Dist::EXEC_NAME,
+          Inspec::VERSION,
+          logger: Inspec::Log
+        )
       end
 
       def fetch_session_id
@@ -63,8 +67,7 @@ module Inspec
           version: "2.0",
           createdTimeUTC: Time.now.getutc.iso8601, # like 3339 but always uses T
           environment: Inspec::Telemetry::RunContextProbe.guess_run_context,
-          # licenseId # We will never have this
-          customerId: fetch_customer_id,
+          licenseId: fetch_license_id,
           source: "#{Inspec::Dist::EXEC_NAME}:#{Inspec::VERSION}",
           type: payload_type,
           correlationId: fetch_session_id,

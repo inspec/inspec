@@ -32,6 +32,9 @@ module Inspec
     def self.start(given_args = ARGV, config = {})
       check_license! if config[:enforce_license] || config[:enforce_license].nil?
 
+      obtain_license_id! if config[:enforce_license] || config[:enforce_license].nil?
+
+      # TODO: consider saving telemetry outcome somewhere so we don't risk re-prompting
       telemetry_optin! if config[:enable_telemetry_optin] || config[:enable_telemetry_optin].nil?
 
       super(given_args, config)
@@ -61,6 +64,28 @@ module Inspec
       end
     end
 
+    def self.obtain_license_id!
+      allowed_commands = ["-h", "--help", "help", "-v", "--version", "version"]
+
+      require "chef/telemetry/license_id_fetcher"
+      begin
+        if (allowed_commands & ARGV.map(&:downcase)).empty? && # Did they use a non-exempt command?
+          !ARGV.empty? # Did they supply at least one command?
+        license_id = Chef::Telemetry::LicenseIdFetcher.fetch_and_persist(
+          Inspec::Dist::EXEC_NAME,
+          Inspec::VERSION,
+          logger: Inspec::Log
+        )
+        if license_id && ARGV.count == 1 && (ARGV.first.include? "--chef-license") # TODO: verify arg name - watch for collision with license-acceptance
+          Inspec::UI.new.exit
+        end
+        license_id
+      rescue Chef::Telemetry::LicenseIdFetcher::LicenseIdNotFetchedError
+        Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without a license ID"
+        Inspec::UI.new.exit(:license_not_accepted) # TODO: determine new exit code
+      end
+    end
+
     def self.telemetry_optin!
       allowed_commands = ["-h", "--help", "help", "-v", "--version", "version"]
 
@@ -70,7 +95,7 @@ module Inspec
         optin_output = Chef::Telemetry::Decision.check_and_persist(logger: Inspec::Log)
 
         # Allow user to simply opt in/out and exit with single command
-        if ARGV.count == 1 && (ARGV.first.include? "--chef-telemetry")
+        if ARGV.count == 1 && (ARGV.first.include? "--chef-telemetry") # TODO: verify arg
           Inspec::UI.new.exit
         end
 
