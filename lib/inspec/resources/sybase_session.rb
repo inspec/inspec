@@ -64,6 +64,10 @@ module Inspec::Resources
       DatabaseHelper::SQLQueryResult.new(isql_cmd, parse_csv_result(isql_cmd.stdout))
     end
 
+    def resource_id
+      "Sybase Session"
+    end
+
     def to_s
       "Sybase Session"
     end
