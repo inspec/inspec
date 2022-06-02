@@ -16,7 +16,7 @@ describe "Inspec::Resources::Http" do
 
         _(worker.status).must_equal 200
         _(worker.body).must_equal "pong"
-        _(worker.resource_id).must_equal "pong"
+        _(worker.resource_id).must_equal "http://www.example.com"
       end
     end
 
@@ -28,6 +28,7 @@ describe "Inspec::Resources::Http" do
 
         _(worker.status).must_equal 200
         _(worker.body).must_equal "auth ok"
+        _(worker.resource_id).must_equal "http://www.example.com"
       end
     end
 
@@ -40,6 +41,7 @@ describe "Inspec::Resources::Http" do
 
         _(worker.status).must_equal 200
         _(worker.body).must_equal "redirect ok"
+        _(worker.resource_id).must_equal "http://www.example.com"
       end
 
       it "does not exceed max_redirects" do
@@ -60,6 +62,7 @@ describe "Inspec::Resources::Http" do
 
         _(worker.status).must_equal 200
         _(worker.body).must_equal "post ok"
+        _(worker.resource_id).must_equal "http://www.example.com"
       end
     end
 
@@ -72,6 +75,7 @@ describe "Inspec::Resources::Http" do
         _(worker.status).must_equal 200
         _(worker.body).must_equal "headers ok"
         _(worker.response_headers["mock"]).must_equal "ok"
+        _(worker.resource_id).must_equal "http://www.example.com"
       end
     end
 
@@ -83,6 +87,7 @@ describe "Inspec::Resources::Http" do
 
         _(worker.status).must_equal 200
         _(worker.body).must_equal "params ok"
+        _(worker.resource_id).must_equal "http://www.example.com"
       end
     end
 
@@ -104,6 +109,7 @@ describe "Inspec::Resources::Http" do
         _(worker.response_headers["access-control-allow-origin"]).must_equal "http://www.example.com"
         _(worker.response_headers["access-control-allow-methods"]).must_equal "POST, GET, OPTIONS, DELETE"
         _(worker.response_headers["access-control-max-age"]).must_equal "86400"
+        _(worker.resource_id).must_equal "http://www.example.com"
       end
     end
   end
@@ -119,6 +125,7 @@ describe "Inspec::Resources::Http" do
       it "returns correct data" do
         _(worker.status).must_equal 200
         _(worker.body).must_equal "no options"
+        _(worker.resource_id).must_equal "http://www.example.com"
       end
     end
 
@@ -128,6 +135,7 @@ describe "Inspec::Resources::Http" do
       it "returns correct data" do
         _(worker.status).must_equal 200
         _(worker.body).must_equal "auth ok"
+        _(worker.resource_id).must_equal "http://www.example.com"
       end
     end
 
@@ -137,6 +145,7 @@ describe "Inspec::Resources::Http" do
       it "follows the redirect" do
         _(worker.status).must_equal 200
         _(worker.body).must_equal "followed redirect"
+        _(worker.resource_id).must_equal "http://www.example.com"
       end
     end
 
@@ -147,6 +156,7 @@ describe "Inspec::Resources::Http" do
       it "returns correct data" do
         _(worker.status).must_equal 200
         _(worker.body).must_equal "post ok"
+        _(worker.resource_id).must_equal "http://www.example.com"
       end
     end
 
@@ -157,6 +167,7 @@ describe "Inspec::Resources::Http" do
         _(worker.status).must_equal 200
         _(worker.body).must_equal "headers ok"
         _(worker.response_headers["mock"]).must_equal "ok"
+        _(worker.resource_id).must_equal "http://www.example.com"
       end
     end
 
@@ -166,6 +177,7 @@ describe "Inspec::Resources::Http" do
       it "returns correct data" do
         _(worker.status).must_equal 200
         _(worker.body).must_equal "params ok"
+        _(worker.resource_id).must_equal "http://www.example.com"
       end
     end
 
@@ -175,6 +187,7 @@ describe "Inspec::Resources::Http" do
       it "returns correct data" do
         _(worker.status).must_equal 301
         _(worker.response_headers["Location"]).must_equal "http://www.google.com/"
+        _(worker.resource_id).must_equal "http://www.example.com"
       end
     end
 
@@ -191,6 +204,7 @@ describe "Inspec::Resources::Http" do
         _(worker.response_headers["Access-Control-Allow-Origin"]).must_equal "http://www.example.com"
         _(worker.response_headers["Access-Control-Allow-Methods"]).must_equal "POST, GET, OPTIONS, DELETE"
         _(worker.response_headers["Access-Control-Max-Age"]).must_equal "86400"
+        _(worker.resource_id).must_equal "http://www.example.com"
       end
     end
 
@@ -259,6 +273,7 @@ describe "Inspec::Resources::Http" do
           .returns(true)
         _(worker.status).must_equal 200
         _(worker.response_headers["Content-Type"]).must_equal "text/html; charset=UTF-8"
+        _(worker.resource_id).must_equal "https://www.example.com"
       end
     end
   end
@@ -277,6 +292,7 @@ describe "Inspec::Resources::Http" do
           .returns(true)
         _(worker.status).must_equal 200
         _(worker.response_headers["Content-Type"]).must_equal "text/html; charset=UTF-8"
+        _(worker.resource_id).must_equal "https://www.example.com"
       end
     end
   end
@@ -295,6 +311,7 @@ describe "Inspec::Resources::Http" do
       _(worker.status).must_equal 200
       _(worker.body).must_equal "post ok"
       _(worker.response_headers["Content-Type"]).must_equal "text/html; charset=UTF-8"
+      _(worker.resource_id).must_equal "https://www.example.com"
     end
   end
 end

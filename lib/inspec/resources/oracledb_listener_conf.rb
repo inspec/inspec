@@ -73,6 +73,10 @@ module Inspec::Resources
       "Oracle Listener Configuration"
     end
 
+    def resource_id
+      @conf_path
+    end
+
     private
 
     def read_content
