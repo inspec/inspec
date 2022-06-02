@@ -95,6 +95,10 @@ module Inspec::Resources
       @content
     end
 
+    def resource_id
+      @options[:class] || "WMI"
+    end
+
     def to_s
       "WMI with #{@options}"
     end
