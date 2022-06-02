@@ -58,7 +58,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      @package_name
+      @package_name || "cran"
     end
 
     def to_s

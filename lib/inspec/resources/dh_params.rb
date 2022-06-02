@@ -77,7 +77,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      @dh_params_path
+      @dh_params_path || "dh_params"
     end
 
     def to_s

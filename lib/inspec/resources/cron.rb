@@ -38,6 +38,11 @@ module Inspec::Resources
       @params.include?(rule)
     end
 
+    def resource_id
+      user = @user || "current user"
+      "cron #{user}"
+    end
+
     def to_s
       if is_user_crontab?
         "cron for user #{@user}"

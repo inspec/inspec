@@ -20,7 +20,6 @@ describe "Inspec::Resources::Cpan" do
   end
   it "gets the resource_id for the current resource" do
     resource = load_resource("cpan", "DBD::Pg")
-    pkg = { type: "cpan", name: "DBD::Pg", version: "3.7.0", installed: true }
     _(resource.resource_id).must_equal "DBD::Pg"
   end
 end
