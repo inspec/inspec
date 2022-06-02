@@ -6,8 +6,11 @@ require "inspec/resources/mount"
 describe Inspec::Resources::FileResource do
   let(:root_resource) { load_resource("mount", "/") }
 
+  it "generates the resource_id for current resource" do
+    _(root_resource.resource_id).must_equal "/"
+  end
+
   it "parses the mount data properly" do
-    _(root_resource.resource_id).must_equal "mount: /"
     _(root_resource.send(:device)).must_equal("/dev/xvda1")
     _(root_resource.send(:type)).must_equal("ext4")
     _(root_resource.send(:options)).must_equal(%w{rw discard})
@@ -16,8 +19,11 @@ describe Inspec::Resources::FileResource do
 
   let(:iso_resource) { load_resource("mount", "/mnt/iso-disk") }
 
+  it "generates resource_id for current resource" do
+    _(iso_resource.resource_id).must_equal "/mnt/iso-disk"
+  end
+
   it "parses the mount data properly" do
-    _(iso_resource.resource_id).must_equal "mount: /mnt/iso-disk"
     _(iso_resource.send(:device)).must_equal("/root/alpine-3.3.0-x86_64_2.iso")
     _(iso_resource.send(:type)).must_equal("iso9660")
     _(iso_resource.send(:options)).must_equal(["ro"])

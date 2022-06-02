@@ -52,7 +52,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      "mount: #{@path}"
+      @path || "mount"
     end
 
     def to_s

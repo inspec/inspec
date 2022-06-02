@@ -87,5 +87,9 @@ describe "Inspec::Resources::Nginx" do
       resource = load_resource("nginx")
       _(resource.http_scgi_temp_path).must_match "/var/cache/nginx/scgi_temp"
     end
+    it "generates resource_id for the current_resource" do
+      resource = load_resource("nginx")
+      _(resource.resource_id).must_equal "/usr/sbin/nginx"
+    end
   end
 end

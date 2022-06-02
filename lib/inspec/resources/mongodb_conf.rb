@@ -24,8 +24,9 @@ module Inspec::Resources
       super(@conf_path)
     end
 
+    # set resource_id to "" if system is not able to determine the @conf_path
     def resource_id
-      @conf_path
+      @conf_path || "mongodb_conf"
     end
 
     private
