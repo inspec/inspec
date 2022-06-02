@@ -16,4 +16,9 @@ describe "Inspec::Resources::Cran" do
     _(resource.info[:name]).must_equal "DoesNotExist"
     _(resource.info[:type]).must_equal "cran"
   end
+  it "gets resource_id for the current resource" do
+    resource = load_resource("cran", "DBI")
+    pkg = { type: "cran", name: "DBI", version: "0.5.1", installed: true }
+    _(resource.resource_id).must_equal "DBI"
+  end
 end

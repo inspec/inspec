@@ -14,10 +14,12 @@ describe Inspec::Resources::Cmd do
   end
 
   it "runs a valid mocked command" do
-    _(resource("env").result).wont_be_nil
-    _(resource("env").stdout).must_include "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\n"
-    _(resource("env").stderr).must_equal ""
-    _(resource("env").exit_status).must_equal 0
+    resource = load_resource("command", "env")
+    _(resource.resource_id).must_equal "Command: `env`"
+    _(resource.result).wont_be_nil
+    _(resource.stdout).must_include "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\n"
+    _(resource.stderr).must_equal ""
+    _(resource.exit_status).must_equal 0
   end
 
   it "exist? returns false on nil os name" do
@@ -42,8 +44,10 @@ describe Inspec::Resources::Cmd do
 
   it "redacts output if `redact_regex` is passed with capture groups" do
     cmd = "command_with_password -p supersecret -d no_redact"
+    resource = load_resource("command", cmd, redact_regex: /(-p ).*( -d)/)
     expected_to_s = "Command: `command_with_password -p REDACTED -d no_redact`"
-    _(resource(cmd, redact_regex: /(-p ).*( -d)/).to_s).must_equal(expected_to_s)
+    _(resource.resource_id).must_equal(expected_to_s)
+    _(resource.to_s).must_equal(expected_to_s)
   end
 
   it "redacts output if `redact_regex` is passed without a capture group" do

@@ -57,6 +57,10 @@ module Inspec::Resources
       info[:version]
     end
 
+    def resource_id
+      @package_name
+    end
+
     def to_s
       "R Module #{@package_name}"
     end

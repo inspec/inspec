@@ -9,6 +9,10 @@ describe "Inspec::Resources::CSV" do
       {}
     end
 
+    it "gets the resource_id for the current resource" do
+      _(resource.resource_id).must_equal "example.csv"
+    end
+
     it "captures an array of params" do
       _(resource.params).must_be_kind_of Array
     end

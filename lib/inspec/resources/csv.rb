@@ -19,7 +19,8 @@ module Inspec::Resources
 
     def initialize(path, headers = true)
       @headers = headers
-      super(path)
+      @path = path
+      super(@path)
     end
 
     # override the parse method from JsonConfig
@@ -66,6 +67,10 @@ module Inspec::Resources
         # when headers is set to false send the array as it is.
         @params
       end
+    end
+
+    def resource_id
+      @path
     end
 
     private
