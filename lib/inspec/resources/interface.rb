@@ -83,6 +83,10 @@ module Inspec::Resources
       interface_info && Array(interface_info[:ipv6_addresses])
     end
 
+    def resource_id
+      @iface
+    end
+
     def to_s
       "Interface #{@iface}"
     end
