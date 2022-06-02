@@ -8,5 +8,6 @@ describe "Inspec::Resources::InetdConf" do
     _(resource.send("shell")).must_be_nil
     _(resource.send("login")).must_be_nil
     _(resource.send("ftp")).must_equal %w{stream tcp nowait root /usr/sbin/in.ftpd in.ftpd}
+    _(resource.send("resource_id")).must_equal "/etc/inetd.conf"
   end
 end

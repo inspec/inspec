@@ -46,6 +46,10 @@ module Inspec::Resources
       @params = conf.params
     end
 
+    def resource_id
+      @conf_path
+    end
+
     def to_s
       "inetd.conf"
     end
