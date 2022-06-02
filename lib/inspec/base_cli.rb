@@ -32,6 +32,8 @@ module Inspec
     def self.start(given_args = ARGV, config = {})
       check_license! if config[:enforce_license] || config[:enforce_license].nil?
 
+      telemetry_optin! if config[:enable_telemetry_optin] || config[:enable_telemetry_optin].nil?
+
       super(given_args, config)
     end
 
@@ -56,6 +58,23 @@ module Inspec
       rescue LicenseAcceptance::LicenseNotAcceptedError
         Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without accepting the license"
         Inspec::UI.new.exit(:license_not_accepted)
+      end
+    end
+
+    def self.telemetry_optin!
+      allowed_commands = ["-h", "--help", "help", "-v", "--version", "version"]
+
+      require "chef/telemetry"
+      if (allowed_commands & ARGV.map(&:downcase)).empty? && # Did they use a non-exempt command?
+          !ARGV.empty? # Did they supply at least one command?
+        optin_output = Chef::Telemetry::Decision.check_and_persist(logger: Inspec::Log)
+
+        # Allow user to simply opt in/out and exit with single command
+        if ARGV.count == 1 && (ARGV.first.include? "--chef-telemetry")
+          Inspec::UI.new.exit
+        end
+
+        optin_output
       end
     end
 

@@ -18,9 +18,14 @@ module Inspec
       # Don't perform telemetry unless feature flag is enabled
       return Inspec::Telemetry::Null unless ENV["CHEF_FEATURE_TELEMETRY"]
 
-      # TODO: ask chef-telemetry gem if we should be enabled or not
+      # Ask chef-telemetry gem if we should be enabled or not
+      require "chef/telemetry"
+      # At this point they should have already been prompted
+      # TODO: add option to check_and_persist to explicitly disable prompting
+      decision = Chef::Telemetry::Decision.check_and_persist(logger: Inspec::Log)
+      return Inspec::Telemetry::Null unless decision
 
-      # TODO: implement online telemetry collection using chef-telemtry gem
+      # TODO: implement online telemetry collection using chef-telemetry gem
 
       Inspec::Telemetry::Debug
     end
@@ -179,8 +184,8 @@ module Inspec
 
     class Debug < Base
       def run_ending(opts)
-        #payload = super(opts)
-        #require "byebug"; byebug
+        # payload = super(opts)
+        # require "byebug"; byebug
         1
       end
     end
