@@ -57,6 +57,11 @@ module Inspec::Resources
       values
     end
 
+    # Since this resource does not have any unique identifier for resource, sending the Auditpol command as UUID.
+    def resource_id
+      "Auditpol"
+    end
+
     def to_s
       "Audit Policy"
     end

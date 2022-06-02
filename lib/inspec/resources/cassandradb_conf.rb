@@ -31,6 +31,11 @@ module Inspec::Resources
       super(@conf_path)
     end
 
+    # if system unables to determine the cassandra conf path the @conf_path can be nil so in that case sending "" string as resource_id
+    def resource_id
+      @conf_path || ""
+    end
+
     private
 
     def parse(content)

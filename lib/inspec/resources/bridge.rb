@@ -45,6 +45,10 @@ module Inspec::Resources
       bridge_info.nil? ? nil : bridge_info[:interfaces]
     end
 
+    def resource_id
+      @bridge_name
+    end
+
     def to_s
       "Bridge #{@bridge_name}"
     end

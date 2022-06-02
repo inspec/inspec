@@ -44,6 +44,10 @@ module Inspec::Resources
       end
     end
 
+    def resource_id
+      "cassandradb_session:User:#{@user}:Host:#{host}"
+    end
+
     def to_s
       "Cassandra DB Session"
     end

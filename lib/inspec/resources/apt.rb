@@ -39,10 +39,11 @@ module Inspec::Resources
     EXAMPLE
 
     def initialize(ppa_name)
+      @ppa_name = ppa_name
       @deb_url = nil
       # check if the os is ubuntu or debian
       if inspec.os.debian?
-        @deb_url = determine_ppa_url(ppa_name)
+        @deb_url = determine_ppa_url(@ppa_name)
       else
         # this resource is only supported on ubuntu and debian
         skip_resource "The `apt` resource is not supported on your OS yet."
@@ -59,6 +60,10 @@ module Inspec::Resources
       actives = find_repo.map { |repo| repo[:active] }
       actives = actives.uniq
       actives.size == 1 && actives[0] = true
+    end
+
+    def resource_id
+      @deb_url || @ppa_name || ""
     end
 
     def to_s

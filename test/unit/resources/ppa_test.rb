@@ -6,12 +6,14 @@ describe Inspec::Resources::PpaRepository do
 
   it "checks on ubuntu as name/ppa" do
     resource = MockLoader.new(:ubuntu).load_resource("ppa", "ubuntu-wine/ppa")
+    _(resource.resource_id).must_equal "http://ppa.launchpad.net/ubuntu-wine/ppa/ubuntu"
     _(resource.exists?).must_equal true
     _(resource.enabled?).must_equal true
   end
 
   it "checks on ubuntu as ppa:name/ppa" do
     resource = MockLoader.new(:ubuntu).load_resource("ppa", "ppa:ubuntu-wine/ppa")
+    _(resource.resource_id).must_equal "http://ppa.launchpad.net/ubuntu-wine/ppa/ubuntu"
     _(resource.exists?).must_equal true
     _(resource.enabled?).must_equal true
   end
@@ -36,6 +38,7 @@ describe Inspec::Resources::PpaRepository do
 
   it "checks on unknown os" do
     resource = MockLoader.new(:undefined).load_resource("ppa", "ubuntu-wine/ppa")
+    _(resource.resource_id).must_equal "ubuntu-wine/ppa"
     _(resource.exists?).must_equal false
     _(resource.enabled?).must_equal false
   end
