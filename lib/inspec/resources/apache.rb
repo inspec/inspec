@@ -40,6 +40,10 @@ module Inspec::Resources
       end
     end
 
+    def resource_id
+      @conf_path
+    end
+
     def to_s
       "Apache Environment"
     end

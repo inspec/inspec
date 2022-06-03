@@ -124,6 +124,10 @@ module Inspec::Resources
       @params["ServerRoot"] || @params["serverroot"]
     end
 
+    def resource_id
+      @conf_path
+    end
+
     def to_s
       "Apache Config #{conf_path}"
     end

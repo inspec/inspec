@@ -63,6 +63,10 @@ module Inspec::Resources
       params["Bonding Mode"].first
     end
 
+    def resource_id
+      @path
+    end
+
     def to_s
       "Bond #{@bond}"
     end

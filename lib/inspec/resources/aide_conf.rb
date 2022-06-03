@@ -48,6 +48,10 @@ module Inspec::Resources
 
     filter.install_filter_methods_on_resource(self, :params)
 
+    def resource_id
+      @conf_path
+    end
+
     def to_s
       "AIDE Config"
     end

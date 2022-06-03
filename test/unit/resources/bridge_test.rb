@@ -6,6 +6,7 @@ describe "Inspec::Resources::Bridge" do
 
   it "check linux bridge on ubuntu" do
     resource = MockLoader.new(:ubuntu).load_resource("bridge", "br0")
+    _(resource.resource_id).must_equal "br0"
     _(resource.exists?).must_equal true
 
     # check network interfaced attached to bridge
@@ -32,6 +33,7 @@ describe "Inspec::Resources::Bridge" do
 
   it "check windows bridge" do
     resource = MockLoader.new(:windows).load_resource("bridge", "Network Bridge")
+    _(resource.resource_id).must_equal "Network Bridge"
     _(resource.exists?).must_equal true
 
     # get associated interfaces is not supported on windows
@@ -40,6 +42,7 @@ describe "Inspec::Resources::Bridge" do
 
   it "check bridge on unsupported os" do
     resource = MockLoader.new(:undefined).load_resource("bridge", "br0")
+    _(resource.resource_id).must_equal "br0"
     _(resource.exists?).must_equal false
 
     # check network interfaced attached to bridge
