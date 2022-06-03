@@ -7,6 +7,10 @@ describe "Inspec::Resources::XML" do
   describe "when loading valid XML" do
     let(:resource) { load_resource("xml", "default.xml") }
 
+    it "gets resource_id for current resource" do
+      _(resource.resource_id).must_equal "default.xml"
+    end
+
     it "gets params as a document" do
       _(resource.params).must_be_kind_of REXML::Document
     end
@@ -29,6 +33,10 @@ describe "Inspec::Resources::XML" do
   describe "when loading xml with attributes" do
     let(:resource) { load_resource("xml", "database.xml") }
 
+    it "gets resource_id for current resource" do
+      _(resource.resource_id).must_equal "database.xml"
+    end
+
     it "gets params as a document" do
       _(resource.params).must_be_kind_of REXML::Document
     end
@@ -46,6 +54,10 @@ describe "Inspec::Resources::XML" do
   describe "when loading xml and requesting a count" do
     let(:resource) { load_resource("xml", "database.xml") }
 
+    it "gets resource_id for current resource" do
+      _(resource.resource_id).must_equal "database.xml"
+    end
+
     it "gets count of nodes in the document" do
       _(resource.send("count(//*)")).must_equal [9]
     end
@@ -54,6 +66,10 @@ describe "Inspec::Resources::XML" do
   describe "when loading xml and evaluating a boolean result" do
     let(:resource) { load_resource("xml", "database.xml") }
 
+    it "gets resource_id for current resource" do
+      _(resource.resource_id).must_equal "database.xml"
+    end
+
     it "checks if a node is true-like" do
       _(resource.send("boolean(/beans/bean/@lazy-init)")).must_equal [true]
     end
@@ -61,6 +77,10 @@ describe "Inspec::Resources::XML" do
 
   describe "when loading xml and evaluating a string result" do
     let(:resource) { load_resource("xml", "database.xml") }
+
+    it "gets resource_id for current resource" do
+      _(resource.resource_id).must_equal "database.xml"
+    end
 
     it "checks if a node is string-like" do
       _(resource.send('concat(string(/beans/bean/@lazy-init)," <--")')).must_equal ["true <--"]

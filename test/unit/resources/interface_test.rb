@@ -20,6 +20,7 @@ describe "Inspec::Resources::Interface" do
     _(resource.ipv6_addresses).must_include "::1"
     _(resource.ipv4_address?).must_equal true
     _(resource.ipv6_address?).must_equal true
+    _(resource.resource_id).must_equal "eth0"
   end
 
   it "verify invalid interface on ubuntu" do
@@ -37,6 +38,7 @@ describe "Inspec::Resources::Interface" do
     _(resource.ipv6_addresses).must_be_empty
     _(resource.ipv4_address?).must_equal false
     _(resource.ipv6_address?).must_equal false
+    _(resource.resource_id).must_equal "eth1"
   end
 
   # windows
@@ -55,6 +57,7 @@ describe "Inspec::Resources::Interface" do
     _(resource.ipv6_addresses).must_be_empty
     _(resource.ipv4_cidrs).must_be_empty
     _(resource.ipv6_cidrs).must_be_empty
+    _(resource.resource_id).must_equal "ethernet0"
   end
 
   it "verify interface on windows" do
@@ -72,6 +75,7 @@ describe "Inspec::Resources::Interface" do
     _(resource.ipv6_addresses).must_include "::1"
     _(resource.ipv4_address?).must_equal true
     _(resource.ipv6_address?).must_equal true
+    _(resource.resource_id).must_equal "vEthernet (Intel(R) PRO 1000 MT Network Connection - Virtual Switch)"
   end
 
   it "verify invalid interface on windows" do
@@ -87,6 +91,7 @@ describe "Inspec::Resources::Interface" do
     _(resource.ipv6_addresses).must_be_empty
     _(resource.ipv4_cidrs).must_be_empty
     _(resource.ipv6_cidrs).must_be_empty
+    _(resource.resource_id).must_equal "eth1"
   end
 
   it "verify interface on macos" do
@@ -104,6 +109,7 @@ describe "Inspec::Resources::Interface" do
     _(resource.ipv6_addresses).must_include "fe80::8b6:c2cc:2928:3b61"
     _(resource.ipv4_address?).must_equal true
     _(resource.ipv6_address?).must_equal true
+    _(resource.resource_id).must_equal "en0"
   end
 
   # undefined
@@ -113,6 +119,7 @@ describe "Inspec::Resources::Interface" do
     _(resource.up?).must_equal false
     _(resource.name).must_be_nil
     _(resource.speed).must_be_nil
+    _(resource.resource_id).must_equal "eth0"
   end
 
 end

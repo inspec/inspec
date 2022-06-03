@@ -26,5 +26,6 @@ describe "Inspec::Resources::IisSite" do
     _(resource.send("has_binding?", "https *:443:")).must_equal false
     _(resource.send("has_binding?", "https :443:example.com sslFlags=0")).must_equal false
     _(resource.send("to_s")).must_equal "iis_site 'Default Web Site'"
+    _(resource.send("resource_id")).must_equal "Default Web Site"
   end
 end

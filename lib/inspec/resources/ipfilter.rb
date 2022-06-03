@@ -42,6 +42,10 @@ module Inspec::Resources
       @ipfilter_cache = cmd.stdout.split("\n").map(&:strip)
     end
 
+    def resource_id
+      "Ipfilter"
+    end
+
     def to_s
       "Ipfilter"
     end
