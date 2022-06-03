@@ -105,6 +105,10 @@ module Inspec::Resources
       }
     end
 
+    def resource_id
+      @taskuri || "windows_task"
+    end
+
     def to_s
       "Windows Task '#{@taskuri}'"
     end

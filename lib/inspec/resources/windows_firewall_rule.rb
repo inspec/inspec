@@ -23,6 +23,10 @@ module Inspec::Resources
       @state = JSON.load(cmd.stdout) unless cmd.stdout.empty?
     end
 
+    def resource_id
+      @name || "windows_firewall_rule"
+    end
+
     def to_s
       "Windows Firewall Rule #{@name}"
     end

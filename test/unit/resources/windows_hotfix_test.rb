@@ -11,6 +11,11 @@ describe "Inspec::Resources::WindowsHotfix" do
   end
 
   # windows
+  it "generates the resource_id for the current resource" do
+    resource = MockLoader.new(:windows).load_resource("windows_hotfix", "KB4019215")
+    _(resource.resource_id).must_equal "KB4019215"
+  end
+
   it "verify windows_hotfix installed on windows" do
     resource = MockLoader.new(:windows).load_resource("windows_hotfix", "KB4019215")
     _(resource.installed?).must_equal true

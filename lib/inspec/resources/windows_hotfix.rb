@@ -24,6 +24,10 @@ module Inspec::Resources
       @content = cmd.stdout
     end
 
+    def resource_id
+      @id || "windows_hotfix"
+    end
+
     def to_s
       "Windows Hotfix #{@id}"
     end

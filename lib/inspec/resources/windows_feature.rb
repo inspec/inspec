@@ -59,8 +59,12 @@ module Inspec::Resources
       @cache
     end
 
+    def resource_id
+      @feature
+    end
+
     def to_s
-      "Windows Feature '#{@feature}'"
+      @feature || "windows_feature"
     end
 
     private

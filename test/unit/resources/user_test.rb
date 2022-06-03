@@ -6,6 +6,11 @@ require "inspec/resources/command"
 describe "Inspec::Resources::User" do
 
   # ubuntu
+  it "generates the resource_id for current resource" do
+    resource = MockLoader.new(:ubuntu).load_resource("user", "root")
+    _(resource.resource_id).must_equal "root"
+  end
+
   it "read user on ubuntu" do
     resource = MockLoader.new(:ubuntu).load_resource("user", "root")
     _(resource.exists?).must_equal true
@@ -102,6 +107,11 @@ describe "Inspec::Resources::User" do
     end
 
     _(resource.passwordage).must_be_nil
+  end
+
+  it "generates the resource_id for current resource" do
+    resource = MockLoader.new(:centos7).load_resource("user", "root")
+    _(resource.resource_id).must_equal "root"
   end
 
   it "read user on centos7" do
