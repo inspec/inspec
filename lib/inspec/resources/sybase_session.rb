@@ -65,7 +65,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      "Sybase Session"
+      @database || "Sybase Session"
     end
 
     def to_s
