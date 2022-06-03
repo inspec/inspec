@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.17.6 -->
-## [v5.17.6](https://github.com/inspec/inspec/tree/v5.17.6) (2022-06-01)
+<!-- latest_release 5.17.7 -->
+## [v5.17.7](https://github.com/inspec/inspec/tree/v5.17.7) (2022-06-03)
 
 #### Merged Pull Requests
-- CFINSPEC-95: Enhance `x509_certificate` resource [#6041](https://github.com/inspec/inspec/pull/6041) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-267: resource_ids group 6 [#6101](https://github.com/inspec/inspec/pull/6101) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.17.4 -->
 ### Changes since 5.17.4 release
 
 #### Merged Pull Requests
+- CFINSPEC-267: resource_ids group 6 [#6101](https://github.com/inspec/inspec/pull/6101) ([ahasunos](https://github.com/ahasunos)) <!-- 5.17.7 -->
 - CFINSPEC-95: Enhance `x509_certificate` resource [#6041](https://github.com/inspec/inspec/pull/6041) ([ahasunos](https://github.com/ahasunos)) <!-- 5.17.6 -->
 - Bump rack from 2.2.3 to 2.2.3.1 in /omnibus [#6098](https://github.com/inspec/inspec/pull/6098) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.17.5 -->
 <!-- release_rollup -->
