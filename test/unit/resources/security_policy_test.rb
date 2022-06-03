@@ -12,6 +12,7 @@ describe "Inspec::Resources::SecurityPolicy" do
     _(resource.SeUndockPrivilege).must_equal ["S-1-5-32-544"]
     _(resource.SeRemoteInteractiveLogonRight).must_equal ["S-1-5-32-544", "S-1-5-32-555"]
     _(resource.SeServiceLogonRight).must_equal %w{ DB2ADMNS db2admin }
+    _(resource.resource_id).must_equal "Security Policy"
   end
 
   it "parse empty policy file" do

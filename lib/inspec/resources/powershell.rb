@@ -49,6 +49,10 @@ module Inspec::Resources
     def to_s
       "Powershell"
     end
+
+    def resource_id
+      "Powershell"
+    end
   end
 
   PowershellScript = Powershell

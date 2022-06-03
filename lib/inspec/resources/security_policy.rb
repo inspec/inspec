@@ -112,6 +112,10 @@ module Inspec::Resources
       "Security Policy"
     end
 
+    def resource_id
+      "Security Policy"
+    end
+
     private
 
     def read_content

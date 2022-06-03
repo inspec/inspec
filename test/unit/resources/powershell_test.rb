@@ -12,9 +12,11 @@ describe "Inspec::Resources::Powershell" do
   it "properly generates command" do
     resource = MockLoader.new(:windows).load_resource("powershell", "Get-Help")
     _(resource.command).must_equal "Get-Help"
+    _(resource.resource_id).must_equal "Powershell"
 
     resource = MockLoader.new(:macos10_10).load_resource("powershell", "Get-Help")
     _(resource.command).must_equal("pwsh -encodedCommand '#{base64_command}'")
+    _(resource.resource_id).must_equal "Powershell"
   end
 
   it "properly generates command if deprecated `script` is used" do

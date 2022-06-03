@@ -51,6 +51,10 @@ module Inspec::Resources
       "Security Identifier"
     end
 
+    def resource_id
+      @name
+    end
+
     private
 
     def fetch_sids
