@@ -71,15 +71,16 @@ module Inspec
       begin
         if (allowed_commands & ARGV.map(&:downcase)).empty? && # Did they use a non-exempt command?
           !ARGV.empty? # Did they supply at least one command?
-        license_id = Chef::Telemetry::LicenseIdFetcher.fetch_and_persist(
-          Inspec::Dist::EXEC_NAME,
-          Inspec::VERSION,
-          logger: Inspec::Log
-        )
-        if license_id && ARGV.count == 1 && (ARGV.first.include? "--chef-license") # TODO: verify arg name - watch for collision with license-acceptance
-          Inspec::UI.new.exit
+          license_id = Chef::Telemetry::LicenseIdFetcher.fetch_and_persist(
+            Inspec::Dist::EXEC_NAME,
+            Inspec::VERSION,
+            logger: Inspec::Log
+          )
+          if license_id && ARGV.count == 1 && (ARGV.first.include? "--chef-license") # TODO: verify arg name - watch for collision with license-acceptance
+            Inspec::UI.new.exit
+          end
+          license_id
         end
-        license_id
       rescue Chef::Telemetry::LicenseIdFetcher::LicenseIdNotFetchedError
         Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without a license ID"
         Inspec::UI.new.exit(:license_not_accepted) # TODO: determine new exit code

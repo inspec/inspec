@@ -187,8 +187,8 @@ module Inspec
 
     class Debug < Base
       def run_ending(opts)
-        # payload = super(opts)
-        # require "byebug"; byebug
+        payload = super(opts)
+        require "byebug"; byebug
         1
       end
     end
