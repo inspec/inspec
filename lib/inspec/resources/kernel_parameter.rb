@@ -29,6 +29,10 @@ module Inspec::Resources
       cmd
     end
 
+    def resource_id
+      @parameter
+    end
+
     def to_s
       "Kernel Parameter #{@parameter}"
     end

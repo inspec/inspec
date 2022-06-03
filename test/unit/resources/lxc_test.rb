@@ -12,6 +12,7 @@ describe "Inspec::Resources::Lxc" do
     _(resource.exists?).must_equal true
     _(resource.running?).must_equal true
     _(resource.resource_skipped?).must_equal false
+    _(resource.resource_id).must_equal "my-ubuntu-container"
   end
 
   # # ubuntu
@@ -20,6 +21,7 @@ describe "Inspec::Resources::Lxc" do
     _(resource.exists?).must_equal false
     _(resource.running?).must_equal false
     _(resource.resource_skipped?).must_equal false
+    _(resource.resource_id).must_equal "my-ubuntu-container-1"
   end
 
   # windows
@@ -27,6 +29,7 @@ describe "Inspec::Resources::Lxc" do
     resource = MockLoader.new(:windows).load_resource("lxc", "my-ubuntu-container")
     _(resource.resource_skipped?).must_equal true
     _(resource.resource_exception_message).must_equal "The `lxc` resource is not supported on your OS yet."
+    _(resource.resource_id).must_equal "my-ubuntu-container"
   end
 
   # undefined
@@ -34,5 +37,6 @@ describe "Inspec::Resources::Lxc" do
     resource = MockLoader.new(:undefined).load_resource("lxc", "my-ubuntu-container")
     _(resource.resource_skipped?).must_equal true
     _(resource.resource_exception_message).must_equal "The `lxc` resource is not supported on your OS yet."
+    _(resource.resource_id).must_equal "my-ubuntu-container"
   end
 end
