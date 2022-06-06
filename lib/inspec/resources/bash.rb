@@ -29,7 +29,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      @raw_command
+      @raw_command || "bash"
     end
 
     def to_s
