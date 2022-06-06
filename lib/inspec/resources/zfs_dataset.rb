@@ -39,7 +39,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      @zfs_dataset
+      @zfs_dataset || "ZFS Dataset"
     end
 
     def to_s

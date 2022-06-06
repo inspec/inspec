@@ -32,7 +32,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      @zfs_pool
+      @zfs_pool || "ZFS Pool"
     end
 
     def to_s

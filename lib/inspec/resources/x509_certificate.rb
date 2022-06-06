@@ -186,7 +186,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      @opts[:filepath] || subject.CN
+      @opts[:filepath] || subject.CN || "x509 Certificate"
     end
 
     def to_s
