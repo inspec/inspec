@@ -58,7 +58,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      @conf_path
+      @conf_path || "SSH Configuration"
     end
 
     private
