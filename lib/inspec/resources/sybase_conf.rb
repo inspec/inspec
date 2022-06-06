@@ -30,7 +30,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      conf_param
+      conf_param || "Sybase config settings"
     end
 
     def to_s
