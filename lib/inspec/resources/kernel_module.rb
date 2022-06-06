@@ -70,7 +70,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      @module
+      @module || "Kernel Module"
     end
 
     def to_s

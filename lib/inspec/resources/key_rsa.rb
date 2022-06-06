@@ -60,7 +60,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      @key_path
+      @key_path || "RSA Key"
     end
 
     def to_s

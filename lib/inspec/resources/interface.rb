@@ -84,7 +84,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      @iface
+      @iface || "Interface"
     end
 
     def to_s

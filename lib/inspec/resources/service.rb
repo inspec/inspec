@@ -298,7 +298,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      @service_name
+      @service_name || "Service"
     end
 
     def to_s

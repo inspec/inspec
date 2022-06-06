@@ -30,7 +30,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      @parameter
+      @parameter || "Kernel Parameter"
     end
 
     def to_s

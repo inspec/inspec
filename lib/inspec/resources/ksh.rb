@@ -27,7 +27,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      @raw_command
+      @raw_command || "Kornshell command"
     end
 
     def to_s
