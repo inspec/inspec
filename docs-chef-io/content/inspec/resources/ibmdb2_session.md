@@ -18,7 +18,7 @@ Make sure you are using the IBM Db2 database instance user credentials to run th
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ## Syntax
 

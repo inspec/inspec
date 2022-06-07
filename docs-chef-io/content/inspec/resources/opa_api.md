@@ -17,7 +17,7 @@ Use the `opa_api` Chef InSpec audit resource to query Open Policy Agent (OPA) us
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ## Syntax
 

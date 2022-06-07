@@ -11,7 +11,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-{{< azurerm_deprecated resource="azure_postgresql_servers" >}}
+{{< inspec/azurerm_deprecated resource="azure_postgresql_servers" >}}
 
 Use the `azurerm_postgresql_servers` InSpec audit resource to test properties and configuration of multiple Azure PostgreSQL Servers.
 
@@ -126,8 +126,7 @@ The type of Resource, typically `Microsoft.DBforPostgreSQL/servers`.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers,
-please visit our [Universal Matchers page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

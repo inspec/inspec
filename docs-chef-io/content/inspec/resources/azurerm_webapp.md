@@ -11,7 +11,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-{{< azurerm_deprecated resource="azure_webapp" >}}
+{{< inspec/azurerm_deprecated resource="azure_webapp" >}}
 
 Use the `azurerm_webapp` InSpec audit resource to test properties of an Azure Webapp.
 
@@ -130,9 +130,7 @@ requests are always welcome.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### using_latest?(stack)
 

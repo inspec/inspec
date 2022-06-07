@@ -17,7 +17,7 @@ Use the `etc_hosts_deny` Chef InSpec audit resource to test rules for rejecting 
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 

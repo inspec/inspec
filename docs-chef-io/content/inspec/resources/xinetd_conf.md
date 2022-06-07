@@ -17,7 +17,7 @@ Use the `xinetd_conf` Chef InSpec audit resource to test services under `/etc/xi
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 

@@ -17,7 +17,7 @@ Use the `ini` Chef InSpec audit resource to test settings in an INI file.
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 

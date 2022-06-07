@@ -11,7 +11,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-{{< azurerm_deprecated resource="azure_monitor_log_profile" >}}
+{{< inspec/azurerm_deprecated resource="azure_monitor_log_profile" >}}
 
 Use the `azurerm_monitor_log_profile` InSpec audit resource to test properties
 of an Azure Monitor Log Profile.
@@ -108,9 +108,7 @@ requests are always welcome.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

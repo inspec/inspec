@@ -11,7 +11,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-{{< azurerm_deprecated resource="azure_iothub" >}}
+{{< inspec/azurerm_deprecated resource="azure_iothub" >}}
 
 Use the `azurerm_iothub` InSpec audit resource to test properties and configuration of
 an Azure Event Hub Namespace within a Resource Group.
@@ -133,9 +133,7 @@ requests are always welcome.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

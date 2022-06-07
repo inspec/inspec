@@ -17,7 +17,7 @@ Use the `docker` Chef InSpec audit resource to test configuration data for the D
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 

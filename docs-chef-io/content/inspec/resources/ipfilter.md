@@ -17,7 +17,7 @@ Use the `ipfilter` Chef InSpec audit resource to test rules defined for `ipfilte
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ## Syntax
 

@@ -19,7 +19,7 @@ This resource is mainly useful when used in conjunction with the x509_certificat
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 

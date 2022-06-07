@@ -11,7 +11,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-{{< azurerm_deprecated resource="azure_iothub_event_hub_consumer_group" >}}
+{{< inspec/azurerm_deprecated resource="azure_iothub_event_hub_consumer_group" >}}
 
 Use the `azurerm_iothub_event_hub_consumer_group` InSpec audit resource to test
 properties and configuration of an Azure IoT Hub Event Hub Consumer Group within
@@ -119,9 +119,7 @@ requests are always welcome.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

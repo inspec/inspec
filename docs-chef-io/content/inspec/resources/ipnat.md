@@ -17,7 +17,7 @@ Use the `ipnat` Chef InSpec audit resource to test rules that are defined for `I
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ## Syntax
 

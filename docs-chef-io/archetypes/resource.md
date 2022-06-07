@@ -15,7 +15,7 @@ Use the `{{ .Name }}` Chef InSpec audit resource to test the configuration of...
 
 ## Installation
 
-{{% inspec_installation %}}
+{{% inspec/inspec_installation %}}
 
 This resource first became available in Chef InSpec vX.Y.Z.
 
@@ -63,7 +63,7 @@ end
 
 ## Matchers
 
-{{% inspec_matchers_link %}}
+{{% inspec/inspec_matchers_link %}}
 
 **MATCHER_NAME**
 

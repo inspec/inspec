@@ -11,7 +11,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-{{< azurerm_deprecated resource="azure_network_interface" >}}
+{{< inspec/azurerm_deprecated resource="azure_network_interface" >}}
 
 Use the `azurerm_network_interface` InSpec audit resource to test properties and configuration of Azure Network Interface.
 
@@ -130,9 +130,7 @@ requests are always welcome.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

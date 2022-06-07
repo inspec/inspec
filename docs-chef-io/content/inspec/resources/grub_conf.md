@@ -17,7 +17,7 @@ Grub is a boot loader on the Linux platform used to load and then transfer contr
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 
