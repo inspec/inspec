@@ -22,7 +22,7 @@ Chef InSpec includes **Matchers** testing framework inherited from **RSpec**, a 
 
 You can use any matcher provided by [RSpec::Expectations](https://relishapp.com/rspec/rspec-expectations/docs); however, these matchers are not [supported by InSpec](/inspec/inspec_and_friends/#rspec).
 
-See [Explore Chef InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/) on **Learn Chef** to learn more about InSpec's built-in matchers.
+See [Test Expectations with Chef InSpec](https://learn.chef.io/courses/course-v1:chef+Inspec101+Perpetual/about) on **Learn Chef** to learn more about InSpec's built-in matchers.
 
 ## be
 
@@ -91,7 +91,7 @@ describe sshd_config do
 end
 ```
 
-- Compares strings that are not case-sensitive
+- String comparisons are not case-sensitive
 
 ```ruby
 describe auditd_conf do
@@ -100,7 +100,7 @@ describe auditd_conf do
 end
 ```
 
-### Recognizes versions embedded in strings
+- Recognizes versions embedded in strings
 
 ```ruby
 describe package('curl') do
@@ -108,7 +108,7 @@ describe package('curl') do
 end
 ```
 
-### Compares arrays with an entry to a value
+- Compares arrays with a single entry to a value
 
 ```ruby
 describe passwd.uids(0) do
@@ -117,7 +117,7 @@ describe passwd.uids(0) do
 end
 ```
 
-### Compares single-value arrays of strings to a regex
+- Compares a single-value array with a string to a regex
 
 ```ruby
 describe auditd_conf do
@@ -125,7 +125,7 @@ describe auditd_conf do
 end
 ```
 
-### Compares improved octal printing
+- cmp allows octal comparisions
 
 ```ruby
 describe file('/proc/cpuinfo') do
@@ -138,7 +138,7 @@ got: 0444
 
 ## include
 
-Verifies if a value is included in a list. For Example:
+Verifies if a value is included in a list. For example:
 
 ```ruby
 describe passwd do
@@ -148,7 +148,7 @@ end
 
 ## be_in
 
-Verifies that an item is included in a list. For Example:
+Verifies if an item is included in a list. For example:
 
 ```ruby
 describe resource do
@@ -158,7 +158,7 @@ end
 
 ## match
 
-Check if a string matches a regular expression. For Example:
+Check if a string matches a regular expression. For example:
 
 ```ruby
 describe sshd_config do

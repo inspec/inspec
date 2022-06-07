@@ -176,7 +176,7 @@ This subcommand has the following additional options:
 
 Outputs shell-appropriate completion configuration.
 
-### Syntax for env command
+### Syntax
 
 This subcommand has the following syntax:
 
