@@ -4,9 +4,10 @@ module Inspec::Resources
   class Lines
     attr_reader :params
 
-    def initialize(raw, desc)
+    def initialize(raw, desc, exit_status = nil)
       @params = raw
       @desc = desc
+      @exit_status = exit_status
     end
 
     def to_s
