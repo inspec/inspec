@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.17.10 -->
-## [v5.17.10](https://github.com/inspec/inspec/tree/v5.17.10) (2022-06-08)
+<!-- latest_release 5.17.11 -->
+## [v5.17.11](https://github.com/inspec/inspec/tree/v5.17.11) (2022-06-08)
 
 #### Merged Pull Requests
-- Fix the key duplication error warning in the mock_loader.rb [#6120](https://github.com/inspec/inspec/pull/6120) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-268 Adds resource_id group 7 [#6105](https://github.com/inspec/inspec/pull/6105) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.17.4 -->
 ### Changes since 5.17.4 release
 
 #### Merged Pull Requests
+- CFINSPEC-268 Adds resource_id group 7 [#6105](https://github.com/inspec/inspec/pull/6105) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.17.11 -->
 - Fix the key duplication error warning in the mock_loader.rb [#6120](https://github.com/inspec/inspec/pull/6120) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.17.10 -->
 - CFINSPEC-266: resource_ids group 5 [#6103](https://github.com/inspec/inspec/pull/6103) ([ahasunos](https://github.com/ahasunos)) <!-- 5.17.9 -->
 - CFINSPEC-262 Adds resource_id group 1 [#6102](https://github.com/inspec/inspec/pull/6102) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.17.8 -->
