@@ -30,6 +30,10 @@ module Inspec::Resources
       param
     end
 
+    def resource_id
+      @conf_path || "ntp_conf"
+    end
+
     def to_s
       "ntp.conf"
     end

@@ -10,4 +10,9 @@ describe "Inspec::Resources::NtpConf" do
       0.ubuntu.pool.ntp.org 1.ubuntu.pool.ntp.org 2.ubuntu.pool.ntp.org
     }
   end
+
+  it "gets resource_id for current resource" do
+    resource = load_resource("ntp_conf")
+    _(resource.resource_id).must_equal "/etc/ntp.conf"
+  end
 end

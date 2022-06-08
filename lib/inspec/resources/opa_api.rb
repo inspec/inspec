@@ -6,6 +6,12 @@ module Inspec::Resources
     supports platform: "unix"
     supports platform: "windows"
 
+    example <<~EXAMPLE
+      describe opa_api(url: "localhost:8181/v1/data/example/violation", data: "input.json") do
+        its(["result"]) { should eq 'value' }
+      end
+    EXAMPLE
+
     def initialize(opts = {})
       @url = opts[:url] || nil
       @data = opts[:data] || nil
@@ -16,6 +22,10 @@ module Inspec::Resources
 
     def allow
       @content["result"]
+    end
+
+    def resource_id
+      @url || "opa_api"
     end
 
     def to_s

@@ -61,6 +61,10 @@ module Inspec::Resources
       info[:version]
     end
 
+    def resource_id
+      @package_name || "npm"
+    end
+
     def to_s
       "Npm Package #{@package_name}"
     end

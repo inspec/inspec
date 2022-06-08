@@ -26,4 +26,9 @@ describe "Inspec::Resources::Npm" do
     _(resource.installed?).must_equal true
     _(resource.info).must_equal pkg
   end
+
+  it "generates resource_id for the current resource" do
+    resource = load_resource("npm", "bower", path: "/path/to/project")
+    _(resource.resource_id).must_equal("bower")
+  end
 end
