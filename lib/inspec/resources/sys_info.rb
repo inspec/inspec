@@ -112,6 +112,10 @@ module Inspec::Resources
       end
     end
 
+    def resource_id
+      "sys_info"
+    end
+
     def to_s
       "System Information"
     end

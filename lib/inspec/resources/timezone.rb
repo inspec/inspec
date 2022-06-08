@@ -52,6 +52,10 @@ module Inspec::Resources
       @output["time_offset"]
     end
 
+    def resource_id
+      "timezone"
+    end
+
     def to_s
       "Time Zone resource"
     end

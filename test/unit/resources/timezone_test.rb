@@ -9,6 +9,7 @@ describe "Inspec::Resources::TimeZone" do
     _(resource.name).must_equal "IST"
     _(resource.time_offset).must_equal "+0530"
     _(resource.stderr).must_equal ""
+    _(resource.resource_id).must_equal "timezone"
   end
 
   it "verify time configurations" do
@@ -17,5 +18,6 @@ describe "Inspec::Resources::TimeZone" do
     _(resource.name).must_equal "India Standard Time"
     _(resource.time_offset).must_equal "05:30:00"
     _(resource.stderr).must_equal ""
+    _(resource.resource_id).must_equal "timezone"
   end
 end

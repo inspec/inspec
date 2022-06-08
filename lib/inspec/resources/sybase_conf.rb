@@ -29,6 +29,10 @@ module Inspec::Resources
       sql_query.row(0).column("Config Value").value
     end
 
+    def resource_id
+      conf_param || "Sybase config settings"
+    end
+
     def to_s
       "Sybase Conf #{conf_param}"
     end
