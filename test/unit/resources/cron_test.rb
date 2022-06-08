@@ -36,4 +36,15 @@ describe "Inspec::Resources::Cron" do
       _(resource.resource_exception_message).must_include "Error while executing crontab -l -u testuser command:"
     end
   end
+
+  describe "resource_id" do
+    it "generates the resource_id for the current resouce if user is not specified" do
+      _(cron.resource_id).must_equal "cron current user"
+    end
+
+    it "generates the resource_id for the current resouce if user is specified" do
+      resource = load_resource("cron", { user: "testuser" })
+      _(resource.resource_id).must_equal "cron testuser"
+    end
+  end
 end

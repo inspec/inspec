@@ -93,6 +93,11 @@ module Inspec::Resources
       res.exit_status.to_i == 0
     end
 
+    # to_s method outputs the command which we are using here as UUID to identify resource and also it take cares of Redact output
+    def resource_id
+      to_s || "command"
+    end
+
     def to_s
       output = "Command: `#{@command}`"
       # Redact output if the `redact_regex` option is passed
