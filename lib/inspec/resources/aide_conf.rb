@@ -49,7 +49,7 @@ module Inspec::Resources
     filter.install_filter_methods_on_resource(self, :params)
 
     def resource_id
-      @conf_path
+      @conf_path || "aide_conf"
     end
 
     def to_s

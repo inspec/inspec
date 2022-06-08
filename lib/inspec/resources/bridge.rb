@@ -46,7 +46,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      @bridge_name
+      @bridge_name || "bridge"
     end
 
     def to_s

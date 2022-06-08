@@ -64,7 +64,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      @path
+      @path || "bond"
     end
 
     def to_s

@@ -63,7 +63,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      @deb_url || @ppa_name || ""
+      @deb_url || @ppa_name || "apt repository"
     end
 
     def to_s

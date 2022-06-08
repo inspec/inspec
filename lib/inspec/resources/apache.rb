@@ -41,7 +41,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      @conf_path
+      @conf_path || "apache"
     end
 
     def to_s
