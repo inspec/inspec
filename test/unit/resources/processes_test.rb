@@ -222,6 +222,11 @@ describe "Inspec::Resources::Processes" do
     _(resource.exists?).must_equal true
   end
 
+  it "process without path should exist" do
+    resource = MockLoader.new(:windows).load_resource("processes", "MsMpEng")
+    _(resource.exists?).must_equal true
+  end
+
   it "process should_not exist" do
     resource = MockLoader.new(:windows).load_resource("processes", "unicorn.exe")
     _(resource.exists?).must_equal false
