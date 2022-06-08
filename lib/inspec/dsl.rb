@@ -81,13 +81,13 @@ module Inspec::DSL
     if profile_version
       profile_id = "#{profile_id}-#{profile_version}"
     else
-      profile_id_key = nil
+      new_profile_id = nil
       dependencies.list.keys.each do |key|
         profile_id_key = key.split("-")
         profile_id_key.pop
-        profile_id_key = key if profile_id_key.join("-") == profile_id
+        new_profile_id = key if profile_id_key.join("-") == profile_id
       end
-      profile_id = profile_id_key
+      profile_id = new_profile_id
     end
     dep_entry = dependencies.list[profile_id]
 
