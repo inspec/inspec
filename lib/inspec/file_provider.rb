@@ -230,6 +230,7 @@ module Inspec
     def initialize(path)
       f = File.open(path, "rb")
       version = f.readline.strip!
+      usage_text = f.readline.strip!
       if version == "INSPEC-PROFILE-1"
         while f.readline != "\n" do end
         content = f.read
