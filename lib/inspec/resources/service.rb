@@ -305,6 +305,10 @@ module Inspec::Resources
       "Service #{@service_name}"
     end
 
+    def resource_id
+      @service_name
+    end
+
     private :info
   end
 
