@@ -399,9 +399,6 @@ class MockLoader
       "cgget -n -r cpuset.cpus carrotking" => cmd.call("cgget-n-r"),
       "cgget -n -r memory.stat carrotking" => cmd.call("cgget-n-r-stat"),
       %{sh -c 'type "cgget"'} => empty.call,
-      # x509_certificate
-      %{sh -c 'type "openssl"'} => empty.call,
-      "openssl x509 -noout -purpose -in test_certificate.rsa.crt.pem" => cmd.call("x509-crt-purpose"),
       # mail_alias
       "cat /etc/aliases | grep '^daemon:'" => cmd.call("mail-alias"),
       # php_config
@@ -421,8 +418,10 @@ class MockLoader
       "/usr/sbin/auditctl -s | grep pid" => cmd.call("auditctl-s-pid"),
       "/usr/sbin/auditctl -l" => cmd.call("auditctl-l"),
       %{sh -c 'type "/usr/sbin/auditctl"'} => empty.call,
-      # x509_private_key
+      # x509_certificate
       %{sh -c 'type "openssl"'} => empty.call,
+      "openssl x509 -noout -purpose -in test_certificate.rsa.crt.pem" => cmd.call("x509-crt-purpose"),
+      # x509_private_key
       %{type "openssl"} => empty.call,
       "openssl rsa -in /home/openssl_activity/bob_private.pem -check -noout" => empty.call,
       "openssl rsa -in /home/openssl_activity/alice_private.pem -check -noout -passin pass:password@123" => empty.call,
