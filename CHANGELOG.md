@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.17.16 -->
-## [v5.17.16](https://github.com/inspec/inspec/tree/v5.17.16) (2022-06-08)
+<!-- latest_release 5.17.17 -->
+## [v5.17.17](https://github.com/inspec/inspec/tree/v5.17.17) (2022-06-08)
 
 #### Merged Pull Requests
-- Handle resource_id in error situations [#6118](https://github.com/inspec/inspec/pull/6118) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-262 - Handle resource_id in error situation [#6119](https://github.com/inspec/inspec/pull/6119) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.17.4 -->
 ### Changes since 5.17.4 release
 
 #### Merged Pull Requests
+- CFINSPEC-262 - Handle resource_id in error situation [#6119](https://github.com/inspec/inspec/pull/6119) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.17.17 -->
 - Handle resource_id in error situations [#6118](https://github.com/inspec/inspec/pull/6118) ([ahasunos](https://github.com/ahasunos)) <!-- 5.17.16 -->
 - CFINSPEC-273 Adds resource_id group 12 [#6112](https://github.com/inspec/inspec/pull/6112) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.17.15 -->
 - CFINSPEC-270 Adds resource_id group9 [#6111](https://github.com/inspec/inspec/pull/6111) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.17.14 -->
