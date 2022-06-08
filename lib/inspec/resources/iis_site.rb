@@ -78,7 +78,7 @@ module Inspec::Resources
     end
 
     def resource_id
-      @site_name
+      @site_name || "IIS Site"
     end
 
     def to_s
