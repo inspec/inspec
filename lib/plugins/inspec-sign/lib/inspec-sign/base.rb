@@ -80,6 +80,7 @@ module InspecPlugins
 
         File.open(artifact_filename, "wb") do |f|
           f.puts INSPEC_PROFILE_VERSION_2
+          f.puts "Use \"inspec export\" to view this file"
           f.write(content)
         end
         puts "Successfully generated #{artifact_filename}"

@@ -90,6 +90,7 @@ module Inspec
         f.close
       elsif version == INSPEC_PROFILE_VERSION_2
         header << version
+        header << f.readline.strip!
         content = f.read
         f.close
 
@@ -102,15 +103,15 @@ module Inspec
         valid = false
       end
 
-      @key_name = header[1]
-      validation_key_path = Inspec::IafFile.find_validation_key(header[1])
+      @key_name = header[2]
+      validation_key_path = Inspec::IafFile.find_validation_key(@key_name)
 
       unless valid_header?(header)
         valid = false
       end
 
       verification_key = KEY_ALG.new File.read validation_key_path
-      signature = Base64.decode64(header[3])
+      signature = Base64.decode64(header[4])
       digest = ARTIFACT_DIGEST.new
       unless verification_key.verify digest, signature, content
         valid = false
@@ -120,7 +121,7 @@ module Inspec
     end
 
     def valid_header?(header)
-      VALID_PROFILE_VERSIONS.member?(header[0]) && VALID_PROFILE_DIGESTS.member?(header[2])
+      VALID_PROFILE_VERSIONS.member?(header[0]) && VALID_PROFILE_DIGESTS.member?(header[3])
     end
   end
 end
