@@ -12,6 +12,7 @@ describe "Inspec::Resources::DockerContainer" do
       _(resource.tag).must_be_nil
       _(resource.command).must_equal "/bin/sh"
       _(resource.ports).must_equal ""
+      _(resource.resource_id).must_equal "d94f854370d2b02912e8fc636502bc72b74fbd567a7eba3fc6a52045bb28904e"
     end
 
     it "check container parsing for alpine" do
@@ -23,6 +24,7 @@ describe "Inspec::Resources::DockerContainer" do
       _(resource.command).must_equal "/bin/bash"
       _(resource.ports).must_equal ""
       _(resource.labels).must_equal ["app=example", "version=1.5.4"]
+      _(resource.resource_id).must_equal "3def9aa450f8bd772c3d5b07e27ec934e5f58575e955367a0aca2d93e0687536"
     end
 
     it "returns an empty array when parsing a container with no labels specified" do

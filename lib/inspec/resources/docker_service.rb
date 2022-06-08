@@ -73,6 +73,10 @@ module Inspec::Resources
       "Docker Service #{service}"
     end
 
+    def resource_id
+      object_info.ids[0] || @opts[:id] || @opts[:name] || ""
+    end
+
     private
 
     def sanitize_options(opts)

@@ -10,6 +10,7 @@ describe "Inspec::Resources::DockerImage" do
       _(resource.tag).must_equal "latest"
       _(resource.image).must_equal "alpine:latest"
       _(resource.repo).must_equal "alpine"
+      _(resource.resource_id).must_equal "sha256:4a415e3663882fbc554ee830889c68a33b3585503892cc718a4698e91ef2a526"
     end
 
     # Test case for inspect image information handled by inspection and method_missing
@@ -19,6 +20,7 @@ describe "Inspec::Resources::DockerImage" do
       _(resource["Config.Cmd"]).must_include "bash"
       _(resource.inspection).must_include "Architecture"
       _(resource.inspection.Architecture).must_equal "arm64"
+      _(resource.resource_id).must_equal "ubuntu:latest"
     end
 
     # Test case for inspect image information with invalid keys

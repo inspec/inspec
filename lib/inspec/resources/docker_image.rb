@@ -72,6 +72,10 @@ module Inspec::Resources
       "Docker Image #{img}"
     end
 
+    def resource_id
+      object_info.ids[0] || @opts[:id] || @opts[:image] || ""
+    end
+
     private
 
     def sanitize_options(opts)

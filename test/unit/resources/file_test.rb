@@ -10,6 +10,7 @@ describe Inspec::Resources::FileResource do
     resource.stubs(:exist?).returns(true)
     resource.stubs(:mounted?).returns(true)
     resource.stubs(:source_path).returns("/fakepath/fakefile")
+    resource.stubs(:path).returns("/fakepath/fakefile")
     resource.stubs(:file).returns(file)
     resource.stubs(:content).returns("content")
     resource.stubs(:mode).returns(000)
@@ -34,6 +35,7 @@ describe Inspec::Resources::FileResource do
     _(resource.suid).must_equal true
     _(resource.sgid).must_equal true
     _(resource.sticky).must_equal true
+    _(resource.resource_id).must_equal "/fakepath/fakefile"
     _(proc { resource.send(:more_permissive_than?, nil) }).must_raise(ArgumentError)
     _(proc { resource.send(:more_permissive_than?, 0700) }).must_raise(ArgumentError)
   end
@@ -43,6 +45,7 @@ describe Inspec::Resources::FileResource do
     resource.stubs(:exist?).returns(true)
     resource.stubs(:mounted?).returns(true)
     resource.stubs(:content).returns("content")
+    resource.stubs(:path).returns("C:/fakepath/fakefile")
     resource.stubs(:file_permission_granted?).with("read", "by_usergroup", "by_specific_user").returns("test_result")
     resource.stubs(:file_permission_granted?).with("write", "by_usergroup", "by_specific_user").returns("test_result")
     resource.stubs(:file_permission_granted?).with("execute", "by_usergroup", "by_specific_user").returns("test_result")
@@ -51,6 +54,7 @@ describe Inspec::Resources::FileResource do
     _(resource.content).must_equal "content"
     _(resource.exist?).must_equal true
     _(resource.mounted?).must_equal true
+    _(resource.resource_id).must_equal "C:/fakepath/fakefile"
     _(resource.readable?("by_usergroup", "by_specific_user")).must_equal "test_result"
     _(resource.allowed?("read", by: "by_usergroup", by_user: "by_specific_user")).must_equal "test_result"
     _(resource.writable?("by_usergroup", "by_specific_user")).must_equal "test_result"
@@ -117,6 +121,8 @@ describe Inspec::Resources::FileResource do
   it "when file does not exist" do
     resource = MockLoader.new(:ubuntu).load_resource("file", "file_does_not_exist")
     assert_nil(resource.send(:more_permissive_than?, nil))
+    resource.stubs(:path).returns("file_does_not_exist")
+    _(resource.resource_id).must_equal "file_does_not_exist"
   end
 end
 
