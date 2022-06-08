@@ -23,7 +23,7 @@ A signed profile, or `.iaf` file, is an InSpec profile with a digital signature 
 
 Profile signing uses a matched pair of keys. The _signing key_ is secret and is used to sign the profile. The _validation key_ is widely distributed and verifies the signed profile signature.
 
-Keypairs are first searched in the current directory and then in the user's `~/.inspec/keys` directory. Progress Chef validation keys are also distributed in the `etc/keys` directory of the InSpec installation tree. Finally, if a validation key is not found, the profile verification system attempts to download keys from the [InSpec Github](https://github.com/inspec/inspec/tree/main/etc/keys) repository.
+Keypairs are first searched for in the current directory and then in the user's `~/.inspec/keys` directory. Progress Chef validation keys are also distributed in the `etc/keys` directory of the InSpec installation tree. Finally, if a validation key is not found, the profile verification system attempts to download keys from the [InSpec Github](https://github.com/inspec/inspec/tree/main/etc/keys) repository.
 
 ### How do I execute a signed profile?
 
@@ -51,7 +51,7 @@ A signed profile is checked for validity before being executed, and if it cannot
 
 ### How do I know which key is used to sign a profile?
 
-The `inspec sign verify` command specifies which key is used to sign a profile.
+The `inspec sign verify` command displays which key is used to sign a profile.
 
 ```bash
 [cwolfe@lodi temp]$ inspec sign verify simple-0.1.0-v2.iaf
@@ -63,7 +63,7 @@ Profile is valid.
 
 ### How do I look inside a signed profile?
 
-Use the `inspec export` command to examine a signed profile's contents. You can verify the profile to export the contents. By default, the `export` command dumps a profile summary in a human-readable YAML format, including most of the metadata and the control IDs, control source code, inputs, and other profile information.
+Use the `inspec export` command to examine a signed profile's contents. You must be able to verify the profile in order to export the contents. By default, the `export` command dumps a profile summary in a human-readable YAML format, including most of the metadata and the control IDs, control source code, inputs, and other profile information.
 
 - To view a **signed profile**, run:
 
@@ -127,7 +127,7 @@ Use the `inspec export` command to examine a signed profile's contents. You can 
   :version: 5.14.5
 ```
 
-- To read a profile's **README**, run:
+- To view a profile's **README**, run:
 
 ```bash
 [cwolfe@lodi temp]$ inspec export --what readme simple-0.1.0.iaf
@@ -157,7 +157,7 @@ supports:
 
 ### How do I create keys?
 
-Most users of signed profiles need not create keys of their own unless they wish for one. To generate keys of your own, use the `inspec sign generate-keys` command:
+Most users of signed profiles need not create keys of their own unless they wish to sign and distribute profiles themselves. To generate keys of your own, use the `inspec sign generate-keys` command:
 
 ```bash
 [cwolfe@lodi temp]$ inspec sign generate-keys --keyname test-03
@@ -167,7 +167,7 @@ Generating validation key in /Users/cwolfe/.inspec/keys/test-03.pem.pub
 [cwolfe@lodi temp]$
 ```
 
-Ensure to keep your signing key secret. It would help if you devised a way of distributing the validation key to your profile users.
+Keep your signing key secret. You must devise a way of distributing the validation key to your profile users; they will be unable to use your signed IAF files unless they have the validation key.
 
 ### How do I sign profiles?
 
