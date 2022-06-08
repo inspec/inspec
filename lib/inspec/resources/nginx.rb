@@ -18,12 +18,13 @@ module Inspec::Resources
         its('modules') { should include 'my_module' }
       end
     EXAMPLE
-    attr_reader :params, :bin_dir
+    attr_reader :params, :bin_dir, :nginx_path
 
     def initialize(nginx_path = "/usr/sbin/nginx")
       return skip_resource "The `nginx` resource is not yet available on your OS." if inspec.os.windows?
       return skip_resource "The `nginx` binary not found in the path provided." unless inspec.command(nginx_path).exist?
 
+      @nginx_path = nginx_path
       cmd = inspec.command("#{nginx_path} -V 2>&1")
       if cmd.exit_status != 0
         return skip_resource "Error using the command nginx -V"
@@ -57,6 +58,10 @@ module Inspec::Resources
 
     def modules
       @data.scan(/--with-(\S+)_module/).flatten
+    end
+
+    def resource_id
+      nginx_path || "nginx"
     end
 
     def to_s

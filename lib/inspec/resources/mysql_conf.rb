@@ -121,6 +121,10 @@ module Inspec::Resources
       @files_contents[path] ||= read_file_content(path)
     end
 
+    def resource_id
+      @conf_path || "mysql_conf"
+    end
+
     def to_s
       "MySQL Configuration"
     end

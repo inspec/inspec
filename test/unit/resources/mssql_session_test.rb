@@ -5,6 +5,7 @@ require "inspec/resources/mssql_session"
 describe "Inspec::Resources::MssqlSession" do
   it "verify default mssql_session configuration" do
     resource = load_resource("mssql_session", user: "sa", password: "yourStrong(!)Password")
+    _(resource.resource_id).must_equal "mssql_session:User:sa:Host:localhost:Database::Instance:"
     _(resource.user).must_equal "sa"
     _(resource.password).must_equal "yourStrong(!)Password"
     _(resource.host).must_equal "localhost"
@@ -27,6 +28,7 @@ describe "Inspec::Resources::MssqlSession" do
 
   it "verify mssql_session configuration with custom instance and port" do
     resource = load_resource("mssql_session", user: "sa", password: "yourStrong(!)Password", instance: "SQL2012INSPEC", port: "1691")
+    _(resource.resource_id).must_equal "mssql_session:User:sa:Host:localhost:Database::Instance:SQL2012INSPEC"
     _(resource.user).must_equal "sa"
     _(resource.password).must_equal "yourStrong(!)Password"
     _(resource.host).must_equal "localhost"

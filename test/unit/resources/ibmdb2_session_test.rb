@@ -3,6 +3,16 @@ require "inspec/resource"
 require "inspec/resources/ibmdb2_session"
 
 describe "Inspec::Resources::ibmdb2_session" do
+  it "generates the resource_id for the current resource" do
+    resource = load_resource("ibmdb2_session", db_instance: "db2inst1", db_name: "sample")
+    _(resource.resource_id).must_equal "ibmdb2_session:DatabaseInstance:db2inst1:DatabaseNamesample"
+  end
+
+  it "generates the resource_id for the current resource when on Windows" do
+    resource = MockLoader.new(:windows).load_resource("ibmdb2_session", db_name: "sample")
+    _(resource.resource_id).must_equal "ibmdb2_session:DatabaseNamesample"
+  end
+
   it "fails when no IBM db2 instance name is provided" do
     resource = load_resource("ibmdb2_session", db_instance: "db2inst1", db_name: "sample")
     _(resource.resource_failed?).must_equal true

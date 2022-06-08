@@ -63,6 +63,14 @@ module Inspec::Resources
       end
     end
 
+    def resource_id
+      if inspec.os.platform?("windows")
+        "ibmdb2_session:DatabaseName#{@db_name}"
+      else
+        "ibmdb2_session:DatabaseInstance:#{@db_instance}:DatabaseName#{@db_name}"
+      end
+    end
+
     def to_s
       "IBM Db2 Session"
     end

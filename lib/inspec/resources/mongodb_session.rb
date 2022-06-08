@@ -63,6 +63,10 @@ module Inspec::Resources
       raise Inspec::Exceptions::ResourceFailed, "Can't run MongoDB command Error: #{e.message}"
     end
 
+    def resource_id
+      "mongodb_session:User:#{@user}:Host:#{@host}:Database:#{@database}"
+    end
+
     private
 
     def create_session

@@ -3,6 +3,11 @@ require "inspec/resource"
 require "inspec/resources/ibmdb2_conf"
 
 describe "Inspec::Resources::ibmdb2_conf" do
+  it "generates the resource_id for the current resource" do
+    resource = load_resource("ibmdb2_conf", db_instance: "db2inst1")
+    _(resource.resource_id).must_equal "ibmdb2_conf:DatabaseInstance:db2inst1"
+  end
+
   it "fails when no IBM db2 executable path is provided" do
     resource = load_resource("ibmdb2_conf", db_instance: "db2inst1")
     _(resource.resource_failed?).must_equal true
@@ -17,6 +22,7 @@ describe "Inspec::Resources::ibmdb2_conf" do
 
   it "verify ibmdb2_conf on windows" do
     resource = MockLoader.new(:windows).load_resource("ibmdb2_conf")
+    _(resource.resource_id).must_equal "ibmdb2_conf"
     _(resource.resource_failed?).must_equal false
     _(resource.output).must_be_kind_of Array
   end

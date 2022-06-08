@@ -50,6 +50,10 @@ module Inspec::Resources
 
     def_delegators :http, :servers, :locations
 
+    def resource_id
+      @conf_path || "nginx_conf"
+    end
+
     def to_s
       "nginx_conf #{@conf_path}"
     end
