@@ -10,6 +10,7 @@ describe "Inspec::Resources::ParseConfig" do
     }
     resource = MockLoader.new(:centos6).load_resource("parse_config", "kernel.domainname = example.com", options)
     result = { "kernel.domainname" => "example.com" }
+    _(resource.resource_id).must_equal "kernel.domainname = example.com"
     _(resource.params).must_equal result
     _(resource.content).must_equal "kernel.domainname = example.com"
     _(resource.send("kernel.domainname")).must_equal "example.com"
@@ -21,6 +22,7 @@ describe "Inspec::Resources::ParseConfig" do
     }
     resource = MockLoader.new(:centos6).load_resource("parse_config_file", "/etc/sysctl.conf", options)
     result = { "kernel.domainname" => "example.com" }
+    _(resource.resource_id).must_equal "/etc/sysctl.conf"
     _(resource.params).must_equal result
     _(resource.send("kernel.domainname")).must_equal "example.com"
   end

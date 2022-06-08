@@ -22,6 +22,10 @@ module Inspec::Resources
       SimpleConfig.new(content).params
     end
 
+    def resource_id
+      "Postfix Conf"
+    end
+
     def to_s
       "Postfix Mail Transfer Agent"
     end

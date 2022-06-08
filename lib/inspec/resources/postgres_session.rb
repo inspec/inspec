@@ -64,6 +64,10 @@ module Inspec::Resources
       end
     end
 
+    def resource_id
+      "postgress_session:User:#{@user}:Host:#{@host}"
+    end
+
     private
 
     def escaped_query(query)

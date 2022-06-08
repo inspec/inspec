@@ -56,6 +56,10 @@ module Inspec::Resources
       info[:version]
     end
 
+    def resource_id
+      @package_name || "pip"
+    end
+
     def to_s
       "Pip Package #{@package_name}"
     end

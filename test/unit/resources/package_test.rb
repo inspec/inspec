@@ -4,6 +4,11 @@ require "inspec/resources/package"
 
 describe "Inspec::Resources::Package" do
   # arch linux
+  it "generates the resource_id for current resource" do
+    resource = MockLoader.new(:arch).load_resource("package", "curl")
+    _(resource.resource_id).must_equal "curl"
+  end
+
   it "verify arch linux package parsing" do
     resource = MockLoader.new(:arch).load_resource("package", "curl")
     pkg = { name: "curl", installed: true, version: "7.37.0-1", type: "pacman", only_version_no: "7.37.0" }
