@@ -1179,7 +1179,7 @@ describe "inspec exec" do
       let(:cloud_profile) { cloud_path + "test-azure" }
       let(:args) { "-t azure://" }
       it "should fail to connect to azure due to lack of creds but not stacktrace" do
-        _(run_result.stderr).must_equal "Tenant id cannot be nil\n"
+        _(run_result.stderr).must_include "Tenant id cannot be nil\n"
       end
     end
 
