@@ -25,7 +25,8 @@ module Inspec
     def self.from_array(dependencies, cwd, cache, backend)
       dep_list = {}
       dependencies.each do |d|
-        dep_list[d.name] = d
+        key_name = "#{d.name}-#{d.source_version}"
+        dep_list[key_name] = d
       end
       new(cwd, cache, dep_list, backend)
     end

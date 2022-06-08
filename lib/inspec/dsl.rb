@@ -6,13 +6,13 @@ require "inspec/utils/deprecated_cloud_resources_list"
 module Inspec::DSL
   attr_accessor :backend
 
-  def require_controls(id, &block)
-    opts = { profile_id: id, include_all: false, backend: @backend, conf: @conf, dependencies: @dependencies }
+  def require_controls(id, version = nil, &block)
+    opts = { profile_id: id, include_all: false, backend: @backend, conf: @conf, dependencies: @dependencies, profile_version: version }
     ::Inspec::DSL.load_spec_files_for_profile(self, opts, &block)
   end
 
-  def include_controls(id, &block)
-    opts = { profile_id: id, include_all: true, backend: @backend, conf: @conf, dependencies: @dependencies }
+  def include_controls(id, version = nil, &block)
+    opts = { profile_id: id, include_all: true, backend: @backend, conf: @conf, dependencies: @dependencies, profile_version: version }
     ::Inspec::DSL.load_spec_files_for_profile(self, opts, &block)
   end
 
@@ -85,6 +85,19 @@ module Inspec::DSL
   def self.load_spec_files_for_profile(bind_context, opts, &block)
     dependencies = opts[:dependencies]
     profile_id = opts[:profile_id]
+    profile_version = opts[:profile_version]
+
+    if profile_version
+      profile_id = "#{profile_id}-#{profile_version}"
+    else
+      profile_id_key = nil
+      dependencies.list.keys.each do |key|
+        profile_id_key = key.split("-")
+        profile_id_key.pop
+        profile_id_key = key if profile_id_key.join("-") == profile_id
+      end
+      profile_id = profile_id_key
+    end
     dep_entry = dependencies.list[profile_id]
 
     if dep_entry.nil?
