@@ -59,6 +59,10 @@ module Inspec::Resources
       collect_data_linux
     end
 
+    def resource_id
+      @virtualization_data[:system] || "virtualization"
+    end
+
     def to_s
       "Virtualization Detection"
     end

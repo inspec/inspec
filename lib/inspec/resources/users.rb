@@ -307,6 +307,10 @@ module Inspec::Resources
       shadow_information[1]
     end
 
+    def resource_id
+      @username || "User"
+    end
+
     def to_s
       "User #{@username}"
     end

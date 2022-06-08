@@ -15,6 +15,11 @@ describe "Inspec::Resources::WindowsTasks" do
     _(resource.type).must_equal "windows-task"
   end
 
+  it "generates the resource_id for the current resource" do
+    resource = MockLoader.new(:windows).load_resource("windows_task", "foo")
+    _(resource.resource_id).must_equal "foo"
+  end
+
   it "can handle a Windows task that does not exist" do
     resource_fail = MockLoader.new(:windows).load_resource("windows_task", "does-not-exist")
     _(resource_fail.exists?).must_equal false

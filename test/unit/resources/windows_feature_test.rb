@@ -59,4 +59,13 @@ describe "Inspec::Resources::WindowsFeature" do
 
     _(e.message).must_match(/Could not find `Get-WindowsFeature`/)
   end
+
+  it "generates the resource_id for the current resource" do
+    resource = MockLoader.new(:windows).load_resource(
+      "windows_feature",
+      "IIS-WebServer",
+      :dism
+    )
+    _(resource.resource_id).must_equal "IIS-WebServer"
+  end
 end
