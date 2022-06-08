@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.25 -->
-## [v4.56.25](https://github.com/inspec/inspec/tree/v4.56.25) (2022-05-12)
+<!-- latest_release 4.56.26 -->
+## [v4.56.26](https://github.com/inspec/inspec/tree/v4.56.26) (2022-06-08)
 
 #### Merged Pull Requests
-- CFINSPEC-250: Fix for inspec json command populating inputs [#6059](https://github.com/inspec/inspec/pull/6059) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Bump berkshelf from 8.0.0 to 8.0.2 in /omnibus [#6113](https://github.com/inspec/inspec/pull/6113) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.56.20 -->
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Bump berkshelf from 8.0.0 to 8.0.2 in /omnibus [#6113](https://github.com/inspec/inspec/pull/6113) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.26 -->
 - CFINSPEC-250: Fix for inspec json command populating inputs [#6059](https://github.com/inspec/inspec/pull/6059) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.25 -->
 - Bump berkshelf from 7.2.2 to 8.0.0 in /omnibus [#6021](https://github.com/inspec/inspec/pull/6021) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.24 -->
 - Backport amazonlinux2022 service resource fix to inspec-4 [#6017](https://github.com/inspec/inspec/pull/6017) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.23 -->
