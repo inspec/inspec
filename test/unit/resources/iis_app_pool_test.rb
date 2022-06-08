@@ -19,5 +19,6 @@ describe "Inspec::Resources::IisAppPool" do
     _(resource.send("user_identity_type")).must_equal "SpecificUser"
     _(resource.send("username")).must_include "vagrant"
     _(resource.send("exists?")).must_equal true
+    _(resource.send("resource_id")).must_equal "DefaultAppPool"
   end
 end

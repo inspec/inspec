@@ -83,6 +83,10 @@ module Inspec::Resources
           @response = nil
         end
 
+        def resource_id
+          @url
+        end
+
         private
 
         def params

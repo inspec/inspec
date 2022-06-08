@@ -130,6 +130,10 @@ module Inspec::Resources
       resource_name
     end
 
+    def resource_id
+      port ? "#{hostname}-#{port}-#{protocol}" : hostname
+    end
+
     private
 
     def ping

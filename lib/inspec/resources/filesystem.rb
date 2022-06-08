@@ -84,6 +84,10 @@ module Inspec::Resources
       info = @fsman.info(@partition)
       info[:name]
     end
+
+    def resource_id
+      partition
+    end
   end
 
   class FsManagement

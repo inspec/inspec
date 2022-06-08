@@ -80,6 +80,10 @@ module Inspec::Resources
       "IIS App Pool '#{@pool_name}'"
     end
 
+    def resource_id
+      @pool_name
+    end
+
     private
 
     def iis_app_pool

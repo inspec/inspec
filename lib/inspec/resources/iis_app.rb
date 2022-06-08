@@ -72,6 +72,10 @@ module Inspec::Resources
       "iis_app '#{@site_name}#{@path}'"
     end
 
+    def resource_id
+      @path
+    end
+
     private
 
     def iis_app

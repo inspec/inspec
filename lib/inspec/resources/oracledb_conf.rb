@@ -17,6 +17,7 @@ module Inspec::Resources
 
     def initialize(opts = {})
       @oracledb_session = inspec.oracledb_session(opts)
+      @opts = opts
     end
 
     def method_missing(name)
@@ -26,6 +27,10 @@ module Inspec::Resources
 
     def to_s
       "Oracle DB Configuration"
+    end
+
+    def resource_id
+      @opts[:user] || ""
     end
 
     private

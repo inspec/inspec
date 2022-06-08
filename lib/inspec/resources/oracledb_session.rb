@@ -76,6 +76,16 @@ module Inspec::Resources
       "Oracle Session"
     end
 
+    def resource_id
+      if @user
+        "#{@host}-#{@port}-#{@user}"
+      elsif @su_user
+        "#{@host}-#{@port}-#{@su_user}"
+      else
+        ""
+      end
+    end
+
     private
 
     # 3 commands

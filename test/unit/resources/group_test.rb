@@ -8,24 +8,28 @@ describe "Inspec::Resources::Group" do
     resource = MockLoader.new(:ubuntu).load_resource("group", "root")
     _(resource.exists?).must_equal true
     _(resource.gid).must_equal 0
+    _(resource.resource_id).must_equal "root-0"
   end
 
   it "verify group on ubuntu with mixed case" do
     resource = MockLoader.new(:ubuntu).load_resource("group", "GroupWithCaps")
     _(resource.exists?).must_equal true
     _(resource.gid).must_equal 999
+    _(resource.resource_id).must_equal "GroupWithCaps-999"
   end
 
   it "verify group on ubuntu with members" do
     resource = MockLoader.new(:ubuntu).load_resource("group", "www-data")
     _(resource.exists?).must_equal true
     _(resource.members).must_equal "www-data,root"
+    _(resource.resource_id).must_equal "www-data-33"
   end
 
   it "verify group on ubuntu with members_array" do
     resource = MockLoader.new(:ubuntu).load_resource("group", "www-data")
     _(resource.exists?).must_equal true
     _(resource.members_array).must_equal %w{www-data root}
+    _(resource.resource_id).must_equal "www-data-33"
   end
 
   # ubuntu with non-existent group
@@ -33,6 +37,7 @@ describe "Inspec::Resources::Group" do
     resource = MockLoader.new(:ubuntu).load_resource("group", "nogroup")
     _(resource.exists?).must_equal false
     _(resource.gid).must_be_nil
+    _(resource.resource_id).must_equal ""
   end
 
   # mac
