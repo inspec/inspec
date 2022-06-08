@@ -8,5 +8,7 @@ module Inspec
     class ResourceFailed < StandardError; end
     class ResourceSkipped < StandardError; end
     class SecretsBackendNotFound < ArgumentError; end
+    class ProfileValidationKeyNotFound < ArgumentError; end
+    class ProfileSigningKeyNotFound < ArgumentError; end
   end
 end

@@ -746,6 +746,14 @@ module Inspec
       @source_reader.target.files
     end
 
+    def readme
+      @source_reader.readme&.values&.first
+    end
+
+    def metadata_src
+      @source_reader.metadata_src
+    end
+
     #
     # TODO(ssd): Relative path handling really needs to be carefully
     # thought through, especially with respect to relative paths in

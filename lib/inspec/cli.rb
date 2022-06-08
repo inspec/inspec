@@ -5,6 +5,7 @@ require "inspec/dist"
 require "inspec/backend"
 require "inspec/dependencies/cache"
 require "inspec/utils/json_profile_summary"
+require "inspec/utils/yaml_profile_summary"
 
 module Inspec # TODO: move this somewhere "better"?
   autoload :BaseCLI,       "inspec/base_cli"
@@ -69,25 +70,77 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "A list of tags to filter controls and include only those. Ignore all other tests."
   profile_options
   def json(target)
-    require "json" unless defined?(JSON)
+    # This deprecation warning is ignored currently.
+    Inspec.deprecate(:renamed_to_inspec_export)
+    export(target, true)
+  end
 
+  desc "export PATH", "read the profile in PATH and generate a summary in the given format."
+  option :what, type: :string,
+    desc: "What to export: profile (default), readme, metadata."
+  option :format, type: :string,
+    desc: "The output format to use: json, raw, yaml. If valid format is not provided then it will use the default for the given 'what'."
+  option :output, aliases: :o, type: :string,
+    desc: "Save the created output to a path"
+  option :controls, type: :array,
+    desc: "For --what=profile, a list of controls to include. Ignore all other tests."
+  option :tags, type: :array,
+    desc: "For --what=profile, a list of tags to filter controls and include only those. Ignore all other tests."
+  profile_options
+  def export(target, as_json = false)
     o = config
     diagnose(o)
     o["log_location"] = $stderr
     configure_logger(o)
 
+    # using dup to resolve "can't modify frozen String" error.
+    what = o[:what].dup || "profile"
+    what.downcase!
+    raise Inspec::Error.new("Unrecognized option '#{what}' for --what - expected one of profile, readme, or metadata.") unless %w{profile readme metadata}.include?(what)
+
+    default_format_for_what = {
+      "profile" => "yaml",
+      "metadata" => "raw",
+      "readme" => "raw",
+    }
+    valid_formats_for_what = {
+      "profile" => %w{yaml json},
+      "metadata" => %w{yaml raw}, # not going to argue
+      "readme" => ["raw"],
+    }
+    format = o[:format] || default_format_for_what[what]
+    # default is json if we were called as old json command
+    format = "json" if as_json
+    raise Inspec::Error.new("Invalid option '#{format}' for --format and --what combination") unless format && valid_formats_for_what[what].include?(format)
+
     o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
     o[:check_mode] = true
     o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
-
     profile = Inspec::Profile.for_target(target, o)
     dst = o[:output].to_s
 
-    # Write JSON
-    Inspec::Utils::JsonProfileSummary.produce_json(
-      info: profile.info,
-      write_path: dst
-    )
+    case what
+    when "profile"
+      if format == "json"
+        require "json" unless defined?(JSON)
+        # Write JSON
+        Inspec::Utils::JsonProfileSummary.produce_json(
+          info: profile.info,
+          write_path: dst
+        )
+      elsif format == "yaml"
+        Inspec::Utils::YamlProfileSummary.produce_yaml(
+          info: profile.info,
+          write_path: dst
+        )
+      end
+    when "readme"
+      out = dst.empty? ? $stdout : File.open(dst, "w")
+      out.write(profile.readme)
+    when "metadata"
+      out = dst.empty? ? $stdout : File.open(dst, "w")
+      out.write(profile.metadata_src)
+    end
   rescue StandardError => e
     pretty_handle_exception(e)
   end
@@ -189,12 +242,12 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "Fallback to using local archives if fetching fails."
   option :ignore_errors, type: :boolean, default: false,
     desc: "Ignore profile warnings."
-  def archive(path)
+  def archive(path, log_level = nil)
     o = config
     diagnose(o)
 
     o[:logger] = Logger.new($stdout)
-    o[:logger].level = get_log_level(o[:log_level])
+    o[:logger].level = get_log_level(log_level || o[:log_level])
     o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
 
     # Force vendoring with overwrite when archiving

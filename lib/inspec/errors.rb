@@ -22,4 +22,6 @@ module Inspec
     attr_accessor :gem_name
     attr_accessor :version
   end
+
+  class InvalidProfileSignature < Error; end
 end

@@ -52,7 +52,7 @@ describe "command tests" do
     it "outputs both core commands and v2 CLI plugins" do
       commands = %w{
         archive
-        artifact
+        sign
         check
         compliance
         automate

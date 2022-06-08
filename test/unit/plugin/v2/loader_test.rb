@@ -33,7 +33,7 @@ class PluginLoaderTests < Minitest::Test
       :'inspec-supermarket',
      ]
     @core_plugins = %i{
-     inspec-artifact
+     inspec-sign
      inspec-compliance
      inspec-habitat
      inspec-init
