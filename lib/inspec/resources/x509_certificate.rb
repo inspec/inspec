@@ -185,6 +185,10 @@ module Inspec::Resources
       extensions["subjectAltName"]
     end
 
+    def resource_id
+      @opts[:filepath] || subject.CN || "x509 Certificate"
+    end
+
     def to_s
       cert = @opts[:filepath]
       cert ||= subject.CN
