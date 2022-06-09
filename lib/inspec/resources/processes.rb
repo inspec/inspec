@@ -43,7 +43,7 @@ module Inspec::Resources
 
       all_cmds = ps_axo
       @list = all_cmds.find_all do |hm|
-        hm[:command] =~ grep
+        hm[:command] =~ grep || hm[:process_name] =~ grep
       end
     end
 
@@ -73,6 +73,7 @@ module Inspec::Resources
       .register_column(:time,     field: "time")
       .register_column(:users,    field: "user")
       .register_column(:commands, field: "command")
+      .register_column(:process_name, field: "process_name")
       .install_filter_methods_on_resource(self, :filtered_processes)
 
     private
@@ -87,9 +88,9 @@ module Inspec::Resources
       if os.linux?
         command, regex, field_map = ps_configuration_for_linux
       elsif os.windows?
-        command = '$Proc = Get-Process -IncludeUserName | Where-Object {$_.Path -ne $null } | Select-Object PriorityClass,Id,CPU,PM,VirtualMemorySize,NPM,SessionId,Responding,StartTime,TotalProcessorTime,UserName,Path | ConvertTo-Csv -NoTypeInformation;$Proc.Replace("""","").Replace("`r`n","`n")'
+        command = '$Proc = Get-Process -IncludeUserName | Select-Object PriorityClass,Id,CPU,PM,VirtualMemorySize,NPM,SessionId,Responding,StartTime,TotalProcessorTime,UserName,Path,ProcessName | ConvertTo-Csv -NoTypeInformation;$Proc.Replace("""","").Replace("`r`n","`n")'
         # Wanted to use /(?:^|,)([^,]*)/; works on rubular.com not sure why here?
-        regex = /^(.+),(.+),(.+),(.+),(.+),(.+),(.+),(.+),(.+),(.+),(.+),(.+)$/
+        regex = /^(.*),(.*),(.*),(.*),(.*),(.*),(.*),(.*),(.*),(.*),(.*),(.*),(.*)$/
         field_map = {
           pid: 2,
           cpu: 3,
@@ -102,6 +103,7 @@ module Inspec::Resources
           time: 10,
           user: 11,
           command: 12,
+          process_name: 13,
         }
       else
         command = "ps axo pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user,command"
@@ -193,7 +195,7 @@ module Inspec::Resources
 
         # build a hash of process data that we'll turn into a struct for FilterTable
         process_data = {}
-        %i{label pid cpu mem vsz rss tty stat start time user command}.each do |param|
+        %i{label pid cpu mem vsz rss tty stat start time user command process_name}.each do |param|
           # not all operating systems support all fields, so skip the field if we don't have it
           process_data[param] = line[field_map[param]] if field_map.key?(param)
         end
