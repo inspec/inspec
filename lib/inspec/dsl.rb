@@ -78,10 +78,10 @@ module Inspec::DSL
     profile_id = opts[:profile_id]
     profile_version = opts[:profile_version]
 
+    new_profile_id = nil
     if profile_version
-      profile_id = "#{profile_id}-#{profile_version}"
+      new_profile_id = "#{profile_id}-#{profile_version}"
     else
-      new_profile_id = nil
       dependencies.list.keys.each do |key|
         profile_id_key = key.split("-")
         profile_id_key.pop
