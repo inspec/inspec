@@ -87,9 +87,8 @@ module Inspec::DSL
         profile_id_key.pop
         new_profile_id = key if profile_id_key.join("-") == profile_id
       end
-      profile_id = new_profile_id
     end
-    dep_entry = dependencies.list[profile_id]
+    dep_entry = new_profile_id ? dependencies.list[new_profile_id] : dependencies.list[profile_id]
 
     if dep_entry.nil?
       raise <<~EOF

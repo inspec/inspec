@@ -25,7 +25,7 @@ module Inspec
     def self.from_array(dependencies, cwd, cache, backend)
       dep_list = {}
       dependencies.each do |d|
-        key_name = "#{d.name}-#{d.source_version}"
+        key_name = (d.source_version ? "#{d.name}-#{d.source_version}" : d.name) rescue d.name
         dep_list[key_name] = d
       end
       new(cwd, cache, dep_list, backend)
@@ -40,7 +40,7 @@ module Inspec
     def self.flatten_dep_tree(dep_tree)
       dep_list = {}
       dep_tree.each do |d|
-        key_name = "#{d.name}-#{d.source_version}"
+        key_name = (d.source_version ? "#{d.name}-#{d.source_version}" : d.name) rescue d.name
         dep_list[key_name] = d
         dep_list.merge!(flatten_dep_tree(d.dependencies))
       end
