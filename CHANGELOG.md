@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.18.1 -->
-## [v5.18.1](https://github.com/inspec/inspec/tree/v5.18.1) (2022-06-08)
+<!-- latest_release 5.18.2 -->
+## [v5.18.2](https://github.com/inspec/inspec/tree/v5.18.2) (2022-06-09)
 
 #### Merged Pull Requests
-- CFINSPEC-291: Fix `processes` resource to consider processes without `path` on Windows [#6100](https://github.com/inspec/inspec/pull/6100) ([ahasunos](https://github.com/ahasunos))
+- Fixed Lint/DuplicateMethods: Method Inspec::Resources::Service#resource_id is defined at both [#6132](https://github.com/inspec/inspec/pull/6132) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.17.4 -->
 ### Changes since 5.17.4 release
 
 #### Merged Pull Requests
+- Fixed Lint/DuplicateMethods: Method Inspec::Resources::Service#resource_id is defined at both [#6132](https://github.com/inspec/inspec/pull/6132) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.18.2 -->
 - CFINSPEC-291: Fix `processes` resource to consider processes without `path` on Windows [#6100](https://github.com/inspec/inspec/pull/6100) ([ahasunos](https://github.com/ahasunos)) <!-- 5.18.1 -->
 - CFINSPEC-167: Profile Signing Rollup [#5995](https://github.com/inspec/inspec/pull/5995) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.18.0 -->
 - Bump berkshelf from 8.0.0 to 8.0.2 in /omnibus [#6114](https://github.com/inspec/inspec/pull/6114) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.17.18 -->
