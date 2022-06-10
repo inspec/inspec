@@ -63,7 +63,7 @@ end
 
 The `cmp` matcher compares values in the following ways:
 
-- `cmp` can compares strings to numbers
+- `cmp` can compare strings to numbers
 
 ```ruby
 describe sshd_config do
