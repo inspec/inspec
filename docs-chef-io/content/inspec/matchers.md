@@ -11,7 +11,7 @@ gh_repo = "inspec"
     weight = 40
 +++
 
-Chef InSpec includes **Matchers** testing framework inherited from **RSpec**, a unit test framework for the Ruby programming language. The following testing framework compares resource values to expectations:
+Chef InSpec uses **matchers**, a testing framework based on [RSpec](https://rspec.info/), to help compare resource values to expectations. The following matches are available:
 
 - [`be`](#be) - makes numeric comparisons.
 - [`be_in`](#be_in) - looks for the property value in a list.
