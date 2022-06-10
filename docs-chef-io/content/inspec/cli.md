@@ -11,11 +11,13 @@ gh_repo = "inspec"
     weight = 10
 +++
 
+<!-- markdownlint-disable MD024 -->
+
 Use the InSpec Command Line Interface (CLI) to run tests and audits against targets using local, SSH, WinRM, or Docker connections.
 
 ## archive
 
-Archive a profile to *tar.gz* (default) or *zip*.
+Archive a profile to a tar file (default) or zip file.
 
 ### Syntax
 
@@ -50,7 +52,7 @@ This subcommand has the following additional options:
 
 Communicates with Chef Automate.
 
-### Syntax for automate command
+### Syntax
 
 This subcommand has the following syntax:
 
@@ -60,9 +62,9 @@ inspec automate SUBCOMMAND
 
 ## check
 
-Verify the metadata in the *inspec.yml* file, verify that control blocks have the correct fields (title, description, impact) defined that all controls have visible tests, and the controls are not using deprecated InSpec DSL code.
+Verify the metadata in the `inspec.yml` file, verify that control blocks have the correct fields (title, description, impact) defined that all controls have visible tests, and the controls are not using deprecated InSpec DSL code.
 
-### Syntax for check command
+### Syntax
 
 This subcommand has the following syntax:
 
@@ -70,7 +72,7 @@ This subcommand has the following syntax:
 inspec check PATH
 ```
 
-### Options for check command
+### Options
 
 This subcommand has the following additional options:
 
@@ -87,7 +89,7 @@ This subcommand has the following additional options:
 
 Detects the target OS.
 
-### Syntax for detect command
+### Syntax
 
 This subcommand has the following syntax:
 
@@ -95,7 +97,7 @@ This subcommand has the following syntax:
 inspec detect
 ```
 
-### Options for detect command
+### Options
 
 This subcommand has the following additional options:
 
@@ -176,7 +178,7 @@ This subcommand has the following additional options:
 
 Outputs shell-appropriate completion configuration.
 
-### Syntax for env command
+### Syntax
 
 This subcommand has the following syntax:
 
@@ -273,7 +275,7 @@ Web-hosted file with basic authentication (supports .zip):
 inspec exec https://username:password@webserver/linux-baseline.tar.gz
 ```
 
-### Syntax for exec command
+### Syntax
 
 This subcommand has the following syntax:
 
@@ -281,7 +283,7 @@ This subcommand has the following syntax:
 inspec exec LOCATIONS
 ```
 
-### Options for exec command
+### Options
 
 This subcommand has the following additional options:
 
@@ -402,7 +404,7 @@ This subcommand has the following additional options:
 
 Create a Chef Habitat package.
 
-### Syntax for habitat command
+### Syntax
 
 This subcommand has the following syntax:
 
@@ -414,7 +416,7 @@ inspec habitat SUBCOMMAND
 
 Describe available commands or one specific command.
 
-### Syntax for help command
+### Syntax
 
 This subcommand has the following syntax:
 
@@ -426,7 +428,7 @@ inspec help [COMMAND]
 
 Scaffold a new project.
 
-### Syntax for init command
+### Syntax
 
 This subcommand has the following syntax:
 
@@ -438,7 +440,7 @@ inspec init TEMPLATE
 
 Read all tests in path and generate a json summary.
 
-### Syntax for json command
+### Syntax
 
 This subcommand has the following syntax:
 
@@ -446,7 +448,7 @@ This subcommand has the following syntax:
 inspec json PATH
 ```
 
-### Options for json command
+### Options
 
 This subcommand has the following additional options:
 
@@ -465,7 +467,7 @@ This subcommand has the following additional options:
 
 Does nothing.
 
-### Syntax for nothing command
+### Syntax
 
 This subcommand has the following syntax:
 
@@ -477,7 +479,7 @@ inspec nothing
 
 Install and manage [Chef InSpec plugins](/inspec/plugins/).
 
-### Syntax for plugin command
+### Syntax
 
 This subcommand has the following syntax:
 
@@ -489,7 +491,7 @@ inspec plugin SUBCOMMAND
 
 Print the json schema.
 
-### Syntax for schema command
+### Syntax
 
 This subcommand has the following syntax:
 
@@ -501,7 +503,7 @@ inspec schema NAME
 
 Open an interactive debugging shell.
 
-### Syntax for shell command
+### Syntax
 
 This subcommand has the following syntax:
 
@@ -509,7 +511,7 @@ This subcommand has the following syntax:
 inspec shell
 ```
 
-### Options for shell command
+### Options
 
 This subcommand has the following additional options:
 
@@ -600,7 +602,7 @@ This subcommand has the following additional options:
 
 Supermarket commands.
 
-### Syntax for supermarket command
+### Syntax
 
 This subcommand has the following syntax:
 
@@ -608,7 +610,7 @@ This subcommand has the following syntax:
 inspec supermarket SUBCOMMAND ...
 ```
 
-### Options for supermarket command
+### Options
 
 This subcommand has additional options:
 
@@ -619,7 +621,7 @@ This subcommand has additional options:
 
 Download all dependencies and generate a lockfile in a `vendor` directory.
 
-### Syntax for vendor command
+### Syntax
 
 This subcommand has the following syntax:
 
@@ -627,7 +629,7 @@ This subcommand has the following syntax:
 inspec vendor PATH
 ```
 
-### Options for vendor command
+### Options
 
 This subcommand has additional options:
 
@@ -638,7 +640,7 @@ This subcommand has additional options:
 
 Prints the version of this tool.
 
-### Syntax for version command
+### Syntax
 
 This subcommand has the following syntax:
 
@@ -646,7 +648,7 @@ This subcommand has the following syntax:
 inspec version
 ```
 
-### Options for version command
+### Options
 
 This subcommand has the following additional options:
 
