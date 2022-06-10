@@ -35,6 +35,92 @@ describe file('/proc/cpuinfo') do
 end
 ```
 
+## be_in
+
+`be_in` verifies if an item is included in a list. For example:
+
+```ruby
+describe resource do
+  its('item') { should be_in LIST }
+end
+```
+
+## cmp
+
+Unlike [`eq`](#eq), `cmp` is a matcher for less restrictive comparisons. It tries to fit the actual value to the type you are comparing. This matcher is meant to relieve the user from having to write type-casts and resolutions.
+
+Examples:
+
+```ruby
+describe sshd_config do
+  its('Protocol') { should cmp 2 }
+end
+
+describe passwd.uid(0) do
+  its('users') { should cmp 'root' }
+end
+```
+
+The `cmp` matcher compares values in the following ways:
+
+- `cmp` can compares strings to numbers
+
+```ruby
+describe sshd_config do
+  # Only '2' works
+  its('Protocol') { should eq '2' }
+
+  # Both of these work
+  its('Protocol') { should cmp '2' }
+  its('Protocol') { should cmp 2 }
+end
+```
+
+- `cmp` can compare strings that are not case-sensitive
+
+```ruby
+describe auditd_conf do
+  its('log_format') { should cmp 'raw' }
+  its('log_format') { should cmp 'RAW' }
+end
+```
+
+- `cmp` recognizes versions embedded in strings
+
+```ruby
+describe package('curl') do
+  its('version') { should cmp > '7.35.0-1ubuntu2.10' }
+end
+```
+
+- `cmp` can compare arrays with a single entry to a value
+
+```ruby
+describe passwd.uids(0) do
+  its('users') { should cmp 'root' }
+  its('users') { should cmp ['root'] }
+end
+```
+
+- `cmp` can compare a single-value array with a string to a regular expression
+
+```ruby
+describe auditd_conf do
+  its('log_format') { should cmp /raw/i }
+end
+```
+
+- `cmp` allows octal comparisions
+
+```ruby
+describe file('/proc/cpuinfo') do
+  its('mode') { should cmp '0345' }
+end
+
+expected: 0345
+got: 0444
+```
+
 ## eq
 
 Test for exact equality of two values.
@@ -58,87 +144,11 @@ its('Port') { should eq 22 }
 # fails: '2' != 2 (string vs integer)
 ```
 
-Use `cmp` for less restrictive comparisons.
-
-## cmp
-
-Unlike `eq`, `cmp` is a matcher for less restrictive comparisons. It tries to fit the actual value to the type you are comparing. This matcher is meant to relieve the user from having to write type-casts and resolutions.
-
-Examples:
-
-```ruby
-describe sshd_config do
-  its('Protocol') { should cmp 2 }
-end
-
-describe passwd.uid(0) do
-  its('users') { should cmp 'root' }
-end
-```
-
-The `cmp` matcher compares values in the following ways:
-
-- Compares strings to numbers
-
-```ruby
-describe sshd_config do
-  # Only '2' works
-  its('Protocol') { should eq '2' }
-
-  # Both of these work
-  its('Protocol') { should cmp '2' }
-  its('Protocol') { should cmp 2 }
-end
-```
-
-- String comparisons are not case-sensitive
-
-```ruby
-describe auditd_conf do
-  its('log_format') { should cmp 'raw' }
-  its('log_format') { should cmp 'RAW' }
-end
-```
-
-- Recognizes versions embedded in strings
-
-```ruby
-describe package('curl') do
-  its('version') { should cmp > '7.35.0-1ubuntu2.10' }
-end
-```
-
-- Compares arrays with a single entry to a value
-
-```ruby
-describe passwd.uids(0) do
-  its('users') { should cmp 'root' }
-  its('users') { should cmp ['root'] }
-end
-```
-
-- Compares a single-value array with a string to a regex
-
-```ruby
-describe auditd_conf do
-  its('log_format') { should cmp /raw/i }
-end
-```
-
-- cmp allows octal comparisions
-
-```ruby
-describe file('/proc/cpuinfo') do
-  its('mode') { should cmp '0345' }
-end
-
-expected: 0345
-got: 0444
-```
+Use [`cmp`](#cmp) for less restrictive comparisons.
 
 ## include
 
-Verifies if a value is included in a list. For example:
+`include` verifies if a value is included in a list. For example:
 
 ```ruby
 describe passwd do
@@ -146,19 +156,9 @@ describe passwd do
 end
 ```
 
-## be_in
-
-Verifies if an item is included in a list. For example:
-
-```ruby
-describe resource do
-  its('item') { should be_in LIST }
-end
-```
-
 ## match
 
-Check if a string matches a regular expression. For example:
+`match` checks if a string matches a regular expression. For example:
 
 ```ruby
 describe sshd_config do

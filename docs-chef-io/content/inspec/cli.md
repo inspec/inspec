@@ -11,6 +11,8 @@ gh_repo = "inspec"
     weight = 10
 +++
 
+<!-- markdownlint-disable MD024 -->
+
 Use the InSpec Command Line Interface (CLI) to run tests and audits against targets using local, SSH, WinRM, or Docker connections.
 
 ## archive
