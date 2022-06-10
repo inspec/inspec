@@ -26,7 +26,7 @@ See [Test Expectations with Chef InSpec](https://learn.chef.io/courses/course-v1
 
 ## be
 
-This matcher can follow different comparison operators. Use numbers and not strings for these comparisons. For Example:
+Use the `be` matcher with comparison operators, and use numbers and not strings for these comparisons. For example:
 
 ```ruby
 describe file('/proc/cpuinfo') do
