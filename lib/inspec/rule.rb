@@ -358,7 +358,7 @@ module Inspec
         # YAML will automagically give us a Date or a Time.
         # If transcoding YAML between languages (e.g. Go) the date might have also ended up as a String.
         # A string that does not represent a valid time results in the date 0000-01-01.
-        if [Date, Time].include?(expiry.class) || (expiry.is_a?(String) && Time.new(expiry).year != 0)
+        if [Date, Time].include?(expiry.class) || (expiry.is_a?(String) && Time.parse(expiry).year != 0)
           expiry = expiry.to_time if expiry.is_a? Date
           expiry = Time.parse(expiry) if expiry.is_a? String
           if expiry < Time.now # If the waiver expired, return - no skip applied

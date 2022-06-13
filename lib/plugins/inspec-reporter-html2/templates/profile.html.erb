@@ -18,7 +18,7 @@
 
   <% if profile.status == "loaded" %>
     <% profile.controls.each do |control| %>
-      <%= ERB.new(File.read(template_path + "/control.html.erb"), nil, nil, "_ctl").result(binding)  %>
+      <%= ERB.new(File.read(template_path + "/control.html.erb"), eoutvar: "_ctl").result(binding)  %>
     <% end %>
   <% end %>
 </div>
