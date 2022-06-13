@@ -7,6 +7,8 @@ class Module
   include Minitest::Spec::DSL
 end
 
+RUBY3_1_PLUS = Gem.ruby_version >= Gem::Version.new("3.1")
+
 module DescribeOneTest
   it "loads an empty describe.one" do
     profile.load(format(context_format, "describe.one"))
@@ -379,9 +381,15 @@ describe Inspec::ProfileContext do
     it "supports simple ruby require statements" do
       # Please note: we do discourage the use of Gems in inspec resources at
       # this time. Resources should be well packaged whenever possible.
-      _ { profile.load("Net::POP3") }.must_raise NameError
-      profile.load_libraries([['require "net/pop"', "libraries/a.rb"]])
-      _(profile.load("Net::POP3").to_s).must_equal "Net::POP3"
+      if RUBY3_1_PLUS
+        _ { profile.load("Byebug") }.must_raise NameError
+        profile.load_libraries([['require "byebug"', "libraries/a.rb"]])
+        _(profile.load("Byebug").to_s).must_equal "Byebug"
+      else
+        _ { profile.load("Net::POP3") }.must_raise NameError
+        profile.load_libraries([['require "net/pop"', "libraries/a.rb"]])
+        _(profile.load("Net::POP3").to_s).must_equal "Net::POP3"
+      end
     end
 
     it "supports creating a simple library file (no require)" do

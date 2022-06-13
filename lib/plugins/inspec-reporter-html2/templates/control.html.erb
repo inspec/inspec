@@ -74,7 +74,7 @@
   </table>
 
   <% control.results.each do |result| %>
-    <%= ERB.new(File.read(template_path + "/result.html.erb"), nil, nil, "_rslt").result(binding)  %>
+    <%= ERB.new(File.read(template_path + "/result.html.erb"), eoutvar: "_rslt").result(binding)  %>
   <% end %>
 
 </div>
