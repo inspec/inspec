@@ -11,7 +11,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-{{< azurerm_deprecated resource="azure_sql_databases" >}}
+{{< inspec/azurerm_deprecated resource="azure_sql_databases" >}}
 
 Use the `azurerm_sql_databases` InSpec audit resource to test properties and configuration of Azure SQL Databases.
 
@@ -128,8 +128,7 @@ A collection of additional configuration properties related to the SQL Database,
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers,
-please visit our [Universal Matchers page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

@@ -17,7 +17,7 @@ Use the `sys_info` Chef InSpec audit resource to test for operating system prope
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 

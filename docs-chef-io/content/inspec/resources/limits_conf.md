@@ -28,7 +28,7 @@ Entries in the `limits.conf` file are similar to:
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 

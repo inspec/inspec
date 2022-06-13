@@ -29,7 +29,7 @@ These entries are defined as a colon-delimited row in the file, one row per user
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 

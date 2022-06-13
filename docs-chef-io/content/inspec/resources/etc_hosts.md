@@ -17,7 +17,7 @@ Use the `etc_hosts` Chef InSpec audit resource to test rules set to match IP add
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 

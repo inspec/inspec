@@ -11,7 +11,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-{{< azurerm_deprecated resource="azure_management_group" >}}
+{{< inspec/azurerm_deprecated resource="azure_management_group" >}}
 
 Use the `azurerm_management_group` InSpec audit resource to test properties related to a
 management group.
@@ -251,9 +251,7 @@ requests are always welcome.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

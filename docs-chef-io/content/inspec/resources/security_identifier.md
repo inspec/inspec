@@ -17,7 +17,7 @@ Use the `security_identifier` Chef InSpec resource to test the [Security Identif
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ## Resource Parameters
 

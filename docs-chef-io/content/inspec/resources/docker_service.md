@@ -17,7 +17,7 @@ Use the `docker_service` Chef InSpec audit resource to verify a docker swarm ser
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 

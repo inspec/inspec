@@ -17,7 +17,7 @@ Use the `sybase_conf` Chef InSpec audit resource to test the configuration of an
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Requirements
 

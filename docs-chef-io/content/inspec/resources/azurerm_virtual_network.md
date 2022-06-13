@@ -11,7 +11,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-{{< azurerm_deprecated resource="azure_virtual_network" >}}
+{{< inspec/azurerm_deprecated resource="azure_virtual_network" >}}
 
 Use the `azurerm_virtual_network` InSpec audit resource to test properties related to a
 virtual network.
@@ -200,9 +200,7 @@ requests are always welcome.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

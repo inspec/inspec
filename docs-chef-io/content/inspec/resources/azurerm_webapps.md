@@ -11,7 +11,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-{{< azurerm_deprecated resource="azure_webapps" >}}
+{{< inspec/azurerm_deprecated resource="azure_webapps" >}}
 
 Use the `azurerm_webapps` InSpec audit resource to enumerate Webapps.
 
@@ -69,9 +69,7 @@ The name of the Webapp
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

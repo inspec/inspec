@@ -17,7 +17,7 @@ Use the `yaml` Chef InSpec audit resource to test configuration data in a Yaml f
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 

@@ -76,7 +76,7 @@ The `cmp` matcher compares values in the following ways:
   end
   ```
 
-- `cmp` comparisons are not case-sensitive:
+- `cmp` comparisons are not case sensitive:
 
   ```ruby
   describe auditd_conf do
@@ -110,7 +110,7 @@ The `cmp` matcher compares values in the following ways:
   end
   ```
 
-- `cmp` allows octal comparisions:
+- `cmp` allows octal comparisons:
 
   ```ruby
   describe file('/proc/cpuinfo') do

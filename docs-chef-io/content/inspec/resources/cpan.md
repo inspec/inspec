@@ -17,7 +17,7 @@ Use the `cpan` Chef InSpec audit resource to test Perl modules that are installe
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 

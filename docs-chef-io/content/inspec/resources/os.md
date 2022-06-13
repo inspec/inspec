@@ -17,7 +17,7 @@ Use the `os` Chef InSpec audit resource to test the platform on which the system
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 

@@ -11,7 +11,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-{{< azurerm_deprecated resource="azure_security_center_policies" >}}
+{{< inspec/azurerm_deprecated resource="azure_security_center_policies" >}}
 
 Use the `azurerm_security_center_policies` InSpec audit resource to test
 properties of some or all Azure Security Center Policies.
@@ -88,9 +88,7 @@ name. This is a string value.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

@@ -18,7 +18,7 @@ Microsoft and application vendors use scheduled tasks to perform a variety of sy
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 

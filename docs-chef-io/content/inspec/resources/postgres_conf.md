@@ -17,7 +17,7 @@ Use the `postgres_conf` Chef InSpec audit resource to test the contents of the c
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 

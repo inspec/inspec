@@ -17,7 +17,7 @@ Use the `mongodb_conf` Chef InSpec audit resource to test the contents of the co
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ## Syntax
 

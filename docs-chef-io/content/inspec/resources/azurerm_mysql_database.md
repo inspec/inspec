@@ -11,7 +11,7 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
-{{< azurerm_deprecated resource="azure_mysql_database" >}}
+{{< inspec/azurerm_deprecated resource="azure_mysql_database" >}}
 
 Use the `azurerm_mysql_database` InSpec audit resource to test properties and configuration of
 an Azure MySQL Database on a MySQL Server.
@@ -113,9 +113,7 @@ requests are always welcome.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 
