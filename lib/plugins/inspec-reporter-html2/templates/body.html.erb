@@ -7,21 +7,21 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <style type="text/css">
     /* Must inline all CSS files, this is a single-file output that may be airgapped */
-    <%= ERB.new(File.read(css_path), nil, nil, "_css").result(binding)  %>
+    <%= ERB.new(File.read(css_path), eoutvar: "_css").result(binding)  %>
     </style>
     <script type="text/javascript">
     // <![CDATA[
     /* Must inline all JavaScript files, this is a single-file output that may be airgapped */
-    <%= ERB.new(File.read(js_path), nil, nil, "_js").result(binding)  %>
+    <%= ERB.new(File.read(js_path), eoutvar: "_js").result(binding)  %>
     // ]]>
     </script>
   </head>
   <body onload="pageLoaded()">
-    <%= ERB.new(File.read(template_path + "/selector.html.erb"), nil, nil, "_select").result(binding)  %>
+    <%= ERB.new(File.read(template_path + "/selector.html.erb"), eoutvar: "_select").result(binding)  %>
     <div class="inspec-report">
     <h1><%= Inspec::Dist::PRODUCT_NAME %> Report</h1>
     <% run_data.profiles.each do |profile| %>
-      <%= ERB.new(File.read(template_path + "/profile.html.erb"), nil, nil, "_prof").result(binding)  %>
+      <%= ERB.new(File.read(template_path + "/profile.html.erb"), eoutvar: "_prof").result(binding)  %>
     <% end %>
 
     <div class="inspec-summary">
