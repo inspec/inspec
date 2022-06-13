@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.18.4 -->
-## [v5.18.4](https://github.com/inspec/inspec/tree/v5.18.4) (2022-06-13)
+<!-- latest_release 5.18.5 -->
+## [v5.18.5](https://github.com/inspec/inspec/tree/v5.18.5) (2022-06-13)
 
 #### Merged Pull Requests
-- Add inspec-6 branch as release branch [#6136](https://github.com/inspec/inspec/pull/6136) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- add ruby test 3.1 in verify pipeline [#5892](https://github.com/inspec/inspec/pull/5892) ([jayashrig158](https://github.com/jayashrig158))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.17.4 -->
 ### Changes since 5.17.4 release
 
 #### Merged Pull Requests
+- add ruby test 3.1 in verify pipeline [#5892](https://github.com/inspec/inspec/pull/5892) ([jayashrig158](https://github.com/jayashrig158)) <!-- 5.18.5 -->
 - Add inspec-6 branch as release branch [#6136](https://github.com/inspec/inspec/pull/6136) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.18.4 -->
 - Dk/matchers rewrite [#6007](https://github.com/inspec/inspec/pull/6007) ([dkumaras](https://github.com/dkumaras)) <!-- 5.18.3 -->
 - Fixed Lint/DuplicateMethods: Method Inspec::Resources::Service#resource_id is defined at both [#6132](https://github.com/inspec/inspec/pull/6132) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.18.2 -->
