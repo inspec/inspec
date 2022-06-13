@@ -1,0 +1,9 @@
+# This option file is used for testing below two tests when there is a typo: 
+# Test 1: test_parallel_dry_run_with_typo_in_option 
+# Test 2: test_parallel_run_with_typo_in_option
+
+# Comments (line starting with #), whitespaces(beginning and end of line) 
+# and blank lines will be ignored while parsing this option file.
+
+# Scenario 1: Typo with the option keyword
+--targetss "should_raise_error"

@@ -35,6 +35,7 @@ module Inspec
     EXIT_LICENSE_NOT_ACCEPTED = 172
     EXIT_FAILED_TESTS = 100
     EXIT_SKIPPED_TESTS = 101
+    EXIT_TERMINATED_BY_CTL_C = 130
 
     attr_reader :io
 

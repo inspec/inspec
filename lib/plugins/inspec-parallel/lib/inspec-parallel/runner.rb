@@ -1,0 +1,209 @@
+require "inspec/cli"
+require "concurrent"
+require_relative "super_reporter/base"
+
+module InspecPlugins
+  module Parallelism
+    class Runner
+      attr_accessor :invocations, :sub_cmd, :total_jobs, :run_in_background, :log_path
+
+      def initialize(invocations, cli_options, sub_cmd = "exec")
+        @invocations = invocations
+        @sub_cmd = sub_cmd
+        @total_jobs = cli_options["jobs"] || Concurrent.physical_processor_count
+        @child_tracker = {}
+        @run_in_background = cli_options["bg"]
+        unless run_in_background
+          @ui = InspecPlugins::Parallelism::SuperReporter.make(cli_options["ui"], total_jobs, invocations)
+        end
+        @log_path = cli_options["log_path"]
+      end
+
+      def run
+        initiate_background_run if run_in_background # running a process as daemon changes parent process pid
+        until invocations.empty? && @child_tracker.empty?
+          while should_start_more_jobs?
+            if Inspec.locally_windows?
+              spawn_another_process
+            else
+              fork_another_process
+            end
+          end
+
+          update_ui_poll_select
+          cleanup_child_processes
+          sleep 0.1
+        end
+        cleanup_daemon_process if run_in_background
+      end
+
+      def initiate_background_run
+        if Inspec.locally_windows?
+          Inspec::UI.new.exit(:usage_error)
+        else
+          Process.daemon(true, true)
+        end
+      end
+
+      def cleanup_daemon_process
+        current_process_id = Process.pid
+        Process.kill(9, current_process_id)
+        # DO NOT TRY TO REFACTOR IT THIS WAY
+        # Calling Process.kill(9,Process.pid) kills the "stopper" process itself, rather than the one it's trying to stop.
+      end
+
+      def should_start_more_jobs?
+        @child_tracker.length < total_jobs && !invocations.empty?
+      end
+
+      def spawn_another_process
+        invocation = invocations.shift[:value]
+
+        child_reader, parent_writer = IO.pipe
+
+        # Construct command-line invocation
+        child_pid = nil
+        error_log_file_name = "#{Time.now.nsec}.err"
+
+        begin
+          cmd = "#{$0} #{sub_cmd} #{invocation}"
+          log_msg = "#{Time.now.iso8601} Start Time: #{Time.now}\n#{Time.now.iso8601} Arguments: #{invocation}\n"
+          child_pid = Process.spawn(cmd, out: parent_writer, err: error_log_file_name)
+          # Rename error log file if exist
+          rename_error_log(error_log_file_name, child_pid) if File.exist?(error_log_file_name)
+          # Logging
+          create_logs(child_pid, nil, $stderr)
+          create_logs(child_pid, log_msg)
+          @child_tracker[child_pid] = { io: child_reader }
+          @ui.child_spawned(child_pid, invocation)
+        rescue StandardError => e
+          $stderr.puts "#{Time.now.iso8601} Error Message: #{e.message}"
+          $stderr.puts "#{Time.now.iso8601} Error Backtrace: #{e.backtrace}"
+        end
+      end
+
+      def fork_another_process
+        invocation = invocations.shift[:value] # Be sure to do this shift() in parent process
+        # thing_that_reads_from_the_child, thing_that_writes_to_the_parent = IO.pipe
+        child_reader, parent_writer = IO.pipe
+        if (child_pid = Process.fork)
+          # In parent with newly forked child
+          parent_writer.close
+          @child_tracker[child_pid] = { io: child_reader }
+          @ui.child_forked(child_pid, invocation) unless run_in_background
+        else
+          # In child
+          child_reader.close
+          # replace stdout with writer
+          $stdout = parent_writer
+          create_logs(Process.pid, nil, $stderr)
+
+          begin
+            create_logs(
+              Process.pid,
+              "#{Time.now.iso8601} Start Time: #{Time.now}\n#{Time.now.iso8601} Arguments: #{invocation}\n"
+            )
+            runner_invocation(invocation)
+          rescue StandardError => e
+            $stderr.puts "#{Time.now.iso8601} Error Message: #{e.message}"
+            $stderr.puts "#{Time.now.iso8601} Error Backtrace: #{e.backtrace}"
+          ensure
+            logs_dir_path = log_path || Dir.pwd
+            error_file_path = File.join(logs_dir_path, "logs", "#{Process.pid}.err")
+            if File.exist?("#{error_file_path}") && !File.size?("#{error_file_path}")
+              File.delete("#{error_file_path}")
+            end
+          end
+
+          # should be unreachable but child MUST exit
+          exit(42)
+        end
+      end
+
+      # Still in parent
+      # Loop over children and check for finished processes
+      def cleanup_child_processes
+        @child_tracker.each do |pid, info|
+          if Process.wait(pid, Process::WNOHANG)
+            # Expect to (probably) find EOF marker on the pipe, and close it if so
+            update_ui_poll_select(pid)
+
+            create_logs(pid, "#{Time.now.iso8601} Exit code: #{$?}\n")
+
+            # child exited - status in $?
+            @ui.child_exited(pid) unless run_in_background
+            @child_tracker.delete pid
+          end
+        end
+      end
+
+      def update_ui_poll_select(target_pid = nil)
+        # Focus on one pid's pipe if specified, otherwise poll all pipes
+        pipes_for_reading = target_pid ? [ @child_tracker[target_pid][:io] ] : @child_tracker.values.map { |i| i[:io] }
+        # Next line is due to a race between the close() and the wait()... shouldn't need it, but it fixes the race.
+        pipes_for_reading.reject!(&:closed?)
+        ready_pipes = IO.select(pipes_for_reading, [], [], 0.1)
+        return unless ready_pipes
+
+        ready_pipes[0].each do |pipe_ready_for_reading|
+          # If we weren't provided a PID, hackishly look up the pid from the matching IO.
+          pid = target_pid || @child_tracker.keys.detect { |p| @child_tracker[p][:io] == pipe_ready_for_reading }
+          begin
+            while (update_line = pipe_ready_for_reading.readline) && ! pipe_ready_for_reading.closed?
+              if update_line =~ /EOF_MARKER/
+                pipe_ready_for_reading.close
+                break
+              end
+              update_ui_with_line(pid, update_line) unless run_in_background
+              # Only pull one line if we are doing normal updates; slurp the whole file
+              # if we are doing a final pull on a targeted PID
+              break unless target_pid
+            end
+          rescue EOFError
+            # On unix, readline throws an EOFError when we hit the end. On Windows, nothing apparently happens.
+            pipe_ready_for_reading.close
+            next
+          end
+        end
+        # TODO: loop over ready_pipes[2] and handle errors?
+      end
+
+      def update_ui_with_line(pid, update_line)
+        @ui.child_status_update_line(pid, update_line)
+      end
+
+      private
+
+      def runner_invocation(runner_option)
+        splitted_result = runner_option.split(" ")
+        profile_to_run = splitted_result[0]
+        splitted_result.delete_at(0)
+
+        # thor invocation
+        arguments = [sub_cmd, profile_to_run, splitted_result].flatten
+        Inspec::InspecCLI.start(arguments, enforce_license: true)
+      end
+
+      def create_logs(child_pid, run_log , stderr = nil)
+        logs_dir_path = log_path || Dir.pwd
+        log_dir = File.join(logs_dir_path, "logs")
+        FileUtils.mkdir_p(log_dir) unless File.directory?(log_dir)
+
+        if stderr
+          log_file = File.join(log_dir, "#{child_pid}.err") unless File.exist?("#{child_pid}.err")
+          stderr.reopen(log_file, "a")
+        else
+          log_file = File.join(log_dir, "#{child_pid}.log") unless File.exist?("#{child_pid}.log")
+          File.write(log_file, run_log, mode: "a")
+        end
+      end
+
+      def rename_error_log(error_log_file_name, child_pid)
+        logs_dir_path = log_path || Dir.pwd
+        log_dir = File.join(logs_dir_path, "logs")
+        FileUtils.mkdir_p(log_dir) unless File.directory?(log_dir)
+        File.rename(error_log_file_name, "#{log_dir}/#{child_pid}.err")
+      end
+    end
+  end
+end
