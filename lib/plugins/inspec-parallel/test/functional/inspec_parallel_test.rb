@@ -27,6 +27,7 @@ class ParallelCli < Minitest::Test
   end
 
   def test_parallel_run_without_forking
+    skip_windows!
     out = run_inspec_process("parallel exec #{complete_profile} -o #{options_file_3}")
     assert_empty out.stderr
     assert_exit_code 0, out
@@ -47,6 +48,7 @@ class ParallelCli < Minitest::Test
   end
 
   def test_parallel_with_default_opts
+    skip_windows!
     out = run_inspec_process("parallel exec #{complete_profile} -o #{options_file_3} --reporter json")
     assert_empty out.stderr
     assert_exit_code 0, out
