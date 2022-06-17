@@ -6,7 +6,7 @@ module Inspec::Formatters
   class Base < RSpec::Core::Formatters::BaseFormatter
     RSpec::Core::Formatters.register self, :close, :dump_summary, :stop
 
-    attr_accessor :backend, :run_data
+    attr_accessor :backend, :run_data, :enhanced_outcomes
 
     def initialize(output)
       super(output)
@@ -17,6 +17,7 @@ module Inspec::Formatters
       @backend = nil
       @all_controls_count = nil
       @control_checks_count_map = {}
+      @enhanced_outcomes = nil
     end
 
     # RSpec Override: #dump_summary
@@ -50,7 +51,6 @@ module Inspec::Formatters
           else
             hash[:message] = exception_message(e)
           end
-
           next if e.is_a? RSpec::Expectations::ExpectationNotMetError
 
           hash[:exception] = e.class.name
@@ -67,6 +67,8 @@ module Inspec::Formatters
 
       # flesh out the profiles key with additional profile information
       run_data[:profiles] = profiles_info
+
+      add_enhanced_outcomes_to_controls if enhanced_outcomes
 
       # add the platform information for this particular target
       run_data[:platform] = {
@@ -109,6 +111,16 @@ module Inspec::Formatters
     end
 
     private
+
+    def add_enhanced_outcomes_to_controls
+      all_unique_controls.each do |control|
+        control[:status] = determine_control_enhanced_outcome(control)
+      end
+    end
+
+    def determine_control_enhanced_outcome(control)
+      # logic to find enhanced_outcome status
+    end
 
     def all_unique_controls
       unique_controls = Set.new
