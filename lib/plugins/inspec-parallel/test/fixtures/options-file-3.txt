@@ -1,0 +1,16 @@
+# This option file is used for testing with no target so that it doesn't fail on buildkite
+# Test 1: test_parallel_run_without_forking
+# Test 2: test_parallel_run_without_fork_with_default_opts
+
+# Comments (line starting with #), whitespaces(beginning and end of line)
+# and blank lines will be ignored while parsing this option file.
+
+
+# Scenario 1: Use profile if specified in the cli
+--reporter json:myfile.json
+
+# Scenario 2: Use the profile specified in the option file
+test/fixtures/profiles/control-tags --reporter cli:myfile.out
+
+# Scenario 3: Using ERB templating syntax in options file
+test/fixtures/profiles/control-tags --reporter <%= "cli:myfile.out" %>

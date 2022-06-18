@@ -35,13 +35,14 @@ module Inspec::Reporters
 
     reporter.render
     output = reporter.rendered_output
-
-    if config["file"]
+    config_file = config["file"]
+    if config_file
+      config_file.gsub!("CHILD_PID", Process.pid.to_s)
       # create destination directory if it does not exist
-      dirname = File.dirname(config["file"])
+      dirname = File.dirname(config_file)
       FileUtils.mkdir_p(dirname) unless File.directory?(dirname)
 
-      File.write(config["file"], output)
+      File.write(config_file, output)
     elsif config["stdout"] == true
       print output
       $stdout.flush

@@ -1,0 +1,3 @@
+# This file tests --reporter option validation. In this case, the file is invalid because
+# the invocation contains a json reporter without a file.
+-t local:// --reporter json
