@@ -1,16 +1,6 @@
 require "inspec/resource"
 
 module InspecPlugins::Suggest
-  # This class will provide the actual CLI implementation.
-  # Its superclass is provided by another call to Inspec.plugin,
-  # this time with two args.  The first arg specifies we are requesting
-  # version 2 of the Plugins API.  The second says we are making a CLI
-  # Command plugin component, so please make available any DSL needed
-  # for that.
-  #  In fact, aside from a some housekeeping DSL methods, most of the
-  # DSL provided is that of Thor. Inspec.plugin(2, :cli_command)
-  # promises to return a class that is a subclass of Thor.  So, to add
-  # commands, usage information, and options, use the Thor documentation.
   class CliCommand < Inspec.plugin(2, :cli_command)
     # This isn't provided by Thor, but is needed by InSpec so that it can
     # register the top-level subcommand.  That is to say, subcommand_desc
@@ -21,7 +11,7 @@ module InspecPlugins::Suggest
     # Note: if you want your command (or subcommand) to have dashes in it,
     # use underscores where you want a dash, and Thor will convert them.
     # Thor will fail to find a command that is directly named with dashes.
-    subcommand_desc "my_command [COMMAND]", "Your Usage Message Here"
+    subcommand_desc "suggest [COMMAND]", "Recommend which profiles should be run on the target system"
 
     # The usual rhythm for a Thor CLI file is description, options, command method.
     # Thor just has you call DSL methods in sequence prior to each command.
@@ -34,22 +24,19 @@ module InspecPlugins::Suggest
     # in `inspec help my-command`.
     # As this is a usage message, you should write the command as it should appear
     # to the user (if you want it to have dashes, use dashes)
-    desc "do-something WHAT [OPTIONS]", "Does something"
+    desc "profiles [OPTIONS]", "Recommends which profiles should be run on the target system"
 
     # Let's include an option, -s, to summarize
     # Refer to the Thors docs; there is a lot you can do here.
-    option :summary, desc: "Include a total at the bottom", \
-                     type: :boolean, default: true, aliases: [:s]
+    #option :summary, desc: "Include a total at the bottom", \
+    #                 type: :boolean, default: true, aliases: [:s]
 
     # OK, now the actual method itself. If you provide params, you're telling Thor that
     # you accept CLI arguments after all options have been consumed.
-    # Note again that the method name has an underscore, but when invoked
-    # on the CLI, use a dash.
-    def do_something(what = "nothing")
+    def profiles
       # The code here will *only* be executed if someone actually
       # runs `inspec my-command do-something`.
 
-      # `what` will be the command line arg
       # `options` will be a hash of CLI option values
 
       # Talk to the user using the `ui` object (see Inspec::UI)
