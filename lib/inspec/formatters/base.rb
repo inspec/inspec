@@ -119,7 +119,23 @@ module Inspec::Formatters
     end
 
     def determine_control_enhanced_outcome(control)
-      # logic to find enhanced_outcome status
+      if control_has_error(control)
+        return { name: "Error", abbrev: "ERR" }
+      elsif control[:impact].to_f == 0.0
+        return { name: "Not Applicable", abbrev: "N/A" }
+      elsif control_has_all_tests_skipped(control)
+        return { name: "Not Reviewed", abbrev: "N/R" }
+      end
+
+      {}
+    end
+
+    def control_has_all_tests_skipped(control)
+      control[:results].all? { |r| r[:status] == "skipped" }
+    end
+
+    def control_has_error(control)
+      # logic to determine error in control
     end
 
     def all_unique_controls
