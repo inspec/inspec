@@ -7,8 +7,9 @@ describe "inspec shell tests" do
   parallelize_me!
 
   describe "cmd" do
-    def assert_shell_c(code, exit_status, json = false, stderr = "")
+    def assert_shell_c(code, exit_status, json = false, stderr = "", enhanced_outcomes = false)
       json_suffix = " --reporter 'json'" if json
+      json_suffix = " --enhanced_outcomes" if enhanced_outcomes
       command = "shell -c '#{code.tr("'", "\\'")}'#{json_suffix}"
       # On darwin this value is:
       # shell -c 'describe file(\"/Users/nickschwaderer/Documents/inspec/inspec/test/functional/inspec_shell_test.rb\") do it { should exist } end' --reporter 'json'"
@@ -219,6 +220,33 @@ describe "inspec shell tests" do
       _(out.stdout).must_include "1 successful"
       _(out.stdout).must_include "0 failures"
     end
+
+    it "runs controls having skipped tests with enhanced_outcomes option" do
+      skip_windows! # Breakage confirmed
+      out = assert_shell_c("control \"test\" do \n only_if { false }\n describe file(\"#{__FILE__}\") do it { should exist } end end", 101 , false, "", true)
+      _(out.stdout).must_include "Not Reviewed"
+      _(out.stdout).must_include "0 successful"
+      _(out.stdout).must_include "0 failures"
+      _(out.stdout).must_include "1 skipped"
+    end
+
+    it "runs zero impact controls with enhanced_outcomes option" do
+      skip_windows! # Breakage confirmed
+      out = assert_shell_c("control \"test\" do \n impact 0.0 \n describe file(\"#{__FILE__}\") do it { should exist } end end", 0, false, "", true)
+      _(out.stdout).must_include "Not Applicable"
+      _(out.stdout).must_include "1 successful"
+      _(out.stdout).must_include "0 failures"
+      _(out.stdout).must_include "0 skipped"
+    end
+
+    it "runs zero impact controls with skipped test and enhanced_outcomes option" do
+      skip_windows! # Breakage confirmed
+      out = assert_shell_c("control \"test\" do \n impact 0.0 \n only_if { false } \n describe file(\"#{__FILE__}\") do it { should exist } end end", 101, false, "", true)
+      _(out.stdout).must_include "Not Applicable"
+      _(out.stdout).must_include "0 successful"
+      _(out.stdout).must_include "0 failures"
+      _(out.stdout).must_include "1 skipped"
+    end
   end
 
   # Pry does not support STDIN from windows currently. Skipping these for now.
@@ -235,8 +263,9 @@ describe "inspec shell tests" do
         out.stderr.gsub(/\e\[(\d+)(;\d+)*m/, "") # strip ANSI color codes
       end
 
-      def do_shell(code, exit_status = 0, stderr = "")
+      def do_shell(code, exit_status = 0, stderr = "", enhanced_outcomes = false)
         cmd = "echo '#{code.tr("'", "\\'")}' | #{exec_inspec} shell"
+        cmd += " --enhanced_outcomes" if enhanced_outcomes
         self.out = CMD.run_command(cmd)
 
         assert_exit_code exit_status, out
@@ -348,6 +377,30 @@ describe "inspec shell tests" do
         out = do_shell("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end end\ncontrol \"test\" do describe file(\"foo/bar/baz\") do it { should exist } end end")
         _(out.stdout).must_include "1 successful"
         _(out.stdout).must_include "1 failure"
+      end
+
+      it "runs controls having skipped tests with enhanced_outcomes option" do
+        out = do_shell("control \"test\" do \n only_if { false }\n describe file(\"#{__FILE__}\") do it { should exist } end end", 101 , "", true)
+        _(out.stdout).must_include "Not Reviewed"
+        _(out.stdout).must_include "0 successful"
+        _(out.stdout).must_include "0 failures"
+        _(out.stdout).must_include "1 skipped"
+      end
+
+      it "runs zero impact controls with enhanced_outcomes option" do
+        out = do_shell("control \"test\" do \n impact 0.0 \n describe file(\"#{__FILE__}\") do it { should exist } end end", 0, "", true)
+        _(out.stdout).must_include "Not Applicable"
+        _(out.stdout).must_include "1 successful"
+        _(out.stdout).must_include "0 failures"
+        _(out.stdout).must_include "0 skipped"
+      end
+
+      it "runs zero impact controls with skipped test and enhanced_outcomes option" do
+        out = do_shell("control \"test\" do \n impact 0.0 \n only_if { false } \n describe file(\"#{__FILE__}\") do it { should exist } end end", 101, "", true)
+        _(out.stdout).must_include "Not Applicable"
+        _(out.stdout).must_include "0 successful"
+        _(out.stdout).must_include "0 failures"
+        _(out.stdout).must_include "1 skipped"
       end
     end
   end
