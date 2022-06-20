@@ -19,18 +19,18 @@ module InspecPlugins::Suggest
               controls_by_cat[control.tags[:category]] << control
             end
           end
+        end
 
-          if controls_by_cat.empty?
-            puts(("-" * 20) + " No Matches " + ("-" * 20))
-          else
-            puts(("-" * 20) + " Winners " + ("-" * 20))
-            # Loop over matched categories. Sort results.
-            controls_by_cat.each do |category, controls|
-              controls.sort! { |a,b| a.impact <=> b.impact }
-              puts "Category: #{category}"
-              controls.each do |control|
-                puts "\t#{control.impact}\t#{control.id}"
-              end
+        if controls_by_cat.empty?
+          puts(("-" * 20) + " No Matches " + ("-" * 20))
+        else
+          puts(("-" * 20) + " Winners " + ("-" * 20))
+          # Loop over matched categories. Sort results.
+          controls_by_cat.each do |category, controls|
+            controls.sort! { |a,b| a.impact <=> b.impact }
+            puts "Category: #{category}"
+            controls.each do |control|
+              puts "\t#{control.impact}\t#{control.id}"
             end
           end
         end
