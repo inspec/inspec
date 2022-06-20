@@ -1331,4 +1331,22 @@ EOT
       end
     end
   end
+
+  describe "when running profile with enhanced_outcomes option" do
+    let(:run_result) { run_inspec_process("exec #{profile} --no-create-lockfile", enhanced_outcomes: true) }
+    let(:profile) { "#{profile_path}/only_if/skip-control" }
+    it "should evaluate all test controls correctly" do
+      _(run_result.stderr).must_be_empty
+    end
+
+    it "should show enhanced_outcomes for skipped tests in controls" do
+      _(stdout).must_include "\nProfile Summary: 1 successful control, 0 control failures, 6 controls skipped\n"
+      _(stdout).must_include "Not Reviewed"
+    end
+
+    it "should show enhanced_outcomes for controls with impact 0" do
+      _(stdout).must_include "\nProfile Summary: 1 successful control, 0 control failures, 6 controls skipped\n"
+      _(stdout).must_include "Not Applicable"
+    end
+  end
 end
