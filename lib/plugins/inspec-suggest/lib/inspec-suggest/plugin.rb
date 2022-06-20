@@ -14,6 +14,14 @@ module InspecPlugins
         require_relative "reporter/debug"
         InspecPlugins::Suggest::Reporter::Debug
       end
+
+      # Streaming reporter which gives a progress bar during the run. Intended
+      # to be used at the same time as one of the other reporters.
+      streaming_reporter :"suggest-progress" do
+        require_relative "reporter/progress"
+        InspecPlugins::Suggest::Reporter::Progress
+      end
+
     end
   end
 end
