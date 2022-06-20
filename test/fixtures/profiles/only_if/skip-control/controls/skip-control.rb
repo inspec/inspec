@@ -6,6 +6,7 @@ control "control-start" do
 end
 
 control "control-skip-no-message" do
+  impact 0.0
   desc "This control should get skipped"
   only_if { false }
   describe "a string" do
