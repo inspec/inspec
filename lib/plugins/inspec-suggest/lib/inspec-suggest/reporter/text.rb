@@ -15,6 +15,8 @@ module InspecPlugins::Suggest
           end
         end
 
+        puts "\n\n"
+
         if controls_by_cat.empty?
           puts "Sorry, no recommendations at this time."
         else
