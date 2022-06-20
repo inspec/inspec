@@ -37,4 +37,5 @@ results/
 terraform.tfstate*
 terraform.tfstate.backup
 terraform.tfvars
-test/**/*.lock
+test/**/*.locktmp
+tmp/*
