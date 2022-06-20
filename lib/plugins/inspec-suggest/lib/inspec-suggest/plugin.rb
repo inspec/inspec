@@ -15,6 +15,12 @@ module InspecPlugins
         InspecPlugins::Suggest::Reporter::Debug
       end
 
+      # Basic text reporter, shows only matches.
+      reporter :"suggest-text" do
+        require_relative "reporter/text"
+        InspecPlugins::Suggest::Reporter::Text
+      end
+
       # Streaming reporter which gives a progress bar during the run. Intended
       # to be used at the same time as one of the other reporters.
       streaming_reporter :"suggest-progress" do
