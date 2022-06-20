@@ -384,12 +384,21 @@ module Inspec
       end
 
       # check to make sure we are only reporting one type to stdout
-      stdout_reporters = 0
-      reporters.each_value do |reporter_config|
-        stdout_reporters += 1 if reporter_config["stdout"] == true
+      # You can have one streaming reporter and one onieshot reporter write to
+      # stdout, though, because they write at different times
+      stdout_oneshot_reporters = 0
+      stdout_streaming_reporters = 0
+      reporters.each do |reporter_name, reporter_config|
+        if reporter_config["stdout"] == true
+          if streaming_reporters.include? reporter_name
+            stdout_streaming_reporters += 1
+          else
+            stdout_oneshot_reporters += 1
+          end
+        end
       end
 
-      raise ArgumentError, "The option --reporter can only have a single report outputting to stdout." if stdout_reporters > 1
+      raise ArgumentError, "The option --reporter can only have a single report outputting to stdout." if stdout_oneshot_reporters > 1 || stdout_streaming_reporters > 1
 
       # reporter_message_truncation needs to either be the string "ALL", an Integer, or a string representing an integer
       if (truncation = @merged_options["reporter_message_truncation"])
