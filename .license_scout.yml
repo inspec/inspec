@@ -1,3 +1,4 @@
 ---
 environment:
   GEM_PATH: "./vendor/bundle"
+exclude_collectors: ["habitat"]
