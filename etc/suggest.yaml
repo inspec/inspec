@@ -1,0 +1,10 @@
+---
+
+# Relative to InSpec installation
+working_directory: tmp
+
+sets:
+ - name: chef-compliance
+   paths:
+    - compliance-profiles/src/inspec/supported/*
+    - compliance-profiles/src/inspec/unsupported/*
