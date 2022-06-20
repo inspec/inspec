@@ -106,6 +106,19 @@ module Inspec
       print_or_return(result, opts[:print])
     end
 
+    # Issues a one-line message, with 'INFO: ' prepended in bold cyan.
+    def info(str, opts = { print: true })
+      str = str.dup.to_s
+      result = ""
+      result += color? ? ANSI_CODES[:bold] + ANSI_CODES[:color][:cyan] : ""
+      result += "INFO:"
+      result += color? ? ANSI_CODES[:reset] : ""
+      result += " "
+      result += str
+      result += "\n"
+      print_or_return(result, opts[:print])
+    end
+
     # Issues a one-line message, with 'ERROR: ' prepended in bold red.
     def error(str, opts = { print: true })
       str = str.dup.to_s
