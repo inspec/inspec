@@ -380,7 +380,7 @@ describe "inspec shell tests" do
       end
 
       it "runs controls having skipped tests with enhanced_outcomes option" do
-        out = do_shell("control \"test\" do \n only_if { false }\n describe file(\"#{__FILE__}\") do it { should exist } end end", 101 , "", true)
+        out = do_shell("control \"test\" do \n only_if { false }\n describe file(\"#{__FILE__}\") do it { should exist } end end", 0 , "", true)
         _(out.stdout).must_include "Not Reviewed"
         _(out.stdout).must_include "0 successful"
         _(out.stdout).must_include "0 failures"
@@ -396,11 +396,19 @@ describe "inspec shell tests" do
       end
 
       it "runs zero impact controls with skipped test and enhanced_outcomes option" do
-        out = do_shell("control \"test\" do \n impact 0.0 \n only_if { false } \n describe file(\"#{__FILE__}\") do it { should exist } end end", 101, "", true)
+        out = do_shell("control \"test\" do \n impact 0.0 \n only_if { false } \n describe file(\"#{__FILE__}\") do it { should exist } end end", 0, "", true)
         _(out.stdout).must_include "Not Applicable"
         _(out.stdout).must_include "0 successful"
         _(out.stdout).must_include "0 failures"
         _(out.stdout).must_include "1 skipped"
+      end
+
+      it "runs control with error and enhanced_outcomes option" do
+        out = do_shell("control \"test\" do \n impact 0.0 \n describe file(\"#{__FILE__}\") do it { must_bot exist } end end", 0, "", true)
+        _(out.stdout).must_include "Error"
+        _(out.stdout).must_include "0 successful"
+        _(out.stdout).must_include "1 failure"
+        _(out.stdout).must_include "0 skipped"
       end
     end
   end
