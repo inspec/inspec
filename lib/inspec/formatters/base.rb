@@ -131,11 +131,11 @@ module Inspec::Formatters
     end
 
     def control_has_all_tests_skipped(control)
-      control[:results].all? { |r| r[:status] == "skipped" }
+      control[:results] && control[:results].all? { |r| r[:status] == "skipped" }
     end
 
     def control_has_error(control)
-      # logic to determine error in control
+      control[:results] && (control[:results].any? { |r| !r[:exception].nil? && !r[:backtrace].nil? })
     end
 
     def all_unique_controls

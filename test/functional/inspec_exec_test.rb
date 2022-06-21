@@ -1340,13 +1340,23 @@ EOT
     end
 
     it "should show enhanced_outcomes for skipped tests in controls" do
-      _(stdout).must_include "\nProfile Summary: 1 successful control, 0 control failures, 6 controls skipped\n"
-      _(stdout).must_include "Not Reviewed"
+      _(run_result.stdout).must_include "6 controls skipped"
+      _(run_result.stdout).must_include "Not Reviewed"
     end
 
     it "should show enhanced_outcomes for controls with impact 0" do
-      _(stdout).must_include "\nProfile Summary: 1 successful control, 0 control failures, 6 controls skipped\n"
-      _(stdout).must_include "Not Applicable"
+      _(run_result.stdout).must_include "6 controls skipped"
+      _(run_result.stdout).must_include "Not Applicable"
+    end
+  end
+
+  describe "when running profile with errors and enhanced_outcomes option" do
+    let(:run_result) { run_inspec_process("exec #{profile} --no-create-lockfile", enhanced_outcomes: true) }
+    let(:profile) { "#{profile_path}/exception-in-control" }
+
+    it "should show enhanced_outcomes for controls with errors" do
+      _(run_result.stdout).must_include "4 control failures"
+      _(run_result.stdout).must_include "[Error]"
     end
   end
 end
