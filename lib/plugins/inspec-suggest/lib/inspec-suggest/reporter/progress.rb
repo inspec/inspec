@@ -32,7 +32,7 @@ module InspecPlugins::Suggest
       end
 
       def show_progress(control_id)
-        @bar ||= ProgressBar.new(controls_count, :bar, :counter, :percentage)
+        @bar ||= ProgressBar.new(controls_count, :bar, :percentage)
         @bar.increment!
       rescue StandardError => e
         raise "Exception in suggest-progress reporter: #{e}"
