@@ -24,24 +24,42 @@ module InspecPlugins::Suggest
     # to the user (if you want it to have dashes, use dashes)
     desc "profiles [OPTIONS]", "Recommends which profiles should be run on the target system"
 
-    # Let's include an option, -s, to summarize
-    # Refer to the Thors docs; there is a lot you can do here.
-    #option :summary, desc: "Include a total at the bottom", \
-    #                 type: :boolean, default: true, aliases: [:s]
+    option :target, aliases: :t, type: :string,
+      desc: "Simple targeting option using URIs, e.g. ssh://user:pass@host:port"
+    option :reporter, type: :array,
+      banner: "suggest-progress suggest-text",
+      desc: "Enable one or more output reporters: suggest-progress, suggest-debug, suggest-text"
 
     # OK, now the actual method itself. If you provide params, you're telling Thor that
     # you accept CLI arguments after all options have been consumed.
-    def profiles
-      # The code here will *only* be executed if someone actually
-      # runs `inspec my-command do-something`.
+    def profiles(*requested_sets)
+      # TODO: allow cfg path to be overridden
+      cfg = YAML.load_file(File.join(Inspec.src_root, "etc", "suggest.yaml"))
 
-      # `options` will be a hash of CLI option values
+      # Get list of sets
+      set_names = cfg["sets"].map { |s| s["name"] }
+      if requested_sets.empty?
+        # Do all
+        requested_sets = set_names
+      else
+        requested_sets.each do |set_name|
+          unless set_names.include?(set_name)
+            ui.error("Set name '#{set_name}' is not recognized. Known set names: #{set_names.join(", ")}")
+            ui.exit(:usage_error)
+          end
+        end
+      end
 
-      # Talk to the user using the `ui` object (see Inspec::UI)
-      # ui.error('Whoops!')
+      # TODO: consider signed profiles
+      profiles = requested_sets.map { |s| File.join(Inspec.src_root, "etc", "suggest", s) }
 
-      ui.warning("This is a generated plugin with a default implementation.  Edit lib/inspec-suggest/cli_command.rb to make it do what you want.")
-      ui.exit(:success) # or :usage_error
+      exec_args = []
+      exec_args << ["-t", options[:target]] if options[:target]
+      exec_args << ["--reporter", options[:reporter] ? options[:reporter] : ["suggest-progress", "suggest-text"]]
+
+      arguments = ["exec", profiles, exec_args].flatten
+      Inspec::InspecCLI.start(arguments, enforce_license: true)
+
     end
 
     desc "package SETNAME", "Packages suggestion criteria from a set of source profiles."
