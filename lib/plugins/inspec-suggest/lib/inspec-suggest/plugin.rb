@@ -4,9 +4,9 @@ module InspecPlugins
     class Plugin < ::Inspec.plugin(2)
       plugin_name :"inspec-suggest"
 
-      cli_command :suggest do
-        require_relative "cli_command"
-        InspecPlugins::Suggest::CliCommand
+      cli_command :"suggest-package" do
+        require "inspec-suggest/package_command"
+        InspecPlugins::Suggest::PackageCommand
       end
 
       # Diagnostic reporter, which summarizes the results of the run.
