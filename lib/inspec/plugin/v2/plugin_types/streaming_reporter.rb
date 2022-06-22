@@ -11,7 +11,7 @@ module Inspec::Plugin::V2::PluginType
       @running_controls_list = []
       @control_checks_count_map = {}
       @controls_count = nil
-      @notifications = []
+      @notifications = {}
     end
 
     private
@@ -55,16 +55,15 @@ module Inspec::Plugin::V2::PluginType
       @enhanced_outcomes ||= RSpec.configuration.formatters.grep(Inspec::Formatters::Base).first.enhanced_outcomes
     end
 
-    def add_enhanced_outcomes
+    def add_enhanced_outcomes(control_id)
       enhanced_outcomes = {}
-      if control_has_error(@notifications)
+      if control_has_error(@notifications[control_id])
         enhanced_outcomes = { name: "Error", abbrev: "ERR" }
-      elsif control_has_impact_zero(@notifications)
+      elsif control_has_impact_zero(@notifications[control_id])
         enhanced_outcomes = { name: "Not Applicable", abbrev: "N/A" }
-      elsif control_has_all_tests_skipped(@notifications)
+      elsif control_has_all_tests_skipped(@notifications[control_id])
         enhanced_outcomes = { name: "Not Reviewed", abbrev: "N/R" }
       end
-      @notifications = []
       enhanced_outcomes
     end
 
@@ -84,11 +83,16 @@ module Inspec::Plugin::V2::PluginType
 
     def control_has_impact_zero(notifications)
       notification_data = notifications.first
-      notification_data && notification_data.first.example.metadata[:impact].to_f == 0.0
+      notification_impact = notification_data.first.example.metadata[:impact]
+      notification_data && !notification_impact.nil? && notification_impact.to_f == 0.0
     end
 
-    def collect_notifications(notification, status)
-      @notifications.push([notification, status])
+    def collect_notifications(notification, control_id, status)
+      if @notifications[control_id].nil?
+        @notifications[control_id] = [[notification, status]]
+      else
+        @notifications[control_id].push([notification, status])
+      end
     end
   end
 end
