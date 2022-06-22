@@ -133,12 +133,20 @@ module Inspec
       all_controls.each do |rule|
         unless rule.nil?
           register_rule(rule)
-          checks = ::Inspec::Rule.prepare_checks(rule)
-          unless checks.empty?
+          total_checks = 0
+          control_describe_checks = ::Inspec::Rule.prepare_checks(rule)
+
+          examples = control_describe_checks.flat_map do |m, a, b|
+            get_check_example(m, a, b)
+          end.compact
+
+          examples.map { |example| total_checks += example.examples.count }
+
+          unless control_describe_checks.empty?
             # controls with empty tests are avoided
             # checks represent tests within control
             controls_count += 1
-            control_checks_count_map[rule.to_s] = checks.count
+            control_checks_count_map[rule.to_s] = control_checks_count_map[rule.to_s].to_i + total_checks
           end
         end
       end
