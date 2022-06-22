@@ -493,6 +493,24 @@ v0.1.0 - Initial version
 v0.2.0 - added `run_data.profiles[0].inputs[0].options.sensitive`
 v0.3.0 - added resource_name && params
 
+#### Implement send_report
+
+The primary responsibilty of this function is to implement a logic for sending reporter output through email invocations or making API calls. When this is defined in a reporter, rendering of output is skipped.
+
+```ruby
+module InspecPlugins::Sweeten
+  class Reporter < Inspec.plugin(2, :reporter)
+    def send_report
+      # logic for sending reporter output using email invocations or API calls.
+    end
+
+    def render
+      # this will be skipped, will only run send_report
+    end
+  end
+end
+```
+
 ## Implementing Streaming Reporter Plugins
 
 Streaming Reporter plugins offer the opportunity to customize or create a plugin which operates real-time as the Chef Inspec tests runs. Streaming reporters perform streaming using RSpec custom formatters.
