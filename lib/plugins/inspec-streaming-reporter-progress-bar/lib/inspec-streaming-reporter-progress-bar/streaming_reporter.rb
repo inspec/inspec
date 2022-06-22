@@ -73,9 +73,10 @@ module InspecPlugins::StreamingReporterProgressBar
       full_description = notification.example.metadata[:full_description]
       control_impact = notification.example.metadata[:impact]
       set_status_mapping(control_id, status)
-      collect_notifications(notification, status)
+      collect_notifications(notification, control_id, status)
       control_ended = control_ended?(control_id)
       if control_ended
+        add_enhanced_outcomes(control_id) if enhanced_outcomes
         show_progress(control_id, title, full_description, control_impact)
       end
     end
