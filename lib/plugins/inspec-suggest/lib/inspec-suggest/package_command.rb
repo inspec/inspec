@@ -1,7 +1,7 @@
 require "inspec/resource"
 
 module InspecPlugins::Suggest
-  class CliCommand < Inspec.plugin(2, :cli_command)
+  class PackageCommand < Inspec.plugin(2, :cli_command)
     subcommand_desc "suggest-package [COMMAND]", "Package criteria for use by `inspec suggest`."
 
     desc "package SETNAME", "Packages suggestion criteria from a set of source profiles."
