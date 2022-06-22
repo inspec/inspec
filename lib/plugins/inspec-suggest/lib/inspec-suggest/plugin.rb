@@ -4,7 +4,10 @@ module InspecPlugins
     class Plugin < ::Inspec.plugin(2)
       plugin_name :"inspec-suggest"
 
-      cli_command :"suggest-package" do
+      # Note that the `inspec suggest` command is defined
+      # in bare_command.rb
+
+      cli_command :suggestpackage do
         require "inspec-suggest/package_command"
         InspecPlugins::Suggest::PackageCommand
       end
