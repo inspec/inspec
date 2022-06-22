@@ -145,7 +145,7 @@ module Inspec
           unless control_describe_checks.empty?
             # controls with empty tests are avoided
             # checks represent tests within control
-            controls_count += 1
+            controls_count += 1 if control_checks_count_map[rule.to_s].nil?
             control_checks_count_map[rule.to_s] = control_checks_count_map[rule.to_s].to_i + total_checks
           end
         end
