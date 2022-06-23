@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.18.6 -->
-## [v5.18.6](https://github.com/inspec/inspec/tree/v5.18.6) (2022-06-22)
+<!-- latest_release 5.18.7 -->
+## [v5.18.7](https://github.com/inspec/inspec/tree/v5.18.7) (2022-06-23)
 
 #### Merged Pull Requests
-- Updated plugins doc with send_report functionality [#6144](https://github.com/inspec/inspec/pull/6144) ([Nik08](https://github.com/Nik08))
+- Bump octokit from 4.23.0 to 4.25.0 in /omnibus [#6146](https://github.com/inspec/inspec/pull/6146) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.17.4 -->
 ### Changes since 5.17.4 release
 
 #### Merged Pull Requests
+- Bump octokit from 4.23.0 to 4.25.0 in /omnibus [#6146](https://github.com/inspec/inspec/pull/6146) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.18.7 -->
 - Updated plugins doc with send_report functionality [#6144](https://github.com/inspec/inspec/pull/6144) ([Nik08](https://github.com/Nik08)) <!-- 5.18.6 -->
 - add ruby test 3.1 in verify pipeline [#5892](https://github.com/inspec/inspec/pull/5892) ([jayashrig158](https://github.com/jayashrig158)) <!-- 5.18.5 -->
 - Add inspec-6 branch as release branch [#6136](https://github.com/inspec/inspec/pull/6136) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.18.4 -->
