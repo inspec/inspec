@@ -259,6 +259,9 @@ inspec exec test.rb -t winrm://Administrator@windowshost --password 'your-passwo
 # run test on docker container
 inspec exec test.rb -t docker://container_id
 
+# run test on podman container
+inspec exec test.rb -t podman://container_id --podman-url "unix:///run/user/1000/podman/podman.sock"
+
 # run with sudo
 inspec exec test.rb --sudo [--sudo-password ...] [--sudo-options ...] [--sudo_command ...]
 
