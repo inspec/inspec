@@ -16,8 +16,8 @@ The Error outcome represents the situation when the system has encountered an er
 
 In the first iteration of Enhanced Outcomes, Error outcome will be detected:
 
- * if the status of a test is Failed AND
- * if the message of the test includes the text "Control source error"
+ * if the message of any test includes the text "Control source error" OR
+ * the result of any test includes a backtrace
 
 then the entire control should be marked Error.
 
