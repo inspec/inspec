@@ -1,4 +1,5 @@
 ---
 environment:
-  GEM_PATH: "/usr/local/bundle"
+  GEM_PATH: "vendor/bundle"
+  BUNDLE_PATH: "vendor/bundle"
 exclude_collectors: ["habitat"]
