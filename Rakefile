@@ -332,9 +332,3 @@ desc "Show the version of this gem"
 task :version do
   inspec_version
 end
-
-# Run license scout for license aggregation
-desc "Run license scout"
-task :license_scout do
-  license_scout
-end
