@@ -56,15 +56,17 @@ module Inspec::Plugin::V2::PluginType
     end
 
     def add_enhanced_outcomes(control_id)
-      enhanced_outcomes = {}
       if control_has_error(@notifications[control_id])
-        enhanced_outcomes = { name: "Error", abbrev: "ERR" }
+        { name: "Error", abbrev: "ERR" }
       elsif control_has_impact_zero(@notifications[control_id])
-        enhanced_outcomes = { name: "Not Applicable", abbrev: "N/A" }
+        { name: "Not Applicable", abbrev: "N/A" }
       elsif control_has_all_tests_skipped(@notifications[control_id])
-        enhanced_outcomes = { name: "Not Reviewed", abbrev: "N/R" }
+        { name: "Not Reviewed", abbrev: "N/R" }
+      elsif control_has_any_tests_failed(@notifications[control_id])
+        { name: "Failed", abbrev: "fail" }
+      else
+        { name: "Passed", abbrev: "pass" }
       end
-      enhanced_outcomes
     end
 
     def control_has_error(notifications)
@@ -78,6 +80,13 @@ module Inspec::Plugin::V2::PluginType
       notifications.all? do |notification_data|
         _notification, status = notification_data
         status == "skipped"
+      end
+    end
+
+    def control_has_any_tests_failed(notifications)
+      notifications.any? do |notification_data|
+        _notification, status = notification_data
+        status == "failed"
       end
     end
 
