@@ -120,14 +120,16 @@ module Inspec::Formatters
 
     def determine_control_enhanced_outcome(control)
       if control_has_error(control)
-        return { name: "Error", abbrev: "ERR" }
+        { name: "Error", abbrev: "ERR" }
       elsif control[:impact].to_f == 0.0
-        return { name: "Not Applicable", abbrev: "N/A" }
+        { name: "Not Applicable", abbrev: "N/A" }
       elsif control_has_all_tests_skipped(control)
-        return { name: "Not Reviewed", abbrev: "N/R" }
+        { name: "Not Reviewed", abbrev: "N/R" }
+      elsif control[:results].any? { |r| r[:status] == "failed" }
+        { name: "Failed", abbrev: "fail"}
+      else
+        { name: "Passed", abbrev: "pass"}
       end
-
-      {}
     end
 
     def control_has_all_tests_skipped(control)
