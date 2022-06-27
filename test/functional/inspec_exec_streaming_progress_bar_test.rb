@@ -77,4 +77,20 @@ describe "inspec exec with streaming progress bar reporter" do
     assert_exit_code 101, out
   end
 
+  it "shows enhanced_outcomes with enhanced_outcomes flag" do
+    skip_windows!
+
+    out = inspec("exec " + File.join(profile_path, "enhanced-outcomes-test") + " --no-create-lockfile --reporter progress-bar --enhanced-outcomes")
+    _(out.stderr).must_include "[ERROR]    tmp-1.0.1"
+    _(out.stderr).must_include "[ERROR]    tmp-1.0.2"
+    _(out.stderr).must_include "[N/A]      tmp-2.0.1"
+    _(out.stderr).must_include "[N/A]      tmp-2.0.2"
+    _(out.stderr).must_include "[N/R]      tmp-3.0.1"
+    _(out.stderr).must_include "[N/R]      tmp-3.0.2"
+    _(out.stderr).must_include "[N/R]      tmp-3.0.2"
+    _(out.stderr).must_include "[FAILED]   tmp-4.0"
+    _(out.stderr).must_include "[PASSED]   tmp-5.0"
+    assert_exit_code 100, out
+  end
+
 end

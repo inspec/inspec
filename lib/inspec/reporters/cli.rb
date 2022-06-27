@@ -366,7 +366,7 @@ module Inspec::Reporters
         format_with_color(failed_color, failed_str),
         format_with_color(not_rev_color, not_rev_str),
         format_with_color(not_app_color, not_app_str),
-        format_with_color(error_color, error_str),
+        format_with_color(error_color, error_str)
       )
       output(s) if summary["total"] > 0
     end
