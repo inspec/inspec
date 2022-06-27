@@ -1,4 +1,4 @@
 ---
 environment:
-  GEM_PATH: "./vendor/bundle"
+  GEM_PATH: "./vendor/bundle/ruby/3.0.0"
 exclude_collectors: ["habitat"]

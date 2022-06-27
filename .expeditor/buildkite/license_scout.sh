@@ -36,8 +36,8 @@ echo "bundle show rake"
 bundle show rake
 echo "pwd"
 pwd
-echo "ls ./vendor/bundle"
-ls ./vendor/bundle
+echo "ls ./vendor/bundle/ruby/3.0.0"
+ls ./vendor/bundle/ruby/3.0.0
 
 echo "--- running license_scout"
 bundle exec license_scout --log-level debug
