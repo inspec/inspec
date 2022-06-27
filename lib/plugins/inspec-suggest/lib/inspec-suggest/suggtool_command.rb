@@ -34,7 +34,7 @@ module InspecPlugins::Suggest
 
       # Open set suggestion file - truncate
       criteria_out_file = File.join(out_profile_dir, "controls", "criteria.rb")
-      ui.info("Writing to criteria file #{criteria_out_file}")
+      ui.info("Writing to criteria file #{criteria_out_file.sub(Inspec.src_root + "/", "")}")
       File.open(criteria_out_file, "w") do |set_suggestion_file|
 
         # find set source directory
@@ -43,7 +43,7 @@ module InspecPlugins::Suggest
         # read any .rb files
         set_cfg["paths"].each do |path|
           Dir.glob(File.join(working_dir, path, "suggest", "*.rb")).each do |control_file_path|
-            ui.info("found #{control_file_path}")
+            ui.info("found #{control_file_path.sub(Inspec.src_root + "/", "")}")
             # append them to the set suggestion file
             File.open(control_file_path) do |control_file|
               control_file.readlines.each do |line|
