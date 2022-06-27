@@ -7,9 +7,9 @@ module InspecPlugins
       # Note that the `inspec suggest` command is defined
       # in bare_command.rb
 
-      cli_command :suggestpackage do
-        require "inspec-suggest/package_command"
-        InspecPlugins::Suggest::PackageCommand
+      cli_command :suggtool do
+        require "inspec-suggest/suggtool_command"
+        InspecPlugins::Suggest::SuggToolCommand
       end
 
       # Diagnostic reporter, which summarizes the results of the run.
