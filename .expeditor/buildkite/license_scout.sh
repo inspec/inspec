@@ -31,6 +31,14 @@ bundle install --jobs=7 --retry=3
 echo "--- push bundle cache"
 push_bundle
 
+echo "--- GEMPATH DIAGNOSTICS"
+echo "bundle show rake"
+bundle show rake
+echo "pwd"
+pwd
+echo "ls ./vendor/bundle"
+ls ./vendor/bundle
+
 echo "--- running license_scout"
 bundle exec license_scout --log-level debug
 LICENSE_SCOUT_EXIT=$?
