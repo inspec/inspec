@@ -1,10 +1,11 @@
 module Inspec::Resources
   class Lines
-    attr_reader :output
+    attr_reader :output, :exit_status
 
-    def initialize(raw, desc)
+    def initialize(raw, desc, exit_status)
       @output = raw
       @desc = desc
+      @exit_status = exit_status
     end
 
     def to_s
@@ -58,7 +59,7 @@ module Inspec::Resources
       if cmd.exit_status != 0 || out =~ /Can't connect to IBM Db2 / || out.downcase =~ /^error:.*/
         raise Inspec::Exceptions::ResourceFailed, "IBM Db2 connection error: #{out}"
       else
-        Lines.new(cmd.stdout.strip, "IBM Db2 Query: #{q}")
+        Lines.new(cmd.stdout.strip, "IBM Db2 Query: #{q}", cmd.exit_status)
       end
     end
 
