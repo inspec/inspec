@@ -4,11 +4,16 @@ module InspecPlugins::Suggest
   class SuggToolCommand < Inspec.plugin(2, :cli_command)
     subcommand_desc "suggtool [COMMAND]", "Utilities to support `inspec suggest`."
 
+    option :suggest_config, type: :string,
+      desc: "Path to suggest.yaml, default is SRC/etc/suggest.yaml"
+
     desc "package SETNAME", "Packages suggestion criteria from a set of source profiles."
     def package(*requested_sets)
 
+      options[:suggest_config] ||= File.join(Inspec.src_root, "etc", "suggest.yaml")
+
       # read config
-      cfg = YAML.load_file(File.join(Inspec.src_root, "etc", "suggest.yaml"))
+      cfg = YAML.load_file(options[:suggest_config])
       set_names = cfg["sets"].map { |s| s["name"] }
       if requested_sets.empty?
         # Do all
