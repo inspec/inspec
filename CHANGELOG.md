@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.18.7 -->
-## [v5.18.7](https://github.com/inspec/inspec/tree/v5.18.7) (2022-06-23)
+<!-- latest_release 5.18.8 -->
+## [v5.18.8](https://github.com/inspec/inspec/tree/v5.18.8) (2022-06-27)
 
 #### Merged Pull Requests
-- Bump octokit from 4.23.0 to 4.25.0 in /omnibus [#6146](https://github.com/inspec/inspec/pull/6146) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Fixes for Buildkite Issues [#6161](https://github.com/inspec/inspec/pull/6161) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.17.4 -->
 ### Changes since 5.17.4 release
 
 #### Merged Pull Requests
+- Fixes for Buildkite Issues [#6161](https://github.com/inspec/inspec/pull/6161) ([Nik08](https://github.com/Nik08)) <!-- 5.18.8 -->
 - Bump octokit from 4.23.0 to 4.25.0 in /omnibus [#6146](https://github.com/inspec/inspec/pull/6146) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.18.7 -->
 - Updated plugins doc with send_report functionality [#6144](https://github.com/inspec/inspec/pull/6144) ([Nik08](https://github.com/Nik08)) <!-- 5.18.6 -->
 - add ruby test 3.1 in verify pipeline [#5892](https://github.com/inspec/inspec/pull/5892) ([jayashrig158](https://github.com/jayashrig158)) <!-- 5.18.5 -->
