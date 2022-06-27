@@ -227,7 +227,7 @@ class MockLoader
       'sh -c \'type "/sbin/auditctl"\'' => empty.call,
       'sh -c \'type "sql"\'' => cmd_exit_1.call,
       'type "pwsh"' => empty.call,
-      'type "netstat"' => empty.call,
+      'type "/usr/sbin/netstat"' => empty.call,
       "sh -c 'find /etc/apache2/ports.conf -type l -maxdepth 1'" => empty.call,
       "sh -c 'find /etc/httpd/conf.d/*.conf -type l -maxdepth 1'" => empty.call,
       "sh -c 'find /etc/httpd/mods-enabled/*.conf -type l -maxdepth 1'" => empty.call,
@@ -409,6 +409,7 @@ class MockLoader
       "php -c /etc/php/7.4/cli/php.ini -r 'echo get_cfg_var(\"default_mimetype\");'" => cmd.call("get-cfg-var"),
       # routing_table
       "netstat -rn" => cmd.call("netstat-rn-linux"),
+      "/usr/sbin/netstat -rn" => cmd.call("netstat-rn-linux"),
       %{sh -c 'type "netstat"'} => empty.call,
       # mocks for be_immutable matcher for file resource
       "lsattr constantfile.txt" => cmd.call("lsattr-output"),
