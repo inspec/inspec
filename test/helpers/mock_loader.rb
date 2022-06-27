@@ -227,7 +227,7 @@ class MockLoader
       'sh -c \'type "/sbin/auditctl"\'' => empty.call,
       'sh -c \'type "sql"\'' => cmd_exit_1.call,
       'type "pwsh"' => empty.call,
-      'type "netstat"' => empty.call,
+      'type "/usr/sbin/netstat"' => empty.call,
       "sh -c 'find /etc/apache2/ports.conf -type l -maxdepth 1'" => empty.call,
       "sh -c 'find /etc/httpd/conf.d/*.conf -type l -maxdepth 1'" => empty.call,
       "sh -c 'find /etc/httpd/mods-enabled/*.conf -type l -maxdepth 1'" => empty.call,
