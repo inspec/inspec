@@ -4,9 +4,12 @@ module InspecPlugins
     class Plugin < ::Inspec.plugin(2)
       plugin_name :"inspec-suggest"
 
-      cli_command :suggest do
-        require_relative "cli_command"
-        InspecPlugins::Suggest::CliCommand
+      # Note that the `inspec suggest` command is defined
+      # in bare_command.rb
+
+      cli_command :suggtool do
+        require "inspec-suggest/suggtool_command"
+        InspecPlugins::Suggest::SuggToolCommand
       end
 
       # Diagnostic reporter, which summarizes the results of the run.

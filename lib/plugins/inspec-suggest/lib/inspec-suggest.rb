@@ -12,3 +12,4 @@ libdir = File.dirname(__FILE__)
 $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 
 require "inspec-suggest/plugin"
+require "inspec-suggest/bare_command"
