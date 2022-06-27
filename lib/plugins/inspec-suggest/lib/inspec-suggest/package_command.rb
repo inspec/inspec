@@ -49,6 +49,7 @@ module InspecPlugins::Suggest
               control_file.readlines.each do |line|
                 set_suggestion_file.write(line)
               end
+              set_suggestion_file.write("\n")
             end
           end
         end # each path
