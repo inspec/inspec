@@ -126,7 +126,7 @@ module Inspec::Formatters
       elsif control_has_all_tests_skipped(control)
         { name: "Not Reviewed", abbrev: "N/R" }
       elsif control[:results] && control[:results].any? { |r| r[:status] == "failed" }
-        { name: "Failed", abbrev: "fail"}
+        { name: "Failed", abbrev: "fail" }
       else
         { name: "Passed", abbrev: "pass" }
       end

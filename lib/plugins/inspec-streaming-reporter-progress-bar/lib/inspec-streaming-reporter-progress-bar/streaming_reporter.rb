@@ -20,6 +20,9 @@ module InspecPlugins::StreamingReporterProgressBar
         "passed" => "\033[0;1;32m",
         "skipped" => "\033[0;37m",
         "reset" => "\033[0m",
+        "error" => "\033[34m",
+        "not_applicable" => "\033[36m",
+        "not_reviewed" => "\033[33m",
       }.freeze
 
       # Most currently available Windows terminals have poor support
@@ -28,6 +31,9 @@ module InspecPlugins::StreamingReporterProgressBar
         "failed" => "[FAIL]",
         "skipped" => "[SKIP]",
         "passed" => "[PASS]",
+        "error" => "  [ERROR]  ",
+        "not_applicable" => "  [N/A]    ",
+        "not_reviewed" => "  [N/R]    ",
       }.freeze
     else
       # Extended colors for everyone else
@@ -36,6 +42,9 @@ module InspecPlugins::StreamingReporterProgressBar
         "passed" => "\033[38;5;41m",
         "skipped" => "\033[38;5;247m",
         "reset" => "\033[0m",
+        "error" => "\033[0;38;5;21m",
+        "not_applicable" => "\033[0;38;5;117m",
+        "not_reviewed" => "\033[0;38;5;214m",
       }.freeze
 
       # Groovy UTF-8 characters for everyone else...
@@ -44,6 +53,9 @@ module InspecPlugins::StreamingReporterProgressBar
         "failed" => "× [FAILED] ",
         "skipped" => "↺ [SKIPPED]",
         "passed" => "✔ [PASSED] ",
+        "error" => "× [ERROR]  ",
+        "not_applicable" => "  [N/A]    ",
+        "not_reviewed" => "  [N/R]    ",
       }.freeze
     end
 
@@ -71,34 +83,37 @@ module InspecPlugins::StreamingReporterProgressBar
       control_id = notification.example.metadata[:id]
       title = notification.example.metadata[:title]
       full_description = notification.example.metadata[:full_description]
-      control_impact = notification.example.metadata[:impact]
       set_status_mapping(control_id, status)
       collect_notifications(notification, control_id, status)
       control_ended = control_ended?(control_id)
       if control_ended
-        add_enhanced_outcomes(control_id) if enhanced_outcomes
-        show_progress(control_id, title, full_description, control_impact)
+        control_outcome = add_enhanced_outcomes(control_id) if enhanced_outcomes
+        show_progress(control_id, title, full_description, control_outcome)
       end
     end
 
-    def show_progress(control_id, title, full_description, control_impact)
+    def show_progress(control_id, title, full_description, control_outcome)
       @bar ||= ProgressBar.new(controls_count, :bar, :counter, :percentage)
       sleep 0.1
       @bar.increment!
-      @bar.puts format_it(control_id, title, full_description, control_impact)
+      @bar.puts format_it(control_id, title, full_description, control_outcome)
     rescue StandardError => e
       raise "Exception in Progress Bar streaming reporter: #{e}"
     end
 
-    def format_it(control_id, title, full_description, control_impact)
-      control_status = if @status_mapping[control_id].include? "failed"
-                         "failed"
-                       elsif @status_mapping[control_id].include? "passed"
-                         "passed"
-                       else
-                         @status_mapping[control_id].include? "skipped"
-                         "skipped"
-                       end
+    def format_it(control_id, title, full_description, control_outcome)
+      if control_outcome
+        control_status = control_outcome[:name].downcase.gsub(" ", "_")
+      else
+        control_status = if @status_mapping[control_id].include? "failed"
+                           "failed"
+                         elsif @status_mapping[control_id].include? "passed"
+                           "passed"
+                         else
+                           @status_mapping[control_id].include? "skipped"
+                           "skipped"
+                         end
+      end
       indicator = INDICATORS[control_status]
       message_to_format = ""
       message_to_format += "#{indicator}  "
