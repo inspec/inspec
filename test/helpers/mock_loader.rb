@@ -409,6 +409,7 @@ class MockLoader
       "php -c /etc/php/7.4/cli/php.ini -r 'echo get_cfg_var(\"default_mimetype\");'" => cmd.call("get-cfg-var"),
       # routing_table
       "netstat -rn" => cmd.call("netstat-rn-linux"),
+      "/usr/sbin/netstat -rn" => cmd.call("netstat-rn-linux"),
       %{sh -c 'type "netstat"'} => empty.call,
       # mocks for be_immutable matcher for file resource
       "lsattr constantfile.txt" => cmd.call("lsattr-output"),
