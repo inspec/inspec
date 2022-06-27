@@ -5,13 +5,13 @@ require "inspec/plugin/v2"
 module Inspec::DSL
   attr_accessor :backend
 
-  def require_controls(id, &block)
-    opts = { profile_id: id, include_all: false, backend: @backend, conf: @conf, dependencies: @dependencies }
+  def require_controls(id, version = nil, &block)
+    opts = { profile_id: id, include_all: false, backend: @backend, conf: @conf, dependencies: @dependencies, profile_version: version }
     ::Inspec::DSL.load_spec_files_for_profile(self, opts, &block)
   end
 
-  def include_controls(id, &block)
-    opts = { profile_id: id, include_all: true, backend: @backend, conf: @conf, dependencies: @dependencies }
+  def include_controls(id, version = nil, &block)
+    opts = { profile_id: id, include_all: true, backend: @backend, conf: @conf, dependencies: @dependencies, profile_version: version }
     ::Inspec::DSL.load_spec_files_for_profile(self, opts, &block)
   end
 
@@ -76,7 +76,20 @@ module Inspec::DSL
   def self.load_spec_files_for_profile(bind_context, opts, &block)
     dependencies = opts[:dependencies]
     profile_id = opts[:profile_id]
-    dep_entry = dependencies.list[profile_id]
+    profile_version = opts[:profile_version]
+
+    new_profile_id = nil
+    if profile_version
+      new_profile_id = "#{profile_id}-#{profile_version}"
+    else
+      dependencies.list.keys.each do |key|
+        # If dep profile does not contain a source version, key does not contain a version as well. In that case new_profile_id will be always nil and instead profile_id would be used to fetch profile from dependency list.
+        profile_id_key = key.split("-")
+        profile_id_key.pop
+        new_profile_id = key if profile_id_key.join("-") == profile_id
+      end
+    end
+    dep_entry = new_profile_id ? dependencies.list[new_profile_id] : dependencies.list[profile_id]
 
     if dep_entry.nil?
       raise <<~EOF
