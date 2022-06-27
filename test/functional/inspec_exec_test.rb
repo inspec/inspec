@@ -1334,29 +1334,35 @@ EOT
 
   describe "when running profile with enhanced_outcomes option" do
     let(:run_result) { run_inspec_process("exec #{profile} --no-create-lockfile", enhanced_outcomes: true) }
-    let(:profile) { "#{profile_path}/only_if/skip-control" }
+    let(:profile) { "#{profile_path}/enhanced-outcomes-test" }
     it "should evaluate all test controls correctly" do
       _(run_result.stderr).must_be_empty
     end
 
     it "should show enhanced_outcomes for skipped tests in controls" do
-      _(run_result.stdout).must_include "6 skipped"
-      _(run_result.stdout).must_include "5 controls not reviewed"
+      _(run_result.stdout).must_include "3 skipped"
+      _(run_result.stdout).must_include "2 controls not reviewed"
+      _(run_result.stdout).must_include "N/R"
     end
 
     it "should show enhanced_outcomes for controls with impact 0" do
-      _(run_result.stdout).must_include "6 skipped"
-      _(run_result.stdout).must_include "1 control not applicable"
+      _(run_result.stdout).must_include "3 skipped"
+      _(run_result.stdout).must_include "2 controls not applicable"
+      _(run_result.stdout).must_include "N/A"
     end
-  end
-
-  describe "when running profile with errors and enhanced_outcomes option" do
-    let(:run_result) { run_inspec_process("exec #{profile} --no-create-lockfile", enhanced_outcomes: true) }
-    let(:profile) { "#{profile_path}/exception-in-control" }
 
     it "should show enhanced_outcomes for controls with errors" do
-      _(run_result.stdout).must_include "4 failures"
-      _(run_result.stdout).must_include "4 controls have error"
+      _(run_result.stdout).must_include "3 failures"
+      _(run_result.stdout).must_include "2 controls have error"
+      _(run_result.stdout).must_include "ERR"
+    end
+
+    it "should show enhanced_outcomes for controls with failures" do
+      _(run_result.stdout).must_include "1 control failure"
+    end
+
+    it "should show enhanced_outcomes for passed controls" do
+      _(run_result.stdout).must_include "1 successful control"
     end
   end
 end
