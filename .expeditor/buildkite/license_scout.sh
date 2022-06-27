@@ -32,6 +32,6 @@ echo "--- push bundle cache"
 push_bundle
 
 echo "--- running license_scout"
-bundle exec license_scout
+bundle exec license_scout --log-level debug
 LICENSE_SCOUT_EXIT=$?
 exit $LICENSE_SCOUT_EXIT
