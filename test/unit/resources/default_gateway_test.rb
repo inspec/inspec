@@ -19,7 +19,7 @@ describe Inspec::Resources::Defaultgateway do
 
   # unsupported os
   it "check ipaddress and interface of default gateway on unsupported os" do
-    resource = MockLoader.new("undefined".to_sym).load_resource("default_gateway")
+    resource = MockLoader.new("esxi".to_sym).load_resource("default_gateway")
     _(resource.resource_skipped?).must_equal true
     _(resource.resource_failed?).must_equal true
   end

@@ -26,7 +26,7 @@ describe Inspec::Resources::Routingtable do
 
   # unsupported os
   it "check routing table information on unsupported os" do
-    resource = MockLoader.new("undefined".to_sym).load_resource("routing_table")
+    resource = MockLoader.new("esxi".to_sym).load_resource("routing_table")
     _(resource.resource_skipped?).must_equal true
     _(resource.resource_failed?).must_equal true
   end
