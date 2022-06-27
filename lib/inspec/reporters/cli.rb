@@ -9,6 +9,9 @@ module Inspec::Reporters
         "passed" => "\033[0;1;32m",
         "skipped" => "\033[0;37m",
         "reset" => "\033[0m",
+        "error" => "\033[34m",
+        "not_applicable" => "\033[36m",
+        "not_reviewed" => "\033[33m",
       }.freeze
 
       # Most currently available Windows terminals have poor support
@@ -18,6 +21,9 @@ module Inspec::Reporters
         "skipped" => "[SKIP]",
         "passed" => "[PASS]",
         "unknown" => "[UNKN]",
+        "error" => "[ERR]",
+        "not_applicable" => "[N/A]",
+        "not_reviewed" => "[N/R]",
       }.freeze
     else
       # Extended colors for everyone else
@@ -26,6 +32,9 @@ module Inspec::Reporters
         "passed" => "\033[38;5;41m",
         "skipped" => "\033[38;5;247m",
         "reset" => "\033[0m",
+        "error" => "\033[0;38;5;21m",
+        "not_applicable" => "\033[0;38;5;117m",
+        "not_reviewed" => "\033[0;38;5;214m",
       }.freeze
 
       # Groovy UTF-8 characters for everyone else...
@@ -35,6 +44,9 @@ module Inspec::Reporters
         "skipped" => "↺",
         "passed" => "✔",
         "unknown" => "?",
+        "error" => "ERR",
+        "not_applicable" => "N/A",
+        "not_reviewed" => "N/R",
       }.freeze
     end
 
@@ -63,7 +75,11 @@ module Inspec::Reporters
       end
 
       output("")
-      print_profile_summary
+      if enhanced_outcomes
+        print_control_outcomes_summary
+      else
+        print_profile_summary
+      end
       print_tests_summary
     end
 
@@ -88,6 +104,7 @@ module Inspec::Reporters
     def print_standard_control_results(profile)
       standard_controls_from_profile(profile).each do |control_from_profile|
         control = Control.new(control_from_profile)
+        control.enhanced_outcomes = enhanced_outcomes
         next if control.results.nil?
 
         output(format_control_header(control))
@@ -122,7 +139,7 @@ module Inspec::Reporters
     end
 
     def format_control_header(control)
-      impact = control.impact_string
+      impact = enhanced_outcomes ? control.impact_string_for_enhanced_outcomes : control.impact_string
       format_message(
         color: impact,
         indicator: impact,
@@ -292,6 +309,68 @@ module Inspec::Reporters
       }
     end
 
+    def control_outcomes_summary
+      failed = 0
+      passed = 0
+      error = 0
+      not_reviewed = 0
+      not_applicable = 0
+
+      all_unique_controls.each do |control|
+        next if control[:status].empty?
+
+        if control[:status][:name] == "Failed"
+          failed += 1
+        elsif control[:status][:name] == "Error"
+          error += 1
+        elsif control[:status][:name] == "Not Reviewed"
+          not_reviewed += 1
+        elsif control[:status][:name] == "Not Applicable"
+          not_applicable += 1
+        else
+          passed += 1
+        end
+      end
+
+      total = failed + passed + error + not_reviewed + not_applicable
+
+      {
+        "total" => total,
+        "failed" => failed,
+        "passed" => passed,
+        "error" => error,
+        "not_reviewed" => not_reviewed,
+        "not_applicable" => not_applicable,
+      }
+    end
+
+    def print_control_outcomes_summary
+      summary = control_outcomes_summary
+      return unless summary["total"] > 0
+
+      success_str = summary["passed"] == 1 ? "1 successful control" : "#{summary["passed"]} successful controls"
+      failed_str  = summary["failed"] == 1 ? "1 control failure" : "#{summary["failed"]} control failures"
+      error_str = summary["error"] == 1 ? "1 control has error" : "#{summary["error"]} controls have error"
+      not_rev_str = summary["not_reviewed"] == 1 ? "1 control not reviewed" : "#{summary["not_reviewed"]} controls not reviewed"
+      not_app_str = summary["not_applicable"] == 1 ? "1 control not applicable" : "#{summary["not_applicable"]} controls not applicable"
+
+      success_color = summary["passed"] > 0 ? "passed" : "no_color"
+      failed_color = summary["failed"] > 0 ? "failed" : "no_color"
+      error_color = summary["error"] > 0 ? "error" : "no_color"
+      not_rev_color = summary["not_reviewed"] > 0 ? "not_reviewed" : "no_color"
+      not_app_color = summary["not_applicable"] > 0 ? "not_applicable" : "no_color"
+
+      s = format(
+        "Profile Summary: %s, %s, %s, %s, %s",
+        format_with_color(success_color, success_str),
+        format_with_color(failed_color, failed_str),
+        format_with_color(not_rev_color, not_rev_str),
+        format_with_color(not_app_color, not_app_str),
+        format_with_color(error_color, error_str),
+      )
+      output(s) if summary["total"] > 0
+    end
+
     def print_profile_summary
       summary = profile_summary
       return unless summary["total"] > 0
@@ -350,6 +429,7 @@ module Inspec::Reporters
 
     class Control
       attr_reader :data
+      attr_accessor :enhanced_outcomes
 
       def initialize(control_hash)
         @data = control_hash
@@ -379,6 +459,10 @@ module Inspec::Reporters
         id.start_with?("(generated from ")
       end
 
+      def status
+        data[:status]
+      end
+
       def title_for_report
         # if this is an anonymous control, just grab the resource title from any result entry
         return results.first[:resource_title] if anonymous?
@@ -392,8 +476,15 @@ module Inspec::Reporters
         # append a failure summary if appropriate.
         title_for_report += " (#{failure_count} failed)" if failure_count > 0
         title_for_report += " (#{skipped_count} skipped)" if skipped_count > 0
-
         title_for_report
+      end
+
+      def impact_string_for_enhanced_outcomes
+        if impact.nil?
+          "unknown"
+        else
+          status[:name].downcase.gsub(" ", "_")
+        end
       end
 
       def impact_string

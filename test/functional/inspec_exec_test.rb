@@ -1340,13 +1340,13 @@ EOT
     end
 
     it "should show enhanced_outcomes for skipped tests in controls" do
-      _(run_result.stdout).must_include "6 controls skipped"
-      _(run_result.stdout).must_include "Not Reviewed"
+      _(run_result.stdout).must_include "6 skipped"
+      _(run_result.stdout).must_include "5 controls not reviewed"
     end
 
     it "should show enhanced_outcomes for controls with impact 0" do
-      _(run_result.stdout).must_include "6 controls skipped"
-      _(run_result.stdout).must_include "Not Applicable"
+      _(run_result.stdout).must_include "6 skipped"
+      _(run_result.stdout).must_include "1 control not applicable"
     end
   end
 
@@ -1355,8 +1355,8 @@ EOT
     let(:profile) { "#{profile_path}/exception-in-control" }
 
     it "should show enhanced_outcomes for controls with errors" do
-      _(run_result.stdout).must_include "4 control failures"
-      _(run_result.stdout).must_include "[Error]"
+      _(run_result.stdout).must_include "4 failures"
+      _(run_result.stdout).must_include "4 controls have error"
     end
   end
 end

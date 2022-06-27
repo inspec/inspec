@@ -224,7 +224,7 @@ describe "inspec shell tests" do
     it "runs controls having skipped tests with enhanced_outcomes option" do
       skip_windows! # Breakage confirmed
       out = assert_shell_c("control \"test\" do \n only_if { false }\n describe file(\"#{__FILE__}\") do it { should exist } end end", 101 , false, "", true)
-      _(out.stdout).must_include "Not Reviewed"
+      _(out.stdout).must_include "not reviewed"
       _(out.stdout).must_include "0 successful"
       _(out.stdout).must_include "0 failures"
       _(out.stdout).must_include "1 skipped"
@@ -233,7 +233,7 @@ describe "inspec shell tests" do
     it "runs zero impact controls with enhanced_outcomes option" do
       skip_windows! # Breakage confirmed
       out = assert_shell_c("control \"test\" do \n impact 0.0 \n describe file(\"#{__FILE__}\") do it { should exist } end end", 0, false, "", true)
-      _(out.stdout).must_include "Not Applicable"
+      _(out.stdout).must_include "not applicable"
       _(out.stdout).must_include "1 successful"
       _(out.stdout).must_include "0 failures"
       _(out.stdout).must_include "0 skipped"
@@ -242,10 +242,19 @@ describe "inspec shell tests" do
     it "runs zero impact controls with skipped test and enhanced_outcomes option" do
       skip_windows! # Breakage confirmed
       out = assert_shell_c("control \"test\" do \n impact 0.0 \n only_if { false } \n describe file(\"#{__FILE__}\") do it { should exist } end end", 101, false, "", true)
-      _(out.stdout).must_include "Not Applicable"
+      _(out.stdout).must_include "not applicable"
       _(out.stdout).must_include "0 successful"
       _(out.stdout).must_include "0 failures"
       _(out.stdout).must_include "1 skipped"
+    end
+
+    it "runs control with error and enhanced_outcomes option" do
+      skip_windows! # Breakage confirmed
+      out = assert_shell_c("control \"test\" do \n impact 0.0 \n describe file(\"#{__FILE__}\") do it { must_bot exist } end end", 100, false, "", true)
+      _(out.stdout).must_include "has error"
+      _(out.stdout).must_include "0 successful"
+      _(out.stdout).must_include "1 failure"
+      _(out.stdout).must_include "0 skipped"
     end
   end
 
@@ -381,7 +390,7 @@ describe "inspec shell tests" do
 
       it "runs controls having skipped tests with enhanced_outcomes option" do
         out = do_shell("control \"test\" do \n only_if { false }\n describe file(\"#{__FILE__}\") do it { should exist } end end", 0 , "", true)
-        _(out.stdout).must_include "Not Reviewed"
+        _(out.stdout).must_include "not reviewed"
         _(out.stdout).must_include "0 successful"
         _(out.stdout).must_include "0 failures"
         _(out.stdout).must_include "1 skipped"
@@ -389,7 +398,7 @@ describe "inspec shell tests" do
 
       it "runs zero impact controls with enhanced_outcomes option" do
         out = do_shell("control \"test\" do \n impact 0.0 \n describe file(\"#{__FILE__}\") do it { should exist } end end", 0, "", true)
-        _(out.stdout).must_include "Not Applicable"
+        _(out.stdout).must_include "not applicable"
         _(out.stdout).must_include "1 successful"
         _(out.stdout).must_include "0 failures"
         _(out.stdout).must_include "0 skipped"
@@ -397,7 +406,7 @@ describe "inspec shell tests" do
 
       it "runs zero impact controls with skipped test and enhanced_outcomes option" do
         out = do_shell("control \"test\" do \n impact 0.0 \n only_if { false } \n describe file(\"#{__FILE__}\") do it { should exist } end end", 0, "", true)
-        _(out.stdout).must_include "Not Applicable"
+        _(out.stdout).must_include "not applicable"
         _(out.stdout).must_include "0 successful"
         _(out.stdout).must_include "0 failures"
         _(out.stdout).must_include "1 skipped"
@@ -405,7 +414,7 @@ describe "inspec shell tests" do
 
       it "runs control with error and enhanced_outcomes option" do
         out = do_shell("control \"test\" do \n impact 0.0 \n describe file(\"#{__FILE__}\") do it { must_bot exist } end end", 0, "", true)
-        _(out.stdout).must_include "Error"
+        _(out.stdout).must_include "has error"
         _(out.stdout).must_include "0 successful"
         _(out.stdout).must_include "1 failure"
         _(out.stdout).must_include "0 skipped"
