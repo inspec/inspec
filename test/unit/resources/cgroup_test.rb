@@ -26,7 +26,7 @@ describe Inspec::Resources::Cgroup do
 
   # undefined
   it "check carrotking cgroup information on unsupported os" do
-    resource = MockLoader.new("undefined".to_sym).load_resource("cgroup", "carrotking")
+    resource = MockLoader.new("exsi".to_sym).load_resource("cgroup", "carrotking")
     _(resource.resource_skipped?).must_equal true
     _(resource.resource_exception_message).must_equal "The `cgroup` resource is not supported on your OS yet."
   end
