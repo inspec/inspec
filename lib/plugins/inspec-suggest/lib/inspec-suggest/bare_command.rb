@@ -10,15 +10,23 @@ module Inspec
   class InspecCLI < Inspec::BaseCLI
     desc "suggest [SET] [OPTIONS]", "Recommends which profiles should be run on the target system"
 
-    option :target, aliases: :t, type: :string,
-      desc: "Simple targeting option using URIs, e.g. ssh://user:pass@host:port"
     option :reporter, type: :array,
       banner: "suggest-progress suggest-text",
       desc: "Enable one or more output reporters: suggest-progress, suggest-debug, suggest-text"
+    option :suggest_config, type: :string,
+      desc: "Path to suggest.yaml, default is SRC/etc/suggest.yaml"
+    option :target, aliases: :t, type: :string,
+      desc: "Simple targeting option using URIs, e.g. ssh://user:pass@host:port"
 
     def suggest(*requested_sets)
-      # TODO: allow cfg path to be overridden
-      cfg = YAML.load_file(File.join(Inspec.src_root, "etc", "suggest.yaml"))
+
+      cfg_path = options[:suggest_config] || File.join(Inspec.src_root, "etc", "suggest.yaml")
+      unless File.exist?(cfg_path)
+        ui.error("Suggest Config file '#{cfg_path}' does not exist.")
+        ui.exit(:usage_error)
+      end
+
+      cfg = YAML.load_file(cfg_path)
 
       # Get list of sets
       set_names = cfg["sets"].map { |s| s["name"] }
