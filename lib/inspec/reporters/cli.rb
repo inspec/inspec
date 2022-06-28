@@ -319,13 +319,13 @@ module Inspec::Reporters
       all_unique_controls.each do |control|
         next if control[:status].empty?
 
-        if control[:status][:name] == "Failed"
+        if control[:status] == "failed"
           failed += 1
-        elsif control[:status][:name] == "Error"
+        elsif control[:status] == "error"
           error += 1
-        elsif control[:status][:name] == "Not Reviewed"
+        elsif control[:status] == "not_reviewed"
           not_reviewed += 1
-        elsif control[:status][:name] == "Not Applicable"
+        elsif control[:status] == "not_applicable"
           not_applicable += 1
         else
           passed += 1
@@ -483,7 +483,7 @@ module Inspec::Reporters
         if impact.nil?
           "unknown"
         else
-          status[:name].downcase.gsub(" ", "_")
+          status
         end
       end
 
