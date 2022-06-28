@@ -36,7 +36,7 @@ inspec help shell # This will describe inspec shell usage
 
 If you wish to connect to a remote machine (called a target within
 InSpec), you can use the `-t` flag. We support connecting using SSH,
-WinRM ,docker and podman. If no target is provided, we implicitly support the
+WinRM, Docker, Podman and many other target types. If no target is provided, we implicitly support the
 "local" target - i.e. tests running on the current machine running
 InSpec. For an SSH connection, use `-i` for specifying SSH key files,
 and the `--sudo*` commands for requesting a privilege escalation after
