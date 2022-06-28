@@ -153,13 +153,15 @@ module Inspec::Formatters
             not_applicable += 1
           elsif control[:status] == "not_reviewed"
             not_reviewed += 1
-          elsif control[:results].any? { |r| r[:status] == "skipped" }
-            skipped += 1
           elsif control[:status] == "failed"
             failed += 1
           elsif control[:status] == "passed"
             passed += 1
           end
+
+          # added this additionally because stats summary is also used for determining exit code in runner rspec
+          skipped += 1 if control[:results].any? { |r| r[:status] == "skipped" }
+
         end
         total = error + not_applicable + not_reviewed + failed + passed
         enhanced_outcomes_summary = {
