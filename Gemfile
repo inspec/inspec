@@ -40,7 +40,9 @@ group :test do
   gem "simplecov_json_formatter"
   gem "webmock", "~> 3.0"
   gem "license_scout", "~> 2.6.0"
-  gem "tins" # license_scout needs this on CI, but can't seem to find it
+  # license_scout needs this on CI, but can't seem to find it
+  gem "tins"
+  gem "term-ansicolor"
 end
 
 group :deploy do
