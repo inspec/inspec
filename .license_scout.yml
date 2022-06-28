@@ -2,3 +2,8 @@
 environment:
   GEM_PATH: "./vendor/bundle/ruby/3.0.0"
 exclude_collectors: ["habitat"]
+fallbacks:
+  ruby:
+    - name: syslog-logger
+      license_id: MIT
+      license_content: https://raw.githubusercontent.com/ngmoco/syslog_logger/master/README.rdoc
