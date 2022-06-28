@@ -137,6 +137,8 @@ This subcommand has the following additional options:
     Login path to use when connecting to the target (WinRM).
 * `-p`, `--port=N`
     Specify the login port for a remote scan.
+* `--podman-url`
+    Provides the path to the Podman API endpoint. Defaults to unix:///run/user/$UID/podman/podman.sock for rootless container, unix:///run/podman/podman.sock for rootful container (for this you need to execute inspec as root user).
 * `--proxy-command=PROXY_COMMAND`
     Specifies the command to use to connect to the server.
 * `--self-signed`, `--no-self-signed`
@@ -343,6 +345,8 @@ This subcommand has the following additional options:
     Login path to use when connecting to the target (WinRM).
 * `-p`, `--port=N`
     Specify the login port for a remote scan.
+* `--podman-url`
+    Provides the path to the Podman API endpoint. Defaults to unix:///run/user/$UID/podman/podman.sock for rootless container, unix:///run/podman/podman.sock for rootful container (for this you need to execute inspec as root user).
 * `--profiles-path=PROFILES_PATH`
     Folder which contains referenced profiles.
 * `--proxy-command=PROXY_COMMAND`
@@ -559,6 +563,8 @@ This subcommand has the following additional options:
     Login path to use when connecting to the target (WinRM).
 * `-p`, `--port=N`
     Specify the login port for a remote scan.
+* `--podman-url`
+    Provides the path to the Podman API endpoint. Defaults to unix:///run/user/$UID/podman/podman.sock for rootless container, unix:///run/podman/podman.sock for rootful container (for this you need to execute inspec as root user).
 * `--proxy-command=PROXY_COMMAND`
     Specifies the command to use to connect to the server.
 * `--reporter=one two:/output/file/path`
