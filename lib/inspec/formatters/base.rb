@@ -1,6 +1,7 @@
 require "rspec/core"
 require "rspec/core/formatters/base_formatter"
 require "set" unless defined?(Set)
+require "inspec/enhanced_outcomes"
 
 module Inspec::Formatters
   class Base < RSpec::Core::Formatters::BaseFormatter
@@ -119,25 +120,11 @@ module Inspec::Formatters
     end
 
     def determine_control_enhanced_outcome(control)
-      if control_has_error(control)
-        { name: "Error", abbrev: "ERR" }
-      elsif control[:impact].to_f == 0.0
-        { name: "Not Applicable", abbrev: "N/A" }
-      elsif control_has_all_tests_skipped(control)
-        { name: "Not Reviewed", abbrev: "N/R" }
-      elsif control[:results] && control[:results].any? { |r| r[:status] == "failed" }
-        { name: "Failed", abbrev: "fail" }
+      if control[:results]
+        Inspec::EnhancedOutcomes.determine_status(control[:results], control[:impact])
       else
-        { name: "Passed", abbrev: "pass" }
+        "passed"
       end
-    end
-
-    def control_has_all_tests_skipped(control)
-      control[:results] && control[:results].all? { |r| r[:status] == "skipped" }
-    end
-
-    def control_has_error(control)
-      control[:results] && (control[:results].any? { |r| !r[:exception].nil? && !r[:backtrace].nil? })
     end
 
     def all_unique_controls
@@ -150,25 +137,57 @@ module Inspec::Formatters
     end
 
     def statistics
+      error = 0
+      not_applicable = 0
+      not_reviewed = 0
       failed = 0
-      skipped = 0
       passed = 0
+      skipped = 0
+      enhanced_outcomes_summary = {}
+      if enhanced_outcomes
+        all_unique_controls.each do |control|
 
-      all_unique_controls.each do |control|
-        next unless control[:results]
-
-        if control[:results].any? { |r| r[:status] == "failed" }
-          failed += 1
-        elsif control[:results].any? { |r| r[:status] == "skipped" }
-          skipped += 1
-        else
-          passed += 1
+          if control[:status] == "error"
+            error += 1
+          elsif control[:status] == "not_applicable"
+            not_applicable += 1
+          elsif control[:status] == "not_reviewed"
+            not_reviewed += 1
+          elsif control[:results].any? { |r| r[:status] == "skipped" }
+            skipped += 1
+          elsif control[:status] == "failed"
+            failed += 1
+          elsif control[:status] == "passed"
+            passed += 1
+          end
         end
+        total = error + not_applicable + not_reviewed + failed + passed
+        enhanced_outcomes_summary = {
+          not_applicable: {
+            total: not_applicable,
+          },
+          not_reviewed: {
+            total: not_reviewed,
+          },
+          error: {
+            total: error,
+          },
+        }
+      else
+        all_unique_controls.each do |control|
+          next unless control[:results]
+
+          if control[:results].any? { |r| r[:status] == "failed" }
+            failed += 1
+          elsif control[:results].any? { |r| r[:status] == "skipped" }
+            skipped += 1
+          else
+            passed += 1
+          end
+        end
+        total = failed + passed + skipped
       end
-
-      total = failed + passed + skipped
-
-      {
+      final_summary = {
         total: total,
         passed: {
           total: passed,
@@ -180,6 +199,8 @@ module Inspec::Formatters
           total: failed,
         },
       }
+
+      final_summary.merge!(enhanced_outcomes_summary)
     end
 
     def exception_message(exception)
