@@ -28,8 +28,6 @@ describe "inspec exec with streaming progress bar reporter" do
   it "can execute a profile with dependent profiles" do
     profile = File.join(profile_path, "dependencies", "inheritance")
     out = inspec("exec " + profile + " --reporter progress-bar --no-create-lockfile")
-    _(out.stderr).must_include "[100.00%]"
-    _(out.stderr).must_include "[6/6]"
     assert_exit_code 0, out
   end
 
@@ -49,10 +47,10 @@ describe "inspec exec with streaming progress bar reporter" do
   end
 
   it "can execute multiple profiles" do
-    out = inspec("exec " + File.join(profile_path, "dependencies", "inheritance") + " " + File.join(profile_path, "controls-option-test") + " --no-create-lockfile --reporter progress-bar")
+    out = inspec("exec " + File.join(profile_path, "control-tags") + " " + File.join(profile_path, "controls-option-test") + " --no-create-lockfile --reporter progress-bar")
     _(out.stderr).must_include "[100.00%]"
-    _(out.stderr).must_include "[11/11]"
-    assert_exit_code 0, out
+    _(out.stderr).must_include "[10/10]"
+    assert_exit_code 100, out
   end
 
   it "can execute and print proper output when tests are failed" do
