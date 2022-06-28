@@ -40,10 +40,10 @@ echo "gem env"
 gem env
 echo "ls ./vendor/bundle/ruby/3.0.0/gems"
 ls ./vendor/bundle/ruby/3.0.0/gems
-echo "/usr/local/bundle"
-ls /usr/local/bundle
-echo "/usr/local/lib/ruby/gems/3.0.0"
-ls /usr/local/lib/ruby/gems/3.0.0
+echo "/usr/local/bundle/gems"
+ls /usr/local/bundle/gems
+echo "/usr/local/lib/ruby/gems/3.0.0/gems"
+ls /usr/local/lib/ruby/gems/3.0.0/gems
 
 echo "--- running license_scout"
 bundle exec license_scout --log-level debug
