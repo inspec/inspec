@@ -60,6 +60,18 @@ pre code {
 .result-metadata .status-skipped div  {
   background-color: grey;
 }
+.control-metadata .status-error div,
+.result-metadata .status-error div  {
+  background-color: rgb(63, 15, 183);
+}
+.control-metadata .status-not_applicable div,
+.result-metadata .status-not_applicable div  {
+  background-color: rgb(135, 206, 250);
+}
+.control-metadata .status-not_reviewed div,
+.result-metadata .status-not_reviewed div  {
+  background-color: rgb(255, 194, 0);
+}
 .result-metadata,
 .control-metadata {
   margin: 0 0 0 5%;
