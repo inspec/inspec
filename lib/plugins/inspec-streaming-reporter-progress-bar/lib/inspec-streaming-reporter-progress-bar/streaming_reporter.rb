@@ -103,7 +103,7 @@ module InspecPlugins::StreamingReporterProgressBar
 
     def format_it(control_id, title, full_description, control_outcome)
       if control_outcome
-        control_status = control_outcome[:name].downcase.gsub(" ", "_")
+        control_status = control_outcome
       else
         control_status = if @status_mapping[control_id].include? "failed"
                            "failed"
