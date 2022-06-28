@@ -56,3 +56,7 @@ The following resources work on Windows operating systems.
 ## Habitat
 
 {{< inspec/inspec_resources platform="habitat" >}}
+
+## Kubernetes
+
+{{< inspec/inspec_resources platform="k8s" >}}
