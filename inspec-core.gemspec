@@ -45,5 +45,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "semverse",           "~> 3.0"
   spec.add_dependency "multipart-post",     "~> 2.0"
 
-  spec.add_dependency "train-core", "~> 3.0"
+  spec.add_dependency "train-core", "~> 3.10"
 end
