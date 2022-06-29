@@ -1,3 +1,5 @@
+require "inspec/enhanced_outcomes"
+
 module Inspec
   class RunData
     Control = Struct.new(
@@ -30,6 +32,10 @@ module Inspec
           :title,           # String
         ].each do |field|
           self[field] = raw_ctl_data[field]
+        end
+
+        def status
+          Inspec::EnhancedOutcomes.determine_status(results, impact)
         end
       end
     end

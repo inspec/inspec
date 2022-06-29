@@ -16,14 +16,20 @@ module Inspec
         :total,
         :passed,
         :skipped,
-        :failed
+        :failed,
+        :not_reviewed,
+        :not_applicable,
+        :error
       ) do
         include HashLikeStruct
         def initialize(raw_stat_ctl_data)
           self.total = raw_stat_ctl_data[:total]
           self.passed = Inspec::RunData::Statistics::Controls::Total.new(raw_stat_ctl_data[:passed][:total])
-          self.skipped = Inspec::RunData::Statistics::Controls::Total.new(raw_stat_ctl_data[:skipped][:total])
           self.failed = Inspec::RunData::Statistics::Controls::Total.new(raw_stat_ctl_data[:failed][:total])
+          self.skipped = Inspec::RunData::Statistics::Controls::Total.new(raw_stat_ctl_data[:skipped][:total]) if raw_stat_ctl_data[:skipped]
+          self.not_reviewed = Inspec::RunData::Statistics::Controls::Total.new(raw_stat_ctl_data[:not_reviewed][:total]) if raw_stat_ctl_data[:not_reviewed]
+          self.not_applicable = Inspec::RunData::Statistics::Controls::Total.new(raw_stat_ctl_data[:not_applicable][:total]) if raw_stat_ctl_data[:not_applicable]
+          self.error = Inspec::RunData::Statistics::Controls::Total.new(raw_stat_ctl_data[:error][:total]) if raw_stat_ctl_data[:error]
         end
       end
       class Controls
