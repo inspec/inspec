@@ -27,4 +27,12 @@ describe "inspec schema" do
       _(json_output["definitions"]["Control_Result"]["properties"]["resource_id"]).wont_be_nil
     end
   end
+
+  describe "validate schema of exec-json with enhanced_outcomes option" do
+    it "contains resource_id key" do
+      out = inspec("schema exec-json --enhanced-outcomes")
+      json_output = JSON.parse(out.stdout)
+      _(json_output["definitions"]["Exec_JSON_Control"]["properties"]["status"]).wont_be_nil
+    end
+  end
 end
