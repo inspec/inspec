@@ -8,7 +8,7 @@ module InspecPlugins::Suggest
       def run(file)
         content = File.read(file[:full_path])
 
-        unless content.match? /\n$/m
+        unless content.match?(/\n$/m)
           file[:warnings] << "The file is missing a trailing newline."
         end
         true

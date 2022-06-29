@@ -1,5 +1,5 @@
 require_relative "base"
-require "mixlib/shellout"
+require "mixlib/shellout" unless defined?(Mixlib::ShellOut)
 
 module InspecPlugins::Suggest
   class Checker::Check
