@@ -5,7 +5,7 @@ module InspecPlugins::Suggest
 
         # Registration DSL method.
         def self.name(myname)
-          InspecPlugins::Suggest::Checker.register_check(myname,self)
+          InspecPlugins::Suggest::Checker.register_check(myname, self)
         end
 
         attr_reader :ui
