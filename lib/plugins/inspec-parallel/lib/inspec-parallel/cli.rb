@@ -18,7 +18,7 @@ module InspecPlugins::Parallelism
     option :jobs, aliases: :j, type: :numeric,
       desc: "Number of jobs to run parallely"
     option :ui, type: :string, default: "status",
-      desc: "Which UI to use: status, text"
+      desc: "Which UI to use: status, text, silent"
     option :bg, type: :boolean,
       desc: "Runs parallel processes in background"
     option :log_path, type: :string,
