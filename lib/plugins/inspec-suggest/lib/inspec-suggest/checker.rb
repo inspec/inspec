@@ -44,6 +44,6 @@ require_relative "checker/syntax"           # must run first
 require_relative "checker/trailing_newline"
 require_relative "checker/load_as_json"
 require_relative "checker/control_id"       # must run after load_as_json
-# require_relative "checker/resource_type"    # must run after load_as_json
+require_relative "checker/resource_type"    # must run after load_as_json
 require_relative "checker/root_path_input" # must run after load_as_json
 require_relative "checker/category_tag"     # must run after load_as_json
