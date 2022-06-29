@@ -22,3 +22,9 @@ require "inspec/plugin/v2"
 require "minitest/autorun" # loads all styles and runs tests automatically
 
 # You might want to put some debugging tools here.  We run tests to find bugs, after all.
+
+# Init module space for plugin
+module InspecPlugins
+  module Suggest
+  end
+end
