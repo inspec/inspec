@@ -350,24 +350,24 @@ module Inspec
     def load_libraries
       return @runner_context if @libraries_loaded
 
-      locked_dependencies.dep_list.each_with_index do |(_name, dep), x|
+      locked_dependencies.dep_list.each_with_index do |(_name, dep), index|
         d = dep.profile
         # this will force a dependent profile load so we are only going to add
         # this metadata if the parent profile is supported.
         if @supports_platform && !d.supports_platform?
           # since ruby 1.9 hashes are ordered so we can just use index values here
           # TODO: NO! this is a violation of encapsulation to an extreme
-          if metadata.dependencies[x]
-            metadata.dependencies[x][:status] = "skipped"
+          if metadata.dependencies[index]
+            metadata.dependencies[index][:status] = "skipped"
             msg = "Skipping profile: '#{d.name}' on unsupported platform: '#{d.backend.platform.name}/#{d.backend.platform.release}'."
-            metadata.dependencies[x][:status_message] = msg
-            metadata.dependencies[x][:skip_message] = msg # Repeat as skip_message for backward compatibility
+            metadata.dependencies[index][:status_message] = msg
+            metadata.dependencies[index][:skip_message] = msg # Repeat as skip_message for backward compatibility
           end
           next
-        elsif metadata.dependencies[x]
+        elsif metadata.dependencies[index]
           # Currently wrapper profiles will load all dependencies, and then we
           # load them again when we dive down. This needs to be re-done.
-          metadata.dependencies[x][:status] = "loaded"
+          metadata.dependencies[index][:status] = "loaded"
         end
 
         # rubocop:disable Layout/ExtraSpacing
