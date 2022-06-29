@@ -13,7 +13,7 @@ describe "InspecPlugins::Suggest::Checker::Check::TrailingNewline" do
   end
 
   describe "when the file has a newline" do
-    let(:rel_path) { "lib/plugins/inspec-suggest/test/fixtures/src/basic-0.1.0/suggest/basic-0.1.0.rb" }
+    let(:rel_path) { "lib/plugins/inspec-suggest/test/fixtures/src/basic-v0.1.0/suggest/basic-v0.1.0.rb" }
     it "finds no warnings" do
       res = check.run(file)
       _(res).must_equal true
@@ -23,7 +23,7 @@ describe "InspecPlugins::Suggest::Checker::Check::TrailingNewline" do
   end
 
   describe "when there is no trailing newline" do
-    let(:rel_path) { "lib/plugins/inspec-suggest/test/fixtures/src/no-newline-0.1.0/suggest/no-newline-0.1.0.rb" }
+    let(:rel_path) { "lib/plugins/inspec-suggest/test/fixtures/src/no-newline-v0.1.0/suggest/no-newline-v0.1.0.rb" }
     it "finds a warning" do
       res = check.run(file)
       _(res).must_equal true # Not a show-stopper
