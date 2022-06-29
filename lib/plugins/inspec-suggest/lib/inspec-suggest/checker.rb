@@ -31,6 +31,7 @@ module InspecPlugins::Suggest
     def each_check(set_name, &block)
       @@check_classes.each do |check_name, check_class|
         next if (config.dig("sets", set_name, "check", "disabled-checks") || []).include? check_name
+
         check = check_class.new(ui: ui)
         yield(check)
       end
@@ -42,7 +43,7 @@ end
 require_relative "checker/syntax"           # must run first
 require_relative "checker/trailing_newline"
 require_relative "checker/load_as_json"
-# require_relative "checker/control_id"       # must run after load_as_json
+require_relative "checker/control_id"       # must run after load_as_json
 # require_relative "checker/resource_type"    # must run after load_as_json
 # require_relative "checker/root_path_input"  # must run after load_as_json
 # require_relative "checker/category_tag"     # must run after load_as_json
