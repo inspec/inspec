@@ -13,7 +13,7 @@ describe "InspecPlugins::Suggest::Checker::Check::LoadAsJSON" do
   end
 
   describe "when the file is valid" do
-    let(:rel_path) { "lib/plugins/inspec-suggest/test/fixtures/src/basic-0.1.0/suggest/basic-0.1.0.rb" }
+    let(:rel_path) { "lib/plugins/inspec-suggest/test/fixtures/src/basic-v0.1.0/suggest/basic-v0.1.0.rb" }
     it "finds no warnings" do
       res = check.run(file)
       _(res).must_equal true
@@ -25,7 +25,7 @@ describe "InspecPlugins::Suggest::Checker::Check::LoadAsJSON" do
   end
 
   describe "when the file is invalid" do
-    let(:rel_path) { "lib/plugins/inspec-suggest/test/fixtures/src/bad-syntax-0.1.0/suggest/bad-syntax-0.1.0.rb" }
+    let(:rel_path) { "lib/plugins/inspec-suggest/test/fixtures/src/bad-syntax-v0.1.0/suggest/bad-syntax-v0.1.0.rb" }
     it "finds an error" do
       res = check.run(file)
       _(res).must_equal false
