@@ -41,7 +41,7 @@ end
 # Order matters! Load order determines execution order
 require_relative "checker/syntax"           # must run first
 require_relative "checker/trailing_newline"
-# require_relative "checker/load_as_json"
+require_relative "checker/load_as_json"
 # require_relative "checker/control_id"       # must run after load_as_json
 # require_relative "checker/resource_type"    # must run after load_as_json
 # require_relative "checker/root_path_input"  # must run after load_as_json
