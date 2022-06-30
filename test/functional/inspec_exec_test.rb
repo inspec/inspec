@@ -1307,10 +1307,10 @@ EOT
   end
 
   describe "when profiles are dependent on different versions of same profile - test in unix" do
-    skip_windows!
     let(:profile) { "#{profile_path}/git-fetcher/inheritance/parent-profile" }
     let(:run_result) { run_inspec_process("exec #{profile}") }
     it "should evaluate all test controls of all versions correctly" do
+      skip_windows!
       _(run_result.stderr).must_be_empty
       _(run_result.stdout).must_include "2.7.0"
       _(run_result.stdout).must_include "2.6.0"
@@ -1320,10 +1320,10 @@ EOT
   end
 
   describe "when profiles are dependent on different versions of same profile - test in windows" do
-    if is_windows?
-      let(:profile) { "#{profile_path}/git-fetcher/inheritance-windows/parent-profile" }
-      let(:run_result) { run_inspec_process("exec #{profile}") }
-      it "should evaluate all test controls of all versions correctly" do
+    let(:profile) { "#{profile_path}/git-fetcher/inheritance-windows/parent-profile" }
+    let(:run_result) { run_inspec_process("exec #{profile}") }
+    it "should evaluate all test controls of all versions correctly" do
+      if is_windows?
         _(run_result.stderr).must_be_empty
         _(run_result.stdout).must_include "2.1.8"
         _(run_result.stdout).must_include "2.1.6"
