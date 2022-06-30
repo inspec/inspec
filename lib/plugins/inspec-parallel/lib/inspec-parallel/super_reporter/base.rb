@@ -19,5 +19,6 @@ module InspecPlugins::Parallelism
 
     require_relative "text"
     require_relative "status"
+    require_relative "silent"
   end
 end
