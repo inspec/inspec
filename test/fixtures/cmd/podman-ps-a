@@ -1,0 +1,111 @@
+[
+  {
+    "AutoRemove": false,
+    "Command": [
+      "/bin/bash"
+    ],
+    "CreatedAt": "47 hours ago",
+    "Exited": false,
+    "ExitedAt": -62135596800,
+    "ExitCode": 0,
+    "Id": "591270d8d80d26671fd6ed622f367fbe19004d16e3b519c292313feb5f22e7f7",
+    "Image": "docker.io/library/nginx:latest",
+    "ImageID": "55f4b40fe486a5b734b46bb7bf28f52fa31426bf23be068c8e7b19e58d9b8deb",
+    "IsInfra": false,
+    "Labels": {
+      "maintainer": "NGINX Docker Maintainers \u003cdocker-maint@nginx.com\u003e"
+    },
+    "Mounts": [],
+    "Names": [
+      "sweet_mendeleev"
+    ],
+    "Namespaces": {
+
+    },
+    "Networks": [
+      "podman"
+    ],
+    "Pid": 0,
+    "Pod": "",
+    "PodName": "",
+    "Ports": null,
+    "Size": null,
+    "StartedAt": 1656414251,
+    "State": "created",
+    "Status": "Created",
+    "Created": 1656414250
+  },
+  {
+    "AutoRemove": false,
+    "Command": [
+      "/bin/bash"
+    ],
+    "CreatedAt": "31 hours ago",
+    "Exited": false,
+    "ExitedAt": -62135596800,
+    "ExitCode": 0,
+    "Id": "64b5562346d6b52fd40d790b34e9f18ba3b8745649c302b79ba5399d4ea00b36",
+    "Image": "docker.io/library/ubuntu:latest",
+    "ImageID": "27941809078cc9b2802deb2b0bb6feed6c236cde01e487f200e24653533701ee",
+    "IsInfra": false,
+    "Labels": null,
+    "Mounts": [],
+    "Names": [
+      "wizardly_torvalds"
+    ],
+    "Namespaces": {
+
+    },
+    "Networks": [
+      "podman"
+    ],
+    "Pid": 0,
+    "Pod": "",
+    "PodName": "",
+    "Ports": null,
+    "Size": null,
+    "StartedAt": 1656472725,
+    "State": "created",
+    "Status": "Created",
+    "Created": 1656472725
+  },
+  {
+    "AutoRemove": false,
+    "Command": [
+      "/bin/bash"
+    ],
+    "CreatedAt": "26 hours ago",
+    "Exited": true,
+    "ExitedAt": 1656494433,
+    "ExitCode": 137,
+    "Id": "437e70c45633de74be7a87ed8d94c442a3bfe0a1cdd293d5184a4af1765d8cf5",
+    "Image": "registry.fedoraproject.org/fedora:latest",
+    "ImageID": "3a66698e604003f7822a0c73e9da50e090fda9a99fe1f2e1e2e7fe796cc803d5",
+    "IsInfra": false,
+    "Labels": {
+      "license": "MIT",
+      "name": "fedora",
+      "vendor": "Fedora Project",
+      "version": "36"
+    },
+    "Mounts": [],
+    "Names": [
+      "confident_bell"
+    ],
+    "Namespaces": {
+
+    },
+    "Networks": [
+      "podman"
+    ],
+    "Pid": 0,
+    "Pod": "",
+    "PodName": "",
+    "Ports": null,
+    "Size": null,
+    "StartedAt": 1656490220,
+    "State": "exited",
+    "Status": "Exited (137) 25 hours ago",
+    "Created": 1656490220
+  }
+]

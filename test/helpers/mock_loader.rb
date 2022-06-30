@@ -681,6 +681,9 @@ class MockLoader
 
       # file resource windows inherit
       "(Get-Acl 'C:/ExamlpeFolder').access| Where-Object {$_.IsInherited -eq $true} | measure | % { $_.Count }" => cmd.call("windows_file_inherit_output"),
+
+      # podman
+      "podman ps -a --no-trunc --format json" => cmd.call("podman-ps-a"),
     }
 
     if @platform && (@platform[:name] == "windows" || @platform[:name] == "freebsd")
