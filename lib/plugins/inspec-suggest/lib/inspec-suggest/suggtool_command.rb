@@ -1,4 +1,4 @@
-#require_relative "suggtool/fetch"
+require_relative "suggtool/fetch"
 require_relative "suggtool/check"
 require_relative "suggtool/package"
 #require_relative "suggtool/bump"
