@@ -40,9 +40,9 @@ describe "inspec suggtool check" do
         _(result.stdout).must_include("cloned")
         _(result.stdout).must_include("cw/test")
 
-        _(File.exist?(File.join(workdir, "test-fixture", "inspec-test-profile-basic", ".git"))).must_equal true
-        _(File.exist?(File.join(workdir, "test-fixture", "inspec-test-profile-basic", "suggest", "inspec-test-profile-basic.rb"))).must_equal true
-        _(File.exist?(File.join(workdir, "test-fixture", "inspec-test-profile-basic", "suggest", ".marker"))).must_equal true
+        _(File.exist?(File.join(workdir, "test-fixture-branch", "inspec-test-profile-basic", ".git"))).must_equal true
+        _(File.exist?(File.join(workdir, "test-fixture-branch", "inspec-test-profile-basic", "suggest", "inspec-test-profile-basic.rb"))).must_equal true
+        _(File.exist?(File.join(workdir, "test-fixture-branch", "inspec-test-profile-basic", "suggest", ".marker"))).must_equal true
       end
     end
   end
