@@ -1,0 +1,15 @@
+# Overridden on CLI
+working_directory: null
+
+sets:
+  test-fixture:
+    fetch:
+      - repo: https://github.com/inspec/inspec-test-profile-basic.git
+    paths:
+      - "*"
+  test-fixture-branch:
+    fetch:
+      - repo: https://github.com/inspec/inspec-test-profile-basic.git
+        ref: cw/test
+    paths:
+      - "*"

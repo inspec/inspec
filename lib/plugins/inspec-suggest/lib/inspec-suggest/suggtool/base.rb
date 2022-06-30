@@ -40,6 +40,7 @@ module InspecPlugins::Suggest
       def with_requested_sets(&block)
         @cfg["sets"].each do |set_name, set_cfg|
           next unless @requested_sets.include? set_name
+
           yield(set_name, set_cfg)
         end
       end
