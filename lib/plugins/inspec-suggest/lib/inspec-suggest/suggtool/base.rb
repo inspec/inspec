@@ -40,6 +40,16 @@ module InspecPlugins::Suggest
           yield(set_name, set_cfg)
         end
       end
+
+      def with_matching_files(set_cfg, &block)
+        set_cfg["paths"].each do |path|
+          Dir.glob(File.join(@working_dir, path, "suggest", "*.rb")).each do |control_file_path|
+            next if set_cfg.fetch("exclude", []).any? { |re| Regexp.new(re).match? control_file_path }
+
+            yield(control_file_path)
+          end
+        end
+      end
     end
 
     # suggtool build # fetch, check, package, bump, sign
