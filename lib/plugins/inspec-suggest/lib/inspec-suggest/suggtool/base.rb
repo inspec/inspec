@@ -5,6 +5,9 @@ module InspecPlugins::Suggest
     class_option :suggest_config, type: :string,
       desc: "Path to suggest.yaml, default is SRC/etc/suggest.yaml"
 
+    class_option :work_dir, type: :string,
+      desc: "Override working directory set in config file"
+
     # subcommand_desc "suggtool [COMMAND]", "Utilities to support `inspec suggest`."
     no_commands do
       def setup(requested_sets)
@@ -17,7 +20,7 @@ module InspecPlugins::Suggest
           # Do all
           @requested_sets = set_names
         else
-          @requested_sets.each do |set_name|
+          requested_sets.each do |set_name|
             unless set_names.include?(set_name)
               ui.error("Set name '#{set_name}' is not recognized. Known set names: #{set_names.join(", ")}")
               ui.exit(:usage_error)
@@ -27,7 +30,7 @@ module InspecPlugins::Suggest
         end
 
         # find working directory
-        @working_dir = File.join(Inspec.src_root, @cfg["working_directory"])
+        @working_dir = options[:work_dir] || File.join(Inspec.src_root, @cfg["working_directory"])
         unless File.exist?(@working_dir)
           ui.error("Working directory '#{@working_dir}' does not exist")
           ui.exit(:usage_error)
