@@ -1,5 +1,5 @@
 # Overridden on CLI
-working_directory: null
+working_directory: lib/plugins/inspec-suggest/test/fixtures/tmp
 
 sets:
   test-fixture:
