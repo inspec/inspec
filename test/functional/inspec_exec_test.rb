@@ -1365,4 +1365,32 @@ EOT
       _(run_result.stdout).must_include "1 successful control"
     end
   end
+
+  describe "when running profile with enhanced_outcomes option and yaml reporter" do
+    let(:run_result) { run_inspec_process("exec #{profile} --no-create-lockfile --reporter yaml", enhanced_outcomes: true) }
+    let(:profile) { "#{profile_path}/enhanced-outcomes-test" }
+    it "should evaluate all test controls correctly" do
+      _(run_result.stderr).must_be_empty
+    end
+
+    it "should show enhanced_outcomes for skipped tests in controls" do
+      _(run_result.stdout).must_include ":status: not_reviewed"
+    end
+
+    it "should show enhanced_outcomes for controls with impact 0" do
+      _(run_result.stdout).must_include ":status: not_applicable"
+    end
+
+    it "should show enhanced_outcomes for controls with errors" do
+      _(run_result.stdout).must_include ":status: error"
+    end
+
+    it "should show enhanced_outcomes for controls with failures" do
+      _(run_result.stdout).must_include ":status: failed"
+    end
+
+    it "should show enhanced_outcomes for passed controls" do
+      _(run_result.stdout).must_include ":status: passed"
+    end
+  end
 end
