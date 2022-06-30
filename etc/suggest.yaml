@@ -4,7 +4,13 @@
 working_directory: tmp
 
 sets:
- - name: chef-compliance
-   paths:
-    - compliance-profiles/src/inspec/supported/*
-    - compliance-profiles/src/inspec/unsupported/*
+  chef-compliance:
+    paths:
+      - compliance-profiles/src/inspec/supported/*
+      - compliance-profiles/src/inspec/unsupported/*
+    # exclude:
+    #   - regex1
+    #   - regex2
+    # check:
+    #   disable-checks:
+    #     - trailing-newline
