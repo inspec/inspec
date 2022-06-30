@@ -114,7 +114,7 @@ module Inspec::Reporters
 
     def profile_controls(profile)
       (profile[:controls] || []).map { |c|
-        {
+        control_hash = {
           id:     c[:id],
           title:  c[:title],
           desc:   c.dig(:descriptions, :default),
@@ -130,6 +130,8 @@ module Inspec::Reporters
           waiver_data: c[:waiver_data] || {},
           results: profile_results(c),
         }
+        control_hash.merge!({ status: c[:status] }) if enhanced_outcomes
+        control_hash
       }
     end
 
