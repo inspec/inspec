@@ -30,7 +30,7 @@ module InspecPlugins::Suggest
 
     def each_check(set_name, &block)
       @@check_classes.each do |check_name, check_class|
-        next if (config.dig("sets", set_name, "check", "disabled-checks") || []).include? check_name
+        next if (config.dig("sets", set_name, "check", "disable-checks") || []).include? check_name
 
         check = check_class.new(ui: ui)
         yield(check)
