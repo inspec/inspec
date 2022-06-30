@@ -29,7 +29,7 @@ module Inspec
       cfg = YAML.load_file(cfg_path)
 
       # Get list of sets
-      set_names = cfg["sets"].map { |s| s["name"] }
+      set_names = cfg["sets"].keys
       if requested_sets.empty?
         # Do all
         requested_sets = set_names
