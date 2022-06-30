@@ -11,4 +11,4 @@ supports:
 depends:
   - name: ssh
     git: https://github.com/dev-sec/windows-baseline.git
-    tag: 2.1.6
+    tag: 1.1.0

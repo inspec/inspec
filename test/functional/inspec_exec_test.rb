@@ -1324,9 +1324,8 @@ EOT
     let(:run_result) { run_inspec_process("exec #{profile}") }
     it "should evaluate all test controls of all versions correctly" do
       if is_windows?
-        _(run_result.stderr).must_be_empty
-        _(run_result.stdout).must_include "2.1.8"
-        _(run_result.stdout).must_include "2.1.6"
+        _(run_result.stdout).must_include "1.1.2"
+        _(run_result.stdout).must_include "1.1.0"
       end
     end
   end
