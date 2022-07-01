@@ -17,6 +17,10 @@ module Inspec::Resources
       describe podman.containers do
         its('images') { should include "docker.io/library/ubuntu:latest" }
       end
+
+      describe podman.images do
+        its('names') { should_not include "docker.io/library/ubuntu:latest" }
+      end
     EXAMPLE
 
     def containers
@@ -33,18 +37,24 @@ module Inspec::Resources
 
     private
 
+    # Calls the run_command method to get all podman containers and parse the json command output.
+    # Returns the parsed command output.
     def get_containers
       sub_cmd = "ps -a --no-trunc"
       output = run_command(sub_cmd)
       parse(output)
     end
 
+    # Calls the run_command method to get all podman images and parse the json command output.
+    # Returns the parsed command output.
     def get_images
       sub_cmd = "images -a --no-trunc"
       output = run_command(sub_cmd)
       parse(output)
     end
 
+    # Runs the given podman command on the host machine on which podman is installed
+    # Returns the command output or raises the command execution error.
     def run_command(subcommand)
       result = inspec.command("podman #{subcommand} --format json")
       if result.stderr.empty?
@@ -54,6 +64,8 @@ module Inspec::Resources
       end
     end
 
+    # Method to parse JDON content.
+    # Returns: Parsed data.
     def parse(content)
       require "json" unless defined?(JSON)
       output = JSON.parse(content)
@@ -66,10 +78,11 @@ module Inspec::Resources
       end
       parsed_output
     rescue => e
-      raise Inspec::Exceptions::ResourceFailed, "Unable to parse JSON: #{e.message}"
+      raise Inspec::Exceptions::ResourceFailed, "Unable to parse command output JSON: #{e.message}"
     end
   end
 
+  # class for podman.containers plural resource
   class PodmanContainerFilter
     filter = FilterTable.create
     filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
@@ -79,7 +92,7 @@ module Inspec::Resources
       .register_column(:ids,            field: "id")
       .register_column(:images,         field: "image")
       .register_column(:names,          field: "names", style: :simple)
-      .register_column(:status,         field: "status", style: :simple         )
+      .register_column(:status,         field: "status", style: :simple)
       .register_column(:exited,         field: "exited")
       .register_column(:exit_code,      field: "exitcode")
       .register_column(:image_ids,      field: "imageid")
@@ -113,43 +126,16 @@ module Inspec::Resources
     end
   end
 
+  # class for podman.images plural resource
   class PodmanImageFilter
-  #   {
-  #     "Id": "3a66698e604003f7822a0c73e9da50e090fda9a99fe1f2e1e2e7fe796cc803d5",
-  #     "ParentId": "",
-  #     "RepoTags": null,
-  #     "RepoDigests": [
-  #         "registry.fedoraproject.org/fedora@sha256:2fda47c322448f24874f051e9f1f20ff5fb8c54c97391a68091e3941e1cc18dd",
-  #         "registry.fedoraproject.org/fedora@sha256:38813cf0913241b7f13c7057e122f7c3cfa2e7c427dca3194f933d94612e280b"
-  #     ],
-  #     "Size": 168993849,
-  #     "SharedSize": 0,
-  #     "VirtualSize": 168993849,
-  #     "Labels": {
-  #         "license": "MIT",
-  #         "name": "fedora",
-  #         "vendor": "Fedora Project",
-  #         "version": "36"
-  #     },
-  #     "Containers": 1,
-  #     "Names": [
-  #         "registry.fedoraproject.org/fedora:latest"
-  #     ],
-  #     "Digest": "sha256:38813cf0913241b7f13c7057e122f7c3cfa2e7c427dca3194f933d94612e280b",
-  #     "History": [
-  #         "registry.fedoraproject.org/fedora:latest"
-  #     ],
-  #     "Created": 1651831918,
-  #     "CreatedAt": "2022-05-06T10:11:58Z"
-  # }
     filter = FilterTable.create
     filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
     filter.register_column(:ids,        field: "id")
       .register_column(:parent_ids,     field: "parentid")
       .register_column(:repo_tags,      field: "repotags")
       .register_column(:sizes,          field: "size")
-      .register_column(:shared_sizes,   field: "shared_size")
-      .register_column(:virtual_sizes,  field: "virtual_size")
+      .register_column(:shared_sizes,   field: "sharedsize")
+      .register_column(:virtual_sizes,  field: "virtualsize")
       .register_column(:labels,         field: "labels")
       .register_column(:containers,     field: "containers")
       .register_column(:names,          field: "names", style: :simple)
@@ -173,4 +159,3 @@ module Inspec::Resources
     end
   end
 end
-
