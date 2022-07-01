@@ -31,13 +31,17 @@ module Inspec::Resources
       PodmanImageFilter.new(get_images)
     end
 
+    def networks
+      PodmanNetworkFilter.new(get_networks)
+    end
+
     def to_s
       "Podman"
     end
 
     private
 
-    # Calls the run_command method to get all podman containers and parse the json command output.
+    # Calls the run_command method to get all podman containers and parse the command output.
     # Returns the parsed command output.
     def get_containers
       sub_cmd = "ps -a --no-trunc"
@@ -45,10 +49,18 @@ module Inspec::Resources
       parse(output)
     end
 
-    # Calls the run_command method to get all podman images and parse the json command output.
+    # Calls the run_command method to get all podman images and parse the command output.
     # Returns the parsed command output.
     def get_images
       sub_cmd = "images -a --no-trunc"
+      output = run_command(sub_cmd)
+      parse(output)
+    end
+
+    # Calls the run_command method to get all podman network list and parse the command output.
+    # Returns the parsed command output.
+    def get_networks
+      sub_cmd = "network ls --no-trunc"
       output = run_command(sub_cmd)
       parse(output)
     end
@@ -60,7 +72,7 @@ module Inspec::Resources
       if result.stderr.empty?
         result.stdout
       else
-        raise "Error while running command podman #{subcommand} #{result.stderr}"
+        raise "Error while running command \'podman #{subcommand}\' : #{result.stderr}"
       end
     end
 
@@ -78,7 +90,7 @@ module Inspec::Resources
       end
       parsed_output
     rescue => e
-      raise Inspec::Exceptions::ResourceFailed, "Unable to parse command output JSON: #{e.message}"
+      raise Inspec::Exceptions::ResourceFailed, "Unable to parse command JSON output: #{e.message}"
     end
   end
 
@@ -156,6 +168,35 @@ module Inspec::Resources
 
     def resource_id
       "Podman Images"
+    end
+  end
+
+  class PodmanNetworkFilter
+    filter = FilterTable.create
+    filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
+      .register_column(:ids,                  field: "id")
+      .register_column(:names,                field: "name")
+      .register_column(:drivers,              field: "drivers")
+      .register_column(:network_interfaces,   field: "network_interface")
+      .register_column(:created,              field: "created")
+      .register_column(:subnets,              field: "subnets", style: :simple)
+      .register_column(:ipv6_enabled,         field: "ipv6_enabled")
+      .register_column(:internal,             field: "internal")
+      .register_column(:dns_enabled,          field: "dns_enabled")
+      .register_column(:ipam_options,         field: "ipam_options")
+    filter.install_filter_methods_on_resource(self, :networks)
+
+    attr_reader :networks
+    def initialize(networks)
+      @networks = networks
+    end
+
+    def to_s
+      "Podman Networks"
+    end
+
+    def resource_id
+      "Podman Networks"
     end
   end
 end

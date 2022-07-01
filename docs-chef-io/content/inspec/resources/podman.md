@@ -28,7 +28,7 @@ A `podman` resource block declares allows you to write test for many `containers
       its('images) { should include "docker.io/library/ubuntu:latest" }
     end
 
-or:
+or: if you want to query specific `container`:
 
     describe podman.containers.where(id: "591270d8d80d26671fd6ed622f367fbe19004d16e3b519c292313feb5f22e7f7") do
       its('status') { should include "Up 44 hours ago" }
@@ -45,7 +45,7 @@ The `podman` resource block declares also allows you to write test for many `ima
       its('repositories') { should_not include 'inssecure_image' }
     end
 
-or if you want to query specific images:
+or if you want to query specific `image`:
 
     describe podman.images.where(id: "c7db653c4397e6a4d1e468bb7c6400c022c62623bdb87c173d54bac7995b6d8f") do
       it { should exist }
@@ -55,3 +55,18 @@ where
 
 - `.where()` may specify a specific filter and expected value, against which parameters are compared
 - `parent_ids`, `repo_tags`, `sizes`, `shared_sizes`, `virtual_sizes`, `labels`, `containers`, `names`, `digests`, `history`, `created`, and`created_at` are valid parameters for `images`
+
+The `podman` resource block declares also allows you to write test for many `networks`:
+
+    describe podman.networks do
+      its("names") { should include "podman" }
+    end
+
+or if you want to query specific `network`:
+
+    describe podman.networks.where(id: "c7db653c4397e6a4d1e468bb7c6400c022c62623bdb87c173d54bac7995b6d8f") do
+      it { should exist }
+    end
+
+- `.where()` may specify a specific filter and expected value, against which parameters are compared
+- `ids`, `names`, `drivers`, `network_interfaces`, `created`, `subnets`, `ipv6_enabled`, `internal`, `dns_enabled`, `ipam_options`

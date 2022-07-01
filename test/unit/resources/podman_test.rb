@@ -73,4 +73,34 @@ describe Inspec::Resources::Podman do
   it "returns false if image with given id does not exist" do
     _(resource.images.where(id: "979453ff4b40fe486a5b734b46bb7bf28f52fa31426bf23be068c8e7b19e58d9b8deb").exists?).must_equal false
   end
+
+  it "prints as Podman networks plural resource" do
+    _(resource.networks.to_s).must_equal "Podman Networks"
+  end
+
+  it "prints the resource id of Podman networks plural resource" do
+    _(resource.networks.resource_id).must_equal "Podman Networks"
+  end
+
+  it "returns the parsed details of podman networks" do
+    _(resource.networks.exists?).must_equal true
+    _(resource.networks.ids).must_equal %w{2f259bab93aaaaa2542ba43ef33eb990d0999ee1b9924b557b7be53c0b7a1bb9}
+    _(resource.networks.names).must_equal %w{podman}
+    _(resource.networks.drivers).must_equal [nil]
+    _(resource.networks.network_interfaces).must_equal %w{podman0}
+    _(resource.networks.created).must_equal %w{2022-07-01T17:05:20.015804994+05:30}
+    _(resource.networks.subnets).must_equal [{ "subnet" => "10.88.0.0/16", "gateway" => "10.88.0.1" }]
+    _(resource.networks.ipv6_enabled).must_equal [false]
+    _(resource.networks.internal).must_equal [false]
+    _(resource.networks.dns_enabled).must_equal [false]
+    _(resource.networks.ipam_options).must_equal [{ "driver" => "host-local" }]
+  end
+
+  it "returns false if network with given id does not exist" do
+    _(resource.networks.where(id: "979453ff4b40fe486a5b734b46bb7bf28f52fa31426bf23be068c8e7b19e58d9b8deb").exists?).must_equal false
+  end
+
+  it "returns true if network with given id exist" do
+    _(resource.networks.where(id: "2f259bab93aaaaa2542ba43ef33eb990d0999ee1b9924b557b7be53c0b7a1bb9").exists?).must_equal true
+  end
 end
