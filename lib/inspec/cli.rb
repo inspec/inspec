@@ -463,11 +463,13 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     pretty_handle_exception(e)
   end
 
+  option :enhanced_outcomes, type: :boolean,
+    desc: "Show enhanced outcomes output"
   desc "schema NAME", "print the JSON schema", hide: true
   def schema(name)
     require "inspec/schema/output_schema"
-
-    puts Inspec::Schema::OutputSchema.json(name)
+    o = config
+    puts Inspec::Schema::OutputSchema.json(name, o)
   rescue StandardError => e
     puts e
     puts "Valid schemas are #{Inspec::Schema::OutputSchema.names.join(", ")}"
