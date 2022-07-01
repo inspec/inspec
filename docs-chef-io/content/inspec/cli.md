@@ -38,7 +38,7 @@ This subcommand has the following additional options:
 * `-o`, `--output=OUTPUT`
     Save the archive to a path.
 * `--overwrite`, `--no-overwrite`
-    Overwrite existing archive.
+    Overwrite existing archives.
 * `--profiles-path=PROFILES_PATH`
     Folder which contains referenced profiles.
 * `--tar`, `--no-tar`
@@ -636,7 +636,7 @@ This subcommand has additional options:
 
 ## vendor
 
-Download all dependencies and generate a lockfile in a `vendor` directory.
+Download all dependencies and generate a lock file in a `vendor` directory.
 
 ### Syntax
 
