@@ -1306,24 +1306,26 @@ EOT
     end
   end
 
-  describe "when profiles are dependent on different versions of same profile - test in unix" do
-    let(:profile) { "#{profile_path}/git-fetcher/inheritance/parent-profile" }
-    let(:run_result) { run_inspec_process("exec #{profile}") }
-    it "should evaluate all test controls of all versions correctly" do
-      skip_windows!
-      _(run_result.stderr).must_be_empty
-      _(run_result.stdout).must_include "2.7.0"
-      _(run_result.stdout).must_include "2.6.0"
-      _(run_result.stdout).must_include "sshd-01"
-      _(run_result.stdout).must_include "sshd-50"
+  unless windows?
+    describe "when profiles are dependent on different versions of same profile - test in unix" do
+      let(:profile) { "#{profile_path}/git-fetcher/inheritance/parent-profile" }
+      let(:run_result) { run_inspec_process("exec #{profile}") }
+      it "should evaluate all test controls of all versions correctly" do
+        skip_windows!
+        _(run_result.stderr).must_be_empty
+        _(run_result.stdout).must_include "2.7.0"
+        _(run_result.stdout).must_include "2.6.0"
+        _(run_result.stdout).must_include "sshd-01"
+        _(run_result.stdout).must_include "sshd-50"
+      end
     end
   end
 
-  describe "when profiles are dependent on different versions of same profile - test in windows" do
-    let(:profile) { "#{profile_path}/git-fetcher/inheritance-windows/parent-profile" }
-    let(:run_result) { run_inspec_process("exec #{profile}") }
-    it "should evaluate all test controls of all versions correctly" do
-      if is_windows?
+  if windows?
+    describe "when profiles are dependent on different versions of same profile - test in windows" do
+      let(:profile) { "#{profile_path}/git-fetcher/inheritance-windows/parent-profile" }
+      let(:run_result) { run_inspec_process("exec #{profile}") }
+      it "should evaluate all test controls of all versions correctly" do
         _(run_result.stdout).must_include "1.1.2"
         _(run_result.stdout).must_include "1.1.0"
       end
