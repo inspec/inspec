@@ -69,4 +69,19 @@ or if you want to query specific `network`:
     end
 
 - `.where()` may specify a specific filter and expected value, against which parameters are compared
-- `ids`, `names`, `drivers`, `network_interfaces`, `created`, `subnets`, `ipv6_enabled`, `internal`, `dns_enabled`, `ipam_options`
+- `ids`, `names`, `drivers`, `network_interfaces`, `created`, `subnets`, `ipv6_enabled`, `internal`, `dns_enabled` and `ipam_options` are valid parameters for `networks`
+
+The `podman` resource block declares also allows you to write test for many `pods`:
+
+    describe podman.pods do
+      its("names") { should include "cranky_allen" }
+    end
+
+  or if you want to query specific `pod`:
+
+    describe podman.pods.where(id: "95cadbb84df71e6374fceb3fd89ee3b8f2c7e1a831062cd9cea7d0e3e4b1dbcc") do
+      it { should exist }
+    end
+
+- `.where()` may specify a specific filter and expected value, against which parameters are compared
+- `ids`, `cgroups`, `containers`, `created`, `infra_ids`, `names`, `namespaces`, `networks`, `status` and `labels` are valid parameters for `pods`

@@ -21,6 +21,10 @@ module Inspec::Resources
       describe podman.images do
         its('names') { should_not include "docker.io/library/ubuntu:latest" }
       end
+
+      describe podman.pods do
+        its("ids") { should include "95cadbb84df71e6374fceb3fd89ee3b8f2c7e1a831062cd9cea7d0e3e4b1dbcc" }
+      end
     EXAMPLE
 
     def containers
@@ -33,6 +37,10 @@ module Inspec::Resources
 
     def networks
       PodmanNetworkFilter.new(get_networks)
+    end
+
+    def pods
+      PodmanPodFilter.new(get_pods)
     end
 
     def to_s
@@ -61,6 +69,14 @@ module Inspec::Resources
     # Returns the parsed command output.
     def get_networks
       sub_cmd = "network ls --no-trunc"
+      output = run_command(sub_cmd)
+      parse(output)
+    end
+
+    # Calls the run_command method to get all podman pod list and parse the command output.
+    # Returns the parsed command output.
+    def get_pods
+      sub_cmd = "pod ps --no-trunc"
       output = run_command(sub_cmd)
       parse(output)
     end
@@ -176,7 +192,7 @@ module Inspec::Resources
     filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
       .register_column(:ids,                  field: "id")
       .register_column(:names,                field: "name")
-      .register_column(:drivers,              field: "drivers")
+      .register_column(:drivers,              field: "driver")
       .register_column(:network_interfaces,   field: "network_interface")
       .register_column(:created,              field: "created")
       .register_column(:subnets,              field: "subnets", style: :simple)
@@ -197,6 +213,35 @@ module Inspec::Resources
 
     def resource_id
       "Podman Networks"
+    end
+  end
+
+  class PodmanPodFilter
+    filter = FilterTable.create
+    filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
+      .register_column(:ids,                  field: "id")
+      .register_column(:cgroups,              field: "cgroup")
+      .register_column(:containers,           field: "containers", style: :simple)
+      .register_column(:created,              field: "created")
+      .register_column(:infra_ids,            field: "infraid")
+      .register_column(:names,                field: "name")
+      .register_column(:namespaces,           field: "namespace")
+      .register_column(:networks,             field: "networks", style: :simple)
+      .register_column(:status,               field: "status")
+      .register_column(:labels,               field: "labels")
+    filter.install_filter_methods_on_resource(self, :pods)
+
+    attr_reader :pods
+    def initialize(pods)
+      @pods = pods
+    end
+
+    def to_s
+      "Podman Pods"
+    end
+
+    def resource_id
+      "Podman Pods"
     end
   end
 end
