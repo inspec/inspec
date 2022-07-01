@@ -507,7 +507,7 @@ inspec schema NAME
 
 ### Options
 
-This subcommand has the following additional options:
+This subcommand has the following additional option:
 
 * `--enhanced-outcomes`
     Includes enhanced outcome of controls in report data.
