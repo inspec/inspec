@@ -126,6 +126,14 @@ The following are CLI options that may be used to modify reporter behavior. Many
 
 : This may be used to limit the size of reports when failure messages are exceptionally large.
 
+`--enhanced-outcomes`
+
+: Includes enhanced outcome of controls in report data.
+
+: The control level status outcomes are Passed, Failed, Not Applicable (N/A), Not Reviewed (N/R) or Error (ERR).
+
+: Only supported for CLI, progress-bar, html2, json, json-automate, automate, and yaml reporters.
+
 ## Supported Reporters
 
 The following are the current supported reporters:
@@ -181,6 +189,14 @@ This reporter is very condensed and gives you a `.`(pass), `f`(fail), or `*`(ski
 ### progress-bar
 
 This reporter outputs real-time progress of a running InSpec profile using a progress bar and prints running control's ID with an indicator of control's status (Passed, failed or skipped).
+
+For example:
+
+![Progress Bar Reporter Outcome](/images/inspec/reporter_outcome_progress_bar.png)
+
+And reporter outcome with `--enhanced-outcomes` option :
+
+![Progress Bar Reporter Outcome with enhanced outcomes](/images/inspec/reporter_outcome_progress_bar_enhanced_outcomes.png)
 
 ### json-rspec
 

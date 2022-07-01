@@ -403,6 +403,8 @@ This subcommand has the following additional options:
     Whether to use disable sspi authentication, defaults to false (WinRM).
 * `--winrm-transport=WINRM_TRANSPORT`
     Specify which transport to use, defaults to negotiate (WinRM).
+* `--enhanced-outcomes`
+    Includes enhanced outcome of controls in report data.
 
 ## habitat
 
@@ -502,6 +504,13 @@ This subcommand has the following syntax:
 ```bash
 inspec schema NAME
 ```
+
+### Options
+
+This subcommand has the following additional options:
+
+* `--enhanced-outcomes`
+    Includes enhanced outcome of controls in report data.
 
 ## shell
 
@@ -603,6 +612,8 @@ This subcommand has the following additional options:
     Whether to use disable sspi authentication, defaults to false (WinRM).
 * `--winrm-transport=WINRM_TRANSPORT`
     Specify which transport to use, defaults to negotiate (WinRM).
+* `--enhanced-outcomes`
+    Includes enhanced outcome of controls in report data.
 
 ## supermarket
 
