@@ -11,11 +11,11 @@ gh_repo = "inspec"
     weight = 50
 +++
 
-A `reporter` is a facility for formatting and delivering the results of a Chef InSpec auditing run. Reporters were introduced in Chef InSpec 1.51.6.
+A `reporter` is a facility for formatting and delivering the results of a Chef InSpec auditing run. It is introduced in Chef InSpec 1.51.6.
 
 Chef InSpec allows you to output your test results to one or more reporters.
 
-Configure the reporter(s) using either the `--reporter` option or as part of the general configuration file using the `--config` (or `--json-config`, prior to v3.6) option. While you can configure multiple reporters to write to different files, only one reporter can output to the screen(stdout).
+Configure the reporter(s) using either the `--reporter` option or as part of the general config file using the `--config` (or `--json-config`, prior to v3.6) option. While you can configure multiple reporters to write to different files, only one reporter can output to the screen(stdout).
 
 ## Syntax
 
@@ -43,13 +43,13 @@ inspec exec example_profile --reporter yaml:-
 inspec exec example_profile --reporter cli json:/tmp/output.json
 ```
 
-**Output nothing to screen and write junit and html to a file.**
+**Output nothing to screen and write jUnit and HTML to a file.**
 
 ```bash
 inspec exec example_profile --reporter junit2:/tmp/junit.xml html:www/index.html
 ```
 
-**Output json to screen and write to a file. Write junit to a file.**
+**Output json to screen and write to a file. Write jUnit to a file.**
 
 ```bash
 inspec exec example_profile --reporter json junit2:/tmp/junit.xml | tee out.json
@@ -105,7 +105,7 @@ The following are CLI options that are used to modify reporter behavior. Many of
 
 : Include a `diff` comparison of textual differences in the failed test output (default: `true`).
 
-: Use `--no-diff` to limit the size of the report output when tests contain large amounts of text output.
+: Use `--no-diff` to limit the size of the report output when tests contain large amounts of the text output.
 
 `--filter-empty-profiles`
 
@@ -139,9 +139,9 @@ The following are CLI options that are used to modify reporter behavior. Many of
 
 The following are the currently supported reporters:
 
-### cli
+### CLI
 
-This is the basic text based report. It includes details about tests that passed and failed and an overall summary at the end.
+This is the basic text base report. It includes details about tests that passed and failed and an overall summary at the end.
 
 ### json
 
@@ -175,11 +175,11 @@ This reporter includes all information about the profiles and test results in st
 
 This reporter is a very minimal text base report. It shows you which tests passed by name and has a small summary at the end.
 
-### junit2
+### jUnit2
 
 This reporter outputs the standard JUnit spec in XML format and is recommended for all new users of JUnit.
 
-#### junit
+#### jUnit
 
 This legacy reporter outputs nonstandard JUnit XML and is provided only for backward compatibility.
 
@@ -203,15 +203,15 @@ And reporter outcome with `--enhanced-outcomes` option:
 
 This reporter includes all information from the Rspec runner. Unlike the json reporter, this includes Rspec-specific details.
 
-### html
+### HTML
 
 This reporter is the legacy RSpec HTML reporter retained for backward compatibility. The report generated is unaware of profiles or controls and only contains unsorted test information. Most users should migrate to the `html2` reporter for more complete data.
 
-### html2
+### HTML2
 
 This reporter is an improved HTML reporter that contains full data about the structure of the profile, controls, and tests. The generated report renders HTML code for viewing your tests in a browser.
 
-The `html2` reporter requires no configuration to function. However, options `--alternate_css_file` and `--alternate_js_file` are available for customization. The options are set in the JSON-formatted configuration file that Chef InSpec consumes.
+The `html2` reporter requires no configuration to function. However, options `--alternate_css_file` and `alternate_js_file--` are available for customization. The options are set in the JSON-formatted configuration file that Chef InSpec consumes.
 
 For details, see [our configuration file documentation](/inspec/config/).
 
@@ -239,7 +239,7 @@ Specifies the full path to the location of a JavaScript file that is read and in
 
 ## Automate Reporter
 
-The `automate` reporter type is a special reporter which sends its results over the network to [Chef Automate]({{< relref "/automate/">}}). To use this reporter, you must pass in the correct configuration via a json configuration `--config`.
+The `automate` reporter type is a special reporter which sends its results over the network to [Chef Automate]({{< relref "/automate/">}}). To use this reporter, you must pass in the correct configuration via a json config `--config`.
 
 Example Configuration:
 

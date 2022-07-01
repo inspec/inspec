@@ -38,7 +38,7 @@ This subcommand has the following additional options:
 * `-o`, `--output=OUTPUT`
     Save the archive to a path.
 * `--overwrite`, `--no-overwrite`
-    Overwrite existing archive.
+    Overwrite existing archives.
 * `--profiles-path=PROFILES_PATH`
     Folder which contains referenced profiles.
 * `--tar`, `--no-tar`
@@ -118,7 +118,7 @@ This subcommand has the following additional options:
 * `--client-key-pass=CLIENT_CERT_PASSWORD`
     Specify client certificate password, if required for SSL authentication (WinRM).
 * `--config=CONFIG`
-    Read configuration from the JSON file (`-` reads from stdin).
+    Read the configuration from the JSON file (`-` reads from stdin).
 * `--docker-url`
     Provides a path to the Docker API endpoint (Docker).
 * `--enable-password=ENABLE_PASSWORD`
@@ -174,7 +174,7 @@ This subcommand has the following additional options:
 * `--winrm-transport=WINRM_TRANSPORT`
     Specify which transport to use, defaults to negotiate (WinRM).
 * `--winrm-shell-type=WINRM_SHELL_TYPE`
-    Specify which shell type to use (powershell, elevated, or cmd), which defaults to powershell (WinRM).
+    Specify which shell type to use (PowerShell, elevated, or cmd), which defaults to PowerShell (WinRM).
 
 ## env
 
@@ -314,13 +314,13 @@ This subcommand has the following additional options:
 * `--command-timeout=SECONDS`
     Maximum seconds to allow a command to run.
 * `--config=CONFIG`
-    Read configuration from the JSON file (`-` reads from stdin).
+    Read the configuration from the JSON file (`-` reads from stdin).
 * `--controls=one two three`
     A list of control names to run or a list of /regexes/ to match against control names. Ignore all other tests.
 * `--create-lockfile`, `--no-create-lockfile`
-    Write out a lockfile based on this execution (unless one already exists).
+    Write out a lock file based on this execution (unless one already exists).
 * `--distinct-exit`, `--no-distinct-exit`
-    Exit with code 101 if any tests fail and 100 if any are skipped (default). If disabled, exit 0 on skips and 1 for failures.
+    Exit with code 101 if any tests fail and 100 if any are skipped (default).  If disabled, exit 0 on skips and 1 for failures.
 * `--docker-url`
     Provides path to Docker API endpoint (Docker). Defaults to unix:///var/run/docker.sock on Unix systems and tcp://localhost:2375 on Windows.
 * `--enable-password=ENABLE_PASSWORD`
@@ -352,7 +352,7 @@ This subcommand has the following additional options:
 * `--proxy-command=PROXY_COMMAND`
     Specifies the command to use to connect to the server.
 * `--reporter=one two:/output/file/path`
-    Enable one or more output reporters: cli, documentation, html2, progress, progress-bar, json, json-min, json-rspec, junit2, yaml.
+    Enable one or more output reporters: cli, documentation, html, progress, progress-bar, json, json-min, json-rspec, jUnit, yaml.
 * `--reporter-backtrace-inclusion`, `--no-reporter-backtrace-inclusion`
     Include a code backtrace in report data (default: true).
 * `--reporter-include-source`
@@ -549,7 +549,7 @@ This subcommand has the following additional options:
 * `--client-key-pass=CLIENT_CERT_PASSWORD`
     Specify client certificate password, if required for SSL authentication (WinRM).
 * `--config=CONFIG`
-    Read configuration from the JSON file (`-` reads from stdin).
+    Read the configuration from the JSON file (`-` reads from stdin).
 * `--depends=one two three`
     A space-delimited list of local folders containing profiles whose libraries and resources will be loaded into the new shell.
 * `--distinct-exit`, `--no-distinct-exit`
@@ -577,7 +577,7 @@ This subcommand has the following additional options:
 * `--proxy-command=PROXY_COMMAND`
     Specifies the command to use to connect to the server.
 * `--reporter=one two:/output/file/path`
-    Enable one or more output reporters: cli, documentation, html2, progress, json, json-min, json-rspec, junit2.
+    Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, jUnit.
 * `--self-signed`, `--no-self-signed`
     Allow remote scans with self-signed certificates (WinRM).
 * `--shell`, `--no-shell`
@@ -636,7 +636,7 @@ This subcommand has additional options:
 
 ## vendor
 
-Download all dependencies and generate a lockfile in a `vendor` directory.
+Download all dependencies and generate a lock file in a `vendor` directory.
 
 ### Syntax
 
@@ -651,7 +651,7 @@ inspec vendor PATH
 This subcommand has additional options:
 
 * `--overwrite`, `--no-overwrite`
-    Overwrite existing vendored dependencies and lockfiles.
+    Overwrite existing vendored dependencies and lock files.
 
 ## version
 
