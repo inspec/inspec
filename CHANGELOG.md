@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.18.9 -->
-## [v5.18.9](https://github.com/inspec/inspec/tree/v5.18.9) (2022-06-27)
+<!-- latest_release 5.18.10 -->
+## [v5.18.10](https://github.com/inspec/inspec/tree/v5.18.10) (2022-07-01)
 
 #### Merged Pull Requests
-- CFINSPEC-238 Enhanced Outcomes Design Doc [#6152](https://github.com/inspec/inspec/pull/6152) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add k8s section to resources index page [#6167](https://github.com/inspec/inspec/pull/6167) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.17.4 -->
 ### Changes since 5.17.4 release
 
 #### Merged Pull Requests
+- Add k8s section to resources index page [#6167](https://github.com/inspec/inspec/pull/6167) ([IanMadd](https://github.com/IanMadd)) <!-- 5.18.10 -->
 - CFINSPEC-238 Enhanced Outcomes Design Doc [#6152](https://github.com/inspec/inspec/pull/6152) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.18.9 -->
 - Fixes for Buildkite Issues [#6161](https://github.com/inspec/inspec/pull/6161) ([Nik08](https://github.com/Nik08)) <!-- 5.18.8 -->
 - Bump octokit from 4.23.0 to 4.25.0 in /omnibus [#6146](https://github.com/inspec/inspec/pull/6146) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.18.7 -->
