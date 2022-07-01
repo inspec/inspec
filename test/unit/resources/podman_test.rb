@@ -86,7 +86,7 @@ describe Inspec::Resources::Podman do
     _(resource.networks.exists?).must_equal true
     _(resource.networks.ids).must_equal %w{2f259bab93aaaaa2542ba43ef33eb990d0999ee1b9924b557b7be53c0b7a1bb9}
     _(resource.networks.names).must_equal %w{podman}
-    _(resource.networks.drivers).must_equal [nil]
+    _(resource.networks.drivers).must_equal %w{bridge}
     _(resource.networks.network_interfaces).must_equal %w{podman0}
     _(resource.networks.created).must_equal %w{2022-07-01T17:05:20.015804994+05:30}
     _(resource.networks.subnets).must_equal [{ "subnet" => "10.88.0.0/16", "gateway" => "10.88.0.1" }]
@@ -102,5 +102,30 @@ describe Inspec::Resources::Podman do
 
   it "returns true if network with given id exist" do
     _(resource.networks.where(id: "2f259bab93aaaaa2542ba43ef33eb990d0999ee1b9924b557b7be53c0b7a1bb9").exists?).must_equal true
+  end
+
+  it "prints as Podman pods plural resource" do
+    _(resource.pods.to_s).must_equal "Podman Pods"
+  end
+
+  it "prints the resource id of Podman pods plural resource" do
+    _(resource.pods.resource_id).must_equal "Podman Pods"
+  end
+
+  it "returns the parsed details of podman pods" do
+    _(resource.pods.ids).must_equal %w{95cadbb84df71e6374fceb3fd89ee3b8f2c7e1a831062cd9cea7d0e3e4b1dbcc}
+    _(resource.pods.cgroups).must_equal %w{user.slice}
+    _(resource.pods.containers).must_equal [{ "Id" => "a218dfc58fa28e0c58c55e508e5b57084876b42e894b98073c69c45dea06cbb2", "Names" => "95cadbb84df7-infra", "Status" => "running" }, { "Id" => "b36abf69b8af6f8a8305ab2d9b209c2acaeece41dbc4f242f8e45caf6e02504b", "Names" => "pensive_mccarthy", "Status" => "running" }]
+    _(resource.pods.created).must_equal %w{2022-07-01T13:08:09.662082101+05:30}
+    _(resource.pods.infra_ids).must_equal %w{a218dfc58fa28e0c58c55e508e5b57084876b42e894b98073c69c45dea06cbb2}
+    _(resource.pods.names).must_equal %w{cranky_allen}
+    _(resource.pods.namespaces).must_equal [""]
+    _(resource.pods.networks).must_equal %w{podman}
+    _(resource.pods.status).must_equal %w{Running}
+    _(resource.pods.labels).must_equal [{}]
+  end
+
+  it "returns false if pod with given id does not exist" do
+    _(resource.pods.where(id: "979453ff4b40fe486a5b734b46bb7bf28f52fa31426bf23be068c8e7b19e58d9b8deb").exists?).must_equal false
   end
 end

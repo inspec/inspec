@@ -686,6 +686,7 @@ class MockLoader
       "podman ps -a --no-trunc --format json" => cmd.call("podman-ps-a"),
       "podman images -a --no-trunc --format json" => cmd.call("podman-images-a"),
       "podman network ls --no-trunc --format json" => cmd.call("podman-network-ls"),
+      "podman pod ps --no-trunc --format json" => cmd.call("podman-pod-ps"),
     }
 
     if @platform && (@platform[:name] == "windows" || @platform[:name] == "freebsd")
