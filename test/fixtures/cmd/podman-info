@@ -1,0 +1,150 @@
+{
+  "host": {
+    "arch": "amd64",
+    "buildahVersion": "1.26.1",
+    "cgroupManager": "systemd",
+    "cgroupVersion": "v2",
+    "cgroupControllers": [
+      "cpu",
+      "io",
+      "memory",
+      "pids"
+    ],
+    "conmon": {
+      "package": "conmon-2.1.0-2.fc36.x86_64",
+      "path": "/usr/bin/conmon",
+      "version": "conmon version 2.1.0, commit: "
+    },
+    "cpus": 1,
+    "cpuUtilization": {
+      "userPercent": 0.03,
+      "systemPercent": 0.09,
+      "idlePercent": 99.89
+    },
+    "distribution": {
+      "distribution": "fedora",
+      "variant": "coreos",
+      "version": "36"
+    },
+    "eventLogger": "journald",
+    "hostname": "localhost.localdomain",
+    "idMappings": {
+      "gidmap": [
+        {
+          "container_id": 0,
+          "host_id": 1000,
+          "size": 1
+        },
+        {
+          "container_id": 1,
+          "host_id": 100000,
+          "size": 1000000
+        }
+      ],
+      "uidmap": [
+        {
+          "container_id": 0,
+          "host_id": 1005691005,
+          "size": 1
+        },
+        {
+          "container_id": 1,
+          "host_id": 100000,
+          "size": 1000000
+        }
+      ]
+    },
+    "kernel": "5.17.5-300.fc36.x86_64",
+    "logDriver": "journald",
+    "memFree": 1668063232,
+    "memTotal": 2066817024,
+    "networkBackend": "netavark",
+    "ociRuntime": {
+      "name": "crun",
+      "package": "crun-1.4.4-1.fc36.x86_64",
+      "path": "/usr/bin/crun",
+      "version": "crun version 1.4.4\ncommit: 6521fcc5806f20f6187eb933f9f45130c86da230\nspec: 1.0.0\n+SYSTEMD +SELINUX +APPARMOR +CAP +SECCOMP +EBPF +CRIU +YAJL"
+    },
+    "os": "linux",
+    "remoteSocket": {
+      "path": "/run/user/1005691005/podman/podman.sock",
+      "exists": true
+    },
+    "serviceIsRemote": true,
+    "security": {
+      "apparmorEnabled": false,
+      "capabilities": "CAP_CHOWN,CAP_DAC_OVERRIDE,CAP_FOWNER,CAP_FSETID,CAP_KILL,CAP_NET_BIND_SERVICE,CAP_SETFCAP,CAP_SETGID,CAP_SETPCAP,CAP_SETUID,CAP_SYS_CHROOT",
+      "rootless": true,
+      "seccompEnabled": true,
+      "seccompProfilePath": "/usr/share/containers/seccomp.json",
+      "selinuxEnabled": true
+    },
+    "slirp4netns": {
+      "executable": "/usr/bin/slirp4netns",
+      "package": "slirp4netns-1.2.0-0.2.beta.0.fc36.x86_64",
+      "version": "slirp4netns version 1.2.0-beta.0\ncommit: 477db14a24ff1a3de3a705e51ca2c4c1fe3dda64\nlibslirp: 4.6.1\nSLIRP_CONFIG_VERSION_MAX: 3\nlibseccomp: 2.5.3"
+    },
+    "swapFree": 0,
+    "swapTotal": 0,
+    "uptime": "12h 40m 12.19s (Approximately 0.50 days)",
+    "linkmode": "dynamic"
+  },
+  "store": {
+    "configFile": "/var/home/core/.config/containers/storage.conf",
+    "containerStore": {
+      "number": 5,
+      "paused": 0,
+      "running": 3,
+      "stopped": 2
+    },
+    "graphDriverName": "overlay",
+    "graphOptions": {
+      
+    },
+    "graphRoot": "/var/home/core/.local/share/containers/storage",
+    "graphRootAllocated": 106825756672,
+    "graphRootUsed": 2833563648,
+    "graphStatus": {
+      "Backing Filesystem": "xfs",
+      "Native Overlay Diff": "true",
+      "Supports d_type": "true",
+      "Using metacopy": "false"
+    },
+    "imageCopyTmpDir": "/var/tmp",
+    "imageStore": {
+      "number": 4
+    },
+    "runRoot": "/run/user/1005691005/containers",
+    "volumePath": "/var/home/core/.local/share/containers/storage/volumes"
+  },
+  "registries": {
+    "search": [
+  "docker.io"
+]
+  },
+  "plugins": {
+    "volume": [
+      "local"
+    ],
+    "network": [
+      "bridge",
+      "macvlan"
+    ],
+    "log": [
+      "k8s-file",
+      "none",
+      "passthrough",
+      "journald"
+    ]
+  },
+  "version": {
+    "APIVersion": "4.1.0",
+    "Version": "4.1.0",
+    "GoVersion": "go1.18",
+    "GitCommit": "",
+    "BuiltTime": "Fri May  6 21:45:54 2022",
+    "Built": 1651853754,
+    "OsArch": "linux/amd64",
+    "Os": "linux"
+  }
+}

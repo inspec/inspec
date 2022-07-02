@@ -54,7 +54,7 @@ or if you want to query specific `image`:
 where
 
 - `.where()` may specify a specific filter and expected value, against which parameters are compared
-- `parent_ids`, `repo_tags`, `sizes`, `shared_sizes`, `virtual_sizes`, `labels`, `containers`, `names`, `digests`, `history`, `created`, and`created_at` are valid parameters for `images`
+- `parent_ids`, `repo_digests`, `repo_tags`, `sizes`, `shared_sizes`, `virtual_sizes`, `labels`, `containers`, `names`, `digests`, `history`, `created`, and`created_at` are valid parameters for `images`
 
 The `podman` resource block declares also allows you to write test for many `networks`:
 
@@ -85,3 +85,43 @@ The `podman` resource block declares also allows you to write test for many `pod
 
 - `.where()` may specify a specific filter and expected value, against which parameters are compared
 - `ids`, `cgroups`, `containers`, `created`, `infra_ids`, `names`, `namespaces`, `networks`, `status` and `labels` are valid parameters for `pods`
+
+## Resource Parameter Examples
+
+### containers
+
+`containers` returns information about Podman containers as returned by [podman ps -a](https://docs.podman.io/en/latest/markdown/podman.1.html).
+
+    describe podman.containers do
+      its("ids") { should include "591270d8d80d26671fd6ed622f367fbe19004d16e3b519c292313feb5f22e7f7" }
+      its("labels") { should include "maintainer" => "NGINX Docker Maintainers \u003cdocker-maint@nginx.com\u003e" }
+      its('names') { should include "sweet_mendeleev" }
+      its("images") { should include "docker.io/library/nginx:latest" }
+    end
+
+### images
+
+`images` returns information about a Podman images as returned by [podman images -a](https://docs.podman.io/en/latest/markdown/podman-images.1.html).
+
+    describe podman.images do
+      its('ids') { should include 'sha256:c7db653c4397e6a4d1e468bb7c6400c022c62623bdb87c173d54bac7995b6d8f ' }
+      its('sizes') { should_not include '80.3 GB' }
+      its('repo_digests") { should include "localhost/podman-pause@sha256:e6e9fffed42f600c811af34569268c07d063f12507457493c608d944a1fdac3f"}
+    end
+
+### info
+
+`info` returns the parsed result of [podman info](https://docs.podman.io/en/latest/markdown/podman-info.1.html)
+
+    describe podman.info do
+      its("host.os") { should eq "linux" }
+    end
+
+### version
+
+`version` returns the parsed result of [podman version](https://docs.podman.io/en/latest/markdown/podman-version.1.html)
+
+    describe podman.version do
+      its("Client.Version") { should eq "4.1.0"}
+      its('Server.Version') { should eq '4.1.0'}
+    end

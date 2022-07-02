@@ -43,6 +43,26 @@ module Inspec::Resources
       PodmanPodFilter.new(get_pods)
     end
 
+    def version
+      return @version if defined?(@version)
+
+      sub_cmd = "version"
+      output = run_command(sub_cmd)
+      @version = Hashie::Mash.new(JSON.parse(output))
+    rescue JSON::ParserError => _e
+      Hashie::Mash.new({})
+    end
+
+    def info
+      return @info if defined?(@info)
+
+      sub_cmd = "info"
+      output = run_command(sub_cmd)
+      @info = Hashie::Mash.new(JSON.parse(output))
+    rescue JSON::ParserError => _e
+      Hashie::Mash.new({})
+    end
+
     def to_s
       "Podman"
     end
@@ -160,6 +180,7 @@ module Inspec::Resources
     filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
     filter.register_column(:ids,        field: "id")
       .register_column(:parent_ids,     field: "parentid")
+      .register_column(:repo_digests,   field: "repodigests", style: :simple)
       .register_column(:repo_tags,      field: "repotags")
       .register_column(:sizes,          field: "size")
       .register_column(:shared_sizes,   field: "sharedsize")
