@@ -57,6 +57,7 @@ describe Inspec::Resources::Podman do
     _(resource.images.exists?).must_equal true
     _(resource.images.ids).must_equal %w{55f4b40fe486a5b734b46bb7bf28f52fa31426bf23be068c8e7b19e58d9b8deb 27941809078cc9b2802deb2b0bb6feed6c236cde01e487f200e24653533701ee 3a66698e604003f7822a0c73e9da50e090fda9a99fe1f2e1e2e7fe796cc803d5}
     _(resource.images.parent_ids).must_equal ["", "", ""]
+    _(resource.images.repo_digests).must_include "docker.io/library/nginx@sha256:10f14ffa93f8dedf1057897b745e5ac72ac5655c299dade0aa434c71557697ea"
     _(resource.images.repo_tags).must_equal [nil, nil, nil]
     _(resource.images.sizes).must_equal [145937268, 80344929, 168993849]
     _(resource.images.shared_sizes).must_equal [0, 0, 0]
@@ -127,5 +128,15 @@ describe Inspec::Resources::Podman do
 
   it "returns false if pod with given id does not exist" do
     _(resource.pods.where(id: "979453ff4b40fe486a5b734b46bb7bf28f52fa31426bf23be068c8e7b19e58d9b8deb").exists?).must_equal false
+  end
+
+  it "check podman info parsing" do
+    _(resource.info.host.os).must_equal "linux"
+    _(resource.info.version.Version).must_equal "4.1.0"
+  end
+
+  it "check podman version parsing" do
+    _(resource.version.Server.Version).must_equal "4.1.0"
+    _(resource.version.Client.Version).must_equal "4.1.0"
   end
 end
