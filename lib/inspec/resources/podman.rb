@@ -43,6 +43,10 @@ module Inspec::Resources
       PodmanPodFilter.new(get_pods)
     end
 
+    def volumes
+      PodmanVolumeFilter.new(get_volumes)
+    end
+
     def version
       return @version if defined?(@version)
 
@@ -97,6 +101,14 @@ module Inspec::Resources
     # Returns the parsed command output.
     def get_pods
       sub_cmd = "pod ps --no-trunc"
+      output = run_command(sub_cmd)
+      parse(output)
+    end
+
+    # Calls the run_command method to get all podman volum list and parse the command output.
+    # Returns the parsed command output.
+    def get_volumes
+      sub_cmd = "volume ls"
       output = run_command(sub_cmd)
       parse(output)
     end
@@ -263,6 +275,35 @@ module Inspec::Resources
 
     def resource_id
       "Podman Pods"
+    end
+  end
+
+  class PodmanVolumeFilter
+    filter = FilterTable.create
+    filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
+      .register_column(:names,              field: "name")
+      .register_column(:drivers,            field: "driver")
+      .register_column(:mount_points,       field: "mountpoint")
+      .register_column(:created_at,         field: "createdat")
+      .register_column(:labels,             field: "labels")
+      .register_column(:scopes,             field: "scope")
+      .register_column(:options,            field: "options")
+      .register_column(:mount_count,        field: "mountcount")
+      .register_column(:needs_copy_up,      field: "needscopyup")
+      .register_column(:needs_chown,        field: "needschown")
+    filter.install_filter_methods_on_resource(self, :volumes)
+
+    attr_reader :volumes
+    def initialize(volumes)
+      @volumes = volumes
+    end
+
+    def to_s
+      "Podman Volumes"
+    end
+
+    def resource_id
+      "Podman Volumes"
     end
   end
 end
