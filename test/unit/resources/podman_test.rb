@@ -41,7 +41,7 @@ describe Inspec::Resources::Podman do
     _(resource.containers.created_at).must_equal ["47 hours ago", "31 hours ago", "26 hours ago"]
   end
 
-  it "returns false if image with given id does not exist" do
+  it "returns false if container with specific id does not exist" do
     _(resource.containers.where(id: "979453ff4b40fe486a5b734b46bb7bf28f52fa31426bf23be068c8e7b19e58d9b8deb").exists?).must_equal false
   end
 
@@ -71,7 +71,7 @@ describe Inspec::Resources::Podman do
     _(resource.images.created_at).must_equal %w{2022-06-23T04:13:24Z 2022-06-06T22:21:26Z 2022-05-06T10:11:58Z}
   end
 
-  it "returns false if image with given id does not exist" do
+  it "returns false if image with specific id does not exist" do
     _(resource.images.where(id: "979453ff4b40fe486a5b734b46bb7bf28f52fa31426bf23be068c8e7b19e58d9b8deb").exists?).must_equal false
   end
 
@@ -97,11 +97,11 @@ describe Inspec::Resources::Podman do
     _(resource.networks.ipam_options).must_equal [{ "driver" => "host-local" }]
   end
 
-  it "returns false if network with given id does not exist" do
+  it "returns false if network with specific id does not exist" do
     _(resource.networks.where(id: "979453ff4b40fe486a5b734b46bb7bf28f52fa31426bf23be068c8e7b19e58d9b8deb").exists?).must_equal false
   end
 
-  it "returns true if network with given id exist" do
+  it "returns true if network with specific id exist" do
     _(resource.networks.where(id: "2f259bab93aaaaa2542ba43ef33eb990d0999ee1b9924b557b7be53c0b7a1bb9").exists?).must_equal true
   end
 
@@ -126,17 +126,42 @@ describe Inspec::Resources::Podman do
     _(resource.pods.labels).must_equal [{}]
   end
 
-  it "returns false if pod with given id does not exist" do
+  it "returns false if pod with specific id does not exist" do
     _(resource.pods.where(id: "979453ff4b40fe486a5b734b46bb7bf28f52fa31426bf23be068c8e7b19e58d9b8deb").exists?).must_equal false
   end
 
-  it "check podman info parsing" do
+  it "checks podman info parsing" do
     _(resource.info.host.os).must_equal "linux"
     _(resource.info.version.Version).must_equal "4.1.0"
   end
 
-  it "check podman version parsing" do
+  it "checks podman version parsing" do
     _(resource.version.Server.Version).must_equal "4.1.0"
     _(resource.version.Client.Version).must_equal "4.1.0"
+  end
+
+  it "prints as Podman volumes plural resource" do
+    _(resource.volumes.to_s).must_equal "Podman Volumes"
+  end
+
+  it "prints the resource id of Podman volumes plural resource" do
+    _(resource.volumes.resource_id).must_equal "Podman Volumes"
+  end
+
+  it "returns parsed details of podman volumes" do
+    _(resource.volumes.names).must_equal %w{ae6be9ba838b9b150de47657229bb9b67142dbdb3d1ddbc5efa245cf1e95536a}
+    _(resource.volumes.drivers).must_equal %w{local}
+    _(resource.volumes.mount_points).must_equal %w{/var/home/core/.local/share/containers/storage/volumes/ae6be9ba838b9b150de47657229bb9b67142dbdb3d1ddbc5efa245cf1e95536a/_data}
+    _(resource.volumes.created_at).must_equal %w{2022-07-02T12:40:37.012062614+05:30}
+    _(resource.volumes.labels).must_equal [{}]
+    _(resource.volumes.scopes).must_equal %w{local}
+    _(resource.volumes.options).must_equal [{}]
+    _(resource.volumes.mount_count).must_equal [0]
+    _(resource.volumes.needs_copy_up).must_equal [true]
+    _(resource.volumes.needs_chown).must_equal [true]
+  end
+
+  it "returns false if volume with specific name does not exist" do
+    _(resource.volumes.where(name: "6bb7bf28f52fa31426bf23be068c8e7b19e58d9b8deb").exists?).must_equal false
   end
 end

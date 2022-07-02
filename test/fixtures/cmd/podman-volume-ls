@@ -1,0 +1,18 @@
+[
+  {
+    "Name": "ae6be9ba838b9b150de47657229bb9b67142dbdb3d1ddbc5efa245cf1e95536a",
+    "Driver": "local",
+    "Mountpoint": "/var/home/core/.local/share/containers/storage/volumes/ae6be9ba838b9b150de47657229bb9b67142dbdb3d1ddbc5efa245cf1e95536a/_data",
+    "CreatedAt": "2022-07-02T12:40:37.012062614+05:30",
+    "Labels": {
+      
+    },
+    "Scope": "local",
+    "Options": {
+      
+    },
+    "MountCount": 0,
+    "NeedsCopyUp": true,
+    "NeedsChown": true
+  }
+]

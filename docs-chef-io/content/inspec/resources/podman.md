@@ -90,7 +90,7 @@ The `podman` resource block declares also allows you to write test for many `pod
 
 ### containers
 
-`containers` returns information about Podman containers as returned by [podman ps -a](https://docs.podman.io/en/latest/markdown/podman.1.html).
+`containers` returns information about containers as returned by [podman ps -a](https://docs.podman.io/en/latest/markdown/podman.1.html).
 
     describe podman.containers do
       its("ids") { should include "591270d8d80d26671fd6ed622f367fbe19004d16e3b519c292313feb5f22e7f7" }
@@ -101,12 +101,39 @@ The `podman` resource block declares also allows you to write test for many `pod
 
 ### images
 
-`images` returns information about a Podman images as returned by [podman images -a](https://docs.podman.io/en/latest/markdown/podman-images.1.html).
+`images` returns information about a Podman image as returned by [podman images -a](https://docs.podman.io/en/latest/markdown/podman-images.1.html).
 
     describe podman.images do
       its('ids') { should include 'sha256:c7db653c4397e6a4d1e468bb7c6400c022c62623bdb87c173d54bac7995b6d8f ' }
       its('sizes') { should_not include '80.3 GB' }
       its('repo_digests") { should include "localhost/podman-pause@sha256:e6e9fffed42f600c811af34569268c07d063f12507457493c608d944a1fdac3f"}
+    end
+
+### pods
+
+`pods` returns information about pods as returned by [podman pod ps](https://docs.podman.io/en/latest/markdown/podman-pod-ps.1.html).
+
+    describe podman.pods do
+      its("ids") { should include "95cadbb84df71e6374fceb3fd89ee3b8f2c7e1a831062cd9cea7d0e3e4b1dbcc" }
+      its("containers") { should eq [{ "Id" => "a218dfc58fa28e0c58c55e508e5b57084876b42e894b98073c69c45dea06cbb2", "Names" => "95cadbb84df7-infra", "Status" => "running" } ]}
+      its("names") { should include "cranky_allen" }
+    end
+### networks
+
+`networks` returns information about a Podman network as returned by [podman network ls](https://docs.podman.io/en/latest/markdown/podman-network-ls.1.html).
+
+    describe podman.networks do
+      its("names") { should include "podman" }
+      its("ids") { should include "2f259bab93aaaaa2542ba43ef33eb990d0999ee1b9924b557b7be53c0b7a1bb9" }
+      its("ipv6_enabled") { should eq [false] }
+    end
+### volumes
+
+`volumes` returns information about a Podman volume as returned by [podman volume ls](https://docs.podman.io/en/latest/markdown/podman-volume-ls.1.html).
+
+    describe podman.volumes do
+      its('names') { should include 'ae6be9ba838b9b150de47657229bb9b67142dbdb3d1ddbc5efa245cf1e95536a' }
+      its('drivers') { should include 'local' }
     end
 
 ### info
