@@ -92,11 +92,11 @@ The following examples show how to use this Chef InSpec audit resource.
 
 ### Return all running containers
 
-  podman.containers.running?.ids.each do |id|
-    describe podman.object(id) do
-      its('State.Health.Status') { should eq 'healthy' }
+    podman.containers.running?.ids.each do |id|
+      describe podman.object(id) do
+        its('State.Health.Status') { should eq 'healthy' }
+      end
     end
-  end
 ## Resource Parameter Examples
 
 ### containers
