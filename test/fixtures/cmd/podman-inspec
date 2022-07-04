@@ -1,0 +1,10 @@
+[
+     {
+          "Id": "591270d8d80d26671fd6ed622f367fbe19004d16e3b519c292313feb5f22e7f7",
+          "Created": "2022-06-28T16:34:10.965113607+05:30",
+          "Path": "/docker-entrypoint.sh",
+          "Args": [
+               "/bin/bash"
+          ]
+      }
+]
