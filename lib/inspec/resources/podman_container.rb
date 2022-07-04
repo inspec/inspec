@@ -1,4 +1,4 @@
-require "inspec/resources/docker"
+require "inspec/resources/podman"
 require_relative "podman_object"
 
 # Change module if required
