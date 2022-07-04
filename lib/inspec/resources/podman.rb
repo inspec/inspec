@@ -25,6 +25,22 @@ module Inspec::Resources
       describe podman.pods do
         its("ids") { should include "95cadbb84df71e6374fceb3fd89ee3b8f2c7e1a831062cd9cea7d0e3e4b1dbcc" }
       end
+
+      describe podman.info.host do
+        its("os") { should eq "linux"}
+      end
+
+      describe podman.version do
+        its("Client.Version") { should eq "4.1.0"}
+      end
+
+      podman.containers.ids.each do |id|
+        # call podman inspect for a specific container id
+        describe podman.object(id) do
+          its("State.OciVersion") { should eq "1.0.2-dev" }
+          its("State.Running") { should eq true}
+        end
+      end
     EXAMPLE
 
     def containers
@@ -63,6 +79,18 @@ module Inspec::Resources
       sub_cmd = "info"
       output = run_command(sub_cmd)
       @info = Hashie::Mash.new(JSON.parse(output))
+    rescue JSON::ParserError => _e
+      Hashie::Mash.new({})
+    end
+
+    # returns information about podman objects
+    def object(id)
+      return @inspect if defined?(@inspect)
+
+      output = run_command("inspect #{id}")
+      data = JSON.parse(output)
+      data = data[0] if data.is_a?(Array)
+      @inspect = Hashie::Mash.new(data)
     rescue JSON::ParserError => _e
       Hashie::Mash.new({})
     end

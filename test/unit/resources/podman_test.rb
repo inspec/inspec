@@ -164,4 +164,9 @@ describe Inspec::Resources::Podman do
   it "returns false if volume with specific name does not exist" do
     _(resource.volumes.where(name: "6bb7bf28f52fa31426bf23be068c8e7b19e58d9b8deb").exists?).must_equal false
   end
+
+  it "check podman object parsing" do
+    _(resource.object("591270d8d80d").Id).must_equal "591270d8d80d26671fd6ed622f367fbe19004d16e3b519c292313feb5f22e7f7"
+    _(resource.object("591270d8d80d").Path).must_equal "/docker-entrypoint.sh"
+  end
 end

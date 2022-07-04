@@ -86,6 +86,15 @@ The `podman` resource block declares also allows you to write test for many `pod
 - `.where()` may specify a specific filter and expected value, against which parameters are compared
 - `ids`, `cgroups`, `containers`, `created`, `infra_ids`, `names`, `namespaces`, `networks`, `status` and `labels` are valid parameters for `pods`
 
+## Examples
+
+The following examples show how to use this Chef InSpec audit resource.
+
+  podman.containers.running?.ids.each do |id|
+    describe podman.object(id) do
+      its('State.Health.Status') { should eq 'healthy' }
+    end
+  end
 ## Resource Parameter Examples
 
 ### containers
@@ -152,3 +161,14 @@ The `podman` resource block declares also allows you to write test for many `pod
       its("Client.Version") { should eq "4.1.0"}
       its('Server.Version') { should eq '4.1.0'}
     end
+
+### object('id')
+
+`object` returns low-level information about Podman objects as returned by [podman inspect](https://docs.podman.io/en/latest/markdown/podman-inspect.1.html).
+
+    describe docker.object(id) do
+      its('State.Running') { should eq true }
+    end
+## Matchers
+
+For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
