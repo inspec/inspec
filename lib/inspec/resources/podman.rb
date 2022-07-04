@@ -174,7 +174,7 @@ module Inspec::Resources
   class PodmanContainerFilter
     filter = FilterTable.create
     filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
-    filter.register_column(:commands,   field: "command")
+    filter.register_column(:commands,   field: "command", style: :simple)
       .register_column(:autoremove,     field: "autoremove")
       .register_column(:createdat,      field: "createdat")
       .register_column(:ids,            field: "id")
