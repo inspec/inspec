@@ -90,6 +90,8 @@ The `podman` resource block declares also allows you to write test for many `pod
 
 The following examples show how to use this Chef InSpec audit resource.
 
+### Return all running containers
+
   podman.containers.running?.ids.each do |id|
     describe podman.object(id) do
       its('State.Health.Status') { should eq 'healthy' }
