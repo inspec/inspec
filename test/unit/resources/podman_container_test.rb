@@ -8,10 +8,10 @@ describe Inspec::Resources::PodmanContainer do
     _(resource.exist?).must_equal true
     _(resource.command).must_equal "/bin/bash"
     _(resource.status).must_equal "Created"
-    _(resource.ports).must_equal nil
     _(resource.running?).must_equal false
     _(resource.labels).must_include("maintainer" => "NGINX Docker Maintainers <docker-maint@nginx.com>")
     _(resource.image).must_equal "docker.io/library/nginx:latest"
+    assert_nil(resource.ports)
   end
 
   it "prints as a podman resource" do
