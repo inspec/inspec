@@ -37,7 +37,7 @@ or: if you want to query specific `container`:
 where
 
 - `.where()` may specify a specific item and value, to which the resource parameters are compared
-- `auto_remove`, `commands`, `created_at`, `ids`, `images`, `names`, `status`, `exited`, `exit_code`, `image_ids`, `labels`, `mounts`, `namespaces`, `pids`, `pods`, `podnames`, `ports`, `sizes`, `started_at`, `states` and `created` are valid parameters for `containers`
+- `autoremove`, `commands`, `createdat`, `ids`, `images`, `names`, `status`, `exited`, `exitcode`, `imageids`, `labels`, `mounts`, `namespaces`, `pids`, `pods`, `podnames`, `ports`, `sizes`, `startedat`, `states` and `created` are valid parameters for `containers`
 
 The `podman` resource block declares also allows you to write test for many `images`:
 
@@ -54,7 +54,7 @@ or if you want to query specific `image`:
 where
 
 - `.where()` may specify a specific filter and expected value, against which parameters are compared
-- `parent_ids`, `repo_digests`, `repo_tags`, `sizes`, `shared_sizes`, `virtual_sizes`, `labels`, `containers`, `names`, `digests`, `history`, `created`, and`created_at` are valid parameters for `images`
+- `parentids`, `repodigests`, `repotags`, `sizes`, `sharedsizes`, `virtualsizes`, `labels`, `containers`, `names`, `digests`, `history`, `created`, and`createdat` are valid parameters for `images`
 
 The `podman` resource block declares also allows you to write test for many `networks`:
 
@@ -84,7 +84,7 @@ The `podman` resource block declares also allows you to write test for many `pod
     end
 
 - `.where()` may specify a specific filter and expected value, against which parameters are compared
-- `ids`, `cgroups`, `containers`, `created`, `infra_ids`, `names`, `namespaces`, `networks`, `status` and `labels` are valid parameters for `pods`
+- `ids`, `cgroups`, `containers`, `created`, `infraids`, `names`, `namespaces`, `networks`, `status` and `labels` are valid parameters for `pods`
 
 ## Examples
 
@@ -117,7 +117,7 @@ The following examples show how to use this Chef InSpec audit resource.
     describe podman.images do
       its('ids') { should include 'sha256:c7db653c4397e6a4d1e468bb7c6400c022c62623bdb87c173d54bac7995b6d8f ' }
       its('sizes') { should_not include '80.3 GB' }
-      its('repo_digests") { should include "localhost/podman-pause@sha256:e6e9fffed42f600c811af34569268c07d063f12507457493c608d944a1fdac3f"}
+      its('repodigests") { should include "localhost/podman-pause@sha256:e6e9fffed42f600c811af34569268c07d063f12507457493c608d944a1fdac3f"}
     end
 
 ### pods
