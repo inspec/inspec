@@ -19,6 +19,7 @@ describe Inspec::Resources::Podman do
 
   it "returns the parsed details of Podman containers" do
     _(resource.containers.exists?).must_equal true
+    _(resource.containers.commands).must_equal %w{/bin/bash}
     _(resource.containers.ids).must_equal %w{591270d8d80d26671fd6ed622f367fbe19004d16e3b519c292313feb5f22e7f7 64b5562346d6b52fd40d790b34e9f18ba3b8745649c302b79ba5399d4ea00b36 437e70c45633de74be7a87ed8d94c442a3bfe0a1cdd293d5184a4af1765d8cf5}
     _(resource.containers.images).must_equal %w{docker.io/library/nginx:latest docker.io/library/ubuntu:latest registry.fedoraproject.org/fedora:latest}
     _(resource.containers.names).must_equal %w{sweet_mendeleev wizardly_torvalds confident_bell}
