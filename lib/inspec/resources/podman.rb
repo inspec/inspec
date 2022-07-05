@@ -44,23 +44,23 @@ module Inspec::Resources
     EXAMPLE
 
     def containers
-      PodmanContainerFilter.new(get_containers)
+      PodmanContainerFilter.new(parse_containers)
     end
 
     def images
-      PodmanImageFilter.new(get_images)
+      PodmanImageFilter.new(parse_images)
     end
 
     def networks
-      PodmanNetworkFilter.new(get_networks)
+      PodmanNetworkFilter.new(parse_networks)
     end
 
     def pods
-      PodmanPodFilter.new(get_pods)
+      PodmanPodFilter.new(parse_pods)
     end
 
     def volumes
-      PodmanVolumeFilter.new(get_volumes)
+      PodmanVolumeFilter.new(parse_volumes)
     end
 
     def version
@@ -103,7 +103,7 @@ module Inspec::Resources
 
     # Calls the run_command method to get all podman containers and parse the command output.
     # Returns the parsed command output.
-    def get_containers
+    def parse_containers
       sub_cmd = "ps -a --no-trunc"
       output = run_command(sub_cmd)
       parse(output)
@@ -111,7 +111,7 @@ module Inspec::Resources
 
     # Calls the run_command method to get all podman images and parse the command output.
     # Returns the parsed command output.
-    def get_images
+    def parse_images
       sub_cmd = "images -a --no-trunc"
       output = run_command(sub_cmd)
       parse(output)
@@ -119,7 +119,7 @@ module Inspec::Resources
 
     # Calls the run_command method to get all podman network list and parse the command output.
     # Returns the parsed command output.
-    def get_networks
+    def parse_networks
       sub_cmd = "network ls --no-trunc"
       output = run_command(sub_cmd)
       parse(output)
@@ -127,15 +127,15 @@ module Inspec::Resources
 
     # Calls the run_command method to get all podman pod list and parse the command output.
     # Returns the parsed command output.
-    def get_pods
+    def parse_pods
       sub_cmd = "pod ps --no-trunc"
       output = run_command(sub_cmd)
       parse(output)
     end
 
-    # Calls the run_command method to get all podman volum list and parse the command output.
+    # Calls the run_command method to get all podman volume list and parse the command output.
     # Returns the parsed command output.
-    def get_volumes
+    def parse_volumes
       sub_cmd = "volume ls"
       output = run_command(sub_cmd)
       parse(output)
