@@ -23,4 +23,9 @@ describe Inspec::Resources::PodmanContainer do
     resource = load_resource("podman_container", "sweet_mendeleev")
     _(resource.resource_id).must_equal "591270d8d80d26671fd6ed622f367fbe19004d16e3b519c292313feb5f22e7f7"
   end
+
+  it "skips the resource for unsupported platform" do
+    resource = MockLoader.new(:mock).load_resource("podman_container", "sweet_mendeleev")
+    _(resource.resource_skipped?).must_equal true
+  end
 end
