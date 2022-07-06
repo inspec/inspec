@@ -42,7 +42,7 @@ where
 The `podman` resource block declares also allows you to write test for many `images`:
 
     describe podman.images do
-      its('repositories') { should_not include 'inssecure_image' }
+      its('repositories') { should_not include 'docker.io/library/nginx' }
     end
 
 or if you want to query specific `image`:
@@ -54,7 +54,7 @@ or if you want to query specific `image`:
 where
 
 - `.where()` may specify a specific filter and expected value, against which parameters are compared
-- `parentids`, `repodigests`, `repotags`, `sizes`, `sharedsizes`, `virtualsizes`, `labels`, `containers`, `names`, `digests`, `history`, `created`, and`createdat` are valid parameters for `images`
+- `repositories`, `tags`, `sizes`,  `digests`, `history`, `created_at`, `history` and`created_since` are valid parameters for `images`
 
 The `podman` resource block declares also allows you to write test for many `networks`:
 
@@ -117,7 +117,7 @@ The following examples show how to use this Chef InSpec audit resource.
     describe podman.images do
       its('ids') { should include 'sha256:c7db653c4397e6a4d1e468bb7c6400c022c62623bdb87c173d54bac7995b6d8f ' }
       its('sizes') { should_not include '80.3 GB' }
-      its('repodigests") { should include "localhost/podman-pause@sha256:e6e9fffed42f600c811af34569268c07d063f12507457493c608d944a1fdac3f"}
+      its('repositories") { should include "docker.io/library/nginx"}
     end
 
 ### pods
