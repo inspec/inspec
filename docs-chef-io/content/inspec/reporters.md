@@ -15,7 +15,7 @@ A `reporter` is a facility for formatting and delivering the results of a Chef I
 
 Chef InSpec allows you to output your test results to one or more reporters.
 
-Configure the reporter(s) using either the `--reporter` option or as part of the general config file using the `--config` (or `--json-config`, prior to v3.6) option. While you can configure multiple reporters to write to different files, only one reporter can output to the screen(stdout).
+Configure the reporter(s) using either the `--reporter` option or as part of the general configuration file using the `--config` (or `--json-config`, prior to v3.6) option. While you can configure multiple reporters to write to different files, only one reporter can output to the screen(stdout).
 
 ## Syntax
 
@@ -239,9 +239,9 @@ Specifies the full path to the location of a JavaScript file that is read and in
 
 ## Automate Reporter
 
-The `automate` reporter type is a special reporter which sends its results over the network to [Chef Automate]({{< relref "/automate/">}}). To use this reporter, you must pass in the correct configuration via a json config `--config`.
+The `automate` reporter type is a special reporter which sends its results over the network to [Chef Automate]({{< relref "/automate/">}}). To use this reporter, you must pass in the correct configuration via a json configuration `--config`.
 
-Example config:
+Example Configuration:
 
 ```json
 {
