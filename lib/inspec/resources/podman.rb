@@ -118,9 +118,8 @@ module Inspec::Resources
     # Calls the run_command method to get all podman network list and parse the command output.
     # Returns the parsed command output.
     def parse_networks
-      sub_cmd = "network ls --no-trunc --format json"
-      output = run_command(sub_cmd)
-      parse(output)
+      labels = %w{ID Name Driver Labels Options IPAMOptions Created Internal IPv6Enabled DNSEnabled NetworkInterface Subnets}
+      parse_json_command(labels, "network ls --no-trunc")
     end
 
     # Calls the run_command method to get all podman pod list and parse the command output.
@@ -269,13 +268,15 @@ module Inspec::Resources
       .register_column(:ids,                  field: "id")
       .register_column(:names,                field: "name")
       .register_column(:drivers,              field: "driver")
-      .register_column(:network_interfaces,   field: "network_interface")
+      .register_column(:network_interfaces,   field: "networkinterface")
       .register_column(:created,              field: "created")
       .register_column(:subnets,              field: "subnets", style: :simple)
-      .register_column(:ipv6_enabled,         field: "ipv6_enabled")
+      .register_column(:ipv6_enabled,         field: "ipv6enabled")
       .register_column(:internal,             field: "internal")
-      .register_column(:dns_enabled,          field: "dns_enabled")
-      .register_column(:ipam_options,         field: "ipam_options")
+      .register_column(:dns_enabled,          field: "dnsenabled")
+      .register_column(:ipam_options,         field: "ipamoptions")
+      .register_column(:options,              field: "options")
+      .register_column(:labels,               field: "labels")
     filter.install_filter_methods_on_resource(self, :networks)
 
     attr_reader :networks

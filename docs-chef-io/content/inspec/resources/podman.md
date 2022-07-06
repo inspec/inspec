@@ -69,7 +69,7 @@ or if you want to query specific `network`:
     end
 
 - `.where()` may specify a specific filter and expected value, against which parameters are compared
-- `ids`, `names`, `drivers`, `network_interfaces`, `created`, `subnets`, `ipv6_enabled`, `internal`, `dns_enabled` and `ipam_options` are valid parameters for `networks`
+- `ids`, `names`, `drivers`, `network_interfaces`, `created`, `subnets`, `ipv6_enabled`, `internal`, `dns_enabled`, `options`, `labels` and `ipam_options` are valid parameters for `networks`
 
 The `podman` resource block declares also allows you to write test for many `pods`:
 
