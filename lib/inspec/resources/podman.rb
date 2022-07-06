@@ -104,9 +104,8 @@ module Inspec::Resources
     # Calls the run_command method to get all podman containers and parse the command output.
     # Returns the parsed command output.
     def parse_containers
-      sub_cmd = "ps -a --no-trunc --format json"
-      output = run_command(sub_cmd)
-      parse(output)
+      labels = %w{ID Image ImageID Command CreatedAt RunningFor Status Pod Ports Size Names Networks Labels Mounts}
+      parse_json_command(labels, "ps -a --no-trunc --size")
     end
 
     # Calls the run_command method to get all podman images and parse the command output.
@@ -204,26 +203,19 @@ module Inspec::Resources
     filter = FilterTable.create
     filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
     filter.register_column(:commands,   field: "command", style: :simple)
-      .register_column(:autoremove,     field: "autoremove")
-      .register_column(:createdat,      field: "createdat")
       .register_column(:ids,            field: "id")
+      .register_column(:created_at,     field: "createdat")
       .register_column(:images,         field: "image")
       .register_column(:names,          field: "names", style: :simple)
       .register_column(:status,         field: "status")
-      .register_column(:exited,         field: "exited")
-      .register_column(:exitcode,       field: "exitcode")
-      .register_column(:imageids,       field: "imageid")
+      .register_column(:image_ids,      field: "image_id")
       .register_column(:labels,         field: "labels")
       .register_column(:mounts,         field: "mounts", style: :simple)
-      .register_column(:namespaces,     field: "namespaces", style: :simple)
-      .register_column(:pids,           field: "pid")
+      .register_column(:networks,       field: "networks")
       .register_column(:pods,           field: "pod")
-      .register_column(:podnames,       field: "podname")
       .register_column(:ports,          field: "ports")
       .register_column(:sizes,          field: "size")
-      .register_column(:startedat,      field: "startedat")
-      .register_column(:states,         field: "state")
-      .register_column(:created,        field: "created")
+      .register_column(:running_for,    field: "running_for")
       .register_custom_matcher(:running?) do |x|
         x.where { status.downcase.start_with?("up") }
       end

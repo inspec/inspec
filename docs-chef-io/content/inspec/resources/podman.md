@@ -37,7 +37,7 @@ or: if you want to query specific `container`:
 where
 
 - `.where()` may specify a specific item and value, to which the resource parameters are compared
-- `autoremove`, `commands`, `createdat`, `ids`, `images`, `names`, `status`, `exited`, `exitcode`, `imageids`, `labels`, `mounts`, `namespaces`, `pids`, `pods`, `podnames`, `ports`, `sizes`, `startedat`, `states` and `created` are valid parameters for `containers`
+- `commands`, `created_at`, `ids`, `images`, `names`, `status`, `image_ids`, `labels`, `mounts`, `networks`, `pods`, `ports`, `running_for` and `sizes` are valid parameters for `containers`
 
 The `podman` resource block declares also allows you to write test for many `images`:
 
