@@ -112,15 +112,8 @@ module Inspec::Resources
     # Calls the run_command method to get all podman images and parse the command output.
     # Returns the parsed command output.
     def parse_images
-      raw_images = inspec.command('podman images -a --no-trunc --format \'{ "id": {{json .ID}}, "repository": {{json .Repository}}, "tag": {{json .Tag}}, "size": {{json .Size}}, "digest": {{json .Digest}}, "createdat": {{json .CreatedAt}}, "createdsince": {{json .CreatedSince}}, "history": {{json .History}} }\'').stdout
-      c_images = []
-      raw_images.each_line do |entry|
-        c_images.push(JSON.parse(entry))
-      end
-      c_images
-    rescue JSON::ParserError => _e
-      warn "Could not parse `podman images` output"
-      []
+      labels = %w{ID Repository Tag Size Digest CreatedAt CreatedSince History}
+      parse_json_command(labels, "images -a --no-trunc")
     end
 
     # Calls the run_command method to get all podman network list and parse the command output.
@@ -156,6 +149,36 @@ module Inspec::Resources
       else
         raise "Error while running command \'podman #{subcommand}\' : #{result.stderr}"
       end
+    end
+
+    def parse_json_command(labels, subcommand)
+      # build command
+      format = labels.map { |label| "\"#{label}\": {{json .#{label}}}" }
+      raw = inspec.command("podman #{subcommand} --format '{#{format.join(", ")}}'").stdout
+      output = []
+
+      raw.each_line do |entry|
+        # convert all keys to lower_case to work well with ruby and filter table
+        row = JSON.parse(entry).map do |key, value|
+          [key.downcase, value]
+        end.to_h
+
+        # ensure all keys are there
+        row = ensure_keys(row, labels)
+        output.push(row)
+      end
+
+      output
+    rescue JSON::ParserError => _e
+      warn "Could not parse `podman #{subcommand}` output"
+      []
+    end
+
+    def ensure_keys(entry, labels)
+      labels.each do |key|
+        entry[key.downcase] = nil unless entry.key?(key.downcase)
+      end
+      entry
     end
 
     # Method to parse JDON content.

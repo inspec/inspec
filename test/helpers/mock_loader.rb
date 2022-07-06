@@ -684,7 +684,7 @@ class MockLoader
 
       # podman
       "podman ps -a --no-trunc --format json" => cmd.call("podman-ps-a"),
-      %{podman images -a --no-trunc --format '{ "id": {{json .ID}}, "repository": {{json .Repository}}, "tag": {{json .Tag}}, "size": {{json .Size}}, "digest": {{json .Digest}}, "createdat": {{json .CreatedAt}}, "createdsince": {{json .CreatedSince}}, "history": {{json .History}} }'} => cmd.call("podman-images-a"),
+      %{podman images -a --no-trunc --format '{\"ID\": {{json .ID}}, \"Repository\": {{json .Repository}}, \"Tag\": {{json .Tag}}, \"Size\": {{json .Size}}, \"Digest\": {{json .Digest}}, \"CreatedAt\": {{json .CreatedAt}}, \"CreatedSince\": {{json .CreatedSince}}, \"History\": {{json .History}}}'} => cmd.call("podman-images-a"),
       "podman network ls --no-trunc --format json" => cmd.call("podman-network-ls"),
       "podman pod ps --no-trunc --format json" => cmd.call("podman-pod-ps"),
       "podman info --format json" => cmd.call("podman-info"),
