@@ -42,8 +42,7 @@ module Inspec
         end
       end
 
-      # TODO: consider signed profiles
-      profiles = requested_sets.map { |s| File.join(Inspec.src_root, "etc", "suggest", s) }
+      profiles = requested_sets.map { |s| File.join(Inspec.src_root, "etc", "suggest", "#{s}.iaf") }
 
       exec_args = []
       exec_args << ["-t", options[:target]] if options[:target]
