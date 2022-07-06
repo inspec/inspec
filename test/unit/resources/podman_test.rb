@@ -56,20 +56,14 @@ describe Inspec::Resources::Podman do
 
   it "returns the parsed details of podman images" do
     _(resource.images.exists?).must_equal true
-    _(resource.images.ids).must_equal %w{55f4b40fe486a5b734b46bb7bf28f52fa31426bf23be068c8e7b19e58d9b8deb 27941809078cc9b2802deb2b0bb6feed6c236cde01e487f200e24653533701ee 3a66698e604003f7822a0c73e9da50e090fda9a99fe1f2e1e2e7fe796cc803d5}
-    _(resource.images.parentids).must_equal ["", "", ""]
-    _(resource.images.repodigests).must_include "docker.io/library/nginx@sha256:10f14ffa93f8dedf1057897b745e5ac72ac5655c299dade0aa434c71557697ea"
-    _(resource.images.repotags).must_equal [nil, nil, nil]
-    _(resource.images.sizes).must_equal [145937268, 80344929, 168993849]
-    _(resource.images.sharedsizes).must_equal [0, 0, 0]
-    _(resource.images.virtualsizes).must_equal [145937268, 80344929, 168993849]
-    _(resource.images.labels).must_equal [{ "maintainer" => "NGINX Docker Maintainers <docker-maint@nginx.com>" }, nil, { "license" => "MIT", "name" => "fedora", "vendor" => "Fedora Project", "version" => "36" }]
-    _(resource.images.containers).must_equal [1, 1, 1]
-    _(resource.images.names).must_equal %w{docker.io/library/nginx:latest docker.io/library/ubuntu:latest registry.fedoraproject.org/fedora:latest}
-    _(resource.images.digests).must_equal %w{sha256:10f14ffa93f8dedf1057897b745e5ac72ac5655c299dade0aa434c71557697ea sha256:b6b83d3c331794420340093eb706a6f152d9c1fa51b262d9bf34594887c2c7ac sha256:38813cf0913241b7f13c7057e122f7c3cfa2e7c427dca3194f933d94612e280b}
-    _(resource.images.history).must_equal [nil, nil, nil]
-    _(resource.images.created).must_equal [1655957604, 1654554086, 1651831918]
-    _(resource.images.createdat).must_equal %w{2022-06-23T04:13:24Z 2022-06-06T22:21:26Z 2022-05-06T10:11:58Z}
+    _(resource.images.ids).must_equal %w{sha256:c7db653c4397e6a4d1e468bb7c6400c022c62623bdb87c173d54bac7995b6d8f sha256:55f4b40fe486a5b734b46bb7bf28f52fa31426bf23be068c8e7b19e58d9b8deb sha256:27941809078cc9b2802deb2b0bb6feed6c236cde01e487f200e24653533701ee sha256:3a66698e604003f7822a0c73e9da50e090fda9a99fe1f2e1e2e7fe796cc803d5}
+    _(resource.images.repositories).must_equal %w{localhost/podman-pause docker.io/library/nginx docker.io/library/ubuntu registry.fedoraproject.org/fedora}
+    _(resource.images.tags).must_equal %w{4.1.0-1651853754 latest latest latest}
+    _(resource.images.sizes).must_equal ["816 kB", "146 MB", "80.3 MB", "169 MB"]
+    _(resource.images.digests).must_equal %w{sha256:e6e9fffed42f600c811af34569268c07d063f12507457493c608d944a1fdac3f sha256:10f14ffa93f8dedf1057897b745e5ac72ac5655c299dade0aa434c71557697ea sha256:b6b83d3c331794420340093eb706a6f152d9c1fa51b262d9bf34594887c2c7ac sha256:38813cf0913241b7f13c7057e122f7c3cfa2e7c427dca3194f933d94612e280b}
+    _(resource.images.history).must_equal %w{localhost/podman-pause:4.1.0-1651853754 docker.io/library/nginx:latest docker.io/library/ubuntu:latest registry.fedoraproject.org/fedora:latest}
+    _(resource.images.created_since).must_equal ["5 days ago", "13 days ago", "4 weeks ago", "2 months ago"]
+    _(resource.images.created_at).must_equal ["2022-07-01 07:38:09 +0000 UTC", "2022-06-23 04:13:24 +0000 UTC", "2022-06-06 22:21:26 +0000 UTC", "2022-05-06 10:11:58 +0000 UTC"]
   end
 
   it "returns false if image with specific id does not exist" do

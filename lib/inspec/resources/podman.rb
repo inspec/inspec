@@ -66,7 +66,7 @@ module Inspec::Resources
     def version
       return @version if defined?(@version)
 
-      sub_cmd = "version"
+      sub_cmd = "version --format json"
       output = run_command(sub_cmd)
       @version = Hashie::Mash.new(JSON.parse(output))
     rescue JSON::ParserError => _e
@@ -76,7 +76,7 @@ module Inspec::Resources
     def info
       return @info if defined?(@info)
 
-      sub_cmd = "info"
+      sub_cmd = "info --format json"
       output = run_command(sub_cmd)
       @info = Hashie::Mash.new(JSON.parse(output))
     rescue JSON::ParserError => _e
@@ -87,7 +87,7 @@ module Inspec::Resources
     def object(id)
       return @inspect if defined?(@inspect)
 
-      output = run_command("inspect #{id}")
+      output = run_command("inspect #{id} --format json")
       data = JSON.parse(output)
       data = data[0] if data.is_a?(Array)
       @inspect = Hashie::Mash.new(data)
@@ -104,7 +104,7 @@ module Inspec::Resources
     # Calls the run_command method to get all podman containers and parse the command output.
     # Returns the parsed command output.
     def parse_containers
-      sub_cmd = "ps -a --no-trunc"
+      sub_cmd = "ps -a --no-trunc --format json"
       output = run_command(sub_cmd)
       parse(output)
     end
@@ -112,15 +112,21 @@ module Inspec::Resources
     # Calls the run_command method to get all podman images and parse the command output.
     # Returns the parsed command output.
     def parse_images
-      sub_cmd = "images -a --no-trunc"
-      output = run_command(sub_cmd)
-      parse(output)
+      raw_images = inspec.command('podman images -a --no-trunc --format \'{ "id": {{json .ID}}, "repository": {{json .Repository}}, "tag": {{json .Tag}}, "size": {{json .Size}}, "digest": {{json .Digest}}, "createdat": {{json .CreatedAt}}, "createdsince": {{json .CreatedSince}}, "history": {{json .History}} }\'').stdout
+      c_images = []
+      raw_images.each_line do |entry|
+        c_images.push(JSON.parse(entry))
+      end
+      c_images
+    rescue JSON::ParserError => _e
+      warn "Could not parse `podman images` output"
+      []
     end
 
     # Calls the run_command method to get all podman network list and parse the command output.
     # Returns the parsed command output.
     def parse_networks
-      sub_cmd = "network ls --no-trunc"
+      sub_cmd = "network ls --no-trunc --format json"
       output = run_command(sub_cmd)
       parse(output)
     end
@@ -128,7 +134,7 @@ module Inspec::Resources
     # Calls the run_command method to get all podman pod list and parse the command output.
     # Returns the parsed command output.
     def parse_pods
-      sub_cmd = "pod ps --no-trunc"
+      sub_cmd = "pod ps --no-trunc --format json"
       output = run_command(sub_cmd)
       parse(output)
     end
@@ -136,7 +142,7 @@ module Inspec::Resources
     # Calls the run_command method to get all podman volume list and parse the command output.
     # Returns the parsed command output.
     def parse_volumes
-      sub_cmd = "volume ls"
+      sub_cmd = "volume ls --format json"
       output = run_command(sub_cmd)
       parse(output)
     end
@@ -144,7 +150,7 @@ module Inspec::Resources
     # Runs the given podman command on the host machine on which podman is installed
     # Returns the command output or raises the command execution error.
     def run_command(subcommand)
-      result = inspec.command("podman #{subcommand} --format json")
+      result = inspec.command("podman #{subcommand}")
       if result.stderr.empty?
         result.stdout
       else
@@ -218,20 +224,14 @@ module Inspec::Resources
   class PodmanImageFilter
     filter = FilterTable.create
     filter.register_custom_matcher(:exists?) { |x| !x.entries.empty? }
-    filter.register_column(:ids,        field: "id")
-      .register_column(:parentids,      field: "parentid")
-      .register_column(:repodigests,    field: "repodigests", style: :simple)
-      .register_column(:repotags,       field: "repotags")
-      .register_column(:sizes,          field: "size")
-      .register_column(:sharedsizes,    field: "sharedsize")
-      .register_column(:virtualsizes,   field: "virtualsize")
-      .register_column(:labels,         field: "labels")
-      .register_column(:containers,     field: "containers")
-      .register_column(:names,          field: "names", style: :simple)
-      .register_column(:digests,        field: "digest")
-      .register_column(:history,        field: "histroy")
-      .register_column(:created,        field: "created")
-      .register_column(:createdat,      field: "createdat")
+    filter.register_column(:ids,       field: "id")
+      .register_column(:repositories,  field: "repository")
+      .register_column(:tags,          field: "tag")
+      .register_column(:sizes,         field: "size")
+      .register_column(:digests,       field: "digest")
+      .register_column(:created_at,    field: "createdat")
+      .register_column(:created_since, field: "createdsince")
+      .register_column(:history,       field: "history")
     filter.install_filter_methods_on_resource(self, :images)
 
     attr_reader :images
