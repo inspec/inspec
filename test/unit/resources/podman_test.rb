@@ -78,12 +78,14 @@ describe Inspec::Resources::Podman do
     _(resource.networks.names).must_equal %w{podman}
     _(resource.networks.drivers).must_equal %w{bridge}
     _(resource.networks.network_interfaces).must_equal %w{podman0}
-    _(resource.networks.created).must_equal %w{2022-07-01T17:05:20.015804994+05:30}
+    _(resource.networks.created).must_equal %w{2022-07-06T10:32:00.879655095+05:30}
     _(resource.networks.subnets).must_equal [{ "subnet" => "10.88.0.0/16", "gateway" => "10.88.0.1" }]
     _(resource.networks.ipv6_enabled).must_equal [false]
     _(resource.networks.internal).must_equal [false]
     _(resource.networks.dns_enabled).must_equal [false]
     _(resource.networks.ipam_options).must_equal [{ "driver" => "host-local" }]
+    _(resource.networks.labels).must_equal [""]
+    _(resource.networks.options).must_include nil
   end
 
   it "returns false if network with specific id does not exist" do
