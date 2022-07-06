@@ -53,6 +53,15 @@ module InspecPlugins::Suggest
           end
         end
       end
+
+      def iaf_path(set_name)
+        path = File.join(Inspec.src_root, "etc", "suggest", "#{set_name}.iaf")
+        unless File.exist?(path)
+          ui.error("Suggestion criteria archive file '#{path}' does not exist")
+          ui.exit(:usage_error) # Really an internal config error
+        end
+        path
+      end
     end
 
     # suggtool build # fetch, check, package, bump, sign
