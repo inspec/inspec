@@ -8,7 +8,7 @@ module Inspec::Resources
     name "podman_container"
     supports platform: "unix"
 
-    desc "A resource to retrieve information about podman container"
+    desc "Inspec core resource to retrieve information about podman container"
 
     example <<~EXAMPLE
         describe podman_container("sweet_mendeleev") do

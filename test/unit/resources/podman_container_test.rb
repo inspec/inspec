@@ -1,6 +1,6 @@
-require "helper"
-require "inspec/resource"
-require "inspec/resources/podman_container"
+require "inspec/globals"
+require "#{Inspec.src_root}/test/helper"
+require_relative "../../../lib/inspec/resources/podman_container"
 
 describe Inspec::Resources::PodmanContainer do
   it "check container parsing" do
