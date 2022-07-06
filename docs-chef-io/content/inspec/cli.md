@@ -38,7 +38,7 @@ This subcommand has the following additional options:
 * `-o`, `--output=OUTPUT`
     Save the archive to a path.
 * `--overwrite`, `--no-overwrite`
-    Overwrite existing archives.
+    Overwrite existing archive.
 * `--profiles-path=PROFILES_PATH`
     Folder which contains referenced profiles.
 * `--tar`, `--no-tar`
@@ -318,7 +318,7 @@ This subcommand has the following additional options:
 * `--controls=one two three`
     A list of control names to run or a list of /regexes/ to match against control names. Ignore all other tests.
 * `--create-lockfile`, `--no-create-lockfile`
-    Write out a lock file based on this execution (unless one already exists).
+    Write out a lockfile based on this execution (unless one already exists).
 * `--distinct-exit`, `--no-distinct-exit`
     Exit with code 101 if any tests fail and 100 if any are skipped (default).  If disabled, exit 0 on skips and 1 for failures.
 * `--docker-url`
@@ -352,7 +352,7 @@ This subcommand has the following additional options:
 * `--proxy-command=PROXY_COMMAND`
     Specifies the command to use to connect to the server.
 * `--reporter=one two:/output/file/path`
-    Enable one or more output reporters: cli, documentation, html, progress, progress-bar, json, json-min, json-rspec, jUnit, yaml.
+    Enable one or more output reporters: CLI, documentation, HTML, progress, progress-bar, json, json-min, json-rspec, jUnit, yaml.
 * `--reporter-backtrace-inclusion`, `--no-reporter-backtrace-inclusion`
     Include a code backtrace in report data (default: true).
 * `--reporter-include-source`
@@ -577,7 +577,7 @@ This subcommand has the following additional options:
 * `--proxy-command=PROXY_COMMAND`
     Specifies the command to use to connect to the server.
 * `--reporter=one two:/output/file/path`
-    Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, jUnit.
+    Enable one or more output reporters: CLI, documentation, HTML, progress, json, json-min, json-rspec, jUnit.
 * `--self-signed`, `--no-self-signed`
     Allow remote scans with self-signed certificates (WinRM).
 * `--shell`, `--no-shell`
@@ -636,7 +636,7 @@ This subcommand has additional options:
 
 ## vendor
 
-Download all dependencies and generate a lock file in a `vendor` directory.
+Download all dependencies and generate a lockfile in a `vendor` directory.
 
 ### Syntax
 
@@ -651,7 +651,7 @@ inspec vendor PATH
 This subcommand has additional options:
 
 * `--overwrite`, `--no-overwrite`
-    Overwrite existing vendored dependencies and lock files.
+    Overwrite existing vendored dependencies and lockfiles.
 
 ## version
 
