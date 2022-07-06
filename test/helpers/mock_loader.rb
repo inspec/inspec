@@ -683,7 +683,7 @@ class MockLoader
       "(Get-Acl 'C:/ExamlpeFolder').access| Where-Object {$_.IsInherited -eq $true} | measure | % { $_.Count }" => cmd.call("windows_file_inherit_output"),
 
       # podman
-      "podman ps -a --no-trunc --format json" => cmd.call("podman-ps-a"),
+      %{podman ps -a --no-trunc --size --format '{\"ID\": {{json .ID}}, \"Image\": {{json .Image}}, \"ImageID\": {{json .ImageID}}, \"Command\": {{json .Command}}, \"CreatedAt\": {{json .CreatedAt}}, \"RunningFor\": {{json .RunningFor}}, \"Status\": {{json .Status}}, \"Pod\": {{json .Pod}}, \"Ports\": {{json .Ports}}, \"Size\": {{json .Size}}, \"Names\": {{json .Names}}, \"Networks\": {{json .Networks}}, \"Labels\": {{json .Labels}}, \"Mounts\": {{json .Mounts}}}'} => cmd.call("podman-ps-a"),
       %{podman images -a --no-trunc --format '{\"ID\": {{json .ID}}, \"Repository\": {{json .Repository}}, \"Tag\": {{json .Tag}}, \"Size\": {{json .Size}}, \"Digest\": {{json .Digest}}, \"CreatedAt\": {{json .CreatedAt}}, \"CreatedSince\": {{json .CreatedSince}}, \"History\": {{json .History}}}'} => cmd.call("podman-images-a"),
       "podman network ls --no-trunc --format json" => cmd.call("podman-network-ls"),
       "podman pod ps --no-trunc --format json" => cmd.call("podman-pod-ps"),
