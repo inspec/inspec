@@ -19,14 +19,14 @@ describe Inspec::Resources::Podman do
 
   it "returns the parsed details of Podman containers" do
     _(resource.containers.exists?).must_equal true
-    _(resource.containers.commands).must_equal ["/bin/bash", "", "bash"]
+    _(resource.containers.commands).must_equal ["/bin/bash", "/bin/bash", "/bin/bash", "", "bash"]
     _(resource.containers.ids).must_equal %w{591270d8d80d26671fd6ed622f367fbe19004d16e3b519c292313feb5f22e7f7 64b5562346d6b52fd40d790b34e9f18ba3b8745649c302b79ba5399d4ea00b36 437e70c45633de74be7a87ed8d94c442a3bfe0a1cdd293d5184a4af1765d8cf5 a218dfc58fa28e0c58c55e508e5b57084876b42e894b98073c69c45dea06cbb2 b36abf69b8af6f8a8305ab2d9b209c2acaeece41dbc4f242f8e45caf6e02504b}
     _(resource.containers.images).must_equal %w{docker.io/library/nginx:latest docker.io/library/ubuntu:latest registry.fedoraproject.org/fedora:latest localhost/podman-pause:4.1.0-1651853754 docker.io/library/ubuntu:latest}
     _(resource.containers.names).must_equal %w{sweet_mendeleev wizardly_torvalds confident_bell 95cadbb84df7-infra pensive_mccarthy}
     _(resource.containers.status).must_equal ["Up 13 hours ago", "Up 13 hours ago", "Created", "Created", "Created"]
     _(resource.containers.image_ids).must_include "55f4b40fe486a5b734b46bb7bf28f52fa31426bf23be068c8e7b19e58d9b8deb"
     _(resource.containers.labels).must_include "maintainer" => "NGINX Docker Maintainers <docker-maint@nginx.com>"
-    _(resource.containers.mounts).must_equal []
+    _(resource.containers.mounts).must_include []
     _(resource.containers.pods).must_include "95cadbb84df71e6374fceb3fd89ee3b8f2c7e1a831062cd9cea7d0e3e4b1dbcc"
     _(resource.containers.ports).must_include ""
     _(resource.containers.sizes).must_include "12B (virtual 142MB)"
@@ -79,7 +79,7 @@ describe Inspec::Resources::Podman do
     _(resource.networks.drivers).must_equal %w{bridge}
     _(resource.networks.network_interfaces).must_equal %w{podman0}
     _(resource.networks.created).must_equal %w{2022-07-06T10:32:00.879655095+05:30}
-    _(resource.networks.subnets).must_equal [{ "subnet" => "10.88.0.0/16", "gateway" => "10.88.0.1" }]
+    _(resource.networks.subnets).must_equal [[{"subnet"=>"10.88.0.0/16", "gateway"=>"10.88.0.1"}]]
     _(resource.networks.ipv6_enabled).must_equal [false]
     _(resource.networks.internal).must_equal [false]
     _(resource.networks.dns_enabled).must_equal [false]
@@ -107,12 +107,12 @@ describe Inspec::Resources::Podman do
   it "returns the parsed details of podman pods" do
     _(resource.pods.ids).must_equal %w{95cadbb84df71e6374fceb3fd89ee3b8f2c7e1a831062cd9cea7d0e3e4b1dbcc}
     _(resource.pods.cgroups).must_equal %w{user.slice}
-    _(resource.pods.containers).must_equal [{ "Id" => "a218dfc58fa28e0c58c55e508e5b57084876b42e894b98073c69c45dea06cbb2", "Names" => "95cadbb84df7-infra", "Status" => "running" }, { "Id" => "b36abf69b8af6f8a8305ab2d9b209c2acaeece41dbc4f242f8e45caf6e02504b", "Names" => "pensive_mccarthy", "Status" => "running" }]
+    _(resource.pods.containers).must_equal [[{"Id"=>"a218dfc58fa28e0c58c55e508e5b57084876b42e894b98073c69c45dea06cbb2", "Names"=>"95cadbb84df7-infra", "Status"=>"running"}, {"Id"=>"b36abf69b8af6f8a8305ab2d9b209c2acaeece41dbc4f242f8e45caf6e02504b", "Names"=>"pensive_mccarthy", "Status"=>"running"}]]
     _(resource.pods.created).must_equal %w{2022-07-01T13:08:09.662082101+05:30}
     _(resource.pods.infraids).must_equal %w{a218dfc58fa28e0c58c55e508e5b57084876b42e894b98073c69c45dea06cbb2}
     _(resource.pods.names).must_equal %w{cranky_allen}
     _(resource.pods.namespaces).must_equal [""]
-    _(resource.pods.networks).must_equal %w{podman}
+    _(resource.pods.networks).must_equal [["podman"]]
     _(resource.pods.status).must_equal %w{Running}
     _(resource.pods.labels).must_equal [{}]
   end
