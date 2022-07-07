@@ -17,5 +17,8 @@ describe Inspec::Resources::PodmanImage do
     _(resource.created_at).must_equal "2022-06-23 04:13:24 +0000 UTC"
     _(resource.created_since).must_equal "13 days ago"
     _(resource.history).must_equal "docker.io/library/nginx:latest"
+    _(resource.inspect_info).must_include "Architecture"
+    _(resource.inspect_info.Architecture).must_equal "arm64"
+    _(resource.to_s).must_equal "podman_image sha256:55f4b40fe486a5b734b46bb7bf28f52fa31426bf23be068c8e7b19e58d9b8deb"
   end
 end

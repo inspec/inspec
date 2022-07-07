@@ -1,0 +1,17 @@
+[
+     {
+          "Id": "cd4e03b35a8e938f7bf1257fbd19fc2d7becae39974c0328236fd7df49c0a92a",
+          "Digest": "sha256:10f14ffa93f8dedf1057897b745e5ac72ac5655c299dade0aa434c71557697ea",
+          "RepoTags": [
+               "docker.io/library/nginx:latest"
+          ],
+          "Parent": "",
+          "Comment": "",
+          "Created": "2022-06-23T04:04:53.272855015Z",
+          "Version": "20.10.12",
+          "Author": "",
+          "Architecture": "arm64",
+          "Os": "linux",
+          "Size": 138861442
+     }
+]
