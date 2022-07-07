@@ -18,13 +18,13 @@ module Inspec::Resources
         its("tag") { should eq "latest" }
         its("resource_id") { should eq "sha256:3c19bafed22355e11a608c4b613d87d06b9cdd37d378e6e0176cbc8e7144d5c6" }
       end
-    
+
       describe podman_image(repo: "docker.io/library/busybox", tag: "latest") do
         it { should exist }
         its("id") { should eq "sha256:3c19bafed22355e11a608c4b613d87d06b9cdd37d378e6e0176cbc8e7144d5c6" }
         its("image") { should eq "docker.io/library/busybox:latest" }
       end
-    
+
       describe podman_image(id: "8847e9bf6df8") do
         it { should exist }
       end
