@@ -2,19 +2,14 @@
 
 ## Use Cases
 
-As a compliance officer
-I want to be able to mark skipped controls as manually passed or failed
-so that I can manually complete the profile
+As a compliance officer, I want to mark skipped controls as manually passed or failed so I can manually complete the profile.
 
-As a compliance officer
-I want to set an expiration date and a justification on my attestations
-so that I can control their application
+As a compliance officer, I want to set an expiration date and a justification for my attestations so that I can control their application.
 
-As a compliance officer
-I want flexibility in the file format accepted by the attestations system (XLSX, YAML, CSV, JSON)
-so that I can use a familiar file format
+As a compliance officer, I want flexibility in the file format accepted by the attestations system (XLSX, YAML, CSV, JSON),
+so that I can use a familiar file format.
 
-When used in conjunction with Enhanced Outcomes, this becomes handling Not Reviewed controls.
+When used with Enhanced Outcomes, this becomes handling `Not Reviewed` controls.
 
 ## Mechanism
 
@@ -22,13 +17,13 @@ When used in conjunction with Enhanced Outcomes, this becomes handling Not Revie
 
 `inspec exec profilename --attestation-file file.???`
 
-Option is named like `--waiver-file` - singular, with `-file`. You may provide multiple arguments to the option.
+An option is named like `--waiver-file` - singular, with `-file`. You may provide multiple arguments for the option.
 
-File may be either YAML, XLSX, CSV, or JSON.
+The file can be either of the following formats: `YAML`, `XLSX`, `CSV`, or `JSON`.
 
 #### YAML and JSON
 
-Array of Hashes.
+An array of Hashes.
 
 #### XLSX and CSV
 
@@ -40,29 +35,31 @@ Both formats assume a header row.
 
 #### control_id
 
-Required. Matches control ID of the control.
+_Required_. Matches control ID of the control.
 
 #### justification
 
-Required. Free text field, used as explanation for the control when displayed.
+_Required_. Free text field, used as an explanation for the control when displayed.
 
 #### evidence_url
 
-Optional. URL to some sort of evidence, determined by the user, that supports the justification.
+_Optional_. URL to some evidence, determined by the user, supports the justification.
 
 #### expiration_date
 
-Optional. If present, the attestation expires at the end of the date given.
+_Optional_. If present, the attestation expires at the end of the date given.
 
 #### status
 
-Optional, default "passed". Either passed or failed. If the attestation should indicate that the control is a failure, set this to "failed".
+_Optional_. 
+
+Default `passed`. If the attestation should indicate that the control is a failure, set this to `failed`.
 
 ### Implementation
 
-When running, at the RunData stage, attestations are handled by the following process:
+When running, at the **RunData** stage, attestations are handled by the following process:
 
-1. Locate matching controls my matching the control ID.
+1. Locate matching controls by matching the control ID.
 
 2. Inject an artificial test result into the control. Use the attestation justification as the result message.
 
@@ -74,7 +71,7 @@ When running, at the RunData stage, attestations are handled by the following pr
 
 ### Compatibility
 
-To support backwards compatibility with existing MITRE work, support will be added (but not otherwise documented) for the following fields:
+To support backward compatibility with existing MITRE work, support will be added (but not otherwise documented) for the following fields:
 
- * explanation - equivalent of justification
- * updated (Date) and frequency (string enum) - together, equivalent of expiration date.
+* explanation - the equivalent of justification
+* updated (Date) and frequency (string enum) - together, the equivalent of the expiration date.
