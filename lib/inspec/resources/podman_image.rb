@@ -50,6 +50,26 @@ module Inspec::Resources
       object_info.tags[0] if object_info.entries.size == 1
     end
 
+    def size
+      object_info.sizes[0] if object_info.entries.size == 1
+    end
+
+    def digest
+      object_info.digests[0] if object_info.entries.size == 1
+    end
+
+    def created_at
+      object_info.created_at[0] if object_info.entries.size == 1
+    end
+
+    def created_since
+      object_info.created_since[0] if object_info.entries.size == 1
+    end
+
+    def history
+      object_info.history[0] if object_info.entries.size == 1
+    end
+
     def resource_id
       object_info.ids[0] || @opts[:id] || @opts[:image] || ""
     end
