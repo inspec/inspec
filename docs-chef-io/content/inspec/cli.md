@@ -174,7 +174,7 @@ This subcommand has the following additional options:
 * `--winrm-transport=WINRM_TRANSPORT`
     Specify which transport to use, defaults to negotiate (WinRM).
 * `--winrm-shell-type=WINRM_SHELL_TYPE`
-    Specify which shell type to use (PowerShell, elevated, or cmd), which defaults to PowerShell (WinRM).
+    Specify which shell type to use (powershell, elevated, or cmd), which defaults to powershell (WinRM).
 
 ## env
 
@@ -352,7 +352,7 @@ This subcommand has the following additional options:
 * `--proxy-command=PROXY_COMMAND`
     Specifies the command to use to connect to the server.
 * `--reporter=one two:/output/file/path`
-    Enable one or more output reporters: CLI, documentation, HTML, progress, progress-bar, json, json-min, json-rspec, jUnit, yaml.
+    Enable one or more output reporters: cli, documentation, html2, progress, progress-bar, json, json-min, json-rspec, junit2, yaml.
 * `--reporter-backtrace-inclusion`, `--no-reporter-backtrace-inclusion`
     Include a code backtrace in report data (default: true).
 * `--reporter-include-source`
@@ -577,7 +577,7 @@ This subcommand has the following additional options:
 * `--proxy-command=PROXY_COMMAND`
     Specifies the command to use to connect to the server.
 * `--reporter=one two:/output/file/path`
-    Enable one or more output reporters: CLI, documentation, HTML, progress, json, json-min, json-rspec, jUnit.
+    Enable one or more output reporters: cli, documentation, html2, progress, json, json-min, json-rspec, junit2.
 * `--self-signed`, `--no-self-signed`
     Allow remote scans with self-signed certificates (WinRM).
 * `--shell`, `--no-shell`
