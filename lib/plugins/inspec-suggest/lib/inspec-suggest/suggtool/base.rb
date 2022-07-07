@@ -40,6 +40,7 @@ module InspecPlugins::Suggest
       def with_requested_sets(&block)
         @cfg["sets"].each do |set_name, set_cfg|
           next unless @requested_sets.include? set_name
+
           yield(set_name, set_cfg)
         end
       end
@@ -52,6 +53,15 @@ module InspecPlugins::Suggest
             yield(control_file_path)
           end
         end
+      end
+
+      def iaf_path(set_name)
+        path = File.join(Inspec.src_root, "etc", "suggest", "#{set_name}.iaf")
+        unless File.exist?(path)
+          ui.error("Suggestion criteria archive file '#{path}' does not exist")
+          ui.exit(:usage_error) # Really an internal config error
+        end
+        path
       end
     end
 
