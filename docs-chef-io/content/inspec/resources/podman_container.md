@@ -13,17 +13,17 @@ platform = "unix"
 
 Use the `podman_container` Chef InSpec audit resource to test the ...
 
-
 ## Availability
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+This resource is distributed with Chef InSpec and is automatically available for use.
 
 ## Syntax
 
 A `podman_container` Chef InSpec audit resource ...
 
+```ruby
     describe podman_container("sweet_mendeleev") do
       it { should exist }
       it { should be_running }
@@ -32,6 +32,7 @@ A `podman_container` Chef InSpec audit resource ...
       its("labels") { should include "maintainer"=>"NGINX Docker Maintainers <docker-maint@nginx.com>" }
       its("ports") { should eq nil }
     end
+```
 
 ## Resource Parameter Examples
 
@@ -39,19 +40,23 @@ A `podman_container` Chef InSpec audit resource ...
 
 The container name can be provided with the `name` resource parameter.
 
+```ruby
     describe podman_container(name: 'an-echo-server') do
       it { should exist }
       it { should be_running }
     end
+```
 
-### container id
+### container ID
 
-Alternatively, you can pass in the container id.
+Alternatively, you can pass the container ID.
 
+```ruby
     describe podman_container(id: '71b5df59442b') do
       it { should exist }
       it { should be_running }
     end
+```
 
 ## Properties
 
@@ -63,47 +68,61 @@ The following examples show how to use this Chef InSpec resource.
 
 The `id` property tests the container ID.
 
+```ruby
     its('id') { should eq '71b5df59...442b' }
+```
 
 ### image
 
 The `image` property tests the value of the container image.
 
+```ruby
     its('image') { should eq 'docker.io/library/nginx:latest' }
+```
 
 ### labels
 
 The `labels` property tests the value of container image labels.
 
+```ruby
     its('labels') { should eq "maintainer" => "NGINX Docker Maintainers <docker-maint@nginx.com>" }
+```
 
 ### ports
 
 The `ports` property tests the value of the Podmans ports.
 
+```ruby
     its('ports') { should eq '0.0.0.0:1234->1234/tcp' }
+```
 
 ### command
 
 The `command` property tests the value of the container run command.
 
+```ruby
     its('command') { should eq 'nc -ll -p 1234 -e /bin/cat' }
+```
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/). The specific matchers of this resource are: `exist`, `be_running`.
+For a full list of available matchers, please visit our [matchers page](/inspec/matchers/). The specific matchers of this resource are: `exist` and `be_running`.
 
 ### exist
 
 The `exist` matcher specifies if the container exists.
 
+```ruby
     it { should exist }
+```
 
 ### be_running
 
 The `be_running` matcher checks if the container is running.
 
+```ruby
     it { should be_running }
+```
 
 ## Examples
 
@@ -113,14 +132,18 @@ The following examples show how to use this Chef InSpec audit resource.
 
 The below test passes if the container `sweet_mendeleev` exists as part of the Podman instances.
 
+```ruby
     describe podman_container('sweet_mendeleev') do
       it { should exist }
     end
+```
 
 ### Ensures container is in running status
 
 The below test passes if the container `sweet_mendeleev` exists as part of the Podman instances and the status is running.
 
+```ruby
     describe podman_container('sweet_mendeleev') do
       it { should be_running }
     end
+```
