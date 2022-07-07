@@ -108,6 +108,11 @@ The `created_since` tests the value for the age of the image.
 
     its("created_since") { should eq "4 weeks ago" }
 
+### inspec_info
+The `inspect_info` tests the low-level information of the image
+
+    its("inspect_info") { should include {"Architecture"=>"arm64"} }
+
 ## Matchers
 
 For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
