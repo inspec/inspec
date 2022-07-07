@@ -2,11 +2,16 @@
 
 ## Use Cases
 
-As a compliance officer, I want to mark skipped controls as manually passed or failed so I can manually complete the profile.
+As a compliance officer,
+I want to mark skipped controls as manually passed or failed
+so that I can manually complete the profile.
 
-As a compliance officer, I want to set an expiration date and a justification for my attestations so that I can control their application.
+As a compliance officer,
+I want to set an expiration date and a justification for my attestations
+so that I can control their application.
 
-As a compliance officer, I want flexibility in the file format accepted by the attestations system (XLSX, YAML, CSV, JSON),
+As a compliance officer,
+I want flexibility in the file format accepted by the attestations system (XLSX, YAML, CSV, JSON),
 so that I can use a familiar file format.
 
 When used with Enhanced Outcomes, this becomes handling `Not Reviewed` controls.
@@ -17,9 +22,9 @@ When used with Enhanced Outcomes, this becomes handling `Not Reviewed` controls.
 
 `inspec exec profilename --attestation-file file.???`
 
-An option is named like `--waiver-file` - singular, with `-file`. You may provide multiple arguments for the option.
+The new option is named like `--waiver-file` - singular, with `-file`. You may provide multiple arguments for the option.
 
-The file can be either of the following formats: `YAML`, `XLSX`, `CSV`, or `JSON`.
+The file can be any of the following formats: `YAML`, `XLSX`, `CSV`, or `JSON`.
 
 #### YAML and JSON
 
@@ -51,7 +56,7 @@ _Optional_. If present, the attestation expires at the end of the date given.
 
 #### status
 
-_Optional_. 
+_Optional_.
 
 Default `passed`. If the attestation should indicate that the control is a failure, set this to `failed`.
 
