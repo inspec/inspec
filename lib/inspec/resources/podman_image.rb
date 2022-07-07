@@ -74,6 +74,13 @@ module Inspec::Resources
       object_info.ids[0] || @opts[:id] || @opts[:image] || ""
     end
 
+    def inspect_info
+      return @inspect_info if defined?(@inspect_info)
+
+      @inspect_info = inspec.podman.object(@opts[:image] || (!@opts[:id].nil? && @opts[:id]))
+      @inspect_info
+    end
+
     def to_s
       "podman_image #{resource_id}"
     end
