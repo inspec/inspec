@@ -11,7 +11,7 @@ gh_repo = "inspec"
     weight = 50
 +++
 
-A `reporter` is a facility for formatting and delivering the results of a Chef InSpec auditing run. It is introduced in Chef InSpec 1.51.6.
+A `reporter` is a facility for formatting and delivering the results of a Chef InSpec auditing run. Reporters were introduced in Chef InSpec 1.51.6.
 
 Chef InSpec allows you to output your test results to one or more reporters.
 
@@ -105,7 +105,7 @@ The following are CLI options that are used to modify reporter behavior. Many of
 
 : Include a `diff` comparison of textual differences in the failed test output (default: `true`).
 
-: Use `--no-diff` to limit the size of the report output when tests contain large amounts of the text output.
+: Use `--no-diff` to limit the size of the report output when tests contain large amounts of text output.
 
 `--filter-empty-profiles`
 
@@ -133,15 +133,15 @@ The following are CLI options that are used to modify reporter behavior. Many of
 
 : The control level status outcomes are `Passed`, `Failed`, `Not Applicable (N/A)`, `Not Reviewed (N/R)`, or `Error (ERR)`.
 
-: Only supported for CLI, progress-bar, html2, json, json-automate, automate, and yaml reporters.
+: Only supported for cli, progress-bar, html2, json, json-automate, automate, and yaml reporters.
 
 ## Supported Reporters
 
 The following are the currently supported reporters:
 
-### CLI
+### cli
 
-This is the basic text base report. It includes details about tests that passed and failed and an overall summary at the end.
+This is the basic text based report. It includes details about tests that passed and failed and an overall summary at the end.
 
 ### json
 
@@ -175,11 +175,11 @@ This reporter includes all information about the profiles and test results in st
 
 This reporter is a very minimal text base report. It shows you which tests passed by name and has a small summary at the end.
 
-### jUnit2
+### junit2
 
 This reporter outputs the standard JUnit spec in XML format and is recommended for all new users of JUnit.
 
-#### jUnit
+#### junit
 
 This legacy reporter outputs nonstandard JUnit XML and is provided only for backward compatibility.
 
@@ -203,15 +203,15 @@ And reporter outcome with `--enhanced-outcomes` option:
 
 This reporter includes all information from the Rspec runner. Unlike the json reporter, this includes Rspec-specific details.
 
-### HTML
+### html
 
 This reporter is the legacy RSpec HTML reporter retained for backward compatibility. The report generated is unaware of profiles or controls and only contains unsorted test information. Most users should migrate to the `html2` reporter for more complete data.
 
-### HTML2
+### html2
 
 This reporter is an improved HTML reporter that contains full data about the structure of the profile, controls, and tests. The generated report renders HTML code for viewing your tests in a browser.
 
-The `html2` reporter requires no configuration to function. However, options `--alternate_css_file` and `alternate_js_file--` are available for customization. The options are set in the JSON-formatted configuration file that Chef InSpec consumes.
+The `html2` reporter requires no configuration to function. However, options `--alternate_css_file` and `--alternate_js_file` are available for customization. The options are set in the JSON-formatted configuration file that Chef InSpec consumes.
 
 For details, see [our configuration file documentation](/inspec/config/).
 
@@ -283,7 +283,7 @@ Example Configuration:
 `environment`
 : Sets the environment metadata for Automate.
 
-## JSON-Automate Reporter
+## json-Automate Reporter
 
 The `json-automate` reporter is a special reporter that prepares the data format used by the Automate reporter. `json-automate` does not communicate on the network; instead, it simply produces the JSON report format that Automate would be consuming. Notably, the report is based on the `json` reporter, with the following modifications:
 
