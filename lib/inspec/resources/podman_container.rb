@@ -1,10 +1,10 @@
 require "inspec/resources/podman"
-require_relative "podman_object"
+require_relative "docker_object"
 
 # Change module if required
 module Inspec::Resources
   class PodmanContainer < Inspec.resource(1)
-    include Inspec::Resources::PodmanObject
+    include Inspec::Resources::DockerObject
     name "podman_container"
     supports platform: "unix"
 
