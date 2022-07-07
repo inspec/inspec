@@ -83,6 +83,30 @@ The `tag` property tests the value of the image tag.
 
     its('tag') { should eq 'latest' }
 
+### size
+The `size` property tests the size of the image
+
+    its("size") { should eq "1.64 MB" }
+
+### digest
+The `digest` property tests the value of the image digest.
+
+    its("digest") { should eq "sha256:3614ca5eacf0a3a1bcc361c939202a974b4902b9334ff36eb29ffe9011aaad83" }
+
+### history
+The `history` property tests the history of the image.
+
+    its("history") { should eq "docker.io/library/busybox:latest" }
+
+### created_at
+The `created_at` property tests the time of creation of the image.
+
+    its("created_at") { should eq "2022-06-08 00:39:28 +0000 UTC" }
+
+### created_since
+The `created_since` tests the value for the age of the image.
+
+    its("created_since") { should eq "4 weeks ago" }
 
 ## Matchers
 
