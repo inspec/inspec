@@ -10,5 +10,6 @@ module Inspec
     class SecretsBackendNotFound < ArgumentError; end
     class ProfileValidationKeyNotFound < ArgumentError; end
     class ProfileSigningKeyNotFound < ArgumentError; end
+    class WaiversFileNotReadable < ArgumentError; end
   end
 end

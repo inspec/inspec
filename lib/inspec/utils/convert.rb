@@ -5,4 +5,12 @@ module Converter
     val = val.to_i if val =~ /^\d+$/
     val
   end
+
+  def self.to_boolean(value)
+    if ["true", "True", "TRUE", true].include? value
+      true
+    elsif ["false", "False", "FALSE", false].include? value
+      false
+    end
+  end
 end

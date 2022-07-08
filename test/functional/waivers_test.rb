@@ -8,7 +8,7 @@ describe "waivers" do
   let(:waivers_profiles_path) { "#{profile_path}/waivers" }
   let(:run_result)            { run_inspec_process(cmd, json: true) }
   let(:controls_by_id)        { run_result; @json.dig("profiles", 0, "controls").map { |c| [c["id"], c] }.to_h }
-  let(:cmd)                   { "exec #{waivers_profiles_path}/#{profile_name} --input-file #{waivers_profiles_path}/#{profile_name}/files/#{waiver_file}" }
+  let(:cmd)                   { "exec #{waivers_profiles_path}/#{profile_name} --waiver-file #{waivers_profiles_path}/#{profile_name}/files/#{waiver_file}" }
 
   attr_accessor :out
 
@@ -102,6 +102,32 @@ describe "waivers" do
       "16_waivered_expiry_in_future_string_ran_fails"   => "failed",
       "17_waivered_expiry_in_future_string_not_ran"     => "skipped",
       "18_waivered_no_expiry_default_run"               => "failed",
+    }.each do |control_id, expected|
+      it "has all of the expected outcomes #{control_id}" do
+        assert_test_outcome expected, control_id
+
+        if control_id !~ /not_waivered/
+          assert_waiver_annotation control_id
+        else
+          refute_waiver_annotation control_id
+        end
+      end
+    end
+  end
+
+  describe "a fully pre-slugged control file with csv format waiver file" do
+    let(:profile_name) { "basic" }
+    let(:waiver_file) { "waivers.csv" }
+
+    # rubocop:disable Layout/AlignHash
+    {
+      "01_not_waivered_passes"                          => "passed",
+      "02_not_waivered_fails"                           => "failed",
+      "03_waivered_no_expiry_ran_passes"                => "passed",
+      "04_waivered_no_expiry_ran_fails"                 => "failed",
+      "05_waivered_no_expiry_not_ran"                   => "skipped",
+      "06_waivered_expiry_in_past_ran_passes"           => "passed",
+      "14_waivered_expiry_in_future_z_not_ran"          => "skipped",
     }.each do |control_id, expected|
       it "has all of the expected outcomes #{control_id}" do
         assert_test_outcome expected, control_id
