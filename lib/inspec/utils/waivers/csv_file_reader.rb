@@ -17,8 +17,8 @@ module Waivers
         input_hash[input_name] = row_hash
       end
       input_hash
-    rescue => e
-      raise "Error reading InSpec inputs: #{e}"
+    rescue Exception => e
+      raise "Error reading InSpec waivers in CSV: #{e}"
     end
   end
 end
