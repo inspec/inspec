@@ -55,6 +55,14 @@ module InspecPlugins::Suggest
         end
       end
 
+      def with_matching_yaml_files(set_cfg, &block)
+        set_cfg["paths"].each do |path|
+          Dir.glob(File.join(@working_dir, path, "inspec.yml")).each do |control_file_path|
+            yield(control_file_path)
+          end
+        end
+      end
+
       def iaf_path(set_name)
         path = File.join(Inspec.src_root, "etc", "suggest", "#{set_name}.iaf")
         unless File.exist?(path)
