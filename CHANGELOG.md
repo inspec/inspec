@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.18.11 -->
-## [v5.18.11](https://github.com/inspec/inspec/tree/v5.18.11) (2022-07-05)
+<!-- latest_release 5.18.12 -->
+## [v5.18.12](https://github.com/inspec/inspec/tree/v5.18.12) (2022-07-09)
 
 #### Merged Pull Requests
-- Windows fix for dependent profiles [#6173](https://github.com/inspec/inspec/pull/6173) ([Nik08](https://github.com/Nik08))
+- Bump omnibus-software from `a9b13a0` to `7bb8c7b` in /omnibus [#6191](https://github.com/inspec/inspec/pull/6191) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.17.4 -->
 ### Changes since 5.17.4 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `a9b13a0` to `7bb8c7b` in /omnibus [#6191](https://github.com/inspec/inspec/pull/6191) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.18.12 -->
 - Windows fix for dependent profiles [#6173](https://github.com/inspec/inspec/pull/6173) ([Nik08](https://github.com/Nik08)) <!-- 5.18.11 -->
 - Add k8s section to resources index page [#6167](https://github.com/inspec/inspec/pull/6167) ([IanMadd](https://github.com/IanMadd)) <!-- 5.18.10 -->
 - CFINSPEC-238 Enhanced Outcomes Design Doc [#6152](https://github.com/inspec/inspec/pull/6152) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.18.9 -->
