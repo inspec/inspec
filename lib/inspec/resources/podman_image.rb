@@ -40,49 +40,49 @@ module Inspec::Resources
     end
 
     def exist?
-      inspect_info.key?("id")
+      get_value("id") != nil
     end
 
     def repo_tags
-      inspect_info["repo_tags"]
+      get_value("repo_tags")
     end
 
     def size
       # TODO: Convert bytes to KB or MB; if required
-      inspect_info["size"]
+      get_value("size")
     end
 
     def digest
-      inspect_info["digest"]
+      get_value("digest")
     end
 
     def created_at
-      inspect_info["created_at"]
+      get_value("created_at")
     end
 
     def version
-      inspect_info["version"]
+      get_value("version")
     end
 
     def names_history
-      inspect_info["names_history"]
+      get_value("names_history")
     end
 
     def repo_digests
-      inspect_info["repo_digests"]
+      get_value("repo_digests")
     end
 
     def architecture
-      inspect_info["architecture"]
+      get_value("architecture")
     end
 
     def os
-      inspect_info["os"]
+      get_value("os")
     end
 
     def virtual_size
       # TODO: Convert bytes to KB or MB
-      inspect_info["virtual_size"]
+      get_value("virtual_size")
     end
 
     def resource_id
@@ -129,6 +129,12 @@ module Inspec::Resources
 
       require "json" unless defined?(JSON)
       JSON.parse(podman_inspect_cmd.stdout)
+    end
+
+    def get_value(key)
+      return nil if inspect_info.nil?
+
+      inspect_info[key]
     end
   end
 end
