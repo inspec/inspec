@@ -1,4 +1,4 @@
-require "inspec/resources/podman"
+require "inspec/resources/command"
 require_relative "docker_object"
 
 module Inspec::Resources
@@ -12,73 +12,81 @@ module Inspec::Resources
     example <<~EXAMPLE
       describe podman_image("docker.io/library/busybox") do
         it { should exist }
-        its("id") { should eq "sha256:3c19bafed22355e11a608c4b613d87d06b9cdd37d378e6e0176cbc8e7144d5c6" }
-        its("image") { should eq "docker.io/library/busybox:latest" }
-        its("repo") { should eq "docker.io/library/busybox" }
-        its("tag") { should eq "latest" }
-        its("resource_id") { should eq "sha256:3c19bafed22355e11a608c4b613d87d06b9cdd37d378e6e0176cbc8e7144d5c6" }
+        its("repo_tags") { should include "docker.io/library/busybox:latest" }
+        its("size") { should eq 1636053 }
+        its("resource_id") { should eq "docker.io/library/busybox:latest" }
+      end
+
+      describe podman_image("docker.io/library/busybox:latest") do
+        it { should exist }
       end
 
       describe podman_image(repo: "docker.io/library/busybox", tag: "latest") do
         it { should exist }
-        its("id") { should eq "sha256:3c19bafed22355e11a608c4b613d87d06b9cdd37d378e6e0176cbc8e7144d5c6" }
-        its("image") { should eq "docker.io/library/busybox:latest" }
       end
 
-      describe podman_image(id: "8847e9bf6df8") do
+      describe podman_image(id: "3c19bafed223") do
         it { should exist }
       end
     EXAMPLE
 
-    def initialize(opts = {})
+    attr_reader :opts, :inspect_info
+
+    def initialize(opts)
       skip_resource "The `podman_image` resource is not yet available on your OS." unless inspec.os.unix?
-      # do sanitizion of input values
-      o = opts.dup
-      o = { image: opts } if opts.is_a?(String)
-      @opts = sanitize_options(o)
+      opts = { image: opts } if opts.is_a?(String)
+      @opts = sanitize_options(opts)
+      @inspect_info = get_inspect_info
     end
 
-    def image
-      "#{repo}:#{tag}" if object_info.entries.size == 1
+    def exist?
+      inspect_info.key?("id")
     end
 
-    def repo
-      object_info.repositories[0] if object_info.entries.size == 1
-    end
-
-    def tag
-      object_info.tags[0] if object_info.entries.size == 1
+    def repo_tags
+      inspect_info["repo_tags"]
     end
 
     def size
-      object_info.sizes[0] if object_info.entries.size == 1
+      # TODO: Convert bytes to KB or MB; if required
+      inspect_info["size"]
     end
 
     def digest
-      object_info.digests[0] if object_info.entries.size == 1
+      inspect_info["digest"]
     end
 
     def created_at
-      object_info.created_at[0] if object_info.entries.size == 1
+      inspect_info["created_at"]
     end
 
-    def created_since
-      object_info.created_since[0] if object_info.entries.size == 1
+    def version
+      inspect_info["version"]
     end
 
-    def history
-      object_info.history[0] if object_info.entries.size == 1
+    def names_history
+      inspect_info["names_history"]
+    end
+
+    def repo_digests
+      inspect_info["repo_digests"]
+    end
+
+    def architecture
+      inspect_info["architecture"]
+    end
+
+    def os
+      inspect_info["os"]
+    end
+
+    def virtual_size
+      # TODO: Convert bytes to KB or MB
+      inspect_info["virtual_size"]
     end
 
     def resource_id
       @opts[:id] || @opts[:image] || ""
-    end
-
-    def inspect_info
-      return @inspect_info if defined?(@inspect_info)
-
-      @inspect_info = inspec.podman.object(@opts[:image] || (!@opts[:id].nil? && @opts[:id]))
-      @inspect_info
     end
 
     def to_s
@@ -93,24 +101,34 @@ module Inspec::Resources
       # assume a "latest" tag if we don't have one
       opts[:tag] ||= "latest"
 
-      # if the ID isn't nil and doesn't contain a hash indicator (indicated by the presence
-      # of a colon, which separates the indicator from the actual hash), we assume it's sha256.
-      opts[:id] = "sha256:" + opts[:id] unless opts[:id].nil? || opts[:id].include?(":")
-
       # Assemble/reassemble the image from the repo and tag
       opts[:image] = "#{opts[:repo]}:#{opts[:tag]}" unless opts[:repo].nil?
 
-      # return the santized opts back to the caller
       opts
     end
 
-    def object_info
-      return @info if defined?(@info)
+    def get_inspect_info
+      current_image = @opts[:id] || @opts[:image] || @opts [:repo] + ":" + @opts[:tag]
+      labels = {
+        "id" => "ID",
+        "repo_tags" => "RepoTags",
+        "size" => "Size",
+        "digest" => "Digest",
+        "created_at" => "Created",
+        "version" => "Version",
+        "names_history" => "NamesHistory",
+        "repo_digests" => "RepoDigests",
+        "architecture" => "Architecture",
+        "os" => "Os",
+        "virtual_size" => "VirtualSize",
+      }
+      json_label_format = labels.map { |k, v| "\"#{k}\": {{json .#{v}}}" }
+      podman_inspect_cmd = inspec.command("podman image inspect --format '{#{json_label_format.join(", ")}}' #{current_image}")
 
-      opts = @opts
-      @info = inspec.podman.images.where do
-        (repository == opts[:repo] && tag == opts[:tag]) || (!id.nil? && !opts[:id].nil? && (id == opts[:id] || id.start_with?(opts[:id])))
-      end
+      raise Inspec::Exceptions::ResourceFailed, "Unable to retrieve podman image info for #{current_image}" if podman_inspect_cmd.exit_status != 0
+
+      require "json" unless defined?(JSON)
+      JSON.parse(podman_inspect_cmd.stdout)
     end
   end
 end
