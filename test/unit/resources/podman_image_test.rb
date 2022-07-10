@@ -7,6 +7,7 @@ describe Inspec::Resources::PodmanImage do
   it "test podman image properties and matchers" do
     resource = MockLoader.new("unix".to_sym).load_resource("podman_image", "docker.io/library/busybox")
     _(resource.exist?).must_equal true
+    _(resource.id).must_equal "3c19bafed22355e11a608c4b613d87d06b9cdd37d378e6e0176cbc8e7144d5c6"
     _(resource.repo_tags).must_include "docker.io/library/busybox:latest"
     _(resource.created_at).must_equal "2022-06-08T00:39:28.175020858Z"
     _(resource.version).must_equal "20.10.12"
