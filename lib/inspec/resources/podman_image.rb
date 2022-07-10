@@ -43,6 +43,10 @@ module Inspec::Resources
       get_value("id") != nil
     end
 
+    def id
+      get_value("id")
+    end
+
     def repo_tags
       get_value("repo_tags")
     end
