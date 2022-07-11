@@ -30,13 +30,13 @@ module Inspec::Resources
       end
     EXAMPLE
 
-    attr_reader :opts, :inspect_info
+    attr_reader :opts, :image_info
 
     def initialize(opts)
       skip_resource "The `podman_image` resource is not yet available on your OS." unless inspec.os.unix?
       opts = { image: opts } if opts.is_a?(String)
       @opts = sanitize_options(opts)
-      @inspect_info = get_inspect_info
+      @image_info = get_image_info
     end
 
     def exist?
@@ -111,7 +111,7 @@ module Inspec::Resources
       opts
     end
 
-    def get_inspect_info
+    def get_image_info
       current_image = @opts[:id] || @opts[:image] || @opts [:repo] + ":" + @opts[:tag]
       labels = {
         "id" => "ID",
@@ -136,9 +136,9 @@ module Inspec::Resources
     end
 
     def get_value(key)
-      return nil if inspect_info.nil?
+      return nil if image_info.nil?
 
-      inspect_info[key]
+      image_info[key]
     end
   end
 end
