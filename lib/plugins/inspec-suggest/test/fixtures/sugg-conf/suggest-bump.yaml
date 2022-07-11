@@ -1,6 +1,6 @@
 working_directory: lib/plugins/inspec-suggest/test/fixtures
 
 sets:
-  chef-compliance:
+  test-fixture:
     paths:
-      - profiles/chef-compliance
+      - profiles/test-fixture
