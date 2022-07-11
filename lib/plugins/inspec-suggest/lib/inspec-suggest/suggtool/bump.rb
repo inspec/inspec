@@ -38,11 +38,11 @@ module InspecPlugins::Suggest
         if options[:major]
           # bump major version
           bump_label = "Major"
-          new_version = increase_version(current_version[0]) + "." + current_version[1] + "." + current_version[2]
+          new_version = increase_version(current_version[0]) + "." + "0" + "." + "0"
         elsif options[:minor]
           # bump minor version
           bump_label = "Minor"
-          new_version = current_version[0] + "." + increase_version(current_version[1]) + "." + current_version[2]
+          new_version = current_version[0] + "." + increase_version(current_version[1]) + "." + "0"
         else
           # bump patch version
           bump_label = "Patch"
