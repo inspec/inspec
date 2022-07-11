@@ -340,7 +340,7 @@ module Inspec
     # Double underscore: not intended to be called as part of the DSL
     def __apply_waivers
       input_name = @__rule_id # TODO: control ID slugging
-      waiver_files = Inspec::Config.cached.final_options["waiver_file"] unless Inspec::Config.cached.empty?
+      waiver_files = Inspec::Config.cached.final_options["waiver_file"] if Inspec::Config.cached.respond_to?(:final_options)
       input = Inspec::WaiverFileReader.fetch_waivers_by_profile(__profile_id, waiver_files) unless waiver_files.nil?
 
       return unless input && input[input_name] && input[input_name].is_a?(Hash)
