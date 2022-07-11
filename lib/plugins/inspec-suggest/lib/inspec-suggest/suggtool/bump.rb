@@ -3,12 +3,8 @@ require_relative "base"
 module InspecPlugins::Suggest
   class SuggToolCommand < Inspec.plugin(2, :cli_command)
 
-    option :patch, type: :boolean, default: true,
-      desc: "Increase third digit of the version number"
-    option :minor, type: :boolean, default: false,
-      desc: "Increase second digit of the version number"
-    option :major, type: :boolean, default: false,
-      desc: "Increase first digit of the version number"
+    option :level, type: :string, default: "patch",
+      desc: "Level of the version number to bump. One of: patch, minor, major"
 
     desc "bump SETNAME", "Increase version number of SETNAME in inspec.yml."
     def bump(*requested_sets)
@@ -16,7 +12,6 @@ module InspecPlugins::Suggest
 
       with_requested_sets do |set_name, set_cfg|
         with_set_metadata_files(set_cfg) do |metadata_file_path|
-          # TODO: We may not need the full path here.
           rel_path = metadata_file_path.sub(Inspec.src_root + "/", "")
           bump_version(rel_path)
         end # with_set_metadata_files ends here
@@ -27,36 +22,32 @@ module InspecPlugins::Suggest
       def bump_version(file_path)
         require "yaml" unless defined? YAML
         yaml_data = YAML.load_file(file_path)
-
         current_version = yaml_data["version"].split(".")
+        valid_bump_levels = %w{patch minor major}
 
-        new_version = ""
-        bump_label = ""
-        if options[:major]
-          # bump major version
-          bump_label = "Major"
-          new_version = increase_version(current_version[0]) + "." + "0" + "." + "0"
-        elsif options[:minor]
-          # bump minor version
-          bump_label = "Minor"
-          new_version = current_version[0] + "." + increase_version(current_version[1]) + "." + "0"
+        if valid_bump_levels.include?(options[:level])
+          current_version = yaml_data["version"].split(".")
+
+          case options[:level]
+          when "patch"
+            new_version = current_version[0] + "." + current_version[1] + "." + current_version[2].succ
+          when "minor"
+            new_version = current_version[0] + "." + current_version[1].succ + ".0"
+          when "major"
+            new_version = current_version[0].succ + ".0.0"
+          end
+
+          # Update the version in yaml_data
+          yaml_data["version"] = new_version
+
+          File.open(file_path, "w") do |file|
+            file.write(yaml_data.to_yaml)
+          end
+          ui.info "Bumped:#{options[:level]} version of #{file_path} to #{new_version}"
         else
-          # bump patch version
-          bump_label = "Patch"
-          new_version = current_version[0] + "." + current_version[1] + "." + increase_version(current_version[2])
+          ui.error("Invalid level '#{options[:level]}'. Valid levels are: patch, minor, major")
+          ui.exit(:usage_error)
         end
-
-        # Update the version in yaml_data
-        yaml_data["version"] = new_version
-
-        File.open(file_path, "w") do |file|
-          file.write(yaml_data.to_yaml)
-        end
-        ui.info "Bumped:#{bump_label} version of #{file_path} to #{new_version}"
-      end
-
-      def increase_version(version)
-        Gem::Version.new(version).bump.to_s
       end
     end
   end
