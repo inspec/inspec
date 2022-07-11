@@ -7,6 +7,6 @@ copyright_email: inspec@chef.io
 license: Apache-2.0
 summary: A suggestion criteria library containing criteria for the main body of Chef
   Compliance Content.
-version: 0.1.0
+version: 2.2.3
 supports:
   platform: os

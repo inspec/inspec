@@ -31,31 +31,35 @@ module InspecPlugins::Suggest
         require "yaml" unless defined? YAML
         yaml_data = YAML.load_file(file_path)
 
-        current_version = Gem::Version.new(yaml_data["version"])
+        current_version = yaml_data["version"].split(".")
 
-        # TODO: Use Gem::Version to do this
-        # new_version needs to be updated in the if statements below
         new_version = ""
+        bump_label = ""
         if options[:major]
           # bump major version
-          # new_version = ???
+          bump_label = "Major"
+          new_version = increase_version(current_version[0]) + "." + current_version[1] + "." + current_version[2]
         elsif options[:minor]
           # bump minor version
-          # new_version = ???
+          bump_label = "Minor"
+          new_version = current_version[0] + "." + increase_version(current_version[1]) + "." + current_version[2]
         else
           # bump patch version
-          # new_version = ???
+          bump_label = "Patch"
+          new_version = current_version[0] + "." + current_version[1] + "." + increase_version(current_version[2])
         end
 
-        # TODO:
-        # Change new version to original format (e.g. 1.2.3 and not "1.2.3")
         # Update the version in yaml_data
-        # yaml_data["version"] = new_version
+        yaml_data["version"] = new_version
 
         File.open(file_path, "w") do |file|
           file.write(yaml_data.to_yaml)
         end
-        ui.info "Bumped version of #{file_path} to #{new_version}"
+        ui.info "Bumped:#{bump_label} version of #{file_path} to #{new_version}"
+      end
+
+      def increase_version(version)
+        Gem::Version.new(version).bump.to_s
       end
     end
   end
