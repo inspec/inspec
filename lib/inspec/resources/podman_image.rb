@@ -129,7 +129,8 @@ module Inspec::Resources
       json_label_format = labels.map { |k, v| "\"#{k}\": {{json .#{v}}}" }
       podman_inspect_cmd = inspec.command("podman image inspect --format '{#{json_label_format.join(", ")}}' #{current_image}")
 
-      raise Inspec::Exceptions::ResourceFailed, "Unable to retrieve podman image info for #{current_image}" if podman_inspect_cmd.exit_status != 0
+      # require "byebug"; byebug
+      raise Inspec::Exceptions::ResourceFailed, "Unable to retrieve podman image info for #{current_image}.\nError message: #{podman_inspect_cmd.stderr}" if podman_inspect_cmd.exit_status != 0
 
       require "json" unless defined?(JSON)
       JSON.parse(podman_inspect_cmd.stdout)
