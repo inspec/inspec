@@ -15,14 +15,11 @@ module InspecPlugins::Suggest
       setup(requested_sets)
 
       with_requested_sets do |set_name, set_cfg|
-        with_matching_yaml_files(set_cfg) do |control_file_path|
+        with_set_metadata_files(set_cfg) do |metadata_file_path|
           # TODO: We may not need the full path here.
-          file_info = {
-            full_path: control_file_path,
-            rel_path: control_file_path.sub(Inspec.src_root + "/", ""),
-          }
-          bump_version(file_info[:rel_path])
-        end # with_matching_yaml_files ends here
+          rel_path = metadata_file_path.sub(Inspec.src_root + "/", "")
+          bump_version(rel_path)
+        end # with_set_metadata_files ends here
       end # with_requested_sets ends here
     end # def bump ends here
 
