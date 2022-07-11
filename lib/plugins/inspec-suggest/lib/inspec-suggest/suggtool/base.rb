@@ -55,10 +55,10 @@ module InspecPlugins::Suggest
         end
       end
 
-      def with_matching_yaml_files(set_cfg, &block)
+      def with_set_metadata_files(set_cfg, &block)
         set_cfg["paths"].each do |path|
-          Dir.glob(File.join(@working_dir, path, "inspec.yml")).each do |control_file_path|
-            yield(control_file_path)
+          Dir.glob(File.join(@working_dir, path, "inspec.yml")).each do |metadata_file_path|
+            yield(metadata_file_path)
           end
         end
       end
