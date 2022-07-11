@@ -36,7 +36,7 @@ Gem::Specification.new do |spec|
 
   # roo support for reading excel waiver files
   spec.add_dependency "roo", "~> 2.9.0"
-  spec.add_dependency "roo-xls" # extension for roo for xls files
+  spec.add_dependency "roo-xls" # extension for roo to read xls files
 
   # Used for Azure profile until integrated into train
   spec.add_dependency "faraday_middleware", ">= 0.12.2", "< 1.1"
