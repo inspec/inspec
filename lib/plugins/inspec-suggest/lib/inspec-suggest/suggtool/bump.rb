@@ -12,8 +12,7 @@ module InspecPlugins::Suggest
 
       with_requested_sets do |set_name, set_cfg|
         with_set_metadata_files(set_cfg) do |metadata_file_path|
-          rel_path = metadata_file_path.sub(Inspec.src_root + "/", "")
-          bump_version(rel_path)
+          bump_version(metadata_file_path)
         end # with_set_metadata_files ends here
       end # with_requested_sets ends here
     end # def bump ends here
