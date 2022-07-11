@@ -1,6 +1,7 @@
 require "inspec/secrets/yaml"
 require "inspec/utils/waivers/csv_file_reader"
 require "inspec/utils/waivers/json_file_reader"
+require "inspec/utils/waivers/excel_file_reader"
 
 module Inspec
   class WaiverFileReader
@@ -24,6 +25,8 @@ module Inspec
           data = Waivers::CSVFileReader.resolve(file_path)
         elsif file_extension == ".json"
           data = Waivers::JSONFileReader.resolve(file_path)
+        elsif [".xls", ".xlsx"].include? file_extension
+          data = Waivers::ExcelFileReader.resolve(file_path)
         end
         output.merge!(data) if !data.nil? && data.is_a?(Hash)
 
@@ -36,6 +39,5 @@ module Inspec
 
       @waivers_data[profile_id] = output
     end
-
   end
 end

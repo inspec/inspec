@@ -8,7 +8,7 @@ module Waivers
 
     def self.fetch_data(path)
       JSON.parse(File.read(path))
-    rescue Exception => e
+    rescue JSON::ParserError => e
       raise "Error reading InSpec waivers in JSON: #{e}"
     end
   end
