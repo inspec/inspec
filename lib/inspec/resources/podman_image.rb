@@ -113,6 +113,24 @@ module Inspec::Resources
 
     def get_image_info
       current_image = @opts[:id] || @opts[:image] || @opts [:repo] + ":" + @opts[:tag]
+      json_key_label = get_json_key_label
+      podman_inspect_cmd = inspec.command("podman image inspect --format '{#{json_key_label}}' #{current_image}")
+
+      if podman_inspect_cmd.exit_status != 0
+        raise Inspec::Exceptions::ResourceFailed, "Unable to retrieve podman image info for #{current_image}.\nError message: #{podman_inspect_cmd.stderr}"
+      else
+        require "json" unless defined?(JSON)
+        JSON.parse(podman_inspect_cmd.stdout)
+      end
+    end
+
+    def get_value(key)
+      return nil if image_info.nil?
+
+      image_info[key]
+    end
+
+    def get_json_key_label
       labels = {
         "id" => "ID",
         "repo_tags" => "RepoTags",
@@ -126,19 +144,8 @@ module Inspec::Resources
         "os" => "Os",
         "virtual_size" => "VirtualSize",
       }
-      json_label_format = labels.map { |k, v| "\"#{k}\": {{json .#{v}}}" }
-      podman_inspect_cmd = inspec.command("podman image inspect --format '{#{json_label_format.join(", ")}}' #{current_image}")
-
-      raise Inspec::Exceptions::ResourceFailed, "Unable to retrieve podman image info for #{current_image}.\nError message: #{podman_inspect_cmd.stderr}" if podman_inspect_cmd.exit_status != 0
-
-      require "json" unless defined?(JSON)
-      JSON.parse(podman_inspect_cmd.stdout)
-    end
-
-    def get_value(key)
-      return nil if image_info.nil?
-
-      image_info[key]
+      json_key_label_array = labels.map { |k, v| "\"#{k}\": {{json .#{v}}}" }
+      json_key_label_array.join(", ")
     end
   end
 end
