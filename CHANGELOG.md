@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.18.13 -->
-## [v5.18.13](https://github.com/inspec/inspec/tree/v5.18.13) (2022-07-09)
+<!-- latest_release 5.18.14 -->
+## [v5.18.14](https://github.com/inspec/inspec/tree/v5.18.14) (2022-07-11)
 
 #### Merged Pull Requests
-- Trial - Update the omnibus/Gemfile.lock (can be the reason for omnibus build failure) [#6195](https://github.com/inspec/inspec/pull/6195) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-239 Attestations Design Doc [#6188](https://github.com/inspec/inspec/pull/6188) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.17.4 -->
 ### Changes since 5.17.4 release
 
 #### Merged Pull Requests
+- CFINSPEC-239 Attestations Design Doc [#6188](https://github.com/inspec/inspec/pull/6188) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.18.14 -->
 - Trial - Update the omnibus/Gemfile.lock (can be the reason for omnibus build failure) [#6195](https://github.com/inspec/inspec/pull/6195) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.18.13 -->
 - Bump omnibus-software from `a9b13a0` to `7bb8c7b` in /omnibus [#6191](https://github.com/inspec/inspec/pull/6191) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.18.12 -->
 - Windows fix for dependent profiles [#6173](https://github.com/inspec/inspec/pull/6173) ([Nik08](https://github.com/Nik08)) <!-- 5.18.11 -->
