@@ -22,7 +22,6 @@ module InspecPlugins::Suggest
       def bump_version(file_path)
         require "yaml" unless defined? YAML
         yaml_data = YAML.load_file(file_path)
-        current_version = yaml_data["version"].split(".")
         valid_bump_levels = %w{patch minor major}
 
         if valid_bump_levels.include?(options[:level])
