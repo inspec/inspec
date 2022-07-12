@@ -92,7 +92,7 @@ describe Inspec::Resources::PodmanNetwork do
 
     describe "resource_id" do
       it "returns the resource id for the current resource" do
-        _(resource.to_s).must_equal "podman_network"
+        _(resource.resource_id).must_equal "3a7c94d937d5f3a0f1a9b1610589945aedfbe56207fd5d32fc8154aa1a8b007f"
       end
     end
   end
