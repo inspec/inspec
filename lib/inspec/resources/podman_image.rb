@@ -116,12 +116,8 @@ module Inspec::Resources
       json_key_label = get_json_key_label
       podman_inspect_cmd = inspec.command("podman image inspect --format '{#{json_key_label}}' #{current_image}")
 
-      if podman_inspect_cmd.exit_status != 0
-        raise Inspec::Exceptions::ResourceFailed, "Unable to retrieve podman image info for #{current_image}.\nError message: #{podman_inspect_cmd.stderr}"
-      else
-        require "json" unless defined?(JSON)
-        JSON.parse(podman_inspect_cmd.stdout)
-      end
+      require "json" unless defined?(JSON)
+      podman_inspect_cmd.exit_status !=0 ? nil : JSON.parse(podman_inspect_cmd.stdout)
     end
 
     def get_value(key)
