@@ -23,10 +23,15 @@ describe Inspec::Resources::PodmanImage do
   end
 
   it "test for a non-existing container image" do
-    resource = MockLoader.new("ubuntu".to_sym).load_resource("podman_image", "nginx")
-    _(resource.exist?).must_equal false
+    resource = MockLoader.new("ubuntu".to_sym).load_resource("podman_image", "not-exist")
+    #_(resource.exist?).must_equal false
     assert_nil resource.repo_tags
     assert_nil resource.size
     assert_nil resource.digest
+    assert_nil resource.names_history
+    assert_nil resource.os
+    assert_nil resource.virtual_size
+    assert_nil resource.architecture
+    assert_nil resource.repo_digests
   end
 end

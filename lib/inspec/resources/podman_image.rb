@@ -39,58 +39,33 @@ module Inspec::Resources
       @image_info = get_image_info
     end
 
+    LABELS = {
+      "id" => "ID",
+      "repo_tags" => "RepoTags",
+      "size" => "Size",
+      "digest" => "Digest",
+      "created_at" => "Created",
+      "version" => "Version",
+      "names_history" => "NamesHistory",
+      "repo_digests" => "RepoDigests",
+      "architecture" => "Architecture",
+      "os" => "Os",
+      "virtual_size" => "VirtualSize",
+    }.freeze
+
+    ## This creates all the required properties methods dynamically.
+    LABELS.each do |k, v|
+      define_method(k) do
+        image_info[k.to_s]
+      end
+    end
+
     def exist?
-      get_value("id") != nil
-    end
-
-    def id
-      get_value("id")
-    end
-
-    def repo_tags
-      get_value("repo_tags")
-    end
-
-    def size
-      # TODO: Convert bytes to KB or MB; if required
-      get_value("size")
-    end
-
-    def digest
-      get_value("digest")
-    end
-
-    def created_at
-      get_value("created_at")
-    end
-
-    def version
-      get_value("version")
-    end
-
-    def names_history
-      get_value("names_history")
-    end
-
-    def repo_digests
-      get_value("repo_digests")
-    end
-
-    def architecture
-      get_value("architecture")
-    end
-
-    def os
-      get_value("os")
-    end
-
-    def virtual_size
-      # TODO: Convert bytes to KB or MB
-      get_value("virtual_size")
+      ! image_info.empty?
     end
 
     def resource_id
-      @opts[:id] || @opts[:image] || ""
+      opts[:id] || opts[:image] || ""
     end
 
     def to_s
@@ -112,35 +87,25 @@ module Inspec::Resources
     end
 
     def get_image_info
-      current_image = @opts[:id] || @opts[:image] || @opts [:repo] + ":" + @opts[:tag]
+      current_image = opts[:id] || opts[:image] || opts[:repo] + ":" + opts[:tag]
       json_key_label = get_json_key_label
-      podman_inspect_cmd = inspec.command("podman image inspect --format '{#{json_key_label}}' #{current_image}")
+      podman_inspect_cmd = inspec.command("podman image inspect #{current_image} --format '{#{json_key_label}}'")
 
-      require "json" unless defined?(JSON)
-      podman_inspect_cmd.exit_status !=0 ? nil : JSON.parse(podman_inspect_cmd.stdout)
-    end
-
-    def get_value(key)
-      return nil if image_info.nil?
-
-      image_info[key]
+      if podman_inspect_cmd.exit_status != 0 && podman_inspect_cmd.exit_status != 125
+        raise Inspec::Exceptions::ResourceFailed, "Unable to retrieve podman image information for #{current_image}.\nError message: #{podman_inspect_cmd.stderr}"
+      elsif podman_inspect_cmd.stdout.empty?
+        {}
+      else
+        require "json" unless defined?(JSON)
+        JSON.parse(podman_inspect_cmd.stdout)
+      end
+    rescue JSON::ParserError => _e
+      warn "Could not parse `podman image inspect` output"
+      {}
     end
 
     def get_json_key_label
-      labels = {
-        "id" => "ID",
-        "repo_tags" => "RepoTags",
-        "size" => "Size",
-        "digest" => "Digest",
-        "created_at" => "Created",
-        "version" => "Version",
-        "names_history" => "NamesHistory",
-        "repo_digests" => "RepoDigests",
-        "architecture" => "Architecture",
-        "os" => "Os",
-        "virtual_size" => "VirtualSize",
-      }
-      json_key_label_array = labels.map { |k, v| "\"#{k}\": {{json .#{v}}}" }
+      json_key_label_array = LABELS.map { |k, v| "\"#{k}\": {{json .#{v}}}" }
       json_key_label_array.join(", ")
     end
   end
