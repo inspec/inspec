@@ -691,6 +691,7 @@ class MockLoader
       "podman version --format json" => cmd.call("podman-version"),
       "podman volume ls --format json" => cmd.call("podman-volume-ls"),
       "podman inspect 591270d8d80d --format json" => cmd.call("podman-inspec"),
+      "podman image inspect --format '{\"id\": {{json .ID}}, \"repo_tags\": {{json .RepoTags}}, \"size\": {{json .Size}}, \"digest\": {{json .Digest}}, \"created_at\": {{json .Created}}, \"version\": {{json .Version}}, \"names_history\": {{json .NamesHistory}}, \"repo_digests\": {{json .RepoDigests}}, \"architecture\": {{json .Architecture}}, \"os\": {{json .Os}}, \"virtual_size\": {{json .VirtualSize}}}' docker.io/library/busybox:latest" => cmd.call("podman-inspect-info"),
     }
 
     if @platform && (@platform[:name] == "windows" || @platform[:name] == "freebsd")
