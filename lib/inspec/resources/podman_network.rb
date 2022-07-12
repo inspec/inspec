@@ -12,7 +12,7 @@ module Inspec::Resources
         it { should exist }
       end
       describe podman_network("3a7c94d937d5f3a0f1a9b1610589945aedfbe56207fd5d32fc8154aa1a8b007f") do
-        it { should be_purple }
+        its("driver") { should eq bridge }
       end
     EXAMPLE
 
