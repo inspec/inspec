@@ -1,0 +1,6 @@
+working_directory: lib/plugins/inspec-suggest/test/fixtures
+
+sets:
+  test-fixture:
+    paths:
+      - profiles/test-fixture
