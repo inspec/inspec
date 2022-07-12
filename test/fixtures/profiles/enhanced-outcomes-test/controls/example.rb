@@ -60,3 +60,19 @@ control "tmp-5.0" do
     it { should cmp "e.1" }
   end
 end
+
+# Example of setting impact using code and marking it N/A
+control "tmp-6.0.1" do
+  only_if(impact: 0.0) { false }
+  describe file("/tmp") do
+    it { should be_directory }
+  end
+end
+
+# Example of setting impact using code and not marked as N/A
+control "tmp-6.0.2" do
+  only_if(impact: 0.5) { false }
+  describe file("/tmp") do
+    it { should be_directory }
+  end
+end
