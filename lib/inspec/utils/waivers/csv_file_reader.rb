@@ -9,18 +9,18 @@ module Waivers
     end
 
     def self.fetch_data(path)
-      input_hash = {}
+      waiver_data_hash = {}
       CSV.foreach(path, headers: true) do |row|
         row_hash = row.to_hash
-        input_name = row_hash["control_id"]
+        control_id = row_hash["control_id"]
         # delete keys and values not required in final hash
         row_hash.delete("control_id")
         row_hash.delete_if { |k, v| k.nil? || v.nil? }
 
-        input_hash[input_name] = row_hash if input_name && !row_hash.blank?
+        waiver_data_hash[control_id] = row_hash if control_id && !row_hash.blank?
       end
 
-      input_hash
+      waiver_data_hash
     rescue Exception => e
       raise "Error reading InSpec waivers in CSV: #{e}"
     end
