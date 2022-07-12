@@ -4,7 +4,7 @@ require_relative "../../../lib/inspec/resources/podman_network"
 
 describe Inspec::Resources::PodmanNetwork do
   describe "when Podman Network with given name exist" do
-    let(:resource) { MockLoader.new(:unix).load_resource("podman_network", "minkube") }
+    let(:resource) { MockLoader.new(:unix).load_resource("podman_network", "minikube") }
 
     describe "exist?" do
       it "returns true" do
@@ -24,7 +24,7 @@ describe Inspec::Resources::PodmanNetwork do
       end
     end
 
-    describe "network_inteface" do
+    describe "network_interface" do
       it "returns the network_interface of the network" do
         _(resource.network_interface).must_equal "podman1"
       end
@@ -38,25 +38,25 @@ describe Inspec::Resources::PodmanNetwork do
 
     describe "labels" do
       it "returns the labels of the network" do
-        _(resource.labels).must_equal ""
+        _(resource.labels).must_equal "created_by.minikube.sigs.k8s.io" => "true", "name.minikube.sigs.k8s.io" => "minikube"
       end
     end
 
     describe "options" do
       it "returns the options of the network" do
-        _(resource.options).must_equal nil
+        assert_nil resource.options
       end
     end
 
     describe "ipv6_enabled" do
       it "returns the true if the ipv6 is enabled for the network" do
-        _(resource.ipv6_enabled).must_equal true
+        _(resource.ipv6_enabled).must_equal false
       end
     end
 
     describe "ipam_options" do
       it "returns the ipam options values for the Network" do
-        _(resource.ipam_options).must_equal {}
+        _(resource.ipam_options).must_equal "driver" => "host-local"
       end
     end
 
@@ -68,7 +68,7 @@ describe Inspec::Resources::PodmanNetwork do
 
     describe "subnets" do
       it "returns the subnet list for the network" do
-        _(resource.subnets).must_equal []
+        _(resource.subnets).must_equal [{ "subnet" => "192.168.49.0/24", "gateway" => "192.168.49.1" }]
       end
     end
 
@@ -103,6 +103,22 @@ describe Inspec::Resources::PodmanNetwork do
     describe "exist?" do
       it "returns false" do
         _(resource.exist?).must_equal false
+      end
+    end
+
+    describe "all other properties" do
+      it "returns nil" do
+        assert_nil resource.name
+        assert_nil resource.driver
+        assert_nil resource.ipv6_enabled
+        assert_nil resource.dns_enabled
+        assert_nil resource.options
+        assert_nil resource.ipam_options
+        assert_nil resource.subnets
+        assert_nil resource.created
+        assert_nil resource.internal
+        assert_nil resource.network_interface
+        assert_nil resource.labels
       end
     end
   end
