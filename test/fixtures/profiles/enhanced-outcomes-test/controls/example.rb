@@ -63,7 +63,8 @@ end
 
 # Example of setting impact using code and marking it N/A
 control "tmp-6.0.1" do
-  only_if(impact: 0.0) { false }
+  impact 0.5
+  only_if("Some reason for N/A", impact: 0.0) { false }
   describe file("/tmp") do
     it { should be_directory }
   end

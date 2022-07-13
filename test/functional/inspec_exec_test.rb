@@ -1367,6 +1367,7 @@ EOT
 
     it "should mark control as N/A using zero impact from only_if" do
       _(run_result.stdout).must_include "N/A  tmp-6.0.1"
+      _(run_result.stdout).must_include "Some reason for N/A"
     end
 
     it "should not mark control as N/A using non-zeo impact from only_if" do
