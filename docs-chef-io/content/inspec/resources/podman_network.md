@@ -100,7 +100,7 @@ The `created` property tests the timestamp when the Podman network was created.
 
 ### subnets
 
-The `subnets` property tests the list of subnets on the Podman network
+The `subnets` property tests the list of subnets on the Podman network.
 
 ```ruby
   its("subnets") { should inclue "gateway"=>"192.168.49.1", "subnet"=>"192.168.49.0/24" }
@@ -116,7 +116,7 @@ The `dns_enabled` property tests whether the Podman network has DNS enabled.
 
 ### internal
 
-The `internal` tests whether the given Podman network is internal.
+The `internal` property tests whether the specified Podman network is internal.
 
 ```ruby
   its("internal") { should eq true }
@@ -124,7 +124,7 @@ The `internal` tests whether the given Podman network is internal.
 
 ### ipam_options
 
-The `ipam_options` tests the IPAM options of the given Podman network.
+The `ipam_options` property tests the IPAM options of the given Podman network.
 
 ```ruby
   its("ipam_options") { should eq "driver" => "host-local" }
@@ -132,7 +132,7 @@ The `ipam_options` tests the IPAM options of the given Podman network.
 
 ### labels
 
-The `labels` property tests the labels set for the given Podman network.
+The `labels` property tests the labels set for the specified Podman network.
 
 ```ruby
   its("labels") { should eq "created_by.minikube.sigs.k8s.io"=>"true", "name.minikube.sigs.k8s.io"=>"minikube" }
@@ -148,7 +148,7 @@ The `driver` property tests the value of the Podman network driver.
 
 ### options
 
-The `options` property tests the network options for the given Podman network.
+The `options` property tests the network options for the specified Podman network.
 
 ```ruby
   its("options") { should eq nil }
@@ -160,7 +160,7 @@ For a full list of available matchers, please visit our [matchers page](/inspec/
 
 ### exist
 
-The `exist` matcher tests if the given network is available on Podman.
+The `exist` matcher tests if the specified network is available on Podman.
 
 ```ruby
   it { should exist }
