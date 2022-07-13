@@ -1326,14 +1326,14 @@ EOT
     end
 
     it "should show enhanced_outcomes for skipped tests in controls" do
-      _(run_result.stdout).must_include "3 skipped"
-      _(run_result.stdout).must_include "2 controls not reviewed"
+      _(run_result.stdout).must_include "5 skipped"
+      _(run_result.stdout).must_include "3 controls not reviewed"
       _(run_result.stdout).must_include "N/R"
     end
 
     it "should show enhanced_outcomes for controls with impact 0" do
-      _(run_result.stdout).must_include "3 skipped"
-      _(run_result.stdout).must_include "2 controls not applicable"
+      _(run_result.stdout).must_include "5 skipped"
+      _(run_result.stdout).must_include "3 controls not applicable"
       _(run_result.stdout).must_include "N/A"
     end
 
@@ -1349,6 +1349,15 @@ EOT
 
     it "should show enhanced_outcomes for passed controls" do
       _(run_result.stdout).must_include "1 successful control"
+    end
+
+    it "should mark control as N/A using zero impact from only_if" do
+      _(run_result.stdout).must_include "N/A  tmp-6.0.1"
+      _(run_result.stdout).must_include "Some reason for N/A"
+    end
+
+    it "should not mark control as N/A using non-zeo impact from only_if" do
+      _(run_result.stdout).must_include "N/R  tmp-6.0.2"
     end
   end
 

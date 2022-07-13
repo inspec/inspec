@@ -26,7 +26,7 @@ describe "inspec schema" do
       json_output = JSON.parse(out.stdout)
       _(json_output["definitions"]["Control_Result"]["properties"]["resource_id"]).wont_be_nil
       # status value to be nil when not using enhanced outcomes flag
-      _(json_output["definitions"]["Exec_JSON_Control"]["properties"]["status"]).must_equal nil
+      assert_nil(json_output["definitions"]["Exec_JSON_Control"]["properties"]["status"])
     end
   end
 
