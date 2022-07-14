@@ -1,6 +1,9 @@
 require "inspec/resources/command"
+require "inspec/utils/podman"
 module Inspec::Resources
   class PodmanNetwork < Inspec.resource(1)
+    include Inspec::Utils::Podman
+
     name "podman_network"
 
     supports platform: "unix"
@@ -34,7 +37,10 @@ module Inspec::Resources
     attr_reader :param, :network_info
     def initialize(param)
       skip_resource "The `podman_network` resource is not yet available on your OS." unless inspec.os.unix?
+
       @param = param
+      raise Inspec::Exceptions::ResourceFailed, "Podman is not running. Please make sure it is installed and running." unless podman_running?
+
       @network_info = get_network_info
     end
 
@@ -60,7 +66,7 @@ module Inspec::Resources
     private
 
     def get_network_info
-      go_template_format = (LABELS.map { |k, v| "\"#{k}\": {{json .#{v}}}" }).join(", ")
+      go_template_format = generate_go_template(LABELS)
       result = inspec.command("podman network inspect #{param} --format '{#{go_template_format}}'")
 
       if result.exit_status != 0 && result.exit_status != 125
@@ -68,12 +74,8 @@ module Inspec::Resources
       elsif result.stdout.empty?
         {}
       else
-        require "json" unless defined?(JSON)
-        JSON.parse(result.stdout)
+        parse_command_output(result.stdout)
       end
-    rescue JSON::ParserError => _e
-      warn "Could not parse `podman command` output"
-      {}
     end
   end
 end

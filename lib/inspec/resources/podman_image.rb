@@ -1,9 +1,12 @@
 require "inspec/resources/command"
 require_relative "docker_object"
+require "inspec/utils/podman"
 
 module Inspec::Resources
   class PodmanImage < Inspec.resource(1)
     include Inspec::Resources::DockerObject
+    include Inspec::Utils::Podman
+
     name "podman_image"
     supports platform: "unix"
 
@@ -36,6 +39,8 @@ module Inspec::Resources
       skip_resource "The `podman_image` resource is not yet available on your OS." unless inspec.os.unix?
       opts = { image: opts } if opts.is_a?(String)
       @opts = sanitize_options(opts)
+      raise Inspec::Exceptions::ResourceFailed, "Podman is not running. Please make sure it is installed and running." unless podman_running?
+
       @image_info = get_image_info
     end
 
@@ -88,7 +93,7 @@ module Inspec::Resources
 
     def get_image_info
       current_image = opts[:id] || opts[:image] || opts[:repo] + ":" + opts[:tag]
-      json_key_label = get_json_key_label
+      json_key_label = generate_go_template(LABELS)
       podman_inspect_cmd = inspec.command("podman image inspect #{current_image} --format '{#{json_key_label}}'")
 
       if podman_inspect_cmd.exit_status != 0 && podman_inspect_cmd.exit_status != 125
@@ -96,17 +101,8 @@ module Inspec::Resources
       elsif podman_inspect_cmd.stdout.empty?
         {}
       else
-        require "json" unless defined?(JSON)
-        JSON.parse(podman_inspect_cmd.stdout)
+        parse_command_output(podman_inspect_cmd.stdout)
       end
-    rescue JSON::ParserError => _e
-      warn "Could not parse `podman image inspect` output"
-      {}
-    end
-
-    def get_json_key_label
-      json_key_label_array = LABELS.map { |k, v| "\"#{k}\": {{json .#{v}}}" }
-      json_key_label_array.join(", ")
     end
   end
 end
