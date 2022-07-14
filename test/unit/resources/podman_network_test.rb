@@ -86,7 +86,7 @@ describe Inspec::Resources::PodmanNetwork do
 
     describe "to_s" do
       it "returns the Podman Nework resource name string" do
-        _(resource.to_s).must_equal "podman_network"
+        _(resource.to_s).must_equal "podman_network 3a7c94d937d5f3a0f1a9b1610589945aedfbe56207fd5d32fc8154aa1a8b007f"
       end
     end
 

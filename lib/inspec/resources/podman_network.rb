@@ -52,15 +52,15 @@ module Inspec::Resources
     end
 
     def exist?
-      ! network_info.empty?
+      !network_info.empty?
     end
 
     def resource_id
-      id || ""
+      id || param || ""
     end
 
     def to_s
-      "podman_network"
+      "podman_network #{resource_id}"
     end
 
     private
@@ -69,12 +69,12 @@ module Inspec::Resources
       go_template_format = generate_go_template(LABELS)
       result = inspec.command("podman network inspect #{param} --format '{#{go_template_format}}'")
 
-      if result.exit_status != 0 && result.exit_status != 125
-        raise Inspec::Exceptions::ResourceFailed, "Unable to retrieve podman network information for #{param}.\nError message: #{result.stderr}"
-      elsif result.stdout.empty?
+      if result.exit_status == 0
+        parse_command_output(result.stdout)
+      elsif result.stderr =~ /network not found/
         {}
       else
-        parse_command_output(result.stdout)
+        raise Inspec::Exceptions::ResourceFailed, "Unable to retrieve podman network information for #{param}.\nError message: #{result.stderr}"
       end
     end
   end

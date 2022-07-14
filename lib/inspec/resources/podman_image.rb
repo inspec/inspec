@@ -96,12 +96,12 @@ module Inspec::Resources
       json_key_label = generate_go_template(LABELS)
       podman_inspect_cmd = inspec.command("podman image inspect #{current_image} --format '{#{json_key_label}}'")
 
-      if podman_inspect_cmd.exit_status != 0 && podman_inspect_cmd.exit_status != 125
-        raise Inspec::Exceptions::ResourceFailed, "Unable to retrieve podman image information for #{current_image}.\nError message: #{podman_inspect_cmd.stderr}"
-      elsif podman_inspect_cmd.stdout.empty?
+      if podman_inspect_cmd.exit_status == 0
+        parse_command_output(podman_inspect_cmd.stdout)
+      elsif podman_inspect_cmd.stderr =~ /failed to find image/
         {}
       else
-        parse_command_output(podman_inspect_cmd.stdout)
+        raise Inspec::Exceptions::ResourceFailed, "Unable to retrieve podman image information for #{current_image}.\nError message: #{podman_inspect_cmd.stderr}"
       end
     end
   end

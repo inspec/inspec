@@ -1,0 +1,2 @@
+Error: inspecting object: network min: network not found
+Error: inspecting object: unable to inspect \"abc\": failed to find image abc: abc: image not known
