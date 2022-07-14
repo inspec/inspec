@@ -52,12 +52,12 @@ module Inspec
 
       Inspec::Log.warn "Missing column headers: #{(required_fields - headers)}" unless (required_fields - headers).empty?
       Inspec::Log.warn "Invalid column header: Column can't be nil" if headers.include? nil
-      Inspec::Log.warn "Invalid column headers: #{(headers - all_fields)}" unless (headers - all_fields).empty?
+      Inspec::Log.warn "Extra column headers: #{(headers - all_fields)}" unless (headers - all_fields).empty?
     end
 
     def self.validate_json_yaml(data)
       headers = []
-      data.each do |_, value|
+      data.each_value do |value|
         headers.push value.keys
       end
       validate_headers(headers.flatten.uniq, true)
