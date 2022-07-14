@@ -67,7 +67,6 @@ module Inspec
         end
       end
 
-
       # About reading inputs:
       #   @conf gets passed around a lot, eventually to
       # Inspec::InputRegistry.register_external_inputs.
