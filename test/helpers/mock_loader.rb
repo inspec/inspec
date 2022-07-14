@@ -695,6 +695,7 @@ class MockLoader
       "podman image inspect not-exist:latest --format '{\"id\": {{json .ID}}, \"repo_tags\": {{json .RepoTags}}, \"size\": {{json .Size}}, \"digest\": {{json .Digest}}, \"created_at\": {{json .Created}}, \"version\": {{json .Version}}, \"names_history\": {{json .NamesHistory}}, \"repo_digests\": {{json .RepoDigests}}, \"architecture\": {{json .Architecture}}, \"os\": {{json .Os}}, \"virtual_size\": {{json .VirtualSize}}}'" => empty.call,
       "podman network inspect minikube --format '{\"id\": {{json .ID}}, \"name\": {{json .Name}}, \"driver\": {{json .Driver}}, \"labels\": {{json .Labels}}, \"options\": {{json .Options}}, \"ipam_options\": {{json .IPAMOptions}}, \"internal\": {{json .Internal}}, \"created\": {{json .Created}}, \"ipv6_enabled\": {{json .IPv6Enabled}}, \"dns_enabled\": {{json .DNSEnabled}}, \"network_interface\": {{json .NetworkInterface}}, \"subnets\": {{json .Subnets}}}'" => cmd.call("podman-network"),
       "podman network inspect not-exist --format '{\"id\": {{json .ID}}, \"name\": {{json .Name}}, \"driver\": {{json .Driver}}, \"labels\": {{json .Labels}}, \"options\": {{json .Options}}, \"ipam_options\": {{json .IPAMOptions}}, \"internal\": {{json .Internal}}, \"created\": {{json .Created}}, \"ipv6_enabled\": {{json .IPv6Enabled}}, \"dns_enabled\": {{json .DNSEnabled}}, \"network_interface\": {{json .NetworkInterface}}, \"subnets\": {{json .Subnets}}}'" => empty.call,
+      "podman version" => empty.call,
     }
 
     if @platform && (@platform[:name] == "windows" || @platform[:name] == "freebsd")
