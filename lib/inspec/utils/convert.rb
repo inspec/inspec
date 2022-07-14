@@ -7,9 +7,9 @@ module Converter
   end
 
   def self.to_boolean(value)
-    if ["true", "True", "TRUE", true].include? value
+    if ["true", "True", "TRUE", true, "yes", "y", "YES", "Y"].include? value
       true
-    elsif ["false", "False", "FALSE", false].include? value
+    elsif ["false", "False", "FALSE", false, "no", "n", "NO", "N"].include? value
       false
     end
   end

@@ -5,6 +5,7 @@ module Waivers
     def self.resolve(path)
       return nil unless File.file?(path)
 
+      @headers ||= []
       fetch_data(path)
     end
 
@@ -12,6 +13,7 @@ module Waivers
       waiver_data_hash = {}
       CSV.foreach(path, headers: true) do |row|
         row_hash = row.to_hash
+        @headers = row_hash.keys if @headers.empty?
         control_id = row_hash["control_id"]
         # delete keys and values not required in final hash
         row_hash.delete("control_id")
@@ -21,8 +23,12 @@ module Waivers
       end
 
       waiver_data_hash
-    rescue Exception => e
+    rescue CSV::MalformedCSVError => e
       raise "Error reading InSpec waivers in CSV: #{e}"
+    end
+
+    def self.headers
+      @headers
     end
   end
 end

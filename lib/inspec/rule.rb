@@ -341,6 +341,7 @@ module Inspec
     def __apply_waivers
       control_id = @__rule_id # TODO: control ID slugging
       waiver_files = Inspec::Config.cached.final_options["waiver_file"] if Inspec::Config.cached.respond_to?(:final_options)
+
       waiver_data_by_profile = Inspec::WaiverFileReader.fetch_waivers_by_profile(__profile_id, waiver_files) unless waiver_files.nil?
 
       return unless waiver_data_by_profile && waiver_data_by_profile[control_id] && waiver_data_by_profile[control_id].is_a?(Hash)

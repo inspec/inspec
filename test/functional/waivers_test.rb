@@ -307,4 +307,49 @@ describe "waivers" do
       end
     end
   end
+
+  describe "with a waiver file that does not exist" do
+    let(:profile_name) { "basic" }
+    let(:waiver_file) { "no_file.yaml" }
+    it "raise file does not exist standard error" do
+      result = run_result
+      assert_includes result.stderr, "no_file.yaml does not exist"
+      assert_equal 1, result.exit_status
+    end
+  end
+
+  describe "with a waiver file with wrong headers" do
+    let(:profile_name) { "basic" }
+
+    describe "using csv file" do
+      let(:waiver_file) { "wrong-headers.csv" }
+      it "raise warnings" do
+        result = run_result
+        assert_includes result.stderr, "Missing column headers: [\"control_id\", \"justification\"]"
+        assert_includes result.stderr, "Invalid column header: Column can't be nil"
+        assert_includes result.stderr, "Invalid column headers: [\"control_id_random\", \"justification_random\", \"run_random\", \"expiration_date_random\", nil]"
+        assert_equal 100, result.exit_status
+      end
+    end
+
+    describe "using xlsx file" do
+      let(:waiver_file) { "wrong-headers.xlsx" }
+      it "raise warnings" do
+        result = run_result
+        assert_includes result.stderr, "Missing column headers: [\"control_id\", \"justification\"]"
+        assert_includes result.stderr, "Invalid column headers: [\"control_id_random\", \"justification_random\", \"run_random\", \"expiration_date_random\"]"
+        assert_equal 100, result.exit_status
+      end
+    end
+
+    describe "using xls file" do
+      let(:waiver_file) { "wrong-headers.xls" }
+      it "raise warnings" do
+        result = run_result
+        assert_includes result.stderr, "Missing column headers: [\"control_id\", \"justification\"]"
+        assert_includes result.stderr, "Invalid column headers: [\"control_id_random\", \"justification_random\", \"run_random\", \"expiration_date_random\"]"
+        assert_equal 100, result.exit_status
+      end
+    end
+  end
 end

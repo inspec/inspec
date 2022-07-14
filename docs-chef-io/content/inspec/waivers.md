@@ -44,7 +44,7 @@ OR
 ```json
 {
   "control_id": {
-    "expiration_date": YYYY-MM-DD,
+    "expiration_date": "YYYY-MM-DD",
     "run": false,
     "justification": "reason for waiving this control"
   }

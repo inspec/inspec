@@ -59,7 +59,14 @@ module Inspec
         RunnerRspec.new(@conf)
       end
 
-      @conf[:input_file] ||= []
+      if @conf[:waiver_file]
+        @conf[:waiver_file].each do |file|
+          unless File.file?(file)
+            raise Inspec::Exceptions::WaiversFileDoesNotExist, "Waiver file #{file} does not exist."
+          end
+        end
+      end
+
 
       # About reading inputs:
       #   @conf gets passed around a lot, eventually to
