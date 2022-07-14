@@ -18,6 +18,7 @@ module Inspec
       files.each do |file_path|
         file_extension = File.extname(file_path)
         data = nil
+        headers = []
         if [".yaml", ".yml"].include? file_extension
           data = Secrets::YAML.resolve(file_path)
           data = data.inputs unless data.nil?
