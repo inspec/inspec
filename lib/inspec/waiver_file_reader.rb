@@ -65,7 +65,7 @@ module Inspec
 
     def self.validate_json_yaml(data)
       headers = []
-      data.each do |_, value|
+      data.each_value do |value|
         headers.push value.keys
       end
       validate_headers(headers.flatten.uniq, true)
