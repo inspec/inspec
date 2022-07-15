@@ -1,0 +1,1 @@
+{"name": "my_volume", "driver": "local", "mountpoint": "/var/home/core/.local/share/containers/storage/volumes/my_volume/_data", "created_at": "2022-07-14T13:21:19.965421792+05:30", "labels": {}, "scope": "local", "options": {}, "mount_count": 0, "needs_copy_up": true, "needs_chown": true}
