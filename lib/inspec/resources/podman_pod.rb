@@ -29,7 +29,7 @@ module Inspec::Resources
         its("num_containers") { should eq 2 }
         its("containers") { should_not be nil }
       end
-    
+
       describe podman_pod("non-existing-pod") do
         it { should_not exist }
       end
