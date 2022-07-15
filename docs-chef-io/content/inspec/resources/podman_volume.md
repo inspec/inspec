@@ -40,7 +40,7 @@ A `podman_volume` Chef InSpec audit resource aids in testing the properties of a
 
 ## Properties
 
-- Properties of the resources: `shoe_size`
+- Properties of the resources: `name`, `driver`, `mountpoint`, `created_at`, `labels`, `scope`, `options`, `mount_count`, `needs_copy_up`, and `needs_chown`.
 
 ### name
 
