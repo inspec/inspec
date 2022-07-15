@@ -1,0 +1,3 @@
+[]
+error inspecting object: no such object: "non_existing_volume"
+Error: inspecting object: no such object: "volume"
