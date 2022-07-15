@@ -1,9 +1,12 @@
 require "inspec/resources/command"
 require_relative "docker_object"
+require "inspec/utils/podman"
 
 module Inspec::Resources
   class PodmanImage < Inspec.resource(1)
     include Inspec::Resources::DockerObject
+    include Inspec::Utils::Podman
+
     name "podman_image"
     supports platform: "unix"
 
@@ -36,61 +39,38 @@ module Inspec::Resources
       skip_resource "The `podman_image` resource is not yet available on your OS." unless inspec.os.unix?
       opts = { image: opts } if opts.is_a?(String)
       @opts = sanitize_options(opts)
+      raise Inspec::Exceptions::ResourceFailed, "Podman is not running. Please make sure it is installed and running." unless podman_running?
+
       @image_info = get_image_info
     end
 
+    LABELS = {
+      "id" => "ID",
+      "repo_tags" => "RepoTags",
+      "size" => "Size",
+      "digest" => "Digest",
+      "created_at" => "Created",
+      "version" => "Version",
+      "names_history" => "NamesHistory",
+      "repo_digests" => "RepoDigests",
+      "architecture" => "Architecture",
+      "os" => "Os",
+      "virtual_size" => "VirtualSize",
+    }.freeze
+
+    ## This creates all the required properties methods dynamically.
+    LABELS.each do |k, v|
+      define_method(k) do
+        image_info[k.to_s]
+      end
+    end
+
     def exist?
-      get_value("id") != nil
-    end
-
-    def id
-      get_value("id")
-    end
-
-    def repo_tags
-      get_value("repo_tags")
-    end
-
-    def size
-      # TODO: Convert bytes to KB or MB; if required
-      get_value("size")
-    end
-
-    def digest
-      get_value("digest")
-    end
-
-    def created_at
-      get_value("created_at")
-    end
-
-    def version
-      get_value("version")
-    end
-
-    def names_history
-      get_value("names_history")
-    end
-
-    def repo_digests
-      get_value("repo_digests")
-    end
-
-    def architecture
-      get_value("architecture")
-    end
-
-    def os
-      get_value("os")
-    end
-
-    def virtual_size
-      # TODO: Convert bytes to KB or MB
-      get_value("virtual_size")
+      ! image_info.empty?
     end
 
     def resource_id
-      @opts[:id] || @opts[:image] || ""
+      opts[:id] || opts[:image] || ""
     end
 
     def to_s
@@ -112,36 +92,17 @@ module Inspec::Resources
     end
 
     def get_image_info
-      current_image = @opts[:id] || @opts[:image] || @opts [:repo] + ":" + @opts[:tag]
-      json_key_label = get_json_key_label
-      podman_inspect_cmd = inspec.command("podman image inspect --format '{#{json_key_label}}' #{current_image}")
+      current_image = opts[:id] || opts[:image] || opts[:repo] + ":" + opts[:tag]
+      json_key_label = generate_go_template(LABELS)
+      podman_inspect_cmd = inspec.command("podman image inspect #{current_image} --format '{#{json_key_label}}'")
 
-      require "json" unless defined?(JSON)
-      podman_inspect_cmd.exit_status !=0 ? nil : JSON.parse(podman_inspect_cmd.stdout)
-    end
-
-    def get_value(key)
-      return nil if image_info.nil?
-
-      image_info[key]
-    end
-
-    def get_json_key_label
-      labels = {
-        "id" => "ID",
-        "repo_tags" => "RepoTags",
-        "size" => "Size",
-        "digest" => "Digest",
-        "created_at" => "Created",
-        "version" => "Version",
-        "names_history" => "NamesHistory",
-        "repo_digests" => "RepoDigests",
-        "architecture" => "Architecture",
-        "os" => "Os",
-        "virtual_size" => "VirtualSize",
-      }
-      json_key_label_array = labels.map { |k, v| "\"#{k}\": {{json .#{v}}}" }
-      json_key_label_array.join(", ")
+      if podman_inspect_cmd.exit_status == 0
+        parse_command_output(podman_inspect_cmd.stdout)
+      elsif podman_inspect_cmd.stderr =~ /failed to find image/
+        {}
+      else
+        raise Inspec::Exceptions::ResourceFailed, "Unable to retrieve podman image information for #{current_image}.\nError message: #{podman_inspect_cmd.stderr}"
+      end
     end
   end
 end
