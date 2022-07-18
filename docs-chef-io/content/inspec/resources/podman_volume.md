@@ -34,7 +34,7 @@ A `podman_volume` Chef InSpec audit resource aids in testing the properties of a
 ```
 
 > where
-> 
+>
 > - `'name'`, `'driver'`, `'mountpoint'`, and `'created_at'` are properties of this resource to fetch the respective value of the podman volume.
 > - `exist` is a matcher of this resource.
 
@@ -52,7 +52,7 @@ The `name` property returns the name of the volume.
 
 ### driver
 
-The `driver` property returns the value for volume's driver environment.
+The `driver` property returns the value for the volume's driver environment.
 
 ```ruby
   its("driver") { should eq "local" }
@@ -60,7 +60,7 @@ The `driver` property returns the value for volume's driver environment.
 
 ### mountpoint
 
-The `mountpoint` property returns the value for volume's mount path.
+The `mountpoint` property returns the value for the volume's mount path.
 
 ```ruby
   its("mountpoint") { should eq "/var/home/core/.local/share/containers/storage/volumes/my_volume/_data" }
@@ -100,7 +100,7 @@ The `options` property returns the options associated with the volume.
 
 ### mount_count
 
-The `mount_count` property returns the MountCount value from the volume's inspect information.
+The `mount_count` property returns the **MountCount** value from the volume's inspect information.
 
 ```ruby
   its("mount_count") { should eq 0 }
@@ -108,7 +108,7 @@ The `mount_count` property returns the MountCount value from the volume's inspec
 
 ### needs_copy_up
 
-The `needs_copy_up` property returns the NeedsCopyUp value from the volume's inspect information.
+The `needs_copy_up` property returns the **NeedsCopyUp** value from the volume's inspect information.
 
 ```ruby
   its("needs_copy_up") { should eq true }
@@ -116,7 +116,7 @@ The `needs_copy_up` property returns the NeedsCopyUp value from the volume's ins
 
 ### needs_chown
 
-The `needs_chown` property returns the NeedsChown value from the volume's inspect information.
+The `needs_chown` property returns the **NeedsChown** value from the volume's inspect information.
 
 ```ruby
   its("needs_chown") { should eq true }
@@ -136,7 +136,7 @@ The `exist` matcher tests if the volume is available on Podman.
 
 ## Examples
 
-### Test if a volune exists on Podman and verify the various volume properties
+### Test if a volume exists on Podman and verifies volume properties
 
 ```ruby
   describe podman_volume("my_volume") do

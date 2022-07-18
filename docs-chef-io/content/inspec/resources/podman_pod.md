@@ -35,15 +35,14 @@ A `podman_pod` Chef InSpec audit resource aids in testing the properties of a po
 ```
 
 > where
-
-> - `'nginx-frontend'` is the name of the pod. Pod ID and Pod names are valid parameter accepted by `podman_pod`.
+>
+> - `'nginx-frontend'` is the name of the pod. Pod ID and Pod names are valid parameters accepted by `podman_pod`.
 > - `'id'`, `'name'`, `'created_at'`, `'create_command'`, and `'state'`, are properties of this resource to fetch the respective value of the podman pod.
 > - `exist` is a matcher of this resource.
 
 ## Properties
 
 - Properties of the resources are: `'id'`, `'name'`, `'created_at'`, `'create_command'`, `'state'`, `'hostname'`, `'create_cgroup'`, `'cgroup_parent'`, `cgroup_path`, `'create_infra'`, `'infra_container_id'`, `'infra_config'`, `'shared_namespaces'`, `'num_containers'`, and `'containers'`
-
 
 ### `id`
 
@@ -71,7 +70,7 @@ The `created_at` property returns the creation date of the pod.
 
 ### `create_command`
 
-The `create_command` property returns an array of commands used for creation of the pod.
+The `create_command` property returns an array of commands used to create the pod.
 
 ```ruby
   its("create_command") { should include "new:nginx-frontend" }
@@ -119,7 +118,7 @@ The `cgroup_path` property returns the path of the cgroup parent of the pod.
 
 ### `create_infra`
 
-The `create_infra` property returns a boolean value for infra creation of the pod.
+The `create_infra` property returns a boolean value for the pod infra creation.
 
 ```ruby
   its("create_infra") { should eq true }
@@ -127,7 +126,7 @@ The `create_infra` property returns a boolean value for infra creation of the po
 
 ### `infra_container_id`
 
-The `infra_container_id` property returns the infra container id of the pod.
+The `infra_container_id` property returns the infra container ID of the pod.
 
 ```ruby
   its("infra_container_id") { should eq "727538044b32a165934729dc2d47d9d5e981b6496aebfad7de470f7e76ea4251" }
@@ -179,7 +178,7 @@ The `exist` matcher tests if the pod is available on Podman.
 
 ## Examples
 
-### Test if a pod exists on Podman and verify the various pod properties
+### Test if a pod exists on Podman and verifies pod properties
 
 ```ruby
   describe podman_pod("nginx-frontend") do
@@ -209,4 +208,3 @@ The `exist` matcher tests if the pod is available on Podman.
     it { should_not exist }
   end
 ```
-
