@@ -16,7 +16,6 @@ module Inspec
     attr_reader :__waiver_data
     attr_accessor :resource_dsl
     attr_reader :__profile_id
-    attr_accessor :impact
 
     def initialize(id, profile_id, resource_dsl, opts, &block)
       @impact = nil
@@ -138,7 +137,7 @@ module Inspec
       return unless block_given?
       return if @__skip_only_if_eval == true
 
-      self.impact = impact if impact && !yield
+      self.impact(impact) if impact && !yield
       @__skip_rule[:result] ||= !yield
       @__skip_rule[:type] = :only_if
       @__skip_rule[:message] = message
