@@ -328,7 +328,6 @@ describe "waivers" do
         assert_includes result.stderr, "Missing column headers: [\"control_id\", \"justification\"]"
         assert_includes result.stderr, "Invalid column header: Column can't be nil"
         assert_includes result.stderr, "Extra column headers: [\"control_id_random\", \"justification_random\", \"run_random\", \"expiration_date_random\", nil]"
-        assert_equal 100, result.exit_status
       end
     end
 
@@ -338,7 +337,6 @@ describe "waivers" do
         result = run_result
         assert_includes result.stderr, "Missing column headers: [\"control_id\", \"justification\"]"
         assert_includes result.stderr, "Extra column headers: [\"control_id_random\", \"justification_random\", \"run_random\", \"expiration_date_random\"]"
-        assert_equal 100, result.exit_status
       end
     end
 
@@ -348,7 +346,6 @@ describe "waivers" do
         result = run_result
         assert_includes result.stderr, "Missing column headers: [\"control_id\", \"justification\"]"
         assert_includes result.stderr, "Extra column headers: [\"control_id_random\", \"justification_random\", \"run_random\", \"expiration_date_random\"]"
-        assert_equal 100, result.exit_status
       end
     end
 
@@ -358,7 +355,6 @@ describe "waivers" do
         result = run_result
         assert_includes result.stderr, "Missing column headers: [\"justification\"]"
         assert_includes result.stderr, "Extra column headers: [\"justification_random\", \"run_random\", \"expiration_date_random\"]"
-        assert_equal 100, result.exit_status
       end
     end
 
@@ -368,7 +364,6 @@ describe "waivers" do
         result = run_result
         assert_includes result.stderr, "Missing column headers: [\"justification\"]"
         assert_includes result.stderr, "Extra column headers: [\"justification_random\", \"run_random\", \"expiration_date_random\"]"
-        assert_equal 100, result.exit_status
       end
     end
   end
