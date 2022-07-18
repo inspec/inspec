@@ -145,6 +145,25 @@ module Inspec
       @__skip_rule[:message] = message
     end
 
+    def not_applicable_if(message = nil)
+      return unless block_given?
+      return unless yield
+
+      self.impact = 0.0
+      if message
+        message = "N/A control due to not_applicable_if condition: #{message}"
+      else
+        message = "N/A control due to not_applicable_if condition."
+      end
+      resource = noop
+
+      resource.fail_resource(message)
+
+      describe resource do
+        nil
+      end
+    end
+
     # Describe will add one or more tests to this control. There is 2 ways
     # of calling it:
     #
