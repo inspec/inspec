@@ -7,4 +7,9 @@ sets:
       - repo: https://github.com/inspec/inspec-test-profile-basic.git
     paths:
       - "*"
+  non-existing-fixture:
+    fetch:
+      - repo: https://github.com/inspec/inspec-non-existing-fixture.git
+    paths:
+      - "*"
 
