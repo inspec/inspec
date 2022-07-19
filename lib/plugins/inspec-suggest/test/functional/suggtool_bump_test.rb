@@ -16,10 +16,10 @@ describe "inspec suggtool bump" do
         _(run_suggtool_package.exit_status).must_equal 0
 
         # default bump i.e. patch
-        run_suggtool_bump = run_inspec_process("suggtool bump --suggest-config #{config} --work-dir #{workdir}")
+        run_suggtool_bump = run_inspec_process("suggtool bump test-fixture --suggest-config #{config} --work-dir #{workdir}")
         _(run_suggtool_bump.stderr).must_equal ""
         _(run_suggtool_bump.exit_status).must_equal 0
-        _(run_suggtool_bump.stdout).must_include "Bumped:patch version of"
+        _(run_suggtool_bump.stdout).must_include "bump: Bumped patch version of"
       end # Dir.mktmpdir
     end # it ends
 
@@ -31,10 +31,10 @@ describe "inspec suggtool bump" do
         _(run_suggtool_package.exit_status).must_equal 0
 
         # patch bump
-        run_suggtool_bump = run_inspec_process("suggtool bump --level patch --suggest-config #{config} --work-dir #{workdir}")
+        run_suggtool_bump = run_inspec_process("suggtool bump test-fixture --level patch --suggest-config #{config} --work-dir #{workdir}")
         _(run_suggtool_bump.stderr).must_equal ""
         _(run_suggtool_bump.exit_status).must_equal 0
-        _(run_suggtool_bump.stdout).must_include "Bumped:patch version of"
+        _(run_suggtool_bump.stdout).must_include "bump: Bumped patch version of"
       end # Dir.mktmpdir
     end # it ends
 
@@ -46,10 +46,10 @@ describe "inspec suggtool bump" do
         _(run_suggtool_package.exit_status).must_equal 0
 
         # minor bump
-        run_suggtool_bump = run_inspec_process("suggtool bump --level minor --suggest-config #{config} --work-dir #{workdir}")
+        run_suggtool_bump = run_inspec_process("suggtool bump test-fixture --level minor --suggest-config #{config} --work-dir #{workdir}")
         _(run_suggtool_bump.stderr).must_equal ""
         _(run_suggtool_bump.exit_status).must_equal 0
-        _(run_suggtool_bump.stdout).must_include "Bumped:minor version of"
+        _(run_suggtool_bump.stdout).must_include "bump: Bumped minor version of"
       end # Dir.mktmpdir
     end # it ends
 
@@ -61,10 +61,10 @@ describe "inspec suggtool bump" do
         _(run_suggtool_package.exit_status).must_equal 0
 
         # major bump
-        run_suggtool_bump = run_inspec_process("suggtool bump --level major --suggest-config #{config} --work-dir #{workdir}")
+        run_suggtool_bump = run_inspec_process("suggtool bump test-fixture --level major --suggest-config #{config} --work-dir #{workdir}")
         _(run_suggtool_bump.stderr).must_equal ""
         _(run_suggtool_bump.exit_status).must_equal 0
-        _(run_suggtool_bump.stdout).must_include "Bumped:major version of"
+        _(run_suggtool_bump.stdout).must_include "bump: Bumped major version of"
       end # Dir.mktmpdir
     end # it ends
 
@@ -76,7 +76,7 @@ describe "inspec suggtool bump" do
         _(run_suggtool_package.exit_status).must_equal 0
 
         # wrong bump level
-        run_suggtool_bump = run_inspec_process("suggtool bump --level unknown --suggest-config #{config} --work-dir #{workdir}")
+        run_suggtool_bump = run_inspec_process("suggtool bump test-fixture --level unknown --suggest-config #{config} --work-dir #{workdir}")
         _(run_suggtool_bump.exit_status).must_equal 1
         _(run_suggtool_bump.stdout).must_include "Invalid bump level 'unknown'. Valid levels are: patch, minor, major"
       end # Dir.mktmpdir
