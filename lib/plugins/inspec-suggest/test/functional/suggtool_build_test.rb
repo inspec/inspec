@@ -78,4 +78,19 @@ describe "inspec suggtool build" do
       _(run_suggtool_build.stdout).wont_include "check: Saw 0 error(s), 0 warning(s)"
     end
   end
+
+  it "executes inspec suggtool build with failure at check" do
+    Dir.mktmpdir do |workdir|
+      cmd = "suggtool build bad-fixture-branch"
+      cmd += " --suggest-config #{config}"
+      cmd += " --work-dir #{workdir}"
+      run_suggtool_build = run_inspec_process(cmd)
+
+      _(run_suggtool_build.exit_status).must_equal 1
+      _(run_suggtool_build.stdout).must_include "fetch: working on set bad-fixture-branch"
+      _(run_suggtool_build.stdout).must_include "fetch: checked out ss/profiles-for-build"
+      _(run_suggtool_build.stdout).must_include "check: Saw 2 error(s), 2 warning(s)"
+      _(run_suggtool_build.stdout).wont_include "package: Extracted inspec.yml from"
+    end
+  end
 end
