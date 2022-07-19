@@ -27,7 +27,20 @@ module InspecPlugins::Suggest
       check(*requested_sets)
       package(*requested_sets)
       bump(*requested_sets)
+      load_sign_plugin
       sign(*requested_sets)
+    end
+
+    no_commands do
+      def load_sign_plugin
+        # Before calling sign, we must ensure that the inspec-sign plugin is loaded. 
+        # Normally this happens automatically when the word "sign" appears on the CLI.
+        # But since we here invoke "inspec suggtool build", that didn't happen.
+        # So the fix is to manually activate and register the plugin now.
+        activator = Inspec::Plugin::V2::Registry.instance.find_activators(plugin_type: :cli_command, plugin_name: :"inspec-sign", activator_name: :sign).first
+        activator.activate!
+        Inspec::InspecCLI.register(activator.implementation_class, activator.activator_name.to_s, "", "", {})
+      end
     end
   end
 end
