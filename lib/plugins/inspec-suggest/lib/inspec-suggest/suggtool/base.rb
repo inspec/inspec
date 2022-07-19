@@ -56,8 +56,9 @@ module InspecPlugins::Suggest
       end
 
       def with_set_metadata_files(set_cfg, &block)
+        criteria_profiles_dir = File.join(@working_dir, "profiles")
         set_cfg["paths"].each do |path|
-          Dir.glob(File.join(@working_dir, path, "inspec.yml")).each do |metadata_file_path|
+          Dir.glob(File.join(criteria_profiles_dir, path, "inspec.yml")).each do |metadata_file_path|
             yield(metadata_file_path)
           end
         end

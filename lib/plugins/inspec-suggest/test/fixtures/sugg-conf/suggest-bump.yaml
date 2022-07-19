@@ -1,6 +1,6 @@
-working_directory: lib/plugins/inspec-suggest/test/fixtures
+working_directory: lib/plugins/inspec-suggest/test/fixtures/tmp
 
 sets:
   test-fixture:
     paths:
-      - profiles/test-fixture
+      - "*"

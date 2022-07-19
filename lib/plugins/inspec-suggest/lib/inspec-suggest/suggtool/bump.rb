@@ -45,7 +45,7 @@ module InspecPlugins::Suggest
         File.open(file_path, "w") do |file|
           file.write(yaml_data.to_yaml)
         end
-        ui.info "Bumped:#{options[:level]} version of #{file_path} to #{new_version}"
+        ui.info "bump: Bumped #{options[:level]} version of #{file_path} to #{new_version}"
       end
     end
   end
