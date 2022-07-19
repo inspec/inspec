@@ -22,8 +22,13 @@ module InspecPlugins::Suggest
             git.fetch
             ui.info "fetch: updated"
           else
-            git = Git.clone(fetch_cfg["repo"], checkout_dir)
-            ui.info "fetch: cloned from #{fetch_cfg["repo"]}"
+            begin
+              git = Git.clone(fetch_cfg["repo"], checkout_dir)
+              ui.info "fetch: cloned from #{fetch_cfg["repo"]}"
+            rescue Git::GitExecuteError => e
+              ui.error "fetch: failed to clone #{fetch_cfg["repo"]}: #{e.message}"
+              ui.exit(:usage_error)
+            end
           end
 
           ref = fetch_cfg["ref"] || "main"
