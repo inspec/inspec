@@ -63,4 +63,19 @@ describe "inspec suggtool build" do
       FileUtils.rm(File.join(keydir, "#{keyname}.pem.pub"))
     end
   end
+
+  it "executes inspec suggtool build with failure at fetch" do
+    Dir.mktmpdir do |workdir|
+      cmd = "suggtool build non-existing-fixture"
+      cmd += " --suggest-config #{config}"
+      cmd += " --work-dir #{workdir}"
+      run_suggtool_build = run_inspec_process(cmd)
+
+      _(run_suggtool_build.exit_status).must_equal 1
+      _(run_suggtool_build.stdout).must_include "fetch: working on set non-existing-fixture"
+      _(run_suggtool_build.stdout).must_include "fetch: failed to clone https://github.com/inspec/inspec-non-existing-fixture.git"
+      _(run_suggtool_build.stdout).must_include "Repository not found"
+      _(run_suggtool_build.stdout).wont_include "check: Saw 0 error(s), 0 warning(s)"
+    end
+  end
 end
