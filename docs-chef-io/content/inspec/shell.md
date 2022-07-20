@@ -112,12 +112,12 @@ $ inspec shell
 Welcome to the interactive InSpec Shell
 To find out how to use it, type: help
 
-inspec> file('/Users/myuser').directory?
+inspec> file('/Users/username').directory?
 => true
 inspec> os_env('HOME')
 => Environment variable HOME
 inspec> os_env('HOME').content
-=> /Users/myuser
+=> /Users/username
 inspec> exit
 ```
 
@@ -141,10 +141,10 @@ replaced with the redefinition and the control is re-run.
 ```bash
 inspec> control 'my_control' do
 inspec>   describe os_env('HOME') do
-inspec>     its('content') { should eq '/Users/myuser' }
+inspec>     its('content') { should eq '/Users/username' }
 inspec>   end
 inspec> end
-  ✔  my_control: Environment variable HOME content should eq "/Users/myuser"
+  ✔  my_control: Environment variable HOME content should eq "/Users/username"
 
   Summary: 1 successful, 0 failures, 0 skipped
 ```
@@ -173,10 +173,10 @@ If you wish to run a single Chef InSpec command and fetch its results, you
 may use the `-c` flag. This is similar to using `bash -c`.
 
 ```bash
-$ inspec shell -c 'describe file("/Users/myuser") do it { should exist } end'
+$ inspec shell -c 'describe file("/Users/username") do it { should exist } end'
 Target:  local://
 
-  ✔  File /Users/myuser should exist
+  ✔  File /Users/username should exist
 
 Summary: 1 successful, 0 failures, 0 skipped
 ```

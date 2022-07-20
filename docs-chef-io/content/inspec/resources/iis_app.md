@@ -70,7 +70,7 @@ For example:
 
 `physical_path` property returns the physical path of the application, such as `'C:\\inetpub\\wwwroot\\myapp'`.
 
-    its('phyiscal_path') { should eq 'C:\\inetpub\\wwwroot\\myapp' }
+    its('physical_path') { should eq 'C:\\inetpub\\wwwroot\\myapp' }
 
 ### protocols
 

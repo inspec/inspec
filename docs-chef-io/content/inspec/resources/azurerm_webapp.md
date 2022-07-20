@@ -100,7 +100,7 @@ The Resource Group as well as the Webapp name.
 - `auth_settings`
 - `configuration`
 
-All of the attributes are avialable via dot notation. This is an example of the currently available attributes.
+All of the attributes are available via dot notation. This is an example of the currently available attributes.
 
 ```ruby
 control 'azurerm_webapp' do

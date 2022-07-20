@@ -70,9 +70,9 @@ The following examples show how to use this Chef InSpec resource.
       it { should exist }
     end
 
-## Gathering Tasknames
+## Gathering Task Names
 
-Rather then use the GUI you can use the `schtasks.exe` to output a full list of tasks available on the system
+Rather than use the GUI, you can use the `schtasks.exe` to output a full list of tasks available on the system
 
 `schtasks /query /FO list`
 

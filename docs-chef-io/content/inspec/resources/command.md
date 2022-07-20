@@ -167,7 +167,7 @@ By default the command that is ran is shown in the Chef InSpec output. This can 
 The following examples show how to use `redact_regex`:
 
     # Example without capture groups
-    describe command('myapp -p secretpassword -d no_redact', redact_regex: /-p .* -d/) do
+    describe command('myapp -p secret_password -d no_redact', redact_regex: /-p .* -d/) do
       its('exit_status') { should cmp 0 }
     end
 
@@ -178,7 +178,7 @@ The following examples show how to use `redact_regex`:
     # Example with capture groups
     # Each set of parenthesis is a capture group.
     # Anything in the two capture groups will not be 'REDACTED'
-    describe command('myapp -p secretpassword -d no_redact', redact_regex: /(-p ).*( -d)/) do
+    describe command('myapp -p secret_password -d no_redact', redact_regex: /(-p ).*( -d)/) do
       its('exit_status') { should cmp 0 }
     end
 

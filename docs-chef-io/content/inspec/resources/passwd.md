@@ -58,7 +58,7 @@ where
 
 ### gids
 
-The `gids` property tests if the group indentifiers in the test match group identifiers in `/etc/passwd`:
+The `gids` property tests if the group identifiers in the test match group identifiers in `/etc/passwd`:
 
     its('gids') { should include 1234 }
     its('gids') { should cmp 0 }

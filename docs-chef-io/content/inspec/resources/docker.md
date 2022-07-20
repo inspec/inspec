@@ -25,7 +25,7 @@ This resource first became available in v1.21.0 of InSpec.
 
 ## Syntax
 
-A `docker` resource block declares allows you to write test for many containers:
+A `docker` resource block allows you to write tests for many containers:
 
     describe docker.containers do
       its('images') { should_not include 'u12:latest' }
@@ -33,7 +33,7 @@ A `docker` resource block declares allows you to write test for many containers:
 
 or:
 
-    describe docker.containers.where { names == 'flamboyant_colden' } do
+    describe docker.containers.where { names == 'flamboyant_allen' } do
       it { should be_running }
     end
 
@@ -45,7 +45,7 @@ where
 The `docker` resource block also declares allows you to write test for many images:
 
     describe docker.images do
-      its('repositories') { should_not include 'inssecure_image' }
+      its('repositories') { should_not include 'insecure_image' }
     end
 
 or if you want to query specific images:
