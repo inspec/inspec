@@ -9,6 +9,7 @@ require "inspec/resource"
 require "inspec/resources/os"
 require "inspec/input_registry"
 require "inspec/waiver_file_reader"
+require "inspec/attestation_file_reader"
 require "inspec/utils/convert"
 
 module Inspec
@@ -16,6 +17,7 @@ module Inspec
     include ::RSpec::Matchers
 
     attr_reader :__waiver_data
+    attr_reader :__attestation_data
     attr_accessor :resource_dsl
     attr_reader :__profile_id
 
@@ -50,6 +52,7 @@ module Inspec
         # By applying waivers *after* the instance eval, we assure that
         # waivers have higher precedence than only_if.
         __apply_waivers
+        __apply_attestations
 
       rescue SystemStackError, StandardError => e
         # We've encountered an exception while trying to eval the code inside the
@@ -390,6 +393,36 @@ module Inspec
       @__skip_rule[:type] = :waiver
       @__skip_rule[:message] = __waiver_data["justification"]
       __waiver_data["skipped_due_to_waiver"] = true
+    end
+
+    def __apply_attestations
+      control_id = @__rule_id
+      attestation_files = Inspec::Config.cached.final_options["attestation_file"] if Inspec::Config.cached.respond_to?(:final_options)
+
+      attestation_data_by_profile = Inspec::AttestationFileReader.fetch_attestation_by_profile(__profile_id, attestation_files) unless attestation_files.nil?
+
+      return unless attestation_data_by_profile && attestation_data_by_profile[control_id] && attestation_data_by_profile[control_id].is_a?(Hash)
+
+      @__attestation_data = attestation_data_by_profile[control_id]
+
+      expiry = __attestation_data["expiration_date"]
+
+      if expiry
+        if [Date, Time].include?(expiry.class) || (expiry.is_a?(String) && Time.parse(expiry).year != 0)
+          expiry = expiry.to_time if expiry.is_a? Date
+          expiry = Time.parse(expiry) if expiry.is_a? String
+          if expiry < Time.now # If the attestation expired, return - it is not attestated
+            __attestation_data["message"] = "Attestation expired on #{expiry}, evaluating control normally"
+            nil
+          end
+        else
+          ui = Inspec::UI.new
+          ui.error("Unable to parse attestation expiration date '#{expiry}' for control #{@__rule_id}")
+          ui.exit(:usage_error)
+        end
+      end
+
+      # OK -> apply a pass and fail based on attestation data
     end
 
     #
