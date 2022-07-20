@@ -75,7 +75,11 @@ describe "inspec suggtool build" do
       _(run_suggtool_build.stdout).must_include "fetch: working on set non-existing-fixture"
       _(run_suggtool_build.stdout).must_include "fetch: failed to clone https://github.com/inspec/inspec-non-existing-fixture.git"
       _(run_suggtool_build.stdout).must_include "Repository not found"
-      _(run_suggtool_build.stdout).wont_include "check: Saw 0 error(s), 0 warning(s)"
+      # None of the other steps should have been executed
+      _(run_suggtool_build.stdout).wont_include "check:"
+      _(run_suggtool_build.stdout).wont_include "package:"
+      _(run_suggtool_build.stdout).wont_include "bump:"
+      _(run_suggtool_build.stdout).wont_include "sign:"
     end
   end
 
@@ -90,7 +94,10 @@ describe "inspec suggtool build" do
       _(run_suggtool_build.stdout).must_include "fetch: working on set bad-fixture-branch"
       _(run_suggtool_build.stdout).must_include "fetch: checked out ss/profiles-for-build"
       _(run_suggtool_build.stdout).must_include "check: Saw 2 error(s), 2 warning(s)"
-      _(run_suggtool_build.stdout).wont_include "package: Extracted inspec.yml from"
+      # None of the other steps should have been executed
+      _(run_suggtool_build.stdout).wont_include "package:"
+      _(run_suggtool_build.stdout).wont_include "bump:"
+      _(run_suggtool_build.stdout).wont_include "sign:"
     end
   end
 end
