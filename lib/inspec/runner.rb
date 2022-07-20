@@ -67,6 +67,14 @@ module Inspec
         end
       end
 
+      if @conf[:attestation_file]
+        @conf[:attestation_file].each do |file|
+          unless File.file?(file)
+            raise Inspec::Exceptions::AttestationFileDoesNotExist, "Attestation file #{file} does not exist."
+          end
+        end
+      end
+
       # About reading inputs:
       #   @conf gets passed around a lot, eventually to
       # Inspec::InputRegistry.register_external_inputs.
