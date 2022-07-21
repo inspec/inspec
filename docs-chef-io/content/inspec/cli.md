@@ -118,7 +118,7 @@ This subcommand has the following additional options:
 * `--client-key-pass=CLIENT_CERT_PASSWORD`
     Specify client certificate password, if required for SSL authentication (WinRM).
 * `--config=CONFIG`
-    Read the configuration from the JSON file (`-` reads from stdin).
+    Read configuration from the JSON file (`-` reads from stdin).
 * `--docker-url`
     Provides a path to the Docker API endpoint (Docker).
 * `--enable-password=ENABLE_PASSWORD`
@@ -314,13 +314,13 @@ This subcommand has the following additional options:
 * `--command-timeout=SECONDS`
     Maximum seconds to allow a command to run.
 * `--config=CONFIG`
-    Read the configuration from the JSON file (`-` reads from stdin).
+    Read configuration from the JSON file (`-` reads from stdin).
 * `--controls=one two three`
     A list of control names to run or a list of /regexes/ to match against control names. Ignore all other tests.
 * `--create-lockfile`, `--no-create-lockfile`
     Write out a lockfile based on this execution (unless one already exists).
 * `--distinct-exit`, `--no-distinct-exit`
-    Exit with code 101 if any tests fail and 100 if any are skipped (default).  If disabled, exit 0 on skips and 1 for failures.
+    Exit with code 101 if any tests fail and 100 if any are skipped (default). If disabled, exit 0 on skips and 1 for failures.
 * `--docker-url`
     Provides path to Docker API endpoint (Docker). Defaults to unix:///var/run/docker.sock on Unix systems and tcp://localhost:2375 on Windows.
 * `--enable-password=ENABLE_PASSWORD`
@@ -549,7 +549,7 @@ This subcommand has the following additional options:
 * `--client-key-pass=CLIENT_CERT_PASSWORD`
     Specify client certificate password, if required for SSL authentication (WinRM).
 * `--config=CONFIG`
-    Read the configuration from the JSON file (`-` reads from stdin).
+    Read configuration from the JSON file (`-` reads from stdin).
 * `--depends=one two three`
     A space-delimited list of local folders containing profiles whose libraries and resources will be loaded into the new shell.
 * `--distinct-exit`, `--no-distinct-exit`
