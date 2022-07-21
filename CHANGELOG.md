@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.18.15 -->
-## [v5.18.15](https://github.com/inspec/inspec/tree/v5.18.15) (2022-07-13)
+<!-- latest_release 5.18.16 -->
+## [v5.18.16](https://github.com/inspec/inspec/tree/v5.18.16) (2022-07-21)
 
 #### Merged Pull Requests
-- Trivial README change to trigger new omnibus build [#6203](https://github.com/inspec/inspec/pull/6203) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Docs spellcheck [#6214](https://github.com/inspec/inspec/pull/6214) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Docs spellcheck [#6214](https://github.com/inspec/inspec/pull/6214) ([IanMadd](https://github.com/IanMadd)) <!-- 5.18.16 -->
 - Trivial README change to trigger new omnibus build [#6203](https://github.com/inspec/inspec/pull/6203) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.18.15 -->
 <!-- release_rollup -->
 
