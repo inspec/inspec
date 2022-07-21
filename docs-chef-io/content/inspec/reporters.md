@@ -43,13 +43,13 @@ inspec exec example_profile --reporter yaml:-
 inspec exec example_profile --reporter cli json:/tmp/output.json
 ```
 
-**Output nothing to screen and write jUnit and HTML to a file.**
+**Output nothing to screen and write junit and html to a file.**
 
 ```bash
 inspec exec example_profile --reporter junit2:/tmp/junit.xml html:www/index.html
 ```
 
-**Output json to screen and write to a file. Write jUnit to a file.**
+**Output json to screen and write to a file. Write junit to a file.**
 
 ```bash
 inspec exec example_profile --reporter json junit2:/tmp/junit.xml | tee out.json
