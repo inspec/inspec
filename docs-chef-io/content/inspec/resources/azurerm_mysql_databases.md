@@ -46,7 +46,7 @@ This resource first became available in 1.6.0 of the inspec-azure resource pack.
 
 ## Syntax
 
-An `azurerm_mysql_databases` resource block returns all MySQL Databases on a MySQL Server, within a Rsource Group.
+An `azurerm_mysql_databases` resource block returns all MySQL Databases on a MySQL Server, within a resource group.
 
     describe azurerm_mysql_databases(resource_group: ..., server_name: ...) do
       ...

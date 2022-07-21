@@ -63,7 +63,7 @@ If a Load Balancer is referenced with a valid `Resource Group` and `Load balance
 
 If a Load Balancer is referenced with an invalid `Resource Group` or `Load balancer Name`
 
-    describe azurerm_load_balancer(resource_group: 'invalid-rg', loadbalancer_name: 'i-dont-exist') do
+    describe azurerm_load_balancer(resource_group: 'invalid-rg', loadbalancer_name: 'i-do-not-exist') do
       it { should_not exist }
     end
 

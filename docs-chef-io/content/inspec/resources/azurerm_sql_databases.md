@@ -46,7 +46,7 @@ This resource first became available in 1.2.0 of the inspec-azure resource pack.
 
 ## Syntax
 
-An `azurerm_sql_databases` resource block returns all SQL Databases on a SQL Server, within a Rsource Group.
+An `azurerm_sql_databases` resource block returns all SQL Databases on a SQL Server, within a resource group.
 
     describe azurerm_sql_databases(resource_group: ..., server_name: ...) do
       ...

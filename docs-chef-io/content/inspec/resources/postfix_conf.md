@@ -42,7 +42,7 @@ When using `postfix_conf` with a custom configuration directory, the following s
 
 where
 
-- `'path'` is the path to your Postfix configuration (ex. '/etc/my/postfix/path/main.cf')
+- `'path'` is the path to your Postfix configuration (ex. '/etc/path/to/postfix/main.cf')
 
 ## Properties
 

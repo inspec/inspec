@@ -121,7 +121,7 @@ The virtual network's id.
 Id will be in
 format:
 
-    '/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Inspec-Azure-mmclane/providers/Microsoft.Network/virtualNetworks/MyVnetName'
+    '/subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.Network/virtualNetworks/MyVnetName'
 
 ### name
 

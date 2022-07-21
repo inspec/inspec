@@ -82,7 +82,7 @@ The following examples show how to use this InSpec audit resource.
 Filters the results to include only those Users that match the given
 name. This is a string value.
 
-    describe azurerm_ad_users.where{ displayName.eql?('Joe Bloggs') } do
+    describe azurerm_ad_users.where{ displayName.eql?('Haris Shefu') } do
       it { should exist }
     end
 

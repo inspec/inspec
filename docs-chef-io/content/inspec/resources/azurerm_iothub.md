@@ -63,7 +63,7 @@ If an IoT Hub is referenced with a valid `Resource Group` and `Resource Name`
 
 If an IoT Hub is referenced with an invalid `Resource Group` or `Resource Name`
 
-    describe azurerm_iothub(resource_group: 'invalid-rg', resource_name: 'i-dont-exist') do
+    describe azurerm_iothub(resource_group: 'invalid-rg', resource_name: 'i-do-not-exist') do
       it { should_not exist }
     end
 
