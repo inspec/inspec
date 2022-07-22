@@ -52,7 +52,7 @@ module Inspec
         # By applying waivers *after* the instance eval, we assure that
         # waivers have higher precedence than only_if.
         __apply_waivers
-        __apply_attestations
+        __add_attestation_data
 
       rescue SystemStackError, StandardError => e
         # We've encountered an exception while trying to eval the code inside the
@@ -395,7 +395,8 @@ module Inspec
       __waiver_data["skipped_due_to_waiver"] = true
     end
 
-    def __apply_attestations
+    def __add_attestation_data
+      # this adds attestation data to a rule, accesible on run data layer.
       control_id = @__rule_id
       attestation_files = Inspec::Config.cached.final_options["attestation_file"] if Inspec::Config.cached.respond_to?(:final_options)
 
@@ -404,25 +405,6 @@ module Inspec
       return unless attestation_data_by_profile && attestation_data_by_profile[control_id] && attestation_data_by_profile[control_id].is_a?(Hash)
 
       @__attestation_data = attestation_data_by_profile[control_id]
-
-      expiry = __attestation_data["expiration_date"]
-
-      if expiry
-        if [Date, Time].include?(expiry.class) || (expiry.is_a?(String) && Time.parse(expiry).year != 0)
-          expiry = expiry.to_time if expiry.is_a? Date
-          expiry = Time.parse(expiry) if expiry.is_a? String
-          if expiry < Time.now # If the attestation expired, return - it is not attestated
-            __attestation_data["message"] = "Attestation expired on #{expiry}, evaluating control normally"
-            nil
-          end
-        else
-          ui = Inspec::UI.new
-          ui.error("Unable to parse attestation expiration date '#{expiry}' for control #{@__rule_id}")
-          ui.exit(:usage_error)
-        end
-      end
-
-      # OK -> apply a pass and fail based on attestation data
     end
 
     #
