@@ -1,3 +1,4 @@
+require "inspec/enhanced_outcomes"
 module Inspec::Plugin::V2::PluginType
   class StreamingReporter < Inspec::Plugin::V2::PluginBase
     register_plugin_type(:streaming_reporter)
@@ -102,6 +103,23 @@ module Inspec::Plugin::V2::PluginType
       else
         @notifications[control_id].push([notification, status])
       end
+    end
+
+    def attest_control(notification, control_id, control_outcome)
+      status = control_outcome
+      attestation_data = read_attestation_file(notification, control_id)
+      Inspec::EnhancedOutcomes.attest_streaming_data(attestation_data, status, control_id) unless attestation_data.blank?
+    end
+
+    def read_attestation_file(notification, control_id)
+      profile_id = notification.example.metadata[:profile_id]
+      attestation_files = Inspec::Config.cached.final_options["attestation_file"] if Inspec::Config.cached.respond_to?(:final_options)
+
+      attestation_data_by_profile = Inspec::AttestationFileReader.fetch_attestation_by_profile(profile_id, attestation_files) unless attestation_files.nil?
+
+      return unless attestation_data_by_profile && attestation_data_by_profile[control_id] && attestation_data_by_profile[control_id].is_a?(Hash)
+
+      attestation_data_by_profile[control_id]
     end
   end
 end
