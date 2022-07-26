@@ -89,7 +89,8 @@ module InspecPlugins::StreamingReporterProgressBar
       if control_ended
         if enhanced_outcomes
           control_outcome = add_enhanced_outcomes(control_id)
-          control_outcome, attestation_msg = attest_control(notification, control_id, control_outcome)
+          attestation_result = attest_control(notification, control_id, control_outcome)
+          control_outcome, attestation_msg = attestation_result unless attestation_result.blank?
         end
         show_progress(control_id, title, full_description, control_outcome, attestation_msg)
       end
