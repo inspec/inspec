@@ -5,11 +5,26 @@ describe "attestations" do
 
   parallelize_me!
 
-  let(:enhanced_outcome_profiles_path) { "#{profile_path}/enhanced-outcomes-test" }
-  let(:run_result)            { run_inspec_process(cmd, json: true) }
-  let(:cmd)                   { "exec #{enhanced_outcome_profiles_path} --attestation-file #{enhanced_outcome_profiles_path}/files/#{attestation_file}" }
-  let(:controls_by_id)        { run_result; @json.dig("profiles", 0, "controls").map { |c| [c["id"], c] }.to_h }
+  let(:attestation_profile) { "#{profile_path}/attestation" }
+  let(:run_result)            { run_inspec_process(cmd) }
+  let(:cmd)                   { "exec #{attestation_profile} --attestation-file #{attestation_profile}/files/#{attestation_file}" }
 
+  attr_accessor :out
+
+  def inspec(commandline, prefix = nil)
+    @stdout = @stderr = nil
+    self.out = super
+  end
+
+  def stdout
+    @stdout ||= out.stdout
+      .force_encoding(Encoding::UTF_8)
+  end
+
+  def stderr
+    @stderr ||= out.stderr
+      .force_encoding(Encoding::UTF_8)
+  end
 
   describe "with a attestation file that does not exist" do
     let(:attestation_file) { "no_file.yaml" }
@@ -24,7 +39,7 @@ describe "attestations" do
     let(:attestation_file) { "wrong-headers.yaml" }
     it "raise file does not exist standard error" do
       result = run_result
-      assert_includes result.stderr, "Extra column headers: [\"random\"]"
+      assert_includes result.stdout, "Extra column headers: [\"random\"]"
     end
   end
 
@@ -32,8 +47,8 @@ describe "attestations" do
     let(:attestation_file) { "wrong-headers.csv" }
     it "raise file does not exist standard error" do
       result = run_result
-      assert_includes result.stderr, "Missing column headers: [\"control_id\", \"justification\"]"
-      assert_includes result.stderr, "Extra column headers: [\"control_id_random\", \"justification_random\", \"run_random\", \"expiration_date_random\", nil]\n"
+      assert_includes result.stdout, "Missing column headers: [\"control_id\", \"justification\"]"
+      assert_includes result.stdout, "Extra column headers: [\"control_id_random\", \"justification_random\", \"run_random\", \"expiration_date_random\", nil]\n"
     end
   end
 
@@ -41,7 +56,7 @@ describe "attestations" do
     let(:attestation_file) { "wrong-headers.json" }
     it "raise file does not exist standard error" do
       result = run_result
-      assert_includes result.stderr, "Extra column headers: [\"random\"]"
+      assert_includes result.stdout, "Extra column headers: [\"random\"]"
     end
   end
 
@@ -49,24 +64,67 @@ describe "attestations" do
     let(:attestation_file) { "wrong-headers.xlsx" }
     it "raise file does not exist standard error" do
       result = run_result
-      assert_includes result.stderr, "Missing column headers: [\"control_id\", \"justification\"]"
-      assert_includes result.stderr, "Extra column headers: [\"control_id_random\", \"justification_random\", \"run_random\", \"expiration_date_random\"]\n"
+      assert_includes result.stdout, "Missing column headers: [\"control_id\", \"justification\"]"
+      assert_includes result.stdout, "Extra column headers: [\"control_id_random\", \"justification_random\", \"run_random\", \"expiration_date_random\"]\n"
     end
   end
 
-  describe "it attests the N/R controls" do
+  describe "running attestation on a profile" do
     let(:attestation_file) { "attestations.yaml" }
-    let(:result) {run_result }
-    it "passes the N/R" do
-      # to do
+
+    it "attests N/R controls correctly" do
+      result = run_result
+      assert_includes result.stdout, "tmp-3.0.1: No-op (1 failed)"
+      refute_includes result.stdout, "N/R  tmp-3.0.2: No-op"
+      refute_includes result.stdout, "N/R  tmp-6.0.2: No-op"
     end
 
-    it "fails the N/R" do
-      # to do
+    it "does not attests non N/R controls" do
+      result = run_result
+      assert_includes result.stdout, "tmp-4.0: d.1 (1 failed)"
     end
   end
 
-  describe "it does not attest non N/R controls" do
-    # to do
+  describe "running attestation on profile with streaming reporter" do
+    let(:attestation_file) { "#{attestation_profile}/files/attestations.yaml" }
+    it "attests controls correctly" do
+      inspec("exec " + "#{attestation_profile}" + " --attestation-file #{attestation_file}" + " --no-create-lockfile" + " --no-color" + " --reporter progress-bar")
+      _(stderr).must_include "[FAILED]   tmp-3.0.1  No-op Skipped control due to only_if condition.  Control not attested : Attestation expired on 2021-12-01 00:00:00 +0530"
+      _(stderr).must_include "[FAILED]   tmp-3.0.2  No-op Skipped control due to only_if condition.  Control not attested : Attestation expired on 2001-06-01 00:00:00 +0530"
+      _(stderr).must_include "[PASSED]   tmp-6.0.2  No-op Skipped control due to only_if condition.  Control Attested : Sheer cleverness | Evidence URL: Dummy url"
+      _(stderr).must_include "[FAILED]   tmp-4.0  d.1 is expected to cmp == \"d.1\""
+    end
+  end
+
+  describe "an attestation file with invalid dates" do
+    let(:attestation_file) { "bad-date.yaml" }
+    it "gracefully errors" do
+      result = run_result
+      assert_includes result.stdout, "ERROR"
+    end
+  end
+
+  describe "an attestation file with invalid update dates" do
+    let(:attestation_file) { "bad-update-date.yaml" }
+    it "gracefully errors" do
+      result = run_result
+      assert_includes result.stdout, "ERROR"
+    end
+  end
+
+  describe "an attestation file with invalid status" do
+    let(:attestation_file) { "invalid-status.yaml" }
+    it "throws warning" do
+      result = run_result
+      assert_includes result.stdout, "Invalid attestation status 'pass' for control tmp-3.0.3. Use 'passed' or 'failed'."
+    end
+  end
+
+  describe "an attestation file with invalid frequency value" do
+    let(:attestation_file) { "invalid-frequency.yaml" }
+    it "throws warning" do
+      result = run_result
+      assert_includes result.stdout, "Invalid frequency value 'biweekly' for control tmp-3.0.4."
+    end
   end
 end

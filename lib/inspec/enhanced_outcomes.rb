@@ -22,7 +22,7 @@ module Inspec
             expiry = determine_expiry(control[:attestation_data], control[:id])
             if expiry
               control[:attestation_data]["message"] = validate_attestation_expiry(expiry, control[:id])
-              status, attestation_msg = attestation_check(control[:attestation_data]["message"], control[:attestation_data])
+              status, attestation_msg = attestation_check(control[:attestation_data]["message"], control[:attestation_data], control[:id])
 
               control[:status] =  status
               control[:results].push({
@@ -42,7 +42,7 @@ module Inspec
 
         if expiry
           expiry_message = validate_attestation_expiry(expiry, control_id)
-          attestation_check(expiry_message, attestation_data)
+          attestation_check(expiry_message, attestation_data, control_id)
         end
       end
     end
@@ -68,7 +68,7 @@ module Inspec
       ui.exit(:usage_error)
     end
 
-    def self.attestation_check(expiry_message, attestation_data)
+    def self.attestation_check(expiry_message, attestation_data, control_id)
       # logic to update enhanced outcome status
       status, msg = nil
       if %w{passed failed}.include? attestation_data["status"]
@@ -83,6 +83,8 @@ module Inspec
           status = attestation_data["status"]
           msg = "Control Attested : #{attestation_message}"
         end
+      else
+        Inspec::Log.warn "Invalid attestation status '#{attestation_data["status"]}' for control #{control_id}. Use 'passed' or 'failed'."
       end
       [status, msg]
     end
@@ -92,35 +94,42 @@ module Inspec
         attestation_data["expiration_date"]
       elsif !attestation_data["updated"].blank? && !attestation_data["frequency"].blank?
         updated_last = attestation_data["updated"]
-        if updated_last.is_a?(Date) || (updated_last.is_a?(String) && Date.parse(updated_last).year != 0)
-          updated_last = Date.parse(updated_last) if updated_last.is_a? String
-          if updated_last < Time.now.to_date
-            case attestation_data["frequency"]
-            when "annually"
-              updated_last.to_date.next_year(1)
-            when "semiannually"
-              updated_last.next_month(6)
-            when "quarterly"
-              updated_last.next_month(3)
-            when "monthly"
-              updated_last.next_month(1)
-            when "every2weeks"
-              updated_last.next_day(14)
-            when "weekly"
-              updated_last.next_day(7)
-            when "every3days"
-              updated_last.next_day(3)
-            when "daily"
-              updated_last.next_day(1)
+        begin
+          if updated_last.is_a?(Date) || (updated_last.is_a?(String) && Date.parse(updated_last).year != 0)
+            updated_last = Date.parse(updated_last) if updated_last.is_a? String
+            if updated_last < Time.now.to_date
+              case attestation_data["frequency"]
+              when "annually"
+                updated_last.to_date.next_year(1)
+              when "semiannually"
+                updated_last.next_month(6)
+              when "quarterly"
+                updated_last.next_month(3)
+              when "monthly"
+                updated_last.next_month(1)
+              when "every2weeks"
+                updated_last.next_day(14)
+              when "weekly"
+                updated_last.next_day(7)
+              when "every3days"
+                updated_last.next_day(3)
+              when "daily"
+                updated_last.next_day(1)
+              else
+                Inspec::Log.warn "Invalid frequency value '#{attestation_data["frequency"]}' for control #{control_id}."
+                updated_last
+              end
             else
               updated_last
             end
           else
-            updated_last
+            ui = Inspec::UI.new
+            ui.error("Unable to parse attestation updated date '#{updated_last}' for control #{control_id}")
+            ui.exit(:usage_error)
           end
-        else
+        rescue => e
           ui = Inspec::UI.new
-          ui.error("Unable to parse attestation updated date '#{updated}' for control #{control_id}")
+          ui.error("Unable to parse attestation updated date '#{updated_last}' for control #{control_id}. Error: #{e.message}")
           ui.exit(:usage_error)
         end
       end

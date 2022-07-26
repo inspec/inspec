@@ -317,7 +317,7 @@ module Inspec::Reporters
       not_applicable = 0
 
       all_unique_controls.each do |control|
-        next if control[:status].empty?
+        next if control[:status].blank?
 
         if control[:status] == "failed"
           failed += 1
