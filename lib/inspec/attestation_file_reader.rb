@@ -30,7 +30,7 @@ module Inspec
     end
 
     def self.all_fields
-      %w{control_id justification expiration_date evidence_url status}
+      %w{control_id justification expiration_date evidence_url status explanation frequency updated}
     end
   end
 end
