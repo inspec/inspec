@@ -29,6 +29,16 @@ module Inspec
       @attestation_data[profile_id] = output
     end
 
+    def self.validate_headers(headers, json_yaml = false)
+      required_fields = json_yaml ? %w{status} : %w{control_id status}
+      missing_cols = (required_fields - headers)
+      missing_cols << "justification" if (!headers.include? "justification") && (!headers.include? "explanation")
+
+      Inspec::Log.warn "Missing column headers: #{missing_cols}" unless missing_cols.empty?
+      Inspec::Log.warn "Invalid column header: Column can't be nil" if headers.include? nil
+      Inspec::Log.warn "Extra column headers: #{(headers - all_fields)}" unless (headers - all_fields).empty?
+    end
+
     def self.all_fields
       %w{control_id justification expiration_date evidence_url status explanation frequency updated}
     end

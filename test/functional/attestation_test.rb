@@ -47,7 +47,7 @@ describe "attestations" do
     let(:attestation_file) { "wrong-headers.csv" }
     it "raise file does not exist standard error" do
       result = run_result
-      assert_includes result.stdout, "Missing column headers: [\"control_id\", \"justification\"]"
+      assert_includes result.stdout, "Missing column headers: [\"control_id\", \"status\", \"justification\"]"
       assert_includes result.stdout, "Extra column headers: [\"control_id_random\", \"justification_random\", \"run_random\", \"expiration_date_random\", nil]\n"
     end
   end
@@ -64,7 +64,7 @@ describe "attestations" do
     let(:attestation_file) { "wrong-headers.xlsx" }
     it "raise file does not exist standard error" do
       result = run_result
-      assert_includes result.stdout, "Missing column headers: [\"control_id\", \"justification\"]"
+      assert_includes result.stdout, "Missing column headers: [\"control_id\", \"status\", \"justification\"]"
       assert_includes result.stdout, "Extra column headers: [\"control_id_random\", \"justification_random\", \"run_random\", \"expiration_date_random\"]\n"
     end
   end
