@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.18.16 -->
-## [v5.18.16](https://github.com/inspec/inspec/tree/v5.18.16) (2022-07-21)
+<!-- latest_release 5.18.17 -->
+## [v5.18.17](https://github.com/inspec/inspec/tree/v5.18.17) (2022-07-27)
 
 #### Merged Pull Requests
-- Docs spellcheck [#6214](https://github.com/inspec/inspec/pull/6214) ([IanMadd](https://github.com/IanMadd))
+- CFINSPEC-400 Fix for verify pipeline failure [#6218](https://github.com/inspec/inspec/pull/6218) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- CFINSPEC-400 Fix for verify pipeline failure [#6218](https://github.com/inspec/inspec/pull/6218) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.18.17 -->
 - Docs spellcheck [#6214](https://github.com/inspec/inspec/pull/6214) ([IanMadd](https://github.com/IanMadd)) <!-- 5.18.16 -->
 - Trivial README change to trigger new omnibus build [#6203](https://github.com/inspec/inspec/pull/6203) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.18.15 -->
 <!-- release_rollup -->
