@@ -69,8 +69,72 @@ describe "attestations" do
     end
   end
 
-  describe "running attestation on a profile" do
+  describe "running attestation on a profile - yaml" do
     let(:attestation_file) { "attestations.yaml" }
+
+    it "attests N/R controls correctly" do
+      result = run_result
+      assert_includes result.stdout, "tmp-3.0.1: No-op (1 failed)"
+      refute_includes result.stdout, "N/R  tmp-3.0.2: No-op"
+      refute_includes result.stdout, "N/R  tmp-6.0.2: No-op"
+    end
+
+    it "does not attests non N/R controls" do
+      result = run_result
+      assert_includes result.stdout, "tmp-4.0: d.1 (1 failed)"
+    end
+  end
+
+  describe "running attestation on a profile - json" do
+    let(:attestation_file) { "attestations.json" }
+
+    it "attests N/R controls correctly" do
+      result = run_result
+      assert_includes result.stdout, "tmp-3.0.1: No-op (1 failed)"
+      refute_includes result.stdout, "N/R  tmp-3.0.2: No-op"
+      refute_includes result.stdout, "N/R  tmp-6.0.2: No-op"
+    end
+
+    it "does not attests non N/R controls" do
+      result = run_result
+      assert_includes result.stdout, "tmp-4.0: d.1 (1 failed)"
+    end
+  end
+
+  describe "running attestation on a profile - csv" do
+    let(:attestation_file) { "attestations.csv" }
+
+    it "attests N/R controls correctly" do
+      result = run_result
+      assert_includes result.stdout, "tmp-3.0.1: No-op (1 failed)"
+      refute_includes result.stdout, "N/R  tmp-3.0.2: No-op"
+      refute_includes result.stdout, "N/R  tmp-6.0.2: No-op"
+    end
+
+    it "does not attests non N/R controls" do
+      result = run_result
+      assert_includes result.stdout, "tmp-4.0: d.1 (1 failed)"
+    end
+  end
+
+  describe "running attestation on a profile - xlsx" do
+    let(:attestation_file) { "attestations.xlsx" }
+
+    it "attests N/R controls correctly" do
+      result = run_result
+      assert_includes result.stdout, "tmp-3.0.1: No-op (1 failed)"
+      refute_includes result.stdout, "N/R  tmp-3.0.2: No-op"
+      refute_includes result.stdout, "N/R  tmp-6.0.2: No-op"
+    end
+
+    it "does not attests non N/R controls" do
+      result = run_result
+      assert_includes result.stdout, "tmp-4.0: d.1 (1 failed)"
+    end
+  end
+
+  describe "running attestation on a profile - xls" do
+    let(:attestation_file) { "attestations.xls" }
 
     it "attests N/R controls correctly" do
       result = run_result
