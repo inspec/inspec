@@ -39,10 +39,14 @@ task :install do
   sh("rake install")
 end
 
-GLOBS = [
-  "test/unit/**/*_test.rb",
-  "lib/plugins/inspec-*/test/**/*_test.rb",
-].freeze
+# GLOBS = [
+#   "test/unit/**/*_test.rb",
+#   "test/functional/**/*_test.rb",
+#   "lib/plugins/inspec-*/test/**/*_test.rb",
+# ].freeze
+
+GLOBS = ["test/unit/**/*_test.rb",
+  "test/functional/**/*_test.rb"].freeze
 
 # run tests
 task default: %w{ test }
@@ -229,18 +233,17 @@ namespace :test do
     end
   end
 
-  # Rake::TestTask.new(:functional) do |t|
-  #   t.libs << "test"
-  #   t.test_files = Dir.glob([
-  #     "test/functional/**/*_test.rb",
-  #     "lib/plugins/inspec-*/test/functional/**/*_test.rb",
-  #   ])
-  #   t.warning = !!ENV["W"]
-  #   t.verbose = !!ENV["V"] # default to off. the test commands are _huge_.
-  #   t.ruby_opts = ["--dev"] if defined?(JRUBY_VERSION)
-  # end
-  # Inject a prerequisite task
-  # task functional: [:accept_license]
+  Rake::TestTask.new(:functional) do |t|
+    t.libs << "test"
+    t.test_files = Dir.glob([
+      "test/functional/**/*_test.rb"
+    ])
+    t.warning = !!ENV["W"]
+    t.verbose = !!ENV["V"] # default to off. the test commands are _huge_.
+    t.ruby_opts = ["--dev"] if defined?(JRUBY_VERSION)
+  end
+  #Inject a prerequisite task
+  task functional: [:accept_license]
 
   Rake::TestTask.new(:unit) do |t|
     t.libs << "test"
