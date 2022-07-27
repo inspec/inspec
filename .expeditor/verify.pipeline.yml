@@ -39,7 +39,7 @@ steps:
     expeditor:
       executor:
         docker:
-          image: ruby:3.1
+          image: rubydistros/ubuntu-20.04:3.1
 
   - label: isolated-tests-ruby-3.0
     command:
