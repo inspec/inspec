@@ -41,7 +41,6 @@ end
 
 GLOBS = [
   "test/unit/**/*_test.rb",
-  "test/functional/**/*_test.rb",
   "lib/plugins/inspec-*/test/**/*_test.rb",
 ].freeze
 
@@ -241,7 +240,7 @@ namespace :test do
   #   t.ruby_opts = ["--dev"] if defined?(JRUBY_VERSION)
   # end
   # Inject a prerequisite task
-  #task functional: [:accept_license]
+  # task functional: [:accept_license]
 
   Rake::TestTask.new(:unit) do |t|
     t.libs << "test"
