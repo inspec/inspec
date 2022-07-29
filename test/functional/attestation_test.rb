@@ -153,10 +153,17 @@ describe "attestations" do
     let(:attestation_file) { "#{attestation_profile}/files/attestations.yaml" }
     it "attests controls correctly" do
       inspec("exec " + "#{attestation_profile}" + " --attestation-file #{attestation_file}" + " --no-create-lockfile" + " --no-color" + " --reporter progress-bar")
-      _(stderr).must_include "[FAILED]   tmp-3.0.1  No-op Skipped control due to only_if condition.  Control not attested : Attestation expired on 2021-12-01"
-      _(stderr).must_include "[FAILED]   tmp-3.0.2  No-op Skipped control due to only_if condition.  Control not attested : Attestation expired on 2001-06-01"
-      _(stderr).must_include "[PASSED]   tmp-6.0.2  No-op Skipped control due to only_if condition.  Control Attested : Sheer cleverness | Evidence URL: Dummy url"
-      _(stderr).must_include "[FAILED]   tmp-4.0  d.1 is expected to cmp == \"d.1\""
+      if windows?
+        _(stderr).must_include "[FAIL]   tmp-3.0.1  No-op Skipped control due to only_if condition.  Control not attested : Attestation expired on 2021-12-01"
+        _(stderr).must_include "[FAIL]   tmp-3.0.2  No-op Skipped control due to only_if condition.  Control not attested : Attestation expired on 2001-06-01"
+        _(stderr).must_include "[PASS]   tmp-6.0.2  No-op Skipped control due to only_if condition.  Control Attested : Sheer cleverness | Evidence URL: Dummy url"
+        _(stderr).must_include "[FAIL]   tmp-4.0  d.1 is expected to cmp == \"d.1\""
+      else
+        _(stderr).must_include "[FAILED]   tmp-3.0.1  No-op Skipped control due to only_if condition.  Control not attested : Attestation expired on 2021-12-01"
+        _(stderr).must_include "[FAILED]   tmp-3.0.2  No-op Skipped control due to only_if condition.  Control not attested : Attestation expired on 2001-06-01"
+        _(stderr).must_include "[PASSED]   tmp-6.0.2  No-op Skipped control due to only_if condition.  Control Attested : Sheer cleverness | Evidence URL: Dummy url"
+        _(stderr).must_include "[FAILED]   tmp-4.0  d.1 is expected to cmp == \"d.1\""
+      end
     end
   end
 
