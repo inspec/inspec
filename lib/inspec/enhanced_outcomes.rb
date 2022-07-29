@@ -22,14 +22,17 @@ module Inspec
             expiry = determine_expiry(control[:attestation_data], control[:id])
             if expiry
               control[:attestation_data]["message"] = validate_attestation_expiry(expiry, control[:id])
-              status, attestation_msg = attestation_check(control[:attestation_data]["message"], control[:attestation_data], control[:id])
+              attestation_result = attestation_check(control[:attestation_data]["message"], control[:attestation_data], control[:id])
+              if attestation_result
+                status, attestation_msg = attestation_result
 
-              control[:status] =  status
-              control[:results].push({
-                status: control[:status],
-                code_desc: attestation_msg,
-                expectation_message: attestation_msg,
-              })
+                control[:status] =  status
+                control[:results].push({
+                  status: control[:status],
+                  code_desc: attestation_msg,
+                  expectation_message: attestation_msg,
+                })
+              end
             end
           end
         end
@@ -77,14 +80,30 @@ module Inspec
           msg = "Control not attested : #{expiry_message}"
         else
           # use justification and evidence url to show information in msg
-          attestation_message =  attestation_data["justification"] || attestation_data["explanation"]
-          attestation_message += " | Evidence URL: #{attestation_data["evidence_url"]}" unless attestation_data["evidence_url"].blank?
+          attestation_message = attestation_data["justification"] || attestation_data["explanation"] || ""
+
+          unless attestation_data["evidence_url"].blank?
+            if attestation_message.blank?
+              attestation_message = "Evidence URL: #{attestation_data["evidence_url"]}"
+            else
+              attestation_message += " | Evidence URL: #{attestation_data["evidence_url"]}"
+            end
+          end
 
           status = attestation_data["status"]
-          msg = "Control Attested : #{attestation_message}"
+          if attestation_message.blank?
+            msg = "Control Attested : No justification provided."
+          else
+            msg = "Control Attested : #{attestation_message}"
+          end
         end
       else
-        Inspec::Log.warn "Invalid attestation status '#{attestation_data["status"]}' for control #{control_id}. Use 'passed' or 'failed'."
+        if attestation_data["status"].blank?
+          Inspec::Log.warn "No attestation status for control #{control_id}. Use 'passed' or 'failed'."
+        else
+          Inspec::Log.warn "Invalid attestation status '#{attestation_data["status"]}' for control #{control_id}. Use 'passed' or 'failed'."
+        end
+        return nil
       end
       [status, msg]
     end
