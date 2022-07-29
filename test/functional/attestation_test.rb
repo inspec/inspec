@@ -191,11 +191,28 @@ describe "attestations" do
     end
   end
 
+  describe "an attestation file with no status" do
+    let(:attestation_file) { "no-status.yaml" }
+    it "throws warning" do
+      result = run_result
+      assert_includes result.stdout, "No attestation status for control tmp-3.0.3. Use 'passed' or 'failed'."
+    end
+  end
+
   describe "an attestation file with invalid frequency value" do
     let(:attestation_file) { "invalid-frequency.yaml" }
     it "throws warning" do
       result = run_result
       assert_includes result.stdout, "Invalid frequency value 'biweekly' for control tmp-3.0.4."
+    end
+  end
+
+  describe "an attestation file with no justification" do
+    let(:attestation_file) { "no-justification.yaml" }
+    it "throws warning and shows proper message for justification absence" do
+      result = run_result
+      assert_includes result.stdout, "Missing column headers: [\"justification\"]"
+      assert_includes result.stdout, "Control Attested : No justification provided."
     end
   end
 end
