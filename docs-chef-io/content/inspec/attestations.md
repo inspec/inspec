@@ -53,9 +53,9 @@ OR
 }
 ```
 
-- `expiration_date` sets the day that the attestation file will expire in YYYY-MM-DD format. Attestation files expire at 00:00 at the local time of the system on the specified date. Attestation files without an expiration date are permanent. `expiration_date` is optional.
 - `status` is mandatory. If absent, the control will not be attested. It can only be `passed` or `failed`.
-- `justification` is a text containing reason why attestation is required. It might as well as include information who initiated attestation.
+- `expiration_date` sets the day that the attestation file will expire in YYYY-MM-DD format. Attestation files expire at 00:00 at the local time of the system on the specified date. Attestation files without an expiration date are permanent. `expiration_date` is optional.
+- `justification` is a text containing reason why attestation is required. It might as well as include information who initiated attestation. If it is absent, it shows warning message to include justification in attestation file.
 - `evidence_url` is an URL of a website containing information on control attestation. It is optional.
 
 ### Examples:
