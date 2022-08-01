@@ -112,6 +112,7 @@ module Inspec::Plugin::V2::PluginType
     end
 
     def read_attestation_file(notification, control_id)
+      # need to re-read the file from config since not using run data for streaming reporters.
       profile_id = notification.example.metadata[:profile_id]
       attestation_files = Inspec::Config.cached.final_options["attestation_file"] if Inspec::Config.cached.respond_to?(:final_options)
 

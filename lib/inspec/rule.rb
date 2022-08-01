@@ -395,6 +395,7 @@ module Inspec
       __waiver_data["skipped_due_to_waiver"] = true
     end
 
+    # fetches attestation data for the rule which is used in runner_rspec.rb to assign it inside metadata
     def __add_attestation_data
       # this adds attestation data to a rule, accesible on run data layer.
       control_id = @__rule_id

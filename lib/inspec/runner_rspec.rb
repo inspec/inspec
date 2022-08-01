@@ -230,7 +230,7 @@ module Inspec
       metadata[:code] = rule.instance_variable_get(:@__code)
       metadata[:source_location] = rule.instance_variable_get(:@__source_location)
       metadata[:waiver_data] = rule.__waiver_data
-      metadata[:attestation_data] = rule.__attestation_data
+      metadata[:attestation_data] = rule.__attestation_data # data fetched from rule object
     end
   end
 end
