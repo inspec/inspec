@@ -1,5 +1,5 @@
 require_relative "../utils/run_data_filters"
-require "inspec/enhanced_outcomes"
+require "inspec/attestations"
 
 module Inspec::Reporters
   class Base
@@ -14,7 +14,7 @@ module Inspec::Reporters
       apply_run_data_filters_to_hash
 
       # only try for attestation when attestation file is passed
-      Inspec::EnhancedOutcomes.attest(@run_data) if Inspec::Config.cached[:attestation_file]
+      Inspec::Attestations.attest(@run_data) if Inspec::Config.cached[:attestation_file]
       @output = ""
     end
 
