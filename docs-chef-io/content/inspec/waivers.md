@@ -87,3 +87,18 @@ Example in JSON:
   }
 }
 ```
+
+Example in CSV/XLSX/XLS:
+
+These file formats support the following fields in a file:
+
+* `control_id`
+  _Required_.
+* `justification`
+  _Required_.
+* `run`
+  _Optional_.
+* `expiration_date`
+  _Optional_.
+
+![Waiver File Excel Example](/images/inspec/waivers_file_excel.png)
