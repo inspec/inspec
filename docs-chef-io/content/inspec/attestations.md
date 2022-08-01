@@ -154,18 +154,18 @@ Example in JSON:
 
 Example in CSV/XLSX/XLS:
 
-These file formats require the following headers in a file:
+These file formats support the following fields in a file:
 
 * `control_id`
-   Required field.
+   _Required_.
 * `justification`
-   Required field.
+   _Required_.
 * `status`
-   Required field.
+   _Required_.
 * `evidence_url`
-   Optional field.
+   _Optional_.
 * `expiration_date`
-   Optional field.
+   _Optional_.
 
 ![Attestations File Excel Example](/images/inspec/attestations_file_excel.png)
 
