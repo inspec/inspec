@@ -8,6 +8,8 @@ require "inspec/impact"
 require "inspec/resource"
 require "inspec/resources/os"
 require "inspec/input_registry"
+require "inspec/waiver_file_reader"
+require "inspec/utils/convert"
 
 module Inspec
   class Rule
@@ -338,17 +340,20 @@ module Inspec
     # only_if mechanism)
     # Double underscore: not intended to be called as part of the DSL
     def __apply_waivers
-      input_name = @__rule_id # TODO: control ID slugging
-      registry = Inspec::InputRegistry.instance
-      input = registry.inputs_by_profile.dig(__profile_id, input_name)
-      return unless input && input.has_value? && input.value.is_a?(Hash)
+      control_id = @__rule_id # TODO: control ID slugging
+      waiver_files = Inspec::Config.cached.final_options["waiver_file"] if Inspec::Config.cached.respond_to?(:final_options)
+
+      waiver_data_by_profile = Inspec::WaiverFileReader.fetch_waivers_by_profile(__profile_id, waiver_files) unless waiver_files.nil?
+
+      return unless waiver_data_by_profile && waiver_data_by_profile[control_id] && waiver_data_by_profile[control_id].is_a?(Hash)
 
       # An InSpec Input is a datastructure that tracks a profile parameter
       # over time. Its value can be set by many sources, and it keeps a
       # log of each "set" event so that when it is collapsed to a value,
       # it can determine the correct (highest priority) value.
       # Store in an instance variable for.. later reading???
-      @__waiver_data = input.value
+      @__waiver_data = waiver_data_by_profile[control_id]
+
       __waiver_data["skipped_due_to_waiver"] = false
       __waiver_data["message"] = ""
 
@@ -377,6 +382,7 @@ module Inspec
       # expiration_date. We only care here if it has a "run" key and it
       # is false-like, since all non-skipped waiver operations are handled
       # during reporting phase.
+      __waiver_data["run"] = Converter.to_boolean(__waiver_data["run"]) if __waiver_data.key?("run")
       return unless __waiver_data.key?("run") && !__waiver_data["run"]
 
       # OK, apply a skip.
