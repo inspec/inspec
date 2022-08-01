@@ -85,27 +85,20 @@ module InspecPlugins::StreamingReporterProgressBar
       full_description = notification.example.metadata[:full_description]
       set_status_mapping(control_id, status)
       collect_notifications(notification, control_id, status)
-      control_ended = control_ended?(control_id)
-      if control_ended
-        if enhanced_outcomes
-          control_outcome = add_enhanced_outcomes(control_id)
-          attestation_result = attest_control(notification, control_id, control_outcome)
-          control_outcome, attestation_msg = attestation_result unless attestation_result.blank?
-        end
-        show_progress(control_id, title, full_description, control_outcome, attestation_msg)
-      end
+      show_progress(control_id, title, full_description) if control_ended?(notification, control_id)
     end
 
-    def show_progress(control_id, title, full_description, control_outcome, attestation_msg)
+    def show_progress(control_id, title, full_description)
       @bar ||= ProgressBar.new(controls_count, :bar, :counter, :percentage)
       sleep 0.1
       @bar.increment!
-      @bar.puts format_it(control_id, title, full_description, control_outcome, attestation_msg)
+      @bar.puts format_it(control_id, title, full_description)
     rescue StandardError => e
       raise "Exception in Progress Bar streaming reporter: #{e}"
     end
 
-    def format_it(control_id, title, full_description, control_outcome, attestation_msg)
+    def format_it(control_id, title, full_description)
+      control_outcome = control_outcome(control_id)
       if control_outcome
         control_status = control_outcome
       else
@@ -119,12 +112,7 @@ module InspecPlugins::StreamingReporterProgressBar
                          end
       end
       indicator = INDICATORS[control_status]
-      message_to_format = ""
-      message_to_format += "#{indicator}  "
-      message_to_format += "#{control_id.to_s.strip.dup.force_encoding(Encoding::UTF_8)}  "
-      message_to_format += "#{title.gsub(/\n*\s+/, " ").to_s.force_encoding(Encoding::UTF_8)}  " if title
-      message_to_format += "#{full_description.gsub(/\n*\s+/, " ").to_s.force_encoding(Encoding::UTF_8)}  " unless title
-      message_to_format += "#{attestation_msg.gsub(/\n*\s+/, " ").to_s.force_encoding(Encoding::UTF_8)}  " if attestation_msg
+      message_to_format = format_message(indicator, control_id, title, full_description)
       format_with_color(control_status, message_to_format)
     rescue Exception => e
       raise "Exception in show_progress: #{e}"
