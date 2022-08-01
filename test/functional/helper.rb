@@ -39,6 +39,7 @@ module FunctionalHelper
   let(:simple_inheritance) { File.join(profile_path, "simple-inheritance") }
   let(:sensitive_profile) { File.join(examples_path, "profile-sensitive") }
   let(:config_dir_path) { File.join(mock_path, "config_dirs") }
+  let(:enhanced_outcome_profile) { "#{profile_path}/enhanced-outcomes-test" }
 
   let(:dst) do
     # create a temporary path, but we only want an auto-clean helper
@@ -186,6 +187,7 @@ module FunctionalHelper
     prefix += assemble_env_prefix(opts[:env])
     command_line += " --reporter json " if opts[:json] && command_line =~ /\bexec\b/
     command_line += " --no-create-lockfile " if (!opts[:lock]) && command_line =~ /\bexec\b/
+    command_line += " --enhanced_outcomes " if opts[:enhanced_outcomes] && command_line =~ /\bexec\b/
 
     run_result = nil
     if opts[:tmpdir]

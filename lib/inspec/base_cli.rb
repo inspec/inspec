@@ -205,6 +205,8 @@ module Inspec
         long_desc: "Maximum seconds to allow commands to run during execution. A timed out command is considered an error."
       option :reporter_include_source, type: :boolean, default: false,
         desc: "Include full source code of controls in the CLI report"
+      option :enhanced_outcomes, type: :boolean,
+        desc: "Show enhanced outcomes in output"
     end
 
     def self.help(*args)

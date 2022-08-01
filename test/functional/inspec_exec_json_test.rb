@@ -547,4 +547,21 @@ describe "inspec exec with json formatter" do
     end
 
   end
+
+  describe "when running a profile with enhanced_outcomes option" do
+    it "can execute a profile and validate the json schema" do
+      out = inspec("exec " + enhanced_outcome_profile + " --reporter json --no-create-lockfile --enhanced-outcomes")
+      data = JSON.parse(out.stdout)
+      sout = inspec("schema exec-json")
+      schema = JSONSchemer.schema(sout.stdout)
+      _(schema.validate(data).to_a).must_equal []
+      _(out.stderr).must_equal ""
+      _(data["profiles"].first["controls"][0]["status"]).must_equal "error"
+      _(data["profiles"].first["controls"][2]["status"]).must_equal "not_applicable"
+      _(data["profiles"].first["controls"][4]["status"]).must_equal "not_reviewed"
+      _(data["profiles"].first["controls"][6]["status"]).must_equal "failed"
+      _(data["profiles"].first["controls"][7]["status"]).must_equal "passed"
+      assert_exit_code 100, out
+    end
+  end
 end

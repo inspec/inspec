@@ -133,10 +133,11 @@ module Inspec
     #
     # @param [Type] &block returns true if tests are added, false otherwise
     # @return [nil]
-    def only_if(message = nil)
+    def only_if(message = nil, impact: nil)
       return unless block_given?
       return if @__skip_only_if_eval == true
 
+      self.impact(impact) if impact && !yield
       @__skip_rule[:result] ||= !yield
       @__skip_rule[:type] = :only_if
       @__skip_rule[:message] = message

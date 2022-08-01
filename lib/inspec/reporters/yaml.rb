@@ -3,7 +3,9 @@ require "yaml"
 module Inspec::Reporters
   class Yaml < Base
     def render
-      output(Inspec::Reporters::Json.new({ run_data: run_data }).report.to_yaml, false)
+      json_reporter_obj = Inspec::Reporters::Json.new({ run_data: run_data })
+      json_reporter_obj.enhanced_outcomes = enhanced_outcomes
+      output(json_reporter_obj.report.to_yaml, false)
     end
 
     def report
