@@ -1,4 +1,4 @@
-require "inspec/enhanced_outcomes"
+require "inspec/attestations"
 module Inspec::Plugin::V2::PluginType
   class StreamingReporter < Inspec::Plugin::V2::PluginBase
     register_plugin_type(:streaming_reporter)
@@ -108,7 +108,7 @@ module Inspec::Plugin::V2::PluginType
     def attest_control(notification, control_id, control_outcome)
       status = control_outcome
       attestation_data = read_attestation_file(notification, control_id)
-      Inspec::EnhancedOutcomes.attest_streaming_data(attestation_data, status, control_id) unless attestation_data.blank?
+      Inspec::Attestations.attest_streaming_data(attestation_data, status, control_id) unless attestation_data.blank?
     end
 
     def read_attestation_file(notification, control_id)
