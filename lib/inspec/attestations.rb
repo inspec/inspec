@@ -1,17 +1,23 @@
 module Inspec
   module Attestations
+
+    # Invoked from reporters base classes & run_data.rb to modify run data
     def self.attest(run_data)
       run_data[:profiles].each do |profile|
         profile[:controls].each do |control|
+          # logic for attestation applied for N/R controls here.
           if control[:status] == "not_reviewed" && !control[:attestation_data].empty?
             expiry = determine_expiry(control[:attestation_data], control[:id])
+            # if expiration date parsing was successful
             if expiry
               control[:attestation_data]["message"] = validate_attestation_expiry(expiry, control[:id])
               attestation_result = attestation_check(control[:attestation_data]["message"], control[:attestation_data], control[:id])
               if attestation_result
                 status, attestation_msg = attestation_result
 
-                control[:status] =  status
+                control[:status] =  status # N/R status -> to passed/failed based on attestation logic
+
+                # replicated test result hash to invoke pass/fail test
                 control[:results].push({
                   status: control[:status],
                   code_desc: attestation_msg,
@@ -24,10 +30,13 @@ module Inspec
       end
     end
 
+    # Invoked from streaming reporter base class
     def self.attest_streaming_data(attestation_data, status, control_id)
+      # logic check for N/R controls here for streaming reporters
       if status == "not_reviewed" && !attestation_data.blank?
         expiry = determine_expiry(attestation_data, control_id)
 
+        # if expiration date parsing was successful
         if expiry
           expiry_message = validate_attestation_expiry(expiry, control_id)
           attestation_check(expiry_message, attestation_data, control_id)
@@ -97,6 +106,7 @@ module Inspec
       if attestation_data["expiration_date"]
         attestation_data["expiration_date"]
       elsif !attestation_data["updated"].blank? && !attestation_data["frequency"].blank?
+        # logic to find expiration date using frequency and updated date.
         updated_last = attestation_data["updated"]
         begin
           if updated_last.is_a?(Date) || (updated_last.is_a?(String) && Date.parse(updated_last).year != 0)
