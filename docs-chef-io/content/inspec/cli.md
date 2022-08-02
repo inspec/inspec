@@ -406,7 +406,7 @@ This subcommand has the following additional options:
 * `--enhanced-outcomes`
     Includes enhanced outcome of controls in report data.
 * `--attestation-file=one two three`
-    Load one or more attestation files. Using this option makes `enhanced-outcomes` option true.
+    Loads one or more attestation files. Using this option, makes the `enhanced-outcomes` option true.
 
 ## habitat
 
