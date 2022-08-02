@@ -11,13 +11,13 @@ gh_repo = "inspec"
    weight = 140
 +++
 
-Attestations is a mechanism to mark `Not Reviewed (N/R)` tests as `passed` or `failed` manually using an attestations file.
+Attestations is a mechanism to mark the `Not Reviewed (N/R)` tests as `passed` or `failed` manually using an attestations file.
 
 ## Example
 
 A fire alarm needs to be audited, but it can not be reviewed (N/R) through automation. Hence, to audit the fire alarm using an InSpec profile, the outcome of its working must be marked as `passed` or `failed` in a test through manual intervention. By using attestations and passing the status using an attestations file, we can audit the fire alarm.
 
-Attestations File to audit fire alarm:
+### Attestations File to an audit fire alarm
 
 ```yaml
 fire-alarm-1:
@@ -30,7 +30,7 @@ fire-alarm-2:
  justification: "Fire alarm 2 was tested manually and it does not work."
 ```
 
-InSpec Test:
+### InSpec Test
 
 ```ruby
 control "fire-alarm-1" do
@@ -46,7 +46,7 @@ control "fire-alarm-2" do
 end
 ```
 
-Running attestations to audit fire alarm:
+### Running attestations to an audit fire alarm
 
 ```bash
 inspec exec path/to/fire-alarm-audit-profile --attestation-file attestation.yaml
@@ -71,11 +71,12 @@ Test Summary: 1 successful, 1 failure, 2 skipped
 ## Attestations Fields
 
 An attestations file identifies:
-1. which controls need to be attested.
-2. an explanation of why it is manually attested.
-3. control status `passed` or `failed` to attest controls.
-3. (optionally) an URL pointing to a website containing information on control attestation.
-4. (optionally) an expiration date of attestation.
+
+1. the controls need to be attested.
+1. an explanation of why it is manually attested.
+1. control status `passed` or `failed` to attest controls.
+1. (optional) an URL pointing to a website containing information on control attestation.
+1. (optional) an expiration date of attestation.
 
 ## Usage
 
@@ -88,7 +89,7 @@ inspec exec path/to/profile --attestation-file attestation.yaml
 
 ## File Format
 
-Attestations files support YAML, JSON, CSV, XLSX & XLS format.
+Attestations files support YAML, JSON, CSV, XLSX, ans XLS format.
 
 ```yaml
 control_id:
@@ -112,13 +113,13 @@ OR
 ```
 
 - `status` is mandatory. If absent, the control will not be attested. It can only be `passed` or `failed`.
-- `expiration_date` sets the day the attestations file expires in YYYY-MM-DD format. Attestations files expire at 00:00 at the local time of the system on the specified date. Attestations files without expiration date are permanent. `expiration_date` is optional.
-- `justification` is a text containing the reason why attestations is required. It might as well as include information who initiated the attestation. If it is absent, it shows a warning message to include justification in the attestations file.
+- `expiration_date` sets the day the attestations file expires in **YYYY-MM-DD** format. Attestations files expire at 00:00 at the local time of the system on the specified date. Attestations files without expiration date are permanent. `expiration_date` is optional.
+- `justification` is a text containing the reason why attestations are required. It might as well as include information on who initiated the attestation. If it is absent, it shows a warning message to include justification in the attestations file.
 - `evidence_url` is an URL of a website containing information on control attestation. It is optional.
 
-### File Format Examples:
+### File Format Examples
 
-Example in YAML:
+#### Example in YAML
 
 ```yaml
 example-3.0.1:
@@ -133,7 +134,7 @@ example-3.0.2:
  status: failed
 ```
 
-Example in JSON:
+#### Example in JSON
 
 ```json
 {
@@ -152,26 +153,26 @@ Example in JSON:
 }
 ```
 
-Example in CSV/XLSX/XLS:
+#### Example in CSV/XLSX/XLS
 
 These file formats support the following fields in a file:
 
-* `control_id`
+- `control_id`
    _Required_.
-* `justification`
+- `justification`
    _Required_.
-* `status`
+- `status`
    _Required_.
-* `evidence_url`
+- `evidence_url`
    _Optional_.
-* `expiration_date`
+- `expiration_date`
    _Optional_.
 
 ![Attestations File Excel Example](/images/inspec/attestations_file_excel.png)
 
 {{< note >}}
 
-**How is the Attestations mechanism different than Waivers?**
+How is the Attestations mechanism different than Waivers?
 
 The waivers mechanism skips the controls for various reasons which are required for waiving. Whereas attestations mark the skipped controls which are not reviewed as `passed` or `failed` using the status passed through the attestations file by the auditor.
 
