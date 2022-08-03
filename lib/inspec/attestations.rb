@@ -106,46 +106,49 @@ module Inspec
       if attestation_data["expiration_date"]
         attestation_data["expiration_date"]
       elsif !attestation_data["updated"].blank? && !attestation_data["frequency"].blank?
-        # logic to find expiration date using frequency and updated date.
-        updated_last = attestation_data["updated"]
         begin
-          if updated_last.is_a?(Date) || (updated_last.is_a?(String) && Date.parse(updated_last).year != 0)
-            updated_last = Date.parse(updated_last) if updated_last.is_a? String
-            if updated_last < Time.now.to_date
-              case attestation_data["frequency"]
-              when "annually"
-                updated_last.to_date.next_year(1)
-              when "semiannually"
-                updated_last.next_month(6)
-              when "quarterly"
-                updated_last.next_month(3)
-              when "monthly"
-                updated_last.next_month(1)
-              when "every2weeks"
-                updated_last.next_day(14)
-              when "weekly"
-                updated_last.next_day(7)
-              when "every3days"
-                updated_last.next_day(3)
-              when "daily"
-                updated_last.next_day(1)
-              else
-                Inspec::Log.warn "Invalid frequency value '#{attestation_data["frequency"]}' for control #{control_id}."
-                updated_last
-              end
-            else
-              updated_last
-            end
-          else
-            ui = Inspec::UI.new
-            ui.error("Unable to parse attestation updated date '#{updated_last}' for control #{control_id}")
-            ui.exit(:usage_error)
-          end
+          fetch_expiry_using_frequency_and_updated_date(attestation_data["updated"], attestation_data["frequency"], control_id)
         rescue => e
           ui = Inspec::UI.new
-          ui.error("Unable to parse attestation updated date '#{updated_last}' for control #{control_id}. Error: #{e.message}")
+          ui.error("Unable to parse attestation updated date '#{attestation_data["updated"]}' for control #{control_id}. Error: #{e.message}")
           ui.exit(:usage_error)
         end
+      end
+    end
+
+    def self.fetch_expiry_using_frequency_and_updated_date(updated_date, frequency, control_id)
+      # logic to find expiration date using frequency and updated date.
+      if updated_date.is_a?(Date) || (updated_date.is_a?(String) && Date.parse(updated_date).year != 0)
+        updated_date = Date.parse(updated_date) if updated_date.is_a? String
+        if updated_date < Time.now.to_date
+          case frequency
+          when "annually"
+            updated_date.to_date.next_year(1)
+          when "semiannually"
+            updated_date.next_month(6)
+          when "quarterly"
+            updated_date.next_month(3)
+          when "monthly"
+            updated_date.next_month(1)
+          when "every2weeks"
+            updated_date.next_day(14)
+          when "weekly"
+            updated_date.next_day(7)
+          when "every3days"
+            updated_date.next_day(3)
+          when "daily"
+            updated_date.next_day(1)
+          else
+            Inspec::Log.warn "Invalid frequency value '#{frequency}' for control #{control_id}."
+            updated_date
+          end
+        else
+          updated_date
+        end
+      else
+        ui = Inspec::UI.new
+        ui.error("Unable to parse attestation updated date '#{updated_date}' for control #{control_id}")
+        ui.exit(:usage_error)
       end
     end
   end
