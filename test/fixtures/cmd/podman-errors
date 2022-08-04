@@ -1,0 +1,6 @@
+Error: inspecting object: network min: network not found
+Error: inspecting object: unable to inspect \"abc\": failed to find image abc: abc: image not known
+Error: no pod with name or ID non_existing_pod found: no such pod
+[]
+error inspecting object: no such object: "non_existing_volume"
+Error: inspecting object: no such object: "volume"
