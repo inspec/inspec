@@ -38,11 +38,50 @@ module InspecPlugins
       end
 
       def run
-        # TODO: Generate profile in cache
+        # HACK: find a better way of doing this that does not involve generating an actual profile
+        Dir.mktmpdir do |tmpdir|
+          profile_path = File.join(tmpdir, "list-profile")
+          FileUtils.mkdir_p profile_path
+          generate_inspec_yml(profile_path)
+          generate_control_file(profile_path)
+          execute_profile(profile_path)
+        end
+      end
+
+      def generate_inspec_yml(profile_path)
         #  Add dep based on transport in inspec.yml
-        #  create control file
+        yaml_template = <<EOY
+name: list-profile
+title: Temporary InSpec Profile to List Resources
+maintainer: Auto-generated
+copyright: None
+copyright_email: none@example.com
+license: Apache-2.0
+summary: Lists resources on a plural resource
+version: 0.1.0
+supports:
+  platform: %s
+depends:
+  - name: %s
+    git: %s
+EOY
+        transport = SUPPORTED_RESOURCES[resource_name][:target_transport]
+        content = format(
+          yaml_template,
+          transport,
+          SUPPORTED_TARGET_TRANSPORTS[transport][:dependency_name],
+          SUPPORTED_TARGET_TRANSPORTS[transport][:dependency_uri]
+        )
+        File.write(File.join(profile_path, "inspec.yml"), content)
+      end
+
+      def generate_control_file(profile_path)
+        FileUtils.mkdir_p File.join(profile_path, "controls")
         #   add plural resource lookup with provided query
         #   add describe block in each loop
+      end
+
+      def execute_profile(profile_path)
         # TODO: Execute with custom reporter
       end
     end
