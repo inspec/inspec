@@ -32,5 +32,13 @@ module InspecPlugins::Parallelism
         parallel_cmd.run
       end
     end
+
+    desc "list", "Generate a list of targets as an option file for `parallel exec`"
+    option :resource, aliases: :r, type: :string, required: true,
+      desc: "Plural resource to list. See docs for current list of accepted values."
+    def list
+      require_relative "list_command"
+      InspecPlugins::Parallelism::ListCommand.new(options).run
+    end
   end
 end
