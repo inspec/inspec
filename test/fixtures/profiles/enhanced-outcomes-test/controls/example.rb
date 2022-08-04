@@ -85,7 +85,7 @@ control "tmp-7.0.1" do
     it { should be_directory }
     it { exist }
   end
-  not_applicable_if("Some reason for N/A") { true }
+  only_applicable_if("Some reason for N/A") { false }
 end
 
 # Example of setting impact using code and not marking it N/A
@@ -94,5 +94,5 @@ control "tmp-7.0.2" do
   describe file("/tmp") do
     it { should be_directory }
   end
-  not_applicable_if("Some reason for N/A") { false }
+  only_applicable_if("Some reason for N/A") { true }
 end

@@ -148,11 +148,11 @@ module Inspec
       @__skip_rule[:message] = message
     end
 
-    def not_applicable_if(message = nil)
+    def only_applicable_if(message = nil)
       return unless block_given?
-      return unless yield
+      return if yield
 
-      self.impact = 0.0
+      impact(0.0)
       if message
         message = "N/A control due to not_applicable_if condition: #{message}"
       else
