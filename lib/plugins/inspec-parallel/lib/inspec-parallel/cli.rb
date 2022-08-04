@@ -36,6 +36,8 @@ module InspecPlugins::Parallelism
     desc "list", "Generate a list of targets as an option file for `parallel exec`"
     option :resource, aliases: :r, type: :string, required: true,
       desc: "Plural resource to list. See docs for current list of accepted values."
+    option :target, aliases: :t, type: :string,
+      desc: "Target to connect to for listing resources. If omitted, will be guessed from --resource."
     def list
       require_relative "list_command"
       InspecPlugins::Parallelism::ListCommand.new(options).run
