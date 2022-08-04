@@ -38,6 +38,10 @@ module InspecPlugins::Parallelism
       desc: "Plural resource to list. See docs for current list of accepted values."
     option :target, aliases: :t, type: :string,
       desc: "Target to connect to for listing resources. If omitted, will be guessed from --resource."
+    option :parameters, aliases: :p, type: :string,
+      desc: "String of resource parameters for the resource. See resource docs for details."
+    option :query, aliases: :q, type: :string,
+      desc: "String of 'where' query for the resource. See resource docs for details."
     def list
       require_relative "list_command"
       InspecPlugins::Parallelism::ListCommand.new(options).run
