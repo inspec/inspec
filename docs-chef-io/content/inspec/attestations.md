@@ -15,7 +15,7 @@ Attestations is a mechanism to mark the `Not Reviewed (N/R)` tests as `passed` o
 
 ## Example
 
-A fire alarm needs to be audited, but it can not be reviewed (N/R) through automation. Hence, to audit the fire alarm using an InSpec profile, the outcome of its working must be marked as `passed` or `failed` in a test through manual intervention. By using attestations and passing the status using an attestations file, we can audit the fire alarm.
+A fire alarm needs to be audited, but it cannot be reviewed (N/R) through automation. Hence, to audit the fire alarm using an InSpec profile, the outcome of its working must be marked as `passed` or `failed` in a test through manual intervention. By using attestations and passing the status using an attestations file, we can audit the fire alarm.
 
 ### Attestations File to an audit fire alarm
 
@@ -89,7 +89,7 @@ inspec exec path/to/profile --attestation-file attestation.yaml
 
 ## File Format
 
-Attestations files support YAML, JSON, CSV, XLSX, ans XLS format.
+Attestations files support YAML, JSON, CSV, XLSX, and XLS formats.
 
 ```yaml
 control_id:
@@ -114,7 +114,7 @@ OR
 
 - `status` is mandatory. If absent, the control will not be attested. It can only be `passed` or `failed`.
 - `expiration_date` sets the day the attestations file expires in **YYYY-MM-DD** format. Attestations files expire at 00:00 at the local time of the system on the specified date. Attestations files without expiration date are permanent. `expiration_date` is optional.
-- `justification` is a text containing the reason why attestations are required. It might as well as include information on who initiated the attestation. If it is absent, it shows a warning message to include justification in the attestations file.
+- `justification` is a text containing the reason why attestations is required. It might as well as include information on who initiated the attestation. If it is absent, it shows a warning message to include justification in the attestations file.
 - `evidence_url` is an URL of a website containing information on control attestation. It is optional.
 
 ### File Format Examples
