@@ -1,4 +1,4 @@
-require_relative "command"
+require_relative "exec_command"
 require "inspec/dist"
 require "inspec/base_cli"
 
@@ -25,7 +25,7 @@ module InspecPlugins::Parallelism
       desc: "Path to the runner and error logs"
     exec_options
     def exec(default_profile = nil)
-      parallel_cmd = InspecPlugins::Parallelism::Command.new(options, default_profile)
+      parallel_cmd = InspecPlugins::Parallelism::ExecCommand.new(options, default_profile)
       if options[:dry_run]
         parallel_cmd.dry_run
       else

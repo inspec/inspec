@@ -8,7 +8,7 @@ module InspecPlugins
     class OptionFileNotReadable < RuntimeError
     end
 
-    class Command
+    class ExecCommand
       attr_accessor :cli_options_to_parallel_cmd, :default_profile, :sub_cmd, :invocations, :run_in_background
 
       def initialize(cli_options_to_parallel_cmd, default_profile, sub_cmd = "exec")
