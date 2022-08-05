@@ -107,7 +107,7 @@ module Inspec
         attestation_data["expiration_date"]
       elsif !attestation_data["updated"].blank? && !attestation_data["frequency"].blank?
         begin
-          fetch_expiry_using_frequency_and_updated_date(attestation_data["updated"], attestation_data["frequency"], control_id)
+          calculate_expiry(attestation_data["updated"], attestation_data["frequency"], control_id)
         rescue => e
           ui = Inspec::UI.new
           ui.error("Unable to parse attestation updated date '#{attestation_data["updated"]}' for control #{control_id}. Error: #{e.message}")
@@ -116,7 +116,7 @@ module Inspec
       end
     end
 
-    def self.fetch_expiry_using_frequency_and_updated_date(updated_date, frequency, control_id)
+    def self.calculate_expiry(updated_date, frequency, control_id)
       # logic to find expiration date using frequency and updated date.
       if updated_date.is_a?(Date) || (updated_date.is_a?(String) && Date.parse(updated_date).year != 0)
         updated_date = Date.parse(updated_date) if updated_date.is_a? String
