@@ -1,4 +1,6 @@
 require "uri" unless defined?(URI)
+require "inspec/cli"
+
 module InspecPlugins
   module Parallelism
     class ListCommand
@@ -85,9 +87,13 @@ EOY
         #   add describe block in each loop
         control_template = <<EOC
 control "the-control" do
+  # HACK: Use description to pass through extra information, used by the reporter
+  desc "resource_name", "%s"
+  desc "parameters", "%s"
+  desc "query", "%s"
   %s(%s).where(%s).%s.each do |id|
     describe id do
-      # It took some funbling to find something that would always match.
+      # It took some fumbling to find something that would always match.
       it { should match //  }
     end
   end
@@ -98,13 +104,20 @@ EOC
           resource_name,
           parameters,
           query,
+          resource_name,
+          parameters,
+          query,
           SUPPORTED_RESOURCES[resource_name][:property]
         )
         File.write(File.join(profile_path, "controls", "list.rb"), content)
       end
 
       def execute_profile(profile_path)
-        # TODO: Execute with custom reporter
+        arguments = ["exec"]
+        arguments << profile_path
+        arguments << ["-t"] << target_uri
+        arguments << ["--reporter"] << "parallel-list"
+        Inspec::InspecCLI.start(arguments.flatten, enforce_license: true)
       end
     end
   end
