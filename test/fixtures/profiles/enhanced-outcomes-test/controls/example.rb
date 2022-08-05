@@ -80,19 +80,19 @@ end
 
 # Example of setting impact using code and marking it N/A
 control "tmp-7.0.1" do
+  only_applicable_if("Some reason for N/A") { false }
   impact 0.5
   describe file("/tmp") do
     it { should be_directory }
     it { exist }
   end
-  only_applicable_if("Some reason for N/A") { false }
 end
 
 # Example of setting impact using code and not marking it N/A
 control "tmp-7.0.2" do
+  only_applicable_if("Some reason for N/A") { true }
   impact 0.5
   describe file("/tmp") do
     it { should be_directory }
   end
-  only_applicable_if("Some reason for N/A") { true }
 end
