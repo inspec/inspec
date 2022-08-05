@@ -1347,12 +1347,12 @@ EOT
 
     it "should show enhanced_outcomes for controls with impact 0" do
       _(run_result.stdout).must_include "5 skipped"
-      _(run_result.stdout).must_include "3 controls not applicable"
+      _(run_result.stdout).must_include "4 controls not applicable"
       _(run_result.stdout).must_include "N/A"
     end
 
     it "should show enhanced_outcomes for controls with errors" do
-      _(run_result.stdout).must_include "3 failures"
+      _(run_result.stdout).must_include "4 failures"
       _(run_result.stdout).must_include "2 controls have error"
       _(run_result.stdout).must_include "ERR"
     end
@@ -1362,7 +1362,7 @@ EOT
     end
 
     it "should show enhanced_outcomes for passed controls" do
-      _(run_result.stdout).must_include "1 successful control"
+      _(run_result.stdout).must_include "2 successful control"
     end
 
     it "should mark control as N/A using zero impact from only_if" do
@@ -1379,6 +1379,23 @@ EOT
         _(run_result.stdout).must_include "[N/R]  tmp-6.0.2"
       else
         _(run_result.stdout).must_include "N/R  tmp-6.0.2"
+      end
+    end
+
+    it "should mark control as N/A using only_applicable_if when false" do
+      if windows?
+        _(run_result.stdout).must_include "[N/A]  tmp-7.0.1"
+      else
+        _(run_result.stdout).must_include "N/A  tmp-7.0.1"
+      end
+      _(run_result.stdout).must_include "Some reason for N/A"
+    end
+
+    it "should not mark control as N/A using only_applicable_if when true" do
+      if windows?
+        _(run_result.stdout).wont_include "[N/A]  tmp-6.0.2"
+      else
+        _(run_result.stdout).wont_include "N/A  tmp-6.0.2"
       end
     end
   end
