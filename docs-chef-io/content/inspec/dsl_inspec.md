@@ -325,11 +325,11 @@ end
   end
 ```
 
-### Use `only_applicable_if` to test controls for applicability.
+### Use **only_applicable_if** to test controls for applicability
 
-The `only_applicable_if` block allows to test if a control is applicable or not. In this example, the control with `only_applicable_if` block will check the condition and mark the control as not applicable (N/A) if the results of the `only_applicable_if` block evaluate to false.
+The `only_applicable_if` block allows to test if a control is applicable or not. In this example, the control with `only_applicable_if` block checks the condition and marks the control as not applicable (N/A) if the results of the `only_applicable_if` block evaluates to `false`.
 
-If the gnome-desktop is not installed, following control to test gnome settings will mark control as not applicable.
+If **gnome-desktop** is not installed, the following control to test gnome settings marks control as **not applicable**.
 
 ```ruby
 control 'gnome-destkop-settings' do
@@ -369,11 +369,8 @@ Test Summary: 0 successful, 1 failures, 0 skipped
 
 Some notes about `only_applicable_if`:
 
-* `only_applicable_if` applies to the entire `control`. If the results of the `only_applicable_if`
-  block evaluate to false, any Chef InSpec resources mentioned as part of a
-  `describe` block will not be run. Additionally, the contents of the describe
-  blocks will not be run.
-* If the results of the `only_applicable_if` block evaluate to false, it will invoke a failing test which will state the reason for N/A.
+* `only_applicable_if` applies to the entire `control`. If the results of the `only_applicable_if` block evaluates to `false`, any Chef InSpec resources mentioned as part of a `describe` block will not be run. Additionally, the contents of the describe blocks will not be run.
+* If the results of the `only_applicable_if` block evaluates to `false`, it will invoke a failing test which will state the reason for N/A.
 
 ### Additional metadata for controls
 
