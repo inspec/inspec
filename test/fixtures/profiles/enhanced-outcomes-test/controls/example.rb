@@ -65,16 +65,16 @@ end
 control "tmp-6.0.1" do
   impact 0.5
   only_if("Some reason for N/A", impact: 0.0) { false }
-  describe file("/tmp") do
-    it { should be_directory }
+  describe "f.1" do
+    it { should cmp "f.1" }
   end
 end
 
 # Example of setting impact using code and not marked as N/A
 control "tmp-6.0.2" do
   only_if(impact: 0.5) { false }
-  describe file("/tmp") do
-    it { should be_directory }
+  describe "f.2" do
+    it { should cmp "f.2" }
   end
 end
 
@@ -82,9 +82,8 @@ end
 control "tmp-7.0.1" do
   only_applicable_if("Some reason for N/A") { false }
   impact 0.5
-  describe file("/tmp") do
-    it { should be_directory }
-    it { exist }
+  describe "g.1" do
+    it { should cmp "g.1" }
   end
 end
 
@@ -92,7 +91,7 @@ end
 control "tmp-7.0.2" do
   only_applicable_if("Some reason for N/A") { true }
   impact 0.5
-  describe file("/tmp") do
-    it { should be_directory }
+  describe "g.2" do
+    it { should cmp "g.2" }
   end
 end
