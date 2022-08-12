@@ -83,8 +83,13 @@ module InspecPlugins
 
       def read_options_file
         opts = []
+        content = []
         begin
-          content = content_from_file(cli_options_to_parallel_cmd[:option_file])
+          if cli_options_to_parallel_cmd[:option_file] == "-"
+            content = $stdin.read&.split("\n") || []
+          else
+            content = content_from_file(cli_options_to_parallel_cmd[:option_file])
+          end
         rescue OptionFileNotReadable => e
           @logger.error "Cannot read options file: #{e.message}"
           Inspec::UI.new.exit(:usage_error)

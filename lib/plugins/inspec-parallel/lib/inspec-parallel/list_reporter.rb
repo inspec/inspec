@@ -20,7 +20,7 @@ module InspecPlugins::Parallelism
         @resource_formatter = InspecPlugins::Parallelism::ListReporter::ResourceFormatter::Base.formatter_for(resource_name, parameters: parameters, query: query)
       end
 
-      puts "-t " + resource_formatter.format_id_for_list(raw_id)
+      puts "-t " + resource_formatter.format_id_for_list(raw_id) + " --reporter json:<%= pid%>.json"
     end
 
     def example_failed(notification)
