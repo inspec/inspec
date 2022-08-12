@@ -46,7 +46,7 @@ You are encouraged to use this plugin as a starting point for real plugins.
 
 ## Development of a Plugin
 
-[Plugin Development](https://github.com/inspec/inspec/blob/master/docs/dev/plugins.md) is documented on the `inspec` project on GitHub.  Additionally, this example
+[Plugin Development](https://github.com/inspec/inspec/blob/main/docs/dev/plugins.md) is documented on the `inspec` project on GitHub.  Additionally, this example
 plugin has extensive comments explaining what is happening, and why.
 
 ### A Tour of the Plugin
