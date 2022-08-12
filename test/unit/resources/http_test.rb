@@ -1,7 +1,7 @@
 require "helper"
 require "inspec/resource"
 require "inspec/resources/http"
-require "faraday_middleware/response/follow_redirects"
+require "faraday/follow_redirects/redirect_limit_reached"
 
 describe "Inspec::Resources::Http" do
   describe "InSpec::Resources::Http::Worker::Local" do
@@ -49,7 +49,7 @@ describe "Inspec::Resources::Http" do
         stub_request(:get, "redirect1.com").to_return(status: 302, headers: { location: "http://redirect2.com" } )
         stub_request(:get, "redirect2.com").to_return(status: 200, body: "should not get here")
 
-        _(proc { worker.status }).must_raise FaradayMiddleware::RedirectLimitReached
+        _(proc { worker.status }).must_raise Faraday::FollowRedirects::RedirectLimitReached
       end
     end
 

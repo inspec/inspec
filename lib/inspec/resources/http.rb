@@ -4,7 +4,7 @@
 
 require "inspec/resources/command"
 require "faraday" unless defined?(Faraday)
-require "faraday_middleware"
+require "faraday/follow_redirects"
 require "hashie"
 
 module Inspec::Resources
@@ -153,7 +153,7 @@ module Inspec::Resources
 
           conn = Faraday.new(url: url, headers: request_headers, params: params, ssl: { verify: ssl_verify? }) do |builder|
             builder.request :url_encoded
-            builder.use FaradayMiddleware::FollowRedirects, limit: max_redirects unless max_redirects.nil?
+            builder.use Faraday::FollowRedirects::Middleware, limit: max_redirects unless max_redirects.nil?
             builder.adapter Faraday.default_adapter
           end
 
