@@ -1,1 +1,42 @@
-Status: Running
+Name: ubuntu-container
+Status: RUNNING
+Type: container
+Architecture: x86_64
+PID: 1378
+Created: 2022/08/16 12:07 UTC
+Last Used: 2022/08/17 05:06 UTC
+
+Resources:
+  Processes: 13
+  Disk usage:
+    root: 53.97MiB
+  CPU usage:
+    CPU usage (in seconds): 2
+  Memory usage:
+    Memory (current): 32.30MiB
+  Network usage:
+    eth0:
+      Type: broadcast
+      State: UP
+      Host interface: vethc32daefe
+      MAC address: 00:16:3e:0e:be:4b
+      MTU: 1500
+      Bytes received: 18.12kB
+      Bytes sent: 18.82kB
+      Packets received: 130
+      Packets sent: 183
+      IP addresses:
+        inet:  10.199.12.205/24 (global)
+        inet6: fd42:574e:edd0:2d9f:216:3eff:fe0e:be4b/64 (global)
+        inet6: fe80::216:3eff:fe0e:be4b/64 (link)
+    lo:
+      Type: loopback
+      State: UP
+      MTU: 65536
+      Bytes received: 0B
+      Bytes sent: 0B
+      Packets received: 0
+      Packets sent: 0
+      IP addresses:
+        inet:  127.0.0.1/8 (local)
+        inet6: ::1/128 (local)
