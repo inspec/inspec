@@ -23,10 +23,12 @@ This resource is distributed with Chef InSpec.
 
 An   `lxc` Chef InSpec audit resource allows testing if the container exists or is in running status.
 
-    describe lxc("linux-container-name") do
-      it { should exist }
-      it { should be_running }
-    end
+```ruby
+  describe lxc("linux-container-name") do
+    it { should exist }
+    it { should be_running }
+  end
+```
 
 ## Matchers
 
@@ -38,13 +40,79 @@ The specific matchers of this resource are: `exist`, `be_running`.
 
 The `exist` matcher is used to specify if the container exists:
 
-    it { should exist }
+```ruby
+  it { should exist }
+```
 
 ### be_running
 
 The `be_running` matcher is used to check if the container is running:
 
-    it { should be_running }
+```ruby
+  it { should be_running }
+```
+
+## Properties
+
+### name
+
+Returns the name of the instance
+
+```ruby
+its("name") { should eq "ubuntu-container" }
+```
+### status
+
+Returns the status of the instance
+
+```ruby
+  its("status") { should cmp "Running" }
+```
+
+### type
+
+Returns the type of the instance (eg: container)
+
+```ruby
+  its("type") { should eq "container" }
+```
+
+### architecture
+
+Returns the architecture of the instance
+
+```ruby
+  its("architecture") { should eq "x86_64" }
+```
+
+### pid
+
+Returns the pid of the instance
+
+```ruby
+  its("pid") { should eq 1378 }
+```
+
+### created_at
+Returns the creation date of the instance
+
+```ruby
+  its("created_at") { should eq "2022/08/16 12:07 UTC" }
+```
+
+### last_used_at
+Returns the last used date of the instance
+
+```ruby
+  its("last_used_at") { should eq "2022/08/17 05:06 UTC" }
+```
+### resources
+
+Returns the resource information of the instance
+
+```ruby
+  its("resources") { should include "Disk usage" }
+```
 
 ## Examples
 
@@ -54,14 +122,37 @@ The following examples show how to use this Chef InSpec audit resource.
 
 The below test passes if the container `immense-phoenix` exists as part of the LXD instances.
 
-    describe lxc("immense-phoenix") do
-      it { should exist }
-    end
+```ruby
+  describe lxc("immense-phoenix") do
+    it { should exist }
+  end
+```
 
 ### Ensures container is in running status
 
 The below test passes if the container `delicate-sloth` exists as part of the LXD instances and the status is running.
 
-    describe lxc("delicate-sloth") do
-      it { should be_running }
-    end
+```ruby
+  describe lxc("delicate-sloth") do
+    it { should be_running }
+  end
+```
+
+### Ensures container exists, is in running status and verifies the different properties of the container
+
+The below test passes if the container `ubuntu-container` exists, is running and the properties value matches against the desired value.
+
+```ruby
+  describe lxc("ubuntu-container") do
+    it { should exist }
+    it { should be_running }
+    its("name") { should eq "ubuntu-container" }
+    its("status") { should cmp "Running" }
+    its("type") { should eq "container" }
+    its("architecture") { should eq "x86_64" }
+    its("pid") { should eq 1378 }
+    its("created_at") { should eq "2022/08/16 12:07 UTC" }
+    its("last_used_at") { should eq "2022/08/17 05:06 UTC" }
+    its("resources") { should include "Disk usage" }
+  end
+```
