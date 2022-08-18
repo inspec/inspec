@@ -105,8 +105,8 @@ module Inspec::Resources
     def parse_command_output(output)
       require "yaml" unless defined?(YAML)
       YAML.load(output)
-    rescue JSON::ParserError => _e
-      warn "Could not parse the command output"
+    rescue StandardError
+      warn "Could not parse the command output.\n#{$!}"
       {}
     end
   end
