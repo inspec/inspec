@@ -69,6 +69,6 @@ For a full list of available matchers, please visit our [matchers page](/inspec/
 
 ### have_rule
 
-The `have_rule` matcher tests the named rule against the information in the output rule of `'ipftstat -io'`:
+The `have_rule` matcher tests the named rule against the information in the output rule of `'ipfstat -io'`:
 
     it { should have_rule("RULE") }

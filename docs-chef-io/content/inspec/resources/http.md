@@ -180,7 +180,7 @@ You can include the username and password in the `proxy` parameter:
 
 The `proxy` parameter also accepts proxy options in hash format:
 
-    describe http('http://localhost:8080/ping', proxy: { uri: 'http://www.example.com:3128', user: 'username', password: 'proxypassword'}) do
+    describe http('http://localhost:8080/ping', proxy: { uri: 'http://www.example.com:3128', user: 'username', password: 'proxy-password'}) do
       ...
     end
 

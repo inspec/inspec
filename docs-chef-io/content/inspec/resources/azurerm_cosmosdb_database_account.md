@@ -104,7 +104,7 @@ Indicates the type of database account, e.g. `GlobalDocumentDB`, `MongoDB`
 
 ### tags
 
-Resource tags applied to the ComsosDb Account.
+Resource tags applied to the Cosmos DB Account.
 
 ### properties
 

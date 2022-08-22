@@ -77,7 +77,8 @@ The `all_host_names` property returns a two-dimensional string array where each 
       its('ip_address') { should cmp '127.0.1.154' }
     end
 
-### Test the primay name for where ip address is '::1'
+### Test the primary name for where IP address is '::1'
+
     describe etc_hosts.where { ip_address == '::1' } do
       its('primary_name') { should cmp 'localhost' }
     end

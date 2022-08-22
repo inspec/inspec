@@ -63,7 +63,7 @@ If an Event Hub Namespace is referenced with a valid `Resource Group` and `Names
 
 If an Event Hub Namespace is referenced with an invalid `Resource Group` or `Namespace Name`
 
-    describe azurerm_event_hub_namespace(resource_group: 'invalid-rg', namespace_name: 'i-dont-exist') do
+    describe azurerm_event_hub_namespace(resource_group: 'invalid-rg', namespace_name: 'i-do-not-exist') do
       it { should_not exist }
     end
 

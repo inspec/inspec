@@ -123,13 +123,13 @@ The subnet's id.
 Id will be in
 format:
 
-    '/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Inspec-Azure-mmclane/providers/Microsoft.Network/virtualNetworks/Inspec-VNet/subnets/Inspec-Subnet'
+    '/subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.Network/virtualNetworks/Inspec-VNet/subnets/Inspec-Subnet'
 
 ### name
 
 The subnets's name.
 
-    its('name') { should eq('MySubnetName') }
+    its('name') { should eq('SubnetName') }
 
 ### type
 

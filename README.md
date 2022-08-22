@@ -56,7 +56,7 @@ inspec exec test.rb -t docker://container_id
 
 Chef InSpec requires Ruby ( >= 2.7 ).
 
-Note: Versions of Chef InSpec 4.0 and later require accepting the EULA to use. Please visit the [license acceptance page](https://docs.chef.io/chef_license_accept.html) on the Chef docs site for more information.
+All currently supported versions of Chef InSpec (4.0 and later) require accepting the EULA to use. Please visit the [license acceptance page](https://docs.chef.io/chef_license_accept.html) on the Chef docs site for more information.
 
 ### Install as package
 

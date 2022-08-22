@@ -60,7 +60,7 @@ This resource uses package names and perl library paths as resource parameters.
 Hint: You can pass multiple paths separated with a colon
 `/path/to/perl5/lib:/usr/share/perl5/vendor_perl/lib/perl5`
 
-    describe cpan('DBD::Pg', '/home/jdoe/perl5/lib/perl5') do
+    describe cpan('DBD::Pg', '/home/username/perl5/lib/perl5') do
       it { should be_installed }
     end
 

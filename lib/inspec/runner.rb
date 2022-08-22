@@ -60,9 +60,11 @@ module Inspec
       end
 
       if @conf[:waiver_file]
-        waivers = @conf.delete(:waiver_file)
-        @conf[:input_file] ||= []
-        @conf[:input_file].concat waivers
+        @conf[:waiver_file].each do |file|
+          unless File.file?(file)
+            raise Inspec::Exceptions::WaiversFileDoesNotExist, "Waiver file #{file} does not exist."
+          end
+        end
       end
 
       # About reading inputs:
@@ -133,12 +135,20 @@ module Inspec
       all_controls.each do |rule|
         unless rule.nil?
           register_rule(rule)
-          checks = ::Inspec::Rule.prepare_checks(rule)
-          unless checks.empty?
+          total_checks = 0
+          control_describe_checks = ::Inspec::Rule.prepare_checks(rule)
+
+          examples = control_describe_checks.flat_map do |m, a, b|
+            get_check_example(m, a, b)
+          end.compact
+
+          examples.map { |example| total_checks += example.examples.count }
+
+          unless control_describe_checks.empty?
             # controls with empty tests are avoided
             # checks represent tests within control
-            controls_count += 1
-            control_checks_count_map[rule.to_s] = checks.count
+            controls_count += 1 if control_checks_count_map[rule.to_s].nil?
+            control_checks_count_map[rule.to_s] = control_checks_count_map[rule.to_s].to_i + total_checks
           end
         end
       end
@@ -158,7 +168,7 @@ module Inspec
       return if @conf["reporter"].nil?
 
       @conf["reporter"].each do |reporter|
-        result = Inspec::Reporters.render(reporter, run_data)
+        result = Inspec::Reporters.render(reporter, run_data, @conf["enhanced_outcomes"])
         raise Inspec::ReporterError, "Error generating reporter '#{reporter[0]}'" if result == false
       end
     end

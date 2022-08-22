@@ -55,7 +55,7 @@ The `resource_group` and 'vnet' must be given as a parameter.
 
 ## Examples
 
-    # Exists if any subnetss exist for a given virtual network in the resource group
+    # Exists if any subnets exist for a given virtual network in the resource group
     describe azurerm_subnets(resource_group: 'MyResourceGroup', vnet: 'MyVnetName') do
       it { should exist }
     end

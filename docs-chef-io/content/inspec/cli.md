@@ -62,7 +62,7 @@ inspec automate SUBCOMMAND
 
 ## check
 
-Verify the metadata in the `inspec.yml` file, verify that control blocks have the correct fields (title, description, impact) defined that all controls have visible tests, and the controls are not using deprecated InSpec DSL code.
+Verify the metadata in the `inspec.yml` file, verify that control blocks have the correct fields (title, description, impact), and define that all controls have visible tests and the controls are not using deprecated InSpec DSL code.
 
 ### Syntax
 
@@ -118,9 +118,9 @@ This subcommand has the following additional options:
 * `--client-key-pass=CLIENT_CERT_PASSWORD`
     Specify client certificate password, if required for SSL authentication (WinRM).
 * `--config=CONFIG`
-    Read configuration from JSON file (`-` reads from stdin).
+    Read configuration from the JSON file (`-` reads from stdin).
 * `--docker-url`
-    Provides path to Docker API endpoint (Docker).
+    Provides a path to the Docker API endpoint (Docker).
 * `--enable-password=ENABLE_PASSWORD`
     Password for enable mode on Cisco IOS devices.
 * `--format=FORMAT`
@@ -152,7 +152,7 @@ This subcommand has the following additional options:
 * `--ssl`, `--no-ssl`
     Use SSL for transport layer encryption (WinRM).
 * `--ssl-peer-fingerprint`
-    Specify ssl peer fingerprint in lieu of certificates, for SSL authentication (WinRM).
+    Specify SSL peer fingerprint in place of certificates for SSL authentication (WinRM).
 * `--sudo`, `--no-sudo`
     Run scans with sudo. Only activates on Unix and non-root user.
 * `--sudo-command=SUDO_COMMAND`
@@ -174,7 +174,7 @@ This subcommand has the following additional options:
 * `--winrm-transport=WINRM_TRANSPORT`
     Specify which transport to use, defaults to negotiate (WinRM).
 * `--winrm-shell-type=WINRM_SHELL_TYPE`
-    Specify which shell type to use (powershell,elevated or cmd), defaults to powershell (WinRM).
+    Specify which shell type to use (powershell, elevated, or cmd), which defaults to powershell (WinRM).
 
 ## env
 
@@ -192,7 +192,7 @@ inspec env
 
 Run all test files at the specified locations.
 
-The subcommand loads the given profiles, fetches their dependencies if needed, then connects to the target and executes any controls contained in the profiles. One or more reporters are used to generate the output.
+The subcommand loads the given profiles, fetches their dependencies if needed, then connects to the target and executes any controls in the profiles. One or more reporters are used to generate the output.
 
 ```ruby
 exit codes:
@@ -314,13 +314,13 @@ This subcommand has the following additional options:
 * `--command-timeout=SECONDS`
     Maximum seconds to allow a command to run.
 * `--config=CONFIG`
-    Read configuration from JSON file (`-` reads from stdin).
+    Read configuration from the JSON file (`-` reads from stdin).
 * `--controls=one two three`
-    A list of control names to run, or a list of /regexes/ to match against control names. Ignore all other tests.
+    A list of control names to run or a list of /regexes/ to match against control names. Ignore all other tests.
 * `--create-lockfile`, `--no-create-lockfile`
     Write out a lockfile based on this execution (unless one already exists).
 * `--distinct-exit`, `--no-distinct-exit`
-    Exit with code 101 if any tests fail, and 100 if any are skipped (default).  If disabled, exit 0 on skips and 1 for failures.
+    Exit with code 101 if any tests fail and 100 if any are skipped (default). If disabled, exit 0 on skips and 1 for failures.
 * `--docker-url`
     Provides path to Docker API endpoint (Docker). Defaults to unix:///var/run/docker.sock on Unix systems and tcp://localhost:2375 on Windows.
 * `--enable-password=ENABLE_PASSWORD`
@@ -328,7 +328,7 @@ This subcommand has the following additional options:
 * `--filter-empty-profiles`, `--no-filter-empty-profiles`
     Filter empty profiles (profiles without controls) from the report.
 * `--filter-waived-controls`
-    Do not execute waived controls in InSpec at all. Must use with --waiver-file. Ignores `run` setting of waiver file.
+    Do not execute waived controls in InSpec at all. Must use with --waiver-file. Ignores the `run` setting of the waiver file.
 * `--host=HOST`
     Specify a remote host which is tested.
 * `--input=name1=value1 name2=value2`
@@ -352,13 +352,13 @@ This subcommand has the following additional options:
 * `--proxy-command=PROXY_COMMAND`
     Specifies the command to use to connect to the server.
 * `--reporter=one two:/output/file/path`
-    Enable one or more output reporters: cli, documentation, html, progress, progress-bar, json, json-min, json-rspec, junit, yaml.
+    Enable one or more output reporters: cli, documentation, html2, progress, progress-bar, json, json-min, json-rspec, junit2, yaml.
 * `--reporter-backtrace-inclusion`, `--no-reporter-backtrace-inclusion`
     Include a code backtrace in report data (default: true).
 * `--reporter-include-source`
     Include full source code of controls in the CLI report.
 * `--reporter-message-truncation=REPORTER_MESSAGE_TRUNCATION`
-    Number of characters to truncate failure messages in report data to (default: no truncation).
+    Number of characters to truncate failure messages in report data (default: no truncation).
 * `--self-signed`, `--no-self-signed`
     Allow remote scans with self-signed certificates (WinRM).
 * `--shell`, `--no-shell`
@@ -370,13 +370,13 @@ This subcommand has the following additional options:
 * `--show-progress`, `--no-show-progress`
     Show progress while executing tests.
 * `--silence-deprecations=all|GROUP GROUP...`
-    Suppress deprecation warnings. See install_dir/etc/deprecations.json for list of GROUPs or use 'all'.
+    Suppress deprecation warnings. See install_dir/etc/deprecations.json for a list of GROUPs or use 'all'.
 * `--ssh-config-file=one two three`
     A list of paths to the SSH configuration file, for example: `~/.ssh/config` or `/etc/ssh/ssh_config`.
 * `--ssl`, `--no-ssl`
     Use SSL for transport layer encryption (WinRM).
 * `--ssl-peer-fingerprint`
-    Specify ssl peer fingerprint in lieu of certificates, for SSL authentication (WinRM).
+    Specify SSL peer fingerprint in place of certificates for SSL authentication (WinRM).
 * `--sudo`, `--no-sudo`
     Run scans with sudo. Only activates on Unix and non-root user.
 * `--sudo-command=SUDO_COMMAND`
@@ -388,9 +388,9 @@ This subcommand has the following additional options:
 * `-t`, `--target=TARGET`
     Simple targeting option using URIs, e.g. ssh://user:pass@host:port.
 * `--target-id=TARGET_ID`
-    Provide a ID which will be included on reports - deprecated.
+    Provide an ID that is included on reports - deprecated.
 * `--tags=one two three`
-    A list of tags or a list of regular expressions that match tags. `exec` will run controls referenced by the listed or matching tags.
+    A list of tags or regular expressions that match tags. `exec` will run controls referenced by the listed or matching tags.
 * `--user=USER`
     The login user for a remote scan.
 * `--vendor-cache=VENDOR_CACHE`
@@ -403,6 +403,8 @@ This subcommand has the following additional options:
     Whether to use disable sspi authentication, defaults to false (WinRM).
 * `--winrm-transport=WINRM_TRANSPORT`
     Specify which transport to use, defaults to negotiate (WinRM).
+* `--enhanced-outcomes`
+    Includes enhanced outcome of controls in report data.
 
 ## habitat
 
@@ -442,7 +444,7 @@ inspec init TEMPLATE
 
 ## json
 
-Read all tests in path and generate a json summary.
+Read all tests in the path and generate a json summary.
 
 ### Syntax
 
@@ -463,7 +465,7 @@ This subcommand has the following additional options:
 * `--profiles-path=PROFILES_PATH`
     Folder which contains referenced profiles.
 * `--tags=one two three`
-    A list of tags that reference certain controls. Other controls are ignored.
+    A list of tags that reference specific controls. Other controls are ignored.
 * `--vendor-cache=VENDOR_CACHE`
     Use the given path for caching dependencies. (default: `~/.inspec/cache`).
 
@@ -503,6 +505,13 @@ This subcommand has the following syntax:
 inspec schema NAME
 ```
 
+### Options
+
+This subcommand has the following additional option:
+
+* `--enhanced-outcomes`
+    Includes enhanced outcome of controls in report data.
+
 ## shell
 
 Open an interactive debugging shell.
@@ -540,11 +549,11 @@ This subcommand has the following additional options:
 * `--client-key-pass=CLIENT_CERT_PASSWORD`
     Specify client certificate password, if required for SSL authentication (WinRM).
 * `--config=CONFIG`
-    Read configuration from JSON file (`-` reads from stdin).
+    Read configuration from the JSON file (`-` reads from stdin).
 * `--depends=one two three`
     A space-delimited list of local folders containing profiles whose libraries and resources will be loaded into the new shell.
 * `--distinct-exit`, `--no-distinct-exit`
-    Exit with code 100 if any tests fail, and 101 if any are skipped but none failed (default).  If disabled, exit 0 on skips and 1 for failures.
+    Exit with code 100 if any tests fail and 101 if any are skipped, but none failed (default).  If disabled, exit 0 on skips and 1 for failures.
 * `--docker-url`
     Provides path to Docker API endpoint (Docker). Defaults to unix:///var/run/docker.sock on Unix systems and tcp://localhost:2375 on Windows.
 * `--enable-password=ENABLE_PASSWORD`
@@ -568,7 +577,7 @@ This subcommand has the following additional options:
 * `--proxy-command=PROXY_COMMAND`
     Specifies the command to use to connect to the server.
 * `--reporter=one two:/output/file/path`
-    Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit.
+    Enable one or more output reporters: cli, documentation, html2, progress, json, json-min, json-rspec, junit2.
 * `--self-signed`, `--no-self-signed`
     Allow remote scans with self-signed certificates (WinRM).
 * `--shell`, `--no-shell`
@@ -582,7 +591,7 @@ This subcommand has the following additional options:
 * `--ssl`, `--no-ssl`
     Use SSL for transport layer encryption (WinRM).
 * `--ssl-peer-fingerprint=SSL_PEER_FINGERPRINT`
-    Specify ssl peer fingerprint in lieu of certificates, for SSL authentication (WinRM).
+    Specify SSL peer fingerprint in place of certificates for SSL authentication (WinRM).
 * `--sudo`, `--no-sudo`
     Run scans with sudo. Only activates on Unix and non-root user.
 * `--sudo-command=SUDO_COMMAND`
@@ -603,6 +612,8 @@ This subcommand has the following additional options:
     Whether to use disable sspi authentication, defaults to false (WinRM).
 * `--winrm-transport=WINRM_TRANSPORT`
     Specify which transport to use, defaults to negotiate (WinRM).
+* `--enhanced-outcomes`
+    Includes enhanced outcome of controls in report data.
 
 ## supermarket
 
@@ -640,7 +651,7 @@ inspec vendor PATH
 This subcommand has additional options:
 
 * `--overwrite`, `--no-overwrite`
-    Overwrite existing vendored dependencies and lockfile.
+    Overwrite existing vendored dependencies and lockfiles.
 
 ## version
 

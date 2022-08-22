@@ -415,6 +415,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "Load one or more input files, a YAML file with values for the shell to use"
   option :input, type: :array, banner: "name1=value1 name2=value2",
     desc: "Specify one or more inputs directly on the command line to the shell, as --input NAME=VALUE. Accepts single-quoted YAML and JSON structures."
+  option :enhanced_outcomes, type: :boolean,
+    desc: "Show enhanced outcomes in output"
   def shell_func
     o = config
     deprecate_target_id(config)
@@ -461,11 +463,13 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     pretty_handle_exception(e)
   end
 
+  option :enhanced_outcomes, type: :boolean,
+    desc: "Show enhanced outcomes output"
   desc "schema NAME", "print the JSON schema", hide: true
   def schema(name)
     require "inspec/schema/output_schema"
-
-    puts Inspec::Schema::OutputSchema.json(name)
+    o = config
+    puts Inspec::Schema::OutputSchema.json(name, o)
   rescue StandardError => e
     puts e
     puts "Valid schemas are #{Inspec::Schema::OutputSchema.names.join(", ")}"

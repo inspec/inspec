@@ -63,7 +63,7 @@ If a PostgreSQL Server is referenced with a valid `Resource Group` and `Server N
 
 If a PostgreSQL Server is referenced with an invalid `Resource Group` or `Server Name`
 
-    describe azurerm_postgresql_server(resource_group: 'invalid-rg', server_name: 'i-dont-exist') do
+    describe azurerm_postgresql_server(resource_group: 'invalid-rg', server_name: 'i-do-not-exist') do
       it { should_not exist }
     end
 

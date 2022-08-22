@@ -7,7 +7,7 @@ require "inspec/reporters/yaml"
 
 module Inspec::Reporters
   # rubocop:disable Metrics/CyclomaticComplexity
-  def self.render(reporter, run_data)
+  def self.render(reporter, run_data, enhanced_outcomes = false)
     name, config = reporter.dup
     config[:run_data] = run_data
     case name
@@ -29,6 +29,7 @@ module Inspec::Reporters
       activator.activate!
       reporter = activator.implementation_class.new(config)
     end
+    reporter.enhanced_outcomes = enhanced_outcomes
 
     # optional send_report method on reporter
     return reporter.send_report if defined?(reporter.send_report)

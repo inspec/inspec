@@ -107,11 +107,11 @@ module Inspec
       stats = @formatter.results[:statistics][:controls]
       load_failures = @formatter.results[:profiles]&.select { |p| p[:status] == "failed" }&.any?
       skipped = @formatter.results.dig(:profiles, 0, :status) == "skipped"
-      if stats[:failed][:total] == 0 && stats[:skipped][:total] == 0 && !skipped && !load_failures
+      if stats[:failed][:total] == 0 && stats[:skipped][:total] == 0 && !skipped && !load_failures && (stats[:error] && stats[:error][:total] == 0) # placed error count condition because of enhanced outcomes
         0
       elsif load_failures
         @conf["distinct_exit"] ? 102 : 1
-      elsif stats[:failed][:total] > 0
+      elsif stats[:failed][:total] > 0 || (stats[:error] && stats[:error][:total] > 0)
         @conf["distinct_exit"] ? 100 : 1
       elsif stats[:skipped][:total] > 0 || skipped
         @conf["distinct_exit"] ? 101 : 0
@@ -196,6 +196,7 @@ module Inspec
     def configure_output
       RSpec.configuration.output_stream = $stdout
       @formatter = RSpec.configuration.add_formatter(Inspec::Formatters::Base)
+      @formatter.enhanced_outcomes = @conf.final_options["enhanced_outcomes"]
       RSpec.configuration.add_formatter(Inspec::Formatters::ShowProgress, $stderr) if @conf[:show_progress]
       set_optional_formatters
       RSpec.configuration.color = @conf["color"]

@@ -62,7 +62,7 @@ If a Network Interface is referenced with a valid `Resource Group` and `Name`
 
 If a Network Interface is referenced with an invalid `Resource Group` or `Name`
 
-    describe azurerm_network_interface(resource_group: 'invalid-rg', name: 'i-dont-exist') do
+    describe azurerm_network_interface(resource_group: 'invalid-rg', name: 'i-do-not-exist') do
       it { should_not exist }
     end
 

@@ -1,12 +1,13 @@
 require "rspec/core"
 require "rspec/core/formatters/base_formatter"
 require "set" unless defined?(Set)
+require "inspec/enhanced_outcomes"
 
 module Inspec::Formatters
   class Base < RSpec::Core::Formatters::BaseFormatter
     RSpec::Core::Formatters.register self, :close, :dump_summary, :stop
 
-    attr_accessor :backend, :run_data
+    attr_accessor :backend, :run_data, :enhanced_outcomes
 
     def initialize(output)
       super(output)
@@ -17,6 +18,7 @@ module Inspec::Formatters
       @backend = nil
       @all_controls_count = nil
       @control_checks_count_map = {}
+      @enhanced_outcomes = nil
     end
 
     # RSpec Override: #dump_summary
@@ -50,7 +52,6 @@ module Inspec::Formatters
           else
             hash[:message] = exception_message(e)
           end
-
           next if e.is_a? RSpec::Expectations::ExpectationNotMetError
 
           hash[:exception] = e.class.name
@@ -67,6 +68,8 @@ module Inspec::Formatters
 
       # flesh out the profiles key with additional profile information
       run_data[:profiles] = profiles_info
+
+      add_enhanced_outcomes_to_controls if enhanced_outcomes
 
       # add the platform information for this particular target
       run_data[:platform] = {
@@ -110,6 +113,20 @@ module Inspec::Formatters
 
     private
 
+    def add_enhanced_outcomes_to_controls
+      all_unique_controls.each do |control|
+        control[:status] = determine_control_enhanced_outcome(control)
+      end
+    end
+
+    def determine_control_enhanced_outcome(control)
+      if control[:results]
+        Inspec::EnhancedOutcomes.determine_status(control[:results], control[:impact])
+      else
+        "passed"
+      end
+    end
+
     def all_unique_controls
       unique_controls = Set.new
       run_data[:profiles].each do |profile|
@@ -120,25 +137,59 @@ module Inspec::Formatters
     end
 
     def statistics
+      error = 0
+      not_applicable = 0
+      not_reviewed = 0
       failed = 0
-      skipped = 0
       passed = 0
+      skipped = 0
+      enhanced_outcomes_summary = {}
+      if enhanced_outcomes
+        all_unique_controls.each do |control|
 
-      all_unique_controls.each do |control|
-        next unless control[:results]
+          if control[:status] == "error"
+            error += 1
+          elsif control[:status] == "not_applicable"
+            not_applicable += 1
+          elsif control[:status] == "not_reviewed"
+            not_reviewed += 1
+          elsif control[:status] == "failed"
+            failed += 1
+          elsif control[:status] == "passed"
+            passed += 1
+          end
 
-        if control[:results].any? { |r| r[:status] == "failed" }
-          failed += 1
-        elsif control[:results].any? { |r| r[:status] == "skipped" }
-          skipped += 1
-        else
-          passed += 1
+          # added this additionally because stats summary is also used for determining exit code in runner rspec
+          skipped += 1 if control[:results].any? { |r| r[:status] == "skipped" }
+
         end
+        total = error + not_applicable + not_reviewed + failed + passed
+        enhanced_outcomes_summary = {
+          not_applicable: {
+            total: not_applicable,
+          },
+          not_reviewed: {
+            total: not_reviewed,
+          },
+          error: {
+            total: error,
+          },
+        }
+      else
+        all_unique_controls.each do |control|
+          next unless control[:results]
+
+          if control[:results].any? { |r| r[:status] == "failed" }
+            failed += 1
+          elsif control[:results].any? { |r| r[:status] == "skipped" }
+            skipped += 1
+          else
+            passed += 1
+          end
+        end
+        total = failed + passed + skipped
       end
-
-      total = failed + passed + skipped
-
-      {
+      final_summary = {
         total: total,
         passed: {
           total: passed,
@@ -150,6 +201,8 @@ module Inspec::Formatters
           total: failed,
         },
       }
+
+      final_summary.merge!(enhanced_outcomes_summary)
     end
 
     def exception_message(exception)

@@ -249,6 +249,7 @@ end
 ```
 
 This example checks for if certain pip packages are installed, but only if '/root/.aws' exists:
+
 ```ruby
 control 'pip-packages-installed' do
   title 'Check if essential pips are installed'
@@ -269,14 +270,37 @@ certain controls, which would 100% fail due to the way servers are prepared, but
 you know that the same control suites are reused later in different circumstances
 by different teams.
 
+This example checks whether the Gnome Desktop is installed. If not installed, it resets the impact of the control to the new value which is passed as a hash with the impact key.
+
+Here, it resets it to 0:
+
+```ruby
+control 'gnome-destkop-settings' do
+  impact 0.5
+  desc 'some good settings'
+  desc 'check', 'check the settings file for good things'
+  desc 'fix', 'set the good things in the file /etc/gnome/settings'
+  tag nist: 'CM-6'
+
+  only_if("The Gnome Desktop is not installed, this control is Not Applicable", impact: 0) {
+    package('gnome-desktop').installed?
+  }
+
+  describe gnome_settings do
+    it should_be set_well
+  end
+end
+```
+
 Some notes about `only_if`:
 
-- `only_if` applies to the entire `control`. If the results of the `only_if`
+* `only_if` applies to the entire `control`. If the results of the `only_if`
   block evaluate to false, any Chef InSpec resources mentioned as part of a
   `describe` block will not be run. Additionally, the contents of the describe
   blocks will not be run. However, bare Ruby expressions and bare Chef InSpec
   resources (not assocated with a describe block) preceding the only_if statement
   will run
+* `only_if` also accepts hash with impact key to reset the impact value of the control. Control's impact is helpful in determining it is enhanced outcome.
 
 To illustrate:
 

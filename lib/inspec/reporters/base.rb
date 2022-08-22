@@ -5,6 +5,7 @@ module Inspec::Reporters
     include Inspec::Utils::RunDataFilters
 
     attr_reader :run_data
+    attr_accessor :enhanced_outcomes
 
     def initialize(config)
       @config = config

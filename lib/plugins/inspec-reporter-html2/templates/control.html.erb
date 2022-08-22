@@ -1,11 +1,15 @@
 <% slugged_id = control.id.tr(" ", "_") %>
 <%
-    # Determine status of control
-    status = "passed"
-    if control.results.any? { |r| r.status == "failed" }
-      status = "failed"
-    elsif control.results.any? { |r| r.status == "skipped" }
-      status = "skipped"
+    if enhanced_outcomes
+      status = control.status
+    else
+      # Determine status of control
+      status = "passed"
+      if control.results.any? { |r| r.status == "failed" }
+        status = "failed"
+      elsif control.results.any? { |r| r.status == "skipped" }
+        status = "skipped"
+      end
     end
 %>
 

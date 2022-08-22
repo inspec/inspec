@@ -36,8 +36,14 @@
       <caption>Control Statistics</caption>
         <tr><th colspan="2"><h4 id="statistics-label">Control Statistics</h4></th></tr>
         <tr class= "passed"><th>Passed:</th><td><%= run_data.statistics.controls.passed.total %></td></tr>
-        <tr class= "skipped"><th>Skipped:</th><td><%= run_data.statistics.controls.skipped.total %></td></tr>
         <tr class= "failed"><th>Failed:</th><td><%= run_data.statistics.controls.failed.total %></td></tr>
+        <% if enhanced_outcomes %>
+          <tr class= "not_reviewed"><th>Not Reviewed:</th><td><%= run_data.statistics.controls.not_reviewed.total %></td></tr>
+          <tr class= "not_applicable"><th>Not Applicable:</th><td><%= run_data.statistics.controls.not_applicable.total %></td></tr>
+          <tr class= "error"><th>Error:</th><td><%= run_data.statistics.controls.error.total %></td></tr>
+        <% else %>
+          <tr class= "skipped"><th>Skipped:</th><td><%= run_data.statistics.controls.skipped.total %></td></tr>
+        <% end %>
         <tr class= "duration"><th>Duration:</th><td><%= run_data.statistics.duration %> seconds</td></tr>
         <tr class= "date"><th>Time Finished:</th><td><%= Time.now %></td></tr>
       </table>
