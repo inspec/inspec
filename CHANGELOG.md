@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.20.1 -->
-## [v5.20.1](https://github.com/inspec/inspec/tree/v5.20.1) (2022-08-04)
+<!-- latest_release 6.0.1 -->
+## [v6.0.1](https://github.com/inspec/inspec/tree/v6.0.1) (2022-08-23)
 
 #### Merged Pull Requests
-- Fix the dependabot adding  ffi (1.15.5-x64-unknown) to omnibus bump [#6213](https://github.com/inspec/inspec/pull/6213) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-452 Added Inspec parallel logging for warn/error [#6245](https://github.com/inspec/inspec/pull/6245) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- CFINSPEC-452 Added Inspec parallel logging for warn/error [#6245](https://github.com/inspec/inspec/pull/6245) ([Nik08](https://github.com/Nik08)) <!-- 6.0.1 -->
 - Fix the dependabot adding  ffi (1.15.5-x64-unknown) to omnibus bump [#6213](https://github.com/inspec/inspec/pull/6213) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.20.1 -->
 - Adds podman resources. [#6183](https://github.com/inspec/inspec/pull/6183) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.20.0 -->
 - CFINSPEC-237 Added enhanced_outcomes option [#6145](https://github.com/inspec/inspec/pull/6145) ([Nik08](https://github.com/Nik08)) <!-- 5.19.0 -->
