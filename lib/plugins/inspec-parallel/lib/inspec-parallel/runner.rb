@@ -153,6 +153,12 @@ module InspecPlugins
               if update_line =~ /EOF_MARKER/
                 pipe_ready_for_reading.close
                 break
+              elsif update_line =~ /WARN/ || update_line =~ /ERROR/
+                create_logs(
+                  pid,
+                  "#{Time.now.iso8601} Extra log: #{update_line}\n"
+                )
+                break
               end
               update_ui_with_line(pid, update_line) unless run_in_background
               # Only pull one line if we are doing normal updates; slurp the whole file
