@@ -86,7 +86,8 @@ module InspecPlugins
         content = []
         begin
           if cli_options_to_parallel_cmd[:option_file] == "-"
-            content = $stdin.read&.split("\n") || []
+            content = $stdin.readlines if !$stdin.tty? && $stdin.stat.pipe?
+            @logger.error("Standard input options are empty") if content.empty?
           else
             content = content_from_file(cli_options_to_parallel_cmd[:option_file])
           end
