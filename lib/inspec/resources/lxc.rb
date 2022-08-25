@@ -105,8 +105,8 @@ module Inspec::Resources
     def parse_command_output(output)
       require "yaml" unless defined?(YAML)
       YAML.load(output)
-    rescue StandardError
-      warn "Could not parse the command output.\n#{$!}"
+    rescue Psych::SyntaxError => e
+      warn "Could not parse the command output.\n#{e.message}"
       {}
     end
   end
