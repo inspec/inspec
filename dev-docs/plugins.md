@@ -760,7 +760,7 @@ One useful thing you can do is create macros for generating controls: the `contr
 
 #### Control DSL Context
 
-When your mixin method is called, `self` will be an instance of an anonymous class representing the control being executed; each control gets its own anonymous class. The parent class of the anonymous class will be [Inspec::Rule](https://github.com/inspec/inspec/blob/master/lib/inspec/rule.rb), which is the internal name of a Control.  Please refer to the source for details on methods and instance variables.
+When your mixin method is called, `self` will be an instance of an anonymous class representing the control being executed; each control gets its own anonymous class. The parent class of the anonymous class will be [Inspec::Rule](https://github.com/inspec/inspec/blob/main/lib/inspec/rule.rb), which is the internal name of a Control.  Please refer to the source for details on methods and instance variables.
 
 #### Describe DSL Context
 

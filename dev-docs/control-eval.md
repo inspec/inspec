@@ -27,7 +27,7 @@ Profile context gets instantiated as soon as the Profile gets created.
     #11 Inspec::InspecCLI.exec(*targets#Array) at inspec/lib/inspec/cli.rb:283
 
 
-When run method of the runner gets called, it loads control [file](https://github.com/inspec/inspec/blob/master/lib/inspec/profile_context.rb#L151) which instantiates the control_eval_context object [here](https://github.com/inspec/inspec/blob/master/lib/inspec/profile_context.rb#L61) and creates dsl, and the adds profile_context as dsl class methods [here](https://github.com/inspec/inspec/blob/master/lib/inspec/profile_context.rb#L243)
+When run method of the runner gets called, it loads control [file](https://github.com/inspec/inspec/blob/master/lib/inspec/profile_context.rb#L151) which instantiates the control_eval_context object [here](https://github.com/inspec/inspec/blob/master/lib/inspec/profile_context.rb#L61) and creates dsl, and the adds profile_context as dsl class methods [here](https://github.com/inspec/inspec/blob/main/lib/inspec/profile_context.rb#L243)
 
     #0  Inspec::ProfileContext::DomainSpecificLunacy::ClassMethods.add_methods(profile_context#Inspec::ProfileContext) at /inspec/lib/inspec/profile_context.rb:242
     #1  block in #<Class:Inspec::ProfileContext::DomainSpecificLunacy>.block in create_dsl(profile_context#Inspec::ProfileContext) at /inspec/lib/inspec/profile_context.rb:220
@@ -50,11 +50,11 @@ When run method of the runner gets called, it loads control [file](https://githu
 
 ### DSL methods are executed at this time
 
-So, if you have a control file with `title` in it, that will call the title method that was defined [here](https://github.com/inspec/inspec/blob/master/lib/inspec/control_eval_context.rb#L46).  Importantly, this also includes the `control` DSL keyword, and also the `describe` keyword (used for bare describes).
+So, if you have a control file with `title` in it, that will call the title method that was defined [here](https://github.com/inspec/inspec/blob/main/lib/inspec/control_eval_context.rb#L46).  Importantly, this also includes the `control` DSL keyword, and also the `describe` keyword (used for bare describes).
 
 ### Each control get registered as rule.
 
-Each control gets registerd and the terminology switches from `control` to `rule` [here](https://github.com/inspec/inspec/blob/master/lib/inspec/control_eval_context.rb#L57)
+Each control gets registerd and the terminology switches from `control` to `rule` [here](https://github.com/inspec/inspec/blob/main/lib/inspec/control_eval_context.rb#L57)
 
 The control context class also gets extended with the resource DSL, so anything in the source code for the control can use the resource DSL.  This includes all resource names, but importantly, the `describe` DSL keyword.
 
@@ -62,7 +62,7 @@ Finally, Inspec::Rule provides the control DSL - impact, title, desc, ref, and t
 
 ### The block is instance_eval'd against the control context class
 
-See `https://github.com/inspec/inspec/blob/master/lib/inspec/rule.rb#L46`.  We're now in two levels of instance eval'ing - the file is gradually being eval'd against the profile context and the current control's block is being instance eval'd against a control context.
+See `https://github.com/inspec/inspec/blob/main/lib/inspec/rule.rb#L46`.  We're now in two levels of instance eval'ing - the file is gradually being eval'd against the profile context and the current control's block is being instance eval'd against a control context.
 
 At this stage, control-level metadata (impact, title, refs, tags, desc) are evaluated and set as instance vars on the control.
 
@@ -76,7 +76,7 @@ And, the describe and describe.one blocks are executed.
 
 Using the method register_control (dynamically defined on the control eval context), we check for various skip conditions.  If none of them apply, the control is then registered with the profile context using register_rule.
 
-[ProfileContext.register_rule's](https://github.com/inspec/inspec/blob/master/lib/inspec/profile_context.rb#L183) main job is to determine the full ID of the control (within the context of the profile) and either add it to the controls list, or (if another control with the same ID exists), merge it.  (This is where overriding happens).
+[ProfileContext.register_rule's](https://github.com/inspec/inspec/blob/main/lib/inspec/profile_context.rb#L183) main job is to determine the full ID of the control (within the context of the profile) and either add it to the controls list, or (if another control with the same ID exists), merge it.  (This is where overriding happens).
 
 Note: can skip a control with:
 Inspec::Rule.set_skip_rule(control, msg)
