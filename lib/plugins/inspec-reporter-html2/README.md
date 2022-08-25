@@ -50,4 +50,4 @@ Specifies the full path to the location of a JavaScript file that will be read a
 
 ## Developing This Plugin
 
-This plugin is part of the Chef InSpec source code. While it has its own tests, the general contribution policy is dictated by the Chef InSpec project at https://github.com/inspec/inspec/blob/master/CONTRIBUTING.md
+This plugin is part of the Chef InSpec source code. While it has its own tests, the general contribution policy is dictated by the Chef InSpec project at https://github.com/inspec/inspec/blob/main/CONTRIBUTING.md

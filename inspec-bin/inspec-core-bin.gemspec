@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["inspec@chef.io"]
   spec.summary       = "Infrastructure and compliance testing."
   spec.description   = "InSpec executable for inspec-core gem. Use of this executable may require accepting a license agreement."
-  spec.homepage      = "https://github.com/inspec/inspec/tree/master/inspec-bin"
+  spec.homepage      = "https://github.com/inspec/inspec/tree/main/inspec-bin"
   spec.license       = "Apache-2.0"
 
   spec.require_paths = ["lib"]

@@ -46,7 +46,7 @@ Connect to the Chef VPN to fetch Expeditor logs in the event of a failure.
 
 ### Check Expeditor Labels
 
-Most, though not all, PRs should not have any Expeditor control labels. The patchlevel (4.18.X) will be automatically incremented by the [expeditor configuration](https://github.com/inspec/inspec/blob/44fe144732e1e0abb2594957a880c5f1821e7774/.expeditor/config.yml#L117) and the [version bump script](https://github.com/inspec/inspec/blob/master/.expeditor/update_version.sh).
+Most, though not all, PRs should not have any Expeditor control labels. The patchlevel (4.18.X) will be automatically incremented by the [expeditor configuration](https://github.com/inspec/inspec/blob/44fe144732e1e0abb2594957a880c5f1821e7774/.expeditor/config.yml#L117) and the [version bump script](https://github.com/inspec/inspec/blob/main/.expeditor/update_version.sh).
 
 Here are the Expeditor control labels, and the circumstances under which they should be used:
 
@@ -66,7 +66,7 @@ You'll see a message in #inspec-notify from Expeditor that it "performed actions
 
 ### Watch Omnibus Build
 
-The Omnibus build creates operating-system-specific packages for each platform on which we release Chef InSpec. Its [expeditor configuration](https://github.com/inspec/inspec/blob/44fe144732e1e0abb2594957a880c5f1821e7774/.expeditor/config.yml#L133) drives a [Buildkite configuration](https://github.com/inspec/inspec/blob/master/.expeditor/release.omnibus.yml), which lists exactly which platforms to build.
+The Omnibus build creates operating-system-specific packages for each platform on which we release Chef InSpec. Its [expeditor configuration](https://github.com/inspec/inspec/blob/44fe144732e1e0abb2594957a880c5f1821e7774/.expeditor/config.yml#L133) drives a [Buildkite configuration](https://github.com/inspec/inspec/blob/main/.expeditor/release.omnibus.yml), which lists exactly which platforms to build.
 
 The Omnibus build is generally reliable, if somewhat slow.
 
@@ -74,7 +74,7 @@ When the omnibus build succeeds, omnitruck delivers the packages to various pack
 
 ### Watch Chef Habitat Build
 
-The Chef Habitat build creates Habitat .hart packages for Linux and Windows. The [Expeditor configuration](https://github.com/inspec/inspec/blob/44fe144732e1e0abb2594957a880c5f1821e7774/.expeditor/config.yml#L138) drives a [Buildkite configuration](https://github.com/inspec/inspec/blob/master/.expeditor/build.habitat.yml).
+The Chef Habitat build creates Habitat .hart packages for Linux and Windows. The [Expeditor configuration](https://github.com/inspec/inspec/blob/44fe144732e1e0abb2594957a880c5f1821e7774/.expeditor/config.yml#L138) drives a [Buildkite configuration](https://github.com/inspec/inspec/blob/main/.expeditor/build.habitat.yml).
 
 The Chef Habitat build is unreliable, usually due to network timeouts on the Windows machines. It often requires manual retries by clicking the retry button in Buildkite. You can find the link to try a manual retry from the message posted by Expeditor in #inspec-notify. If you do not retry, later steps will fail.
 
@@ -82,7 +82,7 @@ When the hab build succeeds, the packages will be placed on the Hab builder in t
 
 ### Docker Image Built and Released
 
-We also release a Docker image (see [expeditor config](https://github.com/inspec/inspec/blob/44fe144732e1e0abb2594957a880c5f1821e7774/.expeditor/config.yml#L150)), which contains an Alpine system and Chef InSpec installed from a gem, with the ENTRYPOINT of the Docker image being `inspec` (see [Dockerfile](https://github.com/inspec/inspec/blob/master/Dockerfile)). It's a simple way to ship the dependencies of `inspec`.
+We also release a Docker image (see [expeditor config](https://github.com/inspec/inspec/blob/44fe144732e1e0abb2594957a880c5f1821e7774/.expeditor/config.yml#L150)), which contains an Alpine system and Chef InSpec installed from a gem, with the ENTRYPOINT of the Docker image being `inspec` (see [Dockerfile](https://github.com/inspec/inspec/blob/main/Dockerfile)). It's a simple way to ship the dependencies of `inspec`.
 
 When it succeeds, the Docker build is labeled as `current`.  Currently, there is nothing that promotes the Docker image to the `stable` label ([#4952](https://github.com/inspec/inspec/issues/4952)).
 
@@ -168,7 +168,7 @@ inspec/inspec:master performed the following actions for inspec 4.18.100 (stable
 • Notified Slack channels of the artifact_published event
 ```
 
-Among other things, this promotion automatically generates [release notes](https://github.com/inspec/inspec/blob/master/.expeditor/publish-release-notes.sh) and [publishes them](https://github.com/inspec/inspec/blob/master/.expeditor/announce-release.sh) to Discourse.
+Among other things, this promotion automatically generates [release notes](https://github.com/inspec/inspec/blob/master/.expeditor/publish-release-notes.sh) and [publishes them](https://github.com/inspec/inspec/blob/main/.expeditor/announce-release.sh) to Discourse.
 
 ### Update chef/homebrew-chef
 
@@ -177,5 +177,5 @@ This should be merged - at some point this could be changed to directly committi
 
 ## Updating InSpec Docs on docs.chef.io
 
-See the [README](https://github.com/inspec/inspec/blob/master/docs-chef-io/README.md#update-the-inspec-repository-module-in-chefchef-web-docs) for instructions on
+See the [README](https://github.com/inspec/inspec/blob/main/docs-chef-io/README.md#update-the-inspec-repository-module-in-chefchef-web-docs) for instructions on
 updating the current InSpec documentation on docs.chef.io.
