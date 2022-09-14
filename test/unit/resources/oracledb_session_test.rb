@@ -7,7 +7,7 @@ describe "Inspec::Resources::OracledbSession" do
     resource = quick_resource(:oracledb_session, :linux, user: "USER", password: "password", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "/bin/sqlplus") do |cmd|
       cmd.strip!
       case cmd
-      when "/bin/sqlplus -S USER/password@localhost:1527/ORCL <<'EOC'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nEOC" then
+      when "echo 'oracle_query_string';/bin/sqlplus -S USER/password@localhost:1527/ORCL <<'EOC'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nEOC" then
         stdout_file "test/fixtures/cmd/oracle-result"
       else
         raise cmd.inspect
@@ -169,7 +169,7 @@ describe "Inspec::Resources::OracledbSession" do
     resource = quick_resource(:oracledb_session, :linux, user: "USER", password: "wrongpassword", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "/bin/sqlplus") do |cmd|
       cmd.strip!
       case cmd
-      when "/bin/sqlplus -S USER/wrongpassword@localhost:1527/ORCL <<'EOC'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nEOC" then
+      when "echo 'oracle_query_string';/bin/sqlplus -S USER/wrongpassword@localhost:1527/ORCL <<'EOC'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nEOC" then
         stdout_file "test/fixtures/cmd/oracle-error"
       else
         raise cmd.inspect
