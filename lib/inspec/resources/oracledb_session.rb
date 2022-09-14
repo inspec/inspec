@@ -107,7 +107,7 @@ module Inspec::Resources
       else
         sql_postfix = %{ <<'EOC'\n#{format_options}\n#{verified_query}\nEXIT\nEOC}
         # oracle_query_string is echoed to be able to extract the query output clearly
-        oracle_echo_str = %{ echo 'oracle_query_string'; }
+        oracle_echo_str = %{echo 'oracle_query_string';}
       end
 
       # Resetting sql_postfix if system is using AIX OS and C shell installation for oracle
