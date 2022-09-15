@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.20.2 -->
-## [v5.20.2](https://github.com/inspec/inspec/tree/v5.20.2) (2022-08-25)
+<!-- latest_release 5.20.3 -->
+## [v5.20.3](https://github.com/inspec/inspec/tree/v5.20.3) (2022-09-15)
 
 #### Merged Pull Requests
-- Sync up the default branch as main [#6239](https://github.com/inspec/inspec/pull/6239) ([tnir](https://github.com/tnir))
+- Enhance `lxc` resource to test properties [#6243](https://github.com/inspec/inspec/pull/6243) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Enhance `lxc` resource to test properties [#6243](https://github.com/inspec/inspec/pull/6243) ([ahasunos](https://github.com/ahasunos)) <!-- 5.20.3 -->
 - Sync up the default branch as main [#6239](https://github.com/inspec/inspec/pull/6239) ([tnir](https://github.com/tnir)) <!-- 5.20.2 -->
 - Fix the dependabot adding  ffi (1.15.5-x64-unknown) to omnibus bump [#6213](https://github.com/inspec/inspec/pull/6213) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.20.1 -->
 - Adds podman resources. [#6183](https://github.com/inspec/inspec/pull/6183) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.20.0 -->
