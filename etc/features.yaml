@@ -1,0 +1,8 @@
+---
+  features:
+    inspec-cli-exec:
+      description: Run InSpec profile code at the command line.
+    inspec-cli-shell:
+      description: Experiment with InSpec Language interactively.
+    inspec-cli-check:
+      description: Examine a profile for problems.

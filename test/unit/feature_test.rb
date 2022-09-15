@@ -8,6 +8,7 @@ require "helper"
 require "inspec/feature"
 
 describe "Inspec::Feature" do
+  let(:fixtures_path) { "test/fixtures" }
   it "should be a class" do
     _(Inspec::Feature).must_be_kind_of Class
   end
@@ -33,7 +34,6 @@ describe "Inspec::Feature" do
     end
   end
 
-  # ??It throws certain exceptions if the symbol is not recognized
 
   # TODO: Integration with Logger
   # TODO: Integration with Entitlement
@@ -44,4 +44,50 @@ describe "Inspec::Feature" do
   # Internals
   #======================
 
+  #------------------------
+  # Inspec::Feature::Config
+  #------------------------
+  describe "Inspec::Feature::Config" do
+    describe "when you load it from a specified file" do
+      let(:feature_config_file) { File.join(fixtures_path, "features-01.yaml") }
+      # you should be able to load it from a test file
+      let(:cfg) { Inspec::Feature::Config.new(feature_config_file) }
+      it "lists features in a block" do
+        feats = []
+        cfg.with_each_feature do |f|
+          feats << f
+        end
+        # you should be able to list features
+        #  as Inspec::Features
+        _(feats.length).must_equal 2
+        _(feats[0]).must_be_kind_of Inspec::Feature
+      end
+
+      it "allows calling features by name with brackets" do
+        _(cfg["test-feature-01"]).must_be_kind_of Inspec::Feature
+      end
+
+      it "allows detecting if a name is a feature" do
+        _(cfg.feature_name?("test-feature-01")).must_equal true
+        _(cfg.feature_name?("test-feature-99")).must_equal false
+      end
+    end
+
+    describe "when you load it from the default location" do
+      let(:cfg) { Inspec::Feature::Config.new }
+      it "lists features" do
+        feats = []
+        cfg.with_each_feature do |f|
+          feats << f
+        end
+        # loading from the default location should result in
+        #   at least two features
+
+        # you should be able to list features
+        #  as Inspec::Features
+        _(feats.length).must_be :>, 2
+        _(feats[0]).must_be_kind_of Inspec::Feature
+      end
+    end
+  end
 end
