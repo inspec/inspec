@@ -54,6 +54,14 @@ describe "Inspec::Feature" do
       end
       _(logger_io.string).must_match /test-feature-01/
     end
+
+    # Validation of feature names
+    it "validates feature names" do
+      Inspec.with_feature("test-feature-nonesuch", config: cfg, logger: logger) do
+      end
+      _(logger_io.string).must_match /WARN/
+      _(logger_io.string).must_match /test-feature-nonesuch/
+    end
   end
 
   # TODO: Integration with Entitlement

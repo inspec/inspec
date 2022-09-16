@@ -8,6 +8,12 @@ module Inspec
         # Emit log message saying we're running a feature
         logger.debug("Prepping to run feature '#{feature_name}'")
 
+        # Validate that the feature is recognized
+        feature = config[feature_name]
+        unless feature
+          logger.warn "Unrecognized feature name '#{feature_name}'"
+        end
+
         yield feature_implementation
       end
     end
