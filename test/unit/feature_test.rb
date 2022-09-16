@@ -71,6 +71,12 @@ describe "Inspec::Feature" do
         _(cfg.feature_name?("test-feature-01")).must_equal true
         _(cfg.feature_name?("test-feature-99")).must_equal false
       end
+
+      it "allows accessing the array of features as a method" do
+        _(cfg.features).must_be_kind_of Array
+        _(cfg.features.length).must_equal 2
+        _(cfg.features[0]).must_be_kind_of Inspec::Feature
+      end
     end
 
     describe "when you load it from the default location" do

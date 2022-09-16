@@ -30,7 +30,18 @@ module Inspec
       end
 
       def feature_name?(query)
-        cfg_data["features"].key?(query)
+        cfg_data["features"].key?(query.to_s)
+      end
+
+      def features
+        @features ||= load_features
+      end
+
+      private
+      def load_features
+        feats = []
+        with_each_feature { |f| feats << f }
+        feats
       end
     end
 
