@@ -32,6 +32,17 @@ describe "Inspec::Feature" do
       end
       _(called).must_equal true
     end
+
+    let(:feature_config_file) { File.join(fixtures_path, "features-01.yaml") }
+    let(:cfg) { Inspec::Feature::Config.new(feature_config_file) }
+    it "accepts a config as an option" do
+      called = false
+      Inspec.with_feature("test-feature-01", config: cfg) do
+        called = true
+      end
+      # TODO: need a better test to verify that the feature was recognized
+      _(called).must_equal true
+    end
   end
 
 
