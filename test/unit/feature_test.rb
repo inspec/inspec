@@ -4,6 +4,8 @@
 # telemetry, and other future purposes
 
 require "helper"
+require "logger"
+require "stringio"
 
 require "inspec/feature"
 
@@ -43,10 +45,20 @@ describe "Inspec::Feature" do
       # TODO: need a better test to verify that the feature was recognized
       _(called).must_equal true
     end
+
+    # TODO: Integration with Logger
+    let(:logger_io) { StringIO.new }
+    let(:logger) { Logger.new(logger_io) }
+    it "accepts a logger as an option" do
+      called = false
+      Inspec.with_feature("test-feature-01", config: cfg, logger: logger) do
+        called = true
+      end
+      # TODO: need a better test to verify that the feature was recognized
+      _(called).must_equal true
+    end
   end
 
-
-  # TODO: Integration with Logger
   # TODO: Integration with Entitlement
   # TODO: Integration with feature flagging
   # TODO: Integration with usage telemetry
