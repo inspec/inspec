@@ -46,16 +46,13 @@ describe "Inspec::Feature" do
       _(called).must_equal true
     end
 
-    # TODO: Integration with Logger
+    # Integration with Logger
     let(:logger_io) { StringIO.new }
-    let(:logger) { Logger.new(logger_io) }
+    let(:logger) { l = Logger.new(logger_io); l.level = Logger::DEBUG; l; }
     it "accepts a logger as an option" do
-      called = false
       Inspec.with_feature("test-feature-01", config: cfg, logger: logger) do
-        called = true
       end
-      # TODO: need a better test to verify that the feature was recognized
-      _(called).must_equal true
+      _(logger_io.string).must_match /test-feature-01/
     end
   end
 
