@@ -22,7 +22,8 @@ module Inspec
       def [](feature_name)
         raw_info = cfg_data["features"][feature_name]
         return nil unless raw_info
-        feat = @features_by_name[feature_name] ||= Inspec::Feature.new(feature_name.to_sym, raw_info)
+
+        @features_by_name[feature_name] ||= Inspec::Feature.new(feature_name.to_sym, raw_info)
       end
 
       def feature_name?(query)
@@ -34,6 +35,7 @@ module Inspec
       end
 
       private
+
       def load_features
         feats = []
         with_each_feature { |f| feats << f }
