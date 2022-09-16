@@ -24,7 +24,7 @@ describe "Inspec::Feature" do
       _(Inspec.respond_to?(:with_feature)).must_equal true
     end
     it "should take a symbol, options, and a block" do
-      _(Inspec.method(:with_feature).arity).must_equal -2
+      _(Inspec.method(:with_feature).arity).must_equal(-2)
     end
 
     it "defaults to calling the block" do
@@ -52,15 +52,15 @@ describe "Inspec::Feature" do
     it "accepts a logger as an option" do
       Inspec.with_feature("test-feature-01", config: cfg, logger: logger) do
       end
-      _(logger_io.string).must_match /test-feature-01/
+      _(logger_io.string).must_match(/test-feature-01/)
     end
 
     # Validation of feature names
     it "validates feature names" do
       Inspec.with_feature("test-feature-nonesuch", config: cfg, logger: logger) do
       end
-      _(logger_io.string).must_match /WARN/
-      _(logger_io.string).must_match /test-feature-nonesuch/
+      _(logger_io.string).must_match(/WARN/)
+      _(logger_io.string).must_match(/test-feature-nonesuch/)
     end
   end
 
