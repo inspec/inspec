@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.20.3 -->
-## [v5.20.3](https://github.com/inspec/inspec/tree/v5.20.3) (2022-09-15)
+<!-- latest_release 5.20.4 -->
+## [v5.20.4](https://github.com/inspec/inspec/tree/v5.20.4) (2022-09-20)
 
 #### Merged Pull Requests
-- Enhance `lxc` resource to test properties [#6243](https://github.com/inspec/inspec/pull/6243) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-462: Fixes inspec sign breaks when there is period n the profile name [#6261](https://github.com/inspec/inspec/pull/6261) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- CFINSPEC-462: Fixes inspec sign breaks when there is period n the profile name [#6261](https://github.com/inspec/inspec/pull/6261) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.20.4 -->
 - Enhance `lxc` resource to test properties [#6243](https://github.com/inspec/inspec/pull/6243) ([ahasunos](https://github.com/ahasunos)) <!-- 5.20.3 -->
 - Sync up the default branch as main [#6239](https://github.com/inspec/inspec/pull/6239) ([tnir](https://github.com/tnir)) <!-- 5.20.2 -->
 - Fix the dependabot adding  ffi (1.15.5-x64-unknown) to omnibus bump [#6213](https://github.com/inspec/inspec/pull/6213) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.20.1 -->
