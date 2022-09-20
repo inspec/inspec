@@ -59,11 +59,14 @@ module InspecPlugins
         # Read name and version from metadata and use them to form the filename
         profile_md = artifact.read_profile_metadata(profile_path)
 
-        artifact_filename = "#{profile_md["name"]}-#{profile_md["version"]}.#{SIGNED_PROFILE_SUFFIX}"
+        # Behave same as archive filename for iaf filename
+        slug = profile_md["name"].downcase.strip.tr(" ", "-").gsub(/[^\w-]/, "_")
+        filename = "#{slug}-#{profile_md["version"]}"
+        artifact_filename = "#{filename}.#{SIGNED_PROFILE_SUFFIX}"
 
         # Generating tar.gz file using archive method of Inspec Cli
         Inspec::InspecCLI.new.archive(profile_path, "error")
-        tarfile = "#{profile_md["name"]}-#{profile_md["version"]}.tar.gz"
+        tarfile = "#{filename}.tar.gz"
         tar_content = IO.binread(tarfile)
         FileUtils.rm(tarfile)
 
