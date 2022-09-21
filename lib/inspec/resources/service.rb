@@ -646,7 +646,7 @@ module Inspec::Resources
       return nil if srv.nil? || srv[0].nil?
 
       # extract values from service
-      parsed_srv = /^(?<pid>[0-9-]+)\t(?<exit>[0-9]+)\t(?<name>\S*)$/.match(srv[0])
+      parsed_srv = /^(?<pid>[0-9-]+)\t(?<exit>[\-0-9]+)\t(?<name>\S*)$/.match(srv[0])
       enabled = !parsed_srv["name"].nil? # it's in the list
 
       # check if the service is running

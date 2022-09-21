@@ -497,6 +497,21 @@ describe "Inspec::Resources::Service" do
     _(resource.resource_id).must_equal "ssh"
   end
 
+  it "verify mac osx service parsing with negative status launchd_service" do
+    resource = MockLoader.new(:macos10_10).load_resource(
+      "launchd_service", "org.example.killed-agent"
+    )
+    params = Hashie::Mash.new({})
+    _(resource.type).must_equal "darwin"
+    _(resource.name).must_equal "org.example.killed-agent"
+    _(resource.description).must_be_nil
+    _(resource.installed?).must_equal true
+    _(resource.enabled?).must_equal true
+    _(resource.running?).must_equal false
+    _(resource.params).must_equal params
+    _(resource.resource_id).must_equal "org.example.killed-agent"
+  end
+
   # wrlinux
   it "verify wrlinux service parsing" do
     resource = MockLoader.new(:wrlinux).load_resource("service", "sshd")
