@@ -24,4 +24,7 @@ module Inspec
   end
 
   class InvalidProfileSignature < Error; end
+
+  class FeatureConfigMissingError < Error; end
+  class FeatureConfigTamperedError < Error; end
 end

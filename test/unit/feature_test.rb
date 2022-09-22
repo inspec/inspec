@@ -123,5 +123,12 @@ describe "Inspec::Feature" do
         _(feats[0]).must_be_kind_of Inspec::Feature
       end
     end
+
+    describe "when you load it from a tampered file" do
+      let(:tampered_config_file) { File.join(fixtures_path, "features-tampered.yaml") }
+      it "throws an exception and loads no features" do
+        _{ Inspec::Feature::Config.new(tampered_config_file) }.must_raise(Inspec::FeatureConfigTamperedError)
+      end
+    end
   end
 end
