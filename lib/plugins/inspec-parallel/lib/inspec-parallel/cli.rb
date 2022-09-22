@@ -1,6 +1,7 @@
 require_relative "command"
 require "inspec/dist"
 require "inspec/base_cli"
+require "inspec/feature"
 
 module InspecPlugins::Parallelism
   class CLI < Inspec.plugin(2, :cli_command)
@@ -25,12 +26,14 @@ module InspecPlugins::Parallelism
       desc: "Path to the runner and error logs"
     exec_options
     def exec(default_profile = nil)
-      parallel_cmd = InspecPlugins::Parallelism::Command.new(options, default_profile)
-      if options[:dry_run]
-        parallel_cmd.dry_run
-      else
-        parallel_cmd.run
-      end
+      Inspec.with_feature("inspec-cli-parallel-exec") {
+        parallel_cmd = InspecPlugins::Parallelism::Command.new(options, default_profile)
+        if options[:dry_run]
+          parallel_cmd.dry_run
+        else
+          parallel_cmd.run
+        end
+      }
     end
   end
 end

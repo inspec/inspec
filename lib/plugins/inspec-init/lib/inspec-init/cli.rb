@@ -1,5 +1,6 @@
 require "pathname" unless defined?(Pathname)
 require_relative "renderer"
+require "inspec/feature"
 
 module InspecPlugins
   module Init
