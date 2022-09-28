@@ -60,3 +60,23 @@
       description: Sign InSpec profile and generate .iaf artifact.
     inspec-cli-sign-verify:
       description: Verify a signed profile .iaf artifact.
+    inspec-enhanced-outcomes:
+      description: Use enhanced outcomes in reporters
+    inspec-waivers:
+      description: Use waivers mechanism with one or more waiver files.
+    inspec-reporter-cli:
+      description: Use CLI reporter.
+    inspec-reporter-json:
+      description: Use JSON reporter.
+    inspec-reporter-json-automate:
+      description: Use JSON automate reporter.
+    inspec-reporter-automate:
+      description: Use automate reporter.
+    inspec-reporter-yaml:
+      description: Use YAML reporter.
+    inspec-reporter-json-min:
+      description: Use JSON min reporter for minimal JSON output.
+    inspec-reporter-junit:
+      description: Use JUnit reporter.
+    inspec-reporter-html2:
+      description: Use HTML reporter.
