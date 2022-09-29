@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.20.4 -->
-## [v5.20.4](https://github.com/inspec/inspec/tree/v5.20.4) (2022-09-20)
+<!-- latest_release 5.21.0 -->
+## [v5.21.0](https://github.com/inspec/inspec/tree/v5.21.0) (2022-09-29)
 
 #### Merged Pull Requests
-- CFINSPEC-462: Fixes inspec sign breaks when there is period n the profile name [#6261](https://github.com/inspec/inspec/pull/6261) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-374 DSL keyword `only_applicable_if` added [#6229](https://github.com/inspec/inspec/pull/6229) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- CFINSPEC-374 DSL keyword `only_applicable_if` added [#6229](https://github.com/inspec/inspec/pull/6229) ([Nik08](https://github.com/Nik08)) <!-- 5.21.0 -->
 - CFINSPEC-462: Fixes inspec sign breaks when there is period n the profile name [#6261](https://github.com/inspec/inspec/pull/6261) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.20.4 -->
 - Enhance `lxc` resource to test properties [#6243](https://github.com/inspec/inspec/pull/6243) ([ahasunos](https://github.com/ahasunos)) <!-- 5.20.3 -->
 - Sync up the default branch as main [#6239](https://github.com/inspec/inspec/pull/6239) ([tnir](https://github.com/tnir)) <!-- 5.20.2 -->
