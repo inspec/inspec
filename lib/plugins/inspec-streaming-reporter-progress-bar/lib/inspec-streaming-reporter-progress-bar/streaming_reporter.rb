@@ -83,6 +83,12 @@ module InspecPlugins::StreamingReporterProgressBar
       control_id = notification.example.metadata[:id]
       title = notification.example.metadata[:title]
       full_description = notification.example.metadata[:full_description]
+
+      # No-op exception occurs in case of not_applicable_if
+      if (full_description.include? "No-op") && notification.example.exception
+        full_description += notification.example.exception.message
+      end
+
       set_status_mapping(control_id, status)
       collect_notifications(notification, control_id, status)
       control_ended = control_ended?(control_id)

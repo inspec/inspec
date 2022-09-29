@@ -16,7 +16,7 @@ module Inspec
     include ::RSpec::Matchers
 
     attr_reader :__waiver_data
-    attr_accessor :resource_dsl
+    attr_accessor :resource_dsl, :na_impact_freeze
     attr_reader :__profile_id
 
     def initialize(id, profile_id, resource_dsl, opts, &block)
@@ -40,6 +40,7 @@ module Inspec
       @__merge_count = 0
       @__merge_changes = []
       @__skip_only_if_eval = opts[:skip_only_if_eval]
+      @__na_rule = {}
 
       # evaluate the given definition
       return unless block_given?
@@ -75,10 +76,13 @@ module Inspec
     end
 
     def impact(v = nil)
-      if v.is_a?(String)
-        @impact = Inspec::Impact.impact_from_string(v)
-      elsif !v.nil?
-        @impact = v
+      # N/A impact freeze is required when only_applicable_if block has reset impact value to zero"
+      unless na_impact_freeze
+        if v.is_a?(String)
+          @impact = Inspec::Impact.impact_from_string(v)
+        elsif !v.nil?
+          @impact = v
+        end
       end
 
       @impact
@@ -143,6 +147,18 @@ module Inspec
       @__skip_rule[:result] ||= !yield
       @__skip_rule[:type] = :only_if
       @__skip_rule[:message] = message
+    end
+
+    def only_applicable_if(message = nil)
+      return unless block_given?
+      return if yield
+
+      impact(0.0)
+      self.na_impact_freeze = true # this flag prevents impact value to reset to any other value
+
+      @__na_rule[:result] ||= !yield
+      @__na_rule[:type] = :only_applicable_if
+      @__na_rule[:message] = message
     end
 
     # Describe will add one or more tests to this control. There is 2 ways
@@ -255,6 +271,10 @@ module Inspec
       rule.instance_variable_get(:@__skip_rule)
     end
 
+    def self.na_status(rule)
+      rule.instance_variable_get(:@__na_rule)
+    end
+
     def self.set_skip_rule(rule, value, message = nil, type = :only_if)
       rule.instance_variable_set(:@__skip_rule,
                                  {
@@ -276,16 +296,26 @@ module Inspec
     # creates a dummay array of "checks" with a skip outcome
     def self.prepare_checks(rule)
       skip_check = skip_status(rule)
-      return checks(rule) unless skip_check[:result].eql?(true)
-
-      if skip_check[:message]
-        msg = "Skipped control due to #{skip_check[:type]} condition: #{skip_check[:message]}"
-      else
-        msg = "Skipped control due to #{skip_check[:type]} condition."
-      end
+      na_check = na_status(rule)
+      return checks(rule) unless skip_check[:result].eql?(true) || na_check[:result].eql?(true)
 
       resource = rule.noop
-      resource.skip_resource(msg)
+      if skip_check[:result].eql?(true)
+        if skip_check[:message]
+          msg = "Skipped control due to #{skip_check[:type]} condition: #{skip_check[:message]}"
+        else
+          msg = "Skipped control due to #{skip_check[:type]} condition."
+        end
+        resource.skip_resource(msg)
+      else
+        if na_check[:message]
+          msg = "N/A control due to #{na_check[:type]} condition: #{na_check[:message]}"
+        else
+          msg = "N/A control due to #{na_check[:type]} condition."
+        end
+        resource.fail_resource(msg)
+      end
+
       [["describe", [resource], nil]]
     end
 

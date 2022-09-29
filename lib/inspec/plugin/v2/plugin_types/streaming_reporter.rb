@@ -72,7 +72,7 @@ module Inspec::Plugin::V2::PluginType
     def control_has_error(notifications)
       notifications.any? do |notification_data|
         notification, _status = notification_data
-        !notification.example.exception.nil? && !(notification.example.exception.is_a? RSpec::Expectations::ExpectationNotMetError) && !notification.example.exception.backtrace.nil?
+        !notification.example.exception.nil? && !(notification.example.exception.is_a? RSpec::Expectations::ExpectationNotMetError) && !notification.example.exception.backtrace.nil? && (!notification.description.include? "No-op") # No-op exception occurs in case of not_applicable_if
       end
     end
 
