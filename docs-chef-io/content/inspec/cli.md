@@ -405,6 +405,8 @@ This subcommand has the following additional options:
     Specify which transport to use, defaults to negotiate (WinRM).
 * `--enhanced-outcomes`
     Includes enhanced outcome of controls in report data.
+* `--attestation-file=one two three`
+    Loads one or more attestation files. Using this option, makes the `enhanced-outcomes` option true.
 
 ## habitat
 
