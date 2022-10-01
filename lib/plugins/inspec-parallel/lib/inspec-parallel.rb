@@ -13,6 +13,11 @@ module InspecPlugins
         InspecPlugins::Parallelism::StreamingReporter
       end
 
+      streaming_reporter :"parallel-list" do
+        require_relative "inspec-parallel/list_reporter"
+        InspecPlugins::Parallelism::ListReporter
+      end
+
     end
   end
 end

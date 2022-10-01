@@ -8,7 +8,7 @@ module InspecPlugins
     class OptionFileNotReadable < RuntimeError
     end
 
-    class Command
+    class ExecCommand
       attr_accessor :cli_options_to_parallel_cmd, :default_profile, :sub_cmd, :invocations, :run_in_background
 
       def initialize(cli_options_to_parallel_cmd, default_profile, sub_cmd = "exec")
@@ -83,8 +83,14 @@ module InspecPlugins
 
       def read_options_file
         opts = []
+        content = []
         begin
-          content = content_from_file(cli_options_to_parallel_cmd[:option_file])
+          if cli_options_to_parallel_cmd[:option_file] == "-"
+            content = $stdin.readlines if !$stdin.tty? && $stdin.stat.pipe?
+            @logger.error("Standard input options are empty") if content.empty?
+          else
+            content = content_from_file(cli_options_to_parallel_cmd[:option_file])
+          end
         rescue OptionFileNotReadable => e
           @logger.error "Cannot read options file: #{e.message}"
           Inspec::UI.new.exit(:usage_error)

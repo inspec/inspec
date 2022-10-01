@@ -1,4 +1,4 @@
-require_relative "command"
+require_relative "exec_command"
 require "inspec/dist"
 require "inspec/base_cli"
 
@@ -25,12 +25,26 @@ module InspecPlugins::Parallelism
       desc: "Path to the runner and error logs"
     exec_options
     def exec(default_profile = nil)
-      parallel_cmd = InspecPlugins::Parallelism::Command.new(options, default_profile)
+      parallel_cmd = InspecPlugins::Parallelism::ExecCommand.new(options, default_profile)
       if options[:dry_run]
         parallel_cmd.dry_run
       else
         parallel_cmd.run
       end
+    end
+
+    desc "list", "Generate a list of targets as an option file for `parallel exec`"
+    option :resource, aliases: :r, type: :string, required: true,
+      desc: "Plural resource to list. See docs for current list of accepted values."
+    option :target, aliases: :t, type: :string,
+      desc: "Target to connect to for listing resources. If omitted, will be guessed from --resource."
+    option :parameters, aliases: :p, type: :string,
+      desc: "String of resource parameters for the resource. See resource docs for details."
+    option :query, aliases: :q, type: :string,
+      desc: "String of 'where' query for the resource. See resource docs for details."
+    def list
+      require_relative "list_command"
+      InspecPlugins::Parallelism::ListCommand.new(options).run
     end
   end
 end
