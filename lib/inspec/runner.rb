@@ -70,11 +70,13 @@ module Inspec
       end
 
       if @conf[:attestation_file]
-        @conf[:attestation_file].each do |file|
-          unless File.file?(file)
-            raise Inspec::Exceptions::AttestationFileDoesNotExist, "Attestation file #{file} does not exist."
+        Inspec.with_feature("inspec-attestations") {
+          @conf[:attestation_file].each do |file|
+            unless File.file?(file)
+              raise Inspec::Exceptions::AttestationFileDoesNotExist, "Attestation file #{file} does not exist."
+            end
           end
-        end
+        }
       end
 
       # About reading inputs:

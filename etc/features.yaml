@@ -80,3 +80,5 @@
       description: Use JUnit reporter.
     inspec-reporter-html2:
       description: Use HTML reporter.
+    inspec-attestations:
+      description: Use attestations mechanism with one or more attestations files.
