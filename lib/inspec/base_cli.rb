@@ -30,9 +30,17 @@ module Inspec
     end
 
     def self.start(given_args = ARGV, config = {})
+      fetch_and_persist_license
       check_license! if config[:enforce_license] || config[:enforce_license].nil?
 
       super(given_args, config)
+    end
+
+    def self.fetch_and_persist_license
+      allowed_commands = ["-h", "--help", "help", "-v", "--version", "version", "--chef-license"]
+
+      require "chef_licensing/license_key_fetcher"
+      ChefLicensing::LicenseKeyFetcher.fetch_and_persist if (allowed_commands & ARGV.map(&:downcase)).empty?
     end
 
     # EULA acceptance
