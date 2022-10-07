@@ -54,6 +54,7 @@
       description: Generate a new InSpec resource.
     inspec-cli-parallel-exec:
       description: Run list of InSpec exec operations parallely.
+      licensed_feature_name: InSpec-Parallel
     inspec-cli-sign-generate-keys:
       description: Generate a RSA key pair for signing and verification.
     inspec-cli-sign-profile:
