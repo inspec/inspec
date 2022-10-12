@@ -1,3 +1,5 @@
+require 'chef_licensing'
+
 module Inspec
   class Feature
     class Runner
@@ -12,6 +14,27 @@ module Inspec
         feature = config[feature_name]
         unless feature
           logger.warn "Unrecognized feature name '#{feature_name}'"
+        end
+
+        # If the feature has a licensed featured name, then check to see
+        # if we are enttitled to it
+        # if the feature does not have a licensed featured name it will free to use feature and does not require
+        # license check?
+
+        if feature.licensed_feature?
+          # Validate the license and its feature entitlement
+          # This will exit the process if the check fails
+          begin
+            ChefLicensing.entitled_feature?(feature.licensed_feature_name)
+            #ChefLicensing.check_feature_entitlement!(feature.licensed_feature_name)
+          rescue ChefLicensing::InvalidEntitlement
+            # This gets called when the feature name is unrecognized or not entitled with License
+            # Need to decide whether it will just raise the error or anything more is expected. Like what if User has            # a license with feature entitlement but
+            # license with the feature entitlement but User local licenses file does not have that license stored. Should
+            # we tell user to set Env variable with valid license id / use --chef-license-key option here?
+            Inspec::Log.error "Feature is not licensed feature."
+            Inspec::UI.new.exit(:licenses_invalid) ## This licenses_invalid exit code in implemented on Nikita's branch right now. To keep the consistency currently using the same.
+          end
         end
 
         yield feature_implementation
