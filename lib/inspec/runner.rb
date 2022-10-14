@@ -60,11 +60,23 @@ module Inspec
       end
 
       if @conf[:waiver_file]
-        @conf[:waiver_file].each do |file|
-          unless File.file?(file)
-            raise Inspec::Exceptions::WaiversFileDoesNotExist, "Waiver file #{file} does not exist."
+        Inspec.with_feature("inspec-waivers") {
+          @conf[:waiver_file].each do |file|
+            unless File.file?(file)
+              raise Inspec::Exceptions::WaiversFileDoesNotExist, "Waiver file #{file} does not exist."
+            end
           end
-        end
+        }
+      end
+
+      if @conf[:attestation_file]
+        Inspec.with_feature("inspec-attestations") {
+          @conf[:attestation_file].each do |file|
+            unless File.file?(file)
+              raise Inspec::Exceptions::AttestationFileDoesNotExist, "Attestation file #{file} does not exist."
+            end
+          end
+        }
       end
 
       # About reading inputs:
@@ -168,7 +180,9 @@ module Inspec
       return if @conf["reporter"].nil?
 
       @conf["reporter"].each do |reporter|
-        result = Inspec::Reporters.render(reporter, run_data, @conf["enhanced_outcomes"])
+        # if attestation file is used then we need enhanced outcomes
+        enhanced_outcome_flag = @conf["attestation_file"] ? true : @conf["enhanced_outcomes"]
+        result = Inspec::Reporters.render(reporter, run_data, enhanced_outcome_flag)
         raise Inspec::ReporterError, "Error generating reporter '#{reporter[0]}'" if result == false
       end
     end
