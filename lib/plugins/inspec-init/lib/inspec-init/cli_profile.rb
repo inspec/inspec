@@ -25,22 +25,24 @@ module InspecPlugins
       option :overwrite, type: :boolean, default: false,
              desc: "Overwrites existing directory"
       def profile(new_profile_name)
-        unless valid_profile_platforms.include?(options[:platform])
-          ui.error "Unable to generate profile: No template available for platform '#{options[:platform]}' (expected one of: #{valid_profile_platforms.join(", ")})"
-          ui.exit(:usage_error)
-        end
-        template_path = File.join("profiles", options[:platform])
+        Inspec.with_feature("inspec-cli-init-profile") {
+          unless valid_profile_platforms.include?(options[:platform])
+            ui.error "Unable to generate profile: No template available for platform '#{options[:platform]}' (expected one of: #{valid_profile_platforms.join(", ")})"
+            ui.exit(:usage_error)
+          end
+          template_path = File.join("profiles", options[:platform])
 
-        render_opts = {
-          templates_path: TEMPLATES_PATH,
-          overwrite: options[:overwrite],
-        }
-        renderer = InspecPlugins::Init::Renderer.new(ui, render_opts)
+          render_opts = {
+            templates_path: TEMPLATES_PATH,
+            overwrite: options[:overwrite],
+          }
+          renderer = InspecPlugins::Init::Renderer.new(ui, render_opts)
 
-        vars = {
-          name: new_profile_name,
+          vars = {
+            name: new_profile_name,
+          }
+          renderer.render_with_values(template_path, "profile", vars)
         }
-        renderer.render_with_values(template_path, "profile", vars)
       end
     end
   end

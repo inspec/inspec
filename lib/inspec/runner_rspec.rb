@@ -177,16 +177,18 @@ module Inspec
         next unless streaming_reporters.include? streaming_reporter_name
 
         # Activate the plugin so the formatter ID gets registered with RSpec, presumably
-        activator = reg.find_activator(plugin_type: :streaming_reporter, activator_name: streaming_reporter_name.to_sym)
-        activator.activate!
 
-        # We cannot pass in a nil output path. Rspec only accepts a valid string or a IO object.
-        if file_target&.[]("file").nil?
-          RSpec.configuration.add_formatter(activator.implementation_class)
-        else
-          RSpec.configuration.add_formatter(activator.implementation_class, file_target["file"])
-        end
-        @conf["reporter"].delete(streaming_reporter_name)
+        Inspec.with_feature("inspec-reporter-#{streaming_reporter_name}") {
+          activator = reg.find_activator(plugin_type: :streaming_reporter, activator_name: streaming_reporter_name.to_sym)
+          activator.activate!
+          # We cannot pass in a nil output path. Rspec only accepts a valid string or a IO object.
+          if file_target&.[]("file").nil?
+            RSpec.configuration.add_formatter(activator.implementation_class)
+          else
+            RSpec.configuration.add_formatter(activator.implementation_class, file_target["file"])
+          end
+          @conf["reporter"].delete(streaming_reporter_name)
+        }
       end
     end
 

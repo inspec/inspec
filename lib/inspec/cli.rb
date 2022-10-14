@@ -6,6 +6,7 @@ require "inspec/backend"
 require "inspec/dependencies/cache"
 require "inspec/utils/json_profile_summary"
 require "inspec/utils/yaml_profile_summary"
+require "inspec/feature"
 
 module Inspec # TODO: move this somewhere "better"?
   autoload :BaseCLI,       "inspec/base_cli"
@@ -70,9 +71,11 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "A list of tags to filter controls and include only those. Ignore all other tests."
   profile_options
   def json(target)
-    # This deprecation warning is ignored currently.
-    Inspec.deprecate(:renamed_to_inspec_export)
-    export(target, true)
+    Inspec.with_feature("inspec-cli-json") {
+      # This deprecation warning is ignored currently.
+      Inspec.deprecate(:renamed_to_inspec_export)
+      export(target, true)
+    }
   end
 
   desc "export PATH", "read the profile in PATH and generate a summary in the given format."
@@ -88,61 +91,65 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "For --what=profile, a list of tags to filter controls and include only those. Ignore all other tests."
   profile_options
   def export(target, as_json = false)
-    o = config
-    diagnose(o)
-    o["log_location"] = $stderr
-    configure_logger(o)
+    Inspec.with_feature("inspec-cli-export") {
+      begin
+        o = config
+        diagnose(o)
+        o["log_location"] = $stderr
+        configure_logger(o)
 
-    # using dup to resolve "can't modify frozen String" error.
-    what = o[:what].dup || "profile"
-    what.downcase!
-    raise Inspec::Error.new("Unrecognized option '#{what}' for --what - expected one of profile, readme, or metadata.") unless %w{profile readme metadata}.include?(what)
+        # using dup to resolve "can't modify frozen String" error.
+        what = o[:what].dup || "profile"
+        what.downcase!
+        raise Inspec::Error.new("Unrecognized option '#{what}' for --what - expected one of profile, readme, or metadata.") unless %w{profile readme metadata}.include?(what)
 
-    default_format_for_what = {
-      "profile" => "yaml",
-      "metadata" => "raw",
-      "readme" => "raw",
-    }
-    valid_formats_for_what = {
-      "profile" => %w{yaml json},
-      "metadata" => %w{yaml raw}, # not going to argue
-      "readme" => ["raw"],
-    }
-    format = o[:format] || default_format_for_what[what]
-    # default is json if we were called as old json command
-    format = "json" if as_json
-    raise Inspec::Error.new("Invalid option '#{format}' for --format and --what combination") unless format && valid_formats_for_what[what].include?(format)
+        default_format_for_what = {
+          "profile" => "yaml",
+          "metadata" => "raw",
+          "readme" => "raw",
+        }
+        valid_formats_for_what = {
+          "profile" => %w{yaml json},
+          "metadata" => %w{yaml raw}, # not going to argue
+          "readme" => ["raw"],
+        }
+        format = o[:format] || default_format_for_what[what]
+        # default is json if we were called as old json command
+        format = "json" if as_json
+        raise Inspec::Error.new("Invalid option '#{format}' for --format and --what combination") unless format && valid_formats_for_what[what].include?(format)
 
-    o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
-    o[:check_mode] = true
-    o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
-    profile = Inspec::Profile.for_target(target, o)
-    dst = o[:output].to_s
+        o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
+        o[:check_mode] = true
+        o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
+        profile = Inspec::Profile.for_target(target, o)
+        dst = o[:output].to_s
 
-    case what
-    when "profile"
-      if format == "json"
-        require "json" unless defined?(JSON)
-        # Write JSON
-        Inspec::Utils::JsonProfileSummary.produce_json(
-          info: profile.info,
-          write_path: dst
-        )
-      elsif format == "yaml"
-        Inspec::Utils::YamlProfileSummary.produce_yaml(
-          info: profile.info,
-          write_path: dst
-        )
+        case what
+        when "profile"
+          if format == "json"
+            require "json" unless defined?(JSON)
+            # Write JSON
+            Inspec::Utils::JsonProfileSummary.produce_json(
+              info: profile.info,
+              write_path: dst
+            )
+          elsif format == "yaml"
+            Inspec::Utils::YamlProfileSummary.produce_yaml(
+              info: profile.info,
+              write_path: dst
+            )
+          end
+        when "readme"
+          out = dst.empty? ? $stdout : File.open(dst, "w")
+          out.write(profile.readme)
+        when "metadata"
+          out = dst.empty? ? $stdout : File.open(dst, "w")
+          out.write(profile.metadata_src)
+        end
+      rescue StandardError => e
+        pretty_handle_exception(e)
       end
-    when "readme"
-      out = dst.empty? ? $stdout : File.open(dst, "w")
-      out.write(profile.readme)
-    when "metadata"
-      out = dst.empty? ? $stdout : File.open(dst, "w")
-      out.write(profile.metadata_src)
-    end
-  rescue StandardError => e
-    pretty_handle_exception(e)
+    }
   end
 
   desc "check PATH", "verify all tests at the specified PATH"
@@ -152,80 +159,85 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "Enable or disable cookstyle checks.", default: false
   profile_options
   def check(path) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-    o = config
-    diagnose(o)
-    o["log_location"] ||= STDERR if o["format"] == "json"
-    o["log_level"] ||= "warn"
-    configure_logger(o)
+    Inspec.with_feature("inspec-cli-check") {
+      begin
+        o = config
+        diagnose(o)
+        o["log_location"] ||= STDERR if o["format"] == "json"
+        o["log_level"] ||= "warn"
+        configure_logger(o)
 
-    o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
-    o[:check_mode] = true
-    o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
+        o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
+        o[:check_mode] = true
+        o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
 
-    # run check
-    profile = Inspec::Profile.for_target(path, o)
-    result = profile.check
+        # run check
+        profile = Inspec::Profile.for_target(path, o)
+        result = profile.check
 
-    if o["format"] == "json"
-      puts JSON.generate(result)
-    else
-      %w{location profile controls timestamp valid}.each do |item|
-        prepared_string = format("%-12s %s",
-                                 "#{item.to_s.capitalize} :",
-                                 result[:summary][item.to_sym])
-        ui.plain_line(prepared_string)
-      end
-      puts
-
-      enable_offenses = !Inspec.locally_windows? # See 5723
-      if result[:errors].empty? && result[:warnings].empty? && result[:offenses].empty?
-        if enable_offenses
-          ui.plain_line("No errors, warnings, or offenses")
+        if o["format"] == "json"
+          puts JSON.generate(result)
         else
-          ui.plain_line("No errors or warnings")
+          %w{location profile controls timestamp valid}.each do |item|
+            prepared_string = format("%-12s %s",
+                                     "#{item.to_s.capitalize} :",
+                                     result[:summary][item.to_sym])
+            ui.plain_line(prepared_string)
+          end
+          puts
+
+          enable_offenses = !Inspec.locally_windows? # See 5723
+          if result[:errors].empty? && result[:warnings].empty? && result[:offenses].empty?
+            if enable_offenses
+              ui.plain_line("No errors, warnings, or offenses")
+            else
+              ui.plain_line("No errors or warnings")
+            end
+          else
+            item_msg = lambda { |item|
+              pos = [item[:file], item[:line], item[:column]].compact.join(":")
+              pos.empty? ? item[:msg] : pos + ": " + item[:msg]
+            }
+
+            result[:errors].each { |item| ui.red " #{Inspec::UI::GLYPHS[:script_x]}  #{item_msg.call(item)}\n" }
+            result[:warnings].each { |item| ui.yellow " !  #{item_msg.call(item)}\n" }
+
+            puts
+
+            if enable_offenses && !result[:offenses].empty?
+              puts "Offenses:\n"
+              result[:offenses].each { |item| ui.cyan(" #{Inspec::UI::GLYPHS[:script_x]} #{item_msg.call(item)}\n\n") }
+            end
+
+            offenses = ui.cyan("#{result[:offenses].length} offenses", print: false)
+            errors = ui.red("#{result[:errors].length} errors", print: false)
+            warnings = ui.yellow("#{result[:warnings].length} warnings", print: false)
+            if enable_offenses
+              ui.plain_line("Summary:     #{errors}, #{warnings}, #{offenses}")
+            else
+              ui.plain_line("Summary:     #{errors}, #{warnings}")
+            end
+          end
         end
-      else
-        item_msg = lambda { |item|
-          pos = [item[:file], item[:line], item[:column]].compact.join(":")
-          pos.empty? ? item[:msg] : pos + ": " + item[:msg]
-        }
-
-        result[:errors].each { |item| ui.red " #{Inspec::UI::GLYPHS[:script_x]}  #{item_msg.call(item)}\n" }
-        result[:warnings].each { |item| ui.yellow " !  #{item_msg.call(item)}\n" }
-
-        puts
-
-        if enable_offenses && !result[:offenses].empty?
-          puts "Offenses:\n"
-          result[:offenses].each { |item| ui.cyan(" #{Inspec::UI::GLYPHS[:script_x]} #{item_msg.call(item)}\n\n") }
-        end
-
-        offenses = ui.cyan("#{result[:offenses].length} offenses", print: false)
-        errors = ui.red("#{result[:errors].length} errors", print: false)
-        warnings = ui.yellow("#{result[:warnings].length} warnings", print: false)
-        if enable_offenses
-          ui.plain_line("Summary:     #{errors}, #{warnings}, #{offenses}")
-        else
-          ui.plain_line("Summary:     #{errors}, #{warnings}")
-        end
+        ui.exit Inspec::UI::EXIT_USAGE_ERROR unless result[:summary][:valid]
+      rescue StandardError => e
+        pretty_handle_exception(e)
       end
-    end
-
-    ui.exit Inspec::UI::EXIT_USAGE_ERROR unless result[:summary][:valid]
-  rescue StandardError => e
-    pretty_handle_exception(e)
+    }
   end
 
   desc "vendor PATH", "Download all dependencies and generate a lockfile in a `vendor` directory"
   option :overwrite, type: :boolean, default: false,
     desc: "Overwrite existing vendored dependencies and lockfile."
   def vendor(path = nil)
-    o = config
-    configure_logger(o)
-    o[:logger] = Logger.new($stdout)
-    o[:logger].level = get_log_level(o[:log_level])
+    Inspec.with_feature("inspec-cli-vendor") {
+      o = config
+      configure_logger(o)
+      o[:logger] = Logger.new($stdout)
+      o[:logger].level = get_log_level(o[:log_level])
 
-    vendor_deps(path, o)
+      vendor_deps(path, o)
+    }
   end
 
   desc "archive PATH", "archive a profile to tar.gz (default) or zip"
@@ -243,36 +255,40 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :ignore_errors, type: :boolean, default: false,
     desc: "Ignore profile warnings."
   def archive(path, log_level = nil)
-    o = config
-    diagnose(o)
+    Inspec.with_feature("inspec-cli-archive") {
+      begin
+        o = config
+        diagnose(o)
 
-    o[:logger] = Logger.new($stdout)
-    o[:logger].level = get_log_level(log_level || o[:log_level])
-    o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
+        o[:logger] = Logger.new($stdout)
+        o[:logger].level = get_log_level(log_level || o[:log_level])
+        o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
 
-    # Force vendoring with overwrite when archiving
-    vendor_options = o.dup
-    vendor_options[:overwrite] = true
-    vendor_deps(path, vendor_options)
+        # Force vendoring with overwrite when archiving
+        vendor_options = o.dup
+        vendor_options[:overwrite] = true
+        vendor_deps(path, vendor_options)
 
-    profile = Inspec::Profile.for_target(path, o)
-    gem_deps = profile.metadata.gem_dependencies + \
-      profile.locked_dependencies.list.map { |_k, v| v.profile.metadata.gem_dependencies }.flatten
-    unless gem_deps.empty?
-      o[:logger].warn "Archiving a profile that contains gem dependencies, but InSpec cannot package gems with the profile! Please archive your ~/.inspec/gems directory separately."
-    end
+        profile = Inspec::Profile.for_target(path, o)
+        gem_deps = profile.metadata.gem_dependencies + \
+          profile.locked_dependencies.list.map { |_k, v| v.profile.metadata.gem_dependencies }.flatten
+        unless gem_deps.empty?
+          o[:logger].warn "Archiving a profile that contains gem dependencies, but InSpec cannot package gems with the profile! Please archive your ~/.inspec/gems directory separately."
+        end
 
-    result = profile.check
+        result = profile.check
 
-    if result && !o[:ignore_errors] == false
-      o[:logger].info "Profile check failed. Please fix the profile before generating an archive."
-      return ui.exit Inspec::UI::EXIT_USAGE_ERROR
-    end
+        if result && !o[:ignore_errors] == false
+          o[:logger].info "Profile check failed. Please fix the profile before generating an archive."
+          return ui.exit Inspec::UI::EXIT_USAGE_ERROR
+        end
 
-    # generate archive
-    ui.exit Inspec::UI::EXIT_USAGE_ERROR unless profile.archive(o)
-  rescue StandardError => e
-    pretty_handle_exception(e)
+        # generate archive
+        ui.exit Inspec::UI::EXIT_USAGE_ERROR unless profile.archive(o)
+      rescue StandardError => e
+        pretty_handle_exception(e)
+      end
+    }
   end
 
   desc "exec LOCATIONS", "Run all tests at LOCATIONS."
@@ -355,45 +371,53 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   EOT
   exec_options
   def exec(*targets)
-    o = config
-    diagnose(o)
-    deprecate_target_id(config)
-    configure_logger(o)
+    Inspec.with_feature("inspec-cli-exec") {
+      begin
+        o = config
+        diagnose(o)
+        deprecate_target_id(config)
+        configure_logger(o)
 
-    runner = Inspec::Runner.new(o)
-    targets.each { |target| runner.add_target(target) }
+        runner = Inspec::Runner.new(o)
+        targets.each { |target| runner.add_target(target) }
 
-    ui.exit runner.run
-  rescue ArgumentError, RuntimeError, Train::UserError => e
-    $stderr.puts e.message
-    ui.exit Inspec::UI::EXIT_USAGE_ERROR
-  rescue StandardError => e
-    pretty_handle_exception(e)
+        ui.exit runner.run
+      rescue ArgumentError, RuntimeError, Train::UserError => e
+        $stderr.puts e.message
+        ui.exit Inspec::UI::EXIT_USAGE_ERROR
+      rescue StandardError => e
+        pretty_handle_exception(e)
+      end
+    }
   end
 
   desc "detect", "detect the target OS"
   target_options
   option :format, type: :string
   def detect
-    o = config
-    deprecate_target_id(config)
-    o[:command] = "platform.params"
+    Inspec.with_feature("inspec-cli-detect") {
+      begin
+        o = config
+        deprecate_target_id(config)
+        o[:command] = "platform.params"
 
-    configure_logger(o)
+        configure_logger(o)
 
-    (_, res) = run_command(o)
+        (_, res) = run_command(o)
 
-    if o["format"] == "json"
-      puts res.to_json
-    else
-      ui.headline("Platform Details")
-      ui.plain Inspec::BaseCLI.format_platform_info(params: res, indent: 0, color: 36, enable_color: ui.color?)
-    end
-  rescue ArgumentError, RuntimeError, Train::UserError => e
-    $stderr.puts e.message
-    ui.exit Inspec::UI::EXIT_USAGE_ERROR
-  rescue StandardError => e
-    pretty_handle_exception(e)
+        if o["format"] == "json"
+          puts res.to_json
+        else
+          ui.headline("Platform Details")
+          ui.plain Inspec::BaseCLI.format_platform_info(params: res, indent: 0, color: 36, enable_color: ui.color?)
+        end
+      rescue ArgumentError, RuntimeError, Train::UserError => e
+        $stderr.puts e.message
+        ui.exit Inspec::UI::EXIT_USAGE_ERROR
+      rescue StandardError => e
+        pretty_handle_exception(e)
+      end
+    }
   end
 
   desc "shell", "open an interactive debugging shell"
@@ -418,78 +442,94 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :enhanced_outcomes, type: :boolean,
     desc: "Show enhanced outcomes in output"
   def shell_func
-    o = config
-    deprecate_target_id(config)
-    diagnose(o)
-    o[:debug_shell] = true
+    Inspec.with_feature("inspec-cli-shell") {
+      begin
+        o = config
+        deprecate_target_id(config)
+        diagnose(o)
+        o[:debug_shell] = true
 
-    Inspec::Resource.toggle_inspect unless o[:inspect]
+        Inspec::Resource.toggle_inspect unless o[:inspect]
 
-    log_device = suppress_log_output?(o) ? nil : $stdout
-    o[:logger] = Logger.new(log_device)
-    o[:logger].level = get_log_level(o[:log_level])
+        log_device = suppress_log_output?(o) ? nil : $stdout
+        o[:logger] = Logger.new(log_device)
+        o[:logger].level = get_log_level(o[:log_level])
 
-    if o[:command].nil?
-      runner = Inspec::Runner.new(o)
-      return Inspec::Shell.new(runner).start
-    end
+        if o[:command].nil?
+          runner = Inspec::Runner.new(o)
+          return Inspec::Shell.new(runner).start
+        end
 
-    run_type, res = run_command(o)
-    ui.exit res unless run_type == :ruby_eval
+        run_type, res = run_command(o)
+        ui.exit res unless run_type == :ruby_eval
 
-    # No InSpec tests - just print evaluation output.
-    reporters = o["reporter"] || {}
-    if reporters.keys.include?("json")
-      res = if res.respond_to?(:to_json)
-              res.to_json
-            else
-              JSON.dump(res)
-            end
-    end
+        # No InSpec tests - just print evaluation output.
+        reporters = o["reporter"] || {}
+        if reporters.keys.include?("json")
+          res = if res.respond_to?(:to_json)
+                  res.to_json
+                else
+                  JSON.dump(res)
+                end
+        end
 
-    puts res
-    ui.exit Inspec::UI::EXIT_NORMAL
-  rescue RuntimeError, Train::UserError => e
-    $stderr.puts e.message
-  rescue StandardError => e
-    pretty_handle_exception(e)
+        puts res
+        ui.exit Inspec::UI::EXIT_NORMAL
+      rescue RuntimeError, Train::UserError => e
+        $stderr.puts e.message
+      rescue StandardError => e
+        pretty_handle_exception(e)
+      end
+    }
   end
 
   desc "env", "Output shell-appropriate completion configuration"
   def env(shell = nil)
-    p = Inspec::EnvPrinter.new(self.class, shell)
-    p.print_and_exit!
-  rescue StandardError => e
-    pretty_handle_exception(e)
+    Inspec.with_feature("inspec-cli-env") {
+      begin
+        p = Inspec::EnvPrinter.new(self.class, shell)
+        p.print_and_exit!
+      rescue StandardError => e
+        pretty_handle_exception(e)
+      end
+    }
   end
 
   option :enhanced_outcomes, type: :boolean,
     desc: "Show enhanced outcomes output"
   desc "schema NAME", "print the JSON schema", hide: true
   def schema(name)
-    require "inspec/schema/output_schema"
-    o = config
-    puts Inspec::Schema::OutputSchema.json(name, o)
-  rescue StandardError => e
-    puts e
-    puts "Valid schemas are #{Inspec::Schema::OutputSchema.names.join(", ")}"
+    Inspec.with_feature("inspec-cli-schema") {
+      begin
+        require "inspec/schema/output_schema"
+        o = config
+        puts Inspec::Schema::OutputSchema.json(name, o)
+      rescue StandardError => e
+        puts e
+        puts "Valid schemas are #{Inspec::Schema::OutputSchema.names.join(", ")}"
+      end
+    }
   end
 
   desc "run_context", "used to test run-context detection", hide: true
   def run_context
-    require "inspec/utils/telemetry/run_context_probe"
-    puts Inspec::Telemetry::RunContextProbe.guess_run_context
+    Inspec.with_feature("inspec-cli-run-context") {
+      require "inspec/utils/telemetry/run_context_probe"
+      puts Inspec::Telemetry::RunContextProbe.guess_run_context
+    }
   end
 
   desc "version", "prints the version of this tool"
   option :format, type: :string
   def version
-    if config["format"] == "json"
-      v = { version: Inspec::VERSION }
-      puts v.to_json
-    else
-      puts Inspec::VERSION
-    end
+    Inspec.with_feature("inspec-cli-version") {
+      if config["format"] == "json"
+        v = { version: Inspec::VERSION }
+        puts v.to_json
+      else
+        puts Inspec::VERSION
+      end
+    }
   end
   map %w{-v --version} => :version
 
@@ -497,14 +537,16 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :vendor_cache, type: :string,
     desc: "Use the given path for caching dependencies. (default: ~/.inspec/cache)"
   def clear_cache
-    o = config
-    configure_logger(o)
-    cache_path = o[:vendor_cache] || "~/.inspec/cache"
-    FileUtils.rm_r Dir.glob(File.expand_path(cache_path))
+    Inspec.with_feature("inspec-cli-clear-cache") {
+      o = config
+      configure_logger(o)
+      cache_path = o[:vendor_cache] || "~/.inspec/cache"
+      FileUtils.rm_r Dir.glob(File.expand_path(cache_path))
 
-    o[:logger] = Logger.new($stdout)
-    o[:logger].level = get_log_level(o[:log_level])
-    o[:logger].info "== InSpec cache cleared successfully =="
+      o[:logger] = Logger.new($stdout)
+      o[:logger].level = get_log_level(o[:log_level])
+      o[:logger].info "== InSpec cache cleared successfully =="
+    }
   end
 
   private
