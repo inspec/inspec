@@ -34,6 +34,7 @@ module InspecPlugins
           cleanup_child_processes
           sleep 0.1
         end
+        cleanup_empty_error_log_files
         cleanup_daemon_process if run_in_background
       end
 
@@ -50,6 +51,16 @@ module InspecPlugins
         Process.kill(9, current_process_id)
         # DO NOT TRY TO REFACTOR IT THIS WAY
         # Calling Process.kill(9,Process.pid) kills the "stopper" process itself, rather than the one it's trying to stop.
+      end
+
+      def cleanup_empty_error_log_files
+        logs_dir_path = log_path || Dir.pwd
+        error_files = Dir.glob("#{logs_dir_path}/logs/*.err")
+        error_files.each do |error_file|
+          if File.exist?(error_file) && !File.size?(error_file)
+            File.delete(error_file)
+          end
+        end
       end
 
       def should_start_more_jobs?
@@ -107,12 +118,6 @@ module InspecPlugins
           rescue StandardError => e
             $stderr.puts "#{Time.now.iso8601} Error Message: #{e.message}"
             $stderr.puts "#{Time.now.iso8601} Error Backtrace: #{e.backtrace}"
-          ensure
-            logs_dir_path = log_path || Dir.pwd
-            error_file_path = File.join(logs_dir_path, "logs", "#{Process.pid}.err")
-            if File.exist?("#{error_file_path}") && !File.size?("#{error_file_path}")
-              File.delete("#{error_file_path}")
-            end
           end
 
           # should be unreachable but child MUST exit
@@ -149,11 +154,11 @@ module InspecPlugins
           # If we weren't provided a PID, hackishly look up the pid from the matching IO.
           pid = target_pid || @child_tracker.keys.detect { |p| @child_tracker[p][:io] == pipe_ready_for_reading }
           begin
-            while (update_line = pipe_ready_for_reading.readline) && ! pipe_ready_for_reading.closed?
+            while (update_line = pipe_ready_for_reading.readline) && !pipe_ready_for_reading.closed?
               if update_line =~ /EOF_MARKER/
                 pipe_ready_for_reading.close
                 break
-              elsif update_line =~ /WARN/ || update_line =~ /ERROR/
+              elsif update_line =~ /WARN/ || update_line =~ /ERROR/ || update_line =~ /INFO/
                 create_logs(
                   pid,
                   "#{Time.now.iso8601} Extra log: #{update_line}\n"
