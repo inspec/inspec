@@ -366,8 +366,10 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     ui.exit runner.run
   rescue ArgumentError, RuntimeError, Train::UserError => e
     $stderr.puts e.message
+    $stderr.puts e.backtrace
     ui.exit Inspec::UI::EXIT_USAGE_ERROR
   rescue StandardError => e
+    $stderr.puts e.backtrace
     pretty_handle_exception(e)
   end
 
