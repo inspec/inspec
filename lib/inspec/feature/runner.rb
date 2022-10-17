@@ -34,7 +34,7 @@ module Inspec
             # license with the feature entitlement but User local licenses file does not have that license stored. Should
             # we tell user to set Env variable with valid license id / use --chef-license-key option here?
             Inspec::Log.error "Feature is not entitled to the current license."
-            Inspec::UI.new.exit(:invalid_feature_entitlement)
+            Inspec::UI.new.exit(:license_not_entitled)
           end
         end
 
