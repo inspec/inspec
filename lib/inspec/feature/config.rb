@@ -13,7 +13,7 @@ module Inspec
         conf_path ||= File.join(Inspec.src_root, "etc", "features.yaml")
 
         # Verify path and sig file exists or else throw exception
-        sig_path = conf_path.sub(/\.yaml/,".sig")
+        sig_path = conf_path.sub(/\.yaml/, ".sig")
         [conf_path, sig_path].each do |file|
           raise Inspec::FeatureConfigMissingError.new("No such file #{file}") unless File.exist?(file)
         end
@@ -67,7 +67,7 @@ module Inspec
       # Default data for when the config is in an error state.
       def load_error_data
         {
-          "features": {}
+          "features": {},
         }
       end
     end
