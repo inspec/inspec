@@ -51,7 +51,7 @@ module Inspec
         end
       rescue ChefLicensing::LicenseKeyFetcher::LicenseKeyNotFetchedError
         Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without valid licenses."
-        Inspec::UI.new.exit(:licenses_invalid)
+        Inspec::UI.new.exit(:usage_error)
       end
     end
 
