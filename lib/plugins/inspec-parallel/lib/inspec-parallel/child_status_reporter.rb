@@ -27,7 +27,7 @@ module InspecPlugins::Parallelism
       control_id = notification.example.metadata[:id]
       title = notification.example.metadata[:title]
       set_status_mapping(control_id, status)
-      output_status(control_id, title) if control_ended?(control_id)
+      output_status(control_id, title) if control_ended?(notification, control_id)
     end
 
     def output_status(control_id, title)
