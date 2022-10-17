@@ -4,6 +4,7 @@ require "inspec/reporters/json"
 require "inspec/reporters/json_automate"
 require "inspec/reporters/automate"
 require "inspec/reporters/yaml"
+require "inspec/feature"
 
 module Inspec::Reporters
   # rubocop:disable Metrics/CyclomaticComplexity
