@@ -1,5 +1,6 @@
 require_relative "profile"
 require "inspec/dist"
+require "inspec/feature"
 
 module InspecPlugins
   module Habitat
@@ -14,17 +15,23 @@ module InspecPlugins
       option :output_dir, type: :string, required: false,
         desc: "Output directory for the Habitat artifact. Default: current directory"
       def create(path = ".")
-        InspecPlugins::Habitat::Profile.new(path, options).create
+        Inspec.with_feature("inspec-cli-habitat-profile-create") {
+          InspecPlugins::Habitat::Profile.new(path, options).create
+        }
       end
 
       desc "setup PATH", "Configure the profile at PATH for Habitat, including a plan and hooks"
       def setup(path = ".")
-        InspecPlugins::Habitat::Profile.new(path, options).setup
+        Inspec.with_feature("inspec-cli-habitat-profile-setup") {
+          InspecPlugins::Habitat::Profile.new(path, options).setup
+        }
       end
 
       desc "upload PATH", "Create then upload a Habitat artifact for the profile found at PATH to the Habitat Builder Depot"
       def upload(path = ".")
-        InspecPlugins::Habitat::Profile.new(path, options).upload
+        Inspec.with_feature("inspec-cli-habitat-profile-upload") {
+          InspecPlugins::Habitat::Profile.new(path, options).upload
+        }
       end
     end
 

@@ -1,0 +1,88 @@
+---
+  features:
+    inspec-cli-exec:
+      description: Run InSpec profile code at the command line.
+    inspec-cli-shell:
+      description: Experiment with InSpec Language interactively.
+    inspec-cli-check:
+      description: Examine a profile for problems.
+    inspec-cli-json:
+      description: Generate JSON summary for inspec profile/s.
+    inspec-cli-export:
+      description: Generate summary in specified formats for profile/s.
+    inspec-cli-vendor:
+      description: Download all profile dependencies and generate a lockfile in vendor directory.
+    inspec-cli-archive:
+      description: Archive a profile to tar.gz (default) or zip.
+    inspec-cli-detect:
+      description: Detect the target OS.
+    inspec-cli-env:
+      description: Output shell-appropriate completion configuration.
+    inspec-cli-schema:
+      description: Print the JSON schema.
+    inspec-cli-run-context:
+      description: Test run-context detection.
+    inspec-cli-version:
+      description: Print the version of InSpec.
+    inspec-cli-clear-cache:
+      description: Clear InSpec cache stored in ~/.inspec/cache or specific vendor cache path.
+    inspec-cli-compliance-login:
+      description: Login to Automate Server using InSpec.
+    inspec-cli-compliance-profiles:
+      description: Lists all uploaded profiles from automate server.
+    inspec-cli-compliance-exec:
+      description: Run InSpec profile from a list of profiles in automate server.
+    inspec-cli-compliance-download:
+      description: Download the InSpec profile from automate server.
+    inspec-cli-compliance-upload:
+      description: Upload InSpec profile to automate server.
+    inspec-cli-compliance-version:
+      description: Print the version of Automate Server.
+    inspec-cli-compliance-logout:
+      description: Logout from Automate Server.
+    inspec-cli-habitat-profile-create:
+      description: Create Habitat Artifact for the InSpec profile.
+    inspec-cli-habitat-profile-setup:
+      description: Configure Habitat Artifact.
+    inspec-cli-habitat-profile-upload:
+      description: Upload Habitat Artifact for the InSpec profile to Habitat Builder Depot.
+    inspec-cli-init-profile:
+      description: Generate a new InSpec profile.
+    inspec-cli-init-plugin:
+      description: Generate a new InSpec plugin.
+    inspec-cli-init-resource:
+      description: Generate a new InSpec resource.
+    inspec-cli-parallel-exec:
+      description: Run list of InSpec exec operations parallely.
+    inspec-cli-sign-generate-keys:
+      description: Generate a RSA key pair for signing and verification.
+    inspec-cli-sign-profile:
+      description: Sign InSpec profile and generate .iaf artifact.
+    inspec-cli-sign-verify:
+      description: Verify a signed profile .iaf artifact.
+    inspec-enhanced-outcomes:
+      description: Use enhanced outcomes in reporters
+    inspec-waivers:
+      description: Use waivers mechanism with one or more waiver files.
+    inspec-reporter-cli:
+      description: Use CLI reporter.
+    inspec-reporter-json:
+      description: Use JSON reporter.
+    inspec-reporter-json-automate:
+      description: Use JSON automate reporter.
+    inspec-reporter-automate:
+      description: Use automate reporter.
+    inspec-reporter-yaml:
+      description: Use YAML reporter.
+    inspec-reporter-json-min:
+      description: Use JSON min reporter for minimal JSON output.
+    inspec-reporter-junit:
+      description: Use JUnit reporter.
+    inspec-reporter-junit2:
+      description: Use JUnit2 reporter.
+    inspec-reporter-html2:
+      description: Use HTML reporter.
+    inspec-attestations:
+      description: Use attestations mechanism with one or more attestations files.
+    inspec-reporter-progress-bar:
+      description: Use progress bar streaming reporter
