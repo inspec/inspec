@@ -127,7 +127,7 @@ describe "Inspec::Feature" do
     describe "when you load it from a tampered file" do
       let(:tampered_config_file) { File.join(fixtures_path, "features-tampered.yaml") }
       it "throws an exception and loads no features" do
-        _(Inspec::Feature::Config.new(tampered_config_file)).must_raise(Inspec::FeatureConfigTamperedError)
+        _ { Inspec::Feature::Config.new(tampered_config_file) }.must_raise(Inspec::FeatureConfigTamperedError)
       end
     end
   end
