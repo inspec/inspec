@@ -27,7 +27,7 @@ module Inspec
           # Validate the license and its feature entitlement
           # This will exit the process if the check fails
           begin
-            ChefLicensing.check_feature_entitlement!(feature.licensed_feature_name)
+            ChefLicensing.check_feature_entitlement!(feature_name: feature.licensed_feature_name)
           rescue ChefLicensing::InvalidEntitlement
             # This gets called when the feature name is unrecognized or not entitled with License
             # Need to decide whether it will just raise the error or anything more is expected. Like what if User has            # a license with feature entitlement but
