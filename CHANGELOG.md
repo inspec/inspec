@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.1 -->
-## [v5.21.1](https://github.com/inspec/inspec/tree/v5.21.1) (2022-10-14)
+<!-- latest_release 5.21.2 -->
+## [v5.21.2](https://github.com/inspec/inspec/tree/v5.21.2) (2022-10-19)
 
 #### Merged Pull Requests
-- CFINSPEC-458 Oracle DB session resource compatibility with AIX-C shell [#6257](https://github.com/inspec/inspec/pull/6257) ([Nik08](https://github.com/Nik08))
+- Replace faraday_middleware with faraday-follow_redirects [#6238](https://github.com/inspec/inspec/pull/6238) ([tnir](https://github.com/tnir))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Replace faraday_middleware with faraday-follow_redirects [#6238](https://github.com/inspec/inspec/pull/6238) ([tnir](https://github.com/tnir)) <!-- 5.21.2 -->
 - CFINSPEC-458 Oracle DB session resource compatibility with AIX-C shell [#6257](https://github.com/inspec/inspec/pull/6257) ([Nik08](https://github.com/Nik08)) <!-- 5.21.1 -->
 - CFINSPEC-374 DSL keyword `only_applicable_if` added [#6229](https://github.com/inspec/inspec/pull/6229) ([Nik08](https://github.com/Nik08)) <!-- 5.21.0 -->
 - CFINSPEC-462: Fixes inspec sign breaks when there is period n the profile name [#6261](https://github.com/inspec/inspec/pull/6261) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.20.4 -->
