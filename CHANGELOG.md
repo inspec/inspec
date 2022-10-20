@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.2.0 -->
-## [v6.2.0](https://github.com/inspec/inspec/tree/v6.2.0) (2022-10-19)
+<!-- latest_release 6.2.1 -->
+## [v6.2.1](https://github.com/inspec/inspec/tree/v6.2.1) (2022-10-20)
 
 #### Merged Pull Requests
-- Feature Config File and Logger Support [#6260](https://github.com/inspec/inspec/pull/6260) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Foreport 6238 to inspec-6 [#6280](https://github.com/inspec/inspec/pull/6280) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport 6238 to inspec-6 [#6280](https://github.com/inspec/inspec/pull/6280) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.1 -->
 - Feature Config File and Logger Support [#6260](https://github.com/inspec/inspec/pull/6260) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.0 -->
 - CFINSPEC-246/CFINSPEC-247 Attestation changes for N/R outcomes [#6222](https://github.com/inspec/inspec/pull/6222) ([Nik08](https://github.com/Nik08)) <!-- 6.1.0 -->
 - CFINSPEC-452 Added Inspec parallel logging for warn/error [#6245](https://github.com/inspec/inspec/pull/6245) ([Nik08](https://github.com/Nik08)) <!-- 6.0.1 -->
