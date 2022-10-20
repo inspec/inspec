@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.4 -->
-## [v5.21.4](https://github.com/inspec/inspec/tree/v5.21.4) (2022-10-20)
+<!-- latest_release 5.21.5 -->
+## [v5.21.5](https://github.com/inspec/inspec/tree/v5.21.5) (2022-10-20)
 
 #### Merged Pull Requests
-- Bump test-kitchen from 3.3.1 to 3.3.2 in /omnibus [#6227](https://github.com/inspec/inspec/pull/6227) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump omnibus-software from `1d540dc` to `7d0e0fe` in /omnibus [#6274](https://github.com/inspec/inspec/pull/6274) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `1d540dc` to `7d0e0fe` in /omnibus [#6274](https://github.com/inspec/inspec/pull/6274) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.5 -->
 - Bump test-kitchen from 3.3.1 to 3.3.2 in /omnibus [#6227](https://github.com/inspec/inspec/pull/6227) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.4 -->
 - Faraday gem update [#6267](https://github.com/inspec/inspec/pull/6267) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.3 -->
 - Replace faraday_middleware with faraday-follow_redirects [#6238](https://github.com/inspec/inspec/pull/6238) ([tnir](https://github.com/tnir)) <!-- 5.21.2 -->
