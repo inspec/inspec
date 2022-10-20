@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.3 -->
-## [v5.21.3](https://github.com/inspec/inspec/tree/v5.21.3) (2022-10-19)
+<!-- latest_release 5.21.4 -->
+## [v5.21.4](https://github.com/inspec/inspec/tree/v5.21.4) (2022-10-20)
 
 #### Merged Pull Requests
-- Faraday gem update [#6267](https://github.com/inspec/inspec/pull/6267) ([Vasu1105](https://github.com/Vasu1105))
+- Bump test-kitchen from 3.3.1 to 3.3.2 in /omnibus [#6227](https://github.com/inspec/inspec/pull/6227) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Bump test-kitchen from 3.3.1 to 3.3.2 in /omnibus [#6227](https://github.com/inspec/inspec/pull/6227) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.4 -->
 - Faraday gem update [#6267](https://github.com/inspec/inspec/pull/6267) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.3 -->
 - Replace faraday_middleware with faraday-follow_redirects [#6238](https://github.com/inspec/inspec/pull/6238) ([tnir](https://github.com/tnir)) <!-- 5.21.2 -->
 - CFINSPEC-458 Oracle DB session resource compatibility with AIX-C shell [#6257](https://github.com/inspec/inspec/pull/6257) ([Nik08](https://github.com/Nik08)) <!-- 5.21.1 -->
