@@ -11,6 +11,7 @@ require "inspec/dependencies/cache"
 require "inspec/dist"
 require "inspec/reporters"
 require "inspec/runner_rspec"
+require "chef_licensing"
 # spec requirements
 
 module Inspec
@@ -171,9 +172,13 @@ module Inspec
     end
 
     def run(with = nil)
+      ChefLicensing.check_software_entitlement!(software_entitlement_name: "InSpec")
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
       load
       run_tests(with)
+    rescue ChefLicensing::SoftwareNotEntitled
+      Inspec::Log.error "License is not entitled to use InSpec."
+      Inspec::UI.new.exit(:license_not_entitled)
     end
 
     def render_output(run_data)

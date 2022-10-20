@@ -1,3 +1,5 @@
+require "chef_licensing"
+
 autoload :Pry, "pry"
 
 module Inspec
@@ -10,6 +12,7 @@ module Inspec
     end
 
     def start
+      ChefLicensing.check_software_entitlement!(software_entitlement_name: "InSpec")
       # This will hold a single evaluation binding context as opened within
       # the instance_eval context of the anonymous class that the profile
       # context creates to evaluate each individual test file. We want to
@@ -18,6 +21,9 @@ module Inspec
       @ctx_binding = @runner.eval_with_virtual_profile("binding")
       configure_pry
       @ctx_binding.pry
+    rescue ChefLicensing::SoftwareNotEntitled
+      Inspec::Log.error "License is not entitled to use InSpec."
+      Inspec::UI.new.exit(:license_not_entitled)
     end
 
     def configure_pry # rubocop:disable Metrics/AbcSize
