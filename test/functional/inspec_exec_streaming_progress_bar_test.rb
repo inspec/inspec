@@ -88,6 +88,8 @@ describe "inspec exec with streaming progress bar reporter" do
     _(out.stderr).must_include "[N/R]      tmp-3.0.2"
     _(out.stderr).must_include "[FAILED]   tmp-4.0"
     _(out.stderr).must_include "[PASSED]   tmp-5.0"
+    _(out.stderr).must_include "[N/A]      tmp-7.0.1  No-op N/A control due to only_applicable_if condition: Some reason for N/A"
+    _(out.stderr).must_include "[PASSED]   tmp-7.0.2"
     assert_exit_code 100, out
   end
 

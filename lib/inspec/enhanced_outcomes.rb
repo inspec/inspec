@@ -2,7 +2,8 @@ module Inspec
   module EnhancedOutcomes
 
     def self.determine_status(results, impact)
-      if results.any? { |r| !r[:exception].nil? && !r[:backtrace].nil? }
+      # No-op exception occurs in case of not_applicable_if
+      if results.any? { |r| !r[:exception].nil? && !r[:backtrace].nil? && r[:resource_class] != "noop" }
         "error"
       elsif !impact.nil? && impact.to_f == 0.0
         "not_applicable"
