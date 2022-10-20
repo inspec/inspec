@@ -392,7 +392,8 @@ class MockLoader
       "/usr/sbin/ipfstat -io" => cmd.call("ipfstat-io"),
       %{type "/usr/sbin/ipfstat"} => empty.call,
       # lxc
-      "/usr/sbin/lxc info my-ubuntu-container | grep -i Status" => cmd.call("lxcinfo"),
+      "/usr/sbin/lxc info ubuntu-container" => cmd.call("lxcinfo"),
+      "/usr/sbin/lxc info my-ubuntu-container-1" => cmd_stderr.call("lxcerror"),
       %{sh -c 'type "/usr/sbin/lxc"'} => empty.call,
       # cgroup
       "cgget -n -a carrotking" => cmd.call("cgget-n-a"),
