@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.30 -->
-## [v4.56.30](https://github.com/inspec/inspec/tree/v4.56.30) (2022-10-20)
+<!-- latest_release 4.56.31 -->
+## [v4.56.31](https://github.com/inspec/inspec/tree/v4.56.31) (2022-10-20)
 
 #### Merged Pull Requests
-- Bump kitchen-vagrant from 1.12.0 to 1.12.1 in /omnibus [#6212](https://github.com/inspec/inspec/pull/6212) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Backport PR#6043 to Inspec 4 [#6282](https://github.com/inspec/inspec/pull/6282) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.56.20 -->
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Backport PR#6043 to Inspec 4 [#6282](https://github.com/inspec/inspec/pull/6282) ([sathish-progress](https://github.com/sathish-progress)) <!-- 4.56.31 -->
 - Bump kitchen-vagrant from 1.12.0 to 1.12.1 in /omnibus [#6212](https://github.com/inspec/inspec/pull/6212) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.30 -->
 - Backport multiple profiles with same name fix to inspec 4 [#6163](https://github.com/inspec/inspec/pull/6163) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.29 -->
 - Bump kitchen-vagrant from 1.11.0 to 1.12.0 in /omnibus [#6139](https://github.com/inspec/inspec/pull/6139) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.28 -->
