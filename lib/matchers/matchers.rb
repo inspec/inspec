@@ -225,7 +225,11 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
   end
 
   def boolean?(value)
-    %w{true false}.include?(value.downcase)
+    if value.respond_to?("downcase")
+      %w{true false}.include?(value.downcase)
+    else
+      value.is_a?(TrueClass) || value.is_a?(FalseClass)
+    end
   end
 
   def version?(value)
@@ -252,6 +256,8 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
       return actual.send(op, expected.to_i)
     elsif expected.is_a?(String) && boolean?(expected) && [true, false].include?(actual)
       return actual.send(op, to_boolean(expected))
+    elsif boolean?(expected) && %w{true false}.include?(actual)
+      return actual.send(op, expected.to_s)
     elsif expected.is_a?(Integer) && actual.is_a?(String) && integer?(actual)
       return actual.to_i.send(op, expected)
     elsif expected.is_a?(Float) && float?(actual)
