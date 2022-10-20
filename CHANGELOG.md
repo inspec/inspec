@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.2.5 -->
-## [v6.2.5](https://github.com/inspec/inspec/tree/v6.2.5) (2022-10-20)
+<!-- latest_release 6.2.6 -->
+## [v6.2.6](https://github.com/inspec/inspec/tree/v6.2.6) (2022-10-20)
 
 #### Merged Pull Requests
-- Foreport 6229 to inspec 6 [#6277](https://github.com/inspec/inspec/pull/6277) ([Nik08](https://github.com/Nik08))
+- Foreport 6257 to inspec 6 [#6279](https://github.com/inspec/inspec/pull/6279) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport 6257 to inspec 6 [#6279](https://github.com/inspec/inspec/pull/6279) ([Nik08](https://github.com/Nik08)) <!-- 6.2.6 -->
 - Foreport 6229 to inspec 6 [#6277](https://github.com/inspec/inspec/pull/6277) ([Nik08](https://github.com/Nik08)) <!-- 6.2.5 -->
 - Foreport 6261 to InSpec 6 [#6276](https://github.com/inspec/inspec/pull/6276) ([ahasunos](https://github.com/ahasunos)) <!-- 6.2.4 -->
 - Foreport 6043 to inspec-6 [#6278](https://github.com/inspec/inspec/pull/6278) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.3 -->
