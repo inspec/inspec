@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.2.3 -->
-## [v6.2.3](https://github.com/inspec/inspec/tree/v6.2.3) (2022-10-20)
+<!-- latest_release 6.2.4 -->
+## [v6.2.4](https://github.com/inspec/inspec/tree/v6.2.4) (2022-10-20)
 
 #### Merged Pull Requests
-- Foreport 6043 to inspec-6 [#6278](https://github.com/inspec/inspec/pull/6278) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Foreport 6261 to InSpec 6 [#6276](https://github.com/inspec/inspec/pull/6276) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport 6261 to InSpec 6 [#6276](https://github.com/inspec/inspec/pull/6276) ([ahasunos](https://github.com/ahasunos)) <!-- 6.2.4 -->
 - Foreport 6043 to inspec-6 [#6278](https://github.com/inspec/inspec/pull/6278) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.3 -->
 - Foreport 6243 to inspec-6 [#6275](https://github.com/inspec/inspec/pull/6275) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.2 -->
 - Foreport 6238 to inspec-6 [#6280](https://github.com/inspec/inspec/pull/6280) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.1 -->
