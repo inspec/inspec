@@ -80,6 +80,10 @@ module Inspec::Resources
       end
     end
 
+    def resource_id
+      "mssql_session:User:#{@user}:Host:#{@host}:Database:#{@db_name}:Instance:#{@instance}"
+    end
+
     def to_s
       "MSSQL session"
     end

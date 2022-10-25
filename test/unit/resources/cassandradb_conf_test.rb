@@ -5,6 +5,7 @@ require "inspec/resources/cassandradb_conf"
 describe "Inspec::Resources::CassandradbConf" do
   it "verify configurations of cassandra DB in linux when conf path is passed" do
     resource = MockLoader.new(:centos7).load_resource("cassandradb_conf", "/etc/cassandra/cassandra.yaml")
+    _(resource.resource_id).must_equal "/etc/cassandra/cassandra.yaml"
     _(resource.params["listen_address"]).must_equal "localhost"
     _(resource.params["native_transport_port"]).must_equal 9042
     _(resource.params["audit_logging_options"]["enabled"]).must_equal false

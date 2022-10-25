@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< inspec/azurerm_deprecated resource="azure_cosmosdb_database_account" >}}
+
 Use the `azurerm_cosmosdb_database_account` InSpec audit resource to test properties and configuration of
 an Azure CosmosDb Database Account within a Resource Group.
 
@@ -102,7 +104,7 @@ Indicates the type of database account, e.g. `GlobalDocumentDB`, `MongoDB`
 
 ### tags
 
-Resource tags applied to the ComsosDb Account.
+Resource tags applied to the Cosmos DB Account.
 
 ### properties
 
@@ -126,9 +128,7 @@ requests are always welcome.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

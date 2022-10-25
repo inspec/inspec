@@ -1,0 +1,6 @@
+extends: substitution
+message: "Use Use '%s' instead of 'Builder'."
+level: error
+swap:
+  '(?:[^\s]* ){0,2}Builder': Chef Habitat Builder
+

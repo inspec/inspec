@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< inspec/azurerm_deprecated resource="azure_resource_groups" >}}
+
 Use the `azurerm_resource_groups` InSpec audit resource to test properties of
 some or all Azure Resource Groups
 
@@ -115,9 +117,7 @@ The tags property provides a list of all the Resource Group tags.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

@@ -38,6 +38,10 @@ module Inspec::Resources
       inspec.mount(@params["mountpoint"]).mounted?
     end
 
+    def resource_id
+      @zfs_dataset || "ZFS Dataset"
+    end
+
     def to_s
       "ZFS Dataset #{@zfs_dataset}"
     end

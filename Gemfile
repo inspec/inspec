@@ -25,11 +25,11 @@ end
 group :test do
   gem "chefstyle", "~> 2.0.3"
   gem "concurrent-ruby", "~> 1.0"
-  gem "html-proofer", platforms: :ruby # do not attempt to run proofer on windows
+  gem "html-proofer", "~> 3.19.4", platforms: :ruby # do not attempt to run proofer on windows. Pinned to 3.19.4 as test is breaking in updated versions.
   gem "json_schemer", ">= 0.2.1", "< 0.2.19"
   gem "m"
   gem "minitest-sprint", "~> 1.0"
-  gem "minitest", "~> 5.5"
+  gem "minitest", "5.15.0"
   gem "mocha", "~> 1.1"
   gem "nokogiri", "~> 1.9"
   gem "pry-byebug"

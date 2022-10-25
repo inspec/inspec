@@ -37,6 +37,10 @@ module Inspec::Resources
       "hosts.allow Configuration"
     end
 
+    def resource_id
+      @conf_path
+    end
+
     private
 
     def read_content
@@ -110,5 +114,6 @@ module Inspec::Resources
     def to_s
       "hosts.deny Configuration"
     end
+
   end
 end

@@ -105,6 +105,7 @@ module Inspec
       @check_mode = options[:check_mode] || false
       @parent_profile = options[:parent_profile]
       @legacy_profile_path = options[:profiles_path] || false
+      @check_cookstyle = options[:with_cookstyle]
       Metadata.finalize(@source_reader.metadata, @profile_id, options)
 
       # if a backend has already been created, clone it so each profile has its own unique backend object
@@ -354,22 +355,24 @@ module Inspec
     def load_libraries
       return @runner_context if @libraries_loaded
 
-      locked_dependencies.dep_list.each_with_index do |(_name, dep), i|
+      locked_dependencies.dep_list.each_with_index do |(_name, dep), index|
         d = dep.profile
         # this will force a dependent profile load so we are only going to add
         # this metadata if the parent profile is supported.
         if @supports_platform && !d.supports_platform?
           # since ruby 1.9 hashes are ordered so we can just use index values here
           # TODO: NO! this is a violation of encapsulation to an extreme
-          metadata.dependencies[i][:status] = "skipped"
-          msg = "Skipping profile: '#{d.name}' on unsupported platform: '#{d.backend.platform.name}/#{d.backend.platform.release}'."
-          metadata.dependencies[i][:status_message] = msg
-          metadata.dependencies[i][:skip_message] = msg # Repeat as skip_message for backward compatibility
+          if metadata.dependencies[index]
+            metadata.dependencies[index][:status] = "skipped"
+            msg = "Skipping profile: '#{d.name}' on unsupported platform: '#{d.backend.platform.name}/#{d.backend.platform.release}'."
+            metadata.dependencies[index][:status_message] = msg
+            metadata.dependencies[index][:skip_message] = msg # Repeat as skip_message for backward compatibility
+          end
           next
-        elsif metadata.dependencies[i]
+        elsif metadata.dependencies[index]
           # Currently wrapper profiles will load all dependencies, and then we
           # load them again when we dive down. This needs to be re-done.
-          metadata.dependencies[i][:status] = "loaded"
+          metadata.dependencies[index][:status] = "loaded"
         end
 
         # rubocop:disable Layout/ExtraSpacing
@@ -414,7 +417,7 @@ module Inspec
           else
             ui = Inspec::UI.new
             gem_dependencies.each { |gem_dependency| ui.list_item("#{gem_dependency[:name]} #{gem_dependency[:version]}") }
-            choice = ui.prompt.select("Would you like to install profile gem dependencies listed above?", %w{Yes No})
+            choice = ui.prompt.select("The above listed gem dependencies are required to run the profile. Would you like to install them ?", %w{Yes No})
             if choice == "Yes"
               Inspec::Config.cached[:auto_install_gems] = true
               load_gem_dependencies
@@ -660,12 +663,13 @@ module Inspec
       end
 
       # Running cookstyle to check for code offenses
-      cookstyle_linting_check.each do |lint_output|
-        data = lint_output.split(":")
-        msg = "#{data[-2]}:#{data[-1]}"
-        offense.call(data[0], data[1], data[2], nil, msg)
+      if @check_cookstyle
+        cookstyle_linting_check.each do |lint_output|
+          data = lint_output.split(":")
+          msg = "#{data[-2]}:#{data[-1]}"
+          offense.call(data[0], data[1], data[2], nil, msg)
+        end
       end
-
       # profile is valid if we could not find any error & offenses
       result[:summary][:valid] = result[:errors].empty? && result[:offenses].empty?
 
@@ -747,6 +751,14 @@ module Inspec
 
     def files
       @source_reader.target.files
+    end
+
+    def readme
+      @source_reader.readme&.values&.first
+    end
+
+    def metadata_src
+      @source_reader.metadata_src
     end
 
     #
@@ -853,7 +865,12 @@ module Inspec
         f = load_rule_filepath(prefix, rule)
         load_rule(rule, f, controls, groups)
       end
-      params[:inputs] = Inspec::InputRegistry.list_inputs_for_profile(@profile_id)
+      if @profile_id.nil?
+        # identifying inputs using profile name
+        params[:inputs] = Inspec::InputRegistry.list_inputs_for_profile(params[:name])
+      else
+        params[:inputs] = Inspec::InputRegistry.list_inputs_for_profile(@profile_id)
+      end
       params
     end
 

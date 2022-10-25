@@ -140,6 +140,10 @@ module Inspec::Resources
       "Registry Key #{@options[:name]}"
     end
 
+    def resource_id
+      @options[:path]
+    end
+
     private
 
     def prep_prop(property)

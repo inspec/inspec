@@ -83,11 +83,6 @@
       "suffix": "This resource was removed in InSpec 4.0.",
       "comment": "Needed for ServerSpec compatibility"
     },
-    "resource_ppa": {
-      "action": "exit",
-      "suffix": "This resource was removed in InSpec 4.0.",
-      "comment": "Needed for ServerSpec compatibility"
-    },
     "resource_script": {
       "action": "exit",
       "suffix": "This resource will be removed in InSpec 4.0"
@@ -126,6 +121,10 @@
     "cli_option_target_id":{
       "action": "warn",
       "prefix": "The --target-id option is deprecated in InSpec 5. Its value will be ignored."
+    },
+    "renamed_to_inspec_export":{
+      "action": "ignore",
+      "prefix": "The `inspec json` command is deprecated in InSpec 5 and replaced with `inspec export` command."
     }
   }
 }

@@ -17,7 +17,7 @@ Use the `iis_site` Chef InSpec audit resource to test the state of IIS on Window
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 

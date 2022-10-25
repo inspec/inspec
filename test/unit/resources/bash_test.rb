@@ -7,6 +7,7 @@ describe "Inspec::Resources::Bash" do
   let(:resource) { load_resource("bash", '$("' + x + '")') }
 
   it "prints as a bash command" do
+    _(resource.resource_id).must_equal "$(\"#{x}\")"
     _(resource.to_s).must_equal 'Bash command $("' + x + '")'
   end
 
@@ -16,6 +17,7 @@ describe "Inspec::Resources::Bash" do
 
   it "can specify an executable path" do
     resource = load_resource("bash", '$("' + x + '")', path: "/bin/bash")
+    _(resource.resource_id).must_equal "$(\"#{x}\")"
     _(resource.command).must_equal "/bin/bash -c \\$\\(\\\"#{x}\\\"\\)"
   end
 

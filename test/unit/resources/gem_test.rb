@@ -20,6 +20,7 @@ describe "Inspec::Resources::Gem" do
     _(resource.installed?).must_equal true
     _(resource.info).must_equal pkg
     _(resource.gem_binary).must_equal "gem"
+    _(resource.resource_id).must_equal "rubocop-0.33.0"
   end
 
   it "specifying gem binary" do
@@ -34,6 +35,7 @@ describe "Inspec::Resources::Gem" do
     _(resource.installed?).must_equal true
     _(resource.info).must_equal pkg
     _(resource.gem_binary).must_equal "/opt/ruby-2.3.1/embedded/bin/gem"
+    _(resource.resource_id).must_equal "pry-0.10.4"
   end
 
   it "verify gem in :chef" do
@@ -48,6 +50,7 @@ describe "Inspec::Resources::Gem" do
     _(resource.installed?).must_equal true
     _(resource.info).must_equal pkg
     _(resource.gem_binary).must_equal "/opt/chef/embedded/bin/gem"
+    _(resource.resource_id).must_equal "chef-sugar-3.4.0"
   end
 
   it "verifies gem in :chef when multiple versions are installed" do
@@ -56,6 +59,7 @@ describe "Inspec::Resources::Gem" do
     _(resource.versions[0]).must_match(/3\.4/)
     _(resource.versions).wont_include(/2\.4/)
     _(resource.gem_binary).must_equal "/opt/chef/embedded/bin/gem"
+    _(resource.resource_id).must_equal "chef-sugar-3.4.0"
   end
 
   it "verify gem in :chef on windows" do
@@ -70,6 +74,7 @@ describe "Inspec::Resources::Gem" do
     _(resource.installed?).must_equal true
     _(resource.info).must_equal pkg
     _(resource.gem_binary).must_equal 'c:\opscode\chef\embedded\bin\gem.bat'
+    _(resource.resource_id).must_equal "json-1.8.3"
   end
 
   it "verify gem in :chef_server" do
@@ -84,5 +89,6 @@ describe "Inspec::Resources::Gem" do
     _(resource.installed?).must_equal true
     _(resource.info).must_equal pkg
     _(resource.gem_binary).must_equal "/opt/opscode/embedded/bin/gem"
+    _(resource.resource_id).must_equal "knife-backup-0.0.12"
   end
 end

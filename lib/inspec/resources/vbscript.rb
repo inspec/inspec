@@ -51,6 +51,11 @@ module Inspec::Resources
       @result ||= parse_stdout
     end
 
+    # vbscript can be of multiple lines so that can't be used as UUID so using the hardcoded string.
+    def resource_id
+      "Windows VBScript"
+    end
+
     def to_s
       "Windows VBScript"
     end

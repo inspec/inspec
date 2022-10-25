@@ -34,6 +34,10 @@ module Inspec::Resources
       param
     end
 
+    def resource_id
+      @conf_path || "chrony_conf"
+    end
+
     def to_s
       "chrony.conf"
     end

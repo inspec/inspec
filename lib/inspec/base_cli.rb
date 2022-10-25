@@ -138,6 +138,8 @@ module Inspec
         desc: "Provides path to Docker API endpoint (Docker)"
       option :ssh_config_file, type: :array,
         desc: "A list of paths to the ssh config file, e.g ~/.ssh/config or /etc/ssh/ssh_config"
+      option :podman_url, type: :string,
+        desc: "Provides path to Podman API endpoint"
     end
 
     def self.profile_options
@@ -205,6 +207,8 @@ module Inspec
         long_desc: "Maximum seconds to allow commands to run during execution. A timed out command is considered an error."
       option :reporter_include_source, type: :boolean, default: false,
         desc: "Include full source code of controls in the CLI report"
+      option :enhanced_outcomes, type: :boolean,
+        desc: "Show enhanced outcomes in output"
     end
 
     def self.help(*args)
@@ -325,6 +329,9 @@ module Inspec
 
     def pretty_handle_exception(exception)
       case exception
+      when Inspec::InvalidProfileSignature
+        $stderr.puts exception.message
+        Inspec::UI.new.exit(:bad_signature)
       when Inspec::Error
         $stderr.puts exception.message
         exit(1)

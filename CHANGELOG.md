@@ -1,22 +1,130 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.8.0 -->
-## [v5.8.0](https://github.com/inspec/inspec/tree/v5.8.0) (2022-03-19)
+<!-- latest_release 5.21.5 -->
+## [v5.21.5](https://github.com/inspec/inspec/tree/v5.21.5) (2022-10-20)
 
 #### Merged Pull Requests
-- CFINSPEC-79: Add linux container resource [#5921](https://github.com/inspec/inspec/pull/5921) ([ahasunos](https://github.com/ahasunos))
+- Bump omnibus-software from `1d540dc` to `7d0e0fe` in /omnibus [#6274](https://github.com/inspec/inspec/pull/6274) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
-<!-- release_rollup since=5.7.9 -->
-### Changes since 5.7.9 release
+<!-- release_rollup since=5.18.14 -->
+### Changes since 5.18.14 release
 
 #### Merged Pull Requests
-- CFINSPEC-79: Add linux container resource [#5921](https://github.com/inspec/inspec/pull/5921) ([ahasunos](https://github.com/ahasunos)) <!-- 5.8.0 -->
-- CFINSPEC-1 Adds the ability to detect the Kubernetes container and Podman container. [#5796](https://github.com/inspec/inspec/pull/5796) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.7.11 -->
-- Update docs makefile [#5927](https://github.com/inspec/inspec/pull/5927) ([IanMadd](https://github.com/IanMadd)) <!-- 5.7.10 -->
+- Bump omnibus-software from `1d540dc` to `7d0e0fe` in /omnibus [#6274](https://github.com/inspec/inspec/pull/6274) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.5 -->
+- Bump test-kitchen from 3.3.1 to 3.3.2 in /omnibus [#6227](https://github.com/inspec/inspec/pull/6227) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.4 -->
+- Faraday gem update [#6267](https://github.com/inspec/inspec/pull/6267) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.3 -->
+- Replace faraday_middleware with faraday-follow_redirects [#6238](https://github.com/inspec/inspec/pull/6238) ([tnir](https://github.com/tnir)) <!-- 5.21.2 -->
+- CFINSPEC-458 Oracle DB session resource compatibility with AIX-C shell [#6257](https://github.com/inspec/inspec/pull/6257) ([Nik08](https://github.com/Nik08)) <!-- 5.21.1 -->
+- CFINSPEC-374 DSL keyword `only_applicable_if` added [#6229](https://github.com/inspec/inspec/pull/6229) ([Nik08](https://github.com/Nik08)) <!-- 5.21.0 -->
+- CFINSPEC-462: Fixes inspec sign breaks when there is period n the profile name [#6261](https://github.com/inspec/inspec/pull/6261) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.20.4 -->
+- Enhance `lxc` resource to test properties [#6243](https://github.com/inspec/inspec/pull/6243) ([ahasunos](https://github.com/ahasunos)) <!-- 5.20.3 -->
+- Sync up the default branch as main [#6239](https://github.com/inspec/inspec/pull/6239) ([tnir](https://github.com/tnir)) <!-- 5.20.2 -->
+- Fix the dependabot adding  ffi (1.15.5-x64-unknown) to omnibus bump [#6213](https://github.com/inspec/inspec/pull/6213) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.20.1 -->
+- Adds podman resources. [#6183](https://github.com/inspec/inspec/pull/6183) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.20.0 -->
+- CFINSPEC-237 Added enhanced_outcomes option [#6145](https://github.com/inspec/inspec/pull/6145) ([Nik08](https://github.com/Nik08)) <!-- 5.19.0 -->
+- CFINSPEC-400 Fix for verify pipeline failure [#6218](https://github.com/inspec/inspec/pull/6218) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.18.17 -->
+- Docs spellcheck [#6214](https://github.com/inspec/inspec/pull/6214) ([IanMadd](https://github.com/IanMadd)) <!-- 5.18.16 -->
+- Trivial README change to trigger new omnibus build [#6203](https://github.com/inspec/inspec/pull/6203) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.18.15 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v5.18.14](https://github.com/inspec/inspec/tree/v5.18.14) (2022-07-13)
+
+#### Merged Pull Requests
+- Bump rack from 2.2.3 to 2.2.3.1 in /omnibus [#6098](https://github.com/inspec/inspec/pull/6098) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- CFINSPEC-95: Enhance `x509_certificate` resource [#6041](https://github.com/inspec/inspec/pull/6041) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-267: resource_ids group 6 [#6101](https://github.com/inspec/inspec/pull/6101) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-262 Adds resource_id group 1 [#6102](https://github.com/inspec/inspec/pull/6102) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-266: resource_ids group 5 [#6103](https://github.com/inspec/inspec/pull/6103) ([ahasunos](https://github.com/ahasunos))
+- Fix the key duplication error warning in the mock_loader.rb [#6120](https://github.com/inspec/inspec/pull/6120) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-268 Adds resource_id group 7 [#6105](https://github.com/inspec/inspec/pull/6105) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-269 Adds resource_id group 8 [#6107](https://github.com/inspec/inspec/pull/6107) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-265  Group 4 - Added resource_id in resources [#6109](https://github.com/inspec/inspec/pull/6109) ([Nik08](https://github.com/Nik08))
+- CFINSPEC-270 Adds resource_id group9 [#6111](https://github.com/inspec/inspec/pull/6111) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-273 Adds resource_id group 12 [#6112](https://github.com/inspec/inspec/pull/6112) ([Vasu1105](https://github.com/Vasu1105))
+- Handle resource_id in error situations [#6118](https://github.com/inspec/inspec/pull/6118) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-262 - Handle resource_id in error situation [#6119](https://github.com/inspec/inspec/pull/6119) ([Vasu1105](https://github.com/Vasu1105))
+- Bump berkshelf from 8.0.0 to 8.0.2 in /omnibus [#6114](https://github.com/inspec/inspec/pull/6114) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- CFINSPEC-167: Profile Signing Rollup [#5995](https://github.com/inspec/inspec/pull/5995) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-291: Fix `processes` resource to consider processes without `path` on Windows [#6100](https://github.com/inspec/inspec/pull/6100) ([ahasunos](https://github.com/ahasunos))
+- Fixed Lint/DuplicateMethods: Method Inspec::Resources::Service#resource_id is defined at both [#6132](https://github.com/inspec/inspec/pull/6132) ([Vasu1105](https://github.com/Vasu1105))
+- Dk/matchers rewrite [#6007](https://github.com/inspec/inspec/pull/6007) ([dkumaras](https://github.com/dkumaras))
+- Add inspec-6 branch as release branch [#6136](https://github.com/inspec/inspec/pull/6136) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- add ruby test 3.1 in verify pipeline [#5892](https://github.com/inspec/inspec/pull/5892) ([jayashrig158](https://github.com/jayashrig158))
+- Updated plugins doc with send_report functionality [#6144](https://github.com/inspec/inspec/pull/6144) ([Nik08](https://github.com/Nik08))
+- Bump octokit from 4.23.0 to 4.25.0 in /omnibus [#6146](https://github.com/inspec/inspec/pull/6146) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Fixes for Buildkite Issues [#6161](https://github.com/inspec/inspec/pull/6161) ([Nik08](https://github.com/Nik08))
+- CFINSPEC-238 Enhanced Outcomes Design Doc [#6152](https://github.com/inspec/inspec/pull/6152) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add k8s section to resources index page [#6167](https://github.com/inspec/inspec/pull/6167) ([IanMadd](https://github.com/IanMadd))
+- Windows fix for dependent profiles [#6173](https://github.com/inspec/inspec/pull/6173) ([Nik08](https://github.com/Nik08))
+- Bump omnibus-software from `a9b13a0` to `7bb8c7b` in /omnibus [#6191](https://github.com/inspec/inspec/pull/6191) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Trial - Update the omnibus/Gemfile.lock (can be the reason for omnibus build failure) [#6195](https://github.com/inspec/inspec/pull/6195) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-239 Attestations Design Doc [#6188](https://github.com/inspec/inspec/pull/6188) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
+## [v5.17.4](https://github.com/inspec/inspec/tree/v5.17.4) (2022-05-25)
+
+#### Merged Pull Requests
+- chore: Set permissions for GitHub actions [#5990](https://github.com/inspec/inspec/pull/5990) ([neilnaveen](https://github.com/neilnaveen))
+- CFINSPEC-88: Extend `file` resource documentation with be_mounted matcher [#5999](https://github.com/inspec/inspec/pull/5999) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-185: Updates inspec check cli docs to include --with-cookstyle option [#6000](https://github.com/inspec/inspec/pull/6000) ([Vasu1105](https://github.com/Vasu1105))
+- Fix for issue 5809 Service checks failing on Amazon linux 2022 [#5998](https://github.com/inspec/inspec/pull/5998) ([ahasunos](https://github.com/ahasunos))
+- Bump berkshelf from 7.2.2 to 8.0.0 in /omnibus [#6020](https://github.com/inspec/inspec/pull/6020) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Add a sample validation key, to be used in testing key fetching [#6030](https://github.com/inspec/inspec/pull/6030) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- CFINSPEC-96: Add `zfs` resource [#6004](https://github.com/inspec/inspec/pull/6004) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-250: Fix for inspec json command does not populate the inputs for the profile [#6056](https://github.com/inspec/inspec/pull/6056) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-252: Fix profile gem dependency installation is failing when  gem version is not specified [#6057](https://github.com/inspec/inspec/pull/6057) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-84: Add `x509_private_key` resource [#6018](https://github.com/inspec/inspec/pull/6018) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-90: Enhance `host` resource [#6045](https://github.com/inspec/inspec/pull/6045) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-92: Enhance `processes` resource [#5991](https://github.com/inspec/inspec/pull/5991) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-81: Add `php_config` resource [#6010](https://github.com/inspec/inspec/pull/6010) ([ahasunos](https://github.com/ahasunos))
+- UNIT_TESTS: update yaml reporter test for Ruby 3+ [#6040](https://github.com/inspec/inspec/pull/6040) ([marijus-ravickas](https://github.com/marijus-ravickas))
+- fixing bad markdown syntax [#6066](https://github.com/inspec/inspec/pull/6066) ([replicajune](https://github.com/replicajune))
+- Add vale config to docs in inspec repository [#6065](https://github.com/inspec/inspec/pull/6065) ([IanMadd](https://github.com/IanMadd))
+- Remove Hugo version from Netlify config [#6075](https://github.com/inspec/inspec/pull/6075) ([IanMadd](https://github.com/IanMadd))
+
+## [v5.14.0](https://github.com/inspec/inspec/tree/v5.14.0) (2022-04-21)
+
+#### Merged Pull Requests
+- Fix unit test for service resource [#5980](https://github.com/inspec/inspec/pull/5980) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-75: Add default_gateway resource [#5979](https://github.com/inspec/inspec/pull/5979) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-181: Fix unable to upload inspec compliance profile using to… [#5989](https://github.com/inspec/inspec/pull/5989) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-87: Enhance `file` resource [#5986](https://github.com/inspec/inspec/pull/5986) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-93: Enhance `service` resource [#5981](https://github.com/inspec/inspec/pull/5981) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-89: Enhance `group` resource [#5987](https://github.com/inspec/inspec/pull/5987) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-78: Add `linux_audit_system` resource [#5988](https://github.com/inspec/inspec/pull/5988) ([ahasunos](https://github.com/ahasunos))
+
+## [v5.12.2](https://github.com/inspec/inspec/tree/v5.12.2) (2022-04-08)
+
+#### Merged Pull Requests
+- Deprecation note for azurerm resources [#5923](https://github.com/inspec/inspec/pull/5923) ([IanMadd](https://github.com/IanMadd))
+- Extend CI test timeout to 60 minutes [#5949](https://github.com/inspec/inspec/pull/5949) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- updates to reporting detail on progress bar [#5956](https://github.com/inspec/inspec/pull/5956) ([aaronlippold](https://github.com/aaronlippold))
+- CFINSPEC-85: Enhance docker_container resource with have_volume matcher [#5944](https://github.com/inspec/inspec/pull/5944) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-86: Enhance docker_image resource [#5945](https://github.com/inspec/inspec/pull/5945) ([ahasunos](https://github.com/ahasunos))
+- fix(service): ensure `installed: true` isn&#39;t always returned on FreeBSD [#5948](https://github.com/inspec/inspec/pull/5948) ([myii](https://github.com/myii))
+- AliCloud Platform Instructions [#5960](https://github.com/inspec/inspec/pull/5960) ([dkumaras](https://github.com/dkumaras))
+- CFINSPEC-94: Enhance user resource [#5959](https://github.com/inspec/inspec/pull/5959) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-80: Add mail alias resource [#5961](https://github.com/inspec/inspec/pull/5961) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-83: Add routing table resource [#5972](https://github.com/inspec/inspec/pull/5972) ([ahasunos](https://github.com/ahasunos))
+- Bump omnibus-software from `82b14e3` to `960cb6e` in /omnibus [#5973](https://github.com/inspec/inspec/pull/5973) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Move shortcodes from chef-web-docs to inspec repo [#5969](https://github.com/inspec/inspec/pull/5969) ([IanMadd](https://github.com/IanMadd))
+
+## [v5.10.5](https://github.com/inspec/inspec/tree/v5.10.5) (2022-03-23)
+
+#### Merged Pull Requests
+- Update docs makefile [#5927](https://github.com/inspec/inspec/pull/5927) ([IanMadd](https://github.com/IanMadd))
+- CFINSPEC-1 Adds the ability to detect the Kubernetes container and Podman container. [#5796](https://github.com/inspec/inspec/pull/5796) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-79: Add linux container resource [#5921](https://github.com/inspec/inspec/pull/5921) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-82: Add ppa resource  [#5931](https://github.com/inspec/inspec/pull/5931) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-73: Add cgroup resource [#5935](https://github.com/inspec/inspec/pull/5935) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-154: postgres_session resource allow query errors to be treat as failures. [#5937](https://github.com/inspec/inspec/pull/5937) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-118 Description added in plugin list and search command [#5936](https://github.com/inspec/inspec/pull/5936) ([Nik08](https://github.com/Nik08))
+- CFINSPEC-156 Oracle query fix when empty result [#5938](https://github.com/inspec/inspec/pull/5938) ([Nik08](https://github.com/Nik08))
+- Bump omnibus-software from `5947560` to `82b14e3` in /omnibus [#5940](https://github.com/inspec/inspec/pull/5940) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Fix plugin list smoke test [#5946](https://github.com/inspec/inspec/pull/5946) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
 ## [v5.7.9](https://github.com/inspec/inspec/tree/v5.7.9) (2022-03-17)
 
 #### New Features
@@ -92,7 +200,6 @@
 - CFINSPEC-137: Deprecate --target-id option [#5918](https://github.com/inspec/inspec/pull/5918) ([Vasu1105](https://github.com/Vasu1105))
 - RESOURCE-312 extend filter table to lazy loading for resource instances [#5916](https://github.com/inspec/inspec/pull/5916) ([sathish-progress](https://github.com/sathish-progress))
 - Update copyright year in README [#5928](https://github.com/inspec/inspec/pull/5928) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v4.52.9](https://github.com/inspec/inspec/tree/v4.52.9) (2021-12-20)
 

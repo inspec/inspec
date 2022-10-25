@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< inspec/azurerm_deprecated resource="azure_sql_server" >}}
+
 Use the `azurerm_sql_server` InSpec audit resource to test properties and configuration of
 an Azure SQL Server within a Resource Group.
 
@@ -61,7 +63,7 @@ If a SQL Server is referenced with a valid `Resource Group` and `Server Name`
 
 If a SQL Server is referenced with an invalid `Resource Group` or `Server Name`
 
-    describe azurerm_sql_server(resource_group: 'invalid-rg', server_name: 'i-dont-exist') do
+    describe azurerm_sql_server(resource_group: 'invalid-rg', server_name: 'i-do-not-exist') do
       it { should_not exist }
     end
 
@@ -124,9 +126,7 @@ requests are always welcome.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

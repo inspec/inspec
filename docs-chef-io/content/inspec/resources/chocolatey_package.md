@@ -17,7 +17,7 @@ Use the `chocolatey_package` Chef InSpec audit resource to test if the named [Ch
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 

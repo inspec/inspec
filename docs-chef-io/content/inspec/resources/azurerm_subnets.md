@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< inspec/azurerm_deprecated resource="azure_subnet" >}}
+
 Use the `azurerm_subnets` InSpec audit resource to test properties related to
 subnets for a resource group.
 
@@ -53,7 +55,7 @@ The `resource_group` and 'vnet' must be given as a parameter.
 
 ## Examples
 
-    # Exists if any subnetss exist for a given virtual network in the resource group
+    # Exists if any subnets exist for a given virtual network in the resource group
     describe azurerm_subnets(resource_group: 'MyResourceGroup', vnet: 'MyVnetName') do
       it { should exist }
     end
@@ -103,9 +105,7 @@ Gives a list of all the subnet names in the virtual network.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

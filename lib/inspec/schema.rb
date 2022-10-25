@@ -111,6 +111,43 @@ module Inspec
       },
     }.freeze
 
+    CONTROL_ENHANCED_OUTCOME = {
+      "type" => "object",
+      "additionalProperties" => false,
+      "properties" => {
+        "id" => { "type" => "string" },
+        "title" => { "type" => %w{string null} },
+        "desc" => { "type" => %w{string null} },
+        "descriptions" => { "type" => %w{array} },
+        "impact" => { "type" => "number" },
+        "status" => {
+          "enum" => %w{passed failed not_applicable not_reviewed error},
+          "description" => Primitives.desc(Primitives::STRING, "The enhanced outcome status of the control"),
+        },
+        "refs" => REFS,
+        "tags" => TAGS,
+        "code" => { "type" => "string" },
+        "source_location" => {
+          "type" => "object",
+          "properties" => {
+            "ref" => { "type" => "string" },
+            "line" => { "type" => "number" },
+          },
+        },
+        "results" => { "type" => "array", "items" => RESULT },
+        "waiver_data" => {
+          "type" => "object",
+          "properties" => {
+            "skipped_due_to_waiver" => { "type" => "string" },
+            "run" => { "type" => "boolean" },
+            "message" => { "type" => "string" },
+            "expiration_date" => { "type" => "string" },
+            "justification" => { "type" => "string" },
+          },
+        },
+      },
+    }.freeze
+
     SUPPORTS = {
       "type" => "object",
       "additionalProperties" => false,
@@ -173,6 +210,45 @@ module Inspec
       },
     }.freeze
 
+    PROFILE_ENHANCED_OUTCOME = {
+      "type" => "object",
+      "additionalProperties" => false,
+      "properties" => {
+        "name" => { "type" => "string" },
+        "version" => { "type" => "string", "optional" => true },
+        "sha256" => { "type" => "string", "optional" => false },
+
+        "title" => { "type" => "string", "optional" => true },
+        "maintainer" => { "type" => "string", "optional" => true },
+        "copyright" => { "type" => "string", "optional" => true },
+        "copyright_email" => { "type" => "string", "optional" => true },
+        "license" => { "type" => "string", "optional" => true },
+        "summary" => { "type" => "string", "optional" => true },
+        "status" => { "type" => "string", "optional" => false },
+        "status_message" => { "type" => "string", "optional" => true },
+        # skip_message is deprecated, status_message should be used to store the reason for skipping
+        "skip_message" => { "type" => "string", "optional" => true },
+
+        "supports" => {
+          "type" => "array",
+          "items" => SUPPORTS,
+          "optional" => true,
+        },
+        "controls" => {
+          "type" => "array",
+          "items" => CONTROL_ENHANCED_OUTCOME,
+        },
+        "groups" => {
+          "type" => "array",
+          "items" => CONTROL_GROUP,
+        },
+        "attributes" => { # TODO: rename to inputs, refs #3802
+          "type" => "array",
+          # TODO: more detailed specification needed
+        },
+      },
+    }.freeze
+
     EXEC_JSON = {
       "type" => "object",
       "additionalProperties" => false,
@@ -181,6 +257,20 @@ module Inspec
         "profiles" => {
           "type" => "array",
           "items" => PROFILE,
+        },
+        "statistics" => STATISTICS,
+        "version" => { "type" => "string" },
+      },
+    }.freeze
+
+    EXEC_JSON_ENHANCED_OUTCOME = {
+      "type" => "object",
+      "additionalProperties" => false,
+      "properties" => {
+        "platform" => PLATFORM,
+        "profiles" => {
+          "type" => "array",
+          "items" => PROFILE_ENHANCED_OUTCOME,
         },
         "statistics" => STATISTICS,
         "version" => { "type" => "string" },
@@ -228,6 +318,7 @@ module Inspec
     LIST = {
       "exec-json" => EXEC_JSON,
       "exec-jsonmin" => EXEC_JSONMIN,
+      "exec-json-enhanced-outcome" => EXEC_JSON_ENHANCED_OUTCOME,
       "platforms" => PLATFORMS,
     }.freeze
 

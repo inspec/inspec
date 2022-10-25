@@ -7,6 +7,7 @@ describe "Inspec::Resources::Bond" do
   it "check linux bond on ubuntu" do
     resource = MockLoader.new(:ubuntu).load_resource("bond", "bond0")
     # bond must be available
+    _(resource.resource_id).must_equal "/proc/net/bonding/bond0"
     _(resource.exist?).must_equal true
     # get bonding mode
     _(resource.mode).must_equal "IEEE 802.3ad Dynamic link aggregation"

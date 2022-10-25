@@ -36,7 +36,7 @@ inspec help shell # This will describe inspec shell usage
 
 If you wish to connect to a remote machine (called a target within
 InSpec), you can use the `-t` flag. We support connecting using SSH,
-WinRM and docker. If no target is provided, we implicitly support the
+WinRM, Docker, Podman and many other target types. If no target is provided, we implicitly support the
 "local" target - i.e. tests running on the current machine running
 InSpec. For an SSH connection, use `-i` for specifying SSH key files,
 and the `--sudo*` commands for requesting a privilege escalation after
@@ -49,6 +49,7 @@ inspec shell -t ssh://user@hostname:1234 -i /path/to/user_key  # Login to hostna
 inspec shell -t winrm://UserName:Password@windowsmachine:1234  # Login to windowsmachine over WinRM as UserName.
 inspec shell -t winrm://windowsmachine --user 'UserName@domain' --password 'Secret123!' # Login to windowsmachine as UserName@domain.org.
 inspec shell -t docker://container_id # Login to a Docker container.
+inspec shell -t podman://container_id --podman-url "unix:///run/user/$UID/podman/podman.sock" #Login to Podman rootless container.
 ```
 
 ## Resource Packs
@@ -111,12 +112,12 @@ $ inspec shell
 Welcome to the interactive InSpec Shell
 To find out how to use it, type: help
 
-inspec> file('/Users/myuser').directory?
+inspec> file('/Users/username').directory?
 => true
 inspec> os_env('HOME')
 => Environment variable HOME
 inspec> os_env('HOME').content
-=> /Users/myuser
+=> /Users/username
 inspec> exit
 ```
 
@@ -140,10 +141,10 @@ replaced with the redefinition and the control is re-run.
 ```bash
 inspec> control 'my_control' do
 inspec>   describe os_env('HOME') do
-inspec>     its('content') { should eq '/Users/myuser' }
+inspec>     its('content') { should eq '/Users/username' }
 inspec>   end
 inspec> end
-  ✔  my_control: Environment variable HOME content should eq "/Users/myuser"
+  ✔  my_control: Environment variable HOME content should eq "/Users/username"
 
   Summary: 1 successful, 0 failures, 0 skipped
 ```
@@ -172,10 +173,10 @@ If you wish to run a single Chef InSpec command and fetch its results, you
 may use the `-c` flag. This is similar to using `bash -c`.
 
 ```bash
-$ inspec shell -c 'describe file("/Users/myuser") do it { should exist } end'
+$ inspec shell -c 'describe file("/Users/username") do it { should exist } end'
 Target:  local://
 
-  ✔  File /Users/myuser should exist
+  ✔  File /Users/username should exist
 
 Summary: 1 successful, 0 failures, 0 skipped
 ```

@@ -9,6 +9,7 @@ describe "Inspec::Resources::EtcGroup" do
     _(resource.gids).must_equal [0, 33, 999, 1000]
     _(resource.groups).must_equal %w{ root www-data GroupWithCaps sftpusers }
     _(resource.users).must_equal %w{ www-data root sftponly }
+    _(resource.resource_id).must_equal "/etc/group"
   end
 
   it "verify group filter with no users" do

@@ -1,0 +1,24 @@
+extends: conditional
+message: "'%s' has no definition."
+link: https://docs.microsoft.com/en-us/style-guide/acronyms
+level: suggestion
+ignorecase: false
+# Ensures that the existence of 'first' implies the existence of 'second'.
+first: '\b([A-Z]{3,5})\b'
+second: '(?:\b[A-Z][a-z]+ )+\(([A-Z]{3,5})\)'
+# ... with the exception of these:
+exceptions:
+  - REST
+  - API
+  - CMDB
+  - URL
+  - FQDN
+  - CPU
+  - https
+  - JSON
+  - AWS
+  - VPN
+  - CIDR
+  - DHCP
+  - ARN
+  - IAM

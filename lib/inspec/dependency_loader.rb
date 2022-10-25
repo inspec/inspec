@@ -50,7 +50,11 @@ module Inspec
     end
 
     def gem_version_installed?(name, version)
-      list_installed_gems.any? { |s| s.name == name && Gem::Requirement.new(version.split(",")) =~ s.version }
+      if version.nil?
+        list_installed_gems.any? { |s| s.name == name }
+      else
+        list_installed_gems.any? { |s| s.name == name && Gem::Requirement.new(version.split(",")) =~ s.version }
+      end
     end
 
     private

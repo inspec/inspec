@@ -62,6 +62,10 @@ module Inspec::Resources
       @ip6tables_cache = cmd.stdout.split("\n").map(&:strip)
     end
 
+    def resource_id
+      format("Ip6tables %s %s", @table && "table: #{@table}", @chain && "chain: #{@chain}").strip
+    end
+
     def to_s
       format("Ip6tables %s %s", @table && "table: #{@table}", @chain && "chain: #{@chain}").strip
     end

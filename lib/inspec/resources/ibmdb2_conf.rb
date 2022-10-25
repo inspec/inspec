@@ -24,6 +24,14 @@ module Inspec::Resources
       @output = run_command
     end
 
+    def resource_id
+      if inspec.os.platform?("windows")
+        "ibmdb2_conf"
+      else
+        "ibmdb2_conf:DatabaseInstance:#{@db_instance}"
+      end
+    end
+
     def to_s
       "IBM Db2 Conf"
     end

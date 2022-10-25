@@ -51,6 +51,10 @@ module Inspec::Resources
       info[:version]
     end
 
+    def resource_id
+      @package_name || "cpan"
+    end
+
     def to_s
       "Perl Module #{@package_name}"
     end

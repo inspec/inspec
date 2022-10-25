@@ -32,6 +32,7 @@ describe "Inspec::Resources::Virtualization" do
     mock_loader = MockLoader.new(:ubuntu)
     mock_loader.backend.stub :file, mock_proc(mocked_files) do
       mock_resource = mock_loader.load_resource("virtualization")
+      _(mock_resource.resource_id).must_equal "virtualization"
       _(mock_resource.system).must_be_nil
       _(mock_resource.role).must_be_nil
     end

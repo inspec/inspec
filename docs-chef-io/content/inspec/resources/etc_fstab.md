@@ -17,7 +17,7 @@ Use the `etc_fstab` Chef InSpec audit resource to test information about all par
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 

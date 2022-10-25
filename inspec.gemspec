@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "inspec-core", "= #{Inspec::VERSION}"
 
-  spec.add_dependency "train", "~> 3.0"
+  spec.add_dependency "train", "~> 3.10"
 
   # cookstyle support for inspec check
   # Added here not because they are compiled, but to keep chef-client lightweight
@@ -33,6 +33,10 @@ Gem::Specification.new do |spec|
 
   # progress bar streaming reporter plugin support
   spec.add_dependency "progress_bar", "~> 1.3.3"
+
+  # roo support for reading excel waiver files
+  spec.add_dependency "roo", "~> 2.9.0"
+  spec.add_dependency "roo-xls" # extension for roo to read xls files
 
   # Used for Azure profile until integrated into train
   spec.add_dependency "faraday_middleware", ">= 0.12.2", "< 1.1"

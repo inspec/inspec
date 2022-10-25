@@ -1,0 +1,11 @@
+extends: substitution
+message: "Use '%s' instead of '%s'"
+level: error
+ignorecase: false
+swap:
+  'Microsoft Windows': Windows
+  'windows': Windows
+  'linux': Linux
+  'postgreSQL' : PostgreSQL
+  'postgresql' : PostgreSQL
+

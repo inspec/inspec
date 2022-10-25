@@ -4,9 +4,10 @@ module Inspec::Resources
   class Lines
     attr_reader :params
 
-    def initialize(raw, desc)
+    def initialize(raw, desc, exit_status = nil)
       @params = raw
       @desc = desc
+      @exit_status = exit_status
     end
 
     def to_s
@@ -60,6 +61,10 @@ module Inspec::Resources
       Lines.new(@client.command(command).documents.first, "MongoDB query: #{command}")
     rescue => e
       raise Inspec::Exceptions::ResourceFailed, "Can't run MongoDB command Error: #{e.message}"
+    end
+
+    def resource_id
+      "mongodb_session:User:#{@user}:Host:#{@host}:Database:#{@database}"
     end
 
     private

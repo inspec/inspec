@@ -259,8 +259,13 @@ module Inspec::Plugin::V2
         status.entry_point = File.join(plugin_dir, "lib", status.name.to_s + ".rb")
         status.installation_type = :core
         status.loaded = false
+        status.description = fetch_gemspec(File.join(plugin_dir, status.name.to_s + ".gemspec"))&.summary
         registry[status.name.to_sym] = status
       end
+    end
+
+    def fetch_gemspec(spec_file)
+      Gem::Specification.load(spec_file)
     end
 
     def read_conf_file_into_registry
@@ -273,12 +278,19 @@ module Inspec::Plugin::V2
         when :user_gem
           status.entry_point = status.name.to_s
           status.version = plugin_entry[:version]
+          status.description = fetch_plugin_specs(status.name.to_s)&.summary
         when :path
           status.entry_point = plugin_entry[:installation_path]
         end
 
         registry[status.name] = status
       end
+    end
+
+    def fetch_plugin_specs(plugin_name)
+      fetcher = Gem::SpecFetcher.fetcher
+      plugin_dependency = Gem::Dependency.new(plugin_name)
+      fetcher.spec_for_dependency(plugin_dependency).flatten.first
     end
 
     def fixup_train_plugin_status(status)
@@ -327,6 +339,7 @@ module Inspec::Plugin::V2
         status.version = plugin_spec.version.to_s
         status.loaded = false
         status.installation_type = :system_gem
+        status.description = plugin_spec.summary
 
         if train_plugin_name?(status[:name])
           # Train plugins are not true InSpec plugins; we need to decorate them a

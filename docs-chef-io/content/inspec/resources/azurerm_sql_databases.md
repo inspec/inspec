@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< inspec/azurerm_deprecated resource="azure_sql_databases" >}}
+
 Use the `azurerm_sql_databases` InSpec audit resource to test properties and configuration of Azure SQL Databases.
 
 ## Azure REST API version
@@ -44,7 +46,7 @@ This resource first became available in 1.2.0 of the inspec-azure resource pack.
 
 ## Syntax
 
-An `azurerm_sql_databases` resource block returns all SQL Databases on a SQL Server, within a Rsource Group.
+An `azurerm_sql_databases` resource block returns all SQL Databases on a SQL Server, within a resource group.
 
     describe azurerm_sql_databases(resource_group: ..., server_name: ...) do
       ...
@@ -126,8 +128,7 @@ A collection of additional configuration properties related to the SQL Database,
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of available matchers,
-please visit our [Universal Matchers page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

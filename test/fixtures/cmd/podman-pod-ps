@@ -1,0 +1,29 @@
+[
+  {
+    "Cgroup": "user.slice",
+    "Containers": [
+      {
+        "Id": "a218dfc58fa28e0c58c55e508e5b57084876b42e894b98073c69c45dea06cbb2",
+        "Names": "95cadbb84df7-infra",
+        "Status": "running"
+      },
+      {
+        "Id": "b36abf69b8af6f8a8305ab2d9b209c2acaeece41dbc4f242f8e45caf6e02504b",
+        "Names": "pensive_mccarthy",
+        "Status": "running"
+      }
+    ],
+    "Created": "2022-07-01T13:08:09.662082101+05:30",
+    "Id": "95cadbb84df71e6374fceb3fd89ee3b8f2c7e1a831062cd9cea7d0e3e4b1dbcc",
+    "InfraId": "a218dfc58fa28e0c58c55e508e5b57084876b42e894b98073c69c45dea06cbb2",
+    "Name": "cranky_allen",
+    "Namespace": "",
+    "Networks": [
+      "podman"
+    ],
+    "Status": "Running",
+    "Labels": {
+      
+    }
+  }
+]

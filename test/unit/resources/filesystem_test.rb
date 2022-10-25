@@ -14,6 +14,7 @@ describe "Inspec::Resources::FileSystemResource" do
     _(resource.type).must_equal "ext4"
     _(resource.free_kb).must_equal 20760728
     _(resource.percent_free).must_equal 68
+    _(resource.resource_id).must_equal "/"
   end
 
   # windows
@@ -25,5 +26,6 @@ describe "Inspec::Resources::FileSystemResource" do
     _(resource.type).must_equal "NTFS"
     _(resource.free_kb).must_equal 30000000
     _(resource.percent_free).must_equal 75
+    _(resource.resource_id).must_equal "c:"
   end
 end

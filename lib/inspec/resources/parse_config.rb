@@ -68,6 +68,10 @@ module Inspec::Resources
       end
     end
 
+    def resource_id
+      @content || "parse_config"
+    end
+
     def to_s
       "Parse Config #{@conf_path}"
     end
@@ -104,8 +108,13 @@ module Inspec::Resources
     EXAMPLE
 
     def initialize(path, opts = nil)
+      @path = path
       super(nil, opts)
-      parse_file(path)
+      parse_file(@path)
+    end
+
+    def resource_id
+      @path || "parse_config_file"
     end
 
     def to_s

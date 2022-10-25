@@ -6,6 +6,10 @@ describe "Inspec::Resources::JSON" do
   describe "when loading a valid json" do
     let(:resource) { load_resource("json", "policyfile.lock.json") }
 
+    it "gets the resource id" do
+      _(resource.resource_id).must_equal "policyfile.lock.json"
+    end
+
     it "gets params as a hashmap" do
       _(resource.params).must_be_kind_of Hash
     end
@@ -41,6 +45,10 @@ describe "Inspec::Resources::JSON" do
 
   describe "when loading a nonexistent file" do
     let(:resource) { load_resource("json", "nonexistent.json") }
+
+    it "gets the resource id" do
+      _(resource.resource_id).must_equal "nonexistent.json"
+    end
 
     it "produces an error" do
       _(resource.resource_exception_message).must_equal "Can't find file: nonexistent.json"

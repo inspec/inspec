@@ -17,7 +17,7 @@ Use the `ini` Chef InSpec audit resource to test settings in an INI file.
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 
@@ -55,7 +55,7 @@ Settings inside of sections, such as the following:
 
 In the event a section or setting name has a period in it, the alternate syntax can be used:
 
-    its(['section.with.a.dot.in.it', 'setting.name.with.dots']) { should cmp 'lotsadots' }
+    its(['section.with.a.dot.in.it', 'setting.name.with.dots']) { should cmp 'lots-of-dots' }
 
 ## Properties
 

@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< inspec/azurerm_deprecated resource="azure_load_balancer" >}}
+
 Use the `azurerm_load_balancer` InSpec audit resource to test properties and configuration of
 an Azure Load Balancer.
 
@@ -61,7 +63,7 @@ If a Load Balancer is referenced with a valid `Resource Group` and `Load balance
 
 If a Load Balancer is referenced with an invalid `Resource Group` or `Load balancer Name`
 
-    describe azurerm_load_balancer(resource_group: 'invalid-rg', loadbalancer_name: 'i-dont-exist') do
+    describe azurerm_load_balancer(resource_group: 'invalid-rg', loadbalancer_name: 'i-do-not-exist') do
       it { should_not exist }
     end
 
@@ -124,9 +126,7 @@ requests are always welcome.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

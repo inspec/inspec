@@ -9,4 +9,4 @@ Write-Host "+++ Testing $Plan"
 
 Set-Location test/artifact
 rake
-If ($lastexitcode -ne 0) { Exit $lastexitcode }
+If ($lastexitcode -ne 0) { Throw $lastexitcode }

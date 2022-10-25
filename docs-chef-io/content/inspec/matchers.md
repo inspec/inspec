@@ -11,28 +11,22 @@ gh_repo = "inspec"
     weight = 40
 +++
 
-Chef InSpec uses matchers to help compare resource values to expectations.
-The following matchers are available:
+Chef InSpec uses **matchers**, a testing framework based on [RSpec](https://rspec.info/), to help compare resource values to expectations. The following matchers are available:
 
-You may also use any matcher provided by [RSpec::Expectations](https://relishapp.com/rspec/rspec-expectations/docs),
-but those matchers are outside of InSpec's [scope of support](/inspec/inspec_and_friends/#rspec).
+- [`be`](#be) - makes numeric comparisons.
+- [`be_in`](#be_in) - looks for the property value in a list.
+- [`cmp`](#cmp) - checks the equality (general-use).
+- [`eq`](#eq) - checks the type-specific equality.
+- [`include`](#include) - looks for an expected value in a list-valued property.
+- [`match`](#match) - looks for patterns in text using regular expressions.
 
-The following InSpec-supported universal matchers are available:
+You can use any matcher provided by [RSpec::Expectations](https://relishapp.com/rspec/rspec-expectations/docs); however, these matchers are not [supported by InSpec](/inspec/inspec_and_friends/#rspec).
 
-- [`be`](#be) - make numeric comparisons
-- [`be_in`](#be_in) - look for the property value in a list
-- [`cmp`](#cmp) - general-use equality (try this first)
-- [`eq`](#eq) - type-specific equality
-- [`include`](#include) - look for an expected value in a list-valued property
-- [`match`](#match) - look for patterns in text using regular expressions
-
-See [Explore Chef InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/)
-on Learn Chef Rally to learn more about InSpec's built-in matchers.
+See [Test Expectations with Chef InSpec](https://learn.chef.io/courses/course-v1:chef+Inspec101+Perpetual/about) on Learn Chef to learn more about Chef InSpec's built-in matchers.
 
 ## be
 
-This matcher can be followed by many different comparison operators.
-Always make sure to use numbers, not strings, for these comparisons.
+Use the `be` matcher with comparison operators, and use numbers and not strings for these comparisons. For example:
 
 ```ruby
 describe file('/proc/cpuinfo') do
@@ -41,12 +35,21 @@ describe file('/proc/cpuinfo') do
 end
 ```
 
+## be_in
+
+`be_in` verifies if an item is included in a list. For example:
+
+```ruby
+describe resource do
+  its('item') { should be_in LIST }
+end
+```
+
 ## cmp
 
-Unlike `eq`, `cmp` is a matcher for less-restrictive comparisons. It will
-try to fit the actual value to the type you are comparing it to. This is
-meant to relieve the user from having to write type-casts and
-resolutions.
+Unlike [`eq`](#eq), `cmp` makes less restrictive comparisons. It tries to fit the actual value to the type you are comparing. This matcher is meant to relieve the user from having to write type casts and resolutions.
+
+Examples:
 
 ```ruby
 describe sshd_config do
@@ -58,69 +61,69 @@ describe passwd.uid(0) do
 end
 ```
 
-`cmp` behaves in the following way:
+The `cmp` matcher compares values in the following ways:
 
-- Compare strings to numbers
+- `cmp` can compare strings to numbers:
 
-```ruby
-describe sshd_config do
-  # Only `'2'` works
-  its('Protocol') { should eq '2' }
+  ```ruby
+  describe sshd_config do
+    # Only '2' works
+    its('Protocol') { should eq '2' }
 
-  # Both of these work
-  its('Protocol') { should cmp '2' }
-  its('Protocol') { should cmp 2 }
-end
-```
+    # Both of these work
+    its('Protocol') { should cmp '2' }
+    its('Protocol') { should cmp 2 }
+  end
+  ```
 
-- String comparisons are not case-sensitive
+- `cmp` comparisons are not case sensitive:
 
-```ruby
-describe auditd_conf do
-  its('log_format') { should cmp 'raw' }
-  its('log_format') { should cmp 'RAW' }
-end
-```
+  ```ruby
+  describe auditd_conf do
+    its('log_format') { should cmp 'raw' }
+    its('log_format') { should cmp 'RAW' }
+  end
+  ```
 
-- Recognize versions embedded in strings
+- `cmp` recognizes versions embedded in strings:
 
-```ruby
-describe package('curl') do
-  its('version') { should cmp > '7.35.0-1ubuntu2.10' }
-end
-```
+  ```ruby
+  describe package('curl') do
+    its('version') { should cmp > '7.35.0-1ubuntu2.10' }
+  end
+  ```
 
-- Compare arrays with only one entry to a value
+- `cmp` can compare a single-value array with a string to a value:
 
-```ruby
-describe passwd.uids(0) do
-  its('users') { should cmp 'root' }
-  its('users') { should cmp ['root'] }
-end
-```
+  ```ruby
+  describe passwd.uids(0) do
+    its('users') { should cmp 'root' }
+    its('users') { should cmp ['root'] }
+  end
+  ```
 
-- Single-value arrays of strings may also be compared to a regex
+- `cmp` can compare a single-value array with a string to a regular expression:
 
-```ruby
-describe auditd_conf do
-  its('log_format') { should cmp /raw/i }
-end
-```
+  ```ruby
+  describe auditd_conf do
+    its('log_format') { should cmp /raw/i }
+  end
+  ```
 
-- Improved printing of octal comparisons
+- `cmp` allows octal comparisons:
 
-```ruby
-describe file('/proc/cpuinfo') do
-  its('mode') { should cmp '0345' }
-end
+  ```ruby
+  describe file('/proc/cpuinfo') do
+    its('mode') { should cmp '0345' }
+  end
 
-expected: 0345
-got: 0444
-```
+  expected: 0345
+  got: 0444
+  ```
 
 ## eq
 
-Test for exact equality of two values.
+`eq` tests for exact equality of two values. For example:
 
 ```ruby
 describe sshd_config do
@@ -129,21 +132,21 @@ describe sshd_config do
 end
 ```
 
-`eq` fails if types don't match. Please keep this in mind, when comparing
-configuration entries that are numbers:
+`eq` fails if types do not match. When comparing configuration entries that take numerical values, do not use quotes as it becomes a string.
 
 ```ruby
-its('Port') { should eq '22' } # ok
+its('Port') { should eq '22' }
+# passes
 
 its('Port') { should eq 22 }
-# fails: '2' != 2 (string vs int)
+# fails: '2' != 2 (string vs integer)
 ```
 
-For less restrictive comparisons, please use `cmp`.
+Use [`cmp`](#cmp) for less restrictive comparisons.
 
 ## include
 
-Verifies if a value is included in a list.
+`include` verifies if a value is included in a list. For example:
 
 ```ruby
 describe passwd do
@@ -151,19 +154,9 @@ describe passwd do
 end
 ```
 
-## be_in
-
-Verifies that an item is included in a list.
-
-```ruby
-describe resource do
-  its('item') { should be_in LIST }
-end
-```
-
 ## match
 
-Check if a string matches a regular expression.
+`match` checks if a string matches a regular expression. For example:
 
 ```ruby
 describe sshd_config do

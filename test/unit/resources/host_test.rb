@@ -10,6 +10,7 @@ describe "Inspec::Resources::Host" do
     _(resource.reachable?).must_equal true
     _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]
     _(resource.to_s).must_equal "Host example.com"
+    _(resource.resource_id).must_equal "example.com"
   end
 
   it "check host ping on centos 7" do
@@ -18,6 +19,7 @@ describe "Inspec::Resources::Host" do
     _(resource.reachable?).must_equal true
     _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]
     _(resource.to_s).must_equal "Host example.com"
+    _(resource.resource_id).must_equal "example.com"
   end
 
   it "check host ping on darwin" do
@@ -26,14 +28,16 @@ describe "Inspec::Resources::Host" do
     _(resource.reachable?).must_equal true
     _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]
     _(resource.to_s).must_equal "Host example.com"
+    _(resource.resource_id).must_equal "example.com"
   end
 
   it "check host ping on windows" do
     resource = MockLoader.new(:windows).load_resource("host", "microsoft.com")
     _(resource.resolvable?).must_equal true
     _(resource.reachable?).must_equal false
-    _(resource.ipaddress).must_equal ["134.170.185.46", "134.170.188.221"]
+    _(resource.ipaddress).must_equal ["134.170.188.221", "2404:6800:4009:827::200e"]
     _(resource.to_s).must_equal "Host microsoft.com"
+    _(resource.resource_id).must_equal "microsoft.com"
   end
 
   it "check host ping on unsupported os" do
@@ -42,6 +46,7 @@ describe "Inspec::Resources::Host" do
     _(resource.reachable?).must_equal false
     _(resource.ipaddress).must_be_nil
     _(resource.to_s).must_equal "Host example.com"
+    _(resource.resource_id).must_equal "example.com"
   end
 
   it "check host tcp on ubuntu" do
@@ -50,6 +55,7 @@ describe "Inspec::Resources::Host" do
     _(resource.reachable?).must_equal true
     _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]
     _(resource.to_s).must_equal "Host example.com port 1234 proto tcp"
+    _(resource.resource_id).must_equal "example.com-1234-tcp"
   end
 
   it "check host udp on ubuntu" do
@@ -58,6 +64,7 @@ describe "Inspec::Resources::Host" do
     _(resource.reachable?).must_equal true
     _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]
     _(resource.to_s).must_equal "Host example.com port 1234 proto udp"
+    _(resource.resource_id).must_equal "example.com-1234-udp"
   end
 
   it "check host tcp on centos 7" do
@@ -66,6 +73,7 @@ describe "Inspec::Resources::Host" do
     _(resource.reachable?).must_equal true
     _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]
     _(resource.to_s).must_equal "Host example.com port 1234 proto tcp"
+    _(resource.resource_id).must_equal "example.com-1234-tcp"
   end
 
   it "check host udp on centos 7" do
@@ -74,6 +82,7 @@ describe "Inspec::Resources::Host" do
     _(resource.reachable?).must_equal true
     _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]
     _(resource.to_s).must_equal "Host example.com port 1234 proto udp"
+    _(resource.resource_id).must_equal "example.com-1234-udp"
   end
 
   it "check host tcp on darwin" do
@@ -82,6 +91,7 @@ describe "Inspec::Resources::Host" do
     _(resource.reachable?).must_equal true
     _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]
     _(resource.to_s).must_equal "Host example.com port 1234 proto tcp"
+    _(resource.resource_id).must_equal "example.com-1234-tcp"
   end
 
   it "check host udp on darwin" do
@@ -90,14 +100,16 @@ describe "Inspec::Resources::Host" do
     _(resource.reachable?).must_equal true
     _(resource.ipaddress).must_equal ["12.34.56.78", "2606:2800:220:1:248:1893:25c8:1946"]
     _(resource.to_s).must_equal "Host example.com port 1234 proto udp"
+    _(resource.resource_id).must_equal "example.com-1234-udp"
   end
 
   it "check host tcp on windows" do
     resource = MockLoader.new(:windows).load_resource("host", "microsoft.com", port: 1234, protocol: "tcp")
     _(resource.resolvable?).must_equal true
     _(resource.reachable?).must_equal true
-    _(resource.ipaddress).must_equal ["134.170.185.46", "134.170.188.221"]
+    _(resource.ipaddress).must_equal ["134.170.188.221", "2404:6800:4009:827::200e"]
     _(resource.to_s).must_equal "Host microsoft.com port 1234 proto tcp"
+    _(resource.resource_id).must_equal "microsoft.com-1234-tcp"
   end
 
   it "check host tcp on unsupported os" do
@@ -106,6 +118,7 @@ describe "Inspec::Resources::Host" do
     _(resource.reachable?).must_equal false
     _(resource.ipaddress).must_be_nil
     _(resource.to_s).must_equal "Host example.com port 1234 proto tcp"
+    _(resource.resource_id).must_equal "example.com-1234-tcp"
   end
 end
 
@@ -354,6 +367,30 @@ describe Inspec::Resources::UnixHostProvider do
       nc_command.expects(:exist?).returns(false)
       ncat_command.expects(:exist?).returns(false)
       _(provider.netcat_check_command("foo", 1234, "tcp")).must_be_nil
+    end
+
+    it "checks ipv4_address and ipv6_address properties on ubuntu" do
+      resource = MockLoader.new(:ubuntu).load_resource("host", "example.com")
+      _(resource.ipv4_address).must_equal ["12.34.56.78"]
+      _(resource.ipv4_address).must_include "12.34.56.78"
+      _(resource.ipv6_address).must_equal ["2606:2800:220:1:248:1893:25c8:1946"]
+      _(resource.ipv6_address).must_include "2606:2800:220:1:248:1893:25c8:1946"
+    end
+
+    it "checks ipv4_address and ipv6_address properties on windows" do
+      resource = MockLoader.new(:windows).load_resource("host", "microsoft.com")
+      _(resource.ipv4_address).must_equal ["134.170.188.221"]
+      _(resource.ipv4_address).must_include "134.170.188.221"
+      _(resource.ipv6_address).must_equal ["2404:6800:4009:827::200e"]
+      _(resource.ipv6_address).must_include "2404:6800:4009:827::200e"
+    end
+
+    it "checks ipv4_address and ipv6_address properties on darwin" do
+      resource = MockLoader.new(:macos10_10).load_resource("host", "example.com")
+      _(resource.ipv4_address).must_equal ["12.34.56.78"]
+      _(resource.ipv4_address).must_include "12.34.56.78"
+      _(resource.ipv6_address).must_equal ["2606:2800:220:1:248:1893:25c8:1946"]
+      _(resource.ipv6_address).must_include "2606:2800:220:1:248:1893:25c8:1946"
     end
   end
 end

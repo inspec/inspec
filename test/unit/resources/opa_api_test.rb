@@ -26,4 +26,9 @@ describe "Inspec::Resources::OpaApi" do
     _(resource.resource_failed?).must_equal true
     _(resource.resource_exception_message).must_equal "OPA url and data are mandatory."
   end
+
+  it "generates the resource_id for current resource" do
+    resource = load_resource("opa_api", url: "localhost:8181/v1/data/example/violation", data: "v1-data-input.json")
+    _(resource.resource_id).must_equal "localhost:8181/v1/data/example/violation"
+  end
 end

@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< inspec/azurerm_deprecated resource="azure_storage_account_blob_container" >}}
+
 Use the `azurerm_storage_account_blob_container` InSpec audit resource to test properties related to a
 Blob Container in an Azure Storage Account.
 
@@ -131,9 +133,7 @@ requests are always welcome.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

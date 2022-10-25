@@ -4,9 +4,9 @@ require "shellwords" unless defined?(Shellwords)
 
 module Inspec::Resources
   class Lines
-    attr_reader :output
+    attr_reader :output, :exit_status
 
-    def initialize(raw, desc)
+    def initialize(raw, desc, exit_status)
       @output = raw
       @desc = desc
     end
@@ -55,11 +55,17 @@ module Inspec::Resources
       psql_cmd = create_psql_cmd(query, db)
       cmd = inspec.command(psql_cmd, redact_regex: %r{(:\/\/[a-z]*:).*(@)})
       out = cmd.stdout + "\n" + cmd.stderr
-      if cmd.exit_status != 0 || out =~ /could not connect to .*/ || out.downcase =~ /^error:.*/
-        raise Inspec::Exceptions::ResourceFailed, "PostgreSQL query with errors: #{out}"
+      if cmd.exit_status != 0 && ( out =~ /could not connect to/ || out =~ /password authentication failed/ ) && out.downcase =~ /error:/
+        raise Inspec::Exceptions::ResourceFailed, "PostgreSQL connection error: #{out}"
+      elsif cmd.exit_status != 0 && out.downcase =~ /error:/
+        Lines.new(out, "PostgreSQL query with error: #{query}", cmd.exit_status)
       else
-        Lines.new(cmd.stdout.strip, "PostgreSQL query: #{query}")
+        Lines.new(cmd.stdout.strip, "PostgreSQL query: #{query}", cmd.exit_status)
       end
+    end
+
+    def resource_id
+      "postgress_session:User:#{@user}:Host:#{@host}"
     end
 
     private

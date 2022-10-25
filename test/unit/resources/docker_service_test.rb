@@ -14,6 +14,7 @@ describe "Inspec::Resources::DockerService" do
       _(resource.replicas).must_equal "3/3"
       _(resource.mode).must_equal "replicated"
       _(resource.ports).must_equal "*:1234->1234/tcp"
+      _(resource.resource_id).must_equal "2ghswegspre1"
     end
 
     it "check docker service from id" do
@@ -26,6 +27,7 @@ describe "Inspec::Resources::DockerService" do
       _(resource.replicas).must_equal "3/3"
       _(resource.mode).must_equal "replicated"
       _(resource.ports).must_equal "*:1234->1234/tcp"
+      _(resource.resource_id).must_equal "2ghswegspre1"
     end
 
     it "check docker service from image" do
@@ -38,6 +40,7 @@ describe "Inspec::Resources::DockerService" do
       _(resource.replicas).must_equal "3/3"
       _(resource.mode).must_equal "replicated"
       _(resource.ports).must_equal "*:1234->1234/tcp"
+      _(resource.resource_id).must_equal "2ghswegspre1"
     end
 
     it "prints as a docker_image resource" do

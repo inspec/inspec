@@ -165,4 +165,9 @@ describe "Inspec::Resources::YumRepo" do
     _(repo.status).must_equal "enabled"
     _(repo.updated).must_equal "Fri 20 Sep 2019 10:05:43 PM UTC"
   end
+
+  it "checks for resource_id for the current resource" do
+    resource = centos7
+    _(resource.resource_id).must_equal "Yum repository"
+  end
 end

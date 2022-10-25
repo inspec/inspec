@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< inspec/azurerm_deprecated resource="azure_management_group" >}}
+
 Use the `azurerm_management_group` InSpec audit resource to test properties related to a
 management group.
 
@@ -249,19 +251,17 @@ requests are always welcome.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 
     # If a management group is found it will exist
-    describe azurerm_management_group(groupd_id: 'MyGroupId') do
+    describe azurerm_management_group(group_id: 'MyGroupId') do
       it { should exist }
     end
 
     # management groups that aren't found will not exist
-    describe azurerm_management_group(groupd_id: 'DoesNotExist') do
+    describe azurerm_management_group(group_id: 'DoesNotExist') do
       it { should_not exist }
     end
 

@@ -180,6 +180,13 @@ class MockLoader
       "/etc/selinux/selinux_conf" => mockfile.call("selinux_conf"),
       "/etc/apache2/apache2.conf" => mockfile.call("apache2.conf"),
       "/etc/test-serverroot/apache2/apache2.conf" => mockfile.call("apache2_server_root_void.conf"),
+      # myjson.json, myyaml.yml and myinvalid.file mocks are used for file unit test in file_test
+      "myjson.json" => mockfile.call("node.json"),
+      "myyaml.yml" => mockfile.call("kitchen.yml"),
+      "myinvalid.file" => mockfile.call("default.xml"),
+      # x509_secret_key
+      "/home/openssl_activity/bob_private.pem" => mockfile.call("x509-secret-key"),
+      "/home/openssl_activity/alice_private.pem" => mockfile.call("x509-encrypted-secret-key"),
     }
 
     mock.files = mock_files
@@ -220,7 +227,7 @@ class MockLoader
       'sh -c \'type "/sbin/auditctl"\'' => empty.call,
       'sh -c \'type "sql"\'' => cmd_exit_1.call,
       'type "pwsh"' => empty.call,
-      'type "netstat"' => empty.call,
+      'type "/usr/sbin/netstat"' => empty.call,
       "sh -c 'find /etc/apache2/ports.conf -type l -maxdepth 1'" => empty.call,
       "sh -c 'find /etc/httpd/conf.d/*.conf -type l -maxdepth 1'" => empty.call,
       "sh -c 'find /etc/httpd/mods-enabled/*.conf -type l -maxdepth 1'" => empty.call,
@@ -310,6 +317,11 @@ class MockLoader
       # services on freebsd 6+
       "service -e" => cmd.call("service-e"),
       "service sendmail onestatus" => cmd.call("service-sendmail-onestatus"),
+      # mock for FreeBSD10Init info
+      "service -l" => cmd.call("service-l"),
+      # service mock for monit
+      "monit summary" => cmd.call("monit-summary"),
+      %{sh -c 'type "monit"'} => empty.call,
       # services for system 5 e.g. centos6, debian 6
       "service sshd status" => cmd.call("service-sshd-status"),
       'find /etc/rc*.d /etc/init.d/rc*.d -name "S*"' => cmd.call("find-etc-rc-d-name-S"),
@@ -318,6 +330,9 @@ class MockLoader
       "id root" => cmd.call("id-root"),
       "getent passwd root" => cmd.call("getent-passwd-root"),
       "chage -l root" => cmd.call("chage-l-root"),
+      "cat ~/.ssh/authorized_keys" => cmd.call("authorized-keys-mock"),
+      %{sh -c 'type "getent"'} => empty.call,
+      "getent shadow root" => cmd.call("getent-shadow-mock"),
       # user information for ldap test
       "id jfolmer" => cmd.call("id-jfolmer"),
       "getent passwd jfolmer" => cmd.call("getent-passwd-jfolmer"),
@@ -354,6 +369,7 @@ class MockLoader
       "Get-NetAdapterBinding -ComponentID ms_bridge | Get-NetAdapter | Select-Object -Property Name, InterfaceDescription | ConvertTo-Json" => cmd.call("get-netadapter-binding-bridge"),
       # host for Windows
       "Resolve-DnsName –Type A microsoft.com | ConvertTo-Json" => cmd.call("Resolve-DnsName"),
+      "Resolve-DnsName –Type AAAA microsoft.com | ConvertTo-Json" => cmd.call("Resolve-DnsName-ipv6"),
       "Test-NetConnection -ComputerName microsoft.com -WarningAction SilentlyContinue| Select-Object -Property ComputerName, TcpTestSucceeded, PingSucceeded | ConvertTo-Json" => cmd.call("Test-NetConnection"),
       # host for Linux
       "getent ahosts example.com" => cmd.call("getent-ahosts-example.com"),
@@ -376,8 +392,46 @@ class MockLoader
       "/usr/sbin/ipfstat -io" => cmd.call("ipfstat-io"),
       %{type "/usr/sbin/ipfstat"} => empty.call,
       # lxc
-      "/usr/sbin/lxc info my-ubuntu-container | grep -i Status" => cmd.call("lxcinfo"),
+      "/usr/sbin/lxc info ubuntu-container" => cmd.call("lxcinfo"),
+      "/usr/sbin/lxc info my-ubuntu-container-1" => cmd_stderr.call("lxcerror"),
       %{sh -c 'type "/usr/sbin/lxc"'} => empty.call,
+      # cgroup
+      "cgget -n -a carrotking" => cmd.call("cgget-n-a"),
+      "cgget -n -r cpuset.cpus carrotking" => cmd.call("cgget-n-r"),
+      "cgget -n -r memory.stat carrotking" => cmd.call("cgget-n-r-stat"),
+      %{sh -c 'type "cgget"'} => empty.call,
+      # mail_alias
+      "cat /etc/aliases | grep '^daemon:'" => cmd.call("mail-alias"),
+      # php_config
+      %{sh -c 'type "php"'} => empty.call,
+      'Get-Command "php"' => empty.call,
+      'type "php"' => empty.call,
+      "php  -r 'echo get_cfg_var(\"default_mimetype\");'" => cmd.call("get-cfg-var"),
+      "php -c /etc/php/7.4/cli/php.ini -r 'echo get_cfg_var(\"default_mimetype\");'" => cmd.call("get-cfg-var"),
+      # routing_table
+      "netstat -rn" => cmd.call("netstat-rn-linux"),
+      "/usr/sbin/netstat -rn" => cmd.call("netstat-rn-linux"),
+      %{sh -c 'type "netstat"'} => empty.call,
+      # mocks for be_immutable matcher for file resource
+      "lsattr constantfile.txt" => cmd.call("lsattr-output"),
+      %{sh -c 'type "lsattr"'} => empty.call,
+      # linux_audit_system
+      "/usr/sbin/auditctl -s | grep enabled" => cmd.call("auditctl-s-enabled"),
+      "/usr/sbin/auditctl -s | grep pid" => cmd.call("auditctl-s-pid"),
+      "/usr/sbin/auditctl -l" => cmd.call("auditctl-l"),
+      %{sh -c 'type "/usr/sbin/auditctl"'} => empty.call,
+      # x509_certificate
+      %{sh -c 'type "openssl"'} => empty.call,
+      "openssl x509 -noout -purpose -in test_certificate.rsa.crt.pem" => cmd.call("x509-crt-purpose"),
+      # x509_private_key
+      %{type "openssl"} => empty.call,
+      "openssl rsa -in /home/openssl_activity/bob_private.pem -check -noout" => empty.call,
+      "openssl rsa -in /home/openssl_activity/alice_private.pem -check -noout -passin pass:password@123" => empty.call,
+      "openssl x509 -noout -modulus -in /home/openssl_activity/bob_certificate.crt | openssl md5" => cmd.call("x509-certificate-modulus"),
+      "openssl rsa -noout -modulus -in /home/openssl_activity/bob_private.pem | openssl md5" => cmd.call("x509-certificate-modulus"),
+      "openssl x509 -noout -modulus -in /home/openssl_activity/alice_certificate.crt | openssl md5" => cmd.call("x509-certificate-modulus"),
+      "openssl rsa -noout -modulus -in /home/openssl_activity/alice_private.pem -passin pass:password@123 | openssl md5" => cmd.call("x509-certificate-modulus"),
+
       # apache_conf
       "sh -c 'find /etc/apache2/ports.conf -type f -maxdepth 1'" => cmd.call("find-apache2-ports-conf"),
       "sh -c 'find /etc/httpd/conf.d/*.conf -type f -maxdepth 1'" => cmd.call("find-httpd-ssl-conf"),
@@ -466,8 +520,11 @@ class MockLoader
       "docker version --format '{{ json . }}'" => cmd.call("docker-version"),
       "docker info --format '{{ json . }}'" => cmd.call("docker-info"),
       "docker inspect 71b5df59442b" => cmd.call("docker-inspec"),
+      "docker inspect trusting_williams" => cmd.call("docker-inspect"), # inspect container to check for mounted volumes
+      "docker inspect fried_water" => cmd.call("docker-inspect-e"), # inspect container to check for mounted volumes
       # docker images
       "83c36bfade9375ae1feb91023cd1f7409b786fd992ad4013bf0f2259d33d6406" => cmd.call("docker-images"),
+      "docker inspect ubuntu:latest" => cmd.call("docker-inspect-image"),
       # docker services
       %{docker service ls --format '{"ID": {{json .ID}}, "Name": {{json .Name}}, "Mode": {{json .Mode}}, "Replicas": {{json .Replicas}}, "Image": {{json .Image}}, "Ports": {{json .Ports}}}'} => cmd.call("docker-service-ls"),
       # docker plugins
@@ -475,7 +532,7 @@ class MockLoader
       # modprobe for kernel_module
       "modprobe --showconfig" => cmd.call("modprobe-config"),
       # get-process cmdlet for processes resource
-      '$Proc = Get-Process -IncludeUserName | Where-Object {$_.Path -ne $null } | Select-Object PriorityClass,Id,CPU,PM,VirtualMemorySize,NPM,SessionId,Responding,StartTime,TotalProcessorTime,UserName,Path | ConvertTo-Csv -NoTypeInformation;$Proc.Replace("""","").Replace("`r`n","`n")' => cmd.call("get-process_processes"),
+      '$Proc = Get-Process -IncludeUserName | Select-Object PriorityClass,Id,CPU,PM,VirtualMemorySize,NPM,SessionId,Responding,StartTime,TotalProcessorTime,UserName,Path,ProcessName | ConvertTo-Csv -NoTypeInformation;$Proc.Replace("""","").Replace("`r`n","`n")' => cmd.call("get-process_processes"),
       # host resource: TCP/UDP reachability check on linux
       %{sh -c 'type "nc"'} => empty.call,
       %{sh -c 'type "ncat"'} => empty.call,
@@ -625,6 +682,25 @@ class MockLoader
 
       # file resource windows inherit
       "(Get-Acl 'C:/ExamlpeFolder').access| Where-Object {$_.IsInherited -eq $true} | measure | % { $_.Count }" => cmd.call("windows_file_inherit_output"),
+
+      # podman
+      %{podman ps -a --no-trunc --size --format '{\"ID\": {{json .ID}}, \"Image\": {{json .Image}}, \"ImageID\": {{json .ImageID}}, \"Command\": {{json .Command}}, \"CreatedAt\": {{json .CreatedAt}}, \"RunningFor\": {{json .RunningFor}}, \"Status\": {{json .Status}}, \"Pod\": {{json .Pod}}, \"Ports\": {{json .Ports}}, \"Size\": {{json .Size}}, \"Names\": {{json .Names}}, \"Networks\": {{json .Networks}}, \"Labels\": {{json .Labels}}, \"Mounts\": {{json .Mounts}}}'} => cmd.call("podman-ps-a"),
+      %{podman images -a --no-trunc --format '{\"ID\": {{json .ID}}, \"Repository\": {{json .Repository}}, \"Tag\": {{json .Tag}}, \"Size\": {{json .Size}}, \"Digest\": {{json .Digest}}, \"CreatedAt\": {{json .CreatedAt}}, \"CreatedSince\": {{json .CreatedSince}}, \"History\": {{json .History}}}'} => cmd.call("podman-images-a"),
+      %{podman network ls --no-trunc --format '{\"ID\": {{json .ID}}, \"Name\": {{json .Name}}, \"Driver\": {{json .Driver}}, \"Labels\": {{json .Labels}}, \"Options\": {{json .Options}}, \"IPAMOptions\": {{json .IPAMOptions}}, \"Created\": {{json .Created}}, \"Internal\": {{json .Internal}}, \"IPv6Enabled\": {{json .IPv6Enabled}}, \"DNSEnabled\": {{json .DNSEnabled}}, \"NetworkInterface\": {{json .NetworkInterface}}, \"Subnets\": {{json .Subnets}}}'} => cmd.call("podman-network-ls"),
+      "podman pod ps --no-trunc --format json" => cmd.call("podman-pod-ps"),
+      "podman info --format json" => cmd.call("podman-info"),
+      "podman version --format json" => cmd.call("podman-version"),
+      "podman volume ls --format json" => cmd.call("podman-volume-ls"),
+      "podman inspect 591270d8d80d --format json" => cmd.call("podman-inspec"),
+      "podman image inspect docker.io/library/busybox:latest --format '{\"id\": {{json .ID}}, \"repo_tags\": {{json .RepoTags}}, \"size\": {{json .Size}}, \"digest\": {{json .Digest}}, \"created_at\": {{json .Created}}, \"version\": {{json .Version}}, \"names_history\": {{json .NamesHistory}}, \"repo_digests\": {{json .RepoDigests}}, \"architecture\": {{json .Architecture}}, \"os\": {{json .Os}}, \"virtual_size\": {{json .VirtualSize}}}'" => cmd.call("podman-inspect-info"),
+      "podman image inspect not-exist:latest --format '{\"id\": {{json .ID}}, \"repo_tags\": {{json .RepoTags}}, \"size\": {{json .Size}}, \"digest\": {{json .Digest}}, \"created_at\": {{json .Created}}, \"version\": {{json .Version}}, \"names_history\": {{json .NamesHistory}}, \"repo_digests\": {{json .RepoDigests}}, \"architecture\": {{json .Architecture}}, \"os\": {{json .Os}}, \"virtual_size\": {{json .VirtualSize}}}'" => cmd_stderr.call("podman-errors"),
+      "podman network inspect minikube --format '{\"id\": {{json .ID}}, \"name\": {{json .Name}}, \"driver\": {{json .Driver}}, \"labels\": {{json .Labels}}, \"options\": {{json .Options}}, \"ipam_options\": {{json .IPAMOptions}}, \"internal\": {{json .Internal}}, \"created\": {{json .Created}}, \"ipv6_enabled\": {{json .IPv6Enabled}}, \"dns_enabled\": {{json .DNSEnabled}}, \"network_interface\": {{json .NetworkInterface}}, \"subnets\": {{json .Subnets}}}'" => cmd.call("podman-network"),
+      "podman network inspect not-exist --format '{\"id\": {{json .ID}}, \"name\": {{json .Name}}, \"driver\": {{json .Driver}}, \"labels\": {{json .Labels}}, \"options\": {{json .Options}}, \"ipam_options\": {{json .IPAMOptions}}, \"internal\": {{json .Internal}}, \"created\": {{json .Created}}, \"ipv6_enabled\": {{json .IPv6Enabled}}, \"dns_enabled\": {{json .DNSEnabled}}, \"network_interface\": {{json .NetworkInterface}}, \"subnets\": {{json .Subnets}}}'" => cmd_stderr.call("podman-errors"),
+      "podman version" => empty.call,
+      "podman volume inspect my_volume --format '{\"name\": {{json .Name}}, \"driver\": {{json .Driver}}, \"mountpoint\": {{json .Mountpoint}}, \"created_at\": {{json .CreatedAt}}, \"labels\": {{json .Labels}}, \"scope\": {{json .Scope}}, \"options\": {{json .Options}}, \"mount_count\": {{json .MountCount}}, \"needs_copy_up\": {{json .NeedsCopyUp}}, \"needs_chown\": {{json .NeedsChown}}}'" => cmd.call("podman-volume-inspect"),
+      "podman volume inspect non_existing_volume --format '{\"name\": {{json .Name}}, \"driver\": {{json .Driver}}, \"mountpoint\": {{json .Mountpoint}}, \"created_at\": {{json .CreatedAt}}, \"labels\": {{json .Labels}}, \"scope\": {{json .Scope}}, \"options\": {{json .Options}}, \"mount_count\": {{json .MountCount}}, \"needs_copy_up\": {{json .NeedsCopyUp}}, \"needs_chown\": {{json .NeedsChown}}}'" => cmd_stderr.call("podman-errors"),
+      "podman pod inspect nginx-frontend --format '{\"id\": {{json .ID}}, \"name\": {{json .Name}}, \"created_at\": {{json .Created}}, \"create_command\": {{json .CreateCommand}}, \"state\": {{json .State}}, \"hostname\": {{json .Hostname}}, \"create_cgroup\": {{json .CreateCgroup}}, \"cgroup_parent\": {{json .CgroupParent}}, \"cgroup_path\": {{json .CgroupPath}}, \"create_infra\": {{json .CreateInfra}}, \"infra_container_id\": {{json .InfraContainerID}}, \"infra_config\": {{json .InfraConfig}}, \"shared_namespaces\": {{json .SharedNamespaces}}, \"num_containers\": {{json .NumContainers}}, \"containers\": {{json .Containers}}}'" => cmd.call("podman-pod-inspect"),
+      "podman pod inspect non_existing_pod --format '{\"id\": {{json .ID}}, \"name\": {{json .Name}}, \"created_at\": {{json .Created}}, \"create_command\": {{json .CreateCommand}}, \"state\": {{json .State}}, \"hostname\": {{json .Hostname}}, \"create_cgroup\": {{json .CreateCgroup}}, \"cgroup_parent\": {{json .CgroupParent}}, \"cgroup_path\": {{json .CgroupPath}}, \"create_infra\": {{json .CreateInfra}}, \"infra_container_id\": {{json .InfraContainerID}}, \"infra_config\": {{json .InfraConfig}}, \"shared_namespaces\": {{json .SharedNamespaces}}, \"num_containers\": {{json .NumContainers}}, \"containers\": {{json .Containers}}}'" => cmd_stderr.call("podman-errors"),
     }
 
     if @platform && (@platform[:name] == "windows" || @platform[:name] == "freebsd")

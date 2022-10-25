@@ -29,6 +29,7 @@ describe "Inspec::Resources::Processes" do
       time: "0:00.05",
       user: "root",
       command: "login -fp apop",
+      process_name: nil,
     })
   end
 
@@ -48,6 +49,7 @@ describe "Inspec::Resources::Processes" do
       time: "00:00:00",
       user: "opscode-pgsql",
       command: "postgres: bifrost bifrost 127.0.0.1(43699) idle",
+      process_name: nil,
     })
   end
 
@@ -68,6 +70,7 @@ describe "Inspec::Resources::Processes" do
       time: "00:00:00",
       user: "opscode-pgsql",
       command: "postgres: bifrost bifrost 127.0.0.1(43699) idle",
+      process_name: nil,
     })
   end
 
@@ -87,6 +90,7 @@ describe "Inspec::Resources::Processes" do
       time: "00:01:01",
       user: "root",
       command: "/usr/local/apache2/bin/httpd -k start",
+      process_name: nil,
     })
   end
 
@@ -96,7 +100,7 @@ describe "Inspec::Resources::Processes" do
     _(process.user).must_equal "opscode-pgsql"
     _(process[:user]).must_equal "opscode-pgsql"
     _(process["user"]).must_equal "opscode-pgsql"
-    _(process[-1]).must_equal "postgres: bifrost bifrost 127.0.0.1(43699) idle"
+    _(process[-2]).must_equal "postgres: bifrost bifrost 127.0.0.1(43699) idle"
     _(process[1]).must_equal 5127
   end
 
@@ -139,6 +143,7 @@ describe "Inspec::Resources::Processes" do
       time: "00:00:00",
       user: "ntp",
       command: "/usr/sbin/ntpd -p /var/run/ntpd.pid -g -u 112:117",
+      process_name: nil,
     })
   end
 
@@ -158,6 +163,7 @@ describe "Inspec::Resources::Processes" do
       time: "0:00",
       user: "joe",
       command: "/some/other/coolprogram",
+      process_name: nil,
     })
   end
 
@@ -177,6 +183,7 @@ describe "Inspec::Resources::Processes" do
       time: "3:50",
       user: "frank",
       command: "/a/bigger/program",
+      process_name: nil,
     })
   end
 
@@ -196,6 +203,7 @@ describe "Inspec::Resources::Processes" do
       time: "39:00",
       user: "tim",
       command: "/the/biggest/program",
+      process_name: nil,
     })
   end
 
@@ -214,6 +222,11 @@ describe "Inspec::Resources::Processes" do
     _(resource.exists?).must_equal true
   end
 
+  it "process without path should exist" do
+    resource = MockLoader.new(:windows).load_resource("processes", "MsMpEng")
+    _(resource.exists?).must_equal true
+  end
+
   it "process should_not exist" do
     resource = MockLoader.new(:windows).load_resource("processes", "unicorn.exe")
     _(resource.exists?).must_equal false
@@ -229,5 +242,19 @@ describe "Inspec::Resources::Processes" do
     resource = MockLoader.new(:centos7).load_resource("processes")
     resource.expects(:busybox_ps?).returns(false)
     _(resource.send(:ps_configuration_for_linux)[0]).must_equal "ps wwaxo label,pid,pcpu,pmem,vsz,rss,tty,stat,start,time,user:32,command"
+  end
+
+  # `count` & `be_running` verification on BSD(Unix/Linux) system
+  it "verify count property and be_running matcher of processes resource" do
+    resource = MockLoader.new(:freebsd10).load_resource("processes", "some_linux_process")
+    _(resource.count).must_equal 1
+    _(resource.running?).must_equal true
+  end
+
+  # `count` & `be_running` verification on Windows
+  it "verify count property and be_running matcher of processes resource on Windows" do
+    resource = MockLoader.new(:windows).load_resource("processes", "winlogon.exe")
+    _(resource.count).must_equal 1
+    _(resource.running?).must_equal true
   end
 end

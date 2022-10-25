@@ -39,4 +39,9 @@ describe "Inspec::Resources::OneGet" do
     _(resource.version).must_be_nil
     _(resource.info).must_equal pkg
   end
+
+  it "generates the resource_id for the current resource" do
+    resource = MockLoader.new(:windows).load_resource("oneget", "Ruby 2.1.6-p336-x64")
+    _(resource.resource_id).must_equal "Ruby 2.1.6-p336-x64"
+  end
 end

@@ -77,13 +77,12 @@ github:
    - "Expeditor: Bump Major Version"
 
 release_branches:
+  - inspec-6:
+     version_constraint: 6.*
   - main:
       version_constraint: 5.*
   - inspec-4:
      version_constraint: 4.*
-  # We need to ensure all configs are in place to appropriately support this branch
-  # - expeditor-development:
-  #    version_constraint: 4.*
 
 changelog:
  categories:

@@ -26,4 +26,9 @@ describe "Inspec::Resources::OpaCli" do
     _(resource.resource_failed?).must_equal true
     _(resource.resource_exception_message).must_equal "OPA policy, data and query are mandatory."
   end
+
+  it "generates resource_id for the current resource" do
+    resource = load_resource("opa_cli", policy: "example.rego", data: "input.json", query: "data.example.allow")
+    _(resource.resource_id).must_equal "example.rego:data.example.allow"
+  end
 end

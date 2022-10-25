@@ -15,7 +15,7 @@ Use the `oracledb_conf` Chef InSpec audit resource to test the Oracle system par
 
 ## Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ## Requirements
 

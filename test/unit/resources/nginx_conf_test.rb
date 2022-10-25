@@ -9,6 +9,10 @@ describe "Inspec::Resources::NginxConf" do
 
   let(:nginx_conf) { MockLoader.new(:ubuntu).load_resource("nginx_conf") }
 
+  it "generates the resource_id for the current resource" do
+    _(nginx_conf.resource_id).must_equal "/etc/nginx/nginx.conf"
+  end
+
   it "doesnt fail with a missing file" do
     # This path is not mocked because we cannot mock File.exist?
     # ...As far as I know

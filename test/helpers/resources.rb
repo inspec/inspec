@@ -50,7 +50,8 @@ module Fake
       stdout = stdout_path ? File.read(stdout_path) : ""
       stderr = stderr_path ? File.read(stderr_path) : ""
 
-      ::Fake::Command.new(stdout, stderr, 0)
+      exit_code = exit || 0
+      ::Fake::Command.new(stdout, stderr, exit_code)
     end
   end
 

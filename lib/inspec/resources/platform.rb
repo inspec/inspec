@@ -93,6 +93,10 @@ module Inspec::Resources
       key.to_s.tr("-", "_").to_sym
     end
 
+    def resource_id
+      @platform.name || "platform"
+    end
+
     def to_s
       "Platform Detection"
     end

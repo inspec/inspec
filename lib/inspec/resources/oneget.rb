@@ -64,6 +64,10 @@ module Inspec::Resources
       info[:version]
     end
 
+    def resource_id
+      @package_name || "oneget"
+    end
+
     def to_s
       "OneGet Package #{@package_name}"
     end

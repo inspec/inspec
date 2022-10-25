@@ -13,46 +13,50 @@ gh_repo = "inspec"
 
 The following list of InSpec resources are available.
 
-{{< inspec_resources_filter >}}
+{{< inspec/inspec_resources_filter >}}
 
 ## OS
 
-{{< inspec_resources platform="os" >}}
+{{< inspec/inspec_resources platform="os" >}}
 
 ### Linux
 
 The following resources work on Linux operating systems.
 
-{{< inspec_resources platform="linux" >}}
+{{< inspec/inspec_resources platform="linux" >}}
 
 ### BSD
 
 The following resources work on BSD operating systems.
 
-{{< inspec_resources platform="bsd" >}}
+{{< inspec/inspec_resources platform="bsd" >}}
 
 ### Windows
 
 The following resources work on Windows operating systems.
 
-{{< inspec_resources platform="windows" >}}
+{{< inspec/inspec_resources platform="windows" >}}
 
 ## Alibaba
 
-{{< inspec_resources platform="alicloud" >}}
+{{< inspec/inspec_resources platform="alicloud" >}}
 
 ## AWS
 
-{{< inspec_resources platform="aws" >}}
+{{< inspec/inspec_resources platform="aws" >}}
 
 ## Azure
 
-{{< inspec_resources platform="azure" >}}
+{{< inspec/inspec_resources platform="azure" >}}
 
 ## GCP
 
-{{< inspec_resources platform="gcp" >}}
+{{< inspec/inspec_resources platform="gcp" >}}
 
 ## Habitat
 
-{{< inspec_resources platform="habitat" >}}
+{{< inspec/inspec_resources platform="habitat" >}}
+
+## Kubernetes
+
+{{< inspec/inspec_resources platform="k8s" >}}

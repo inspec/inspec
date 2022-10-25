@@ -27,6 +27,10 @@ module Inspec::Resources
       read_params[name.to_s]
     end
 
+    def resource_id
+      @conf_path || "auditd_conf"
+    end
+
     def to_s
       "Audit Daemon Config"
     end

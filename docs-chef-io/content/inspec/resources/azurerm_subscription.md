@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< inspec/azurerm_deprecated resource="azure_subscription" >}}
+
 Use the `azurerm_subscription` InSpec audit resource to test properties related to the current subscription
 subscription.
 
@@ -87,9 +89,7 @@ An array of locations available in this subscription.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

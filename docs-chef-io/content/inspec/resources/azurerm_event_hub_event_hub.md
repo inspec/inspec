@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< inspec/azurerm_deprecated resource="azure_event_hub_event_hub" >}}
+
 Use the `azurerm_event_hub_event_hub` InSpec audit resource to test properties and configuration of
 an Azure Event Hub Event Hub within a Resource Group.
 
@@ -47,7 +49,7 @@ This resource first became available in 1.11.0 of the inspec-azure resource pack
 
 The `resource_group`, `namespace_name` and `event_hub_name` must be given as a parameter.
 
-    describe azurerm_event_hub_event_hub(resource_group: 'my-rg', namespace_name 'my-event-hub-ns', event_hub_name 'myeventhub') do
+    describe azurerm_event_hub_event_hub(resource_group: 'my-rg', namespace_name 'my-event-hub-ns', event_hub_name 'event-hub') do
       it { should exist }
     end
 
@@ -55,13 +57,13 @@ The `resource_group`, `namespace_name` and `event_hub_name` must be given as a p
 
 If an Event Hub Event Hub is referenced with a valid `Resource Group`, `Namespace Name` and `Event Hub Name`
 
-    describe azurerm_event_hub_event_hub(resource_group: 'my-rg', namespace_name: 'my-event-hub-ns', event_hub_name 'myeventhub') do
+    describe azurerm_event_hub_event_hub(resource_group: 'my-rg', namespace_name: 'my-event-hub-ns', event_hub_name 'event-hub') do
       it { should exist }
     end
 
 If a Event Hub Event Hub is referenced with an invalid `Resource Group`, `Namespace Name` and `Event Hub Name`
 
-    describe azurerm_event_hub_event_hub(resource_group: 'invalid-rg', namespace_name: 'i-dont-exist', event_hub_name 'i-dont-exist') do
+    describe azurerm_event_hub_event_hub(resource_group: 'invalid-rg', namespace_name: 'i-do-not-exist', event_hub_name 'i-do-not-exist') do
       it { should_not exist }
     end
 
@@ -84,7 +86,7 @@ Azure resource ID.
 
 ### name
 
-Event Hub name, e.g. `myeventhub`.
+Event Hub name, e.g. `event-hub`.
 
 ### type
 
@@ -110,13 +112,11 @@ requests are always welcome.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 
-    describe azurerm_event_hub_event_hub(resource_group: 'my-rg', namespace_name: 'my-event-hub-ns', event_hub_name: 'myeventhub') do
+    describe azurerm_event_hub_event_hub(resource_group: 'my-rg', namespace_name: 'my-event-hub-ns', event_hub_name: 'event-hub') do
       it { should exist }
     end
 

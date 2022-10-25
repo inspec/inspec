@@ -39,10 +39,11 @@ module Inspec::Resources
     EXAMPLE
 
     def initialize(ppa_name)
+      @ppa_name = ppa_name
       @deb_url = nil
       # check if the os is ubuntu or debian
       if inspec.os.debian?
-        @deb_url = determine_ppa_url(ppa_name)
+        @deb_url = determine_ppa_url(@ppa_name)
       else
         # this resource is only supported on ubuntu and debian
         skip_resource "The `apt` resource is not supported on your OS yet."
@@ -59,6 +60,10 @@ module Inspec::Resources
       actives = find_repo.map { |repo| repo[:active] }
       actives = actives.uniq
       actives.size == 1 && actives[0] = true
+    end
+
+    def resource_id
+      @deb_url || @ppa_name || "apt repository"
     end
 
     def to_s
@@ -135,19 +140,25 @@ module Inspec::Resources
 
   class PpaRepository < AptRepository
     name "ppa"
+    desc "Use the ppa InSpec audit resource to verify PPA repositories on the Debian-based linux platforms."
+    example <<~EXAMPLE
+      describe ppa('ubuntu-wine/ppa') do
+        it { should exist }
+        it { should be_enabled }
+      end
+
+      describe ppa('ppa:ubuntu-wine/ppa') do
+        it { should exist }
+        it { should be_enabled }
+      end
+    EXAMPLE
 
     def exists?
-      deprecated
       super()
     end
 
     def enabled?
-      deprecated
       super()
-    end
-
-    def deprecated
-      Inspec.deprecate(:resource_ppa, "The `ppa` resource is deprecated. Please use `apt`")
     end
   end
 end

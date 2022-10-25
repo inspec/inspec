@@ -10,6 +10,7 @@ describe "Inspec::Resources::DockerContainer" do
       _(resource.version).must_equal "18.03.1-ce-aws1"
       _(resource.enabled?).must_equal false
       _(resource.exist?).must_equal true
+      _(resource.resource_id).must_equal "771d3ee7c7ea"
     end
 
     it "check plugin parsing for store/weaveworks/net-plugin" do
@@ -18,6 +19,7 @@ describe "Inspec::Resources::DockerContainer" do
       _(resource.version).must_equal "2.3.0"
       _(resource.enabled?).must_equal true
       _(resource.exist?).must_equal true
+      _(resource.resource_id).must_equal "6ea8176de74b"
     end
 
     it "check plugin parsing when there are no plugins" do
@@ -26,6 +28,7 @@ describe "Inspec::Resources::DockerContainer" do
       assert_nil resource.version
       assert_nil resource.id
       assert_nil resource.enabled?
+      _(resource.resource_id).must_equal ""
       _(resource.exist?).must_equal false
     end
 

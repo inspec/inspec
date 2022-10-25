@@ -11,12 +11,14 @@ describe "Inspec::Resources::MysqlSession" do
 
     _(resource.send(:create_mysql_cmd, "SELECT 1 FROM DUAL;"))
       .must_equal(%q{mysql -uroot -p\'\%\"\'\"\&\^\*\&\(\)\'\*\% -h localhost -s -e "SELECT 1 FROM DUAL;"})
+    _(resource.resource_id).must_equal("mysql_session:User:root:Host:localhost:Database:")
   end
   it "verify mysql_session omits optional username and password" do
     resource = load_resource("mysql_session")
 
     _(resource.send(:create_mysql_cmd, "SELECT 1 FROM DUAL;"))
       .must_equal('mysql -h localhost -s -e "SELECT 1 FROM DUAL;"')
+    _(resource.resource_id).must_equal("mysql_session:User::Host:localhost:Database:")
   end
   it "verify mysql_session redacts output" do
     cmd = %q{mysql -uroot -p\'\%\"\'\"\&\^\*\&\(\)\'\*\% -h localhost -s -e "SELECT 1 FROM DUAL;"}

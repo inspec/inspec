@@ -5,6 +5,9 @@ require "inspec/resources/aide_conf"
 describe "Inspec::Resources::AideConf" do
   describe "AideConf Parameters" do
     resource = load_resource("aide_conf")
+    it "Verify resource_id" do
+      _(resource.resource_id).must_equal "/etc/aide.conf"
+    end
     it "Verify aide_conf all_have_rule property - true case" do
       _(resource.all_have_rule("p")).must_equal true
     end

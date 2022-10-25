@@ -31,6 +31,7 @@ module Inspec
     EXIT_PLUGIN_ERROR = 2
     EXIT_FATAL_DEPRECATION = 3
     EXIT_GEM_DEPENDENCY_LOAD_ERROR = 4
+    EXIT_BAD_SIGNATURE = 5
     EXIT_LICENSE_NOT_ACCEPTED = 172
     EXIT_FAILED_TESTS = 100
     EXIT_SKIPPED_TESTS = 101
@@ -136,6 +137,15 @@ module Inspec
         result = ANSI_CODES[:bold] + GLYPHS[:heavy_dash] * 80 + ANSI_CODES[:reset] + "\n"
       else
         result = "-" * 80 + "\n"
+      end
+      print_or_return(result, opts[:print])
+    end
+
+    def line_with_width(width = 80, opts = { print: true } )
+      if color?
+        result = ANSI_CODES[:bold] + GLYPHS[:heavy_dash] * width + ANSI_CODES[:reset] + "\n"
+      else
+        result = "-" * width + "\n"
       end
       print_or_return(result, opts[:print])
     end

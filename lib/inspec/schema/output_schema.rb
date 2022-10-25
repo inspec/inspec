@@ -30,6 +30,8 @@ module Inspec
         "profile-json" => OutputSchema.finalize(Schema::ProfileJson::PROFILE),
         "exec-json" => OutputSchema.finalize(Schema::ExecJson::OUTPUT),
         "exec-jsonmin" => OutputSchema.finalize(Schema::ExecJsonMin::OUTPUT),
+        "profile-json-enhanced-outcomes" => OutputSchema.finalize(Schema::ProfileJson::ENHANCED_OUTCOME_PROFILE),
+        "exec-json-enhanced-outcomes" => OutputSchema.finalize(Schema::ExecJson::ENHANCED_OUTCOME_OUTPUT),
         "platforms" => PLATFORMS,
       }.freeze
 
@@ -37,7 +39,8 @@ module Inspec
         LIST.keys
       end
 
-      def self.json(name)
+      def self.json(name, opts)
+        name += "-enhanced-outcomes" if opts["enhanced_outcomes"]
         if !LIST.key?(name)
           raise("Cannot find schema #{name.inspect}.")
         elsif LIST[name].is_a?(Proc)

@@ -139,6 +139,10 @@ def expect_deprecation(group, &block)
   handle_deprecations(group => :expect_something, all_others: :tolerate, &block)
 end
 
+def darwin?
+  !!(RbConfig::CONFIG["host_os"] =~ /darwin/)
+end
+
 class Minitest::Test
   # TODO: push up to minitest
   def skip_until(y, m, d, msg)

@@ -19,6 +19,8 @@ module Inspec::Resources
     attr_reader :mssql_session, :sql_query
 
     def initialize(conf_param_name, opts = {})
+      @conf_param_name = conf_param_name
+      @opts = opts
       opts[:username] ||= "SA"
       @mssql_session = inspec.mssql_session(opts)
       setting = conf_param_name.to_s.gsub("_", " ").split.map(&:capitalize).join(" ")
@@ -35,6 +37,11 @@ module Inspec::Resources
 
     def to_s
       "MsSql DB Configuration"
+    end
+
+    def resource_id
+      username = @opts[:username] || "SA"
+      "#{@conf_param_name}-#{username}"
     end
 
     private

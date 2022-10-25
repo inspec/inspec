@@ -11,6 +11,12 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< warning >}}
+
+This resource will be deprecated when version 2 of the inspec-azure resource pack is released.
+
+{{< /warning >}}
+
 Use the `azurerm_ad_user` InSpec audit resource to test properties of
 an Azure Active Directory user within a Tenant.
 
@@ -226,9 +232,7 @@ requests are always welcome.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

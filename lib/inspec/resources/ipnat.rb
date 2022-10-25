@@ -41,6 +41,10 @@ module Inspec::Resources
       @ipnat_cache = cmd.stdout.split("\n").map(&:strip)
     end
 
+    def resource_id
+      "Ipnat"
+    end
+
     def to_s
       "Ipnat"
     end

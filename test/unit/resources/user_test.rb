@@ -6,6 +6,11 @@ require "inspec/resources/command"
 describe "Inspec::Resources::User" do
 
   # ubuntu
+  it "generates the resource_id for current resource" do
+    resource = MockLoader.new(:ubuntu).load_resource("user", "root")
+    _(resource.resource_id).must_equal "root"
+  end
+
   it "read user on ubuntu" do
     resource = MockLoader.new(:ubuntu).load_resource("user", "root")
     _(resource.exists?).must_equal true
@@ -31,33 +36,55 @@ describe "Inspec::Resources::User" do
     _(resource.warndays).must_equal 7
   end
 
-  # serverspec compatibility tests (do not test matcher)
-  it "returns deprecation notices" do
+  # serverspec compatibility tests of introduced matchers and properties
+  it "serverspec compatibility tests on ubuntu" do
     resource = MockLoader.new(:ubuntu).load_resource("user", "root")
+    _(resource.exists?).must_equal true
+    _(resource.has_uid?(0)).must_equal true
+    _(resource.belongs_to_primary_group?("root")).must_equal true
+    _(resource.belongs_to_group?("root")).must_equal true
+    _(resource.has_home_directory?("/root")).must_equal true
+    _(resource.has_login_shell?("/bin/bash")).must_equal true
+    _(resource.minimum_days_between_password_change).must_equal 0
+    _(resource.maximum_days_between_password_change).must_equal 99999
+    _(resource.has_authorized_key?("ssh-ed25519 50m3r4nd0m57r1ng mockkey")).must_equal true
+    _(resource.encrypted_password).must_equal "!"
+  end
 
-    expect_deprecation(:resource_user_serverspec_compat) do
-      _(resource.has_uid?(0)).must_equal true
-    end
+  it "serverspec compatibility tests on freebsd" do
+    resource = MockLoader.new(:freebsd11).load_resource("user", "fzipi")
+    _(resource.exists?).must_equal true
+    _(resource.has_uid?(1000)).must_equal true
+    _(resource.belongs_to_primary_group?("fzipi")).must_equal true
+    _(resource.belongs_to_group?("fzipi")).must_equal true
+    _(resource.has_home_directory?("/home/fzipi")).must_equal true
+    _(resource.has_login_shell?("/usr/local/bin/bash")).must_equal true
+    assert_nil(resource.minimum_days_between_password_change)
+    assert_nil(resource.maximum_days_between_password_change)
+    _(resource.has_authorized_key?("ssh-ed25519 50m3r4nd0m57r1ng mockkey")).must_equal true
+  end
 
-    expect_deprecation(:resource_user_serverspec_compat) do
-      _(resource.has_home_directory?("/root")).must_equal true
-    end
+  it "serverspec compatibility tests on OSX" do
+    resource = MockLoader.new(:macos10_10).load_resource("user", "chartmann")
+    _(resource.exists?).must_equal true
+    _(resource.has_uid?(501)).must_equal true
+    _(resource.belongs_to_primary_group?("staff")).must_equal true
+    _(resource.belongs_to_group?("com.apple.sharepoint.group.1")).must_equal true
+    _(resource.has_home_directory?("/Users/chartmann")).must_equal true
+    _(resource.has_login_shell?("/bin/zsh")).must_equal true
+    assert_nil(resource.minimum_days_between_password_change)
+    assert_nil(resource.maximum_days_between_password_change)
+    ex = _ { resource.encrypted_password }.must_raise(Inspec::Exceptions::ResourceSkipped)
+    _(ex.message).must_include "encrypted_password property is not applicable for your system"
+    _(resource.has_authorized_key?("ssh-ed25519 50m3r4nd0m57r1ng mockkey")).must_equal true
+  end
 
-    expect_deprecation(:resource_user_serverspec_compat) do
-      _(resource.has_login_shell?("/bin/bash")).must_equal true
-    end
-
-    expect_deprecation(:resource_user_serverspec_compat) do
-      _(resource.minimum_days_between_password_change).must_equal 0
-    end
-
-    expect_deprecation(:resource_user_serverspec_compat) do
-      _(resource.maximum_days_between_password_change).must_equal 99999
-    end
-
-    expect_deprecation(:resource_user_serverspec_compat) do
-      _(proc { resource.has_authorized_key?("abc") }).must_raise NotImplementedError
-    end
+  it "serverspec compatibility tests on windows" do
+    resource = MockLoader.new(:windows).load_resource("user", "administrator")
+    _(resource.exists?).must_equal true
+    _(resource.belongs_to_group?("Administrators")).must_equal true
+    ex = _ { resource.encrypted_password }.must_raise(Inspec::Exceptions::ResourceSkipped)
+    _(ex.message).must_include "encrypted_password property is not applicable for your system"
   end
 
   it "handles a password that has never changed" do
@@ -80,6 +107,11 @@ describe "Inspec::Resources::User" do
     end
 
     _(resource.passwordage).must_be_nil
+  end
+
+  it "generates the resource_id for current resource" do
+    resource = MockLoader.new(:centos7).load_resource("user", "root")
+    _(resource.resource_id).must_equal "root"
   end
 
   it "read user on centos7" do

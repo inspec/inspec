@@ -10,6 +10,7 @@ describe "Inspec::Resources::ApacheConf" do
                                                          "/etc/apache2/apache2.conf")
     _(resource.params).must_be_kind_of Hash
     _(resource.content).must_be_kind_of String
+    _(resource.resource_id).must_equal "/etc/apache2/apache2.conf"
     _(resource.params("ServerRoot")).must_equal ["/etc/apache2"]
     _(resource.params("ServerAlias")).must_equal ["inspec.test www.inspec.test io.inspec.test"]
     _(resource.params("Listen").sort).must_equal %w{443 80}
@@ -25,6 +26,7 @@ describe "Inspec::Resources::ApacheConf" do
     resource = MockLoader.new(:ubuntu).load_resource("apache_conf", "/etc/test-serverroot/apache2/apache2.conf")
     _(resource.params).must_be_kind_of Hash
     _(resource.content).must_be_kind_of String
+    _(resource.resource_id).must_equal "/etc/test-serverroot/apache2/apache2.conf"
     _(resource.params("ServerAlias")).must_equal ["inspec.test www.inspec.test io.inspec.test"]
     assert_nil(resource.params("ServerRoot"))
     assert_nil(resource.params("Listen"))

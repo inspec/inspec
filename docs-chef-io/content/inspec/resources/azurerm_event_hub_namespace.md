@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< inspec/azurerm_deprecated resource="azure_event_hub_namespace" >}}
+
 Use the `azurerm_event_hub_namespace` InSpec audit resource to test properties and configuration of
 an Azure Event Hub Namespace within a Resource Group.
 
@@ -61,7 +63,7 @@ If an Event Hub Namespace is referenced with a valid `Resource Group` and `Names
 
 If an Event Hub Namespace is referenced with an invalid `Resource Group` or `Namespace Name`
 
-    describe azurerm_event_hub_namespace(resource_group: 'invalid-rg', namespace_name: 'i-dont-exist') do
+    describe azurerm_event_hub_namespace(resource_group: 'invalid-rg', namespace_name: 'i-do-not-exist') do
       it { should_not exist }
     end
 
@@ -125,9 +127,7 @@ requests are always welcome.
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

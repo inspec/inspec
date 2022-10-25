@@ -5,6 +5,10 @@ require "inspec/resources/platform"
 describe "Inspec::Resources::Platform" do
   let(:resource) { MockLoader.new(:ubuntu).load_resource("platform") }
 
+  it "generates the resource_id for the current resource" do
+    _(resource.resource_id).must_equal "ubuntu"
+  end
+
   it "verify platform parsing on Ubuntu" do
     _(resource.name).must_equal "ubuntu"
     _(resource.family).must_equal "debian"

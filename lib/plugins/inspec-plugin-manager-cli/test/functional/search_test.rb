@@ -14,8 +14,8 @@ class PluginManagerCliSearch < Minitest::Test
 
   def test_search_for_a_real_gem_with_full_name_no_options
     result = run_inspec_process("plugin search --include-test-fixture inspec-test-fixture")
-
     assert_includes result.stdout, "inspec-test-fixture", "Search result should contain the gem name"
+    assert_includes result.stdout, "A simple test plugin gem for InSpec", "Search result should contain the gem description"
     assert_includes result.stdout, "1 plugin(s) found", "Search result should find 1 plugin"
     line = result.stdout.split("\n").grep(/inspec-test-fixture/).first
     assert_match(/\s*inspec-test-fixture\s+\((\d+\.\d+\.\d+){1}\)/, line, "Plugin line should include name and exactly one version")
@@ -27,6 +27,7 @@ class PluginManagerCliSearch < Minitest::Test
     result = run_inspec_process("plugin search --include-test-fixture inspec-test-")
 
     assert_includes result.stdout, "inspec-test-fixture", "Search result should contain the gem name"
+    assert_includes result.stdout, "A simple test plugin gem for InSpec", "Search result should contain the gem description"
     assert_includes result.stdout, "1 plugin(s) found", "Search result should find 1 plugin"
 
     line = result.stdout.split("\n").grep(/inspec-test-fixture/).first
@@ -39,6 +40,7 @@ class PluginManagerCliSearch < Minitest::Test
     result = run_inspec_process("plugin search --exact --include-test-fixture inspec-test-fixture")
 
     assert_includes result.stdout, "inspec-test-fixture", "Search result should contain the gem name"
+    assert_includes result.stdout, "A simple test plugin gem for InSpec", "Search result should contain the gem description"
     assert_includes result.stdout, "1 plugin(s) found", "Search result should find 1 plugin"
 
     assert_exit_code 0, result
@@ -65,6 +67,7 @@ class PluginManagerCliSearch < Minitest::Test
   def test_search_for_a_real_gem_with_full_name_and_all_option
     result = run_inspec_process("plugin search --all --include-test-fixture inspec-test-fixture")
     assert_includes result.stdout, "inspec-test-fixture", "Search result should contain the gem name"
+    assert_includes result.stdout, "A simple test plugin gem for InSpec", "Search result should contain the gem description"
     assert_includes result.stdout, "1 plugin(s) found", "Search result should find 1 plugin"
 
     line = result.stdout.split("\n").grep(/inspec-test-fixture/).first
@@ -96,6 +99,7 @@ class PluginManagerCliSearch < Minitest::Test
     result = run_inspec_process("plugin search --include-test-fixture train-test-fixture")
 
     assert_includes result.stdout, "train-test-fixture", "Search result should contain the gem name"
+    assert_includes result.stdout, "Test train plugin. Not intended for use as an example", "Search result should contain the gem description"
     assert_includes result.stdout, "1 plugin(s) found", "Search result should find 1 plugin"
     line = result.stdout.split("\n").grep(/train-test-fixture/).first
     assert_match(/\s*train-test-fixture\s+\((\d+\.\d+\.\d+){1}\)/, line, "Plugin line should include name and exactly one version")
@@ -120,10 +124,12 @@ class PluginManagerCliSearch < Minitest::Test
   def test_search_for_a_real_gem_with_full_name_no_options_filter_fixtures
     result = run_inspec_process("plugin search inspec-test-fixture")
     refute_includes result.stdout, "inspec-test-fixture", "Search result should not contain the fixture gem name"
+    refute_includes result.stdout, "Test train plugin. Not intended for use as an example", "Search result should not contain the gem description"
   end
 
   def test_search_for_a_real_gem_with_full_name_no_options_filter_fixtures_train
     result = run_inspec_process("plugin search train-test-fixture")
     refute_includes result.stdout, "train-test-fixture", "Search result should not contain the fixture gem name"
+    refute_includes result.stdout, "Test train plugin. Not intended for use as an example", "Search result should not contain the gem description"
   end
 end

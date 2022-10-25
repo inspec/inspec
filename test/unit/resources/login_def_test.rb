@@ -9,5 +9,6 @@ describe "Inspec::Resources::LoginDef" do
     _(resource.PASS_MIN_DAYS).must_equal "0"
     _(resource.PASS_WARN_AGE).must_equal "7"
     _(resource.USERDEL_CMD).must_be_nil
+    _(resource.resource_id).must_equal "/etc/login.defs"
   end
 end

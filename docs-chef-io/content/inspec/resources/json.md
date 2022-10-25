@@ -17,7 +17,7 @@ Use the `json` Chef InSpec audit resource to test data in a JSON file.
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 

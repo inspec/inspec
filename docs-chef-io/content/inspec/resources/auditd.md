@@ -11,13 +11,13 @@ platform = "linux"
     parent = "inspec/resources/os"
 +++
 
-Use the `auditd` Chef InSpec audit resource to test the rules for logging that exist on the system. The audit.rules file is typically located under /etc/audit/ and contains the list of rules that define what is captured in log files. These rules are output using the auditctl -l command. This resource supports versions of `audit` >= 2.3.
+Use the `auditd` Chef InSpec audit resource to test the rules for logging that exist on the system. The audit.rules file is typically located under /etc/audit/ and contains the list of rules that define what is captured in log files. These rules are output using the `auditctl -l` command. This resource supports versions of `audit` >= 2.3.
 
 ## Availability
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 

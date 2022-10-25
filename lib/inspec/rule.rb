@@ -8,13 +8,15 @@ require "inspec/impact"
 require "inspec/resource"
 require "inspec/resources/os"
 require "inspec/input_registry"
+require "inspec/waiver_file_reader"
+require "inspec/utils/convert"
 
 module Inspec
   class Rule
     include ::RSpec::Matchers
 
     attr_reader :__waiver_data
-    attr_accessor :resource_dsl
+    attr_accessor :resource_dsl, :na_impact_freeze
     attr_reader :__profile_id
 
     def initialize(id, profile_id, resource_dsl, opts, &block)
@@ -38,6 +40,7 @@ module Inspec
       @__merge_count = 0
       @__merge_changes = []
       @__skip_only_if_eval = opts[:skip_only_if_eval]
+      @__na_rule = {}
 
       # evaluate the given definition
       return unless block_given?
@@ -73,10 +76,13 @@ module Inspec
     end
 
     def impact(v = nil)
-      if v.is_a?(String)
-        @impact = Inspec::Impact.impact_from_string(v)
-      elsif !v.nil?
-        @impact = v
+      # N/A impact freeze is required when only_applicable_if block has reset impact value to zero"
+      unless na_impact_freeze
+        if v.is_a?(String)
+          @impact = Inspec::Impact.impact_from_string(v)
+        elsif !v.nil?
+          @impact = v
+        end
       end
 
       @impact
@@ -133,13 +139,26 @@ module Inspec
     #
     # @param [Type] &block returns true if tests are added, false otherwise
     # @return [nil]
-    def only_if(message = nil)
+    def only_if(message = nil, impact: nil)
       return unless block_given?
       return if @__skip_only_if_eval == true
 
+      self.impact(impact) if impact && !yield
       @__skip_rule[:result] ||= !yield
       @__skip_rule[:type] = :only_if
       @__skip_rule[:message] = message
+    end
+
+    def only_applicable_if(message = nil)
+      return unless block_given?
+      return if yield
+
+      impact(0.0)
+      self.na_impact_freeze = true # this flag prevents impact value to reset to any other value
+
+      @__na_rule[:result] ||= !yield
+      @__na_rule[:type] = :only_applicable_if
+      @__na_rule[:message] = message
     end
 
     # Describe will add one or more tests to this control. There is 2 ways
@@ -252,6 +271,10 @@ module Inspec
       rule.instance_variable_get(:@__skip_rule)
     end
 
+    def self.na_status(rule)
+      rule.instance_variable_get(:@__na_rule)
+    end
+
     def self.set_skip_rule(rule, value, message = nil, type = :only_if)
       rule.instance_variable_set(:@__skip_rule,
                                  {
@@ -273,16 +296,26 @@ module Inspec
     # creates a dummay array of "checks" with a skip outcome
     def self.prepare_checks(rule)
       skip_check = skip_status(rule)
-      return checks(rule) unless skip_check[:result].eql?(true)
-
-      if skip_check[:message]
-        msg = "Skipped control due to #{skip_check[:type]} condition: #{skip_check[:message]}"
-      else
-        msg = "Skipped control due to #{skip_check[:type]} condition."
-      end
+      na_check = na_status(rule)
+      return checks(rule) unless skip_check[:result].eql?(true) || na_check[:result].eql?(true)
 
       resource = rule.noop
-      resource.skip_resource(msg)
+      if skip_check[:result].eql?(true)
+        if skip_check[:message]
+          msg = "Skipped control due to #{skip_check[:type]} condition: #{skip_check[:message]}"
+        else
+          msg = "Skipped control due to #{skip_check[:type]} condition."
+        end
+        resource.skip_resource(msg)
+      else
+        if na_check[:message]
+          msg = "N/A control due to #{na_check[:type]} condition: #{na_check[:message]}"
+        else
+          msg = "N/A control due to #{na_check[:type]} condition."
+        end
+        resource.fail_resource(msg)
+      end
+
       [["describe", [resource], nil]]
     end
 
@@ -337,17 +370,20 @@ module Inspec
     # only_if mechanism)
     # Double underscore: not intended to be called as part of the DSL
     def __apply_waivers
-      input_name = @__rule_id # TODO: control ID slugging
-      registry = Inspec::InputRegistry.instance
-      input = registry.inputs_by_profile.dig(__profile_id, input_name)
-      return unless input && input.has_value? && input.value.is_a?(Hash)
+      control_id = @__rule_id # TODO: control ID slugging
+      waiver_files = Inspec::Config.cached.final_options["waiver_file"] if Inspec::Config.cached.respond_to?(:final_options)
+
+      waiver_data_by_profile = Inspec::WaiverFileReader.fetch_waivers_by_profile(__profile_id, waiver_files) unless waiver_files.nil?
+
+      return unless waiver_data_by_profile && waiver_data_by_profile[control_id] && waiver_data_by_profile[control_id].is_a?(Hash)
 
       # An InSpec Input is a datastructure that tracks a profile parameter
       # over time. Its value can be set by many sources, and it keeps a
       # log of each "set" event so that when it is collapsed to a value,
       # it can determine the correct (highest priority) value.
       # Store in an instance variable for.. later reading???
-      @__waiver_data = input.value
+      @__waiver_data = waiver_data_by_profile[control_id]
+
       __waiver_data["skipped_due_to_waiver"] = false
       __waiver_data["message"] = ""
 
@@ -358,7 +394,7 @@ module Inspec
         # YAML will automagically give us a Date or a Time.
         # If transcoding YAML between languages (e.g. Go) the date might have also ended up as a String.
         # A string that does not represent a valid time results in the date 0000-01-01.
-        if [Date, Time].include?(expiry.class) || (expiry.is_a?(String) && Time.new(expiry).year != 0)
+        if [Date, Time].include?(expiry.class) || (expiry.is_a?(String) && Time.parse(expiry).year != 0)
           expiry = expiry.to_time if expiry.is_a? Date
           expiry = Time.parse(expiry) if expiry.is_a? String
           if expiry < Time.now # If the waiver expired, return - no skip applied
@@ -376,6 +412,7 @@ module Inspec
       # expiration_date. We only care here if it has a "run" key and it
       # is false-like, since all non-skipped waiver operations are handled
       # during reporting phase.
+      __waiver_data["run"] = Converter.to_boolean(__waiver_data["run"]) if __waiver_data.key?("run")
       return unless __waiver_data.key?("run") && !__waiver_data["run"]
 
       # OK, apply a skip.

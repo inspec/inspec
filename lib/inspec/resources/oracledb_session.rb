@@ -61,15 +61,29 @@ module Inspec::Resources
         raise Inspec::Exceptions::ResourceFailed, "Oracle query with errors: #{out}"
       else
         begin
-          DatabaseHelper::SQLQueryResult.new(inspec_cmd, parse_csv_result(inspec_cmd.stdout))
-        rescue
-          raise Inspec::Exceptions::ResourceFailed, "Oracle query with errors: #{out}"
+          unless inspec_cmd.stdout.empty?
+            DatabaseHelper::SQLQueryResult.new(inspec_cmd, parse_csv_result(inspec_cmd.stdout))
+          else
+            inspec_cmd.stdout
+          end
+        rescue Exception => ex
+          raise Inspec::Exceptions::ResourceFailed, "Oracle query with exception: #{ex}"
         end
       end
     end
 
     def to_s
       "Oracle Session"
+    end
+
+    def resource_id
+      if @user
+        "#{@host}-#{@port}-#{@user}"
+      elsif @su_user
+        "#{@host}-#{@port}-#{@su_user}"
+      else
+        ""
+      end
     end
 
     private
@@ -87,22 +101,31 @@ module Inspec::Resources
         verified_query = verify_query(escaped_query)
       end
 
-      sql_prefix, sql_postfix = "", ""
+      sql_prefix, sql_postfix, oracle_echo_str = "", "", ""
       if inspec.os.windows?
         sql_prefix = %{@'\n#{format_options}\n#{verified_query}\nEXIT\n'@ | }
       else
         sql_postfix = %{ <<'EOC'\n#{format_options}\n#{verified_query}\nEXIT\nEOC}
+        # oracle_query_string is echoed to be able to extract the query output clearly
+        oracle_echo_str = %{echo 'oracle_query_string';}
+      end
+
+      # Resetting sql_postfix if system is using AIX OS and C shell installation for oracle
+      if inspec.os.aix?
+        command_to_fetch_shell = @su_user ? %{su - #{@su_user} -c "env | grep SHELL"} : %{env | grep SHELL}
+        shell_is_csh = inspec.command(command_to_fetch_shell).stdout&.include? "/csh"
+        sql_postfix = %{ <<'EOC'\n#{format_options}\n#{verified_query}\nEXIT\n'EOC'} if shell_is_csh
       end
 
       if @db_role.nil?
-        %{#{sql_prefix}#{bin} #{user}/#{password}@#{host}:#{port}/#{@service}#{sql_postfix}}
+        %{#{oracle_echo_str}#{sql_prefix}#{bin} #{user}/#{password}@#{host}:#{port}/#{@service}#{sql_postfix}}
       elsif @su_user.nil?
-        %{#{sql_prefix}#{bin} #{user}/#{password}@#{host}:#{port}/#{@service} as #{@db_role}#{sql_postfix}}
+        %{#{oracle_echo_str}#{sql_prefix}#{bin} #{user}/#{password}@#{host}:#{port}/#{@service} as #{@db_role}#{sql_postfix}}
       else
         # oracle_query_string is echoed to be able to extract the query output clearly
         # su - su_user in certain versions of oracle returns a message
         # Example of msg with query output: The Oracle base remains unchanged with value /oracle\n\nVALUE\n3\n
-        %{su - #{@su_user} -c "echo 'oracle_query_string'; env ORACLE_SID=#{@service} #{@bin} / as #{@db_role}#{sql_postfix}"}
+        %{su - #{@su_user} -c "#{oracle_echo_str} env ORACLE_SID=#{@service} #{@bin} / as #{@db_role}#{sql_postfix}"}
       end
     end
 

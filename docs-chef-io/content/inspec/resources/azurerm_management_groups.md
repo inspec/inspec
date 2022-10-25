@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< inspec/azurerm_deprecated resource="azure_management_groups" >}}
+
 Use the `azurerm_management_groups` InSpec audit resource to test properties related to
 management groups.
 

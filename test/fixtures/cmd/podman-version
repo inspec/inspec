@@ -1,0 +1,1 @@
+{"Client":{"APIVersion":"4.1.0","Version":"4.1.0","GoVersion":"go1.18.1","GitCommit":"","BuiltTime":"Fri May  6 01:37:47 2022","Built":1651781267,"OsArch":"darwin/amd64","Os":"darwin"},"Server":{"APIVersion":"4.1.0","Version":"4.1.0","GoVersion":"go1.18","GitCommit":"","BuiltTime":"Fri May  6 21:45:54 2022","Built":1651853754,"OsArch":"linux/amd64","Os":"linux"}}

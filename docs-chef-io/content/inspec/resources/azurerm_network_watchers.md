@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< inspec/azurerm_deprecated resource="azure_network_watchers" >}}
+
 Use the `azurerm_network_watchers` InSpec audit resource to verify that a Network Watcher
 exists.
 
@@ -69,9 +71,7 @@ The name of the Network Watcher
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

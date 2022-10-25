@@ -4,11 +4,11 @@
 * **Issues Response SLA: 14 business days**
 * **Pull Request Response SLA: 14 business days**
 
-For more information on project states and SLAs, see [this documentation](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md).
+For more information on project states and SLAs, see [this documentation](https://github.com/chef/chef-oss-practices/blob/main/repo-management/repo-states.md).
 
 [![Slack](https://community-slack.chef.io/badge.svg)](https://community-slack.chef.io/)
-[![Build status](https://badge.buildkite.com/bf4c5fdc3858cc9f8c8bab8376e8e40d625ad046df9d4d8619.svg?branch=master)](https://buildkite.com/chef-oss/inspec-inspec-master-verify)
-[![Coverage Status](https://coveralls.io/repos/github/inspec/inspec/badge.svg?branch=master)](https://coveralls.io/github/inspec/inspec?branch=master)
+[![Build status](https://badge.buildkite.com/bf4c5fdc3858cc9f8c8bab8376e8e40d625ad046df9d4d8619.svg?branch=main)](https://buildkite.com/chef-oss/inspec-inspec-main-verify)
+[![Coverage Status](https://coveralls.io/repos/github/inspec/inspec/badge.svg?branch=main)](https://coveralls.io/github/inspec/inspec?branch=main)
 
 Chef InSpec is an open-source testing framework for infrastructure with a human- and machine-readable language for specifying compliance, security and policy requirements.
 
@@ -57,7 +57,7 @@ inspec exec test.rb -t docker://container_id
 
 Chef InSpec requires Ruby ( >= 2.7 ).
 
-Note: Versions of Chef InSpec 4.0 and later require accepting the EULA to use. Please visit the [license acceptance page](https://docs.chef.io/chef_license_accept.html) on the Chef docs site for more information.
+All currently supported versions of Chef InSpec (4.0 and later) require accepting the EULA to use. Please visit the [license acceptance page](https://docs.chef.io/chef_license_accept.html) on the Chef docs site for more information.
 
 ### Install as package
 
@@ -216,10 +216,10 @@ end
 ```
 
 Also have a look at our examples for:
-- [Using Chef InSpec with Test Kitchen & Chef Infra](https://github.com/chef/inspec/tree/master/examples/kitchen-chef)
-- [Using Chef InSpec with Test Kitchen & Puppet](https://github.com/chef/inspec/tree/master/examples/kitchen-puppet)
-- [Using Chef InSpec with Test Kitchen & Ansible](https://github.com/chef/inspec/tree/master/examples/kitchen-ansible)
-- [Implementing an Chef InSpec profile](https://github.com/chef/inspec/tree/master/examples/profile)
+- [Using Chef InSpec with Test Kitchen & Chef Infra](https://github.com/chef/inspec/tree/main/examples/kitchen-chef)
+- [Using Chef InSpec with Test Kitchen & Puppet](https://github.com/chef/inspec/tree/main/examples/kitchen-puppet)
+- [Using Chef InSpec with Test Kitchen & Ansible](https://github.com/chef/inspec/tree/main/examples/kitchen-ansible)
+- [Implementing an Chef InSpec profile](https://github.com/chef/inspec/tree/main/examples/profile)
 
 ## Or tests: Testing for a OR b
 
@@ -258,6 +258,9 @@ inspec exec test.rb -t winrm://Administrator@windowshost --password 'your-passwo
 
 # run test on docker container
 inspec exec test.rb -t docker://container_id
+
+# run test on podman container
+inspec exec test.rb -t podman://container_id --podman-url "unix:///run/user/1000/podman/podman.sock"
 
 # run with sudo
 inspec exec test.rb --sudo [--sudo-password ...] [--sudo-options ...] [--sudo_command ...]
@@ -339,7 +342,7 @@ Documentation
 
  * https://docs.chef.io/inspec/
  * https://docs.chef.io/inspec/resources/
- * https://github.com/inspec/inspec/tree/master/docs-chef-io
+ * https://github.com/inspec/inspec/tree/main/docs-chef-io
 
 Learn Chef:
 
@@ -375,7 +378,7 @@ The Chef InSpec community and maintainers are very active and helpful. This proj
 
 If you'd like to chat with the community and maintainers directly join us in the `#inspec` channel on the [Chef Community Slack](http://community-slack.chef.io/).
 
-As a reminder, all participants are expected to follow the [Code of Conduct](https://github.com/inspec/inspec/blob/master/CODE_OF_CONDUCT.md).
+As a reminder, all participants are expected to follow the [Code of Conduct](https://github.com/inspec/inspec/blob/main/CODE_OF_CONDUCT.md).
 
 [![Slack](https://community-slack.chef.io/badge.svg)](https://community-slack.chef.io/)
 

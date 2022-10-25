@@ -26,7 +26,7 @@ The format for `/etc/shadow` includes:
 
 These entries are defined as a colon-delimited row in the file, one row per user:
 
-    dannos:Gb7crrO5CDF.:10063:0:99999:7:::
+    username:Gb7crrO5CDF.:10063:0:99999:7:::
 
 The `shadow` resource understands this format, allows you to search on the fields, and exposes the selected users' properties.
 
@@ -34,7 +34,7 @@ The `shadow` resource understands this format, allows you to search on the field
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 

@@ -24,6 +24,7 @@ describe "Inspec::Resources::CassandradbSession" do
       end
     end
 
+    _(resource.resource_id).must_equal "cassandradb_session:User:USER:Host:localhost"
     _(resource.resource_failed?).must_equal false
     query = resource.query("SELECT cluster_name FROM system.local")
     _(query.output).must_match(/Test Cluster/)

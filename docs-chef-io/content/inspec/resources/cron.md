@@ -55,7 +55,7 @@ The following examples show how to use this audit resource.
       it { should have_entry "5 * * * * /some/scheduled/task.sh" }
     end
 
-### Test to ensure myuser's crontab has a particular cron entry
+### Test to ensure a user's crontab has a particular cron entry
 
     describe cron('MY_USER') do
       it { should have_entry "5 * * * * /some/scheduled/task.sh" }

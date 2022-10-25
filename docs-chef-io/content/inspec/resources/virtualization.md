@@ -17,7 +17,7 @@ Use the `virtualization` Chef InSpec audit resource to test the virtualization p
 
 ### Installation
 
-This resource is distributed along with Chef InSpec itself. You can use it automatically.
+{{% inspec/inspec_installation %}}
 
 ### Version
 
@@ -72,7 +72,7 @@ This helper returns, if any of the supported virtualization platforms was detect
 
 ### virtualization.physical_system? Helper
 
-If no virtualization platform is detected, this will return `true`. For unsupported virtualization platforms this can result in false posititves.
+If no virtualization platform is detected, this will return `true`. For unsupported virtualization platforms this can result in false positives.
 
 ### virtualization.system names
 

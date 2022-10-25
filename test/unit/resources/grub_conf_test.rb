@@ -10,6 +10,7 @@ describe "Inspec::Resources::GrubConfig" do
 
     _(resource.kernel).must_include "/vmlinuz-yup-kernel-works"
     _(resource.initrd).must_equal "/initramfs-yup-initrd-works"
+    _(resource.resource_id).must_equal "/boot/grub2/grub.cfg"
   end
 
   # Grub2 with `GRUB_DEFAULT=saved`
@@ -25,6 +26,7 @@ describe "Inspec::Resources::GrubConfig" do
 
     _(resource.kernel).must_include "/vmlinuz-3.10.0-229.el7.x86_64"
     _(resource.initrd).must_equal "/initramfs-3.10.0-229.el7.x86_64.img"
+    _(resource.resource_id).must_equal "/boot/grub2/grub.cfg"
   end
 
   it "parses correctly with grub2 and an invalid grubenv entry" do
@@ -44,6 +46,7 @@ describe "Inspec::Resources::GrubConfig" do
 
     _(resource.kernel).must_include "/vmlinuz-yup-kernel-works"
     _(resource.initrd).must_equal "/initramfs-yup-initrd-works"
+    _(resource.resource_id).must_equal "/boot/grub2/grub.cfg"
   end
 
   # Grub2 with a specified kernel
@@ -56,6 +59,7 @@ describe "Inspec::Resources::GrubConfig" do
 
     _(resource.kernel).must_include "/vmlinuz-0-rescue"
     _(resource.initrd).must_equal "/initramfs-0-rescue.img"
+    _(resource.resource_id).must_equal "/boot/grub2/grub.cfg"
   end
 
   # Legacy Grub
@@ -66,6 +70,7 @@ describe "Inspec::Resources::GrubConfig" do
     _(resource.initrd).must_equal "/initramfs-2.6.32-573.7.1.el6.x86_64.img"
     _(resource.default).must_equal "0"
     _(resource.timeout).must_equal "5"
+    _(resource.resource_id).must_equal "/etc/grub.conf"
   end
 
   # Legacy Grub with a specified kernel
@@ -80,6 +85,7 @@ describe "Inspec::Resources::GrubConfig" do
     _(resource.initrd).must_equal "/initramfs-2.6.32-573.el6.x86_64.img"
     _(resource.default).must_equal "0"
     _(resource.timeout).must_equal "5"
+    _(resource.resource_id).must_equal "/etc/grub.conf"
   end
 
   it "parses data with no identations correctly with grub1" do
@@ -93,5 +99,6 @@ describe "Inspec::Resources::GrubConfig" do
     _(resource.initrd).must_equal "/initramfs-2.6.32-573.el6.x86_64.img"
     _(resource.default).must_equal "0"
     _(resource.timeout).must_equal "5"
+    _(resource.resource_id).must_equal "/etc/non_indented_grub.conf"
   end
 end

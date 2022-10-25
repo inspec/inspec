@@ -3,51 +3,144 @@
 This is the home of the InSpec Documentation that is deployed on
 https://docs.chef.io/inspec/ using Hugo modules.
 
-## The Fastest Way to Contribute
+## Updating InSpec Docs Content
 
-There are two steps to updating the Chef InSpec documentation:
+There are two steps to updating the Chef InSpec documentation on docs.chef.io:
 
 1. Update the documentation in the `inspec/inspec` repository.
-1. Update the InSpec repository module in chef-web-docs
+1. Update the InSpec [repository module in chef-web-docs](#update-the-inspec-docs-content-on-docchefio).
 
-### Update Content in `inspec/inspec`
+## Documentation Content
 
-The fastest way to change the documentation is to edit a page on the
-GitHub website using the GitHub UI.
+Please keep all of the InSpec documentation in the `content/inspec` directory.
 
-To perform edits using the GitHub UI, click on the `[edit on GitHub]` link at
-the top of the page that you want to edit. The link takes you to that topic's GitHub
-page. In GitHub, click on the pencil icon and make your changes. You can preview
-how they'll look right on the page ("Preview Changes" tab).
+The diagram below shows how documentation content should be organized:
 
-We also require contributors to include their [DCO signoff](https://github.com/chef/chef/blob/main/CONTRIBUTING.md#developer-certification-of-origin-dco)
-in the comment section of every pull request, except for obvious fixes. You can
-add your DCO signoff to the comments by including `Signed-off-by:`, followed by
-your name and email address, like this:
+```
+.
+├── docs-chef-io
+│   ├── archetypes                 # page templates
+│   ├── content
+│   │   ├── inspec                 # InSpec documentation
+│   │   │   ├── resources          # InSpec resource documentation
+│   ├── static
+│   |   ├── images
+│   │   |   ├── inspec             # images
+│   ├── layouts
+│   |   ├── shortcodes             # reusable text files
+```
 
-`Signed-off-by: Julia Child <juliachild@chef.io>`
+To add a new Markdown page, run the following command from the `docs-chef-io` directory:
 
-See our [blog post](https://blog.chef.io/introducing-developer-certificate-of-origin/)
-for more information about the DCO and why we require it.
+```
+hugo new content/inspec/FILENAME.md
+```
 
-After you've added your DCO signoff, add a comment about your proposed change,
-then click on the "Propose file change" button at the bottom of the page and
-confirm your pull request. The CI system will do some checks and add a comment
-to your PR with the results.
+This will create a draft page with enough front matter to get you going.
 
-The Chef documentation team can normally merge pull requests within seven days.
-We'll fix build errors before we merge, so you don't have to
-worry about passing all the CI checks, but it might add an extra
-few days. The important part is submitting your change.
+Hugo uses [Goldmark](https://github.com/yuin/goldmark) which is a
+superset of Markdown that includes GitHub styled tables, task lists, and
+definition lists.
 
-### Update the InSpec Repository Module In `chef/chef-web-docs`
+See our [Style Guide](https://docs.chef.io/style_guide/) for more information
+about formatting documentation using Markdown.
 
-We use [Hugo modules](https://gohugo.io/hugo-modules/) to build Chef's documentation
-from multiple repositories. Expeditor will submit a pull request that updates the documentation
-in `chef/chef-web-docs` the next time InSpec is promoted.
+### Page Front Matter
 
-The Docs Team can also update the InSpec documentation if changes need to be made
-before the next promotion.
+At the top of each page is a block of front matter that Hugo uses to add a title to each page and locate each page in the left navigation menu in <docs.chef.io>. Below is an example of a page's front matter:
+
+```toml
++++
+title = "PAGE TITLE"
+draft = false
+gh_repo = "inspec"
+
+[menu]
+  [menu.inspec]
+    title = "PAGE TITLE"
+    identifier = "inspec/PAGE TITLE"
+    parent = "inspec"
+    weight = WEIGHT
++++
+```
+
+`title` is the page title.
+
+`gh_repo = "inspec"` adds an "[edit on GitHub]" link to the top of each page that links to the Markdown page in the inspec/inspec repository.
+
+`[menu.inspec]` places the page in the Chef InSpec section of the left navigation menu in <docs.chef.io>. All the parameters following this configure the link in the left navigation menu to the page.
+
+`title` is the title of page in the Chef InSpec menu.
+
+`identifier` is the identifier for a page in the menu. It should formatted like this: `inspec/RESOURCE NAME`. Change `PLATFORM` to the same value as the platform parameter above. Change `RESOURCE NAME` to the name of the resource.
+
+`parent` is the identifier for the section of the menu that the page will be found in. This value is set in the [chef-web-docs menu config](https://github.com/chef/chef-web-docs/blob/main/config/_default/menu.toml). Set this value to the section of the InSpec menu that you want the page to located in.
+
+`weight` sorts the page in the menu relative to other pages. Higher weights are lower in the menu. Pages without a weight are sorted alphabetically by page title.
+
+### Resource Pages
+
+All resource pages are located in `docs-chef-io/content/inspec/resources/`.
+
+#### InSpec Resources Index Page
+
+The InSpec resources index page is located in [`docs-chef-io/content/inspec/resources/_index.md`](content/inspec/resources/_index.md)
+and can be found on <https://docs.chef.io/inspec/resources/>.
+
+The resources on this page are organized by platform. All resources in a platform are added to this page using the `inspec_resources` shortcode.
+To add a new group of resources of a specific platform, add the shortcode and
+specify the platform parameter: `{{< inspec_resources platform="PLATFORM" >}}`
+
+The `inspec_resources` shortcode searches for the `platform` parameter in all pages in the `content/inspec/resources` directory and then creates a list of those pages that have the specified parameter.
+
+#### New Resource Pages
+
+Create a new resource page by running `hugo new -k resource inspec/resources/RESOURCE_NAME.md` from the `docs-chef-io` directory.
+
+This will create a new resource page with enough content preformatted to get you started.
+
+#### Resource Page Front Matter
+
+At the top of each resource is a block of front matter that Hugo uses to add a title to each page and locate each page in the left navigation menu in <docs.chef.io>. Below is an example of a page's front matter:
+
+```toml
++++
+title = "RESOURCE NAME resource"
+platform = "PLATFORM"
+gh_repo = "inspec"
+
+[menu.inspec]
+title = "RESOURCE NAME"
+identifier = "inspec/resources/PLATFORM/RESOURCE NAME"
+parent = "inspec/resources/PLATFORM"
++++
+```
+
+`title` is the page title.
+
+`platform = PLATFORM` sorts each page into the correct category in the [Chef InSpec resources list page](https://docs.chef.io/inspec/resources/). Specify the platform that this page should be listed under in the resources list page.
+
+`gh_repo = "inspec"` adds an "[edit on GitHub]" link to the top of each page that links to the Markdown page in the inspec/inspec repository.
+
+`[menu.inspec]` places the page in the Chef InSpec section of the left navigation menu in <docs.chef.io>. All the parameters following this configure the link in the left navigation menu to the page.
+
+`title` is the title of page in the Chef InSpec menu.
+
+`identifier` is the identifier for a page in the menu. It should formatted like this: `inspec/resources/PLATFORM/RESOURCE NAME`. Change `PLATFORM` to the same value as the platform parameter above. Change `RESOURCE NAME` to the name of the resource.
+
+`parent = "inspec/resources/PLATFORM"` is the identifier for the section of the menu that the page will be found in. This value is set in the [chef-web-docs menu config](https://github.com/chef/chef-web-docs/blob/main/config/_default/menu.toml). Change `PLATFORM` to the same value as the platform parameter.
+
+### Shortcodes
+
+A shortcode is a file with a block of text that can be added in multiple places in our documentation by referencing the shortcode file name.
+
+There are two types of shortcodes: Markdown and HTML.
+
+Add a Markdown shortcode to a page by wrapping the filename, without the `.md` file suffix, in double curly braces and percent symbols. For example: `{{% inspec_filter_table %}}`.
+
+Add an HTML shortcode to a page by wrapping the filename, without the `.html` file suffix, in double curly braces and greater than and lesser than symbols. For example: `{{< shortcode_name >}}`.
+
+Some shortcodes take parameters; for example, the `inspec_resources` shortcode requires a platform parameter: `{{< inspec_resources platform="PLATFORM" >}}`
 
 ## Local Development Environment
 
@@ -58,7 +151,7 @@ installed and running to build and view our documentation properly.
 To install Hugo, NPM, and Go on Windows and macOS:
 
 - On macOS run: `brew install hugo node go`
-- On Windows run: `choco install hugo nodejs golang -y`
+- On Windows run: `choco install hugo-extended nodejs golang`
 
 To install Hugo on Linux, run:
 
@@ -66,13 +159,12 @@ To install Hugo on Linux, run:
 - `snap install node --classic --channel=12`
 - `snap install hugo --channel=extended`
 
-## Preview Workstation Documentation
+## Preview InSpec Documentation
 
 There are two ways to preview the documentation in `inspec`:
 
 - submit a PR
 - `make serve`
-
 
 ### Submit a PR
 
@@ -92,73 +184,21 @@ and live reload if any changes are made while the Hugo server is running.
 #### Clean Your Local Environment
 
 If you have a local copy of chef-web-docs cloned into `docs-chef-io`,
-running `make clean_all` will delete the SASS files, node modules, and fonts in
-`docs-chef-io/chef-web-docs/themes/docs-new` used to
-build the docs site in the cloned copy of chef-web-docs. Hugo will reinstall these
+running `make clean_all` will delete the cloned copy of chef-web-docs. Hugo will rebuild everything from scratch
 the next time you run `make serve`.
 
-## Creating New Pages
+## Update the InSpec Docs Content on doc.chef.io
 
-Please keep all of the InSpec documentation in the `content/inspec` directory.
-To add a new Markdown file, run the following command from the `www` directory:
+We use [Hugo modules](https://gohugo.io/hugo-modules/) to build Chef's documentation
+from multiple repositories. Expeditor will submit a pull request that updates the documentation
+in `chef/chef-web-docs` the next time InSpec is promoted.
 
-```
-hugo new content/inspec/<filename>.md
-```
+The Docs Team can also update the InSpec documentation if changes need to be made
+before the next promotion.
 
-If it's a new resource page, run:
-
-```
-hugo new -k resource content/inspec/resources/<filename>.md
-```
-
-This will create a draft page with enough front matter to get you going. Note that
-resource pages must have a platform specified in the page frontmatter. See
-the [Resource pages](#resource-pages) section below for more information.
-
-Hugo uses [Goldmark](https://github.com/yuin/goldmark) which is a
-superset of Markdown that includes GitHub styled tables, task lists, and
-definition lists.
-
-See our [Style Guide](https://docs.chef.io/style_guide/) for more information
-about formatting documentation using Markdown.
-
-## Resource Pages
-
-The resource pages are located in `www/content/inspec/resources/`.
-
-The InSpec resources index page is located in `www/content/inspec/resources/_index.md`
-and can be found on https://docs.chef.io/inspec/resources/
-
-The resource index page has a shortcode called `inspec_resources` that lists
-resource pages by platform. To use the shortcode, add the shortcode and
-specify the platform parameter: `{{< inspec_resources platform="<platform>" >}}`
-
-A resource page must be located in `www/content/inspec/resources` and must have
-the platform parameter set in its frontmatter. Add `platform = <platform>` to
-the page frontmatter to add the platform parameter. For example, the
-`aide_conf.md` resource frontmatter has `platform = "linux"` in its page
-frontmatter.
-### Documentation Content
-```
-.
-├── docs-chef-io
-│   ├── content
-│   │   ├── inspec                 # where to keep markdown file documentation
-│   │   │   ├── resources          # where to keep resource page documentation
-|   ├── static
-|   |   ├── images
-|   |   |   ├── inspec/inspec        # where to keep any images you need to reference in your documentation
-```
-
-### What is happening behind the scenes
-
-The [Chef Documentation](https://docs.chef.io) site uses [Hugo modules](https://gohugo.io/hugo-modules/)
-to load content directly from the `docs-chef-io` directory in the `inspec/inspec`
-repository. Every time `inspec/inspec` is promoted to stable, Expeditor
-instructs Hugo to update the version of the `inspec/inspec` repository
-that Hugo uses to build Chef InSpec documentation on the [Chef Documentation](https://docs.chef.io)
-site. This is handled by the Expeditor subscriptions in the `chef/chef-web-docs` GitHub repository.
+You can also submit a pull request to chef-web-docs to update the InSpec docs content on docs.chef.io.
+See the [chef-web-docs readme](https://github.com/chef/chef-web-docs#update-hugo-modules) for information on updating a
+Hugo module in chef-web-docs.
 
 ## Documentation Feedback
 
@@ -178,4 +218,3 @@ especially in situations where a doc bug may also surface a product bug.
 
 Submit an issue to [chef-web-docs](https://github.com/chef/chef-web-docs/issues) for
 doc feature requests and minor documentation issues.
-

@@ -89,6 +89,10 @@ module Inspec::Resources
       repo(name.to_s) unless name.nil?
     end
 
+    def resource_id
+      "Yum repository"
+    end
+
     def to_s
       "Yum Repository"
     end

@@ -11,6 +11,8 @@ platform = "azure"
     parent = "inspec/resources/azure"
 +++
 
+{{< inspec/azurerm_deprecated resource="azure_network_security_groups" >}}
+
 Use the `azurerm_network_security_groups` InSpec audit resource to enumerate Network
 Security Groups.
 
@@ -68,9 +70,7 @@ The name of the Network Security Group
 
 ## Matchers
 
-This InSpec audit resource has the following special matchers. For a full list of
-available matchers, please visit our [Universal Matchers
-page](/inspec/matchers/).
+{{% inspec/inspec_matchers_link %}}
 
 ### exists
 

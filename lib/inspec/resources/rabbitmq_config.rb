@@ -32,6 +32,10 @@ module Inspec::Resources
       "rabbitmq_config #{@conf_path}"
     end
 
+    def resource_id
+      @conf_path
+    end
+
     private
 
     def read_content

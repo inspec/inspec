@@ -31,6 +31,10 @@ module Inspec::Resources
       inspec.command("#{@zpool_cmd} get -Hp all #{@zfs_pool}").exit_status == 0
     end
 
+    def resource_id
+      @zfs_pool || "ZFS Pool"
+    end
+
     def to_s
       "ZFS Pool #{@zfs_pool}"
     end
