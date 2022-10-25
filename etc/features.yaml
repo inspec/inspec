@@ -86,3 +86,5 @@
       description: Use attestations mechanism with one or more attestations files.
     inspec-reporter-progress-bar:
       description: Use progress bar streaming reporter
+    inspec-reporter-child-status:
+      description: Child status reporter used in inspec parallel reporting.
