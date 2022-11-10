@@ -115,12 +115,10 @@ class InitCli < Minitest::Test
     Dir.mktmpdir do |dir|
       profile = File.join(dir, "test-alicloud-profile")
       out = run_inspec_process("init profile --platform alicloud test-alicloud-profile", prefix: "cd #{dir} &&")
-    
       assert_includes out.stdout, "Creating new profile at"
       assert_includes out.stdout, profile
       assert_includes Dir.entries(profile).join, "inspec.yml"
       assert_includes Dir.entries(profile).join, "README.md"
-    
       assert_exit_code 0, out
     end
   end
