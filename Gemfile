@@ -51,7 +51,10 @@ end
 if Gem.ruby_version >= Gem::Version.new("2.7.0")
   group :kitchen do
     gem "berkshelf"
-    gem "chef", ">= 16.0" # Required to allow net-ssh > 6
+    # pin chef to older version for ruby version lesser than 3.0
+    if Gem.ruby_version < Gem::Version.new("3.0.0")
+      gem "chef", ">= 16.0" # Required to allow net-ssh > 6
+    end
     gem "test-kitchen", ">= 2.8"
     gem "kitchen-inspec", ">= 2.0"
     gem "kitchen-dokken", ">= 2.11"
