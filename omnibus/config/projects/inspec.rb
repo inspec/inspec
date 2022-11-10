@@ -74,7 +74,7 @@ package :msi do
   fast_msi true
   upgrade_code "DFCD452F-31E5-4236-ACD1-253F4720250B"
   wix_light_extension "WixUtilExtension"
-  signing_identity "AF21BA8C9E50AE20DA9907B6E2D4B0CC3306CA03", machine_store: true
+  signing_identity "13B510D1CF1B3467856A064F1BEA12D0884D2528", machine_store: true
 end
 
 exclude "**/.git"
