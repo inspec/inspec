@@ -9,6 +9,7 @@ module Inspec::Resources
     name "command"
     supports platform: "unix"
     supports platform: "windows"
+    supports platform: "k8s"
     desc "Use the command InSpec audit resource to test an arbitrary command that is run on the system."
     example <<~EXAMPLE
       describe command('ls -al /') do
