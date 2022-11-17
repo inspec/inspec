@@ -1,6 +1,7 @@
 require 'chef_licensing'
 require "inspec/log"
 require "inspec/ui"
+require "inspec/dist"
 
 module Inspec
   class Feature
@@ -23,7 +24,7 @@ module Inspec
         # if the feature does not have a licensed featured name it will free to use feature and does not require
         # license check?
 
-        if feature.licensed_feature?
+        if Inspec::Dist::EXEC_NAME == "inspec" && feature.licensed_feature?
           # Validate the license and its feature entitlement
           # This will exit the process if the check fails
           begin
