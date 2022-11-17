@@ -172,7 +172,7 @@ module Inspec
     end
 
     def run(with = nil)
-      ChefLicensing.check_software_entitlement!(software_entitlement_name: "InSpec")
+      ChefLicensing.check_software_entitlement!(software_entitlement_name: "InSpec") if Inspec::Dist::EXEC_NAME == "inspec"
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
       load
       run_tests(with)

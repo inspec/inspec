@@ -1,4 +1,5 @@
 require "chef_licensing"
+require "inspec/dist"
 
 autoload :Pry, "pry"
 
@@ -12,7 +13,7 @@ module Inspec
     end
 
     def start
-      ChefLicensing.check_software_entitlement!(software_entitlement_name: "InSpec")
+      ChefLicensing.check_software_entitlement!(software_entitlement_name: "InSpec") if Inspec::Dist::EXEC_NAME == "inspec"
       # This will hold a single evaluation binding context as opened within
       # the instance_eval context of the anonymous class that the profile
       # context creates to evaluate each individual test file. We want to
