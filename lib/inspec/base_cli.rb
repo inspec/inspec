@@ -30,8 +30,10 @@ module Inspec
     end
 
     def self.start(given_args = ARGV, config = {})
-      check_license! if config[:enforce_license] || config[:enforce_license].nil?
-      fetch_and_persist_license
+      if Inspec::Dist::EXEC_NAME == 'inspec'
+        check_license! if config[:enforce_license] || config[:enforce_license].nil?
+        fetch_and_persist_license
+      end
 
       super(given_args, config)
     end
