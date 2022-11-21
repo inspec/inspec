@@ -43,7 +43,6 @@ group :test do
     # html-proofer has a dep on io-event, which is ruby-3 only
     gem "html-proofer", "~> 3.19.4", platforms: :ruby # do not attempt to run proofer on windows. Pinned to 3.19.4 as test is breaking in updated versions.
   end
-
 end
 
 group :deploy do
@@ -52,7 +51,15 @@ end
 
 group :kitchen do
   gem "berkshelf"
-  gem "chef", ">= 16.0" # Required to allow net-ssh > 6
+
+  # Chef 18 requires ruby 3
+  if Gem.ruby_version >= Gem::Version.new("3.0.0")
+    gem "chef", ">= 17.0"
+  else
+    # Ruby 2.7 presumably - TODO remove this when 2.7 is sunsetted
+    gem "chef", "~> 16.0"
+  end
+
   gem "test-kitchen", ">= 2.8"
   gem "kitchen-inspec", ">= 2.0"
   gem "kitchen-dokken", ">= 2.11"
