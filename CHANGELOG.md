@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.6 -->
-## [v5.21.6](https://github.com/inspec/inspec/tree/v5.21.6) (2022-10-27)
+<!-- latest_release 5.21.7 -->
+## [v5.21.7](https://github.com/inspec/inspec/tree/v5.21.7) (2022-11-23)
 
 #### Merged Pull Requests
-- Fix for omnibus build failure on Windows [#6289](https://github.com/inspec/inspec/pull/6289) ([Vasu1105](https://github.com/Vasu1105))
+- RESOURCE-527 Add an inspec init template for alicloud [#6304](https://github.com/inspec/inspec/pull/6304) ([soumyo13](https://github.com/soumyo13))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- RESOURCE-527 Add an inspec init template for alicloud [#6304](https://github.com/inspec/inspec/pull/6304) ([soumyo13](https://github.com/soumyo13)) <!-- 5.21.7 -->
 - Fix for omnibus build failure on Windows [#6289](https://github.com/inspec/inspec/pull/6289) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.6 -->
 - Bump omnibus-software from `1d540dc` to `7d0e0fe` in /omnibus [#6274](https://github.com/inspec/inspec/pull/6274) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.5 -->
 - Bump test-kitchen from 3.3.1 to 3.3.2 in /omnibus [#6227](https://github.com/inspec/inspec/pull/6227) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.4 -->
