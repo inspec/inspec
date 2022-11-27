@@ -49,7 +49,6 @@ group :deploy do
   gem "inquirer"
 end
 
-
 group :kitchen do
   gem "berkshelf"
 
