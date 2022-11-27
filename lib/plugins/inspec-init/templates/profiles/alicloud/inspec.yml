@@ -1,0 +1,14 @@
+name: my-alicloud-sample-profile
+title: Ali Cloud InSpec Profile
+maintainer: The Authors
+copyright: The Authors
+copyright_email: you@example.com
+license: Apache-2.0
+summary: An InSpec Compliance Profile For Ali CLoud
+version: 0.1.0
+inspec_version: '~> 5'
+depends:
+  - name: inspec-alicloud
+    url: https://github.com/inspec/inspec-alicloud/archive/main.tar.gz
+supports:
+  - platform: alicloud

@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   # the gemfile and gemspec are necessary for appbundler so don't remove it
   spec.files =
     Dir.glob("{{lib,etc}/**/*,LICENSE,Gemfile,inspec-core.gemspec}")
-      .grep_v(%r{(?<!inspec-init/templates/profiles/)(aws|azure|gcp)})
+      .grep_v(%r{(?<!inspec-init/templates/profiles/)(aws|azure|gcp|alicloud)})
       .grep_v(%r{lib/plugins/.*/test/})
       .reject { |f| File.directory?(f) }
 
