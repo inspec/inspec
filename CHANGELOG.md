@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.8 -->
-## [v5.21.8](https://github.com/inspec/inspec/tree/v5.21.8) (2022-11-27)
+<!-- latest_release 5.21.9 -->
+## [v5.21.9](https://github.com/inspec/inspec/tree/v5.21.9) (2022-11-27)
 
 #### Merged Pull Requests
-- Fix Ruby 2.7 Bundle Installs on CI Verify Pipeline [#6324](https://github.com/inspec/inspec/pull/6324) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- CFINSPEC-493 update signing_identity [#6298](https://github.com/inspec/inspec/pull/6298) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- CFINSPEC-493 update signing_identity [#6298](https://github.com/inspec/inspec/pull/6298) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.21.9 -->
 - Fix Ruby 2.7 Bundle Installs on CI Verify Pipeline [#6324](https://github.com/inspec/inspec/pull/6324) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.21.8 -->
 - RESOURCE-527 Add an inspec init template for alicloud [#6304](https://github.com/inspec/inspec/pull/6304) ([soumyo13](https://github.com/soumyo13)) <!-- 5.21.7 -->
 - Fix for omnibus build failure on Windows [#6289](https://github.com/inspec/inspec/pull/6289) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.6 -->
