@@ -53,6 +53,8 @@ GEM
     aws-sigv4 (1.5.2)
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt_pbkdf (1.1.0)
+    bcrypt_pbkdf (1.1.0-x64-mingw32)
+    bcrypt_pbkdf (1.1.0-x86-mingw32)
     berkshelf (8.0.2)
       chef (>= 15.7.32)
       chef-config
@@ -264,7 +266,7 @@ GEM
     mixlib-cli (2.1.8)
     mixlib-config (3.0.27)
       tomlrb
-    mixlib-install (3.12.19)
+    mixlib-install (3.12.24)
       mixlib-shellout
       mixlib-versioning
       thor
@@ -272,11 +274,6 @@ GEM
     mixlib-shellout (3.2.7)
       chef-utils
     mixlib-shellout (3.2.7-universal-mingw32)
-      chef-utils
-      ffi-win32-extensions (~> 1.0.3)
-      win32-process (~> 0.9)
-      wmi-lite (~> 1.0)
-    mixlib-shellout (3.2.7-x64-mingw-ucrt)
       chef-utils
       ffi-win32-extensions (~> 1.0.3)
       win32-process (~> 0.9)
@@ -364,15 +361,15 @@ GEM
     strings-ansi (0.2.0)
     structured_warnings (0.4.0)
     syslog-logger (1.6.8)
-    test-kitchen (3.3.2)
+    test-kitchen (3.4.0)
       bcrypt_pbkdf (~> 1.0)
       chef-utils (>= 16.4.35)
       ed25519 (~> 1.2)
       license-acceptance (>= 1.0.11, < 3.0)
       mixlib-install (~> 3.6)
       mixlib-shellout (>= 1.2, < 4.0)
-      net-scp (>= 1.1, < 4.0)
-      net-ssh (>= 2.9, < 7.0)
+      net-scp (>= 1.1, < 5.0)
+      net-ssh (>= 2.9, < 8.0)
       net-ssh-gateway (>= 1.2, < 3.0)
       thor (>= 0.19, < 2.0)
       winrm (~> 2.0)
@@ -411,7 +408,7 @@ GEM
       pastel (~> 0.8)
       strings (~> 0.2.0)
       tty-screen (~> 0.8)
-    unicode-display_width (2.2.0)
+    unicode-display_width (2.3.0)
     unicode_utils (1.4.0)
     uuidtools (2.2.0)
     vault (0.17.0)
