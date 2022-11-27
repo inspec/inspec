@@ -25,7 +25,6 @@ end
 group :test do
   gem "chefstyle", "~> 2.0.3"
   gem "concurrent-ruby", "~> 1.0"
-  gem "html-proofer", "~> 3.19.4", platforms: :ruby # do not attempt to run proofer on windows. Pinned to 3.19.4 as test is breaking in updated versions.
   gem "json_schemer", ">= 0.2.1", "< 0.2.19"
   gem "m"
   gem "minitest-sprint", "~> 1.0"
@@ -39,26 +38,30 @@ group :test do
   gem "simplecov", "~> 0.21"
   gem "simplecov_json_formatter"
   gem "webmock", "~> 3.0"
+
+  if Gem.ruby_version >= Gem::Version.new("3.0.0")
+    # html-proofer has a dep on io-event, which is ruby-3 only
+    gem "html-proofer", "~> 3.19.4", platforms: :ruby # do not attempt to run proofer on windows. Pinned to 3.19.4 as test is breaking in updated versions.
+  end
 end
 
 group :deploy do
   gem "inquirer"
 end
 
-# Only include Test Kitchen support if we are on Ruby 2.7 or higher
-# as chef-zero support requires Ruby 2.6
-# See https://github.com/inspec/inspec/pull/5341
-if Gem.ruby_version >= Gem::Version.new("2.7.0")
-  group :kitchen do
-    gem "berkshelf"
-    gem "chef", ">= 16.0" # Required to allow net-ssh > 6
-    gem "test-kitchen", ">= 2.8"
-    gem "kitchen-inspec", ">= 2.0"
-    gem "kitchen-dokken", ">= 2.11"
-    gem "git"
-  end
-end
+group :kitchen do
+  gem "berkshelf"
 
-if Gem.ruby_version < Gem::Version.new("2.7.0")
-  gem "activesupport", "6.1.4.4"
+  # Chef 18 requires ruby 3
+  if Gem.ruby_version >= Gem::Version.new("3.0.0")
+    gem "chef", ">= 17.0"
+  else
+    # Ruby 2.7 presumably - TODO remove this when 2.7 is sunsetted
+    gem "chef", "~> 16.0"
+  end
+
+  gem "test-kitchen", ">= 2.8"
+  gem "kitchen-inspec", ">= 2.0"
+  gem "kitchen-dokken", ">= 2.11"
+  gem "git"
 end
