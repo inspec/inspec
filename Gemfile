@@ -23,7 +23,7 @@ group :omnibus do
 end
 
 group :test do
-  gem "chefstyle", "~> 2.0.3"
+  gem "chefstyle", "~> 2.2.2"
   gem "concurrent-ruby", "~> 1.0"
   gem "json_schemer", ">= 0.2.1", "< 0.2.19"
   gem "m"
