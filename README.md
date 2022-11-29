@@ -133,6 +133,14 @@ Finished in 0.04321 seconds (files took 0.54917 seconds to load)
 2 examples, 0 failures
 ```
 
+To scan the docker containers running on the host using the containerized InSpec, we need to bind-mount the Unix socket `/var/run/docker.sock` from the host machine to the InSpec Container.
+
+```
+docker pull chef/inspec
+function inspec { docker run -it --rm -v $(pwd):/share -v /var/run/docker.sock:/var/run/docker.sock chef/inspec "$@"; }
+```
+`/var/run/docker.sock` is the Unix socket the Docker daemon listens on by default.
+
 
 ### Install it from source
 
