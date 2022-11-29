@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.10 -->
-## [v5.21.10](https://github.com/inspec/inspec/tree/v5.21.10) (2022-11-28)
+<!-- latest_release 5.21.11 -->
+## [v5.21.11](https://github.com/inspec/inspec/tree/v5.21.11) (2022-11-29)
 
 #### Merged Pull Requests
-- Cfinspec 488 fix nokigiri omnibus [#6305](https://github.com/inspec/inspec/pull/6305) ([sathish-progress](https://github.com/sathish-progress))
+- Remove Windows Ruby 3.0 testing [#6330](https://github.com/inspec/inspec/pull/6330) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Remove Windows Ruby 3.0 testing [#6330](https://github.com/inspec/inspec/pull/6330) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.21.11 -->
 - Cfinspec 488 fix nokigiri omnibus [#6305](https://github.com/inspec/inspec/pull/6305) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.21.10 -->
 - CFINSPEC-493 update signing_identity [#6298](https://github.com/inspec/inspec/pull/6298) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.21.9 -->
 - Fix Ruby 2.7 Bundle Installs on CI Verify Pipeline [#6324](https://github.com/inspec/inspec/pull/6324) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.21.8 -->
