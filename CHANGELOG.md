@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.14 -->
-## [v5.21.14](https://github.com/inspec/inspec/tree/v5.21.14) (2022-11-29)
+<!-- latest_release 5.21.15 -->
+## [v5.21.15](https://github.com/inspec/inspec/tree/v5.21.15) (2022-12-01)
 
 #### Merged Pull Requests
-- Update readme for usage via Docker (CFINSPEC-516) [#6329](https://github.com/inspec/inspec/pull/6329) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-393 - Fix train-kubernetes plugin load issue [#6334](https://github.com/inspec/inspec/pull/6334) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- CFINSPEC-393 - Fix train-kubernetes plugin load issue [#6334](https://github.com/inspec/inspec/pull/6334) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.15 -->
 - Update readme for usage via Docker (CFINSPEC-516) [#6329](https://github.com/inspec/inspec/pull/6329) ([ahasunos](https://github.com/ahasunos)) <!-- 5.21.14 -->
 - Update chefstyle from 2.0.x to 2.2.2 to use RuboCop 1.25.1 [#6240](https://github.com/inspec/inspec/pull/6240) ([tnir](https://github.com/tnir)) <!-- 5.21.13 -->
 - Prevent negative status from crashing launchctl service resource [#6262](https://github.com/inspec/inspec/pull/6262) ([dtheyer](https://github.com/dtheyer)) <!-- 5.21.12 -->
