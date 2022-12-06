@@ -41,19 +41,19 @@ $env:DO_CHECK=$true; hab pkg build .
 Write-Host "--- Installing $pkg_ident/$pkg_artifact"
 hab pkg install -b $project_root/results/$pkg_artifact
 
-Write-Host "--- Downloading Ruby + DevKit"
-aws s3 cp s3://core-buildkite-cache-chef-prod/rubyinstaller-devkit-2.6.6-1-x64.exe c:/rubyinstaller-devkit-2.6.6-1-x64.exe
+# Remove if habitat build is green without this
+# Write-Host "--- Downloading Ruby + DevKit"
+# aws s3 cp s3://core-buildkite-cache-chef-prod/rubyinstaller-devkit-2.6.6-1-x64.exe c:/rubyinstaller-devkit-2.6.6-1-x64.exe
 
-Write-Host "--- Installing Ruby + DevKit"
-Start-Process c:\rubyinstaller-devkit-2.6.6-1-x64.exe -ArgumentList '/verysilent /dir=C:\\ruby26' -Wait
+# Write-Host "--- Installing Ruby + DevKit"
+# Start-Process c:\rubyinstaller-devkit-2.6.6-1-x64.exe -ArgumentList '/verysilent /dir=C:\\ruby26' -Wait
 
-Write-Host "--- Cleaning up installation"
-Remove-Item c:\rubyinstaller-devkit-2.6.6-1-x64.exe -Force
+# Write-Host "--- Cleaning up installation"
+# Remove-Item c:\rubyinstaller-devkit-2.6.6-1-x64.exe -Force
 
-$Env:Path += ";C:\ruby26\bin;C:\hab\bin"
+$Env:Path += ";C:\ruby31-x64\bin;C:\hab\bin"
 
 Write-Host "+++ Testing $Plan"
-
 Push-Location $project_root/test/artifact
 rake
 If ($lastexitcode -ne 0) { Exit $lastexitcode }
