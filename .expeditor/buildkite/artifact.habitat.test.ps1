@@ -26,6 +26,14 @@ finally {
   Write-Host ":habicat: I think I have the version I need to build."
 }
 
+Write-Host "--- :construction: Verifying Git is Installed"
+$source = Get-Command -Name Git -Verbose
+Write-Host "Which version of Git is installed? - " $source.version
+if (-not ($source.name -match "git.exe")) {
+    choco install git -y
+    # gotta refresh the path so you can actually use Git now
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
+}
 
 Write-Host "--- Generating fake origin key"
 hab origin key generate $env:HAB_ORIGIN
@@ -45,16 +53,16 @@ Write-Host "--- Installing $pkg_ident/$pkg_artifact"
 hab pkg install -b $project_root/results/$pkg_artifact
 if (-not $?) { throw "unable to install this build"}
 
-Write-Host "--- Downloading Ruby + DevKit"
-aws s3 cp s3://core-buildkite-cache-chef-prod/rubyinstaller-devkit-3.1.2-1-x64.exe c:/rubyinstaller-devkit-3.1.2-1-x64.exe
+# Write-Host "--- Downloading Ruby + DevKit"
+# aws s3 cp s3://core-buildkite-cache-chef-prod/rubyinstaller-devkit-3.1.2-1-x64.exe c:/rubyinstaller-devkit-3.1.2-1-x64.exe
 
-Write-Host "--- Installing Ruby + DevKit"
-Start-Process c:\rubyinstaller-devkit-3.1.2-1-x64.exe -ArgumentList '/verysilent /dir=C:\\ruby31' -Wait
+# Write-Host "--- Installing Ruby + DevKit"
+# Start-Process c:\rubyinstaller-devkit-3.1.2-1-x64.exe -ArgumentList '/verysilent /dir=C:\\ruby31' -Wait
 
-Write-Host "--- Cleaning up installation"
-Remove-Item c:\rubyinstaller-devkit-3.1.2-1-x64.exe -Force
+# Write-Host "--- Cleaning up installation"
+# Remove-Item c:\rubyinstaller-devkit-3.1.2-1-x64.exe -Force
 
-$Env:Path += ";C:\ruby31\bin;C:\hab\bin"
+#$Env:Path += ";C:\ruby31\bin;C:\hab\bin"
 
 Write-Host "+++ Testing $Plan"
 
