@@ -34,12 +34,16 @@ Write-Host "--- Building $Plan"
 $project_root = "$(git rev-parse --show-toplevel)"
 Set-Location $project_root
 
-$env:DO_CHECK=$true; hab pkg build .
+Write-Host "--- :construction: Building $Plan"
+$env:DO_CHECK=$true; hab pkg build . -D
+if (-not $?) { throw "unable to build"}
 
-. $project_root/results/last_build.ps1
+. results/last_build.ps1
+if (-not $?) { throw "unable to determine details about this build"}
 
 Write-Host "--- Installing $pkg_ident/$pkg_artifact"
 hab pkg install -b $project_root/results/$pkg_artifact
+if (-not $?) { throw "unable to install this build"}
 
 Write-Host "--- Downloading Ruby + DevKit"
 aws s3 cp s3://core-buildkite-cache-chef-prod/rubyinstaller-devkit-3.1.2-1-x64.exe c:/rubyinstaller-devkit-3.1.2-1-x64.exe
