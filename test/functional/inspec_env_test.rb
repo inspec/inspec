@@ -6,7 +6,7 @@ describe "inspec env" do
   parallelize_me!
 
   describe "inspec env with no args" do
-    # env is a command only supported for 
+    # env is a command only supported for
     # bash, zsh, and fish shells - so mac and linux
     unless windows?
       it "runs without warnings" do
