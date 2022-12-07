@@ -19,6 +19,7 @@ require_relative "../../../lib/inspec/version"
 name "inspec"
 
 dependency "ruby"
+dependency "liblzma"
 
 license :project_license
 
