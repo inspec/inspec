@@ -19,7 +19,7 @@ require_relative "../../../lib/inspec/version"
 name "inspec"
 
 dependency "ruby"
-dependency "liblzma"
+dependency "nokogiri"
 
 license :project_license
 
@@ -30,8 +30,6 @@ source path: "#{Omnibus::Config.project_root}/../",
 
 build do
   env = with_standard_compiler_flags(with_embedded_path)
-  env["NOKOGIRI_USE_SYSTEM_LIBRARIES"] = "true"
-
 
   # Remove existing built gems in case they exist in the current dir
   delete "#{name}-*.gem"
