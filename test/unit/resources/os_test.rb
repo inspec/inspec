@@ -31,7 +31,7 @@ describe "Inspec::Resources::Os" do
     resource = MockLoader.new(:ubuntu).load_resource("os")
     _(resource.name).must_equal "ubuntu"
     _(resource.family).must_equal "debian"
-    _(resource.release).must_equal "20.04"
+    _(resource.release).must_equal "22.04"
     _(resource.arch).must_equal "x86_64"
   end
 

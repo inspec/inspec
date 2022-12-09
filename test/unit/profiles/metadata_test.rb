@@ -146,8 +146,8 @@ EOF
       _(m).must_be :supports_platform?, backend
     end
 
-    it "loads a profile which supports release 20.04" do
-      m = supports_meta({ "release" => "20.04" })
+    it "loads a profile which supports release 22.04" do
+      m = supports_meta({ "release" => "22.04" })
       _(m).must_be :supports_platform?, backend
     end
 
@@ -156,13 +156,13 @@ EOF
       _(m).wont_be :supports_platform?, backend
     end
 
-    it "loads a profile which supports ubuntu 20.04" do
-      m = supports_meta({ "os-name" => "ubuntu", "release" => "20.04" })
+    it "loads a profile which supports ubuntu 22.04" do
+      m = supports_meta({ "os-name" => "ubuntu", "release" => "22.04" })
       _(m).must_be :supports_platform?, backend
     end
 
-    it "loads a profile which supports ubuntu 20.*" do
-      m = supports_meta({ "os-name" => "ubuntu", "release" => "20.*" })
+    it "loads a profile which supports ubuntu 22.*" do
+      m = supports_meta({ "os-name" => "ubuntu", "release" => "22.*" })
       _(m).must_be :supports_platform?, backend
     end
 
@@ -176,8 +176,8 @@ EOF
       _(m).wont_be :supports_platform?, backend
     end
 
-    it "loads a profile which supports ubuntu float 20.04 as parsed by yml" do
-      m = supports_meta({ "os-name" => "ubuntu", "release" => 20.04 })
+    it "loads a profile which supports ubuntu float 22.04 as parsed by yml" do
+      m = supports_meta({ "os-name" => "ubuntu", "release" => 22.04 })
       _(m).must_be :supports_platform?, backend
     end
 
