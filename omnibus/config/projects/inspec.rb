@@ -43,6 +43,8 @@ instance_eval(File.read(overrides_path), overrides_path)
 dependency "preparation"
 dependency "inspec"
 
+dependency "ruby-msys2-devkit" if windows?
+
 # Remove all .dll.a and .a files needed for static linkage.
 dependency "ruby-cleanup"
 # Mark all directories world readable.
