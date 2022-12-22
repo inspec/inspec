@@ -5,6 +5,8 @@ train_stable = /^train \((.*)\)/.match(`gem list ^train$ --remote`)[1]
 override "train", version: "v#{train_stable}"
 override "ruby", version: "3.0.3"
 
+override "liblzma", version: "5.2.5"
+
 override "libxml2", version: windows? ? "2.9.10" : "2.9.13"
 override "libxslt", version: windows? ? "1.1.34" : "1.1.35"
 
