@@ -43,6 +43,8 @@ instance_eval(File.read(overrides_path), overrides_path)
 dependency "preparation"
 dependency "inspec"
 
+# Nokogiri is an addon-extra we bundle and not a direct dep of inspec itself
+dependency "nokogiri"
 #dependency "ruby-msys2-devkit" if windows?
 #dependency "ruby-windows-devkit" if windows?
 
