@@ -30,7 +30,7 @@ group :test do
   gem "minitest-sprint", "~> 1.0"
   gem "minitest", "5.15.0"
   gem "mocha", "~> 1.1"
-  gem "nokogiri", "~> 1.9"
+  gem "nokogiri", "1.13.6"
   gem "pry-byebug"
   gem "pry", "~> 0.10"
   gem "rake", ">= 10"

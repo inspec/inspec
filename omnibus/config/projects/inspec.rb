@@ -42,6 +42,7 @@ instance_eval(File.read(overrides_path), overrides_path)
 
 dependency "preparation"
 dependency "inspec"
+dependency "nokogiri"
 
 dependency "ruby-msys2-devkit" if windows?
 

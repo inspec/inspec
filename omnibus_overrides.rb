@@ -1,5 +1,7 @@
 # THIS IS NOW HAND MANAGED, JUST EDIT THE THING
 
+override "liblzma", version: "5.2.3"
+
 # grab the current train release from rubygems.org
 train_stable = /^train \((.*)\)/.match(`gem list ^train$ --remote`)[1]
 override "train", version: "v#{train_stable}"
