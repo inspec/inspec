@@ -20,6 +20,9 @@ name "inspec"
 
 dependency "ruby"
 
+dependency "liblzma"
+
+
 license :project_license
 
 default_version "v#{Inspec::VERSION}"
@@ -32,6 +35,8 @@ build do
 
   # Remove existing built gems in case they exist in the current dir
   delete "#{name}-*.gem"
+
+  env["NOKOGIRI_USE_SYSTEM_LIBRARIES"] = "true"
 
   # We bundle install to ensure the versions of gems we are going to
   # appbundle-lock to are definitely installed
