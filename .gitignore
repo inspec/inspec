@@ -8,6 +8,11 @@
 .kitchen.local.yml
 .librarian
 .terraform/
+**/.*-attributes.yml
+terraform/.terraform/
+terraform/terraform.tfstate*
+terraform/terraform.tfstate.backup
+terraform/*.plan
 /.direnv
 /.envrc
 /.ruby-gemset
