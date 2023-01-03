@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.18 -->
-## [v5.21.18](https://github.com/inspec/inspec/tree/v5.21.18) (2023-01-03)
+<!-- latest_release 5.21.19 -->
+## [v5.21.19](https://github.com/inspec/inspec/tree/v5.21.19) (2023-01-03)
 
 #### Merged Pull Requests
-- Fixing typo in user_permissions [#6344](https://github.com/inspec/inspec/pull/6344) ([magicmicah](https://github.com/magicmicah))
+- Fix env smoke test by updating ERB.new in `inspec env`; add additional test [#6342](https://github.com/inspec/inspec/pull/6342) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Fix env smoke test by updating ERB.new in `inspec env`; add additional test [#6342](https://github.com/inspec/inspec/pull/6342) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.21.19 -->
 - Fixing typo in user_permissions [#6344](https://github.com/inspec/inspec/pull/6344) ([magicmicah](https://github.com/magicmicah)) <!-- 5.21.18 -->
 - CFINSPEC-528 Upgraded mock Ubuntu fixture to latest LTS version. [#6351](https://github.com/inspec/inspec/pull/6351) ([Nik08](https://github.com/Nik08)) <!-- 5.21.17 -->
 - CFINSPEC-517: Fix for habitat buld failure  [#6340](https://github.com/inspec/inspec/pull/6340) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.16 -->
