@@ -21,6 +21,7 @@ name "inspec"
 dependency "ruby"
 
 dependency "liblzma"
+dependency "zlib"
 
 
 license :project_license
