@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.19 -->
-## [v5.21.19](https://github.com/inspec/inspec/tree/v5.21.19) (2023-01-03)
+<!-- latest_release 5.21.20 -->
+## [v5.21.20](https://github.com/inspec/inspec/tree/v5.21.20) (2023-01-03)
 
 #### Merged Pull Requests
-- Fix env smoke test by updating ERB.new in `inspec env`; add additional test [#6342](https://github.com/inspec/inspec/pull/6342) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- CFINSPEC-533: Fix undefined method &#39;summary&#39; for Gem::SourceFetchProblem (NoMethodError) when airgapped  [#6337](https://github.com/inspec/inspec/pull/6337) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- CFINSPEC-533: Fix undefined method &#39;summary&#39; for Gem::SourceFetchProblem (NoMethodError) when airgapped  [#6337](https://github.com/inspec/inspec/pull/6337) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.20 -->
 - Fix env smoke test by updating ERB.new in `inspec env`; add additional test [#6342](https://github.com/inspec/inspec/pull/6342) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.21.19 -->
 - Fixing typo in user_permissions [#6344](https://github.com/inspec/inspec/pull/6344) ([magicmicah](https://github.com/magicmicah)) <!-- 5.21.18 -->
 - CFINSPEC-528 Upgraded mock Ubuntu fixture to latest LTS version. [#6351](https://github.com/inspec/inspec/pull/6351) ([Nik08](https://github.com/Nik08)) <!-- 5.21.17 -->
