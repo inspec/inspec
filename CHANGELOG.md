@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.16 -->
-## [v5.21.16](https://github.com/inspec/inspec/tree/v5.21.16) (2023-01-03)
+<!-- latest_release 5.21.17 -->
+## [v5.21.17](https://github.com/inspec/inspec/tree/v5.21.17) (2023-01-03)
 
 #### Merged Pull Requests
-- CFINSPEC-517: Fix for habitat buld failure  [#6340](https://github.com/inspec/inspec/pull/6340) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-528 Upgraded mock Ubuntu fixture to latest LTS version. [#6351](https://github.com/inspec/inspec/pull/6351) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- CFINSPEC-528 Upgraded mock Ubuntu fixture to latest LTS version. [#6351](https://github.com/inspec/inspec/pull/6351) ([Nik08](https://github.com/Nik08)) <!-- 5.21.17 -->
 - CFINSPEC-517: Fix for habitat buld failure  [#6340](https://github.com/inspec/inspec/pull/6340) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.16 -->
 - CFINSPEC-393 - Fix train-kubernetes plugin load issue [#6334](https://github.com/inspec/inspec/pull/6334) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.15 -->
 - Update readme for usage via Docker (CFINSPEC-516) [#6329](https://github.com/inspec/inspec/pull/6329) ([ahasunos](https://github.com/ahasunos)) <!-- 5.21.14 -->
