@@ -4,11 +4,23 @@ require "bundler"
 require "bundler/gem_helper"
 require "rake/testtask"
 require "train"
+require "open3"
 require_relative "tasks/spdx"
 require "fileutils"
+require 'yaml'
+
+require_relative "lib/inspec/utils/attribute_file_writer"
+
 
 Bundler::GemHelper.install_tasks name: "inspec-core"
 Bundler::GemHelper.install_tasks name: "inspec"
+
+TERRAFORM_DIR = "terraform".freeze
+TF_PLAN_FILE_NAME = "inspec-db-testing".freeze
+TF_PLAN_FILE = File.join(TERRAFORM_DIR, TF_PLAN_FILE_NAME)
+ATTRIBUTES_FILE_NAME = "".freeze
+DB_INTEGRATION_DIR = "test/integration/db".freeze
+
 
 def prompt(message)
   print(message)
@@ -278,6 +290,26 @@ namespace :test do
 
     sh("sh", "-c", sh_cmd)
   end
+
+  task :dbintegration, [:controls] => ["tf:write_tf_output_to_file", :setup_env] do |_t, args|
+    cmd = %W( bundle exec inspec exec #{DB_INTEGRATION_DIR}
+              --input-file terraform/#{ENV["ATTRIBUTES_FILE"]}
+              --reporter cli
+              --no-distinct-exit
+              -t ssh://ec2-user@#{ENV["EC2_PUBLIC_DNS"]}
+              -i terraform/inspec-mysql-db-test.pem
+              --chef-license accept-silent )
+
+    if args[:controls]
+      sh(*cmd, "--controls", args[:controls], *args.extras)
+    else
+      sh(*cmd)
+    end
+  end
+end
+
+task :setup_env do
+  ENV["EC2_PUBLIC_DNS"] = YAML.load_file("terraform/#{ENV["ATTRIBUTES_FILE"]}")["ec2_public_dns"]
 end
 
 # Print the current version of this gem or update it.
@@ -331,4 +363,58 @@ end
 desc "Show the version of this gem"
 task :version do
   inspec_version
+end
+
+namespace :tf do
+  workspace = ENV["WORKSPACE"]
+
+  task :init do
+    Dir.chdir(TERRAFORM_DIR) do
+      sh("terraform", "init")
+    end
+  end
+
+  desc "Creates a Terraform execution plan from the plan file"
+  task :plan do
+    Dir.chdir(TERRAFORM_DIR) do
+      sh("terraform", "get")
+      sh("terraform", "plan", "-out", "inspec-db-testing.plan")
+    end
+    Rake::Task["tf:write_tf_output_to_file"].invoke
+  end
+
+  desc "Executes the Terraform plan"
+  task :apply, [:optionals] do |_t, args|
+    if File.exist?(TF_PLAN_FILE)
+      puts "-> Applying an existing terraform plan: #{TF_PLAN_FILE}"
+      unless args[:optionals].nil?
+        puts "These arguments are ignored: #{Array(args[:optionals]) + args.extras}."
+      end
+    else
+      Rake::Task["tf:plan"].invoke(args[:optionals])
+    end
+    Dir.chdir(TERRAFORM_DIR) do
+      sh("terraform", "apply", "inspec-db-testing.plan")
+    end
+  end
+
+  desc "Destroys the Terraform environment"
+  task :destroy do
+    Dir.chdir(TERRAFORM_DIR) do
+      sh("terraform", "destroy", "-auto-approve")
+    end
+    File.delete("terraform/#{ENV["ATTRIBUTES_FILE"]}")
+  end
+
+  task :write_tf_output_to_file do
+    Dir.chdir(TERRAFORM_DIR) do
+      stdout, stderr, status = Open3.capture3("terraform output -json")
+
+      abort(stderr) unless status.success?
+      abort("$ATTRIBUTES_FILE not set. Please source .envrc.") if ENV["ATTRIBUTES_FILE"].nil?
+      abort("$ATTRIBUTES_FILE has no content. Check .envrc.") if ENV["ATTRIBUTES_FILE"].empty?
+
+      AttributeFileWriter.write_yaml(ENV["ATTRIBUTES_FILE"], stdout)
+    end
+  end
 end
