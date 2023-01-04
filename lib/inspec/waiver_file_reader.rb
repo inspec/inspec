@@ -17,7 +17,6 @@ module Inspec
 
       files.each do |file_path|
         data = read_from_file(file_path)
-
         output.merge!(data) if !data.nil? && data.is_a?(Hash)
 
         if data.nil?
