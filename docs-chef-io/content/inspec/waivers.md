@@ -12,8 +12,7 @@ gh_repo = "inspec"
 +++
 
 Waivers is a mechanism to mark controls as "waived" for various reasons, and to
-control the running and/or reporting of those controls. It uses a YAML input file
-that identifies:
+control the running and/or reporting of those controls. A waiver file identifies:
 
 1. which controls are waived
 1. a description of why it is waived
@@ -31,13 +30,25 @@ inspec exec path/to/profile --waiver-file waivers.yaml
 
 ## File Format
 
-Waiver files are [input files](/inspec/inputs/) with a specific format:
+Waiver files support YAML, JSON, CSV, XLSX & XLS format.
 
 ```yaml
 control_id:
   expiration_date: YYYY-MM-DD
   run: false
   justification: "reason for waiving this control"
+```
+
+OR
+
+```json
+{
+  "control_id": {
+    "expiration_date": "YYYY-MM-DD",
+    "run": false,
+    "justification": "reason for waiving this control"
+  }
+}
 ```
 
 - `expiration_date` sets the day that the waiver file will expire in YYYY-MM-DD format. Waiver files expire at 00:00 at the local time of the system on the specified date. Waiver files without an expiration date are permanent. `expiration_date` is optional.
@@ -47,6 +58,8 @@ control_id:
   as well as who signed off on the waiver.
 
 ### Examples:
+
+Example in YAML:
 
 ```yaml
 waiver_control_1_2_3:
@@ -58,3 +71,34 @@ xccdf_org.cisecurity.benchmarks_rule_1.1.1.4_Ensure_mounting_of_hfs_filesystems_
   justification: "This might be a bug in the test. @qateam"
   run: false
 ```
+
+Example in JSON:
+
+```json
+{
+  "waiver_control_1_2_3": {
+    "expiration_date": "2019-10-15T00:00:00.000Z",
+    "justification": "Not needed until Q3. @secteam"
+  },
+  "xccdf_org.cisecurity.benchmarks_rule_1.1.1.4_Ensure_mounting_of_hfs_filesystems_is_disabled": {
+    "expiration_date": "2020-03-01T00:00:00.000Z",
+    "justification": "This might be a bug in the test. @qateam",
+    "run": false
+  }
+}
+```
+
+Example in CSV/XLSX/XLS:
+
+These file formats support the following fields in a file:
+
+* `control_id`
+  _Required_.
+* `justification`
+  _Required_.
+* `run`
+  _Optional_.
+* `expiration_date`
+  _Optional_.
+
+![Waiver File Excel Example](/images/inspec/waivers_file_excel.png)

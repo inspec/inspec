@@ -60,9 +60,11 @@ module Inspec
       end
 
       if @conf[:waiver_file]
-        waivers = @conf.delete(:waiver_file)
-        @conf[:input_file] ||= []
-        @conf[:input_file].concat waivers
+        @conf[:waiver_file].each do |file|
+          unless File.file?(file)
+            raise Inspec::Exceptions::WaiversFileDoesNotExist, "Waiver file #{file} does not exist."
+          end
+        end
       end
 
       # About reading inputs:

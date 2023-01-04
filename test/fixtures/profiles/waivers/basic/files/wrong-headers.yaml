@@ -1,0 +1,4 @@
+03_waivered_no_expiry_ran_passes:
+  justification_random: Sound reasoning
+  run_random: true
+  expiration_date_random: 2077-11-10T00:00:00Z
