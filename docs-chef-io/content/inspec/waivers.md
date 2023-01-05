@@ -30,7 +30,7 @@ inspec exec path/to/profile --waiver-file waivers.yaml
 
 ## File Format
 
-Waiver files support YAML, JSON, CSV, XLSX & XLS format.
+Waiver files support YAML, JSON & CSV format.
 
 ```yaml
 control_id:
@@ -88,7 +88,7 @@ Example in JSON:
 }
 ```
 
-Example in CSV/XLSX/XLS:
+Example in CSV:
 
 These file formats support the following fields in a file:
 

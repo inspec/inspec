@@ -1,7 +1,6 @@
 require "inspec/secrets/yaml"
 require "inspec/utils/waivers/csv_file_reader"
 require "inspec/utils/waivers/json_file_reader"
-require "inspec/utils/waivers/excel_file_reader"
 
 module Inspec
   class WaiverFileReader
