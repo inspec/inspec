@@ -60,15 +60,6 @@ describe "attestations" do
     end
   end
 
-  describe "with a attestation file that has wrong headers - xlsx format" do
-    let(:attestation_file) { "wrong-headers.xlsx" }
-    it "raise file does not exist standard error" do
-      result = run_result
-      assert_includes result.stdout, "Missing column headers: [\"control_id\", \"status\", \"justification\"]"
-      assert_includes result.stdout, "Extra column headers: [\"control_id_random\", \"justification_random\", \"run_random\", \"expiration_date_random\"]\n"
-    end
-  end
-
   describe "running attestation on a profile - yaml" do
     let(:attestation_file) { "attestations.yaml" }
 
@@ -103,38 +94,6 @@ describe "attestations" do
 
   describe "running attestation on a profile - csv" do
     let(:attestation_file) { "attestations.csv" }
-
-    it "attests N/R controls correctly" do
-      result = run_result
-      assert_includes result.stdout, "tmp-3.0.1: No-op (1 failed)"
-      refute_includes result.stdout, "N/R  tmp-3.0.2: No-op"
-      refute_includes result.stdout, "N/R  tmp-6.0.2: No-op"
-    end
-
-    it "does not attests non N/R controls" do
-      result = run_result
-      assert_includes result.stdout, "tmp-4.0: d.1 (1 failed)"
-    end
-  end
-
-  describe "running attestation on a profile - xlsx" do
-    let(:attestation_file) { "attestations.xlsx" }
-
-    it "attests N/R controls correctly" do
-      result = run_result
-      assert_includes result.stdout, "tmp-3.0.1: No-op (1 failed)"
-      refute_includes result.stdout, "N/R  tmp-3.0.2: No-op"
-      refute_includes result.stdout, "N/R  tmp-6.0.2: No-op"
-    end
-
-    it "does not attests non N/R controls" do
-      result = run_result
-      assert_includes result.stdout, "tmp-4.0: d.1 (1 failed)"
-    end
-  end
-
-  describe "running attestation on a profile - xls" do
-    let(:attestation_file) { "attestations.xls" }
 
     it "attests N/R controls correctly" do
       result = run_result

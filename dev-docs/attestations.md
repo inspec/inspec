@@ -24,15 +24,15 @@ When used with Enhanced Outcomes, this becomes handling `Not Reviewed` controls.
 
 The new option is named like `--waiver-file` - singular, with `-file`. You may provide multiple arguments for the option.
 
-The file can be any of the following formats: `YAML`, `XLSX`, `CSV`, or `JSON`.
+The file can be any of the following formats: `YAML`, `CSV`, or `JSON`.
 
 #### YAML and JSON
 
 An array of Hashes.
 
-#### XLSX and CSV
+#### CSV
 
-XLSX is the first sheet in the file.
+CSV is the first sheet in the file.
 
 Both formats assume a header row.
 
