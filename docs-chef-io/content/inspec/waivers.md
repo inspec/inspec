@@ -101,4 +101,4 @@ These file formats support the following fields in a file:
 * `expiration_date`
   _Optional_.
 
-![Waiver File Excel Example](/images/inspec/waivers_file_excel.png)
+![Waiver File Example](/images/inspec/waivers_file_excel.png)
