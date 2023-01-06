@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.21 -->
-## [v5.21.21](https://github.com/inspec/inspec/tree/v5.21.21) (2023-01-04)
+<!-- latest_release 5.21.22 -->
+## [v5.21.22](https://github.com/inspec/inspec/tree/v5.21.22) (2023-01-06)
 
 #### Merged Pull Requests
-- Revert &quot;CFINSPEC-240 Extended file format support for waivers&quot; [#6366](https://github.com/inspec/inspec/pull/6366) ([Nik08](https://github.com/Nik08))
-- Use Ruby 3.1.2 in Omnibus build [#6341](https://github.com/inspec/inspec/pull/6341) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Revert the nokogiri dependency from omnibus project configuration [#6372](https://github.com/inspec/inspec/pull/6372) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Revert the nokogiri dependency from omnibus project configuration [#6372](https://github.com/inspec/inspec/pull/6372) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.22 -->
 - Revert &quot;CFINSPEC-240 Extended file format support for waivers&quot; [#6366](https://github.com/inspec/inspec/pull/6366) ([Nik08](https://github.com/Nik08)) <!-- 5.21.21 -->
 - Use Ruby 3.1.2 in Omnibus build [#6341](https://github.com/inspec/inspec/pull/6341) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.21.20 -->
 - CFINSPEC-533: Fix undefined method &#39;summary&#39; for Gem::SourceFetchProblem (NoMethodError) when airgapped  [#6337](https://github.com/inspec/inspec/pull/6337) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.20 -->
