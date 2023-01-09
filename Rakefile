@@ -9,11 +9,6 @@ require "fileutils"
 Bundler::GemHelper.install_tasks name: "inspec-core"
 Bundler::GemHelper.install_tasks name: "inspec"
 
-def prompt(message)
-  print(message)
-  STDIN.gets.chomp
-end
-
 # The docs tasks rely on ruby-progressbar. If we can't load it, then don't
 # load the docs tasks. This is necessary to allow this Rakefile to work
 # when the "tests" gem group in the Gemfile has been excluded, such as
@@ -216,19 +211,6 @@ namespace :test do
       end
     end
   end
-
-  Rake::TestTask.new(:functional) do |t|
-    t.libs << "test"
-    t.test_files = Dir.glob([
-      "test/functional/**/*_test.rb",
-      "lib/plugins/inspec-*/test/functional/**/*_test.rb",
-    ])
-    t.warning = !!ENV["W"]
-    t.verbose = !!ENV["V"] # default to off. the test commands are _huge_.
-    t.ruby_opts = ["--dev"] if defined?(JRUBY_VERSION)
-  end
-  # Inject a prerequisite task
-  task functional: [:accept_license]
 
   Rake::TestTask.new(:unit) do |t|
     t.libs << "test"
