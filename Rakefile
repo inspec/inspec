@@ -9,24 +9,6 @@ require "fileutils"
 Bundler::GemHelper.install_tasks name: "inspec-core"
 Bundler::GemHelper.install_tasks name: "inspec"
 
-# The docs tasks rely on ruby-progressbar. If we can't load it, then don't
-# load the docs tasks. This is necessary to allow this Rakefile to work
-# when the "tests" gem group in the Gemfile has been excluded, such as
-# during an appbundle-updater run.
-begin
-  require "ruby-progressbar"
-  require_relative "tasks/docs"
-rescue LoadError
-  puts "docs tasks are unavailable because the ruby-progressbar gem is not available."
-end
-
-begin
-  require "git"
-  require_relative "tasks/contrib"
-rescue LoadError
-  puts "contrib tasks are unavailable because the git gem is not available."
-end
-
 task :install do
   inspec_bin_path = ::File.join(::File.dirname(__FILE__), "inspec-bin")
   Dir.chdir(inspec_bin_path)
