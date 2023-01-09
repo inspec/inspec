@@ -42,10 +42,6 @@ module Inspec
       elsif file_extension == ".json"
         data = Waivers::JSONFileReader.resolve(file_path)
         validate_json_yaml(data)
-      elsif [".xls", ".xlsx"].include? file_extension
-        data = Waivers::ExcelFileReader.resolve(file_path)
-        headers = Waivers::ExcelFileReader.headers
-        validate_headers(headers)
       end
       data
     end
