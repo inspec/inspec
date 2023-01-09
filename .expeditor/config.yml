@@ -108,7 +108,6 @@ subscriptions:
          - lib/*
          - omnibus/*
          - support/*
-         - tasks/*
          - test/*
          - Gemfile*
          - LICENSE
