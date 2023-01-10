@@ -15,7 +15,8 @@ $pkg_maintainer="The Chef Maintainers <humans@chef.io>"
 $pkg_license=('Apache-2.0')
 
 $pkg_deps=@(
-  "chef/ruby30-plus-devkit"
+  "chef/ruby31-plus-devkit"
+  "core/git"
 )
 $pkg_bin_dirs=@("bin"
                 "vendor/bin")
@@ -32,6 +33,7 @@ function Invoke-SetupEnvironment {
 
 function Invoke-Build {
     try {
+        $env:Path += ";c:\\Program Files\\Git\\bin"
         Push-Location $project_root
         $env:GEM_HOME = "$HAB_CACHE_SRC_PATH/$pkg_dirname/vendor"
 

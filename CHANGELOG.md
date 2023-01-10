@@ -1,16 +1,24 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.15 -->
-## [v5.21.15](https://github.com/inspec/inspec/tree/v5.21.15) (2022-12-01)
+<!-- latest_release 5.21.22 -->
+## [v5.21.22](https://github.com/inspec/inspec/tree/v5.21.22) (2023-01-06)
 
 #### Merged Pull Requests
-- CFINSPEC-393 - Fix train-kubernetes plugin load issue [#6334](https://github.com/inspec/inspec/pull/6334) ([Vasu1105](https://github.com/Vasu1105))
+- Revert the nokogiri dependency from omnibus project configuration [#6372](https://github.com/inspec/inspec/pull/6372) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Revert the nokogiri dependency from omnibus project configuration [#6372](https://github.com/inspec/inspec/pull/6372) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.22 -->
+- Revert &quot;CFINSPEC-240 Extended file format support for waivers&quot; [#6366](https://github.com/inspec/inspec/pull/6366) ([Nik08](https://github.com/Nik08)) <!-- 5.21.21 -->
+- Use Ruby 3.1.2 in Omnibus build [#6341](https://github.com/inspec/inspec/pull/6341) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.21.20 -->
+- CFINSPEC-533: Fix undefined method &#39;summary&#39; for Gem::SourceFetchProblem (NoMethodError) when airgapped  [#6337](https://github.com/inspec/inspec/pull/6337) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.20 -->
+- Fix env smoke test by updating ERB.new in `inspec env`; add additional test [#6342](https://github.com/inspec/inspec/pull/6342) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.21.19 -->
+- Fixing typo in user_permissions [#6344](https://github.com/inspec/inspec/pull/6344) ([magicmicah](https://github.com/magicmicah)) <!-- 5.21.18 -->
+- CFINSPEC-528 Upgraded mock Ubuntu fixture to latest LTS version. [#6351](https://github.com/inspec/inspec/pull/6351) ([Nik08](https://github.com/Nik08)) <!-- 5.21.17 -->
+- CFINSPEC-517: Fix for habitat buld failure  [#6340](https://github.com/inspec/inspec/pull/6340) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.16 -->
 - CFINSPEC-393 - Fix train-kubernetes plugin load issue [#6334](https://github.com/inspec/inspec/pull/6334) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.15 -->
 - Update readme for usage via Docker (CFINSPEC-516) [#6329](https://github.com/inspec/inspec/pull/6329) ([ahasunos](https://github.com/ahasunos)) <!-- 5.21.14 -->
 - Update chefstyle from 2.0.x to 2.2.2 to use RuboCop 1.25.1 [#6240](https://github.com/inspec/inspec/pull/6240) ([tnir](https://github.com/tnir)) <!-- 5.21.13 -->
