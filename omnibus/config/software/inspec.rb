@@ -19,6 +19,7 @@ require_relative "../../../lib/inspec/version"
 name "inspec"
 
 dependency "ruby"
+dependency "ruby-msys2-devkit" if windows?
 
 license :project_license
 
