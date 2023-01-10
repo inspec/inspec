@@ -9,7 +9,7 @@ gem "inspec", path: "."
 # in it in order to package the executable. Hence the odd backwards dependency.
 gem "inspec-bin", path: "./inspec-bin"
 
-gem "ffi", ">= 1.9.14", "!= 1.13.0", "!= 1.14.2"
+gem "ffi", ">= 1.15.5"
 
 # inspec tests depend text output that changed in the 3.10 release
 # but our runtime dep is still 3.9+
