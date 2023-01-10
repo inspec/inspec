@@ -20,6 +20,7 @@ TF_PLAN_FILE_NAME = "inspec-db-testing".freeze
 TF_PLAN_FILE = File.join(TERRAFORM_DIR, TF_PLAN_FILE_NAME)
 ATTRIBUTES_FILE_NAME = "".freeze
 DB_INTEGRATION_DIR = "test/integration/db".freeze
+SCALABILITY_INTEGRATION_DIR = "test/scalability".freeze
 
 
 def prompt(message)
@@ -298,6 +299,22 @@ namespace :test do
               --no-distinct-exit
               -t ssh://ec2-user@#{ENV["EC2_PUBLIC_DNS"]}
               -i terraform/inspec-mysql-db-test.pem
+              --chef-license accept-silent )
+
+    if args[:controls]
+      sh(*cmd, "--controls", args[:controls], *args.extras)
+    else
+      sh(*cmd)
+    end
+  end
+
+  task :scale_test, [:controls] => ["tf:write_tf_output_to_file", :setup_env] do |_t, args|
+    cmd = %W( bundle exec inspec exec #{SCALABILITY_INTEGRATION_DIR}
+              --input-file terraform/#{ENV["ATTRIBUTES_FILE"]}
+              --reporter cli
+              --no-distinct-exit
+              -t ssh://ec2-user@#{args[:host]}
+              -i #{args[:pem_file]}
               --chef-license accept-silent )
 
     if args[:controls]
