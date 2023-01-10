@@ -1,0 +1,18 @@
+{
+  "agent": {
+    "metrics_collection_interval": 10
+  },
+  "metrics": {
+    "metrics_collected": {
+      "disk": {
+        "resources": ["/", "/tmp"],
+        "measurement": ["disk_used_percent"],
+        "ignore_file_system_types": ["sysfs", "devtmpfs"]
+      },
+      "mem": {
+        "measurement": ["mem_available_percent"]
+      }
+    },
+    "aggregation_dimensions": [["InstanceId", "InstanceType"], ["InstanceId"]]
+  }
+}
