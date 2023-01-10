@@ -404,6 +404,44 @@ As with the prior example, only `baseline-2` and `baseline-4` are executed, but
 if `baseline-2` fails, it will report with an impact of `0.5` instead of the
 originally-intended `1.0` impact.
 
+## Including or Selecting controls from a profile with same name and different version.
+
+When an inspec profile has dependency on another profile to it's specific version, then the controls can be included or selected by using profile name with version separated by `-`.
+
+Here, the Profile - A has following dependency:
+
+```yaml
+name: profile-a
+depends:
+  - name: ssh
+    git: https://github.com/dev-sec/ssh-baseline.git
+    tag: 2.6.0
+```
+
+And Profile - B has following dependency:
+
+```yaml
+name: profile-b
+depends:
+  - name: ssh
+    git: https://github.com/dev-sec/ssh-baseline.git
+    tag: 2.7.0
+```
+
+Controls of these profiles can be included or required in a profile in a following manner:
+
+```ruby
+include_controls "ssh-2.6.0"
+include_controls "ssh-2.7.0"
+```
+
+OR
+
+```ruby
+require_controls "ssh-2.6.0"
+require_controls "ssh-2.7.0"
+```
+
 ## Using Resources from an Included Profile
 
 By default, all of the custom resources from a listed dependency are available
