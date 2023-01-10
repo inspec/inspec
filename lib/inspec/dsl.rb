@@ -92,15 +92,16 @@ module Inspec::DSL
       new_profile_id = "#{profile_id}-#{profile_version}"
     else
       dependencies.list.keys.each do |key|
-        # If dep profile does not contain a source version, key does not contain a version as well. In that case new_profile_id will be always nil and instead profile_id would be used to fetch profile from dependency list.
-
-        matching_semver = key.match(/(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?/).to_s
-        unless matching_semver.nil? || matching_semver.empty?
-          profile_id_key = key.split("-#{matching_semver}")[0]
+        # 1. Fetching VERSION from a profile dependency name which is in a format NAME-VERSION.
+        # 2. Matching original profile dependency name with profile name used with include or require control DSL.
+        fetching_semver = key.match(/(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?/).to_s
+        unless fetching_semver.nil? || fetching_semver.empty?
+          profile_id_key = key.split("-#{fetching_semver}")[0]
           new_profile_id = key if profile_id_key == profile_id
         end
       end
     end
+    # If dep profile does not contain a source version, key does not contain a version as well. In that case new_profile_id will be always nil and instead profile_id would be used to fetch profile from dependency list.
     dep_entry = new_profile_id ? dependencies.list[new_profile_id] : dependencies.list[profile_id]
 
     if dep_entry.nil?
