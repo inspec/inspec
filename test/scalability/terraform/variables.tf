@@ -4,6 +4,6 @@ variable "nodes_count" {
 }
 
 variable "region" {
-  description = "The total number of nodes"
-  default = 1
+  description = "The region"
+  default = "us-east-1"
 }
