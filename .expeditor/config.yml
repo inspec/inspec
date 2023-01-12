@@ -27,6 +27,7 @@ pipelines:
  - omnibus/adhoc:
     definition: .expeditor/release.omnibus.yml
     env:
+      - ADHOC: true
       - IGNORE_CACHE: true # caching causes constant build failures
       - IGNORE_ARTIFACTORY_RUBY_PROXY: true
  - verify:
