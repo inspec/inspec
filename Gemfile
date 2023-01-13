@@ -53,8 +53,8 @@ group :kitchen do
   gem "berkshelf"
 
   # Chef 18 requires ruby 3
-  if Gem.ruby_version >= Gem::Version.new("3.0.0")
-    gem "chef", ">= 17.0"
+  if Gem.ruby_version >= Gem::Version.new("3.1.0")
+    gem "chef", ">= 18.0"
   else
     # Ruby 2.7 presumably - TODO remove this when 2.7 is sunsetted
     gem "chef", "~> 16.0"
