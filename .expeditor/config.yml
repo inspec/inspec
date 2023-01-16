@@ -23,6 +23,7 @@ pipelines:
      # The git cache is corrupt more often than not. This always purges the cache.
      # https://chefio.atlassian.net/wiki/spaces/RELENGKB/pages/2204336129/Resolving+git+cache+build+errors+in+Omnibus
      - EXPIRE_CACHE: 1
+     - IGNORE_ARTIFACTORY_RUBY_PROXY: true # Artifactory is throwing 500's when downloading some gems like ffi.
  - omnibus/adhoc:
     definition: .expeditor/release.omnibus.yml
     env:
