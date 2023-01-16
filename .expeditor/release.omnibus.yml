@@ -7,6 +7,7 @@ fips-platforms:
   - el-*-x86_64
   - windows-*
   - ubuntu-*-x86_64
+windows-64-msystem: UCRT64
 builder-to-testers-map:
   debian-9-x86_64:
     - debian-9-x86_64
