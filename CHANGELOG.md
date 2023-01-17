@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.24 -->
-## [v5.21.24](https://github.com/inspec/inspec/tree/v5.21.24) (2023-01-16)
+<!-- latest_release 5.21.25 -->
+## [v5.21.25](https://github.com/inspec/inspec/tree/v5.21.25) (2023-01-17)
 
 #### Merged Pull Requests
-- Ruby 3.1 support: Adds ucrt platform to resolve windows omnibus build. [#6381](https://github.com/inspec/inspec/pull/6381) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-240 Extended file format support for waivers: JSON &amp; CSV [#6369](https://github.com/inspec/inspec/pull/6369) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- CFINSPEC-240 Extended file format support for waivers: JSON &amp; CSV [#6369](https://github.com/inspec/inspec/pull/6369) ([Nik08](https://github.com/Nik08)) <!-- 5.21.25 -->
 - Ruby 3.1 support: Adds ucrt platform to resolve windows omnibus build. [#6381](https://github.com/inspec/inspec/pull/6381) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.24 -->
 - CFINSPEC-553: Fix failing verify pipeline builds on ruby 3.0 [#6378](https://github.com/inspec/inspec/pull/6378) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.23 -->
 - Revert the nokogiri dependency from omnibus project configuration [#6372](https://github.com/inspec/inspec/pull/6372) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.22 -->
