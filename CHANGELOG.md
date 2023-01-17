@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.25 -->
-## [v5.21.25](https://github.com/inspec/inspec/tree/v5.21.25) (2023-01-17)
+<!-- latest_release 5.21.26 -->
+## [v5.21.26](https://github.com/inspec/inspec/tree/v5.21.26) (2023-01-17)
 
 #### Merged Pull Requests
-- CFINSPEC-240 Extended file format support for waivers: JSON &amp; CSV [#6369](https://github.com/inspec/inspec/pull/6369) ([Nik08](https://github.com/Nik08))
+- CFINSPEC-542 Bug fix for profiles with dependent profiles [#6377](https://github.com/inspec/inspec/pull/6377) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- CFINSPEC-542 Bug fix for profiles with dependent profiles [#6377](https://github.com/inspec/inspec/pull/6377) ([Nik08](https://github.com/Nik08)) <!-- 5.21.26 -->
 - CFINSPEC-240 Extended file format support for waivers: JSON &amp; CSV [#6369](https://github.com/inspec/inspec/pull/6369) ([Nik08](https://github.com/Nik08)) <!-- 5.21.25 -->
 - Ruby 3.1 support: Adds ucrt platform to resolve windows omnibus build. [#6381](https://github.com/inspec/inspec/pull/6381) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.24 -->
 - CFINSPEC-553: Fix failing verify pipeline builds on ruby 3.0 [#6378](https://github.com/inspec/inspec/pull/6378) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.23 -->
