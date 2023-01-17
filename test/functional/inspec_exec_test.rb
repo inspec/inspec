@@ -1319,6 +1319,17 @@ EOT
         _(run_result.stdout).must_include "sshd-50"
       end
     end
+
+    describe "DSL with version: when profiles are dependent on different versions of same profile" do
+      let(:profile) { "#{profile_path}/git-fetcher/inheritance/child-profile-3" }
+      let(:run_result) { run_inspec_process("exec #{profile}") }
+      it "should evaluate all test controls of all versions correctly" do
+        skip_windows!
+        _(run_result.stderr).must_be_empty
+        _(run_result.stdout).must_include "2.6.0"
+        _(run_result.stdout).must_include "sshd-01"
+      end
+    end
   end
 
   if windows?
