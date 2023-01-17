@@ -1,3 +1,4 @@
+require "chef_licensing"
 module InspecPlugins::License
   class CLI < Inspec.plugin(2, :cli_command)
     include Inspec::Dist
@@ -5,7 +6,7 @@ module InspecPlugins::License
     subcommand_desc "license SUBCOMMAND [options]", "Fetches #{PRODUCT_NAME} license"
     desc "list", "List licenses"
     def list
-      # integrate end point for listing licenses
+      ChefLicensing.list_license_keys_info
     end
   end
 end
