@@ -231,3 +231,5 @@ namespace :test do
   # Inject a prerequisite task
   task unit: [:accept_license]
 end
+
+# NOTE: Rakefile clean-up was done in PR #6367 (https://github.com/inspec/inspec/pull/6367)

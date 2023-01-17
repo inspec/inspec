@@ -179,3 +179,5 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
     puts "Documentation generated in #{dst.inspect}"
   end
 end
+
+# NOTE: Many of the docs tasks were removed in PR #6367 (https://github.com/inspec/inspec/pull/6367)
