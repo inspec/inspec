@@ -11,7 +11,7 @@ platform = "unix"
     parent = "inspec/resources/os"
 +++
 
-Use the `podman` Chef InSpec audit resource to test the configuration data for the Podman resources.
+Use the `podman` Chef InSpec audit resource to test the configuration of Podman resources.
 
 ## Availability
 
@@ -21,7 +21,7 @@ This resource is distributed with Chef InSpec and is automatically available for
 
 ## Syntax
 
-Use the `podman` Chef InSpec audit resource to write a test for multiple Podman `containers`.
+Use the `podman` Chef InSpec audit resource to test multiple Podman containers.
 
 ```ruby
 describe podman.containers do
@@ -30,7 +30,7 @@ describe podman.containers do
 end
 ```
 
-Or, if you want to query a specific `container`:
+Or, if you want to query a specific container:
 
 ```ruby
 describe podman.containers.where(id: "591270d8d80d26671fd6ed622f367fbe19004d16e3b519c292313feb5f22e7f7") do
@@ -43,7 +43,7 @@ where:
 - `.where()` specifies a specific item and value to which the resource parameters are compared.
 - `commands`, `created_at`, `ids`, `images`, `names`, `status`, `image_ids`, `labels`, `mounts`, `networks`, `pods`, `ports`, `running_for`, and `sizes` are valid parameters for `containers`.
 
-The `podman` resource block also allows you to write a test for many `images`.
+You can also use the `podman` resource block to test many images.
 
 ```ruby
 describe podman.images do
@@ -64,7 +64,7 @@ where:
 - `.where()` specifies a specific filter and expected value, against which parameters are compared.
 - `repositories`, `tags`, `sizes`,  `digests`, `history`, `created_at`, `history`, and`created_since` are valid parameters for `images`.
 
-The `podman` resource block also allows you to write a test for many `networks`.
+You can also use the `podman` resource block to test many networks.
 
 ```ruby
 describe podman.networks do
@@ -72,7 +72,7 @@ describe podman.networks do
 end
 ```
 
-Or, if you want to query a specific `network`:
+Or, if you want to query a specific network:
 
 ```ruby
 describe podman.networks.where(id: "c7db653c4397e6a4d1e468bb7c6400c022c62623bdb87c173d54bac7995b6d8f") do
@@ -85,7 +85,7 @@ where:
 - `.where()` specifies a specific filter and expected value, against which parameters are compared.
 - `ids`, `names`, `drivers`, `network_interfaces`, `created`, `subnets`, `ipv6_enabled`, `internal`, `dns_enabled`, `options`, `labels`, and `ipam_options` are valid parameters for `networks`.
 
-The `podman` resource block also allows you to write a test for many `pods`.
+You can use the `podman` resource block to test many pods.
 
 ```ruby
 describe podman.pods do
@@ -93,7 +93,7 @@ describe podman.pods do
 end
 ```
 
-Or, if you want to query a specific `pod`:
+Or, if you want to query a specific pod:
 
 ```ruby
 describe podman.pods.where(id: "95cadbb84df71e6374fceb3fd89ee3b8f2c7e1a831062cd9cea7d0e3e4b1dbcc") do
