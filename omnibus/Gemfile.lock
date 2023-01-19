@@ -1,12 +1,4 @@
 GIT
-  remote: https://github.com/chef/omnibus-software.git
-  revision: 6a13693685cc7ab4f8d3592c80ad612cc8c6f1ac
-  branch: main
-  specs:
-    omnibus-software (23.1.268)
-      omnibus (>= 9.0.0)
-
-GIT
   remote: https://github.com/chef/omnibus.git
   revision: c66e97c211a60296e58da100d79d048974e13904
   branch: main
@@ -26,6 +18,14 @@ GIT
       ruby-progressbar (~> 1.7)
       thor (>= 0.18, < 2.0)
 
+GIT
+  remote: https://github.com/clintoncwolfe/omnibus-software.git
+  revision: c5fb898d2a0635b074d585ca7e72db0fa1b199e7
+  branch: cw/diagnose-ruby-patch
+  specs:
+    omnibus-software (23.1.268)
+      omnibus (>= 9.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -34,13 +34,13 @@ GEM
     artifactory (3.0.15)
     awesome_print (1.9.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.694.0)
-    aws-sdk-core (3.168.4)
+    aws-partitions (1.695.0)
+    aws-sdk-core (3.169.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-kms (1.61.0)
+    aws-sdk-kms (1.62.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-s3 (1.116.0)
