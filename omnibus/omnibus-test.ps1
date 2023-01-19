@@ -5,6 +5,7 @@ $ErrorActionPreference = "Stop"
 $Env:PATH = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
 
 $Env:Path = "C:\opscode\inspec\bin;C:\opscode\inspec\embedded\bin;$Env:PATH"
+Write-Host = "$Env:Path"
 Write-Host "+++ Testing $Plan"
 
 Set-Location test/artifact

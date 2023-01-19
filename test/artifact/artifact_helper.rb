@@ -8,6 +8,7 @@ class ArtifactTest < Minitest::Test
 
   def run_cmd(cmd)
     env  = { "PATH" => ENV["PATH"] }
+    puts "ENV PATH ========== #{env}"
     pwd  = ENV["project_root"] || `git rev-parse --show-toplevel`.chomp
     opts = { chdir: pwd }
 
