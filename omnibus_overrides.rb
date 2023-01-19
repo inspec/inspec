@@ -7,3 +7,5 @@ override "ruby", version: "2.7.4"
 
 # Mac m1
 override "openssl", version: "1.1.1m" if mac_os_x?
+
+override "ruby-msys2-devkit", version: "3.1.2-1"
