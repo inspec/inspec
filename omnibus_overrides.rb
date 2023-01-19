@@ -6,4 +6,5 @@ override "train", version: "v#{train_stable}"
 override "ruby", version: "3.1.2"
 
 # Mac m1
-override "openssl", version: "1.1.1m" if mac_os_x?
+# JFM - override "openssl", version: "1.1.1m" if mac_os_x?
+override "openssl", version: mac_os_x? ? "1.1.1m" : "1.0.2zb"
