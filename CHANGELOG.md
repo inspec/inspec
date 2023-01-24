@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.28 -->
-## [v5.21.28](https://github.com/inspec/inspec/tree/v5.21.28) (2023-01-24)
+<!-- latest_release 5.21.29 -->
+## [v5.21.29](https://github.com/inspec/inspec/tree/v5.21.29) (2023-01-24)
 
 #### Merged Pull Requests
-- adding new private verify, as this will kick off the expeditor bump v… [#6397](https://github.com/inspec/inspec/pull/6397) ([sean-simmons-progress](https://github.com/sean-simmons-progress))
+- Update copyright year in README, attempt 2 [#6395](https://github.com/inspec/inspec/pull/6395) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Update copyright year in README, attempt 2 [#6395](https://github.com/inspec/inspec/pull/6395) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.21.29 -->
 - adding new private verify, as this will kick off the expeditor bump v… [#6397](https://github.com/inspec/inspec/pull/6397) ([sean-simmons-progress](https://github.com/sean-simmons-progress)) <!-- 5.21.28 -->
 - Bump version of omnibus-software [#6385](https://github.com/inspec/inspec/pull/6385) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.27 -->
 - CFINSPEC-542 Bug fix for profiles with dependent profiles [#6377](https://github.com/inspec/inspec/pull/6377) ([Nik08](https://github.com/Nik08)) <!-- 5.21.26 -->
