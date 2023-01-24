@@ -457,7 +457,7 @@ KITCHEN_YAML=kitchen.dokken.yml bundle exec kitchen test -c 3
 | **Author:**    | Christoph Hartmann (<chartmann@chef.io>)       |
 | **Copyright:** | Copyright (c) 2015 Vulcano Security GmbH.      |
 | **Copyright:** | Copyright (c) 2017-2020 Chef Software Inc.     |
-| **Copyright:** | Copyright (c) 2020-2022 Progress Software Corp.|
+| **Copyright:** | Copyright (c) 2020-2023 Progress Software Corp.|
 | **License:**   | Apache License, Version 2.0                    |
 | **License:**   | Chef End User License Agreement                |
 
