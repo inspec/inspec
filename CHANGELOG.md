@@ -1,59 +1,57 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.29 -->
-## [v5.21.29](https://github.com/inspec/inspec/tree/v5.21.29) (2023-01-24)
-
-#### Merged Pull Requests
-- Update copyright year in README, attempt 2 [#6395](https://github.com/inspec/inspec/pull/6395) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=5.18.14 -->
-### Changes since 5.18.14 release
-
-#### Merged Pull Requests
-- Update copyright year in README, attempt 2 [#6395](https://github.com/inspec/inspec/pull/6395) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.21.29 -->
-- adding new private verify, as this will kick off the expeditor bump v… [#6397](https://github.com/inspec/inspec/pull/6397) ([sean-simmons-progress](https://github.com/sean-simmons-progress)) <!-- 5.21.28 -->
-- Bump version of omnibus-software [#6385](https://github.com/inspec/inspec/pull/6385) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.27 -->
-- CFINSPEC-542 Bug fix for profiles with dependent profiles [#6377](https://github.com/inspec/inspec/pull/6377) ([Nik08](https://github.com/Nik08)) <!-- 5.21.26 -->
-- CFINSPEC-240 Extended file format support for waivers: JSON &amp; CSV [#6369](https://github.com/inspec/inspec/pull/6369) ([Nik08](https://github.com/Nik08)) <!-- 5.21.25 -->
-- Ruby 3.1 support: Adds ucrt platform to resolve windows omnibus build. [#6381](https://github.com/inspec/inspec/pull/6381) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.24 -->
-- CFINSPEC-553: Fix failing verify pipeline builds on ruby 3.0 [#6378](https://github.com/inspec/inspec/pull/6378) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.23 -->
-- Revert the nokogiri dependency from omnibus project configuration [#6372](https://github.com/inspec/inspec/pull/6372) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.22 -->
-- Revert &quot;CFINSPEC-240 Extended file format support for waivers&quot; [#6366](https://github.com/inspec/inspec/pull/6366) ([Nik08](https://github.com/Nik08)) <!-- 5.21.21 -->
-- Use Ruby 3.1.2 in Omnibus build [#6341](https://github.com/inspec/inspec/pull/6341) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.21.20 -->
-- CFINSPEC-533: Fix undefined method &#39;summary&#39; for Gem::SourceFetchProblem (NoMethodError) when airgapped  [#6337](https://github.com/inspec/inspec/pull/6337) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.20 -->
-- Fix env smoke test by updating ERB.new in `inspec env`; add additional test [#6342](https://github.com/inspec/inspec/pull/6342) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.21.19 -->
-- Fixing typo in user_permissions [#6344](https://github.com/inspec/inspec/pull/6344) ([magicmicah](https://github.com/magicmicah)) <!-- 5.21.18 -->
-- CFINSPEC-528 Upgraded mock Ubuntu fixture to latest LTS version. [#6351](https://github.com/inspec/inspec/pull/6351) ([Nik08](https://github.com/Nik08)) <!-- 5.21.17 -->
-- CFINSPEC-517: Fix for habitat buld failure  [#6340](https://github.com/inspec/inspec/pull/6340) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.16 -->
-- CFINSPEC-393 - Fix train-kubernetes plugin load issue [#6334](https://github.com/inspec/inspec/pull/6334) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.15 -->
-- Update readme for usage via Docker (CFINSPEC-516) [#6329](https://github.com/inspec/inspec/pull/6329) ([ahasunos](https://github.com/ahasunos)) <!-- 5.21.14 -->
-- Update chefstyle from 2.0.x to 2.2.2 to use RuboCop 1.25.1 [#6240](https://github.com/inspec/inspec/pull/6240) ([tnir](https://github.com/tnir)) <!-- 5.21.13 -->
-- Prevent negative status from crashing launchctl service resource [#6262](https://github.com/inspec/inspec/pull/6262) ([dtheyer](https://github.com/dtheyer)) <!-- 5.21.12 -->
-- Remove Windows Ruby 3.0 testing [#6330](https://github.com/inspec/inspec/pull/6330) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.21.11 -->
-- Cfinspec 488 fix nokigiri omnibus [#6305](https://github.com/inspec/inspec/pull/6305) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.21.10 -->
-- CFINSPEC-493 update signing_identity [#6298](https://github.com/inspec/inspec/pull/6298) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.21.9 -->
-- Fix Ruby 2.7 Bundle Installs on CI Verify Pipeline [#6324](https://github.com/inspec/inspec/pull/6324) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.21.8 -->
-- RESOURCE-527 Add an inspec init template for alicloud [#6304](https://github.com/inspec/inspec/pull/6304) ([soumyo13](https://github.com/soumyo13)) <!-- 5.21.7 -->
-- Fix for omnibus build failure on Windows [#6289](https://github.com/inspec/inspec/pull/6289) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.6 -->
-- Bump omnibus-software from `1d540dc` to `7d0e0fe` in /omnibus [#6274](https://github.com/inspec/inspec/pull/6274) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.5 -->
-- Bump test-kitchen from 3.3.1 to 3.3.2 in /omnibus [#6227](https://github.com/inspec/inspec/pull/6227) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.4 -->
-- Faraday gem update [#6267](https://github.com/inspec/inspec/pull/6267) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.3 -->
-- Replace faraday_middleware with faraday-follow_redirects [#6238](https://github.com/inspec/inspec/pull/6238) ([tnir](https://github.com/tnir)) <!-- 5.21.2 -->
-- CFINSPEC-458 Oracle DB session resource compatibility with AIX-C shell [#6257](https://github.com/inspec/inspec/pull/6257) ([Nik08](https://github.com/Nik08)) <!-- 5.21.1 -->
-- CFINSPEC-374 DSL keyword `only_applicable_if` added [#6229](https://github.com/inspec/inspec/pull/6229) ([Nik08](https://github.com/Nik08)) <!-- 5.21.0 -->
-- CFINSPEC-462: Fixes inspec sign breaks when there is period n the profile name [#6261](https://github.com/inspec/inspec/pull/6261) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.20.4 -->
-- Enhance `lxc` resource to test properties [#6243](https://github.com/inspec/inspec/pull/6243) ([ahasunos](https://github.com/ahasunos)) <!-- 5.20.3 -->
-- Sync up the default branch as main [#6239](https://github.com/inspec/inspec/pull/6239) ([tnir](https://github.com/tnir)) <!-- 5.20.2 -->
-- Fix the dependabot adding  ffi (1.15.5-x64-unknown) to omnibus bump [#6213](https://github.com/inspec/inspec/pull/6213) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.20.1 -->
-- Adds podman resources. [#6183](https://github.com/inspec/inspec/pull/6183) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.20.0 -->
-- CFINSPEC-237 Added enhanced_outcomes option [#6145](https://github.com/inspec/inspec/pull/6145) ([Nik08](https://github.com/Nik08)) <!-- 5.19.0 -->
-- CFINSPEC-400 Fix for verify pipeline failure [#6218](https://github.com/inspec/inspec/pull/6218) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.18.17 -->
-- Docs spellcheck [#6214](https://github.com/inspec/inspec/pull/6214) ([IanMadd](https://github.com/IanMadd)) <!-- 5.18.16 -->
-- Trivial README change to trigger new omnibus build [#6203](https://github.com/inspec/inspec/pull/6203) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.18.15 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v5.21.29](https://github.com/inspec/inspec/tree/v5.21.29) (2023-01-24)
+
+#### Merged Pull Requests
+- Trivial README change to trigger new omnibus build [#6203](https://github.com/inspec/inspec/pull/6203) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Docs spellcheck [#6214](https://github.com/inspec/inspec/pull/6214) ([IanMadd](https://github.com/IanMadd))
+- CFINSPEC-400 Fix for verify pipeline failure [#6218](https://github.com/inspec/inspec/pull/6218) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-237 Added enhanced_outcomes option [#6145](https://github.com/inspec/inspec/pull/6145) ([Nik08](https://github.com/Nik08))
+- Adds podman resources. [#6183](https://github.com/inspec/inspec/pull/6183) ([Vasu1105](https://github.com/Vasu1105))
+- Fix the dependabot adding  ffi (1.15.5-x64-unknown) to omnibus bump [#6213](https://github.com/inspec/inspec/pull/6213) ([Vasu1105](https://github.com/Vasu1105))
+- Sync up the default branch as main [#6239](https://github.com/inspec/inspec/pull/6239) ([tnir](https://github.com/tnir))
+- Enhance `lxc` resource to test properties [#6243](https://github.com/inspec/inspec/pull/6243) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-462: Fixes inspec sign breaks when there is period n the profile name [#6261](https://github.com/inspec/inspec/pull/6261) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-374 DSL keyword `only_applicable_if` added [#6229](https://github.com/inspec/inspec/pull/6229) ([Nik08](https://github.com/Nik08))
+- CFINSPEC-458 Oracle DB session resource compatibility with AIX-C shell [#6257](https://github.com/inspec/inspec/pull/6257) ([Nik08](https://github.com/Nik08))
+- Replace faraday_middleware with faraday-follow_redirects [#6238](https://github.com/inspec/inspec/pull/6238) ([tnir](https://github.com/tnir))
+- Faraday gem update [#6267](https://github.com/inspec/inspec/pull/6267) ([Vasu1105](https://github.com/Vasu1105))
+- Bump test-kitchen from 3.3.1 to 3.3.2 in /omnibus [#6227](https://github.com/inspec/inspec/pull/6227) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump omnibus-software from `1d540dc` to `7d0e0fe` in /omnibus [#6274](https://github.com/inspec/inspec/pull/6274) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Fix for omnibus build failure on Windows [#6289](https://github.com/inspec/inspec/pull/6289) ([Vasu1105](https://github.com/Vasu1105))
+- RESOURCE-527 Add an inspec init template for alicloud [#6304](https://github.com/inspec/inspec/pull/6304) ([soumyo13](https://github.com/soumyo13))
+- Fix Ruby 2.7 Bundle Installs on CI Verify Pipeline [#6324](https://github.com/inspec/inspec/pull/6324) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- CFINSPEC-493 update signing_identity [#6298](https://github.com/inspec/inspec/pull/6298) ([sathish-progress](https://github.com/sathish-progress))
+- Cfinspec 488 fix nokigiri omnibus [#6305](https://github.com/inspec/inspec/pull/6305) ([sathish-progress](https://github.com/sathish-progress))
+- Remove Windows Ruby 3.0 testing [#6330](https://github.com/inspec/inspec/pull/6330) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Prevent negative status from crashing launchctl service resource [#6262](https://github.com/inspec/inspec/pull/6262) ([dtheyer](https://github.com/dtheyer))
+- Update chefstyle from 2.0.x to 2.2.2 to use RuboCop 1.25.1 [#6240](https://github.com/inspec/inspec/pull/6240) ([tnir](https://github.com/tnir))
+- Update readme for usage via Docker (CFINSPEC-516) [#6329](https://github.com/inspec/inspec/pull/6329) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-393 - Fix train-kubernetes plugin load issue [#6334](https://github.com/inspec/inspec/pull/6334) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-517: Fix for habitat buld failure  [#6340](https://github.com/inspec/inspec/pull/6340) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-528 Upgraded mock Ubuntu fixture to latest LTS version. [#6351](https://github.com/inspec/inspec/pull/6351) ([Nik08](https://github.com/Nik08))
+- Fixing typo in user_permissions [#6344](https://github.com/inspec/inspec/pull/6344) ([magicmicah](https://github.com/magicmicah))
+- Fix env smoke test by updating ERB.new in `inspec env`; add additional test [#6342](https://github.com/inspec/inspec/pull/6342) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- CFINSPEC-533: Fix undefined method &#39;summary&#39; for Gem::SourceFetchProblem (NoMethodError) when airgapped  [#6337](https://github.com/inspec/inspec/pull/6337) ([Vasu1105](https://github.com/Vasu1105))
+- Use Ruby 3.1.2 in Omnibus build [#6341](https://github.com/inspec/inspec/pull/6341) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Revert &quot;CFINSPEC-240 Extended file format support for waivers&quot; [#6366](https://github.com/inspec/inspec/pull/6366) ([Nik08](https://github.com/Nik08))
+- Revert the nokogiri dependency from omnibus project configuration [#6372](https://github.com/inspec/inspec/pull/6372) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-553: Fix failing verify pipeline builds on ruby 3.0 [#6378](https://github.com/inspec/inspec/pull/6378) ([Vasu1105](https://github.com/Vasu1105))
+- Ruby 3.1 support: Adds ucrt platform to resolve windows omnibus build. [#6381](https://github.com/inspec/inspec/pull/6381) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-240 Extended file format support for waivers: JSON &amp; CSV [#6369](https://github.com/inspec/inspec/pull/6369) ([Nik08](https://github.com/Nik08))
+- CFINSPEC-542 Bug fix for profiles with dependent profiles [#6377](https://github.com/inspec/inspec/pull/6377) ([Nik08](https://github.com/Nik08))
+- Bump version of omnibus-software [#6385](https://github.com/inspec/inspec/pull/6385) ([Vasu1105](https://github.com/Vasu1105))
+- adding new private verify, as this will kick off the expeditor bump v… [#6397](https://github.com/inspec/inspec/pull/6397) ([sean-simmons-progress](https://github.com/sean-simmons-progress))
+- Update copyright year in README, attempt 2 [#6395](https://github.com/inspec/inspec/pull/6395) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v5.18.14](https://github.com/inspec/inspec/tree/v5.18.14) (2022-07-13)
 
 #### Merged Pull Requests
@@ -86,7 +84,6 @@
 - Bump omnibus-software from `a9b13a0` to `7bb8c7b` in /omnibus [#6191](https://github.com/inspec/inspec/pull/6191) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Trial - Update the omnibus/Gemfile.lock (can be the reason for omnibus build failure) [#6195](https://github.com/inspec/inspec/pull/6195) ([Vasu1105](https://github.com/Vasu1105))
 - CFINSPEC-239 Attestations Design Doc [#6188](https://github.com/inspec/inspec/pull/6188) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v5.17.4](https://github.com/inspec/inspec/tree/v5.17.4) (2022-05-25)
 
