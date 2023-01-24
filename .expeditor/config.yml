@@ -37,6 +37,14 @@ pipelines:
      - SLOW: 1
      - NO_AWS: 1
      - MT_CPU: 5
+ - verify/private:
+    description: Pull Request validation tests
+    definition: .expeditor/verify.pipeline.yml
+    env:
+     - LANG: "C.UTF-8"
+     - SLOW: 1
+     - NO_AWS: 1
+     - MT_CPU: 5    
  - coverage:
     description: Unit test coverage
     # Private due to use of tokens
