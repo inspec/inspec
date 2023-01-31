@@ -2,6 +2,9 @@
 variable "project_name" {
   default = "inspec-mysql-db-test"
 }
+variable "key_name" {
+  default = "inspec-db-test"
+}
 
 variable "aws_region" {
   default = "us-west-2"

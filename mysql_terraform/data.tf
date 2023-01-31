@@ -15,7 +15,6 @@ data "aws_security_group" "vpc_security_group" {
   id = module.vpc.default_security_group_id
 }
 
-
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc#attributes-reference
 data "aws_vpc" "vpc" {
   id = module.vpc.vpc_id
@@ -35,30 +34,3 @@ data "aws_ami" "latest_amazon_linux" {
     values = ["amzn2-ami-kernel-5*-x86_64-gp2"]
   }
 }
-
-/*
-data "aws_ami" "latest_ubuntu" {
-  owners      = ["099720109477"] # Canonical
-  most_recent = true
-
-  filter {
-    name   = "name"
-    # Ubuntu Server 20.04 LTS (HVM), SSD Volume Type
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
-
-    # IMPORTANT : the received id is not the same as in the AWS website.
-    # There is sometimes 2 or 3 newest image since the image displayed on the website.
-    # Not having the good id can be, of course, confusing
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-}
-*/

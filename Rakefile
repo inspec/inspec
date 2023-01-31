@@ -7,17 +7,13 @@ require "train"
 require "open3"
 require "fileutils"
 require_relative "tasks/docs"
-require 'yaml'
+require "yaml"
 require_relative "lib/inspec/utils/attribute_file_writer"
 
 Bundler::GemHelper.install_tasks name: "inspec-core"
 Bundler::GemHelper.install_tasks name: "inspec"
 
-TERRAFORM_DIR = "terraform".freeze
-TF_PLAN_FILE_NAME = "inspec-db-testing".freeze
-TF_PLAN_FILE = File.join(TERRAFORM_DIR, TF_PLAN_FILE_NAME)
-ATTRIBUTES_FILE_NAME = "".freeze
-DB_INTEGRATION_DIR = "test/integration/db".freeze
+require_relative "tasks/dbintegration_tf"
 
 task :install do
   inspec_bin_path = ::File.join(::File.dirname(__FILE__), "inspec-bin")
@@ -36,7 +32,6 @@ task default: %w{ test }
 task test: %w{ test:default }
 
 namespace :test do
-
   Rake::TestTask.new(:default) do |t|
     t.libs << "test"
     t.test_files = Dir[*GLOBS].sort

@@ -23,30 +23,30 @@ This environment may be used to run your DB resource profile against or to run i
 Creating a new environment:
 
 ```shell
-rake tf:init
-rake tf:apply
+rake dbintegration_tf:init[mysql]
+rake dbintegration_tf:apply[mysql]
 ```
 
 Checking if your state has diverged from your plan:
 
 ```shell
-rake tf:plan
+rake dbintegration_tf:plan[mysql]
 ```
 
 Updating a running environment (For example, when you change the .tf file):
 
 ```shell
-rake tf:apply
+rake dbintegration_tf:apply[mysql]
 ```
 
 To run DB resource integration test:
 
 ```shell
-rake test:dbintegration
+rake dbintegration_tf:test[mysql]
 ```
 
 Destroying your environment:
 
 ```shell
-rake tf:destroy
+rake dbintegration_tf:destroy[mysql]
 ```
