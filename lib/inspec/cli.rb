@@ -61,9 +61,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   require "license_acceptance/cli_flags/thor"
   include LicenseAcceptance::CLIFlags::Thor
 
-  desc "json PATH", "read all tests in PATH and generate a JSON summary"
+  desc "json PATH", "read all tests in the PATH and generate a JSON summary."
   option :output, aliases: :o, type: :string,
-    desc: "Save the created profile to a path"
+    desc: "Save the created profile to a path."
   option :controls, type: :array,
     desc: "A list of controls to include. Ignore all other tests."
   option :tags, type: :array,
@@ -81,7 +81,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :format, type: :string,
     desc: "The output format to use: json, raw, yaml. If valid format is not provided then it will use the default for the given 'what'."
   option :output, aliases: :o, type: :string,
-    desc: "Save the created output to a path"
+    desc: "Save the created output to a path."
   option :controls, type: :array,
     desc: "For --what=profile, a list of controls to include. Ignore all other tests."
   option :tags, type: :array,
@@ -145,9 +145,11 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     pretty_handle_exception(e)
   end
 
-  desc "check PATH", "verify all tests at the specified PATH"
+  desc "check PATH", "Verify the metadata in the `inspec.yml` file,\
+  verify that control blocks have the correct fields (title, description, impact),\
+  and define that all controls have visible tests and the controls are not using deprecated InSpec DSL code"
   option :format, type: :string,
-    desc: "The output format to use doc (default), json. If valid format is not provided then it will use the default."
+    desc: "The output format to use. Valid values: `json` and `doc`. Default value: `doc`."
   option :with_cookstyle, type: :boolean,
     desc: "Enable or disable cookstyle checks.", default: false
   profile_options
@@ -228,10 +230,10 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     vendor_deps(path, o)
   end
 
-  desc "archive PATH", "archive a profile to tar.gz (default) or zip"
+  desc "archive PATH", "Archive a profile to a tar file (default) or zip file."
   profile_options
   option :output, aliases: :o, type: :string,
-    desc: "Save the archive to a path"
+    desc: "Save the archive to a path."
   option :zip, type: :boolean, default: false,
     desc: "Generates a zip archive."
   option :tar, type: :boolean, default: false,
@@ -275,14 +277,10 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     pretty_handle_exception(e)
   end
 
-  desc "exec LOCATIONS", "Run all tests at LOCATIONS."
+  desc "exec LOCATIONS", "Run all test files at the specified locations."
   long_desc <<~EOT
-    Run all test files at the specified LOCATIONS.
-
-    Loads the given profile(s) and fetches their dependencies if needed. Then
-    connects to the target and executes any controls contained in the profiles.
-    One or more reporters are used to generate output.
-
+    The subcommand loads the given profiles, fetches their dependencies if needed, then connects to the target and executes any controls in the profiles.
+    One or more reporters are used to generate the output.
     ```
     Exit codes:
         0  Normal exit, all tests passed
@@ -296,7 +294,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
     Below are some examples of using `exec` with different test LOCATIONS:
 
-    Automate:
+    Chef Automate:
       ```
       #{Inspec::Dist::EXEC_NAME} automate login
       #{Inspec::Dist::EXEC_NAME} exec compliance://username/linux-baseline
@@ -306,7 +304,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       #{Inspec::Dist::EXEC_NAME} compliance login
       ```
 
-    Supermarket:
+    Chef Supermarket:
       ```
       #{Inspec::Dist::EXEC_NAME} exec supermarket://username/linux-baseline
       ```
@@ -343,12 +341,12 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       #{Inspec::Dist::EXEC_NAME} exec https://github.com/dev-sec/linux-baseline.git
       ```
 
-    Web hosted fileshare (also supports .zip):
+    Web hosted file (also supports .zip):
       ```
       #{Inspec::Dist::EXEC_NAME} exec https://webserver/linux-baseline.tar.gz
       ```
 
-    Web hosted fileshare with basic authentication (supports .zip):
+    Web hosted file with basic authentication (supports .zip):
       ```
       #{Inspec::Dist::EXEC_NAME} exec https://username:password@webserver/linux-baseline.tar.gz
       ```
@@ -371,7 +369,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     pretty_handle_exception(e)
   end
 
-  desc "detect", "detect the target OS"
+  desc "detect", "detects the target OS."
   target_options
   option :format, type: :string
   def detect
@@ -396,7 +394,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     pretty_handle_exception(e)
   end
 
-  desc "shell", "open an interactive debugging shell"
+  desc "shell", "open an interactive debugging shell."
   target_options
   option :command, aliases: :c,
     desc: "A single command string to run instead of launching the shell"
@@ -455,7 +453,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     pretty_handle_exception(e)
   end
 
-  desc "env", "Output shell-appropriate completion configuration"
+  desc "env", "Outputs shell-appropriate completion configuration."
   def env(shell = nil)
     p = Inspec::EnvPrinter.new(self.class, shell)
     p.print_and_exit!
@@ -481,7 +479,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     puts Inspec::Telemetry::RunContextProbe.guess_run_context
   end
 
-  desc "version", "prints the version of this tool"
+  desc "version", "prints the version of this tool."
   option :format, type: :string
   def version
     if config["format"] == "json"
@@ -495,7 +493,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
   desc "clear_cache", "clears the InSpec cache. Useful for debugging."
   option :vendor_cache, type: :string,
-    desc: "Use the given path for caching dependencies. (default: ~/.inspec/cache)"
+    desc: "Use the given path for caching dependencies, (default: `~/.inspec/cache`)."
   def clear_cache
     o = config
     configure_logger(o)
