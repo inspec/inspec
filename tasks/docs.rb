@@ -17,9 +17,7 @@
 require "erb"
 require "fileutils"
 require "yaml"
-require_relative "./shared"
 require "git"
-require_relative "./contrib"
 
 DOCS_DIR = "../docs".freeze
 
@@ -121,112 +119,6 @@ class RST
   end
 end
 
-class ResourceDocs
-  def initialize(root)
-    @paths = {}  # cache of paths
-    @root = root # relative root path for all docs
-  end
-
-  def render(path)
-    @paths[path] ||= render_path(path)
-  end
-
-  def partial(x)
-    render(x + ".md.erb")
-  end
-
-  def overview_page(resource_doc_files) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-    renderer = Markdown
-    markdown = renderer.meta(title: "InSpec Resources Reference")
-    markdown << renderer.h1("InSpec Resources Reference")
-    markdown << renderer.p("The following list of InSpec resources are available.")
-
-    contrib_config = YAML.load(File.read(File.join(CONTRIB_DIR, "contrib.yaml")))
-
-    # TODO: clean this up using Hash.new and friends
-
-    # Build a list of resources keyed on the group they are a part of.
-    # We'll determine the group using regexes.
-    group_regexes = [
-      # These are hardcoded present in the main repo.  If they become resource
-      # packs, this should change.
-      { group_name: "AWS", regex: /^aws_/ },
-      { group_name: "Azure", regex: /^azure(rm)?_/ },
-    ]
-    # Also pick up regexes and group names from contrib resource packs.
-    contrib_config["resource_packs"].values.each do |project_info|
-      group_regexes << { group_name: project_info["doc_group_title"], regex: Regexp.new(project_info["resource_file_regex"]) }
-    end
-
-    # OK, apply the regexes we have to the resource doc file list we were passed.
-    # doc_file looks like /resources/foo.md.erb - trim off directory and file extension
-    trimmed_doc_files = resource_doc_files.dup.map { |file| File.basename(file).sub(/\.md(\.erb)?$/, "") }
-    resources_by_group = Hash[group_regexes.map { |info| [info[:group_name], []] }] # Initialize each group to an empty array
-    resources_by_group["OS"] = []
-    trimmed_doc_files.each do |doc_file|
-      matched = false
-      group_regexes.each do |group_info|
-        next if matched
-
-        if doc_file =~ group_info[:regex]
-          resources_by_group[group_info[:group_name]] << doc_file
-          matched = true
-        end
-      end
-      # Any resources that don't match a regex are assumed to be 'os' resources.
-      resources_by_group["OS"] << doc_file unless matched
-    end
-
-    # Now transform the resource lists into HTML
-    markdown_resource_links_by_group = {}
-    resources_by_group.each do |group_name, resource_list|
-      markdown_resource_links_by_group[group_name] = resource_list.map do |resource_name|
-        renderer.li(renderer.a(resource_name.gsub("_", '\\_'), "resources/" + resource_name + ".html"))
-      end.join("")
-    end
-
-    # Remove any groups that have no resource docs.
-    resources_by_group.reject! { |_, resource_list| resource_list.empty? }
-
-    # Generate the big buttons that jump to the section of the page for each group.
-    markdown << '<div class="row columns align">'
-    # "Sorted, except OS is always in first place"
-    ordered_group_names = ["OS"] + resources_by_group.keys.sort.reject { |group_name| group_name == "OS" }
-    button_template = '<a class="resources-button button btn-lg btn-purple-o shadow margin-right-xs" href="%s">%s</a>'
-    ordered_group_names.each do |group_name|
-      markdown << format(button_template, "#" + (group_name + "-resources").downcase, group_name)
-      markdown << "\n"
-    end
-    markdown << "</div>"
-
-    # Generate the actual long lists of links
-    group_section_header_template = '
-<div class="brdr-left margin-top-sm margin-under-xs">
-  <h3 class="margin-left-xs"><a id="%s" class="a-purple"><h3 class="a-purple">%s</h3></a></h3>
-</div>
-'
-    ordered_group_names.each do |group_name|
-      markdown << format(group_section_header_template, (group_name + "-resources").downcase, group_name)
-      markdown << renderer.ul(markdown_resource_links_by_group[group_name])
-    end
-
-    markdown
-  end
-
-  private
-
-  def namify(n)
-    n.capitalize.gsub(/\baws\b/i, "AWS")
-  end
-
-  def render_path(path)
-    abs = File.join(@root, path)
-    raise "Can't find file to render in #{abs}" unless File.file?(abs)
-
-    ERB.new(File.read(abs)).result(binding)
-  end
-end
-
 namespace :docs do # rubocop:disable Metrics/BlockLength
   desc "Create cli docs"
   task :cli do
@@ -278,69 +170,14 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
       res << "\n\n" if f == RST
     end
 
+    # TODO: The directory is broken, so we need to fix it
+    # Use the docs-chef-io directory to fix the cli doc build
+    # doc_directory = File.join(pwd, "docs-chef-io/content/inspec")
+    # dst = File.join(doc_directory , "cli#{f.suffix}")
     dst = File.join(DOCS_DIR, "cli#{f.suffix}")
     File.write(dst, res)
     puts "Documentation generated in #{dst.inspect}"
   end
-
-  desc "Create resources docs"
-  # This task injects the contrib:cleanup_docs as a followup
-  # to the actual doc building.
-  task resources: %i{resources_actual contrib:cleanup_docs}
-
-  task resources_actual: %i{clean contrib:copy_docs} do
-    src = DOCS_DIR
-    dst = File.join("source", "docs", "reference", "resources")
-    mkdir_p(dst)
-
-    docs = ResourceDocs.new(src)
-    resources =
-      Dir.chdir(src) { Dir["resources/*.md{.erb,}"] }.sort
-    puts "Found #{resources.length} resource docs"
-    puts "Rendering docs to #{dst}/"
-
-    # Render all resources
-    seen = {}
-    resources.reverse_each do |file| # bias towards .erb files?
-      dst_name = File.basename(file).sub(/\.md(\.erb)?$/, ".html.md")
-
-      next if seen[dst_name]
-
-      seen[dst_name] = true
-      res = docs.render(file)
-      File.write(File.join(dst, dst_name), res)
-    end
-
-    # Create a resource summary markdown doc
-    dst = File.join(src, "resources.md")
-    puts "Create #{dst}"
-    File.write(dst, docs.overview_page(resources))
-  end
-
-  desc "Clean all rendered docs from www/"
-  task :clean do
-    dst = File.join("source", "docs", "reference")
-    rm_rf(dst)
-    mkdir_p(dst)
-  end
-
-  desc "Copy fixed doc files"
-  task copy: %i{clean resources} do
-    src = DOCS_DIR
-    dst = File.join("source", "docs", "reference")
-    files = Dir[File.join(src, "*.md")]
-
-    files.each do |path|
-      name = File.basename(path).sub(/\.md$/, ".html.md")
-      cp(path, File.join(dst, name))
-    end
-  end
 end
 
-desc "Create all docs in docs/ from source code"
-task docs: %w{docs:cli docs:copy docs:resources} do
-  # TODO: remove:
-  Verify.file(File.join("source", "docs", "reference", "README.html.md"))
-  Verify.file(File.join("source", "docs", "reference", "cli.html.md"))
-  Verify.file(File.join("source", "docs", "reference", "resources.html.md"))
-end
+# NOTE: Many of the docs tasks were removed in PR #6367 (https://github.com/inspec/inspec/pull/6367)
