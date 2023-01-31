@@ -7,7 +7,7 @@ set -ue
 echo "--- bundle install"
 
 cd www
-bundle config set --local without tools maintenance deploy
+bundle config set --local without deploy
 bundle install --jobs=7 --retry=3
 
 echo "+++ bundle exec rake"

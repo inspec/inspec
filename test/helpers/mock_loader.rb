@@ -20,7 +20,7 @@ class MockLoader
     macos10_10: { name: "mac_os_x", family: "darwin", release: "10.10.4", arch: nil },
     macos10_16: { name: "darwin", family: "darwin", release: "10.16", arch: nil },
     ubuntu1404: { name: "ubuntu", family: "debian", release: "14.04", arch: "x86_64" },
-    ubuntu: { name: "ubuntu", family: "debian", release: "20.04", arch: "x86_64" },
+    ubuntu: { name: "ubuntu", family: "debian", release: "22.04", arch: "x86_64" },
     mint17: { name: "linuxmint", family: "debian", release: "17.3", arch: "x86_64" },
     mint18: { name: "linuxmint", family: "debian", release: "18", arch: "x86_64" },
     windows: { name: "windows", family: "windows", release: "6.2.9200", arch: "x86_64" },

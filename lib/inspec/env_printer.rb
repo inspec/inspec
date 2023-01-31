@@ -35,7 +35,7 @@ module Inspec
     private
 
     def print_completion_for_shell
-      erb = ERB.new(File.read(completion_template_path), nil, "-")
+      erb = ERB.new(File.read(completion_template_path), trim_mode: "-")
       puts erb.result(TemplateContext.new(@command_class).get_bindings)
     end
 

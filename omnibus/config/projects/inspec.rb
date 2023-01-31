@@ -41,7 +41,6 @@ overrides_path = File.expand_path("../../../omnibus_overrides.rb", __dir__)
 instance_eval(File.read(overrides_path), overrides_path)
 
 dependency "preparation"
-dependency "nokogiri"
 dependency "inspec"
 
 # Remove all .dll.a and .a files needed for static linkage.
@@ -52,6 +51,8 @@ dependency "gem-permissions"
 dependency "shebang-cleanup"
 # Ensure our SSL cert files are accessible to ruby.
 dependency "openssl-customization"
+
+dependency "ruby-msys2-devkit" if windows?
 
 package :rpm do
   signing_passphrase ENV["OMNIBUS_RPM_SIGNING_PASSPHRASE"]
