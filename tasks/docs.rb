@@ -14,10 +14,7 @@
 # limitations under the License.
 #
 
-require "erb"
 require "fileutils"
-require "yaml"
-require "git"
 
 DOCS_DIR = "docs-chef-io/content/inspec".freeze
 
