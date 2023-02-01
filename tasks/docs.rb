@@ -59,7 +59,7 @@ class Markdown
     end
 
     def dl(msg)
-      "#{msg.gsub("\n", "\n    ")}\n"
+      "<dl>\n#{msg}</dl>\n"
     end
 
     def ul(msg)
@@ -177,9 +177,9 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
           usage = opt.usage.split(", ")
             .map { |x| x.tr("[]", "") }
             .map { |x| x.start_with?("-") ? x : "-" + x }
-            .map { |x| "`" + x + "`" }
-          msg = "#{usage.join(", ")}\n"
-          msg << ": #{opt.description}\n" if opt.description && !opt.description.empty?
+            .map { |x| "<code>" + x + "</code>" }
+          msg = "<dt>#{usage.join(", ")}</dt>\n"
+          msg << "<dd> #{opt.description}</dd>\n" if opt.description && !opt.description.empty?
           list << f.dl(msg)
         end.join
         res << f.ul(list)
