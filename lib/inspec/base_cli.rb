@@ -57,6 +57,9 @@ module Inspec
       rescue ChefLicensing::InvalidLicense => e
         Inspec::Log.error "Something went wrong while validating license: #{e}"
         Inspec::UI.new.exit(:usage_error)
+      rescue ChefLicensing::ClientError => e
+        Inspec::Log.error "Something went wrong: #{e}"
+        Inspec::UI.new.exit(:usage_error)
       end
     end
 
