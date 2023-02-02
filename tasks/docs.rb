@@ -59,7 +59,7 @@ class Markdown
     end
 
     def dl(msg)
-      "<dl>\n#{msg}</dl>\n"
+      "<dl>\n#{msg}</dl>\n\n"
     end
 
     def ul(msg)
@@ -179,10 +179,10 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
             .map { |x| x.start_with?("-") ? x : "-" + x }
             .map { |x| "<code>" + x + "</code>" }
           msg = "<dt>#{usage.join(", ")}</dt>\n"
-          msg << "<dd> #{opt.description}</dd>\n" if opt.description && !opt.description.empty?
-          list << f.dl(msg)
+          msg << "<dd>#{opt.description}</dd>\n\n" if opt.description && !opt.description.empty?
+          list << msg
         end.join
-        res << f.ul(list)
+        res << f.dl(list)
       end
 
       # FIXME: for some reason we have extra lines in our RST; needs investigation
