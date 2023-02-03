@@ -34,7 +34,6 @@ group :test do
   gem "pry-byebug"
   gem "pry", "~> 0.10"
   gem "rake", ">= 10"
-  gem "ruby-progressbar", "~> 1.8"
   gem "simplecov", "~> 0.21"
   gem "simplecov_json_formatter"
   gem "webmock", "~> 3.0"
