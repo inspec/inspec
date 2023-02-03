@@ -13,7 +13,7 @@ module Inspec
     end
 
     def start
-      ChefLicensing.check_software_entitlement!(software_entitlement_name: "InSpec") if Inspec::Dist::EXEC_NAME == "inspec"
+      ChefLicensing.check_software_entitlement! if Inspec::Dist::EXEC_NAME == "inspec"
       # This will hold a single evaluation binding context as opened within
       # the instance_eval context of the anonymous class that the profile
       # context creates to evaluate each individual test file. We want to
@@ -25,6 +25,9 @@ module Inspec
     rescue ChefLicensing::SoftwareNotEntitled
       Inspec::Log.error "License is not entitled to use InSpec."
       Inspec::UI.new.exit(:license_not_entitled)
+    rescue ChefLicensing::Error => e
+      Inspec::Log.error "Something went wrong: #{e}"
+      Inspec::UI.new.exit(:usage_error)
     end
 
     def configure_pry # rubocop:disable Metrics/AbcSize
