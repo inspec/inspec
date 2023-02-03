@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.30 -->
-## [v5.21.30](https://github.com/inspec/inspec/tree/v5.21.30) (2023-02-03)
+<!-- latest_release 5.21.31 -->
+## [v5.21.31](https://github.com/inspec/inspec/tree/v5.21.31) (2023-02-03)
 
 #### Merged Pull Requests
-- CFINSPEC-554: Update CLI Docs rake task to work with current InSpec docs. [#6384](https://github.com/inspec/inspec/pull/6384) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-573: Fix for mongodb_session resource prints debug level of information in profile run result. [#6401](https://github.com/inspec/inspec/pull/6401) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.21.29 -->
 ### Changes since 5.21.29 release
 
 #### Merged Pull Requests
+- CFINSPEC-573: Fix for mongodb_session resource prints debug level of information in profile run result. [#6401](https://github.com/inspec/inspec/pull/6401) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.31 -->
 - CFINSPEC-554: Update CLI Docs rake task to work with current InSpec docs. [#6384](https://github.com/inspec/inspec/pull/6384) ([ahasunos](https://github.com/ahasunos)) <!-- 5.21.30 -->
 <!-- release_rollup -->
 
