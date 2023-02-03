@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 5.21.30 -->
+## [v5.21.30](https://github.com/inspec/inspec/tree/v5.21.30) (2023-02-03)
+
+#### Merged Pull Requests
+- CFINSPEC-554: Update CLI Docs rake task to work with current InSpec docs. [#6384](https://github.com/inspec/inspec/pull/6384) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=5.21.29 -->
+### Changes since 5.21.29 release
+
+#### Merged Pull Requests
+- CFINSPEC-554: Update CLI Docs rake task to work with current InSpec docs. [#6384](https://github.com/inspec/inspec/pull/6384) ([ahasunos](https://github.com/ahasunos)) <!-- 5.21.30 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
