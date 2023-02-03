@@ -208,7 +208,7 @@ end
 `object` returns low-level information about Podman objects as returned by [podman inspect](https://docs.podman.io/en/latest/markdown/podman-inspect.1.html).
 
 ```ruby
-describe docker.object(id) do
+describe podman.object(id) do
   its('State.Running') { should eq true }
 end
 ```
