@@ -64,7 +64,7 @@ where:
 - `.where()` specifies a specific filter and expected value, against which parameters are compared.
 - `repositories`, `tags`, `sizes`,  `digests`, `history`, `created_at`, `history`, and`created_since` are valid parameters for `images`.
 
-You can also use the `podman` resource block to test many networks.
+You can also use the `podman` resource block to test multiple networks.
 
 ```ruby
 describe podman.networks do
