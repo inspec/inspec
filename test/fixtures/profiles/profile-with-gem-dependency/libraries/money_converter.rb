@@ -4,6 +4,7 @@ class MoneyConverter < Inspec.resource(1)
   name "money_converter"
 
   supports platform: "unix"
+  supports platform: "windows"
 
   desc "money_converter"
     example <<~EXAMPLE

@@ -383,13 +383,16 @@ module Inspec
       @runner_context
     end
 
+    # This collects the gem dependencies data from parent and its dependent profiles
     def collect_gem_dependencies
       gem_dependencies = []
+      # This collects the dependent profiles gem dependencies if any
       locked_dependencies.dep_list.each do |_name, dep|
         profile = dep.profile
         gem_dependencies << profile.metadata.gem_dependencies unless profile.metadata.gem_dependencies.empty?
       end
-      gem_dependencies << metadata.gem_dependencies
+      # Appends the parent profile gem dependencies which are available through metadata
+      gem_dependencies << metadata.gem_dependencies unless metadata.gem_dependencies.empty?
       gem_dependencies.flatten.uniq
     end
 
