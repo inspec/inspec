@@ -36,7 +36,7 @@ module Inspec
             # we tell user to set Env variable with valid license id / use --chef-license-key option here?
             Inspec::Log.error "Feature is not entitled to the current license."
             Inspec::UI.new.exit(:license_not_entitled)
-          rescue ChefLicensing::Error => e
+          rescue StandardError => e
             Inspec::Log.error "Something went wrong: #{e}"
             Inspec::UI.new.exit(:usage_error)
           end
