@@ -1317,6 +1317,8 @@ EOT
         _(run_result.stdout).must_include "2.6.0"
         _(run_result.stdout).must_include "sshd-01"
         _(run_result.stdout).must_include "sshd-50"
+        # Test with version which is not following semver scheme.
+        _(run_result.stdout).must_include "0.1.0 Release Inspec 5 NotASemverVersion 1"
       end
     end
 
@@ -1339,6 +1341,8 @@ EOT
       it "should evaluate all test controls of all versions correctly" do
         _(run_result.stdout).must_include "1.1.2"
         _(run_result.stdout).must_include "1.1.0"
+        # Test with version which is not following semver scheme.
+        _(run_result.stdout).must_include "0.1.0 Release Inspec 5 NotASemverVersion 1"
       end
     end
   end
