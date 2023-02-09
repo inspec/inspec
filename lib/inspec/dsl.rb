@@ -95,8 +95,10 @@ module Inspec::DSL
         # 1. Fetching VERSION from a profile dependency name which is in a format NAME-VERSION.
         # 2. Matching original profile dependency name with profile name used with include or require control DSL.
         source_version = value.source_version
-        profile_id_key = key.split("-#{source_version}")[0]
-        new_profile_id = key if profile_id_key == profile_id
+        unless source_version.blank?
+          profile_id_key = key.split("-#{source_version}")[0]
+          new_profile_id = key if profile_id_key == profile_id
+        end
       end
     end
     # If dep profile does not contain a source version, key does not contain a version as well. In that case new_profile_id will be always nil and instead profile_id would be used to fetch profile from dependency list.

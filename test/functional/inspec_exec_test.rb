@@ -1322,7 +1322,7 @@ EOT
       end
     end
 
-    describe "DSL with version: when profiles are dependent on different versions of same profile" do
+    describe "Using require control with version: when profiles are dependent on different versions of same profile" do
       let(:profile) { "#{profile_path}/git-fetcher/inheritance/child-profile-3" }
       let(:run_result) { run_inspec_process("exec #{profile}") }
       it "should evaluate all test controls of all versions correctly" do
@@ -1330,6 +1330,15 @@ EOT
         _(run_result.stderr).must_be_empty
         _(run_result.stdout).must_include "2.6.0"
         _(run_result.stdout).must_include "sshd-01"
+      end
+    end
+
+    describe "When profiles are dependent on a profile with no version" do
+      let(:profile) { "#{profile_path}/git-fetcher/inheritance/child-profile-4" }
+      let(:run_result) { run_inspec_process("exec #{profile}") }
+      it "should evaluate all test controls of all versions correctly" do
+        skip_windows!
+        _(run_result.stderr).must_be_empty
       end
     end
   end
