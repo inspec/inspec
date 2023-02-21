@@ -7,7 +7,7 @@ variable "key_name" {
 }
 
 variable "aws_region" {
-  default = "us-west-2"
+  default = "us-west-1"
 }
 
 variable "aws_profile" {

@@ -85,7 +85,7 @@ resource "aws_internet_gateway" "internet-gateway" {
 resource "aws_subnet" "public-subnet-1" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = "${var.Public_Subnet_1}"
-  availability_zone       = "us-west-2a"
+  availability_zone       = "${var.availability_zone}"
   map_public_ip_on_launch = true
   tags      = {
     Name    = var.project_name

@@ -1,11 +1,14 @@
 variable "aws_region" {
-  default = "us-west-2"
+  default = "us-west-1"
 }
 
 variable "aws_profile" {
   default = "chef-engineering"
 }
 
+variable "availability_zone" {
+  default = "us-west-1b"
+}
 variable "key_name" {
   default = "inspec-db-test"
 }

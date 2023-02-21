@@ -1,8 +1,8 @@
-MYSQL_TERRAFORM_DIR = "mysql_terraform".freeze
-MONGO_TERRAFORM_DIR = "mongo_terraform".freeze
+MYSQL_TERRAFORM_DIR = "./test/integration/db/mysql_terraform".freeze
+MONGO_TERRAFORM_DIR = "./test/integration/db/mongo_terraform".freeze
 TF_PLAN_FILE_NAME = "inspec-db-testing.plan".freeze
 ATTRIBUTES_FILE_NAME = "".freeze
-DB_INTEGRATION_DIR = "./test/integration/db".freeze
+DB_INTEGRATION_DIR = "./test/integration/db/profiles".freeze
 
 namespace :dbintegration_tf do
   desc "Initializes Terraform Plan for database environment setup"
