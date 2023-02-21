@@ -10,6 +10,10 @@ First, ensure your system has [Terraform](https://www.terraform.io/intro/getting
 
 This environment may be used to run your DB resource profile against or to run integration tests on it.
 
+### Aws access
+
+Make sure you are logged in to aws using aws cli and ~/.aws/credentials is set.
+
 ### Sourece .envrc
 
 `source .envrc`
