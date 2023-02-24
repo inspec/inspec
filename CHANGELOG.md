@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.2.19 -->
-## [v6.2.19](https://github.com/inspec/inspec/tree/v6.2.19) (2023-02-24)
+<!-- latest_release 6.2.20 -->
+## [v6.2.20](https://github.com/inspec/inspec/tree/v6.2.20) (2023-02-24)
 
 #### Merged Pull Requests
-- Foreport #6262 Prevent negative status from crashing launchctl service resource [#6433](https://github.com/inspec/inspec/pull/6433) ([Vasu1105](https://github.com/Vasu1105))
+- Foreport 6240: Update chefstyle from 2.0.x to 2.2.2 to use RuboCop 1.25.1 [#6458](https://github.com/inspec/inspec/pull/6458) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport 6240: Update chefstyle from 2.0.x to 2.2.2 to use RuboCop 1.25.1 [#6458](https://github.com/inspec/inspec/pull/6458) ([Nik08](https://github.com/Nik08)) <!-- 6.2.20 -->
 - Foreport #6262 Prevent negative status from crashing launchctl service resource [#6433](https://github.com/inspec/inspec/pull/6433) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.19 -->
 - Foreport-6330: Remove Windows Ruby 3.0 testing [#6452](https://github.com/inspec/inspec/pull/6452) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.18 -->
 - Foreport #6298: CFINSPEC-493 update signing_identity [#6448](https://github.com/inspec/inspec/pull/6448) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.17 -->
