@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.2.10 -->
-## [v6.2.10](https://github.com/inspec/inspec/tree/v6.2.10) (2022-11-30)
+<!-- latest_release 6.2.11 -->
+## [v6.2.11](https://github.com/inspec/inspec/tree/v6.2.11) (2023-02-24)
 
 #### Merged Pull Requests
-- Foreport #6329 to inspec-6 - Update readme for usage via Docker (CFINSPEC-516) [#6333](https://github.com/inspec/inspec/pull/6333) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Foreport 6304 RESOURCE-527 Add an inspec init template for alicloud [#6432](https://github.com/inspec/inspec/pull/6432) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport 6304 RESOURCE-527 Add an inspec init template for alicloud [#6432](https://github.com/inspec/inspec/pull/6432) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.11 -->
 - Foreport #6329 to inspec-6 - Update readme for usage via Docker (CFINSPEC-516) [#6333](https://github.com/inspec/inspec/pull/6333) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.10 -->
 - CFINSPEC-479 Inspec parallel breaking fix [#6272](https://github.com/inspec/inspec/pull/6272) ([Nik08](https://github.com/Nik08)) <!-- 6.2.9 -->
 - Added child-status reporter in features.yaml list [#6288](https://github.com/inspec/inspec/pull/6288) ([Nik08](https://github.com/Nik08)) <!-- 6.2.8 -->
