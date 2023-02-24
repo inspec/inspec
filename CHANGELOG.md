@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.2.24 -->
-## [v6.2.24](https://github.com/inspec/inspec/tree/v6.2.24) (2023-02-24)
+<!-- latest_release 6.2.25 -->
+## [v6.2.25](https://github.com/inspec/inspec/tree/v6.2.25) (2023-02-24)
 
 #### Merged Pull Requests
-- Foreport 6342 Fix env smoke test by updating ERB.new in `inspec env`; add additional test [#6440](https://github.com/inspec/inspec/pull/6440) ([Vasu1105](https://github.com/Vasu1105))
+- Foreport #6337 Fix undefined method &#39;summary&#39; for Gem::SourceFetchProblem (NoMethodError) when air gapped  [#6434](https://github.com/inspec/inspec/pull/6434) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport #6337 Fix undefined method &#39;summary&#39; for Gem::SourceFetchProblem (NoMethodError) when air gapped  [#6434](https://github.com/inspec/inspec/pull/6434) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.25 -->
 - Foreport 6342 Fix env smoke test by updating ERB.new in `inspec env`; add additional test [#6440](https://github.com/inspec/inspec/pull/6440) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.24 -->
 - Foreport-6344 Fixing typo in user_permissions  [#6465](https://github.com/inspec/inspec/pull/6465) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.23 -->
 - Foreport 6340: Fix for habitat build failure  [#6461](https://github.com/inspec/inspec/pull/6461) ([Nik08](https://github.com/Nik08)) <!-- 6.2.22 -->
