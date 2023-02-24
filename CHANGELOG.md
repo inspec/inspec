@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.2.26 -->
+## [v6.2.26](https://github.com/inspec/inspec/tree/v6.2.26) (2023-02-24)
 
 #### Merged Pull Requests
+- Foreport-6378 [#6453](https://github.com/inspec/inspec/pull/6453) ([ahasunos](https://github.com/ahasunos))
 - Foreport 6341: Use Ruby 3.1.2 in Omnibus build [#6441](https://github.com/inspec/inspec/pull/6441) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport-6378 [#6453](https://github.com/inspec/inspec/pull/6453) ([ahasunos](https://github.com/ahasunos)) <!-- 6.2.26 -->
 - Foreport 6341: Use Ruby 3.1.2 in Omnibus build [#6441](https://github.com/inspec/inspec/pull/6441) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.25 -->
 - Foreport #6337 Fix undefined method &#39;summary&#39; for Gem::SourceFetchProblem (NoMethodError) when air gapped  [#6434](https://github.com/inspec/inspec/pull/6434) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.25 -->
 - Foreport 6342 Fix env smoke test by updating ERB.new in `inspec env`; add additional test [#6440](https://github.com/inspec/inspec/pull/6440) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.24 -->
