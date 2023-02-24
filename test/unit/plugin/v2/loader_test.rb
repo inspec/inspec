@@ -333,4 +333,14 @@ class PluginLoaderTests < Minitest::Test
       end
     end
   end
+
+  def test_read_conf_file_into_registry
+    ENV["INSPEC_CONFIG_DIR"] = File.join(@config_dir_path, "train-test-fixture")
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true)
+    registry = loader.send(:read_conf_file_into_registry)
+    assert_includes registry, { :name => :"train-test-fixture", :version => ">= 0.1.0" }
+    reg = Inspec::Plugin::V2::Registry.instance
+    status = reg[registry.first[:name]]
+    assert_equal("Test train plugin. Not intended for use as an example.", status.description, "Reads the description of the plugin from local gemspec file.")
+  end
 end
