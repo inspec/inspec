@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.2.21 -->
-## [v6.2.21](https://github.com/inspec/inspec/tree/v6.2.21) (2023-02-24)
+<!-- latest_release 6.2.22 -->
+## [v6.2.22](https://github.com/inspec/inspec/tree/v6.2.22) (2023-02-24)
 
 #### Merged Pull Requests
-- Foreport-6334: CFINSPEC-393 - Fix train-kubernetes plugin load issue [#6464](https://github.com/inspec/inspec/pull/6464) ([Vasu1105](https://github.com/Vasu1105))
+- Foreport 6340: Fix for habitat build failure  [#6461](https://github.com/inspec/inspec/pull/6461) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport 6340: Fix for habitat build failure  [#6461](https://github.com/inspec/inspec/pull/6461) ([Nik08](https://github.com/Nik08)) <!-- 6.2.22 -->
 - Foreport-6334: CFINSPEC-393 - Fix train-kubernetes plugin load issue [#6464](https://github.com/inspec/inspec/pull/6464) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.21 -->
 - Foreport 6240: Update chefstyle from 2.0.x to 2.2.2 to use RuboCop 1.25.1 [#6458](https://github.com/inspec/inspec/pull/6458) ([Nik08](https://github.com/Nik08)) <!-- 6.2.20 -->
 - Foreport #6262 Prevent negative status from crashing launchctl service resource [#6433](https://github.com/inspec/inspec/pull/6433) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.19 -->
