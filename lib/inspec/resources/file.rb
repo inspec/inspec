@@ -66,7 +66,7 @@ module Inspec::Resources
     def user_permissions
       return {} unless exist?
 
-      return skip_reource"`user_permissions` is not supported on your OS yet." unless inspec.os.windows?
+      return skip_resource "`user_permissions` is not supported on your OS yet." unless inspec.os.windows?
 
       @perms_provider.user_permissions(file)
     end
