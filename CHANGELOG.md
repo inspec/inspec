@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.2.12 -->
-## [v6.2.12](https://github.com/inspec/inspec/tree/v6.2.12) (2023-02-24)
+<!-- latest_release 6.2.13 -->
+## [v6.2.13](https://github.com/inspec/inspec/tree/v6.2.13) (2023-02-24)
 
 #### Merged Pull Requests
-- Foreport #6239: Sync up the default branch as main [#6455](https://github.com/inspec/inspec/pull/6455) ([Vasu1105](https://github.com/Vasu1105))
+- Foreport - 6227 [#6460](https://github.com/inspec/inspec/pull/6460) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport - 6227 [#6460](https://github.com/inspec/inspec/pull/6460) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.13 -->
 - Foreport #6239: Sync up the default branch as main [#6455](https://github.com/inspec/inspec/pull/6455) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.12 -->
 - Foreport 6304 RESOURCE-527 Add an inspec init template for alicloud [#6432](https://github.com/inspec/inspec/pull/6432) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.11 -->
 - Foreport #6329 to inspec-6 - Update readme for usage via Docker (CFINSPEC-516) [#6333](https://github.com/inspec/inspec/pull/6333) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.10 -->
