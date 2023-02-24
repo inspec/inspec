@@ -4,7 +4,7 @@
 
 ### Expeditor
 
-[Expeditor](https://expeditor.chef.io/) is the main coordinator of all CI-CD activity at Chef. It is configured through a [YAML file](https://github.com/inspec/inspec/blob/master/.expeditor/config.yml).
+[Expeditor](https://expeditor.chef.io/) is the main coordinator of all CI-CD activity at Chef. It is configured through a [YAML file](https://github.com/inspec/inspec/blob/main/.expeditor/config.yml).
 
 ### BuildKite
 
@@ -16,13 +16,13 @@ You will need to have an account on BuildKite and be a member of both orgs to fu
 
 ### Rakefile
 
-The [Rakefile](https://github.com/inspec/inspec/blob/master/Rakefile) defines the tests harness to be run. Most of the test scripts come down to executing "rake test" or similar.
+The [Rakefile](https://github.com/inspec/inspec/blob/main/Rakefile) defines the tests harness to be run. Most of the test scripts come down to executing "rake test" or similar.
 
 ### Omnibus
 
 Omnibus is a system for building OS-specific packages of software, including all dependencies including Ruby runtimes. We use Omnibus to make RPMs, DEBs, MSIs, DMGs, and several other OS-specific formats that deploy inspec and its dependencies natively to the OS.
 
-The omnibus configuration for InSpec is stored at https://github.com/inspec/inspec/tree/master/omnibus and the main configuration file is [inspec.rb](https://github.com/inspec/inspec/blob/master/omnibus/config/projects/inspec.rb).
+The omnibus configuration for InSpec is stored at https://github.com/inspec/inspec/tree/master/omnibus and the main configuration file is [inspec.rb](https://github.com/inspec/inspec/blob/main/omnibus/config/projects/inspec.rb).
 
 ### Rubygems
 
@@ -46,13 +46,13 @@ One default pipeline that gets activated is the Buildkite [master verify pipelin
 
 The verify pipeline runs the linter, the unit tests, and the functional tests. It verifies that the code being submitted is sound.
 
-The verify pipeline is defined first in the [verify.pipeline.yml](https://github.com/inspec/inspec/blob/master/.expeditor/verify.pipeline.yml) file, which defines the separate Ruby versions, platforms, and environment variables to be passed to each one. Each runner calls a shell script, either [verify.sh](https://github.com/inspec/inspec/blob/master/.expeditor/buildkite/verify.sh) or [verify.ps1](https://github.com/inspec/inspec/blob/master/.expeditor/buildkite/verify.ps1). These scripts are thin wrappers that install Bundler dependencies from a cache, then call into the Rakefile.
+The verify pipeline is defined first in the [verify.pipeline.yml](https://github.com/inspec/inspec/blob/master/.expeditor/verify.pipeline.yml) file, which defines the separate Ruby versions, platforms, and environment variables to be passed to each one. Each runner calls a shell script, either [verify.sh](https://github.com/inspec/inspec/blob/master/.expeditor/buildkite/verify.sh) or [verify.ps1](https://github.com/inspec/inspec/blob/main/.expeditor/buildkite/verify.ps1). These scripts are thin wrappers that install Bundler dependencies from a cache, then call into the Rakefile.
 
 #### habitat artifact pipeline
 
 The habitat artifact pipeline runs a smoke test to verify that the habitat build of inspec is valid.
 
-The habitat artifact pipeline is defined first in the [artifact.habitat.yml](https://github.com/inspec/inspec/blob/master/.expeditor/artifact.habitat.yml) file. It simply defines a linux runner and a windows runner, each with a dedicated script, [artifact.habitat.test.sh](https://github.com/inspec/inspec/blob/master/.expeditor/buildkite/artifact.habitat.test.sh) or [artifact.habitat.test.ps1](https://github.com/inspec/inspec/blob/master/.expeditor/buildkite/artifact.habitat.test.ps1). The scripts install habitat, setup an origin key, build the package, and then run a [Rakefile](https://github.com/inspec/inspec/blob/master/test/artifact/Rakefile)
+The habitat artifact pipeline is defined first in the [artifact.habitat.yml](https://github.com/inspec/inspec/blob/master/.expeditor/artifact.habitat.yml) file. It simply defines a linux runner and a windows runner, each with a dedicated script, [artifact.habitat.test.sh](https://github.com/inspec/inspec/blob/master/.expeditor/buildkite/artifact.habitat.test.sh) or [artifact.habitat.test.ps1](https://github.com/inspec/inspec/blob/master/.expeditor/buildkite/artifact.habitat.test.ps1). The scripts install habitat, setup an origin key, build the package, and then run a [Rakefile](https://github.com/inspec/inspec/blob/main/test/artifact/Rakefile)
 
 
 ### A PR is merged
@@ -67,7 +67,7 @@ Connect to the Progress VPN to fetch Expeditor logs in the event of a failure.
 
 This is controlled by the `built_in:bump_version` and `bash:.expeditor/update_version.sh` subscriptions.
 
-If there are no GitHub labels on the PR, the patchlevel of the version will be bumped by executing the [.expeditor/update_version.sh](https://github.com/inspec/inspec/blob/master/.expeditor/update_version.sh) script.  First the VERSION file is updated, then the script runs to update the versions in the Ruby files.
+If there are no GitHub labels on the PR, the patchlevel of the version will be bumped by executing the [.expeditor/update_version.sh](https://github.com/inspec/inspec/blob/main/.expeditor/update_version.sh) script.  First the VERSION file is updated, then the script runs to update the versions in the Ruby files.
 
 `built_in:bump_version` is in charge of bumping versions in VERSION, and is controlled by GitHub labels on the PR.  Most, though not all, PRs should not have any Expeditor control labels.
 
@@ -81,7 +81,7 @@ Here are the Expeditor control labels, and the circumstances under which they sh
 
 This is controlled by the `trigger_pipeline:omnibus/release` subscription.
 
-The Omnibus build creates operating-system-specific packages for each platform on which we release Chef InSpec. Its [expeditor configuration](https://github.com/inspec/inspec/blob/44fe144732e1e0abb2594957a880c5f1821e7774/.expeditor/config.yml#L133) drives a [Buildkite configuration](https://github.com/inspec/inspec/blob/master/.expeditor/release.omnibus.yml), which lists exactly which platforms to build.
+The Omnibus build creates operating-system-specific packages for each platform on which we release Chef InSpec. Its [expeditor configuration](https://github.com/inspec/inspec/blob/44fe144732e1e0abb2594957a880c5f1821e7774/.expeditor/config.yml#L133) drives a [Buildkite configuration](https://github.com/inspec/inspec/blob/main/.expeditor/release.omnibus.yml), which lists exactly which platforms to build.
 
 The Omnibus build is generally reliable, if somewhat slow.
 
@@ -89,13 +89,13 @@ When the omnibus build succeeds, omnitruck delivers the packages to various pack
 
 #### Chef Habitat Build
 
-The Chef Habitat build creates Habitat .hart packages for Linux and Windows. The [Expeditor configuration](https://github.com/inspec/inspec/blob/44fe144732e1e0abb2594957a880c5f1821e7774/.expeditor/config.yml#L138) drives a [Buildkite configuration](https://github.com/inspec/inspec/blob/master/.expeditor/build.habitat.yml).
+The Chef Habitat build creates Habitat .hart packages for Linux and Windows. The [Expeditor configuration](https://github.com/inspec/inspec/blob/44fe144732e1e0abb2594957a880c5f1821e7774/.expeditor/config.yml#L138) drives a [Buildkite configuration](https://github.com/inspec/inspec/blob/main/.expeditor/build.habitat.yml).
 
 When the hab build succeeds, the packages will be placed on the Hab builder in the `unstable` channel for public consumption.
 
 #### Docker Image Built and Released
 
-We also release a Docker image (see [expeditor config](https://github.com/inspec/inspec/blob/44fe144732e1e0abb2594957a880c5f1821e7774/.expeditor/config.yml#L150)), which contains a Linux system and Chef InSpec installed from a gem, with the ENTRYPOINT of the Docker image being `inspec` (see [Dockerfile](https://github.com/inspec/inspec/blob/master/Dockerfile)). It's a simple way to ship the dependencies of `inspec`.
+We also release a Docker image (see [expeditor config](https://github.com/inspec/inspec/blob/44fe144732e1e0abb2594957a880c5f1821e7774/.expeditor/config.yml#L150)), which contains a Linux system and Chef InSpec installed from a gem, with the ENTRYPOINT of the Docker image being `inspec` (see [Dockerfile](https://github.com/inspec/inspec/blob/main/Dockerfile)). It's a simple way to ship the dependencies of `inspec`.
 
 When it succeeds, the Docker build is labeled as `current`.
 
@@ -126,7 +126,7 @@ The gems are taken from Artifactory and published to Rubygems.org. This is done 
 
 #### Release notes are published
 
-The [pending release notes](https://github.com/inspec/inspec/wiki/Pending-Release-Notes) are copied to AWS S3 by a [script](https://github.com/inspec/inspec/blob/master/.expeditor/publish-release-notes.sh), and then reset back to an empty state. Another [script](https://github.com/inspec/inspec/blob/master/.expeditor/announce-release.sh) takes the release notes from S3 and creates a post on Discourse.
+The [pending release notes](https://github.com/inspec/inspec/wiki/Pending-Release-Notes) are copied to AWS S3 by a [script](https://github.com/inspec/inspec/blob/master/.expeditor/publish-release-notes.sh), and then reset back to an empty state. Another [script](https://github.com/inspec/inspec/blob/main/.expeditor/announce-release.sh) takes the release notes from S3 and creates a post on Discourse.
 
 
 

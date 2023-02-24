@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["cwolfe@chef.io"]
   spec.summary       = "InSpec Plugin example, lists available resources"
   spec.description   = "Example for implementing an InSpec Plugin.  This simply lists available resources."
-  spec.homepage      = "https://github.com/inspec/inspec/tree/master/examples/plugin"
+  spec.homepage      = "https://github.com/inspec/inspec/tree/main/examples/plugin"
   spec.license       = "Apache-2.0"
 
   # Though complicated-looking, this is pretty standard for a gemspec.
