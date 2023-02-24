@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.2.16 -->
-## [v6.2.16](https://github.com/inspec/inspec/tree/v6.2.16) (2023-02-24)
+<!-- latest_release 6.2.17 -->
+## [v6.2.17](https://github.com/inspec/inspec/tree/v6.2.17) (2023-02-24)
 
 #### Merged Pull Requests
-- Foreport #6324 Fix Ruby 2.7 Bundle Installs on CI Verify Pipeline [#6446](https://github.com/inspec/inspec/pull/6446) ([Vasu1105](https://github.com/Vasu1105))
+- Foreport #6298: CFINSPEC-493 update signing_identity [#6448](https://github.com/inspec/inspec/pull/6448) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport #6298: CFINSPEC-493 update signing_identity [#6448](https://github.com/inspec/inspec/pull/6448) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.17 -->
 - Foreport #6324 Fix Ruby 2.7 Bundle Installs on CI Verify Pipeline [#6446](https://github.com/inspec/inspec/pull/6446) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.16 -->
 - Foreport-6289: Fix for omnibus build failure on Windows  [#6463](https://github.com/inspec/inspec/pull/6463) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.15 -->
 - Foreport-6274 Bump omnibus-software from `1d540dc` to `7d0e0fe` in /omnibus  [#6462](https://github.com/inspec/inspec/pull/6462) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.14 -->
