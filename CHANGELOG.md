@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.2.27 -->
-## [v6.2.27](https://github.com/inspec/inspec/tree/v6.2.27) (2023-02-26)
+<!-- latest_release 6.2.28 -->
+## [v6.2.28](https://github.com/inspec/inspec/tree/v6.2.28) (2023-02-26)
 
 #### Merged Pull Requests
-- Foreport-6381 [#6451](https://github.com/inspec/inspec/pull/6451) ([ahasunos](https://github.com/ahasunos))
+- Foreport 6369 to inspec-6 Extended file format support for waivers: JSON &amp; CSV only [#6371](https://github.com/inspec/inspec/pull/6371) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport 6369 to inspec-6 Extended file format support for waivers: JSON &amp; CSV only [#6371](https://github.com/inspec/inspec/pull/6371) ([Nik08](https://github.com/Nik08)) <!-- 6.2.28 -->
 - Foreport-6381 [#6451](https://github.com/inspec/inspec/pull/6451) ([ahasunos](https://github.com/ahasunos)) <!-- 6.2.27 -->
 - Foreport-6378 [#6453](https://github.com/inspec/inspec/pull/6453) ([ahasunos](https://github.com/ahasunos)) <!-- 6.2.26 -->
 - Foreport 6341: Use Ruby 3.1.2 in Omnibus build [#6441](https://github.com/inspec/inspec/pull/6441) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.25 -->
