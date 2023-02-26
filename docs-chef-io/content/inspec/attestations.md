@@ -89,7 +89,7 @@ inspec exec path/to/profile --attestation-file attestation.yaml
 
 ## File Format
 
-Attestations files support YAML, JSON, CSV, XLSX, and XLS formats.
+Attestations files support YAML, JSON, and CSV formats.
 
 ```yaml
 control_id:
@@ -153,7 +153,7 @@ example-3.0.2:
 }
 ```
 
-#### Example in CSV/XLSX/XLS
+#### Example in CSV
 
 These file formats support the following fields in a file:
 
@@ -168,7 +168,7 @@ These file formats support the following fields in a file:
 - `expiration_date`
    _Optional_.
 
-![Attestations File Excel Example](/images/inspec/attestations_file_excel.png)
+![Attestations File Example](/images/inspec/attestations_file_excel.png)
 
 {{< note >}}
 

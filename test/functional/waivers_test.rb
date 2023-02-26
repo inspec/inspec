@@ -167,58 +167,6 @@ describe "waivers" do
     end
   end
 
-  describe "a fully pre-slugged control file with XLSX format waiver file" do
-    let(:profile_name) { "basic" }
-    let(:waiver_file) { "waivers.xlsx" }
-
-    # rubocop:disable Layout/AlignHash
-    {
-      "01_not_waivered_passes"                          => "passed",
-      "02_not_waivered_fails"                           => "failed",
-      "03_waivered_no_expiry_ran_passes"                => "passed",
-      "04_waivered_no_expiry_ran_fails"                 => "failed",
-      "05_waivered_no_expiry_not_ran"                   => "skipped",
-      "06_waivered_expiry_in_past_ran_passes"           => "passed",
-      "14_waivered_expiry_in_future_z_not_ran"          => "skipped",
-    }.each do |control_id, expected|
-      it "has all of the expected outcomes #{control_id}" do
-        assert_test_outcome expected, control_id
-
-        if control_id !~ /not_waivered/
-          assert_waiver_annotation control_id
-        else
-          refute_waiver_annotation control_id
-        end
-      end
-    end
-  end
-
-  describe "a fully pre-slugged control file with XLS format waiver file" do
-    let(:profile_name) { "basic" }
-    let(:waiver_file) { "waivers.xls" }
-
-    # rubocop:disable Layout/AlignHash
-    {
-      "01_not_waivered_passes"                          => "passed",
-      "02_not_waivered_fails"                           => "failed",
-      "03_waivered_no_expiry_ran_passes"                => "passed",
-      "04_waivered_no_expiry_ran_fails"                 => "failed",
-      "05_waivered_no_expiry_not_ran"                   => "skipped",
-      "06_waivered_expiry_in_past_ran_passes"           => "passed",
-      "14_waivered_expiry_in_future_z_not_ran"          => "skipped",
-    }.each do |control_id, expected|
-      it "has all of the expected outcomes #{control_id}" do
-        assert_test_outcome expected, control_id
-
-        if control_id !~ /not_waivered/
-          assert_waiver_annotation control_id
-        else
-          refute_waiver_annotation control_id
-        end
-      end
-    end
-  end
-
   describe "with --filter-waived-controls flag" do
     it "can execute and not hit failures" do
       inspec("exec " + "#{waivers_profiles_path}/purely-broken-controls" + " --filter-waived-controls --waiver-file #{waivers_profiles_path}/purely-broken-controls/files/waivers.yml" + " --no-create-lockfile" + " --no-color")
@@ -328,24 +276,6 @@ describe "waivers" do
         assert_includes result.stderr, "Missing column headers: [\"control_id\", \"justification\"]"
         assert_includes result.stderr, "Invalid column header: Column can't be nil"
         assert_includes result.stderr, "Extra column headers: [\"control_id_random\", \"justification_random\", \"run_random\", \"expiration_date_random\", nil]"
-      end
-    end
-
-    describe "using xlsx file" do
-      let(:waiver_file) { "wrong-headers.xlsx" }
-      it "raise warnings" do
-        result = run_result
-        assert_includes result.stderr, "Missing column headers: [\"control_id\", \"justification\"]"
-        assert_includes result.stderr, "Extra column headers: [\"control_id_random\", \"justification_random\", \"run_random\", \"expiration_date_random\"]"
-      end
-    end
-
-    describe "using xls file" do
-      let(:waiver_file) { "wrong-headers.xls" }
-      it "raise warnings" do
-        result = run_result
-        assert_includes result.stderr, "Missing column headers: [\"control_id\", \"justification\"]"
-        assert_includes result.stderr, "Extra column headers: [\"control_id_random\", \"justification_random\", \"run_random\", \"expiration_date_random\"]"
       end
     end
 
