@@ -9,10 +9,10 @@ GIT
 
 GIT
   remote: https://github.com/chef/omnibus.git
-  revision: c66e97c211a60296e58da100d79d048974e13904
+  revision: cf9761311577e24819625aa1d932f828740e33b4
   branch: main
   specs:
-    omnibus (9.0.14)
+    omnibus (9.0.17)
       aws-sdk-s3 (~> 1.116.0)
       chef-cleanroom (~> 1.0)
       chef-utils (>= 15.4)
@@ -171,7 +171,7 @@ GEM
     citrus (3.0.2)
     cleanroom (1.0.0)
     coderay (1.1.3)
-    concurrent-ruby (1.2.0)
+    concurrent-ruby (1.2.2)
     contracts (0.16.1)
     corefoundation (0.3.13)
       ffi (>= 1.15.0)
