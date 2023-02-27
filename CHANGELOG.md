@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.37 -->
-## [v5.21.37](https://github.com/inspec/inspec/tree/v5.21.37) (2023-02-27)
+<!-- latest_release 5.21.38 -->
+## [v5.21.38](https://github.com/inspec/inspec/tree/v5.21.38) (2023-02-27)
 
 #### Merged Pull Requests
-- Bump omnibus from `c66e97c` to `cf97613` in /omnibus [#6423](https://github.com/inspec/inspec/pull/6423) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump kitchen-vagrant from 1.12.1 to 1.14.1 in /omnibus [#6427](https://github.com/inspec/inspec/pull/6427) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.21.29 -->
 ### Changes since 5.21.29 release
 
 #### Merged Pull Requests
+- Bump kitchen-vagrant from 1.12.1 to 1.14.1 in /omnibus [#6427](https://github.com/inspec/inspec/pull/6427) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.38 -->
 - Bump omnibus from `c66e97c` to `cf97613` in /omnibus [#6423](https://github.com/inspec/inspec/pull/6423) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.37 -->
 - Bump omnibus-software from `6a13693` to `225e357` in /omnibus [#6442](https://github.com/inspec/inspec/pull/6442) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.36 -->
 - Formatting fixes for podman docs [#6386](https://github.com/inspec/inspec/pull/6386) ([IanMadd](https://github.com/IanMadd)) <!-- 5.21.35 -->
