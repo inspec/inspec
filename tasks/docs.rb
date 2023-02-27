@@ -14,10 +14,7 @@
 # limitations under the License.
 #
 
-require "erb"
 require "fileutils"
-require "yaml"
-require "git"
 
 DOCS_DIR = "docs-chef-io/content/inspec".freeze
 
@@ -62,7 +59,7 @@ class Markdown
     end
 
     def dl(msg)
-      "#{msg.gsub("\n", "\n    ")}\n"
+      "<dl>\n#{msg}</dl>\n\n"
     end
 
     def ul(msg)
@@ -180,12 +177,12 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
           usage = opt.usage.split(", ")
             .map { |x| x.tr("[]", "") }
             .map { |x| x.start_with?("-") ? x : "-" + x }
-            .map { |x| "`" + x + "`" }
-          msg = "#{usage.join(", ")}\n"
-          msg << ": #{opt.description}\n" if opt.description && !opt.description.empty?
-          list << f.dl(msg)
+            .map { |x| "<code>" + x + "</code>" }
+          msg = "<dt>#{usage.join(", ")}</dt>\n"
+          msg << "<dd>#{opt.description}</dd>\n\n" if opt.description && !opt.description.empty?
+          list << msg
         end.join
-        res << f.ul(list)
+        res << f.dl(list)
       end
 
       # FIXME: for some reason we have extra lines in our RST; needs investigation
