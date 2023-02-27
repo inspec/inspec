@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.2.35 -->
-## [v6.2.35](https://github.com/inspec/inspec/tree/v6.2.35) (2023-02-27)
+<!-- latest_release 6.2.36 -->
+## [v6.2.36](https://github.com/inspec/inspec/tree/v6.2.36) (2023-02-27)
 
 #### Merged Pull Requests
-- Foreport 6401: Fix for mongodb_session resource prints debug level of information in profile run result. [#6438](https://github.com/inspec/inspec/pull/6438) ([Vasu1105](https://github.com/Vasu1105))
+- Foreport #6398: Updates release process docs as per current changes (#6398) [#6439](https://github.com/inspec/inspec/pull/6439) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport #6398: Updates release process docs as per current changes (#6398) [#6439](https://github.com/inspec/inspec/pull/6439) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.36 -->
 - Foreport 6401: Fix for mongodb_session resource prints debug level of information in profile run result. [#6438](https://github.com/inspec/inspec/pull/6438) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.35 -->
 - Foreport-6384 [#6466](https://github.com/inspec/inspec/pull/6466) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.34 -->
 - Foreport #6384 RAKE TEST: Fix rake task for docs:cli [#6437](https://github.com/inspec/inspec/pull/6437) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.33 -->
