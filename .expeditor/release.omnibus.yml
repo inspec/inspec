@@ -28,6 +28,10 @@ builder-to-testers-map:
     - el-8-aarch64
   el-8-x86_64:
     - el-8-x86_64
+  el-9-aarch64:
+    - el-9-aarch64
+  el-9-x86_64:
+    - el-9-x86_64
   mac_os_x-10.15-x86_64:
     - mac_os_x-10.15-x86_64
     - mac_os_x-11-x86_64
