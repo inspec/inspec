@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.2.32 -->
-## [v6.2.32](https://github.com/inspec/inspec/tree/v6.2.32) (2023-02-27)
+<!-- latest_release 6.2.33 -->
+## [v6.2.33](https://github.com/inspec/inspec/tree/v6.2.33) (2023-02-27)
 
 #### Merged Pull Requests
-- Foreport #6367 CFINSPEC-522: Remove rake tasks which are no longer used [#6436](https://github.com/inspec/inspec/pull/6436) ([Vasu1105](https://github.com/Vasu1105))
+- Foreport #6384 RAKE TEST: Fix rake task for docs:cli [#6437](https://github.com/inspec/inspec/pull/6437) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport #6384 RAKE TEST: Fix rake task for docs:cli [#6437](https://github.com/inspec/inspec/pull/6437) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.33 -->
 - Foreport #6367 CFINSPEC-522: Remove rake tasks which are no longer used [#6436](https://github.com/inspec/inspec/pull/6436) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.32 -->
 - Foreport-6395 [#6444](https://github.com/inspec/inspec/pull/6444) ([ahasunos](https://github.com/ahasunos)) <!-- 6.2.31 -->
 - Foreport-6385 [#6447](https://github.com/inspec/inspec/pull/6447) ([ahasunos](https://github.com/ahasunos)) <!-- 6.2.30 -->
