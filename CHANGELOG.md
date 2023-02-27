@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.34 -->
-## [v5.21.34](https://github.com/inspec/inspec/tree/v5.21.34) (2023-02-27)
+<!-- latest_release 5.21.35 -->
+## [v5.21.35](https://github.com/inspec/inspec/tree/v5.21.35) (2023-02-27)
 
 #### Merged Pull Requests
-- CFINSPEC-580 Dependent profiles fix for any scheme of version used in profiles [#6410](https://github.com/inspec/inspec/pull/6410) ([Nik08](https://github.com/Nik08))
+- Formatting fixes for podman docs [#6386](https://github.com/inspec/inspec/pull/6386) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.21.29 -->
 ### Changes since 5.21.29 release
 
 #### Merged Pull Requests
+- Formatting fixes for podman docs [#6386](https://github.com/inspec/inspec/pull/6386) ([IanMadd](https://github.com/IanMadd)) <!-- 5.21.35 -->
 - CFINSPEC-580 Dependent profiles fix for any scheme of version used in profiles [#6410](https://github.com/inspec/inspec/pull/6410) ([Nik08](https://github.com/Nik08)) <!-- 5.21.34 -->
 - CFINSPEC-576 : Fix profile gem dependency loading issue when dependent gem is required inside profile libraries. [#6408](https://github.com/inspec/inspec/pull/6408) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.33 -->
 - Updates Release Process Docs [#6398](https://github.com/inspec/inspec/pull/6398) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.32 -->
