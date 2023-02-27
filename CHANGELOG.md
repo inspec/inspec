@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.2.37 -->
-## [v6.2.37](https://github.com/inspec/inspec/tree/v6.2.37) (2023-02-27)
+<!-- latest_release 6.2.38 -->
+## [v6.2.38](https://github.com/inspec/inspec/tree/v6.2.38) (2023-02-27)
 
 #### Merged Pull Requests
-- Foreport-6408  Fix profile gem dependency loading issue when dependent gem is required inside profile libraries. [#6467](https://github.com/inspec/inspec/pull/6467) ([Vasu1105](https://github.com/Vasu1105))
+- Foreport-6410 [#6468](https://github.com/inspec/inspec/pull/6468) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport-6410 [#6468](https://github.com/inspec/inspec/pull/6468) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.38 -->
 - Foreport-6408  Fix profile gem dependency loading issue when dependent gem is required inside profile libraries. [#6467](https://github.com/inspec/inspec/pull/6467) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.37 -->
 - Foreport #6398: Updates release process docs as per current changes (#6398) [#6439](https://github.com/inspec/inspec/pull/6439) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.36 -->
 - Foreport 6401: Fix for mongodb_session resource prints debug level of information in profile run result. [#6438](https://github.com/inspec/inspec/pull/6438) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.35 -->
