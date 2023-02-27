@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.39 -->
-## [v5.21.39](https://github.com/inspec/inspec/tree/v5.21.39) (2023-02-27)
+<!-- latest_release 5.21.40 -->
+## [v5.21.40](https://github.com/inspec/inspec/tree/v5.21.40) (2023-02-27)
 
 #### Merged Pull Requests
-- Bump test-kitchen from 3.3.2 to 3.5.0 in /omnibus [#6360](https://github.com/inspec/inspec/pull/6360) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump rack from 2.2.4 to 2.2.6.2 in /omnibus [#6388](https://github.com/inspec/inspec/pull/6388) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.21.29 -->
 ### Changes since 5.21.29 release
 
 #### Merged Pull Requests
+- Bump rack from 2.2.4 to 2.2.6.2 in /omnibus [#6388](https://github.com/inspec/inspec/pull/6388) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.40 -->
 - Bump test-kitchen from 3.3.2 to 3.5.0 in /omnibus [#6360](https://github.com/inspec/inspec/pull/6360) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.39 -->
 - Bump kitchen-vagrant from 1.12.1 to 1.14.1 in /omnibus [#6427](https://github.com/inspec/inspec/pull/6427) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.38 -->
 - Bump omnibus from `c66e97c` to `cf97613` in /omnibus [#6423](https://github.com/inspec/inspec/pull/6423) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.37 -->
