@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.32 -->
-## [v5.21.32](https://github.com/inspec/inspec/tree/v5.21.32) (2023-02-03)
+<!-- latest_release 5.21.33 -->
+## [v5.21.33](https://github.com/inspec/inspec/tree/v5.21.33) (2023-02-27)
 
 #### Merged Pull Requests
-- Updates Release Process Docs [#6398](https://github.com/inspec/inspec/pull/6398) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-576 : Fix profile gem dependency loading issue when dependent gem is required inside profile libraries. [#6408](https://github.com/inspec/inspec/pull/6408) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.21.29 -->
 ### Changes since 5.21.29 release
 
 #### Merged Pull Requests
+- CFINSPEC-576 : Fix profile gem dependency loading issue when dependent gem is required inside profile libraries. [#6408](https://github.com/inspec/inspec/pull/6408) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.33 -->
 - Updates Release Process Docs [#6398](https://github.com/inspec/inspec/pull/6398) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.32 -->
 - CFINSPEC-573: Fix for mongodb_session resource prints debug level of information in profile run result. [#6401](https://github.com/inspec/inspec/pull/6401) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.31 -->
 - CFINSPEC-554: Update CLI Docs rake task to work with current InSpec docs. [#6384](https://github.com/inspec/inspec/pull/6384) ([ahasunos](https://github.com/ahasunos)) <!-- 5.21.30 -->
