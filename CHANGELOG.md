@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.2.31 -->
-## [v6.2.31](https://github.com/inspec/inspec/tree/v6.2.31) (2023-02-27)
+<!-- latest_release 6.2.32 -->
+## [v6.2.32](https://github.com/inspec/inspec/tree/v6.2.32) (2023-02-27)
 
 #### Merged Pull Requests
-- Foreport-6395 [#6444](https://github.com/inspec/inspec/pull/6444) ([ahasunos](https://github.com/ahasunos))
+- Foreport #6367 CFINSPEC-522: Remove rake tasks which are no longer used [#6436](https://github.com/inspec/inspec/pull/6436) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport #6367 CFINSPEC-522: Remove rake tasks which are no longer used [#6436](https://github.com/inspec/inspec/pull/6436) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.32 -->
 - Foreport-6395 [#6444](https://github.com/inspec/inspec/pull/6444) ([ahasunos](https://github.com/ahasunos)) <!-- 6.2.31 -->
 - Foreport-6385 [#6447](https://github.com/inspec/inspec/pull/6447) ([ahasunos](https://github.com/ahasunos)) <!-- 6.2.30 -->
 - Foreport #6377 CFINSPEC-542 Bug fix for profiles with dependent profiles (#6377) [#6435](https://github.com/inspec/inspec/pull/6435) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.29 -->
