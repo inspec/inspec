@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.35 -->
-## [v5.21.35](https://github.com/inspec/inspec/tree/v5.21.35) (2023-02-27)
+<!-- latest_release 5.21.36 -->
+## [v5.21.36](https://github.com/inspec/inspec/tree/v5.21.36) (2023-02-27)
 
 #### Merged Pull Requests
-- Formatting fixes for podman docs [#6386](https://github.com/inspec/inspec/pull/6386) ([IanMadd](https://github.com/IanMadd))
+- Bump omnibus-software from `6a13693` to `225e357` in /omnibus [#6442](https://github.com/inspec/inspec/pull/6442) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.21.29 -->
 ### Changes since 5.21.29 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `6a13693` to `225e357` in /omnibus [#6442](https://github.com/inspec/inspec/pull/6442) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.36 -->
 - Formatting fixes for podman docs [#6386](https://github.com/inspec/inspec/pull/6386) ([IanMadd](https://github.com/IanMadd)) <!-- 5.21.35 -->
 - CFINSPEC-580 Dependent profiles fix for any scheme of version used in profiles [#6410](https://github.com/inspec/inspec/pull/6410) ([Nik08](https://github.com/Nik08)) <!-- 5.21.34 -->
 - CFINSPEC-576 : Fix profile gem dependency loading issue when dependent gem is required inside profile libraries. [#6408](https://github.com/inspec/inspec/pull/6408) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.33 -->
