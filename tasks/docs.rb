@@ -19,7 +19,23 @@ require "fileutils"
 require "yaml"
 require "git"
 
-DOCS_DIR = "../docs".freeze
+DOCS_DIR = "docs-chef-io/content/inspec".freeze
+
+MENU_MD = <<~MENU.freeze
++++
+title = "InSpec CLI"
+draft = false
+gh_repo = "inspec"
+
+[menu]
+  [menu.inspec]
+    title = "InSpec Executable"
+    identifier = "inspec/reference/cli.md InSpec Executable"
+    parent = "inspec/reference"
+    weight = 10
++++
+
+MENU
 
 class Markdown
   class << self
@@ -45,6 +61,10 @@ class Markdown
       "* #{msg.gsub("\n", "\n    ")}\n"
     end
 
+    def dl(msg)
+      "#{msg.gsub("\n", "\n    ")}\n"
+    end
+
     def ul(msg)
       msg + "\n"
     end
@@ -64,7 +84,7 @@ class Markdown
 
     def meta(opts)
       o = opts.map { |k, v| "#{k}: #{v}" }.join("\n")
-      "---\n#{o}\n---\n\n"
+      "+++\n#{o}\n+++\n\n"
     end
   end
 end
@@ -127,9 +147,9 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
     # list of subcommands we ignore; these are e.g. plugins
     skip_commands = %w{scap}
 
-    res = f.meta(title: "About the InSpec CLI")
-    res << f.h1("InSpec CLI")
-    res << f.p("Use the InSpec CLI to run tests and audits against targets "\
+    res = ""
+    res << MENU_MD
+    res << f.p("<!-- markdownlint-disable MD024 -->\n\nUse the InSpec Command Line Interface (CLI) to run tests and audits against targets "\
                "using local, SSH, WinRM, or Docker connections.")
 
     require "inspec/cli"
@@ -147,11 +167,11 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
 
       res << f.h3("Syntax")
       res << f.p("This subcommand has the following syntax:")
-      res << f.code("$ inspec #{cmd.usage}", "bash")
+      res << f.code("inspec #{cmd.usage}", "bash")
 
       opts = cmd.options.reject { |_, o| o.hide }
       unless opts.empty?
-        res << f.h3("Options") + f.p("This subcommand has additional options:")
+        res << f.h3("Options") + f.p("This subcommand has the following additional options:")
 
         list = ""
         opts.keys.sort.each do |option|
@@ -160,8 +180,10 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
           usage = opt.usage.split(", ")
             .map { |x| x.tr("[]", "") }
             .map { |x| x.start_with?("-") ? x : "-" + x }
-            .map { |x| "``" + x + "``" }
-          list << f.li("#{usage.join(", ")}  \n#{opt.description}")
+            .map { |x| "`" + x + "`" }
+          msg = "#{usage.join(", ")}\n"
+          msg << ": #{opt.description}\n" if opt.description && !opt.description.empty?
+          list << f.dl(msg)
         end.join
         res << f.ul(list)
       end
@@ -170,11 +192,7 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
       res << "\n\n" if f == RST
     end
 
-    # TODO: The directory is broken, so we need to fix it
-    # Use the docs-chef-io directory to fix the cli doc build
-    # doc_directory = File.join(pwd, "docs-chef-io/content/inspec")
-    # dst = File.join(doc_directory , "cli#{f.suffix}")
-    dst = File.join(DOCS_DIR, "cli#{f.suffix}")
+    dst = File.join(pwd, DOCS_DIR , "cli#{f.suffix}")
     File.write(dst, res)
     puts "Documentation generated in #{dst.inspect}"
   end
