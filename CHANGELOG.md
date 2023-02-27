@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.2.34 -->
-## [v6.2.34](https://github.com/inspec/inspec/tree/v6.2.34) (2023-02-27)
+<!-- latest_release 6.2.35 -->
+## [v6.2.35](https://github.com/inspec/inspec/tree/v6.2.35) (2023-02-27)
 
 #### Merged Pull Requests
-- Foreport-6384 [#6466](https://github.com/inspec/inspec/pull/6466) ([Vasu1105](https://github.com/Vasu1105))
+- Foreport 6401: Fix for mongodb_session resource prints debug level of information in profile run result. [#6438](https://github.com/inspec/inspec/pull/6438) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport 6401: Fix for mongodb_session resource prints debug level of information in profile run result. [#6438](https://github.com/inspec/inspec/pull/6438) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.35 -->
 - Foreport-6384 [#6466](https://github.com/inspec/inspec/pull/6466) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.34 -->
 - Foreport #6384 RAKE TEST: Fix rake task for docs:cli [#6437](https://github.com/inspec/inspec/pull/6437) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.33 -->
 - Foreport #6367 CFINSPEC-522: Remove rake tasks which are no longer used [#6436](https://github.com/inspec/inspec/pull/6436) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.32 -->
