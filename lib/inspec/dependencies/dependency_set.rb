@@ -26,7 +26,7 @@ module Inspec
       dep_list = {}
       dependencies.each do |d|
         # if depedent profile does not have a source version then only name is used in dependency hash
-        key_name = (d.source_version ? "#{d.name}-#{d.source_version}" : "#{d.name}") rescue "#{d.name}"
+        key_name = (d.source_version.blank? ? "#{d.name}" : "#{d.name}-#{d.source_version}") rescue "#{d.name}"
         dep_list[key_name] = d
       end
       new(cwd, cache, dep_list, backend)
@@ -42,7 +42,7 @@ module Inspec
       dep_list = {}
       dep_tree.each do |d|
         # if depedent profile does not have a source version then only name is used in dependency hash
-        key_name = (d.source_version ? "#{d.name}-#{d.source_version}" : "#{d.name}") rescue d.name
+        key_name = (d.source_version.blank? ? "#{d.name}" : "#{d.name}-#{d.source_version}") rescue "#{d.name}"
         dep_list[key_name] = d
         dep_list.merge!(flatten_dep_tree(d.dependencies))
       end
