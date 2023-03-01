@@ -383,24 +383,25 @@ module Inspec
       @runner_context
     end
 
-    def collect_gem_dependencies(profile_context)
+    # This collects the gem dependencies data from parent and its dependent profiles
+    def collect_gem_dependencies
       gem_dependencies = []
-      all_profiles = []
-      profile_context.dependencies.list.values.each do |requirement|
-        all_profiles << requirement.profile
-      end
-      all_profiles << self
-      all_profiles.each do |profile|
+      # This collects the dependent profiles gem dependencies if any
+      locked_dependencies.dep_list.each do |_name, dep|
+        profile = dep.profile
         gem_dependencies << profile.metadata.gem_dependencies unless profile.metadata.gem_dependencies.empty?
       end
+      # Appends the parent profile gem dependencies which are available through metadata
+      gem_dependencies << metadata.gem_dependencies unless metadata.gem_dependencies.empty?
       gem_dependencies.flatten.uniq
     end
 
     # Loads the required gems specified in the Profile's metadata file from default inspec gems path i.e. ~/.inspec/gems
     # else installs and loads them.
     def load_gem_dependencies
-      gem_dependencies = collect_gem_dependencies(load_libraries)
+      gem_dependencies = collect_gem_dependencies
       gem_dependencies.each do |gem_data|
+
         dependency_loader = DependencyLoader.new
         if dependency_loader.gem_version_installed?(gem_data[:name], gem_data[:version]) ||
             dependency_loader.gem_installed?(gem_data[:name])

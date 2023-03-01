@@ -11,6 +11,7 @@ require 'yaml'
 
 require_relative "lib/inspec/utils/attribute_file_writer"
 
+require_relative "tasks/docs"
 
 Bundler::GemHelper.install_tasks name: "inspec-core"
 Bundler::GemHelper.install_tasks name: "inspec"
@@ -21,30 +22,6 @@ TF_PLAN_FILE = File.join(TERRAFORM_DIR, TF_PLAN_FILE_NAME)
 ATTRIBUTES_FILE_NAME = "".freeze
 DB_INTEGRATION_DIR = "test/integration/db".freeze
 SCALABILITY_INTEGRATION_DIR = "test/scalability".freeze
-
-
-def prompt(message)
-  print(message)
-  STDIN.gets.chomp
-end
-
-# The docs tasks rely on ruby-progressbar. If we can't load it, then don't
-# load the docs tasks. This is necessary to allow this Rakefile to work
-# when the "tests" gem group in the Gemfile has been excluded, such as
-# during an appbundle-updater run.
-begin
-  require "ruby-progressbar"
-  require_relative "tasks/docs"
-rescue LoadError
-  puts "docs tasks are unavailable because the ruby-progressbar gem is not available."
-end
-
-begin
-  require "git"
-  require_relative "tasks/contrib"
-rescue LoadError
-  puts "contrib tasks are unavailable because the git gem is not available."
-end
 
 task :install do
   inspec_bin_path = ::File.join(::File.dirname(__FILE__), "inspec-bin")
@@ -85,18 +62,6 @@ namespace :test do
 
   task :list do
     puts Dir[*GLOBS].sort
-  end
-
-  task :missing do
-    missing = Dir["test/**/*"] - Dir[*GLOBS]
-
-    missing.reject! { |f| ! File.file? f }
-    missing.reject! { |f| f =~ %r{test/(integration|cookbooks)} }
-    missing.reject! { |f| f =~ %r{test/fixtures} }
-    missing.reject! { |f| f =~ /test.*helper/ }
-    missing.reject! { |f| f =~ %r{test/docker} }
-
-    puts missing.sort
   end
 
   # rubocop:disable Style/BlockDelimiters,Layout/ExtraSpacing,Lint/AssignmentInCondition
@@ -269,29 +234,6 @@ namespace :test do
   # Inject a prerequisite task
   task unit: [:accept_license]
 
-  task :kitchen, [:os] do |task, args|
-    concurrency = ENV["CONCURRENCY"] || 1
-    os = args[:os] || ENV["OS"] || ""
-    ENV["DOCKER"] = "true" if ENV["docker"].nil?
-    sh("bundle exec kitchen test -c #{concurrency} #{os}")
-  end
-  # Inject a prerequisite task
-  task kitchen: [:accept_license]
-
-  task :ssh, [:target] do |_t, args|
-    tests_path = File.join(File.dirname(__FILE__), "test", "integration", "test", "integration", "default")
-    key_files = ENV["key_files"] || File.join(ENV["HOME"], ".ssh", "id_rsa")
-
-    sh_cmd =  "bin/inspec exec #{tests_path}/"
-    sh_cmd += ENV["test"] ? "#{ENV["test"]}_spec.rb" : "*"
-    sh_cmd += " --sudo" unless args[:target].split("@")[0] == "root"
-    sh_cmd += " -t ssh://#{args[:target]}"
-    sh_cmd += " --key_files=#{key_files}"
-    sh_cmd += " --format=#{ENV["format"]}" if ENV["format"]
-
-    sh("sh", "-c", sh_cmd)
-  end
-
   task :dbintegration, [:controls] => ["tf:write_tf_output_to_file", :setup_env] do |_t, args|
     cmd = %W( bundle exec inspec exec #{DB_INTEGRATION_DIR}
               --input-file terraform/#{ENV["ATTRIBUTES_FILE"]}
@@ -329,58 +271,7 @@ task :setup_env do
   ENV["EC2_PUBLIC_DNS"] = YAML.load_file("terraform/#{ENV["ATTRIBUTES_FILE"]}")["ec2_public_dns"]
 end
 
-# Print the current version of this gem or update it.
-#
-# @param [Type] target the new version you want to set, or nil if you only want to show
-def inspec_version(target = nil)
-  path = "lib/inspec/version.rb"
-  require_relative path.sub(/.rb$/, "")
-
-  nu_version = target.nil? ? "" : " -> #{target}"
-  puts "Inspec: #{Inspec::VERSION}#{nu_version}"
-
-  unless target.nil?
-    raw = File.read(path)
-    nu = raw.sub(/VERSION.*/, "VERSION = '#{target}'.freeze")
-    File.write(path, nu)
-    load(path)
-  end
-end
-
-# Check if a command is available
-#
-# @param [Type] x the command you are interested in
-# @param [Type] msg the message to display if the command is missing
-def require_command(x, msg = nil)
-  return if system("command -v #{x} || exit 1")
-
-  msg ||= "Please install it first!"
-  puts "\033[31;1mCan't find command #{x.inspect}. #{msg}\033[0m"
-  exit 1
-end
-
-# Check if a required environment variable has been set
-#
-# @param [String] x the variable you are interested in
-# @param [String] msg the message you want to display if the variable is missing
-def require_env(x, msg = nil)
-  exists = `env | grep "^#{x}="`
-  return unless exists.empty?
-
-  puts "\033[31;1mCan't find environment variable #{x.inspect}. #{msg}\033[0m"
-  exit 1
-end
-
-# Check the requirements for running an update of this repository.
-def check_update_requirements
-  require_command "git"
-end
-
-# Show the current version of this gem.
-desc "Show the version of this gem"
-task :version do
-  inspec_version
-end
+# NOTE: Rakefile clean-up was done in PR #6367 (https://github.com/inspec/inspec/pull/6367)
 
 namespace :tf do
   workspace = ENV["WORKSPACE"]

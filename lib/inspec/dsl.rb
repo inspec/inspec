@@ -91,14 +91,12 @@ module Inspec::DSL
     if profile_version
       new_profile_id = "#{profile_id}-#{profile_version}"
     else
-      # This scary regex is used to match version following semantic Versioning (SemVer). Thanks to https://ihateregex.io/expr/semver/
-      regex_for_semver = /(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?/
-      dependencies.list.keys.each do |key|
+      dependencies.list.each do |key, value|
         # 1. Fetching VERSION from a profile dependency name which is in a format NAME-VERSION.
         # 2. Matching original profile dependency name with profile name used with include or require control DSL.
-        fetching_semver = key.match(regex_for_semver).to_s
-        unless fetching_semver.nil? || fetching_semver.empty?
-          profile_id_key = key.split("-#{fetching_semver}")[0]
+        source_version = value.source_version
+        unless source_version.blank?
+          profile_id_key = key.split("-#{source_version}")[0]
           new_profile_id = key if profile_id_key == profile_id
         end
       end

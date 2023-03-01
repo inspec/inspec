@@ -84,6 +84,11 @@ module Inspec::Resources
       options[:ssl_cert] = @ssl_cert unless @ssl_cert.nil?
       options[:ssl_ca_cert] = @ssl_ca_cert unless @ssl_ca_cert.nil?
 
+      # Setting the logger level to INFO as mongo gem version 2.13.2 is using DEBUG as the log level Ref: https://github.com/mongodb/mongo-ruby-driver/blob/v2.13.2/lib/mongo/logger.rb#L79
+      # Latest version of the mongo gem don't have this issue as it set to INFO level Ref: https://github.com/mongodb/mongo-ruby-driver/blob/master/lib/mongo/logger.rb#L82
+      # We pinned the version to 2.13.2 as the latest version of the mongo gem has broken symlink https://jira.mongodb.org/browse/RUBY-2546 which causes omnibus build failure.
+      # Once we get the latest version working we can remove logger level set here.
+      Mongo::Logger.logger.level = Logger::INFO
       @client = Mongo::Client.new([ "#{host}:#{port}" ], options)
 
     rescue => e

@@ -1,9 +1,28 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 5.21.41 -->
+## [v5.21.41](https://github.com/inspec/inspec/tree/v5.21.41) (2023-02-28)
+
+#### Merged Pull Requests
+- Revert &quot;adding new private verify, as this will kick off the expeditor bump version&quot; [#6479](https://github.com/inspec/inspec/pull/6479) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=5.21.29 -->
+### Changes since 5.21.29 release
+
+#### Merged Pull Requests
+- Revert &quot;adding new private verify, as this will kick off the expeditor bump version&quot; [#6479](https://github.com/inspec/inspec/pull/6479) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.41 -->
+- Bump rack from 2.2.4 to 2.2.6.2 in /omnibus [#6388](https://github.com/inspec/inspec/pull/6388) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.40 -->
+- Bump test-kitchen from 3.3.2 to 3.5.0 in /omnibus [#6360](https://github.com/inspec/inspec/pull/6360) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.39 -->
+- Bump kitchen-vagrant from 1.12.1 to 1.14.1 in /omnibus [#6427](https://github.com/inspec/inspec/pull/6427) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.38 -->
+- Bump omnibus from `c66e97c` to `cf97613` in /omnibus [#6423](https://github.com/inspec/inspec/pull/6423) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.37 -->
+- Bump omnibus-software from `6a13693` to `225e357` in /omnibus [#6442](https://github.com/inspec/inspec/pull/6442) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.36 -->
+- Formatting fixes for podman docs [#6386](https://github.com/inspec/inspec/pull/6386) ([IanMadd](https://github.com/IanMadd)) <!-- 5.21.35 -->
+- CFINSPEC-580 Dependent profiles fix for any scheme of version used in profiles [#6410](https://github.com/inspec/inspec/pull/6410) ([Nik08](https://github.com/Nik08)) <!-- 5.21.34 -->
+- CFINSPEC-576 : Fix profile gem dependency loading issue when dependent gem is required inside profile libraries. [#6408](https://github.com/inspec/inspec/pull/6408) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.33 -->
+- Updates Release Process Docs [#6398](https://github.com/inspec/inspec/pull/6398) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.32 -->
+- CFINSPEC-573: Fix for mongodb_session resource prints debug level of information in profile run result. [#6401](https://github.com/inspec/inspec/pull/6401) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.31 -->
+- CFINSPEC-554: Update CLI Docs rake task to work with current InSpec docs. [#6384](https://github.com/inspec/inspec/pull/6384) ([ahasunos](https://github.com/ahasunos)) <!-- 5.21.30 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->

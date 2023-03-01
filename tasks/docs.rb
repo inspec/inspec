@@ -14,14 +14,25 @@
 # limitations under the License.
 #
 
-require "erb"
 require "fileutils"
-require "yaml"
-require_relative "./shared"
-require "git"
-require_relative "./contrib"
 
-DOCS_DIR = "../docs".freeze
+DOCS_DIR = "docs-chef-io/content/inspec".freeze
+
+MENU_MD = <<~MENU.freeze
++++
+title = "InSpec CLI"
+draft = false
+gh_repo = "inspec"
+
+[menu]
+  [menu.inspec]
+    title = "InSpec Executable"
+    identifier = "inspec/reference/cli.md InSpec Executable"
+    parent = "inspec/reference"
+    weight = 10
++++
+
+MENU
 
 class Markdown
   class << self
@@ -47,6 +58,10 @@ class Markdown
       "* #{msg.gsub("\n", "\n    ")}\n"
     end
 
+    def dl(msg)
+      "<dl>\n#{msg}</dl>\n\n"
+    end
+
     def ul(msg)
       msg + "\n"
     end
@@ -66,7 +81,7 @@ class Markdown
 
     def meta(opts)
       o = opts.map { |k, v| "#{k}: #{v}" }.join("\n")
-      "---\n#{o}\n---\n\n"
+      "+++\n#{o}\n+++\n\n"
     end
   end
 end
@@ -121,112 +136,6 @@ class RST
   end
 end
 
-class ResourceDocs
-  def initialize(root)
-    @paths = {}  # cache of paths
-    @root = root # relative root path for all docs
-  end
-
-  def render(path)
-    @paths[path] ||= render_path(path)
-  end
-
-  def partial(x)
-    render(x + ".md.erb")
-  end
-
-  def overview_page(resource_doc_files) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-    renderer = Markdown
-    markdown = renderer.meta(title: "InSpec Resources Reference")
-    markdown << renderer.h1("InSpec Resources Reference")
-    markdown << renderer.p("The following list of InSpec resources are available.")
-
-    contrib_config = YAML.load(File.read(File.join(CONTRIB_DIR, "contrib.yaml")))
-
-    # TODO: clean this up using Hash.new and friends
-
-    # Build a list of resources keyed on the group they are a part of.
-    # We'll determine the group using regexes.
-    group_regexes = [
-      # These are hardcoded present in the main repo.  If they become resource
-      # packs, this should change.
-      { group_name: "AWS", regex: /^aws_/ },
-      { group_name: "Azure", regex: /^azure(rm)?_/ },
-    ]
-    # Also pick up regexes and group names from contrib resource packs.
-    contrib_config["resource_packs"].values.each do |project_info|
-      group_regexes << { group_name: project_info["doc_group_title"], regex: Regexp.new(project_info["resource_file_regex"]) }
-    end
-
-    # OK, apply the regexes we have to the resource doc file list we were passed.
-    # doc_file looks like /resources/foo.md.erb - trim off directory and file extension
-    trimmed_doc_files = resource_doc_files.dup.map { |file| File.basename(file).sub(/\.md(\.erb)?$/, "") }
-    resources_by_group = Hash[group_regexes.map { |info| [info[:group_name], []] }] # Initialize each group to an empty array
-    resources_by_group["OS"] = []
-    trimmed_doc_files.each do |doc_file|
-      matched = false
-      group_regexes.each do |group_info|
-        next if matched
-
-        if doc_file =~ group_info[:regex]
-          resources_by_group[group_info[:group_name]] << doc_file
-          matched = true
-        end
-      end
-      # Any resources that don't match a regex are assumed to be 'os' resources.
-      resources_by_group["OS"] << doc_file unless matched
-    end
-
-    # Now transform the resource lists into HTML
-    markdown_resource_links_by_group = {}
-    resources_by_group.each do |group_name, resource_list|
-      markdown_resource_links_by_group[group_name] = resource_list.map do |resource_name|
-        renderer.li(renderer.a(resource_name.gsub("_", '\\_'), "resources/" + resource_name + ".html"))
-      end.join("")
-    end
-
-    # Remove any groups that have no resource docs.
-    resources_by_group.reject! { |_, resource_list| resource_list.empty? }
-
-    # Generate the big buttons that jump to the section of the page for each group.
-    markdown << '<div class="row columns align">'
-    # "Sorted, except OS is always in first place"
-    ordered_group_names = ["OS"] + resources_by_group.keys.sort.reject { |group_name| group_name == "OS" }
-    button_template = '<a class="resources-button button btn-lg btn-purple-o shadow margin-right-xs" href="%s">%s</a>'
-    ordered_group_names.each do |group_name|
-      markdown << format(button_template, "#" + (group_name + "-resources").downcase, group_name)
-      markdown << "\n"
-    end
-    markdown << "</div>"
-
-    # Generate the actual long lists of links
-    group_section_header_template = '
-<div class="brdr-left margin-top-sm margin-under-xs">
-  <h3 class="margin-left-xs"><a id="%s" class="a-purple"><h3 class="a-purple">%s</h3></a></h3>
-</div>
-'
-    ordered_group_names.each do |group_name|
-      markdown << format(group_section_header_template, (group_name + "-resources").downcase, group_name)
-      markdown << renderer.ul(markdown_resource_links_by_group[group_name])
-    end
-
-    markdown
-  end
-
-  private
-
-  def namify(n)
-    n.capitalize.gsub(/\baws\b/i, "AWS")
-  end
-
-  def render_path(path)
-    abs = File.join(@root, path)
-    raise "Can't find file to render in #{abs}" unless File.file?(abs)
-
-    ERB.new(File.read(abs)).result(binding)
-  end
-end
-
 namespace :docs do # rubocop:disable Metrics/BlockLength
   desc "Create cli docs"
   task :cli do
@@ -235,9 +144,9 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
     # list of subcommands we ignore; these are e.g. plugins
     skip_commands = %w{scap}
 
-    res = f.meta(title: "About the InSpec CLI")
-    res << f.h1("InSpec CLI")
-    res << f.p("Use the InSpec CLI to run tests and audits against targets "\
+    res = ""
+    res << MENU_MD
+    res << f.p("<!-- markdownlint-disable MD024 -->\n\nUse the InSpec Command Line Interface (CLI) to run tests and audits against targets "\
                "using local, SSH, WinRM, or Docker connections.")
 
     require "inspec/cli"
@@ -255,11 +164,11 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
 
       res << f.h3("Syntax")
       res << f.p("This subcommand has the following syntax:")
-      res << f.code("$ inspec #{cmd.usage}", "bash")
+      res << f.code("inspec #{cmd.usage}", "bash")
 
       opts = cmd.options.reject { |_, o| o.hide }
       unless opts.empty?
-        res << f.h3("Options") + f.p("This subcommand has additional options:")
+        res << f.h3("Options") + f.p("This subcommand has the following additional options:")
 
         list = ""
         opts.keys.sort.each do |option|
@@ -268,79 +177,22 @@ namespace :docs do # rubocop:disable Metrics/BlockLength
           usage = opt.usage.split(", ")
             .map { |x| x.tr("[]", "") }
             .map { |x| x.start_with?("-") ? x : "-" + x }
-            .map { |x| "``" + x + "``" }
-          list << f.li("#{usage.join(", ")}  \n#{opt.description}")
+            .map { |x| "<code>" + x + "</code>" }
+          msg = "<dt>#{usage.join(", ")}</dt>\n"
+          msg << "<dd>#{opt.description}</dd>\n\n" if opt.description && !opt.description.empty?
+          list << msg
         end.join
-        res << f.ul(list)
+        res << f.dl(list)
       end
 
       # FIXME: for some reason we have extra lines in our RST; needs investigation
       res << "\n\n" if f == RST
     end
 
-    dst = File.join(DOCS_DIR, "cli#{f.suffix}")
+    dst = File.join(pwd, DOCS_DIR , "cli#{f.suffix}")
     File.write(dst, res)
     puts "Documentation generated in #{dst.inspect}"
   end
-
-  desc "Create resources docs"
-  # This task injects the contrib:cleanup_docs as a followup
-  # to the actual doc building.
-  task resources: %i{resources_actual contrib:cleanup_docs}
-
-  task resources_actual: %i{clean contrib:copy_docs} do
-    src = DOCS_DIR
-    dst = File.join("source", "docs", "reference", "resources")
-    mkdir_p(dst)
-
-    docs = ResourceDocs.new(src)
-    resources =
-      Dir.chdir(src) { Dir["resources/*.md{.erb,}"] }.sort
-    puts "Found #{resources.length} resource docs"
-    puts "Rendering docs to #{dst}/"
-
-    # Render all resources
-    seen = {}
-    resources.reverse_each do |file| # bias towards .erb files?
-      dst_name = File.basename(file).sub(/\.md(\.erb)?$/, ".html.md")
-
-      next if seen[dst_name]
-
-      seen[dst_name] = true
-      res = docs.render(file)
-      File.write(File.join(dst, dst_name), res)
-    end
-
-    # Create a resource summary markdown doc
-    dst = File.join(src, "resources.md")
-    puts "Create #{dst}"
-    File.write(dst, docs.overview_page(resources))
-  end
-
-  desc "Clean all rendered docs from www/"
-  task :clean do
-    dst = File.join("source", "docs", "reference")
-    rm_rf(dst)
-    mkdir_p(dst)
-  end
-
-  desc "Copy fixed doc files"
-  task copy: %i{clean resources} do
-    src = DOCS_DIR
-    dst = File.join("source", "docs", "reference")
-    files = Dir[File.join(src, "*.md")]
-
-    files.each do |path|
-      name = File.basename(path).sub(/\.md$/, ".html.md")
-      cp(path, File.join(dst, name))
-    end
-  end
 end
 
-desc "Create all docs in docs/ from source code"
-task docs: %w{docs:cli docs:copy docs:resources} do
-  # TODO: remove:
-  Verify.file(File.join("source", "docs", "reference", "README.html.md"))
-  Verify.file(File.join("source", "docs", "reference", "cli.html.md"))
-  Verify.file(File.join("source", "docs", "reference", "resources.html.md"))
-end
+# NOTE: Many of the docs tasks were removed in PR #6367 (https://github.com/inspec/inspec/pull/6367)
