@@ -59,10 +59,6 @@ if Gem.ruby_version >= Gem::Version.new("2.7.0")
   end
 end
 
-if Gem.ruby_version < Gem::Version.new("2.7.0")
-  gem "activesupport", "6.1.4.4"
-end
-
 # This is a temporary dependency to allow us to use the un-released chef-licensing gem
 # Please provide the path to your local copy of chef-licensing in the path: argument
-gem "chef_licensing", path: "../chef-licensing/chef-licensing/components/ruby"
+gem "chef_licensing", path: "../chef-licensing/components/ruby"

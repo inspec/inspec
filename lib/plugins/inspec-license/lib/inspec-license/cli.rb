@@ -8,5 +8,10 @@ module InspecPlugins::License
     def list
       ChefLicensing.list_license_keys_info
     end
+
+    desc "add", "Add a new license"
+    def add
+      ChefLicensing.add_license
+    end
   end
 end
