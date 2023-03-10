@@ -1,5 +1,5 @@
 # Chef InSpec: Inspect Your Infrastructure
-
+ 
 * **Project State: Active**
 * **Issues Response SLA: 14 business days**
 * **Pull Request Response SLA: 14 business days**

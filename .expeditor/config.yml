@@ -3,6 +3,7 @@
 
 product_key: inspec
 
+
 pipelines:
  - verify:
     description: Pull Request validation tests
