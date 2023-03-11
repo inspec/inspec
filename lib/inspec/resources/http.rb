@@ -304,11 +304,11 @@ module Inspec::Resources
           # Insecure not supported simply https://stackoverflow.com/questions/11696944/powershell-v3-invoke-webrequest-https-error
           cmd << "-MaximumRedirection #{max_redirects}" unless max_redirects.nil?
           request_headers["Authorization"] = """ '\"Basic ' + [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes(\"#{username}:#{password}\")) +'\"' """ unless username.nil? || password.nil?
-          request_header_string = nil
+          request_header_string = ''
           request_headers.each do |k, v|
             request_header_string << " #{k} = #{v}"
           end
-          cmd << "-Headers @{#{request_header_string.join(";")}}" unless request_header_string.nil?
+          cmd << "-Headers @{#{request_header_string.join(";")}}" unless request_header_string.empty?
           if params.nil?
             cmd << "'#{url}'"
           else
