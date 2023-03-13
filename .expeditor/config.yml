@@ -12,6 +12,16 @@ pipelines:
      - SLOW: 1
      - NO_AWS: 1
      - MT_CPU: 5
+ - omnibus/release:
+    env:
+     - EXPIRE_CACHE: 1
+     - IGNORE_ARTIFACTORY_RUBY_PROXY: true # Artifactory is throwing 500's when downloading some gems like ffi.
+ - omnibus/adhoc:
+    definition: .expeditor/release.omnibus.yml
+    env:
+     - ADHOC: true
+     - EXPIRE_CACHE: 1
+     - IGNORE_ARTIFACTORY_RUBY_PROXY: true # Artifactory is throwing 500's when downloading some gems like ffi.
 
 slack:
  notify_channel: inspec-notify
@@ -66,6 +76,11 @@ subscriptions:
         ignore_labels:
          - "Expeditor: Skip All"
          - "Expeditor: Skip Changelog"
+     - trigger_pipeline:omnibus/release:
+        only_if: built_in:bump_version
+        ignore_labels:
+         - "Expeditor: Skip Omnibus"
+         - "Expeditor: Skip All"
   - workload: pull_request_opened:{{github_repo}}:{{release_branch}}:*
     actions:
      - post_github_comment:.expeditor/templates/pull_request.mustache:
