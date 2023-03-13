@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.2.45 -->
-## [v6.2.45](https://github.com/inspec/inspec-prime/tree/v6.2.45) (2023-03-10)
+<!-- latest_release 6.2.46 -->
+## [v6.2.46](https://github.com/inspec/inspec-prime/tree/v6.2.46) (2023-03-13)
 
 #### Merged Pull Requests
-- testing version bump [#9](https://github.com/inspec/inspec-prime/pull/9) ([sean-simmons-progress](https://github.com/sean-simmons-progress))
+- CHEF-1267 Add omnibus release and adhoc pipelines [#15](https://github.com/inspec/inspec-prime/pull/15) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- CHEF-1267 Add omnibus release and adhoc pipelines [#15](https://github.com/inspec/inspec-prime/pull/15) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.46 -->
 - testing version bump [#9](https://github.com/inspec/inspec-prime/pull/9) ([sean-simmons-progress](https://github.com/sean-simmons-progress)) <!-- 6.2.45 -->
 - Forport 6388 [#6477](https://github.com/inspec/inspec/pull/6477) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.44 -->
 - Foreport 6360 [#6476](https://github.com/inspec/inspec/pull/6476) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.43 -->
