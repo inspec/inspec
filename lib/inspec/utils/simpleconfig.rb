@@ -57,11 +57,18 @@ class SimpleConfig
     m = opts[:assignment_regex].match(line)
     return nil if m.nil?
 
+    values = parse_values(m, opts[:key_values])
+
     if opts[:multiple_values]
       @vals[m[1]] ||= []
-      @vals[m[1]].push(parse_values(m, opts[:key_values]))
+      value_to_array = values.split(" ")
+      if value_to_array.count > 1
+        @vals[m[1]].concat(value_to_array)
+      else
+        @vals[m[1]].push(values)
+      end
     else
-      @vals[m[1]] = parse_values(m, opts[:key_values])
+      @vals[m[1]] = values
     end
   end
 
