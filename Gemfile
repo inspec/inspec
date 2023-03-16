@@ -64,3 +64,7 @@ group :kitchen do
   gem "kitchen-dokken", ">= 2.11"
   gem "git"
 end
+
+source "https://artifactory-internal.ps.chef.co/artifactory/api/gems/omnibus-gems-local/" do
+  gem "chef-licensing"
+end
