@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.2.48 -->
-## [v6.2.48](https://github.com/inspec/inspec-prime/tree/v6.2.48) (2023-03-16)
+<!-- latest_release 6.2.49 -->
+## [v6.2.49](https://github.com/inspec/inspec-prime/tree/v6.2.49) (2023-03-23)
 
 #### Merged Pull Requests
-- Update Gemfile to add artifactory as source for chef-licensing gem dependency [#25](https://github.com/inspec/inspec-prime/pull/25) ([Vasu1105](https://github.com/Vasu1105))
+- CI - Use License Key and API Key Secrets from Vault [#26](https://github.com/inspec/inspec-prime/pull/26) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- CI - Use License Key and API Key Secrets from Vault [#26](https://github.com/inspec/inspec-prime/pull/26) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.49 -->
 - Update Gemfile to add artifactory as source for chef-licensing gem dependency [#25](https://github.com/inspec/inspec-prime/pull/25) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.48 -->
 - testing version bump and pipeline creation [#16](https://github.com/inspec/inspec-prime/pull/16) ([sean-simmons-progress](https://github.com/sean-simmons-progress)) <!-- 6.2.47 -->
 - CHEF-1267 Add omnibus release and adhoc pipelines [#15](https://github.com/inspec/inspec-prime/pull/15) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.46 -->
