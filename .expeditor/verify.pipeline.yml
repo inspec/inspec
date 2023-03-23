@@ -13,6 +13,7 @@ steps:
     command:
       - RAKE_TASK=test:lint /workdir/.expeditor/buildkite/verify.sh
     expeditor:
+      secrets: true
       executor:
         docker:
           image: ruby:3.0
@@ -21,6 +22,7 @@ steps:
     command:
       - /workdir/.expeditor/buildkite/verify.sh
     expeditor:
+      secrets: true
       executor:
         docker:
           image: ruby:2.7
@@ -29,6 +31,7 @@ steps:
     command:
       - /workdir/.expeditor/buildkite/verify.sh
     expeditor:
+      secrets: true
       executor:
         docker:
           image: ruby:3.0
@@ -37,6 +40,7 @@ steps:
     command:
       - /workdir/.expeditor/buildkite/verify.sh
     expeditor:
+      secrets: true
       executor:
         docker:
           image: ruby:3.1
@@ -45,6 +49,7 @@ steps:
     command:
       - RAKE_TASK=test:isolated /workdir/.expeditor/buildkite/verify.sh
     expeditor:
+      secrets: true
       executor:
         docker:
           image: ruby:3.0
@@ -53,6 +58,7 @@ steps:
     command:
       - RAKE_TASK=test:isolated /workdir/.expeditor/buildkite/verify.sh
     expeditor:
+      secrets: true
       executor:
         docker:
           image: ruby:3.1
@@ -61,6 +67,7 @@ steps:
     command:
       - /workdir/.expeditor/buildkite/verify.ps1
     expeditor:
+      secrets: true
       executor:
         docker:
           environment:

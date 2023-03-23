@@ -20,14 +20,26 @@ mount
 df /tmp
 echo ${TMPDIR:-unknown}
 
-if [ -n "${CI_ENABLE_COVERAGE:-}" ]; then
-  # Fetch token from vault ASAP so that long-running tests don't cause our vault token to expire
-  echo "--- installing vault"
-  export VAULT_VERSION=1.9.3
-  export VAULT_HOME=$HOME/vault
-  curl --create-dirs -sSLo $VAULT_HOME/vault.zip https://releases.hashicorp.com/vault/$VAULT_VERSION/vault_${VAULT_VERSION}_linux_amd64.zip
-  unzip -o $VAULT_HOME/vault.zip -d $VAULT_HOME
+# Fetch tokens from vault ASAP so that long-running tests don't cause our vault token to expire
+echo "--- installing vault"
+export VAULT_VERSION=1.13.0
+export VAULT_HOME=$HOME/vault
+curl --create-dirs -sSLo $VAULT_HOME/vault.zip https://releases.hashicorp.com/vault/$VAULT_VERSION/vault_${VAULT_VERSION}_linux_amd64.zip
+unzip -o $VAULT_HOME/vault.zip -d $VAULT_HOME
 
+echo "--- fetching Licensing API Keys from vault"
+export CHEF_LICENSE_SERVER_API_KEY=$($VAULT_HOME/vault kv get -field acceptance secret/inspec/licensing/api-key)
+export CHEF_LICENSE_SERVER=$($VAULT_HOME/vault kv get -field acceptance secret/inspec/licensing/server)
+export CHEF_LICENSE_KEY=$($VAULT_HOME/vault kv get -field acceptance secret/inspec/licensing/license-key)
+if [ -n "${CHEF_LICENSE_KEY:-}" ]; then
+  echo "  ++ License Key set successfully"
+else
+  echo "  !! License Key not set - exiting "
+  exit 1
+fi
+
+
+if [ -n "${CI_ENABLE_COVERAGE:-}" ]; then
   echo "--- fetching Sonar token from vault"
   export SONAR_TOKEN=$($VAULT_HOME/vault kv get -field token secret/inspec/sonar)
 fi
