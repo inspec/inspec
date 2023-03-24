@@ -30,9 +30,41 @@ module Inspec
     end
 
     def self.start(given_args = ARGV, config = {})
-      check_license! if config[:enforce_license] || config[:enforce_license].nil?
+      if Inspec::Dist::EXEC_NAME == "inspec"
+        check_license! if config[:enforce_license] || config[:enforce_license].nil?
+        fetch_and_persist_license
+      end
 
       super(given_args, config)
+    end
+
+    def self.fetch_and_persist_license
+      allowed_commands = ["-h", "--help", "help", "-v", "--version", "version"]
+      require "chef-licensing"
+      begin
+        if (allowed_commands & ARGV.map(&:downcase)).empty? && !ARGV.empty?
+          configure_chef_licensing
+          license_keys = ChefLicensing.license_keys
+
+          # Only if EULA acceptance or license key args are present. And licenses are successfully persisted, do clean exit.
+          if ARGV.select { |arg| !(arg.include? "--chef-license") }.empty? && !license_keys.blank?
+            Inspec::UI.new.exit
+          end
+        end
+      rescue ChefLicensing::LicenseKeyFetcher::LicenseKeyNotFetchedError
+        Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without valid licenses."
+        Inspec::UI.new.exit(:usage_error)
+      rescue ChefLicensing::Error => e
+        Inspec::Log.error "Something went wrong: #{e}"
+        Inspec::UI.new.exit(:usage_error)
+      end
+    end
+
+    def self.configure_chef_licensing
+      ChefLicensing.configure do |config|
+        config.chef_product_name = "Inspec"
+        config.chef_entitlement_id = "3ff52c37-e41f-4f6c-ad4d-365192205968"
+      end
     end
 
     # EULA acceptance
@@ -48,9 +80,6 @@ module Inspec
             Inspec::VERSION,
             logger: Inspec::Log
           )
-          if license_acceptor_output && ARGV.count == 1 && (ARGV.first.include? "--chef-license")
-            Inspec::UI.new.exit
-          end
           license_acceptor_output
         end
       rescue LicenseAcceptance::LicenseNotAcceptedError
