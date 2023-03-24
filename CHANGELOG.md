@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.2.49 -->
-## [v6.2.49](https://github.com/inspec/inspec-prime/tree/v6.2.49) (2023-03-23)
+<!-- latest_release 6.3.0 -->
+## [v6.3.0](https://github.com/inspec/inspec-prime/tree/v6.3.0) (2023-03-24)
 
 #### Merged Pull Requests
-- CI - Use License Key and API Key Secrets from Vault [#26](https://github.com/inspec/inspec-prime/pull/26) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Integration of chef licensing with inspec [#12](https://github.com/inspec/inspec-prime/pull/12) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Integration of chef licensing with inspec [#12](https://github.com/inspec/inspec-prime/pull/12) ([Nik08](https://github.com/Nik08)) <!-- 6.3.0 -->
 - CI - Use License Key and API Key Secrets from Vault [#26](https://github.com/inspec/inspec-prime/pull/26) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.49 -->
 - Update Gemfile to add artifactory as source for chef-licensing gem dependency [#25](https://github.com/inspec/inspec-prime/pull/25) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.48 -->
 - testing version bump and pipeline creation [#16](https://github.com/inspec/inspec-prime/pull/16) ([sean-simmons-progress](https://github.com/sean-simmons-progress)) <!-- 6.2.47 -->
