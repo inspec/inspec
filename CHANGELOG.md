@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.3.0 -->
-## [v6.3.0](https://github.com/inspec/inspec-prime/tree/v6.3.0) (2023-03-24)
+<!-- latest_release 6.4.0 -->
+## [v6.4.0](https://github.com/inspec/inspec-prime/tree/v6.4.0) (2023-03-27)
 
 #### Merged Pull Requests
-- Integration of chef licensing with inspec [#12](https://github.com/inspec/inspec-prime/pull/12) ([Nik08](https://github.com/Nik08))
+- Licensing - Integrates Software Entitlement [#13](https://github.com/inspec/inspec-prime/pull/13) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Licensing - Integrates Software Entitlement [#13](https://github.com/inspec/inspec-prime/pull/13) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.0 -->
 - Integration of chef licensing with inspec [#12](https://github.com/inspec/inspec-prime/pull/12) ([Nik08](https://github.com/Nik08)) <!-- 6.3.0 -->
 - CI - Use License Key and API Key Secrets from Vault [#26](https://github.com/inspec/inspec-prime/pull/26) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.49 -->
 - Update Gemfile to add artifactory as source for chef-licensing gem dependency [#25](https://github.com/inspec/inspec-prime/pull/25) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.48 -->
