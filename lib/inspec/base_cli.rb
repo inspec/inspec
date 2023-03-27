@@ -1,9 +1,11 @@
 require "thor" # rubocop:disable Chef/Ruby/UnlessDefinedRequire
+require "chef-licensing"
 require "inspec/log"
 require "inspec/ui"
 require "inspec/config"
 require "inspec/dist"
 require "inspec/utils/deprecation/global_method"
+require "inspec/utils/licensing_config"
 
 # Allow end of options during array type parsing
 # https://github.com/erikhuda/thor/issues/631
@@ -40,10 +42,8 @@ module Inspec
 
     def self.fetch_and_persist_license
       allowed_commands = ["-h", "--help", "help", "-v", "--version", "version"]
-      require "chef-licensing"
       begin
         if (allowed_commands & ARGV.map(&:downcase)).empty? && !ARGV.empty?
-          configure_chef_licensing
           license_keys = ChefLicensing.license_keys
 
           # Only if EULA acceptance or license key args are present. And licenses are successfully persisted, do clean exit.
@@ -55,15 +55,8 @@ module Inspec
         Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without valid licenses."
         Inspec::UI.new.exit(:usage_error)
       rescue ChefLicensing::Error => e
-        Inspec::Log.error "Something went wrong: #{e}"
+        Inspec::Log.error "Something went wrong: #{e.message}"
         Inspec::UI.new.exit(:usage_error)
-      end
-    end
-
-    def self.configure_chef_licensing
-      ChefLicensing.configure do |config|
-        config.chef_product_name = "Inspec"
-        config.chef_entitlement_id = "3ff52c37-e41f-4f6c-ad4d-365192205968"
       end
     end
 
