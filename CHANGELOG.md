@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.42 -->
-## [v5.21.42](https://github.com/inspec/inspec/tree/v5.21.42) (2023-03-23)
+<!-- latest_release 5.21.43 -->
+## [v5.21.43](https://github.com/inspec/inspec/tree/v5.21.43) (2023-03-28)
 
 #### Merged Pull Requests
-- CHEF-1458 Multiple values changes in SimpleConfig library [#6489](https://github.com/inspec/inspec/pull/6489) ([Nik08](https://github.com/Nik08))
+- CHEF-105 Adds configuration required for sonarqube integration. [#6480](https://github.com/inspec/inspec/pull/6480) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.21.29 -->
 ### Changes since 5.21.29 release
 
 #### Merged Pull Requests
+- CHEF-105 Adds configuration required for sonarqube integration. [#6480](https://github.com/inspec/inspec/pull/6480) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.43 -->
 - CHEF-1458 Multiple values changes in SimpleConfig library [#6489](https://github.com/inspec/inspec/pull/6489) ([Nik08](https://github.com/Nik08)) <!-- 5.21.42 -->
 - Revert &quot;adding new private verify, as this will kick off the expeditor bump version&quot; [#6479](https://github.com/inspec/inspec/pull/6479) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.41 -->
 - Bump rack from 2.2.4 to 2.2.6.2 in /omnibus [#6388](https://github.com/inspec/inspec/pull/6388) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.40 -->
