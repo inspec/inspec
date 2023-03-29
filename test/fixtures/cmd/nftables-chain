@@ -1,0 +1,7 @@
+table inet filter {
+	chain INPUT {
+		type filter hook input priority 0; policy accept;
+		iifname "eth0" tcp dport 80 accept comment "http on 80"
+		jump derby-cognos-web
+	}
+}

@@ -385,6 +385,19 @@ class MockLoader
       # ip6tables
       "/usr/sbin/ip6tables  -S" => cmd.call("ip6tables-s"),
       %{sh -c 'type "/usr/sbin/ip6tables"'} => empty.call,
+      # nftables (chain with json output)
+      "/usr/sbin/nft -s -j list chain" => cmd.call("nftables-chain-json"),
+      "/usr/sbin/nft  -j list chain" => cmd.call("nftables-chain-json"),
+      # nftables (chain)
+      "/usr/sbin/nft -s -nn list chain" => cmd.call("nftables-chain"),
+      "/usr/sbin/nft  -nn list chain" => cmd.call("nftables-chain"),
+      # nftables (set with json output)
+      "/usr/sbin/nft -s -j list set" => cmd.call("nftables-set-json"),
+      "/usr/sbin/nft  -j list set" => cmd.call("nftables-set-json"),
+      # nftables (set)
+      "/usr/sbin/nft -s list set" => cmd.call("nftables-set"),
+      "/usr/sbin/nft  list set" => cmd.call("nftables-set"),
+      %{sh -c 'type "/usr/sbin/nft"'} => empty.call,
       # ipnat
       "/usr/sbin/ipnat -l" => cmd.call("ipnat-l"),
       %{type "/usr/sbin/ipnat"} => empty.call,
