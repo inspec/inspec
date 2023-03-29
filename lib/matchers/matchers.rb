@@ -148,7 +148,7 @@ RSpec::Matchers.define :be_resolvable do
   end
 end
 
-# matcher for iptables and ip6tables
+# matcher for iptables, ip6tables and nftables
 RSpec::Matchers.define :have_rule do |rule|
   match do |tables|
     tables.has_rule?(rule)
@@ -162,6 +162,14 @@ RSpec::Matchers.define :have_rule do |rule|
     raise "[UNSUPPORTED] `with_table` is not supported in combination with `with_chain`. Please use the following syntax `iptables(table:'mangle', chain: 'input')`."
   end
 end
+
+# matcher for nftables sets
+RSpec::Matchers.define :have_element do |elem|
+  match do |sets|
+    sets.has_element?(elem)
+  end
+end
+
 
 # `be_in` matcher
 # You can use it in the following cases:
