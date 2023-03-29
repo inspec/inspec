@@ -170,7 +170,6 @@ RSpec::Matchers.define :have_element do |elem|
   end
 end
 
-
 # `be_in` matcher
 # You can use it in the following cases:
 # - check if an item or array is included in a given array
