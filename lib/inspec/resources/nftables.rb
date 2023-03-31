@@ -142,7 +142,7 @@ module Inspec::Resources
 
       # construct nftables command to read all rules of the given chain
       chain_cmd = "list chain #{@family} #{@table} #{@chain}"
-      nftables_cmd = format("%s %s -nn %s", @@bin, @@nft_stateless, chain_cmd).strip
+      nftables_cmd = format("%s %s %s", @@bin, @@nft_stateless, chain_cmd).strip
 
       cmd = inspec.command(nftables_cmd)
       return [] if cmd.exit_status.to_i != 0

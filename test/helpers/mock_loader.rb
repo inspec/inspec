@@ -389,8 +389,8 @@ class MockLoader
       "/usr/sbin/nft -s -j list chain inet filter INPUT" => cmd.call("nftables-chain-json"),
       "/usr/sbin/nft  -j list chain inet filter INPUT" => cmd.call("nftables-chain-json"),
       # nftables (chain)
-      "/usr/sbin/nft -s -nn list chain inet filter INPUT" => cmd.call("nftables-chain"),
-      "/usr/sbin/nft  -nn list chain inet filter INPUT" => cmd.call("nftables-chain"),
+      "/usr/sbin/nft -s list chain inet filter INPUT" => cmd.call("nftables-chain"),
+      "/usr/sbin/nft  list chain inet filter INPUT" => cmd.call("nftables-chain"),
       # nftables (set with json output)
       "/usr/sbin/nft -s -j list set inet filter OPEN_PORTS" => cmd.call("nftables-set-json"),
       "/usr/sbin/nft  -j list set inet filter OPEN_PORTS" => cmd.call("nftables-set-json"),

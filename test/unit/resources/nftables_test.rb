@@ -11,8 +11,8 @@ describe "Inspec::Resources::NfTables" do
     _(resource.hook).must_equal "input"
     _(resource.prio).must_equal 0
     _(resource.policy).must_equal "accept"
-    _(resource.has_rule?('iifname "eth0" tcp dport 80 accept comment "http on 80"')).must_equal true
-    _(resource.has_rule?('iifname "eth1" tcp dport 80 accept')).must_equal false
+    _(resource.has_rule?('iifname "eth0" tcp dport http accept comment "http on 80"')).must_equal true
+    _(resource.has_rule?('iifname "eth1" tcp dport http accept')).must_equal false
     _(resource.resource_id).must_equal "nftables (family: inet table: filter chain: INPUT )"
   end
   it "verify nftables set on ubuntu" do
