@@ -38,6 +38,7 @@ group :test do
   gem "simplecov_json_formatter"
   gem "webmock", "~> 3.0"
 
+
   if Gem.ruby_version >= Gem::Version.new("3.0.0")
     # html-proofer has a dep on io-event, which is ruby-3 only
     gem "html-proofer", "~> 3.19.4", platforms: :ruby # do not attempt to run proofer on windows. Pinned to 3.19.4 as test is breaking in updated versions.
@@ -64,3 +65,6 @@ group :kitchen do
   gem "kitchen-dokken", ">= 2.11"
   gem "git"
 end
+
+gem 'ruby-prof', '= 1.5.0'
+#gem 'stackprof'
