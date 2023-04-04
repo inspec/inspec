@@ -207,6 +207,8 @@ module Inspec
         desc: "Include full source code of controls in the CLI report"
       option :enhanced_outcomes, type: :boolean,
         desc: "Show enhanced outcomes in output"
+      option :enable_profiling, type: :boolean, default: false,
+        desc: "Enables ruby profiling for performance monitoring."
     end
 
     def self.help(*args)

@@ -162,13 +162,16 @@ module Inspec
       require 'ruby-prof'
 
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
-
-      profile = RubyProf::Profile.new
-      profile.start
-      load
-      result = profile.stop
-      File.open "/shared/ruby-profiling-output-flat.txt", 'w+' do |file|
-        RubyProf::FlatPrinter.new(result).print(file)
+      if @conf[:enable_profiling]
+        profile = RubyProf::Profile.new
+        profile.start
+        load
+        result = profile.stop
+        File.open "ruby-profiling-output-flat.txt", 'w+' do |file|
+          RubyProf::FlatPrinter.new(result).print(file)
+        end
+      else
+        load
       end
       run_tests(with)
     end
