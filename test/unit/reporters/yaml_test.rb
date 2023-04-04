@@ -9,6 +9,9 @@ describe Inspec::Reporters::Yaml do
 
   describe "#render" do
     it "confirm render output" do
+      # The test is skipped on Windows because the output is different due to EOL differences.
+      return if windows?
+
       output = File.read("test/fixtures/reporters/yaml_output")
       report.render
       _(report.rendered_output).must_equal output
