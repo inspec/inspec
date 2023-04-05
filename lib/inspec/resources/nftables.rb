@@ -174,12 +174,12 @@ module Inspec::Resources
       cmd = inspec.command(nftables_cmd)
       return {} if cmd.exit_status.to_i != 0
 
-      unless @@nft_params["json"].empty?
-        @nftables_cache[idx] = JSON.parse(cmd.stdout)["nftables"].select { |line| line.key?("chain") }[0]["chain"]
-      else
+      if @@nft_params["json"].empty?
         res = cmd.stdout.gsub("\t", "").split("\n").select { |line| line =~ /^type/ }[0]
         parsed = /type (\S+) hook (\S+) priority (\S+); policy (\S+);/.match(res)
         @nftables_cache[idx] = { "type" => parsed[1], "hook" => parsed[2], "prio" => parsed[3].to_i, "policy" => parsed[4] }
+      else
+        @nftables_cache[idx] = JSON.parse(cmd.stdout)["nftables"].select { |line| line.key?("chain") }[0]["chain"]
       end
     end
 
@@ -195,9 +195,7 @@ module Inspec::Resources
       cmd = inspec.command(nftables_cmd)
       return {} if cmd.exit_status.to_i != 0
 
-      unless @@nft_params["json"].empty?
-        @nftables_cache[idx] = JSON.parse(cmd.stdout)["nftables"].select { |line| line.key?("set") }[0]["set"]
-      else
+      if @@nft_params["json"].empty?
         type = ""
         size = 0
         flags = []
@@ -217,6 +215,8 @@ module Inspec::Resources
           end
         end
         @nftables_cache[idx] = { "type" => type, "size" => size, "flags" => flags }
+      else
+        @nftables_cache[idx] = JSON.parse(cmd.stdout)["nftables"].select { |line| line.key?("set") }[0]["set"]
       end
     end
 
