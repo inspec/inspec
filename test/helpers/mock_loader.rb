@@ -385,6 +385,8 @@ class MockLoader
       # ip6tables
       "/usr/sbin/ip6tables  -S" => cmd.call("ip6tables-s"),
       %{sh -c 'type "/usr/sbin/ip6tables"'} => empty.call,
+      # nftables (version)
+      "/usr/sbin/nft --version" => cmd.call("nftables-version"),
       # nftables (chain with json output)
       "/usr/sbin/nft -s -j list chain inet filter INPUT" => cmd.call("nftables-chain-json"),
       "/usr/sbin/nft  -j list chain inet filter INPUT" => cmd.call("nftables-chain-json"),
