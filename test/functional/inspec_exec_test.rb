@@ -1305,158 +1305,158 @@ EOT
 
   unless windows?
     describe "when evalutating profiles that reference resource_id" do
-    let(:run_result) { run_inspec_process("exec #{profile}", json: true) }
-    let(:profile) { "#{profile_path}/resource_ids" } # A profile with custom resources and test controls that exercise resource ids
-    it "should evaluate all test controls correctly" do
-      _(run_result.stderr).must_be_empty
-      assert_json_controls_passing
+      let(:run_result) { run_inspec_process("exec #{profile}", json: true) }
+      let(:profile) { "#{profile_path}/resource_ids" } # A profile with custom resources and test controls that exercise resource ids
+      it "should evaluate all test controls correctly" do
+        _(run_result.stderr).must_be_empty
+        assert_json_controls_passing
+      end
     end
-  end
 
-  unless windows?
-    describe "when profiles are dependent on different versions of same profile - test in unix - test in unix" do
+    unless windows?
+      describe "when profiles are dependent on different versions of same profile - test in unix - test in unix" do
         let(:profile) { "#{profile_path}/git-fetcher/inheritance/parent-profile" }
         let(:run_result) { run_inspec_process("exec #{profile}") }
         it "should evaluate all test controls of all versions correctly" do
-        skip_windows!
+          skip_windows!
           _(run_result.stderr).must_be_empty
           _(run_result.stdout).must_include "2.7.0"
           _(run_result.stdout).must_include "2.6.0"
           _(run_result.stdout).must_include "sshd-01"
           _(run_result.stdout).must_include "sshd-50"
-        # Test with version which is not following semver scheme.
-        _(run_result.stdout).must_include "0.1.0 Release Inspec 5 NotASemverVersion 1"
+          # Test with version which is not following semver scheme.
+          _(run_result.stdout).must_include "0.1.0 Release Inspec 5 NotASemverVersion 1"
         end
       end
 
-    describe "Using require control with version: when profiles are dependent on different versions of same profile" do
-      let(:profile) { "#{profile_path}/git-fetcher/inheritance/child-profile-3" }
-      let(:run_result) { run_inspec_process("exec #{profile}") }
-      it "should evaluate all test controls of all versions correctly" do
-        skip_windows!
+      describe "Using require control with version: when profiles are dependent on different versions of same profile" do
+        let(:profile) { "#{profile_path}/git-fetcher/inheritance/child-profile-3" }
+        let(:run_result) { run_inspec_process("exec #{profile}") }
+        it "should evaluate all test controls of all versions correctly" do
+          skip_windows!
+          _(run_result.stderr).must_be_empty
+          _(run_result.stdout).must_include "2.6.0"
+          _(run_result.stdout).must_include "sshd-01"
+        end
+      end
+
+      describe "When profiles are dependent on a profile with no version" do
+        let(:profile) { "#{profile_path}/git-fetcher/inheritance/child-profile-4" }
+        let(:run_result) { run_inspec_process("exec #{profile}") }
+        it "should evaluate all test controls of all versions correctly" do
+          skip_windows!
+          _(run_result.stderr).must_be_empty
+        end
+      end
+    end
+
+    if windows?
+      describe "when profiles are dependent on different versions of same profile - test in windows" do
+        let(:profile) { "#{profile_path}/git-fetcher/inheritance-windows/parent-profile" }
+        let(:run_result) { run_inspec_process("exec #{profile}") }
+        it "should evaluate all test controls of all versions correctly" do
+          _(run_result.stdout).must_include "1.1.2"
+          _(run_result.stdout).must_include "1.1.0"
+          # Test with version which is not following semver scheme.
+          _(run_result.stdout).must_include "0.1.0 Release Inspec 5 NotASemverVersion 1"
+        end
+      end
+    end
+
+    describe "when running profile with enhanced_outcomes option" do
+      let(:run_result) { run_inspec_process("exec #{profile} --no-create-lockfile", enhanced_outcomes: true) }
+      let(:profile) { "#{profile_path}/enhanced-outcomes-test" }
+      it "should evaluate all test controls correctly" do
         _(run_result.stderr).must_be_empty
-        _(run_result.stdout).must_include "2.6.0"
-        _(run_result.stdout).must_include "sshd-01"
+      end
+
+      it "should show enhanced_outcomes for skipped tests in controls" do
+        _(run_result.stdout).must_include "5 skipped"
+        _(run_result.stdout).must_include "3 controls not reviewed"
+        _(run_result.stdout).must_include "N/R"
+      end
+
+      it "should show enhanced_outcomes for controls with impact 0" do
+        _(run_result.stdout).must_include "5 skipped"
+        _(run_result.stdout).must_include "4 controls not applicable"
+        _(run_result.stdout).must_include "N/A"
+      end
+
+      it "should show enhanced_outcomes for controls with errors" do
+        _(run_result.stdout).must_include "4 failures"
+        _(run_result.stdout).must_include "2 controls have error"
+        _(run_result.stdout).must_include "ERR"
+      end
+
+      it "should show enhanced_outcomes for controls with failures" do
+        _(run_result.stdout).must_include "1 control failure"
+      end
+
+      it "should show enhanced_outcomes for passed controls" do
+        _(run_result.stdout).must_include "2 successful control"
+      end
+
+      it "should mark control as N/A using zero impact from only_if" do
+        if windows?
+          _(run_result.stdout).must_include "[N/A]  tmp-6.0.1"
+        else
+          _(run_result.stdout).must_include "N/A  tmp-6.0.1"
+        end
+        _(run_result.stdout).must_include "Some reason for N/A"
+      end
+
+      it "should not mark control as N/A using non-zeo impact from only_if" do
+        if windows?
+          _(run_result.stdout).must_include "[N/R]  tmp-6.0.2"
+        else
+          _(run_result.stdout).must_include "N/R  tmp-6.0.2"
+        end
+      end
+
+      it "should mark control as N/A using only_applicable_if when false" do
+        if windows?
+          _(run_result.stdout).must_include "[N/A]  tmp-7.0.1"
+        else
+          _(run_result.stdout).must_include "N/A  tmp-7.0.1"
+        end
+        _(run_result.stdout).must_include "Some reason for N/A"
+      end
+
+      it "should not mark control as N/A using only_applicable_if when true" do
+        if windows?
+          _(run_result.stdout).wont_include "[N/A]  tmp-6.0.2"
+        else
+          _(run_result.stdout).wont_include "N/A  tmp-6.0.2"
+        end
       end
     end
 
-    describe "When profiles are dependent on a profile with no version" do
-      let(:profile) { "#{profile_path}/git-fetcher/inheritance/child-profile-4" }
-      let(:run_result) { run_inspec_process("exec #{profile}") }
-      it "should evaluate all test controls of all versions correctly" do
-        skip_windows!
+    describe "when running profile with enhanced_outcomes option and yaml reporter" do
+      let(:run_result) { run_inspec_process("exec #{profile} --no-create-lockfile --reporter yaml", enhanced_outcomes: true) }
+      let(:profile) { "#{profile_path}/enhanced-outcomes-test" }
+      it "should evaluate all test controls correctly" do
         _(run_result.stderr).must_be_empty
       end
-    end
-  end
 
-  if windows?
-    describe "when profiles are dependent on different versions of same profile - test in windows" do
-      let(:profile) { "#{profile_path}/git-fetcher/inheritance-windows/parent-profile" }
-      let(:run_result) { run_inspec_process("exec #{profile}") }
-      it "should evaluate all test controls of all versions correctly" do
-        _(run_result.stdout).must_include "1.1.2"
-        _(run_result.stdout).must_include "1.1.0"
-        # Test with version which is not following semver scheme.
-        _(run_result.stdout).must_include "0.1.0 Release Inspec 5 NotASemverVersion 1"
+      it "should show enhanced_outcomes for skipped tests in controls" do
+        _(run_result.stdout).must_include ":status: not_reviewed"
+      end
+
+      it "should show enhanced_outcomes for controls with impact 0" do
+        _(run_result.stdout).must_include ":status: not_applicable"
+      end
+
+      it "should show enhanced_outcomes for controls with errors" do
+        _(run_result.stdout).must_include ":status: error"
+      end
+
+      it "should show enhanced_outcomes for controls with failures" do
+        _(run_result.stdout).must_include ":status: failed"
+      end
+
+      it "should show enhanced_outcomes for passed controls" do
+        _(run_result.stdout).must_include ":status: passed"
       end
     end
-  end
-
-  describe "when running profile with enhanced_outcomes option" do
-    let(:run_result) { run_inspec_process("exec #{profile} --no-create-lockfile", enhanced_outcomes: true) }
-    let(:profile) { "#{profile_path}/enhanced-outcomes-test" }
-    it "should evaluate all test controls correctly" do
-      _(run_result.stderr).must_be_empty
-    end
-
-    it "should show enhanced_outcomes for skipped tests in controls" do
-      _(run_result.stdout).must_include "5 skipped"
-      _(run_result.stdout).must_include "3 controls not reviewed"
-      _(run_result.stdout).must_include "N/R"
-    end
-
-    it "should show enhanced_outcomes for controls with impact 0" do
-      _(run_result.stdout).must_include "5 skipped"
-      _(run_result.stdout).must_include "4 controls not applicable"
-      _(run_result.stdout).must_include "N/A"
-    end
-
-    it "should show enhanced_outcomes for controls with errors" do
-      _(run_result.stdout).must_include "4 failures"
-      _(run_result.stdout).must_include "2 controls have error"
-      _(run_result.stdout).must_include "ERR"
-    end
-
-    it "should show enhanced_outcomes for controls with failures" do
-      _(run_result.stdout).must_include "1 control failure"
-    end
-
-    it "should show enhanced_outcomes for passed controls" do
-      _(run_result.stdout).must_include "2 successful control"
-    end
-
-    it "should mark control as N/A using zero impact from only_if" do
-      if windows?
-        _(run_result.stdout).must_include "[N/A]  tmp-6.0.1"
-      else
-        _(run_result.stdout).must_include "N/A  tmp-6.0.1"
-      end
-      _(run_result.stdout).must_include "Some reason for N/A"
-    end
-
-    it "should not mark control as N/A using non-zeo impact from only_if" do
-      if windows?
-        _(run_result.stdout).must_include "[N/R]  tmp-6.0.2"
-      else
-        _(run_result.stdout).must_include "N/R  tmp-6.0.2"
-      end
-    end
-
-    it "should mark control as N/A using only_applicable_if when false" do
-      if windows?
-        _(run_result.stdout).must_include "[N/A]  tmp-7.0.1"
-      else
-        _(run_result.stdout).must_include "N/A  tmp-7.0.1"
-      end
-      _(run_result.stdout).must_include "Some reason for N/A"
-    end
-
-    it "should not mark control as N/A using only_applicable_if when true" do
-      if windows?
-        _(run_result.stdout).wont_include "[N/A]  tmp-6.0.2"
-      else
-        _(run_result.stdout).wont_include "N/A  tmp-6.0.2"
-      end
-    end
-  end
-
-  describe "when running profile with enhanced_outcomes option and yaml reporter" do
-    let(:run_result) { run_inspec_process("exec #{profile} --no-create-lockfile --reporter yaml", enhanced_outcomes: true) }
-    let(:profile) { "#{profile_path}/enhanced-outcomes-test" }
-    it "should evaluate all test controls correctly" do
-      _(run_result.stderr).must_be_empty
-    end
-
-    it "should show enhanced_outcomes for skipped tests in controls" do
-      _(run_result.stdout).must_include ":status: not_reviewed"
-    end
-
-    it "should show enhanced_outcomes for controls with impact 0" do
-      _(run_result.stdout).must_include ":status: not_applicable"
-    end
-
-    it "should show enhanced_outcomes for controls with errors" do
-      _(run_result.stdout).must_include ":status: error"
-    end
-
-    it "should show enhanced_outcomes for controls with failures" do
-      _(run_result.stdout).must_include ":status: failed"
-    end
-
-    it "should show enhanced_outcomes for passed controls" do
-      _(run_result.stdout).must_include ":status: passed"
-    end
-  end
   end
 end
