@@ -43,19 +43,19 @@ module Inspec::Resources
       res = inspec.command("#{@@bin} --version").stdout
       version = Gem::Version.new(/^nftables v(\S+) .*/.match(res)[1])
       case
-      when version < Gem::Version.new('0.8.0')
+      when version < Gem::Version.new("0.8.0")
         @@nft_params["json"] = ""
         @@nft_params["stateless"] = ""
         @@nft_params["num"] = "-nn"
-      when version < Gem::Version.new('0.9.0')
+      when version < Gem::Version.new("0.9.0")
         @@nft_params["json"] = ""
         @@nft_params["stateless"] = "-s"
         @@nft_params["num"] = "-nn"
-      when version < Gem::Version.new('0.9.3')
+      when version < Gem::Version.new("0.9.3")
         @@nft_params["json"] = "-j"
         @@nft_params["stateless"] = "-s"
         @@nft_params["num"] = "-nn"
-      when version >= Gem::Version.new('0.9.3')
+      when version >= Gem::Version.new("0.9.3")
         @@nft_params["json"] = "-j"
         @@nft_params["stateless"] = "-s"
         @@nft_params["num"] = "-y"
