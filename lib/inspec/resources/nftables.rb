@@ -27,8 +27,7 @@ module Inspec::Resources
     EXAMPLE
 
     @@bin = nil
-    @@nft_json = "-j"
-    @@nft_stateless = "-s"
+    @@nft_params = {}
 
     def initialize(params = {})
       @family = params[:family] || nil
@@ -41,21 +40,26 @@ module Inspec::Resources
       end
 
       # Some old versions of `nft` do not support JSON output or stateless modifier
-      case inspec.os[:name]
-      when "ubuntu"
-        if inspec.os[:release].to_f < 20.04
-          @@nft_json = ""
-          @@nft_stateless = ""
-        end
-      when "centos"
-        if inspec.os[:release].to_i < 8
-          @@nft_json = ""
-        end
-      when "debian"
-        if inspec.os[:release].to_i < 10
-          @@nft_json = ""
-          @@nft_stateless = ""
-        end
+      res = inspec.command("#{@@bin} --version").stdout
+      version = Gem::Version.new(/^nftables v(\S+) .*/.match(res)[1])
+      case
+      when version < Gem::Version.new('0.8.0')
+        @@nft_params["json"] = ""
+        @@nft_params["stateless"] = ""
+        @@nft_params["num"] = "-nn"
+      when version < Gem::Version.new('0.9.0')
+        @@nft_params["json"] = ""
+        @@nft_params["stateless"] = "-s"
+        @@nft_params["num"] = "-nn"
+      when version < Gem::Version.new('0.9.3')
+        @@nft_params["json"] = "-j"
+        @@nft_params["stateless"] = "-s"
+        @@nft_params["num"] = "-nn"
+      when version >= Gem::Version.new('0.9.3')
+        @@nft_params["json"] = "-j"
+        @@nft_params["stateless"] = "-s"
+        @@nft_params["num"] = "-y"
+        ## --terse
       end
 
       # family and table attributes are mandatory
@@ -126,7 +130,7 @@ module Inspec::Resources
       @nftables_cache = {} unless defined?(@nftables_cache)
 
       elem_cmd = "list set #{@family} #{@table} #{@set}"
-      nftables_cmd = format("%s %s %s", @@bin, @@nft_stateless, elem_cmd).strip
+      nftables_cmd = format("%s %s %s", @@bin, @@nft_params["stateless"], elem_cmd).strip
 
       cmd = inspec.command(nftables_cmd)
       return [] if cmd.exit_status.to_i != 0
@@ -142,7 +146,7 @@ module Inspec::Resources
 
       # construct nftables command to read all rules of the given chain
       chain_cmd = "list chain #{@family} #{@table} #{@chain}"
-      nftables_cmd = format("%s %s %s", @@bin, @@nft_stateless, chain_cmd).strip
+      nftables_cmd = format("%s %s %s %s", @@bin, @@nft_params["stateless"], @@nft_params["num"], chain_cmd).strip
 
       cmd = inspec.command(nftables_cmd)
       return [] if cmd.exit_status.to_i != 0
@@ -165,12 +169,12 @@ module Inspec::Resources
       @nftables_cache = {} unless defined?(@nftables_cache)
 
       chain_cmd = "list chain #{@family} #{@table} #{@chain}"
-      nftables_cmd = format("%s %s %s %s", @@bin, @@nft_stateless, @@nft_json, chain_cmd).strip
+      nftables_cmd = format("%s %s %s %s", @@bin, @@nft_params["stateless"], @@nft_params["json"], chain_cmd).strip
 
       cmd = inspec.command(nftables_cmd)
       return {} if cmd.exit_status.to_i != 0
 
-      unless @@nft_json.empty?
+      unless @@nft_params["json"].empty?
         @nftables_cache[idx] = JSON.parse(cmd.stdout)["nftables"].select { |line| line.key?("chain") }[0]["chain"]
       else
         res = cmd.stdout.gsub("\t", "").split("\n").select { |line| line =~ /^type/ }[0]
@@ -186,12 +190,12 @@ module Inspec::Resources
       @nftables_cache = {} unless defined?(@nftables_cache)
 
       chain_cmd = "list set #{@family} #{@table} #{@set}"
-      nftables_cmd = format("%s %s %s %s", @@bin, @@nft_stateless, @@nft_json, chain_cmd).strip
+      nftables_cmd = format("%s %s %s %s", @@bin, @@nft_params["stateless"], @@nft_params["json"], chain_cmd).strip
 
       cmd = inspec.command(nftables_cmd)
       return {} if cmd.exit_status.to_i != 0
 
-      unless @@nft_json.empty?
+      unless @@nft_params["json"].empty?
         @nftables_cache[idx] = JSON.parse(cmd.stdout)["nftables"].select { |line| line.key?("set") }[0]["set"]
       else
         type = ""

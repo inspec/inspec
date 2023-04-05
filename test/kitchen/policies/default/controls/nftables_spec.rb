@@ -10,8 +10,8 @@ when 'ubuntu', 'fedora', 'debian', 'suse', 'redhat', 'centos'
     its('hook') { should eq 'input' }
     its('prio') { should eq 0 }
     its('policy') { should eq 'accept' }
-    it { should have_rule('iifname "eth0" tcp dport http accept comment "http on 80"') }
-    it { should_not have_rule('iifname "eth1" tcp dport http accept') }
+    it { should have_rule('iifname "eth0" tcp dport 80 accept comment "http on 80"') }
+    it { should_not have_rule('iifname "eth1" tcp dport 80 accept') }
   end
 
   describe nftables(family: 'inet', table: 'filter', set: 'OPEN_PORTS') do
