@@ -235,6 +235,28 @@ module Inspec
 
     def self.help(*args)
       super(*args)
+      puts <<~CHEF_LICENSE_HELP
+        Chef Compliance has three tiers of licensing:
+
+        * Free-Tier
+          Users are limited to audit maximum of 10 targets
+          Entitled for personal or non-commercial use
+
+        * Trial
+          Entitled for unlimited number of targets
+          Entitled for 30 days only 
+          Entitled for commercial use
+
+        * Commercial
+          Entitled for purchased number of targets
+          Entitled for period of subscription purchased
+          Entitled for commercial use
+
+        inspec license add: This command helps users to generate or add an additional license
+
+        For more information please visit:
+        www.chef.io/licensing/faqs
+      CHEF_LICENSE_HELP
       puts "\nAbout #{Inspec::Dist::PRODUCT_NAME}:"
       puts "  Patents: chef.io/patents\n\n"
     end
