@@ -67,4 +67,5 @@ group :kitchen do
 end
 
 gem 'ruby-prof', '= 1.5.0'
-#gem 'stackprof'
+gem 'stackprof'
+gem 'ruby-prof-flamegraph', git: "https://github.com/oozou/ruby-prof-flamegraph.git"

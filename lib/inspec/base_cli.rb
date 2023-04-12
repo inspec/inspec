@@ -208,7 +208,9 @@ module Inspec
       option :enhanced_outcomes, type: :boolean,
         desc: "Show enhanced outcomes in output"
       option :enable_profiling, type: :boolean, default: false,
-        desc: "Enables ruby profiling for performance monitoring."
+        desc: "Enables ruby profiling for performance monitoring (default: false)"
+      option :profiling_reporter, type: :string, default: 'rubyprof',
+        desc: "Enable the type of reporter (default: rubyprof)."
     end
 
     def self.help(*args)

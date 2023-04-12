@@ -353,15 +353,38 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   EOT
   exec_options
   def exec(*targets)
+
     o = config
     diagnose(o)
     deprecate_target_id(config)
     configure_logger(o)
+    exit_code = nil
+    if config[:profiling_reporter] == 'stackprof' && config[:enable_profiling]
+      stackprof_reports_path = "profiling_reports/stackprof/"
+      FileUtils.rm_r(stackprof_reports_path) if Dir.exist?(stackprof_reports_path)
+      FileUtils.mkdir_p(stackprof_reports_path) unless Dir.exist?(stackprof_reports_path)
+      require 'stackprof'
+      StackProf.run(mode: :cpu, raw: true, out: "#{stackprof_reports_path}/stackprof-cpu1.dump", ignore_gc: true) do
+        runner = Inspec::Runner.new(o)
+        targets.each { |target| runner.add_target(target) }
+        exit_code = runner.run
+      end
+    elsif config[:profiling_reporter] == 'rubyprof' && config[:enable_profiling]
+      require 'ruby-prof'
 
-    runner = Inspec::Runner.new(o)
-    targets.each { |target| runner.add_target(target) }
-
-    ui.exit runner.run
+      profile = RubyProf::Profile.new
+      profile.start
+      runner = Inspec::Runner.new(o)
+      targets.each { |target| runner.add_target(target) }
+      exit_code = runner.run
+      result = profile.stop
+      save_profiling_results(result)
+    else
+      runner = Inspec::Runner.new(o)
+      targets.each { |target| runner.add_target(target) }
+      exit_code = runner.run
+    end
+    ui.exit exit_code
   rescue ArgumentError, RuntimeError, Train::UserError => e
     $stderr.puts e.message
     ui.exit Inspec::UI::EXIT_USAGE_ERROR
@@ -506,6 +529,37 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   end
 
   private
+
+
+def save_profiling_results(results)
+  require 'ruby-prof-flamegraph'
+
+  rubyprof_reports_path = "profiling_reports/rubyprof/"
+  FileUtils.rm_r(rubyprof_reports_path) if Dir.exist?(rubyprof_reports_path)
+  FileUtils.mkdir_p(rubyprof_reports_path) unless Dir.exist?(rubyprof_reports_path)
+
+  File.open "#{rubyprof_reports_path}/profile-stack.html", 'w+' do |file|
+    RubyProf::CallStackPrinter.new(results).print(file)
+  end
+
+  File.open "#{rubyprof_reports_path}/profile-graph.html", 'w+' do |file|
+    RubyProf::GraphHtmlPrinter.new(results).print(file)
+  end
+
+  File.open "#{rubyprof_reports_path}/profile-flat.txt", 'w+' do |file|
+    RubyProf::FlatPrinter.new(results).print(file)
+  end
+
+  File.open "#{rubyprof_reports_path}/profile-falme-graph.json", 'w+' do |file|
+    RubyProf::FlameGraphPrinter.new(results).print(file)
+  end
+
+  # File.open "#{rubyprof_reports_path}/profile-tree.prof", 'w+' do |file|
+  #   RubyProf::CallTreePrinter.new(results).print(file)
+  # end
+
+
+end
 
   def deprecate_target_id(config)
     unless config[:target_id].nil?
