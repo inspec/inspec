@@ -48,23 +48,6 @@ group :deploy do
   gem "inquirer"
 end
 
-group :kitchen do
-  gem "berkshelf"
-
-  # Chef 18 requires ruby 3
-  if Gem.ruby_version >= Gem::Version.new("3.0.0")
-    gem "chef", ">= 17.0"
-  else
-    # Ruby 2.7 presumably - TODO remove this when 2.7 is sunsetted
-    gem "chef", "~> 16.0"
-  end
-
-  gem "test-kitchen", ">= 2.8"
-  gem "kitchen-inspec", ">= 2.0"
-  gem "kitchen-dokken", ">= 2.11"
-  gem "git"
-end
-
 source "https://artifactory-internal.ps.chef.co/artifactory/api/gems/omnibus-gems-local/" do
   gem "chef-licensing"
 end
