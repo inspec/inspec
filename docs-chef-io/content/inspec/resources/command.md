@@ -147,7 +147,7 @@ end
 ```
 
 This example would run the `find` command for up to 300 seconds, then give up and fail the control if it exceeded that time.
-On supported target platforms, the default timeout is 3600 seconds (one hour).
+On supported target platforms, briefly from versions 4.31.0 to when it was withdrawn in 4.33.1, a default of 3600 seconds was provided, but this proved problematic and was removed.
 
 Aside from setting the value on a per-resource basis, you may also use the `--command-timeout` CLI option to globally set a command timeout. The CLI option takes precedence over any per-resource `timeout:` options.
 
