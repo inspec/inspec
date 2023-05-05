@@ -4,12 +4,14 @@ set -eo pipefail
 
 export HAB_ORIGIN='ci'
 export PLAN='inspec'
+export project_root="$(git rev-parse --show-toplevel)"
 export CHEF_LICENSE="accept-no-persist"
 export HAB_LICENSE="accept-no-persist"
-export project_root="$(git rev-parse --show-toplevel)"
 export HAB_NONINTERACTIVE=true
 export HAB_NOCOLORING=true
 export HAB_STUDIO_SECRET_HAB_NONINTERACTIVE=true
+
+echo "--- Project Root: $project_root"
 
 echo "--- system details"
 uname -a
@@ -17,7 +19,6 @@ uname -a
 echo "--- Installing Habitat"
 id -a
 curl https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.sh | bash
-
 
 echo "--- Generating fake origin key"
 hab origin key generate $HAB_ORIGIN
@@ -33,10 +34,10 @@ else
     exit 1
 fi
 
-
 echo "--- Building $PLAN"
 cd "$project_root"
-DO_CHECK=true hab pkg build .
+DO_CHECK=true; hab pkg build .
+echo "--- Project Root: $project_root"
 
 echo "--- Sourcing 'results/last_build.sh'"
 if [ -f ./results/last_build.env ]; then
@@ -45,8 +46,11 @@ if [ -f ./results/last_build.env ]; then
     export pkg_artifact
 fi
 
+echo "--- Project Root: $project_root"
+
+
 echo "+++ Installing ${pkg_ident:?is undefined}"
-hab pkg install -b "${project_root:?is undefined}/results/${pkg_artifact:?is undefined}"
+hab pkg install -b "./results/${pkg_artifact:?is undefined}"
 
 echo "--- Removing world readability from /usr/local/bundle"
 chmod go-w /usr/local/bundle
@@ -57,5 +61,5 @@ PATH="$(hab pkg path ci/inspec)/bin:$PATH"
 export PATH
 echo "PATH is $PATH"
 
-pushd "$project_root/test/artifact"
+pushd "./test/artifact"
 rake
