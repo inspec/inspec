@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.4.3 -->
-## [v6.4.3](https://github.com/inspec/inspec-prime/tree/v6.4.3) (2023-04-25)
+<!-- latest_release 6.4.4 -->
+## [v6.4.4](https://github.com/inspec/inspec-prime/tree/v6.4.4) (2023-05-09)
 
 #### Merged Pull Requests
-- Remove kitchen group from Gemfile [#31](https://github.com/inspec/inspec-prime/pull/31) ([ahasunos](https://github.com/ahasunos))
+- CHEF-1957: Update chef-licesing api call `license_keys` to `fetch_and_persist` [#30](https://github.com/inspec/inspec-prime/pull/30) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- CHEF-1957: Update chef-licesing api call `license_keys` to `fetch_and_persist` [#30](https://github.com/inspec/inspec-prime/pull/30) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.4 -->
 - Remove kitchen group from Gemfile [#31](https://github.com/inspec/inspec-prime/pull/31) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.3 -->
 - CHEF-52: Add licensing information to help output [#27](https://github.com/inspec/inspec-prime/pull/27) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.2 -->
 - Add command to list license information [#10](https://github.com/inspec/inspec-prime/pull/10) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.1 -->
