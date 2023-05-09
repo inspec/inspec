@@ -44,7 +44,7 @@ module Inspec
       allowed_commands = ["-h", "--help", "help", "-v", "--version", "version"]
       begin
         if (allowed_commands & ARGV.map(&:downcase)).empty? && !ARGV.empty?
-          license_keys = ChefLicensing.license_keys
+          license_keys = ChefLicensing.fetch_and_persist
 
           # Only if EULA acceptance or license key args are present. And licenses are successfully persisted, do clean exit.
           if ARGV.select { |arg| !(arg.include? "--chef-license") }.empty? && !license_keys.blank?
