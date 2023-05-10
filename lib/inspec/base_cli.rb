@@ -41,7 +41,7 @@ module Inspec
     end
 
     def self.fetch_and_persist_license
-      allowed_commands = ["-h", "--help", "help", "-v", "--version", "version"]
+      allowed_commands = ["-h", "--help", "help", "-v", "--version", "version", "license"]
       begin
         if (allowed_commands & ARGV.map(&:downcase)).empty? && !ARGV.empty?
           license_keys = ChefLicensing.fetch_and_persist
