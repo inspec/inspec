@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.21.44 -->
-## [v5.21.44](https://github.com/inspec/inspec/tree/v5.21.44) (2023-05-16)
+<!-- latest_release 5.22.0 -->
+## [v5.22.0](https://github.com/inspec/inspec/tree/v5.22.0) (2023-05-16)
 
 #### Merged Pull Requests
-- Add nftables resources [#6499](https://github.com/inspec/inspec/pull/6499) ([jjacque](https://github.com/jjacque))
+- CHEF-2438 Add train-kubernetes to inspec gemspec [#6512](https://github.com/inspec/inspec/pull/6512) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.21.29 -->
 ### Changes since 5.21.29 release
 
 #### Merged Pull Requests
+- CHEF-2438 Add train-kubernetes to inspec gemspec [#6512](https://github.com/inspec/inspec/pull/6512) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.0 -->
 - Add nftables resources [#6499](https://github.com/inspec/inspec/pull/6499) ([jjacque](https://github.com/jjacque)) <!-- 5.21.44 -->
 - CHEF-105 Adds configuration required for sonarqube integration. [#6480](https://github.com/inspec/inspec/pull/6480) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.43 -->
 - CHEF-1458 Multiple values changes in SimpleConfig library [#6489](https://github.com/inspec/inspec/pull/6489) ([Nik08](https://github.com/Nik08)) <!-- 5.21.42 -->
