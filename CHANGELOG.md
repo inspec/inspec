@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.1 -->
-## [v5.22.1](https://github.com/inspec/inspec/tree/v5.22.1) (2023-05-16)
+<!-- latest_release 5.22.2 -->
+## [v5.22.2](https://github.com/inspec/inspec/tree/v5.22.2) (2023-05-16)
 
 #### Merged Pull Requests
-- Bump rack from 2.2.6.2 to 2.2.6.4 in /omnibus [#6490](https://github.com/inspec/inspec/pull/6490) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- fix: ensure Invoke-WebRequest headers can be configured [#6484](https://github.com/inspec/inspec/pull/6484) ([amlodzianowski](https://github.com/amlodzianowski))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.21.29 -->
 ### Changes since 5.21.29 release
 
 #### Merged Pull Requests
+- fix: ensure Invoke-WebRequest headers can be configured [#6484](https://github.com/inspec/inspec/pull/6484) ([amlodzianowski](https://github.com/amlodzianowski)) <!-- 5.22.2 -->
 - Bump rack from 2.2.6.2 to 2.2.6.4 in /omnibus [#6490](https://github.com/inspec/inspec/pull/6490) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.1 -->
 - CHEF-2438 Add train-kubernetes to inspec gemspec [#6512](https://github.com/inspec/inspec/pull/6512) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.0 -->
 - Add nftables resources [#6499](https://github.com/inspec/inspec/pull/6499) ([jjacque](https://github.com/jjacque)) <!-- 5.21.44 -->
