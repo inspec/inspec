@@ -1,0 +1,8 @@
+table inet filter {
+	set OPEN_PORTS {
+		type ipv4_addr
+		size 65536
+		flags interval
+		elements = { 1.1.1.1 }
+	}
+}

@@ -1,7 +1,7 @@
 ---
 driver:
   name: dokken
-  chef_version: :latest
+  chef_version: 17
   privileged: true # because Docker and SystemD/Upstart
 
 transport:
@@ -64,7 +64,7 @@ platforms:
 - name: opensuse-leap
   driver:
     image: dokken/opensuse-leap-15
-    pid_one_command: /bin/systemd
+    pid_one_command: /usr/lib/systemd/systemd
 
 - name: ubuntu-16.04
   driver:
