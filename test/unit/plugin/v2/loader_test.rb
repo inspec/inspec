@@ -323,7 +323,7 @@ class PluginLoaderTests < Minitest::Test
     skip "not valid in this env" unless using_bundler?
 
     with_empty_registry do
-      exp = %i{ train-aws train-habitat train-winrm }
+      exp = %i{ train-aws train-habitat train-kubernetes train-winrm }
       exp_err = ""
 
       assert_detect_system_plugins exp, exp_err do |loader|
