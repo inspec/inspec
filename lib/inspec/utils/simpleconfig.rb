@@ -57,11 +57,18 @@ class SimpleConfig
     m = opts[:assignment_regex].match(line)
     return nil if m.nil?
 
+    values = parse_values(m, opts[:key_values])
+
     if opts[:multiple_values]
       @vals[m[1]] ||= []
-      @vals[m[1]].push(parse_values(m, opts[:key_values]))
+      if opts[:multiple_value_regex] # can be used only if multiple values is set as true
+        value_to_array = values.split(opts[:multiple_value_regex])
+        @vals[m[1]].concat(value_to_array)
+      else
+        @vals[m[1]].push(values)
+      end
     else
-      @vals[m[1]] = parse_values(m, opts[:key_values])
+      @vals[m[1]] = values
     end
   end
 
@@ -116,6 +123,7 @@ class SimpleConfig
       key_values: 1, # default for key=value, may require for 'key val1 val2 val3'
       standalone_comments: false,
       multiple_values: false,
+      multiple_value_regex: nil,
     }
   end
 end
