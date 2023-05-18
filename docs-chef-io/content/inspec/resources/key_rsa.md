@@ -13,7 +13,7 @@ platform = "os"
 
 Use the `key_rsa` Chef InSpec audit resource to test RSA public/private keypairs.
 
-This resource is mainly useful when used in conjunction with the x509_certificate resource but it can also be used for checking SSH keys.
+This resource is mainly useful when used in conjunction with the x509_certificate resource, but it can also be used for checking RSA-based SSH keys.
 
 ## Availability
 
