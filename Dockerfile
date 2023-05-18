@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 LABEL maintainer="Chef Software, Inc. <docker@chef.io>"
 
-ARG VERSION=5.21.29
+ARG VERSION=5.22.3
 ARG CHANNEL=stable
 
 ENV PATH=/opt/inspec/bin:/opt/inspec/embedded/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin

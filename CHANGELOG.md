@@ -7,33 +7,38 @@
 - CHEF-1631 Clarify that command timeout default was withdrawn [#6511](https://github.com/inspec/inspec/pull/6511) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup since=5.21.29 -->
-### Changes since 5.21.29 release
+<!-- release_rollup since=5.22.3 -->
+### Changes since 5.22.3 release
 
 #### Merged Pull Requests
 - CHEF-1631 Clarify that command timeout default was withdrawn [#6511](https://github.com/inspec/inspec/pull/6511) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.4 -->
-- For #6493 : Add postgres_session support for custom port with a socket connection [#6494](https://github.com/inspec/inspec/pull/6494) ([Taknok](https://github.com/Taknok)) <!-- 5.22.3 -->
-- fix: ensure Invoke-WebRequest headers can be configured [#6484](https://github.com/inspec/inspec/pull/6484) ([amlodzianowski](https://github.com/amlodzianowski)) <!-- 5.22.2 -->
-- Bump rack from 2.2.6.2 to 2.2.6.4 in /omnibus [#6490](https://github.com/inspec/inspec/pull/6490) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.1 -->
-- CHEF-2438 Add train-kubernetes to inspec gemspec [#6512](https://github.com/inspec/inspec/pull/6512) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.0 -->
-- Add nftables resources [#6499](https://github.com/inspec/inspec/pull/6499) ([jjacque](https://github.com/jjacque)) <!-- 5.21.44 -->
-- CHEF-105 Adds configuration required for sonarqube integration. [#6480](https://github.com/inspec/inspec/pull/6480) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.43 -->
-- CHEF-1458 Multiple values changes in SimpleConfig library [#6489](https://github.com/inspec/inspec/pull/6489) ([Nik08](https://github.com/Nik08)) <!-- 5.21.42 -->
-- Revert &quot;adding new private verify, as this will kick off the expeditor bump version&quot; [#6479](https://github.com/inspec/inspec/pull/6479) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.41 -->
-- Bump rack from 2.2.4 to 2.2.6.2 in /omnibus [#6388](https://github.com/inspec/inspec/pull/6388) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.40 -->
-- Bump test-kitchen from 3.3.2 to 3.5.0 in /omnibus [#6360](https://github.com/inspec/inspec/pull/6360) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.39 -->
-- Bump kitchen-vagrant from 1.12.1 to 1.14.1 in /omnibus [#6427](https://github.com/inspec/inspec/pull/6427) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.38 -->
-- Bump omnibus from `c66e97c` to `cf97613` in /omnibus [#6423](https://github.com/inspec/inspec/pull/6423) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.37 -->
-- Bump omnibus-software from `6a13693` to `225e357` in /omnibus [#6442](https://github.com/inspec/inspec/pull/6442) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.21.36 -->
-- Formatting fixes for podman docs [#6386](https://github.com/inspec/inspec/pull/6386) ([IanMadd](https://github.com/IanMadd)) <!-- 5.21.35 -->
-- CFINSPEC-580 Dependent profiles fix for any scheme of version used in profiles [#6410](https://github.com/inspec/inspec/pull/6410) ([Nik08](https://github.com/Nik08)) <!-- 5.21.34 -->
-- CFINSPEC-576 : Fix profile gem dependency loading issue when dependent gem is required inside profile libraries. [#6408](https://github.com/inspec/inspec/pull/6408) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.33 -->
-- Updates Release Process Docs [#6398](https://github.com/inspec/inspec/pull/6398) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.32 -->
-- CFINSPEC-573: Fix for mongodb_session resource prints debug level of information in profile run result. [#6401](https://github.com/inspec/inspec/pull/6401) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.21.31 -->
-- CFINSPEC-554: Update CLI Docs rake task to work with current InSpec docs. [#6384](https://github.com/inspec/inspec/pull/6384) ([ahasunos](https://github.com/ahasunos)) <!-- 5.21.30 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v5.22.3](https://github.com/inspec/inspec/tree/v5.22.3) (2023-05-18)
+
+#### Merged Pull Requests
+- CFINSPEC-554: Update CLI Docs rake task to work with current InSpec docs. [#6384](https://github.com/inspec/inspec/pull/6384) ([ahasunos](https://github.com/ahasunos))
+- CFINSPEC-573: Fix for mongodb_session resource prints debug level of information in profile run result. [#6401](https://github.com/inspec/inspec/pull/6401) ([Vasu1105](https://github.com/Vasu1105))
+- Updates Release Process Docs [#6398](https://github.com/inspec/inspec/pull/6398) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-576 : Fix profile gem dependency loading issue when dependent gem is required inside profile libraries. [#6408](https://github.com/inspec/inspec/pull/6408) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-580 Dependent profiles fix for any scheme of version used in profiles [#6410](https://github.com/inspec/inspec/pull/6410) ([Nik08](https://github.com/Nik08))
+- Formatting fixes for podman docs [#6386](https://github.com/inspec/inspec/pull/6386) ([IanMadd](https://github.com/IanMadd))
+- Bump omnibus-software from `6a13693` to `225e357` in /omnibus [#6442](https://github.com/inspec/inspec/pull/6442) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump omnibus from `c66e97c` to `cf97613` in /omnibus [#6423](https://github.com/inspec/inspec/pull/6423) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump kitchen-vagrant from 1.12.1 to 1.14.1 in /omnibus [#6427](https://github.com/inspec/inspec/pull/6427) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump test-kitchen from 3.3.2 to 3.5.0 in /omnibus [#6360](https://github.com/inspec/inspec/pull/6360) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump rack from 2.2.4 to 2.2.6.2 in /omnibus [#6388](https://github.com/inspec/inspec/pull/6388) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Revert &quot;adding new private verify, as this will kick off the expeditor bump version&quot; [#6479](https://github.com/inspec/inspec/pull/6479) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-1458 Multiple values changes in SimpleConfig library [#6489](https://github.com/inspec/inspec/pull/6489) ([Nik08](https://github.com/Nik08))
+- CHEF-105 Adds configuration required for sonarqube integration. [#6480](https://github.com/inspec/inspec/pull/6480) ([Vasu1105](https://github.com/Vasu1105))
+- Add nftables resources [#6499](https://github.com/inspec/inspec/pull/6499) ([jjacque](https://github.com/jjacque))
+- CHEF-2438 Add train-kubernetes to inspec gemspec [#6512](https://github.com/inspec/inspec/pull/6512) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Bump rack from 2.2.6.2 to 2.2.6.4 in /omnibus [#6490](https://github.com/inspec/inspec/pull/6490) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- fix: ensure Invoke-WebRequest headers can be configured [#6484](https://github.com/inspec/inspec/pull/6484) ([amlodzianowski](https://github.com/amlodzianowski))
+- For #6493 : Add postgres_session support for custom port with a socket connection [#6494](https://github.com/inspec/inspec/pull/6494) ([Taknok](https://github.com/Taknok))
+<!-- latest_stable_release -->
+
 ## [v5.21.29](https://github.com/inspec/inspec/tree/v5.21.29) (2023-01-24)
 
 #### Merged Pull Requests
@@ -77,7 +82,6 @@
 - Bump version of omnibus-software [#6385](https://github.com/inspec/inspec/pull/6385) ([Vasu1105](https://github.com/Vasu1105))
 - adding new private verify, as this will kick off the expeditor bump v… [#6397](https://github.com/inspec/inspec/pull/6397) ([sean-simmons-progress](https://github.com/sean-simmons-progress))
 - Update copyright year in README, attempt 2 [#6395](https://github.com/inspec/inspec/pull/6395) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v5.18.14](https://github.com/inspec/inspec/tree/v5.18.14) (2022-07-13)
 
