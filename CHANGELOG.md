@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.4.10 -->
-## [v6.4.10](https://github.com/inspec/inspec-prime/tree/v6.4.10) (2023-05-18)
+<!-- latest_release 6.4.11 -->
+## [v6.4.11](https://github.com/inspec/inspec-prime/tree/v6.4.11) (2023-05-18)
 
 #### Merged Pull Requests
-- Foreport - fix: ensure Invoke-WebRequest headers can be configured (#6484) [#41](https://github.com/inspec/inspec-prime/pull/41) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Foreport - Bump rack from 2.2.6.2 to 2.2.6.4 in /omnibus (#6490) [#42](https://github.com/inspec/inspec-prime/pull/42) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport - Bump rack from 2.2.6.2 to 2.2.6.4 in /omnibus (#6490) [#42](https://github.com/inspec/inspec-prime/pull/42) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.11 -->
 - Foreport - fix: ensure Invoke-WebRequest headers can be configured (#6484) [#41](https://github.com/inspec/inspec-prime/pull/41) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.10 -->
 - Foreport - CHEF-2438 Add train-kubernetes to inspec gemspec (#6512) [#43](https://github.com/inspec/inspec-prime/pull/43) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.9 -->
 - Foreport - Clarify key_rsa docs regarding SSH keys (#6507) [#45](https://github.com/inspec/inspec-prime/pull/45) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.8 -->
