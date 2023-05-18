@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.4.12 -->
-## [v6.4.12](https://github.com/inspec/inspec-prime/tree/v6.4.12) (2023-05-18)
+<!-- latest_release 6.4.13 -->
+## [v6.4.13](https://github.com/inspec/inspec-prime/tree/v6.4.13) (2023-05-18)
 
 #### Merged Pull Requests
-- Foreport - Update host resource to resolve all ipaddresses (#6481) [#39](https://github.com/inspec/inspec-prime/pull/39) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Foreport - Add nftables resources (#6499) [#44](https://github.com/inspec/inspec-prime/pull/44) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport - Add nftables resources (#6499) [#44](https://github.com/inspec/inspec-prime/pull/44) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.13 -->
 - Foreport - Update host resource to resolve all ipaddresses (#6481) [#39](https://github.com/inspec/inspec-prime/pull/39) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.12 -->
 - Foreport - Bump rack from 2.2.6.2 to 2.2.6.4 in /omnibus (#6490) [#42](https://github.com/inspec/inspec-prime/pull/42) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.11 -->
 - Foreport - fix: ensure Invoke-WebRequest headers can be configured (#6484) [#41](https://github.com/inspec/inspec-prime/pull/41) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.10 -->
