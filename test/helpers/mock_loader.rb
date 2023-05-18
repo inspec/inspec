@@ -385,6 +385,24 @@ class MockLoader
       # ip6tables
       "/usr/sbin/ip6tables  -S" => cmd.call("ip6tables-s"),
       %{sh -c 'type "/usr/sbin/ip6tables"'} => empty.call,
+      # nftables (version)
+      "/usr/sbin/nft --version" => cmd.call("nftables-version"),
+      # nftables (chain with json output)
+      "/usr/sbin/nft -s -j list chain inet filter INPUT" => cmd.call("nftables-chain-json"),
+      "/usr/sbin/nft  -j list chain inet filter INPUT" => cmd.call("nftables-chain-json"),
+      # nftables (chain)
+      "/usr/sbin/nft -s  list chain inet filter INPUT" => cmd.call("nftables-chain"),
+      "/usr/sbin/nft -s -y list chain inet filter INPUT" => cmd.call("nftables-chain"),
+      "/usr/sbin/nft -s -nn list chain inet filter INPUT" => cmd.call("nftables-chain"),
+      "/usr/sbin/nft  -y list chain inet filter INPUT" => cmd.call("nftables-chain"),
+      "/usr/sbin/nft   list chain inet filter INPUT" => cmd.call("nftables-chain"),
+      # nftables (set with json output)
+      "/usr/sbin/nft -s -j list set inet filter OPEN_PORTS" => cmd.call("nftables-set-json"),
+      "/usr/sbin/nft  -j list set inet filter OPEN_PORTS" => cmd.call("nftables-set-json"),
+      # nftables (set)
+      "/usr/sbin/nft -s list set inet filter OPEN_PORTS" => cmd.call("nftables-set"),
+      "/usr/sbin/nft  list set inet filter OPEN_PORTS" => cmd.call("nftables-set"),
+      %{sh -c 'type "/usr/sbin/nft"'} => empty.call,
       # ipnat
       "/usr/sbin/ipnat -l" => cmd.call("ipnat-l"),
       %{type "/usr/sbin/ipnat"} => empty.call,

@@ -26,7 +26,11 @@ include_recipe("os_prepare::service")
 include_recipe("os_prepare::package")
 include_recipe("os_prepare::registry_key")
 include_recipe("os_prepare::iis")
-include_recipe("os_prepare::iptables")
+if node["osprepare"]["nftables"]
+  include_recipe("os_prepare::nftables")
+else
+  include_recipe("os_prepare::iptables")
+end
 include_recipe("os_prepare::x509")
 include_recipe("os_prepare::dh_params")
 
