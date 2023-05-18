@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.4.13 -->
-## [v6.4.13](https://github.com/inspec/inspec-prime/tree/v6.4.13) (2023-05-18)
+<!-- latest_release 6.4.14 -->
+## [v6.4.14](https://github.com/inspec/inspec-prime/tree/v6.4.14) (2023-05-18)
 
 #### Merged Pull Requests
-- Foreport - Add nftables resources (#6499) [#44](https://github.com/inspec/inspec-prime/pull/44) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Foreports 6489 (CHEF-1458 Multiple values changes in SimpleConfig library) [#28](https://github.com/inspec/inspec-prime/pull/28) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreports 6489 (CHEF-1458 Multiple values changes in SimpleConfig library) [#28](https://github.com/inspec/inspec-prime/pull/28) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.14 -->
 - Foreport - Add nftables resources (#6499) [#44](https://github.com/inspec/inspec-prime/pull/44) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.13 -->
 - Foreport - Update host resource to resolve all ipaddresses (#6481) [#39](https://github.com/inspec/inspec-prime/pull/39) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.12 -->
 - Foreport - Bump rack from 2.2.6.2 to 2.2.6.4 in /omnibus (#6490) [#42](https://github.com/inspec/inspec-prime/pull/42) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.11 -->
