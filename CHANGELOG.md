@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.4.8 -->
-## [v6.4.8](https://github.com/inspec/inspec-prime/tree/v6.4.8) (2023-05-18)
+<!-- latest_release 6.4.9 -->
+## [v6.4.9](https://github.com/inspec/inspec-prime/tree/v6.4.9) (2023-05-18)
 
 #### Merged Pull Requests
-- Foreport - Clarify key_rsa docs regarding SSH keys (#6507) [#45](https://github.com/inspec/inspec-prime/pull/45) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Foreport - CHEF-2438 Add train-kubernetes to inspec gemspec (#6512) [#43](https://github.com/inspec/inspec-prime/pull/43) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport - CHEF-2438 Add train-kubernetes to inspec gemspec (#6512) [#43](https://github.com/inspec/inspec-prime/pull/43) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.9 -->
 - Foreport - Clarify key_rsa docs regarding SSH keys (#6507) [#45](https://github.com/inspec/inspec-prime/pull/45) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.8 -->
 - CHEF-3105 Fix windows openssl issue [#37](https://github.com/inspec/inspec-prime/pull/37) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.7 -->
 - CHEF-2743: Set chef executable name to display in help messages of chef-licensing [#34](https://github.com/inspec/inspec-prime/pull/34) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.6 -->
