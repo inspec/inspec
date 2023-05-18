@@ -328,7 +328,7 @@ GEM
       coderay (~> 1.1)
       method_source (~> 1.0)
     public_suffix (5.0.1)
-    rack (2.2.6.2)
+    rack (2.2.6.4)
     rainbow (3.1.1)
     retryable (3.0.5)
     rexml (3.2.5)
