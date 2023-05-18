@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.4.7 -->
-## [v6.4.7](https://github.com/inspec/inspec-prime/tree/v6.4.7) (2023-05-12)
+<!-- latest_release 6.4.8 -->
+## [v6.4.8](https://github.com/inspec/inspec-prime/tree/v6.4.8) (2023-05-18)
 
 #### Merged Pull Requests
-- CHEF-3105 Fix windows openssl issue [#37](https://github.com/inspec/inspec-prime/pull/37) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Foreport - Clarify key_rsa docs regarding SSH keys (#6507) [#45](https://github.com/inspec/inspec-prime/pull/45) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport - Clarify key_rsa docs regarding SSH keys (#6507) [#45](https://github.com/inspec/inspec-prime/pull/45) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.8 -->
 - CHEF-3105 Fix windows openssl issue [#37](https://github.com/inspec/inspec-prime/pull/37) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.7 -->
 - CHEF-2743: Set chef executable name to display in help messages of chef-licensing [#34](https://github.com/inspec/inspec-prime/pull/34) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.6 -->
 - CHEF-2994: Add license command to list of allowed commands [#35](https://github.com/inspec/inspec-prime/pull/35) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.5 -->
