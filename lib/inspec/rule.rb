@@ -9,7 +9,6 @@ require "inspec/resource"
 require "inspec/resources/os"
 require "inspec/input_registry"
 require "inspec/waiver_file_reader"
-require "inspec/attestation_file_reader"
 require "inspec/utils/convert"
 
 module Inspec
@@ -17,7 +16,6 @@ module Inspec
     include ::RSpec::Matchers
 
     attr_reader :__waiver_data
-    attr_reader :__attestation_data
     attr_accessor :resource_dsl, :na_impact_freeze
     attr_reader :__profile_id
 
@@ -53,7 +51,6 @@ module Inspec
         # By applying waivers *after* the instance eval, we assure that
         # waivers have higher precedence than only_if.
         __apply_waivers
-        __add_attestation_data
 
       rescue SystemStackError, StandardError => e
         # We've encountered an exception while trying to eval the code inside the
@@ -423,19 +420,6 @@ module Inspec
       @__skip_rule[:type] = :waiver
       @__skip_rule[:message] = __waiver_data["justification"]
       __waiver_data["skipped_due_to_waiver"] = true
-    end
-
-    # fetches attestation data for the rule which is used in runner_rspec.rb to assign it inside metadata
-    def __add_attestation_data
-      # this adds attestation data to a rule, accesible on run data layer.
-      control_id = @__rule_id
-      attestation_files = Inspec::Config.cached.final_options["attestation_file"] if Inspec::Config.cached.respond_to?(:final_options)
-
-      attestation_data_by_profile = Inspec::AttestationFileReader.fetch_attestation_by_profile(__profile_id, attestation_files) unless attestation_files.nil?
-
-      return unless attestation_data_by_profile && attestation_data_by_profile[control_id] && attestation_data_by_profile[control_id].is_a?(Hash)
-
-      @__attestation_data = attestation_data_by_profile[control_id]
     end
 
     #

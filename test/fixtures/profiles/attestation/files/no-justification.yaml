@@ -1,7 +1,0 @@
-tmp-3.0.1:
-  expiration_date: 2050-06-01
-  status: passed
-tmp-3.0.2:
-  evidence_url: Dummy url
-  expiration_date: 2050-06-01
-  status: passed

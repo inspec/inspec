@@ -70,16 +70,6 @@ module Inspec
         }
       end
 
-      if @conf[:attestation_file]
-        Inspec.with_feature("inspec-attestations") {
-          @conf[:attestation_file].each do |file|
-            unless File.file?(file)
-              raise Inspec::Exceptions::AttestationFileDoesNotExist, "Attestation file #{file} does not exist."
-            end
-          end
-        }
-      end
-
       # About reading inputs:
       #   @conf gets passed around a lot, eventually to
       # Inspec::InputRegistry.register_external_inputs.
@@ -188,8 +178,7 @@ module Inspec
       return if @conf["reporter"].nil?
 
       @conf["reporter"].each do |reporter|
-        # if attestation file is used then we need enhanced outcomes
-        enhanced_outcome_flag = @conf["attestation_file"] ? true : @conf["enhanced_outcomes"]
+        enhanced_outcome_flag = @conf["enhanced_outcomes"]
         result = Inspec::Reporters.render(reporter, run_data, enhanced_outcome_flag)
         raise Inspec::ReporterError, "Error generating reporter '#{reporter[0]}'" if result == false
       end

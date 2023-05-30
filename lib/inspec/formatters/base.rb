@@ -236,7 +236,6 @@ module Inspec::Formatters
         resource_title: example.metadata[:described_class] || example.metadata[:example_group][:description],
         expectation_message: format_expectation_message(example),
         waiver_data: example.metadata[:waiver_data],
-        attestation_data: example.metadata[:attestation_data],
         # This enforces the resource name as expected based off of the class
         # name. However, if we wanted the `name` attribute against the class
         # to be canonical for this case (consider edge cases!) we would use
@@ -359,7 +358,6 @@ module Inspec::Formatters
       # (that is, per-describe-block) basis, because that is the only granularity
       # available to us in the RSpec report data structure which we use as a vehicle.
       control[:waiver_data] ||= example[:waiver_data] || {}
-      control[:attestation_data] ||= example[:attestation_data] || {}
     end
   end
 end

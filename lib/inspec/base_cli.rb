@@ -199,8 +199,6 @@ module Inspec
         desc: "Load one or more input files, a YAML file with values for the profile to use."
       option :waiver_file, type: :array,
         desc: "Load one or more waiver files."
-      option :attestation_file, type: :array,
-        desc: "Load one or more attestation files."
       option :attrs, type: :array,
         desc: "Legacy name for --input-file - deprecated."
       option :create_lockfile, type: :boolean,

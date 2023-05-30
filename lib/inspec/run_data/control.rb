@@ -13,8 +13,7 @@ module Inspec
       :source_location, # Complex local
       :tags,            # Hash with custom keys
       :title,           # String
-      :waiver_data,     # Complex local
-      :attestation_data # Complex local
+      :waiver_data      # Complex local
     ) do
       include HashLikeStruct
       def initialize(raw_ctl_data)
@@ -22,7 +21,6 @@ module Inspec
         self.results = (raw_ctl_data[:results] || []).map { |r| Inspec::RunData::Result.new(r) }
         self.source_location = Inspec::RunData::Control::SourceLocation.new(raw_ctl_data[:source_location] || {})
         self.waiver_data = Inspec::RunData::Control::WaiverData.new(raw_ctl_data[:waiver_data] || {})
-        self.attestation_data = Inspec::RunData::Control::AttestationData.new(raw_ctl_data[:attestation_data] || {})
 
         [
           :code,            # String
@@ -84,26 +82,6 @@ module Inspec
             skipped_due_to_waiver
             message
           }.each { |f| self[f] = raw_wv_data[f.to_s] }
-        end
-      end
-
-      AttestationData = Struct.new(
-        :expiration_date,
-        :justification,
-        :evidence_url,
-        :status,
-        :message
-      ) do
-        include HashLikeStruct
-        def initialize(raw_attestation_data)
-          # These have string keys in the raw data!
-          %i{
-            expiration_date
-            justification
-            evidence_url
-            status
-            message
-          }.each { |f| self[f] = raw_attestation_data[f.to_s] }
         end
       end
     end

@@ -1,5 +1,0 @@
-control_id,justification,explanation,evidence_url,status,expiration_date,updated,frequency
-tmp-3.0.1,Sound reasoning,,Dummy url,failed,2001-06-01T00:00:00.000Z,,,
-tmp-3.0.2,,Unassailable thinking,Dummy url,failed,,2021-06-01T00:00:00.000Z,semiannually
-tmp-4.0,Sheer cleverness,,Dummy url,passed,2050-06-01T00:00:00.000Z,,,
-tmp-6.0.2,Sheer cleverness,,Dummy url,passed,2050-06-01T00:00:00.000Z,,,

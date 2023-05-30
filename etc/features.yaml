@@ -82,8 +82,6 @@
       description: Use JUnit2 reporter.
     inspec-reporter-html2:
       description: Use HTML reporter.
-    inspec-attestations:
-      description: Use attestations mechanism with one or more attestations files.
     inspec-reporter-progress-bar:
       description: Use progress bar streaming reporter
     inspec-reporter-child-status:
