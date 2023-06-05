@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.4 -->
-## [v5.22.4](https://github.com/inspec/inspec/tree/v5.22.4) (2023-05-18)
+<!-- latest_release 5.22.5 -->
+## [v5.22.5](https://github.com/inspec/inspec/tree/v5.22.5) (2023-06-05)
 
 #### Merged Pull Requests
-- CHEF-1631 Clarify that command timeout default was withdrawn [#6511](https://github.com/inspec/inspec/pull/6511) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update RSpec to 3.12 [#6523](https://github.com/inspec/inspec/pull/6523) ([pirj](https://github.com/pirj))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.3 -->
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Update RSpec to 3.12 [#6523](https://github.com/inspec/inspec/pull/6523) ([pirj](https://github.com/pirj)) <!-- 5.22.5 -->
 - CHEF-1631 Clarify that command timeout default was withdrawn [#6511](https://github.com/inspec/inspec/pull/6511) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.4 -->
 <!-- release_rollup -->
 
