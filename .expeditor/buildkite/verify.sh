@@ -27,8 +27,7 @@ export VAULT_HOME=$HOME/vault
 curl --create-dirs -sSLo $VAULT_HOME/vault.zip https://releases.hashicorp.com/vault/$VAULT_VERSION/vault_${VAULT_VERSION}_linux_amd64.zip
 unzip -o $VAULT_HOME/vault.zip -d $VAULT_HOME
 
-echo "--- fetching Licensing API Keys from vault"
-export CHEF_LICENSE_SERVER_API_KEY=$($VAULT_HOME/vault kv get -field acceptance secret/inspec/licensing/api-key)
+echo "--- fetching License serverl url and keys from vault"
 export CHEF_LICENSE_SERVER=$($VAULT_HOME/vault kv get -field acceptance secret/inspec/licensing/server)
 export CHEF_LICENSE_KEY=$($VAULT_HOME/vault kv get -field acceptance secret/inspec/licensing/license-key)
 if [ -n "${CHEF_LICENSE_KEY:-}" ]; then
