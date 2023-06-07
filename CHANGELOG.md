@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.4.15 -->
-## [v6.4.15](https://github.com/inspec/inspec-prime/tree/v6.4.15) (2023-05-30)
+<!-- latest_release 6.4.16 -->
+## [v6.4.16](https://github.com/inspec/inspec-prime/tree/v6.4.16) (2023-06-07)
 
 #### Merged Pull Requests
-- CHEF 83 Revert attestations changes [#47](https://github.com/inspec/inspec-prime/pull/47) ([sathish-progress](https://github.com/sathish-progress))
+- CHEF-3186: Remove fetching of bearer auth token from vault [#48](https://github.com/inspec/inspec-prime/pull/48) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- CHEF-3186: Remove fetching of bearer auth token from vault [#48](https://github.com/inspec/inspec-prime/pull/48) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.16 -->
 - CHEF 83 Revert attestations changes [#47](https://github.com/inspec/inspec-prime/pull/47) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.4.15 -->
 - Foreports 6489 (CHEF-1458 Multiple values changes in SimpleConfig library) [#28](https://github.com/inspec/inspec-prime/pull/28) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.14 -->
 - Foreport - Add nftables resources (#6499) [#44](https://github.com/inspec/inspec-prime/pull/44) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.13 -->
