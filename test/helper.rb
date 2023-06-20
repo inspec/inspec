@@ -11,9 +11,11 @@ if ENV["CI_ENABLE_COVERAGE"]
 
   SimpleCov.start do
     add_filter "/test/"
-    add_group "Resources", ["lib/resources", "lib/inspec/resources"]
-    add_group "Matchers", ["lib/matchers", "lib/inspec/matchers"]
-    add_group "Backends", "lib/inspec/backend"
+    add_filter "lib/plugins/inspec-*/test/"
+    # add_group "Resources", ["lib/resources", "lib/inspec/resources"]
+    # add_group "Matchers", ["lib/matchers", "lib/inspec/matchers"]
+    # add_group "Backends", "lib/inspec/backend"
+    add_group "inspec", "lib"
   end
 end
 
