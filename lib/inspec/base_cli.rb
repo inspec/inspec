@@ -55,7 +55,7 @@ module Inspec
         Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without valid licenses."
         Inspec::UI.new.exit(:usage_error)
       rescue ChefLicensing::Error => e
-        Inspec::Log.error "Something went wrong: #{e.message}"
+        Inspec::Log.error e.message
         Inspec::UI.new.exit(:usage_error)
       end
     end

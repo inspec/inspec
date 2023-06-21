@@ -170,7 +170,7 @@ module Inspec
       Inspec::Log.error "License is not entitled to use InSpec."
       Inspec::UI.new.exit(:license_not_entitled)
     rescue ChefLicensing::Error => e
-      Inspec::Log.error "Something went wrong: #{e.message}"
+      Inspec::Log.error e.message
       Inspec::UI.new.exit(:usage_error)
     end
 

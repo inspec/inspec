@@ -12,6 +12,9 @@ module InspecPlugins::License
     desc "add", "Add a new license"
     def add
       ChefLicensing.add_license
+    rescue ChefLicensing::LicenseKeyFetcher::LicenseKeyAddNotAllowed => e
+      Inspec::Log.error e.message
+      Inspec::UI::EXIT_LICENSE_NOT_SET
     end
   end
 end
