@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.4.18 -->
-## [v6.4.18](https://github.com/inspec/inspec-prime/tree/v6.4.18) (2023-06-21)
+<!-- latest_release 6.4.19 -->
+## [v6.4.19](https://github.com/inspec/inspec-prime/tree/v6.4.19) (2023-06-21)
 
 #### Merged Pull Requests
-- CHEF-3184 Error handling for inspec license add command - disabled in local mode [#52](https://github.com/inspec/inspec-prime/pull/52) ([Nik08](https://github.com/Nik08))
+- restrict license commands only to inspec distro [#58](https://github.com/inspec/inspec-prime/pull/58) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- restrict license commands only to inspec distro [#58](https://github.com/inspec/inspec-prime/pull/58) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.4.19 -->
 - CHEF-3184 Error handling for inspec license add command - disabled in local mode [#52](https://github.com/inspec/inspec-prime/pull/52) ([Nik08](https://github.com/Nik08)) <!-- 6.4.18 -->
 - CHEF-3403: Default server URL to production value [#50](https://github.com/inspec/inspec-prime/pull/50) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.17 -->
 - CHEF-3186: Remove fetching of bearer auth token from vault [#48](https://github.com/inspec/inspec-prime/pull/48) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.16 -->
