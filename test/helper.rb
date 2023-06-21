@@ -76,6 +76,7 @@ require_relative "helpers/resources"
 TMP_CACHE = {} # rubocop: disable Style/MutableConstant
 
 Inspec::Log.logger = Logger.new(nil)
+Inspec::Log.logger.level = Logger::ERROR
 
 def load_resource(*args)
   MockLoader.new.load_resource(*args)
