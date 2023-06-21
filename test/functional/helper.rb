@@ -188,6 +188,7 @@ module FunctionalHelper
     command_line += " --reporter json " if opts[:json] && command_line =~ /\bexec\b/
     command_line += " --no-create-lockfile " if (!opts[:lock]) && command_line =~ /\bexec\b/
     command_line += " --enhanced_outcomes " if opts[:enhanced_outcomes] && command_line =~ /\bexec\b/
+    command_line += " --log-level=error"
 
     run_result = nil
     if opts[:tmpdir]
