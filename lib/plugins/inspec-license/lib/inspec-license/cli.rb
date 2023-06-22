@@ -4,12 +4,12 @@ module InspecPlugins::License
     include Inspec::Dist
 
     subcommand_desc "license SUBCOMMAND [options]", "Manage #{PRODUCT_NAME} license"
-    desc "list", "List licenses"
+    desc "list", "List licenses (not applicable to local licensing service)"
     def list
       ChefLicensing.list_license_keys_info
     end
 
-    desc "add", "Add a new license"
+    desc "add", "Add a new license (not applicable to local licensing service)"
     def add
       ChefLicensing.add_license
     rescue ChefLicensing::LicenseKeyFetcher::LicenseKeyAddNotAllowed => e

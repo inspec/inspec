@@ -62,8 +62,10 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   require "license_acceptance/cli_flags/thor"
   include LicenseAcceptance::CLIFlags::Thor
 
-  require "chef-licensing/cli_flags/thor"
-  include ChefLicensing::CLIFlags::Thor
+  if Inspec::Dist::EXEC_NAME == "inspec"
+    require "chef-licensing/cli_flags/thor"
+    include ChefLicensing::CLIFlags::Thor
+  end
 
   desc "json PATH", "read all tests in the PATH and generate a JSON summary."
   option :output, aliases: :o, type: :string,
