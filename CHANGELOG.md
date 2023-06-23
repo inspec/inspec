@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.4.21 -->
-## [v6.4.21](https://github.com/inspec/inspec-prime/tree/v6.4.21) (2023-06-23)
+<!-- latest_release 6.4.22 -->
+## [v6.4.22](https://github.com/inspec/inspec-prime/tree/v6.4.22) (2023-06-23)
 
 #### Merged Pull Requests
-- Bump omnibus-software from `225e357` to `88169e3` in /omnibus [#61](https://github.com/inspec/inspec-prime/pull/61) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump omnibus from `cf97613` to `15122f2` in /omnibus [#62](https://github.com/inspec/inspec-prime/pull/62) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Bump omnibus from `cf97613` to `15122f2` in /omnibus [#62](https://github.com/inspec/inspec-prime/pull/62) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.22 -->
 - Bump omnibus-software from `225e357` to `88169e3` in /omnibus [#61](https://github.com/inspec/inspec-prime/pull/61) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.21 -->
 - CHEF-3704 Modify help for local licensing service mode and other distros [#59](https://github.com/inspec/inspec-prime/pull/59) ([Nik08](https://github.com/Nik08)) <!-- 6.4.20 -->
 - restrict license commands only to inspec distro [#58](https://github.com/inspec/inspec-prime/pull/58) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.4.19 -->
