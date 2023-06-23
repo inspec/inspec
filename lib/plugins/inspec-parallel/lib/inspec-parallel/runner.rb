@@ -73,8 +73,6 @@ module InspecPlugins
         child_reader, parent_writer = IO.pipe
 
         # Construct command-line invocation
-        child_pid = nil
-
         begin
           cmd = "#{$0} #{sub_cmd} #{invocation}"
           log_msg = "#{Time.now.iso8601} Start Time: #{Time.now}\n#{Time.now.iso8601} Arguments: #{invocation}\n"
