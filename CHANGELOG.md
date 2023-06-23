@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.4.20 -->
-## [v6.4.20](https://github.com/inspec/inspec-prime/tree/v6.4.20) (2023-06-22)
+<!-- latest_release 6.4.21 -->
+## [v6.4.21](https://github.com/inspec/inspec-prime/tree/v6.4.21) (2023-06-23)
 
 #### Merged Pull Requests
-- CHEF-3704 Modify help for local licensing service mode and other distros [#59](https://github.com/inspec/inspec-prime/pull/59) ([Nik08](https://github.com/Nik08))
+- Bump omnibus-software from `225e357` to `88169e3` in /omnibus [#61](https://github.com/inspec/inspec-prime/pull/61) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `225e357` to `88169e3` in /omnibus [#61](https://github.com/inspec/inspec-prime/pull/61) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.21 -->
 - CHEF-3704 Modify help for local licensing service mode and other distros [#59](https://github.com/inspec/inspec-prime/pull/59) ([Nik08](https://github.com/Nik08)) <!-- 6.4.20 -->
 - restrict license commands only to inspec distro [#58](https://github.com/inspec/inspec-prime/pull/58) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.4.19 -->
 - CHEF-3184 Error handling for inspec license add command - disabled in local mode [#52](https://github.com/inspec/inspec-prime/pull/52) ([Nik08](https://github.com/Nik08)) <!-- 6.4.18 -->
