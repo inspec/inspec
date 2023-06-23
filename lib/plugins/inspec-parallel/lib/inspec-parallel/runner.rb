@@ -74,14 +74,11 @@ module InspecPlugins
 
         # Construct command-line invocation
         child_pid = nil
-        error_log_file_name = "#{Time.now.nsec}.err"
 
         begin
           cmd = "#{$0} #{sub_cmd} #{invocation}"
           log_msg = "#{Time.now.iso8601} Start Time: #{Time.now}\n#{Time.now.iso8601} Arguments: #{invocation}\n"
-          child_pid = Process.spawn(cmd, out: parent_writer, err: error_log_file_name)
-          # Rename error log file if exist
-          rename_error_log(error_log_file_name, child_pid) if File.exist?(error_log_file_name)
+          child_pid = Process.spawn(cmd, out: parent_writer, err: $stderr)
           # Logging
           create_logs(child_pid, nil, $stderr)
           create_logs(child_pid, log_msg)
@@ -207,13 +204,6 @@ module InspecPlugins
           log_file = File.join(log_dir, "#{child_pid}.log") unless File.exist?("#{child_pid}.log")
           File.write(log_file, run_log, mode: "a")
         end
-      end
-
-      def rename_error_log(error_log_file_name, child_pid)
-        logs_dir_path = log_path || Dir.pwd
-        log_dir = File.join(logs_dir_path, "logs")
-        FileUtils.mkdir_p(log_dir) unless File.directory?(log_dir)
-        File.rename(error_log_file_name, "#{log_dir}/#{child_pid}.err")
       end
     end
   end
