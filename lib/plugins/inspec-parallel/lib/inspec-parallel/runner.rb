@@ -34,7 +34,7 @@ module InspecPlugins
           cleanup_child_processes
           sleep 0.1
         end
-        cleanup_empty_error_log_files
+        cleanup_empty_error_log_files unless Inspec.locally_windows?
         cleanup_daemon_process if run_in_background
       end
 
