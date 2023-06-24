@@ -83,9 +83,6 @@ module InspecPlugins
 
         child_reader, parent_writer = IO.pipe
 
-        # Construct command-line invocation
-        child_pid = nil
-
         begin
           logs_dir_path = log_path || Dir.pwd
           log_dir = File.join(logs_dir_path, "logs")
