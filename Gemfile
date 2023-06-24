@@ -64,5 +64,3 @@ group :kitchen do
   gem "kitchen-dokken", ">= 2.11"
   gem "git"
 end
-
-gem "train-core", git: "https://github.com/inspec/train.git", branch: "vasundhara/fix-uuid-for-local-transport-running-inside-docker-container"
