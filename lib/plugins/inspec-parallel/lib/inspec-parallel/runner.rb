@@ -87,7 +87,10 @@ module InspecPlugins
         child_pid = nil
 
         begin
-          error_log_file = File.open("logs/#{Time.now.nsec}.err", "a+")
+          logs_dir_path = log_path || Dir.pwd
+          log_dir = File.join(logs_dir_path, "logs")
+          FileUtils.mkdir_p(log_dir) unless File.directory?(log_dir)
+          error_log_file = File.open("#{log_dir}/#{Time.now.nsec}.err", "a+")
           cmd = "#{$0} #{sub_cmd} #{invocation}"
           log_msg = "#{Time.now.iso8601} Start Time: #{Time.now}\n#{Time.now.iso8601} Arguments: #{invocation}\n"
           child_pid = Process.spawn(cmd, out: parent_writer, err: error_log_file.path)
