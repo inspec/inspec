@@ -12,6 +12,7 @@ module InspecPlugins
         @sub_cmd = sub_cmd
         @total_jobs = cli_options["jobs"] || Concurrent.physical_processor_count
         @child_tracker = {}
+        @child_tracker_persisted = {}
         @run_in_background = cli_options["bg"]
         unless run_in_background
           @ui = InspecPlugins::Parallelism::SuperReporter.make(cli_options["ui"], total_jobs, invocations)
@@ -34,6 +35,10 @@ module InspecPlugins
           cleanup_child_processes
           sleep 0.1
         end
+
+        # Requires renaming operations on windows only
+        # Do Rename and delete operations after all child processes have exited successfully
+        rename_error_log_files if Inspec.locally_windows?
         cleanup_empty_error_log_files
         cleanup_daemon_process if run_in_background
       end
@@ -63,6 +68,12 @@ module InspecPlugins
         end
       end
 
+      def rename_error_log_files
+        @child_tracker_persisted.each do |pid, info|
+          rename_error_log(info[:error_log_file], pid)
+        end
+      end
+
       def should_start_more_jobs?
         @child_tracker.length < total_jobs && !invocations.empty?
       end
@@ -76,14 +87,21 @@ module InspecPlugins
         child_pid = nil
 
         begin
+          error_log_file = File.open("logs/#{Time.now.nsec}.err", "a+")
           cmd = "#{$0} #{sub_cmd} #{invocation}"
           log_msg = "#{Time.now.iso8601} Start Time: #{Time.now}\n#{Time.now.iso8601} Arguments: #{invocation}\n"
-          child_pid = Process.spawn(cmd, out: parent_writer, err: $stderr)
+          child_pid = Process.spawn(cmd, out: parent_writer, err: error_log_file.path)
           # Logging
-          create_logs(child_pid, nil, $stderr)
           create_logs(child_pid, log_msg)
           @child_tracker[child_pid] = { io: child_reader }
+
+          # This is used to rename error log files after all child processes are exited
+          @child_tracker_persisted[child_pid] = { error_log_file: error_log_file }
           @ui.child_spawned(child_pid, invocation)
+
+          # Close the stderr and files to unlock the error log files opened by processes
+          error_log_file.close
+          $stderr.close
         rescue StandardError => e
           $stderr.puts "#{Time.now.iso8601} Error Message: #{e.message}"
           $stderr.puts "#{Time.now.iso8601} Error Backtrace: #{e.backtrace}"
@@ -203,6 +221,16 @@ module InspecPlugins
         else
           log_file = File.join(log_dir, "#{child_pid}.log") unless File.exist?("#{child_pid}.log")
           File.write(log_file, run_log, mode: "a")
+        end
+      end
+
+      def rename_error_log(error_log_file, child_pid)
+        logs_dir_path = log_path || Dir.pwd
+        log_dir = File.join(logs_dir_path, "logs")
+        FileUtils.mkdir_p(log_dir) unless File.directory?(log_dir)
+
+        if error_log_file.closed?
+          File.rename("#{error_log_file.path}", "#{log_dir}/#{child_pid}.err")
         end
       end
     end
