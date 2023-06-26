@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.5 -->
-## [v5.22.5](https://github.com/inspec/inspec/tree/v5.22.5) (2023-06-05)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Update RSpec to 3.12 [#6523](https://github.com/inspec/inspec/pull/6523) ([pirj](https://github.com/pirj))
+- Update Docker base image to be ubuntu 22.04 [#6526](https://github.com/inspec/inspec/pull/6526) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.3 -->
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Update Docker base image to be ubuntu 22.04 [#6526](https://github.com/inspec/inspec/pull/6526) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.5 -->
 - Update RSpec to 3.12 [#6523](https://github.com/inspec/inspec/pull/6523) ([pirj](https://github.com/pirj)) <!-- 5.22.5 -->
 - CHEF-1631 Clarify that command timeout default was withdrawn [#6511](https://github.com/inspec/inspec/pull/6511) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.4 -->
 <!-- release_rollup -->
