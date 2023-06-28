@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.4.22 -->
-## [v6.4.22](https://github.com/inspec/inspec-prime/tree/v6.4.22) (2023-06-23)
+<!-- latest_release 6.4.23 -->
+## [v6.4.23](https://github.com/inspec/inspec-prime/tree/v6.4.23) (2023-06-28)
 
 #### Merged Pull Requests
-- Bump omnibus from `cf97613` to `15122f2` in /omnibus [#62](https://github.com/inspec/inspec-prime/pull/62) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Foreport #6523: Update RSpec to 3.12 [#65](https://github.com/inspec/inspec-prime/pull/65) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport #6523: Update RSpec to 3.12 [#65](https://github.com/inspec/inspec-prime/pull/65) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.23 -->
 - Bump omnibus from `cf97613` to `15122f2` in /omnibus [#62](https://github.com/inspec/inspec-prime/pull/62) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.22 -->
 - Bump omnibus-software from `225e357` to `88169e3` in /omnibus [#61](https://github.com/inspec/inspec-prime/pull/61) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.21 -->
 - CHEF-3704 Modify help for local licensing service mode and other distros [#59](https://github.com/inspec/inspec-prime/pull/59) ([Nik08](https://github.com/Nik08)) <!-- 6.4.20 -->
