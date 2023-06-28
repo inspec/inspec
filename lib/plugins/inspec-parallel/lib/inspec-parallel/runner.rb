@@ -91,6 +91,11 @@ module InspecPlugins
           cmd = "#{$0} #{sub_cmd} #{invocation}"
           log_msg = "#{Time.now.iso8601} Start Time: #{Time.now}\n#{Time.now.iso8601} Arguments: #{invocation}\n"
           child_pid = Process.spawn(cmd, out: parent_writer, err: error_log_file.path)
+
+          # Trap Control-c Interrupts
+          trap('SIGINT') do
+          end
+
           # Logging
           create_logs(child_pid, log_msg)
           @child_tracker[child_pid] = { io: child_reader }
@@ -105,6 +110,9 @@ module InspecPlugins
         rescue StandardError => e
           $stderr.puts "#{Time.now.iso8601} Error Message: #{e.message}"
           $stderr.puts "#{Time.now.iso8601} Error Backtrace: #{e.backtrace}"
+        rescue SystemExit, Interrupt
+          # Rename error log files on interrupt
+          rename_error_log_files
         end
       end
 
@@ -229,7 +237,7 @@ module InspecPlugins
         log_dir = File.join(logs_dir_path, "logs")
         FileUtils.mkdir_p(log_dir) unless File.directory?(log_dir)
 
-        if error_log_file.closed?
+        if error_log_file.closed? && File.exist?(error_log_file.path)
           File.rename("#{error_log_file.path}", "#{log_dir}/#{child_pid}.err")
         end
       end
