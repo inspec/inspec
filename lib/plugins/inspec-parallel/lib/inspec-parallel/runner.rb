@@ -93,7 +93,9 @@ module InspecPlugins
           child_pid = Process.spawn(cmd, out: parent_writer, err: error_log_file.path)
 
           # Trap Control-c Interrupts
-          trap('SIGINT') do
+          trap("SIGINT") do
+            # Kill child process instantly
+            Process.kill("SIGINT", child_pid)
           end
 
           # Logging
