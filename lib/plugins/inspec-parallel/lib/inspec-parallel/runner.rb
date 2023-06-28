@@ -83,6 +83,8 @@ module InspecPlugins
 
         child_reader, parent_writer = IO.pipe
 
+        error_log_file = nil
+        child_pid = nil
         begin
           logs_dir_path = log_path || Dir.pwd
           log_dir = File.join(logs_dir_path, "logs")
@@ -113,8 +115,8 @@ module InspecPlugins
           $stderr.puts "#{Time.now.iso8601} Error Message: #{e.message}"
           $stderr.puts "#{Time.now.iso8601} Error Backtrace: #{e.backtrace}"
         rescue SystemExit, Interrupt
-          # Rename error log files on interrupt
-          rename_error_log_files
+          # Rename error log file on interrupt
+          rename_error_log(error_log_file, child_pid)
         end
       end
 
