@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Update Dockerfile for M1 support [#6541](https://github.com/inspec/inspec/pull/6541) ([ahasunos](https://github.com/ahasunos))
 - Update Docker base image to be ubuntu 22.04 [#6526](https://github.com/inspec/inspec/pull/6526) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Update Dockerfile for M1 support [#6541](https://github.com/inspec/inspec/pull/6541) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.5 -->
 - Update Docker base image to be ubuntu 22.04 [#6526](https://github.com/inspec/inspec/pull/6526) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.5 -->
 - Update RSpec to 3.12 [#6523](https://github.com/inspec/inspec/pull/6523) ([pirj](https://github.com/pirj)) <!-- 5.22.5 -->
 - CHEF-1631 Clarify that command timeout default was withdrawn [#6511](https://github.com/inspec/inspec/pull/6511) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.4 -->
