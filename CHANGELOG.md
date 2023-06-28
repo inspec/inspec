@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.4.23 -->
-## [v6.4.23](https://github.com/inspec/inspec-prime/tree/v6.4.23) (2023-06-28)
+<!-- latest_release 6.4.24 -->
+## [v6.4.24](https://github.com/inspec/inspec-prime/tree/v6.4.24) (2023-06-28)
 
 #### Merged Pull Requests
-- Foreport #6523: Update RSpec to 3.12 [#65](https://github.com/inspec/inspec-prime/pull/65) ([ahasunos](https://github.com/ahasunos))
+- Bump berkshelf from 8.0.2 to 8.0.7 in /omnibus [#63](https://github.com/inspec/inspec-prime/pull/63) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Bump berkshelf from 8.0.2 to 8.0.7 in /omnibus [#63](https://github.com/inspec/inspec-prime/pull/63) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.24 -->
 - Foreport #6523: Update RSpec to 3.12 [#65](https://github.com/inspec/inspec-prime/pull/65) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.23 -->
 - Bump omnibus from `cf97613` to `15122f2` in /omnibus [#62](https://github.com/inspec/inspec-prime/pull/62) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.22 -->
 - Bump omnibus-software from `225e357` to `88169e3` in /omnibus [#61](https://github.com/inspec/inspec-prime/pull/61) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.21 -->
