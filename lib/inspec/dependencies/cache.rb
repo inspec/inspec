@@ -70,5 +70,20 @@ module Inspec
     def base_path_for(cache_key)
       File.join(@path, cache_key)
     end
+
+   #
+   # For given cache key, return true if the
+   # cache path is locked
+    def locked?(key)
+      locked = false
+      path = base_path_for(key)
+      # On Windows cache directories are in archive format. This check is just to make sure we skip this for Windows here.
+      if File.directory?(path)
+        f = File.open(base_path_for(key), File::RDONLY)
+        locked = f.flock(File::LOCK_EX | File::LOCK_NB) && File.exist?("#{path}/.lock")
+        f.close
+      end
+      locked
+    end
   end
 end

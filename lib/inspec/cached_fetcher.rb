@@ -39,7 +39,8 @@ module Inspec
     end
 
     def fetch
-      if cache.exists?(cache_key)
+      # In case of parallel execution we need to lock the cache folder, here we only read from cache if it's unlocked.
+      if cache.exists?(cache_key) && !cache.locked?(cache_key)
         Inspec::Log.debug "Using cached dependency for #{target}"
         [cache.prefered_entry_for(cache_key), false]
       else
