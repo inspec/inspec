@@ -62,19 +62,32 @@ module Inspec::Fetcher
     def fetch(destination_path)
       @repo_directory = destination_path # Might be the cache, or vendoring, or something else
       FileUtils.mkdir_p(destination_path) unless Dir.exist?(destination_path)
-      if cloned?
-        checkout
-      else
-        Dir.mktmpdir do |working_dir|
-          checkout(working_dir)
-          if @relative_path
-            perform_relative_path_fetch(destination_path, working_dir)
-          else
-            Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
-                              "Moving checkout to #{destination_path}")
-            FileUtils.cp_r(working_dir + "/.", destination_path)
+      Inspec::Log.debug("Locking ..... #{destination_path}")
+      lock_file_path = "#{destination_path}/.lock"
+      lock_file = File.open(lock_file_path, File::RDWR|File::CREAT)
+      lock_file.flock(File::LOCK_EX)
+
+      begin
+        if cloned?
+          checkout
+        else
+          Dir.mktmpdir do |working_dir|
+            #require 'byebug'; byebug
+            checkout(working_dir)
+            if @relative_path
+              perform_relative_path_fetch(destination_path, working_dir)
+            else
+              Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
+                                "Moving checkout to #{destination_path}")
+              FileUtils.cp_r(working_dir + "/.", destination_path)
+            end
           end
         end
+      ensure
+        Inspec::Log.debug("Locking ..... #{destination_path}")
+        lock_file.flock(File::LOCK_UN)
+        lock_file.close
+        FileUtils.rm_f("#{destination_path}/.lock")
       end
       @repo_directory
     end
