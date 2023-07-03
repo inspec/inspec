@@ -39,13 +39,21 @@ module Inspec
     end
 
     def fetch
-      # In case of parallel execution we need to lock the cache folder, here we only read from cache if it's unlocked.
-      if cache.exists?(cache_key) && !cache.locked?(cache_key)
+      if cache.exists?(cache_key) && cache.locked?(cache_key)
+        Inspec::Log.debug "Waiting for lock to be released on the cache dir ...."
+        sleep 1
+        fetch
+      elsif cache.exists?(cache_key) && !cache.locked?(cache_key)
         Inspec::Log.debug "Using cached dependency for #{target}"
         [cache.prefered_entry_for(cache_key), false]
       else
         Inspec::Log.debug "Dependency does not exist in the cache #{target}"
-        fetcher.fetch(cache.base_path_for(fetcher.cache_key))
+        cache.lock(cache_key) if fetcher.class == Inspec::Fetcher::Git
+        begin
+          fetcher.fetch(cache.base_path_for(fetcher.cache_key))
+        ensure
+         cache.unlock(cache_key) if fetcher.class == Inspec::Fetcher::Git
+        end
         assert_cache_sanity!
         [fetcher.archive_path, fetcher.writable?]
       end

@@ -77,13 +77,25 @@ module Inspec
     def locked?(key)
       locked = false
       path = base_path_for(key)
-      # On Windows cache directories are in archive format. This check is just to make sure we skip this for Windows here.
+      # For archive there is no need to lock the directory so we skip those and return false for archive formatted cache
       if File.directory?(path)
-        f = File.open(base_path_for(key), File::RDONLY)
-        locked = f.flock(File::LOCK_EX | File::LOCK_NB) && File.exist?("#{path}/.lock")
-        f.close
+        locked = File.exist?("#{path}/.lock")
       end
       locked
+    end
+
+    def lock(key)
+      path = base_path_for(key)
+      lock_file_path = File.join(path, '.lock')
+      FileUtils.mkdir_p(path) unless Dir.exist?(path)
+      Inspec::Log.debug("Locking ..... #{path}")
+      FileUtils.touch(lock_file_path)
+    end
+
+    def unlock(key)
+      path = base_path_for(key)
+      Inspec::Log.debug("Unlocking ..... #{path}")
+      FileUtils.rm_f("#{path}/.lock") if File.exist?("#{path}/.lock")
     end
   end
 end
