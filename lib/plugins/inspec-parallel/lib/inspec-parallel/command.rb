@@ -23,8 +23,9 @@ module InspecPlugins
       def run
         validate_thor_options
         validate_invocations!
-        catch_ctl_c_and_exit unless run_in_background
-        Runner.new(invocations, cli_options_to_parallel_cmd, sub_cmd).run
+        runner = Runner.new(invocations, cli_options_to_parallel_cmd, sub_cmd)
+        catch_ctl_c_and_exit(runner) unless run_in_background
+        runner.run
       end
 
       def dry_run
@@ -34,11 +35,17 @@ module InspecPlugins
 
       private
 
-      def catch_ctl_c_and_exit
+      def catch_ctl_c_and_exit(runner)
         puts "Press CTL+C to stop\n"
         trap("SIGINT") do
           puts "\n"
           puts "Shutting down jobs..."
+          if Inspec.locally_windows?
+            runner.kill_child_processes
+            sleep 1
+            puts "Renaming error log files..."
+            runner.rename_error_log_files
+          end
           exit Inspec::UI::EXIT_TERMINATED_BY_CTL_C
         end
       end

@@ -68,6 +68,12 @@ module InspecPlugins
         end
       end
 
+      def kill_child_processes
+        @child_tracker.each do |pid, info|
+          Process.kill("SIGKILL", pid)
+        end
+      end
+
       def rename_error_log_files
         @child_tracker_persisted.each do |pid, info|
           rename_error_log(info[:error_log_file], pid)
@@ -82,9 +88,6 @@ module InspecPlugins
         invocation = invocations.shift[:value]
 
         child_reader, parent_writer = IO.pipe
-
-        error_log_file = nil
-        child_pid = nil
         begin
           logs_dir_path = log_path || Dir.pwd
           log_dir = File.join(logs_dir_path, "logs")
@@ -94,12 +97,6 @@ module InspecPlugins
           log_msg = "#{Time.now.iso8601} Start Time: #{Time.now}\n#{Time.now.iso8601} Arguments: #{invocation}\n"
           child_pid = Process.spawn(cmd, out: parent_writer, err: error_log_file.path)
 
-          # Trap Control-c Interrupts
-          trap("SIGINT") do
-            # Kill child process instantly
-            Process.kill("SIGINT", child_pid)
-          end
-
           # Logging
           create_logs(child_pid, log_msg)
           @child_tracker[child_pid] = { io: child_reader }
@@ -108,15 +105,11 @@ module InspecPlugins
           @child_tracker_persisted[child_pid] = { error_log_file: error_log_file }
           @ui.child_spawned(child_pid, invocation)
 
-          # Close the stderr and files to unlock the error log files opened by processes
+          # Close the file to unlock the error log files opened by processes
           error_log_file.close
-          $stderr.close
         rescue StandardError => e
           $stderr.puts "#{Time.now.iso8601} Error Message: #{e.message}"
           $stderr.puts "#{Time.now.iso8601} Error Backtrace: #{e.backtrace}"
-        rescue SystemExit, Interrupt
-          # Rename error log file on interrupt
-          rename_error_log(error_log_file, child_pid)
         end
       end
 
@@ -242,7 +235,11 @@ module InspecPlugins
         FileUtils.mkdir_p(log_dir) unless File.directory?(log_dir)
 
         if error_log_file.closed? && File.exist?(error_log_file.path)
-          File.rename("#{error_log_file.path}", "#{log_dir}/#{child_pid}.err")
+          begin
+            File.rename("#{error_log_file.path}", "#{log_dir}/#{child_pid}.err")
+          rescue
+            $stderr.puts "Cannot rename error log file #{error_log_file.path} for child pid #{child_pid}"
+          end
         end
       end
     end
