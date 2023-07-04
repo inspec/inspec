@@ -89,7 +89,8 @@ module InspecPlugins::Parallelism
         # Loop over slots
         slots.each_index do |idx|
           if slots[idx].nil?
-            line += "idle".center(slot_width)
+            # line += "idle".center(slot_width)
+            # Need to improve UI
           elsif slots[idx] == "exited"
             line += "Done".center(slot_width)
           else
