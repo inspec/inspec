@@ -109,7 +109,7 @@ module InspecPlugins
         begin
           logs_dir_path = log_path || Dir.pwd
           log_dir = File.join(logs_dir_path, "logs")
-          FileUtils.mkdir_p(log_dir) unless File.directory?(log_dir)
+          FileUtils.mkdir_p(log_dir)
           error_log_file = File.open("#{log_dir}/#{Time.now.nsec}.err", "a+")
           cmd = "#{$0} #{sub_cmd} #{invocation}"
           log_msg = "#{Time.now.iso8601} Start Time: #{Time.now}\n#{Time.now.iso8601} Arguments: #{invocation}\n"
@@ -236,7 +236,7 @@ module InspecPlugins
       def create_logs(child_pid, run_log , stderr = nil)
         logs_dir_path = log_path || Dir.pwd
         log_dir = File.join(logs_dir_path, "logs")
-        FileUtils.mkdir_p(log_dir) unless File.directory?(log_dir)
+        FileUtils.mkdir_p(log_dir)
 
         if stderr
           log_file = File.join(log_dir, "#{child_pid}.err") unless File.exist?("#{child_pid}.err")
@@ -250,7 +250,7 @@ module InspecPlugins
       def rename_error_log(error_log_file, child_pid)
         logs_dir_path = log_path || Dir.pwd
         log_dir = File.join(logs_dir_path, "logs")
-        FileUtils.mkdir_p(log_dir) unless File.directory?(log_dir)
+        FileUtils.mkdir_p(log_dir)
 
         if error_log_file.closed? && File.exist?(error_log_file.path)
           begin
