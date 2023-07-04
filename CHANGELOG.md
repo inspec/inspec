@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.4.27 -->
+## [v6.4.27](https://github.com/inspec/inspec-prime/tree/v6.4.27) (2023-07-04)
 
 #### Merged Pull Requests
+- CHEF-3759 Crossport public 6540 Fix for inspec parallel on windows crashing due to error log rename [#74](https://github.com/inspec/inspec-prime/pull/74) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Foreports #6526 and #6541: Update Docker base image to be ubuntu 22.04 [#64](https://github.com/inspec/inspec-prime/pull/64) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- CHEF-3759 Crossport public 6540 Fix for inspec parallel on windows crashing due to error log rename [#74](https://github.com/inspec/inspec-prime/pull/74) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.27 -->
 - Foreports #6526 and #6541: Update Docker base image to be ubuntu 22.04 [#64](https://github.com/inspec/inspec-prime/pull/64) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.26 -->
 - Crossport Public 6545 Fix for InSpec Parallel hangs on certain CIS profiles  [#71](https://github.com/inspec/inspec-prime/pull/71) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.26 -->
 - Bump omnibus from `15122f2` to `9c0643a` in /omnibus [#70](https://github.com/inspec/inspec-prime/pull/70) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.25 -->
