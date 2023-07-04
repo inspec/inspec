@@ -71,6 +71,24 @@ module InspecPlugins
       def kill_child_processes
         @child_tracker.each do |pid, info|
           Process.kill("SIGKILL", pid)
+        rescue Exception => e
+          $stderr.puts "Error while shutting down process #{pid}: #{e.message}"
+        end
+        # Waiting for child processes to die after they have been killed
+        wait_for_child_processes_to_die
+      end
+
+      def wait_for_child_processes_to_die
+        until @child_tracker.empty?
+          begin
+            exited_pid = Process.waitpid(-1, Process::WNOHANG)
+            @child_tracker.delete exited_pid if exited_pid && exited_pid > 0
+            sleep 1
+          rescue Errno::ECHILD
+            Inspec::Log.info "Processes shutdown complete!"
+          rescue Exception => e
+            Inspec::Log.debug "Error while waiting for child processes to shutdown: #{e.message}"
+          end
         end
       end
 
