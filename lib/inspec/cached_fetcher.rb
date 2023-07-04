@@ -41,18 +41,25 @@ module Inspec
     def fetch
       if cache.exists?(cache_key) && cache.locked?(cache_key)
         Inspec::Log.debug "Waiting for lock to be released on the cache dir ...."
-        sleep 1
+        counter = 0
+        until !cache.locked?(cache_key)
+          if (counter += 1) > 300
+            Inspec::Log.warn "Giving up waiting on cache lock at #{cache_key}"
+            exit 1
+          end
+          sleep 0.1
+        end
         fetch
       elsif cache.exists?(cache_key) && !cache.locked?(cache_key)
         Inspec::Log.debug "Using cached dependency for #{target}"
         [cache.prefered_entry_for(cache_key), false]
       else
-        Inspec::Log.debug "Dependency does not exist in the cache #{target}"
-        cache.lock(cache_key) if fetcher.class == Inspec::Fetcher::Git
         begin
+          Inspec::Log.debug "Dependency does not exist in the cache #{target}"
+          cache.lock(cache_key) if fetcher.requires_locking?
           fetcher.fetch(cache.base_path_for(fetcher.cache_key))
         ensure
-         cache.unlock(cache_key) if fetcher.class == Inspec::Fetcher::Git
+         cache.unlock(cache_key) if fetcher.requires_locking?
         end
         assert_cache_sanity!
         [fetcher.archive_path, fetcher.writable?]

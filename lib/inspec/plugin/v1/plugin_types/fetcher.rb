@@ -105,6 +105,13 @@ module Inspec
         file_provider = Inspec::FileProvider.for_path(archive_path)
         file_provider.relative_provider
       end
+
+      # Returns false by default
+      # This is used to regulate cache contention.
+      # Fetchers that are sensitive to cache contention should return true.
+      def requires_locking?
+        false
+      end
     end
   end
 end
