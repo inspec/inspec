@@ -58,6 +58,10 @@ module Inspec
           Inspec::Log.debug "Dependency does not exist in the cache #{target}"
           cache.lock(cache_key) if fetcher.requires_locking?
           fetcher.fetch(cache.base_path_for(fetcher.cache_key))
+        rescue Interrupt => e
+          Inspec::Log.debug "Error while creating cache for dependency ... #{e.message}"
+          FileUtils.rm_rf(cache.base_path_for(fetcher.cache_key))
+          exit Inspec::UI::EXIT_TERMINATED_BY_CTL_C
         ensure
          cache.unlock(cache_key) if fetcher.requires_locking?
         end
