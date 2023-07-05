@@ -71,9 +71,9 @@ module Inspec
       File.join(@path, cache_key)
     end
 
-   #
-   # For given cache key, return true if the
-   # cache path is locked
+    #
+    # For given cache key, return true if the
+    # cache path is locked
     def locked?(key)
       locked = false
       path = base_path_for(key)
@@ -86,7 +86,7 @@ module Inspec
 
     def lock(key)
       path = base_path_for(key)
-      lock_file_path = File.join(path, '.lock')
+      lock_file_path = File.join(path, ".lock")
       begin
         FileUtils.mkdir_p(path)
         Inspec::Log.debug("Locking cache ..... #{path}")
