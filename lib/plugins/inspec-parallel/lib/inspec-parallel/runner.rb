@@ -106,7 +106,7 @@ module InspecPlugins
           # In child
           child_reader.close
           # replace stdout with writer
-          #$stdout = parent_writer
+          $stdout = parent_writer
           create_logs(Process.pid, nil, $stderr)
 
           begin
