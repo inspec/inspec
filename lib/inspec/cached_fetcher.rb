@@ -42,7 +42,7 @@ module Inspec
       if cache.exists?(cache_key) && cache.locked?(cache_key)
         Inspec::Log.debug "Waiting for lock to be released on the cache dir ...."
         counter = 0
-        until !cache.locked?(cache_key)
+        until cache.locked?(cache_key) == false
           if (counter += 1) > 300
             Inspec::Log.warn "Giving up waiting on cache lock at #{cache_key}"
             exit 1
@@ -58,12 +58,13 @@ module Inspec
           Inspec::Log.debug "Dependency does not exist in the cache #{target}"
           cache.lock(cache_key) if fetcher.requires_locking?
           fetcher.fetch(cache.base_path_for(fetcher.cache_key))
-        rescue Interrupt => e
-          Inspec::Log.debug "Error while creating cache for dependency ... #{e.message}"
+        rescue SystemExit => e
+          exit_code = e.status || 1
+          Inspec::Log.error "Error while creating cache for dependency ... #{e.message}"
           FileUtils.rm_rf(cache.base_path_for(fetcher.cache_key))
-          exit Inspec::UI::EXIT_TERMINATED_BY_CTL_C
+          exit(exit_code)
         ensure
-         cache.unlock(cache_key) if fetcher.requires_locking?
+          cache.unlock(cache_key) if fetcher.requires_locking?
         end
         assert_cache_sanity!
         [fetcher.archive_path, fetcher.writable?]
