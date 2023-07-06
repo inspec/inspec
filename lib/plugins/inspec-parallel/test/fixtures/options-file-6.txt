@@ -1,0 +1,5 @@
+--reporter cli:logs/first.out
+--reporter cli:logs/second.out
+--reporter cli:logs/third.out
+--reporter cli:logs/fourth.out
+--reporter cli:logs/fifth.out

@@ -9,7 +9,10 @@ class ParallelCli < Minitest::Test
   let(:options_file_3) { File.join("lib", "plugins", "inspec-parallel", "test", "fixtures", "options-file-3.txt") }
   let(:options_file_4) { File.join("lib", "plugins", "inspec-parallel", "test", "fixtures", "options-file-4.txt") }
   let(:options_file_5) { File.join("lib", "plugins", "inspec-parallel", "test", "fixtures", "options-file-5.txt") }
+  let(:options_file_6) { File.join("lib", "plugins", "inspec-parallel", "test", "fixtures", "options-file-6.txt") }
   let(:options_shell_file_1) { File.join("lib", "plugins", "inspec-parallel", "test", "fixtures", "options-file-shell-1.sh") }
+  let(:git_profiles) { "#{profile_path}/git-fetcher" }
+
 
   def test_help_output
     out = run_inspec_process("parallel help")
@@ -104,4 +107,8 @@ class ParallelCli < Minitest::Test
     assert_exit_code 1, out
   end
 
+  def test_parallel_run_with_git_profile
+    out = run_inspec_process("parallel exec #{git_profiles}/relative-shallow -o #{options_file_6}")
+    assert_empty out.stderr
+  end
 end
