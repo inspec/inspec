@@ -11,13 +11,13 @@ describe Inspec::Reporters::Yaml do
 
   describe "#render" do
     it "confirm render output" do
-      #if ( windows? || darwin? ) && RUBY3_PLUS
+      if RUBY3_PLUS
         # On Ruby 3+, empty scalar values are generated without a trailing space
         # this affects the title: and desc: fields
         output = File.read("test/fixtures/reporters/yaml_output_ruby3plus")
-      #else
-        #output = File.read("test/fixtures/reporters/yaml_output")
-      #end
+      else
+        output = File.read("test/fixtures/reporters/yaml_output")
+      end
 
       report.render
       _(report.rendered_output).must_equal output
