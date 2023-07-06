@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.4.31 -->
-## [v6.4.31](https://github.com/inspec/inspec-prime/tree/v6.4.31) (2023-07-06)
+<!-- latest_release 6.4.32 -->
+## [v6.4.32](https://github.com/inspec/inspec-prime/tree/v6.4.32) (2023-07-06)
 
 #### Merged Pull Requests
-- Crossport public 6549: Drop testing on EOL ruby 2.7, and run linter on Ruby 3.1 [#76](https://github.com/inspec/inspec-prime/pull/76) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Configure to use `Inspec::Log` in Chef Licensing [#67](https://github.com/inspec/inspec-prime/pull/67) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Configure to use `Inspec::Log` in Chef Licensing [#67](https://github.com/inspec/inspec-prime/pull/67) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.32 -->
 - Crossport public 6549: Drop testing on EOL ruby 2.7, and run linter on Ruby 3.1 [#76](https://github.com/inspec/inspec-prime/pull/76) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.31 -->
 - Case correction of product name in licensing config [#78](https://github.com/inspec/inspec-prime/pull/78) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.30 -->
 - Foreport - Add postgres support for custom port with a socket connection [#40](https://github.com/inspec/inspec-prime/pull/40) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.29 -->
