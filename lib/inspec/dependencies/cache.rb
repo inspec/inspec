@@ -84,25 +84,23 @@ module Inspec
       locked
     end
 
-    def lock(key)
-      path = base_path_for(key)
-      lock_file_path = File.join(path, ".lock")
+    def lock(cache_path)
+      lock_file_path = File.join(cache_path, ".lock")
       begin
-        FileUtils.mkdir_p(path)
-        Inspec::Log.debug("Locking cache ..... #{path}")
+        FileUtils.mkdir_p(cache_path)
+        Inspec::Log.debug("Locking cache ..... #{cache_path}")
         FileUtils.touch(lock_file_path)
       rescue Errno::EACCES
-        raise "Permission denied while creating cache lock #{path}/.lock."
+        raise "Permission denied while creating cache lock #{cache_path}/.lock."
       end
     end
 
-    def unlock(key)
-      path = base_path_for(key)
-      Inspec::Log.debug("Unlocking cache..... #{path}")
+    def unlock(cache_path)
+      Inspec::Log.debug("Unlocking cache..... #{cache_path}")
       begin
-        FileUtils.rm("#{path}/.lock") if File.exist?("#{path}/.lock")
+        FileUtils.rm("#{cache_path}/.lock") if File.exist?("#{cache_path}/.lock")
       rescue Errno::EACCES
-        raise "Permission denied while removing cache lock #{path}/.lock"
+        raise "Permission denied while removing cache lock #{cache_path}/.lock"
       end
     end
   end

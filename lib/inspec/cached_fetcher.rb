@@ -56,7 +56,7 @@ module Inspec
       else
         begin
           Inspec::Log.debug "Dependency does not exist in the cache #{target}"
-          cache.lock(cache_key) if fetcher.requires_locking?
+          cache.lock(cache.base_path_for(fetcher.cache_key)) if fetcher.requires_locking?
           fetcher.fetch(cache.base_path_for(fetcher.cache_key))
         rescue SystemExit => e
           exit_code = e.status || 1
@@ -64,7 +64,7 @@ module Inspec
           FileUtils.rm_rf(cache.base_path_for(fetcher.cache_key))
           exit(exit_code)
         ensure
-          cache.unlock(cache_key) if fetcher.requires_locking?
+          cache.unlock(cache.base_path_for(fetcher.cache_key)) if fetcher.requires_locking?
         end
         assert_cache_sanity!
         [fetcher.archive_path, fetcher.writable?]
