@@ -633,6 +633,27 @@ This subcommand has the following additional options:
 
 </dl>
 
+## license
+
+Subcommands for interacting with the licensing system.
+
+### Syntax
+
+`inspec license` currently supports two sub-commands, `list` and `add`.
+
+
+All users. To run license diagnostics and output the details of your current license configuration, run `inspec license list`.
+
+```bash
+inspec license list
+```
+
+Global license service users only - local license service users not applicable - To add a license, for example when your current license has expired, use `inspec license add`:
+
+```bash
+inspec license add
+```
+
 ## run_context
 
 Used to test run-context detection
