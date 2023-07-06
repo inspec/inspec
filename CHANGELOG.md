@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.4.29 -->
-## [v6.4.29](https://github.com/inspec/inspec-prime/tree/v6.4.29) (2023-07-04)
+<!-- latest_release 6.4.30 -->
+## [v6.4.30](https://github.com/inspec/inspec-prime/tree/v6.4.30) (2023-07-06)
 
 #### Merged Pull Requests
-- Foreport - Add postgres support for custom port with a socket connection [#40](https://github.com/inspec/inspec-prime/pull/40) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Case correction of product name in licensing config [#78](https://github.com/inspec/inspec-prime/pull/78) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Case correction of product name in licensing config [#78](https://github.com/inspec/inspec-prime/pull/78) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.30 -->
 - Foreport - Add postgres support for custom port with a socket connection [#40](https://github.com/inspec/inspec-prime/pull/40) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.29 -->
 - Bump omnibus-software from `88169e3` to `4b08f0b` in /omnibus [#73](https://github.com/inspec/inspec-prime/pull/73) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.28 -->
 - CHEF-3759 Crossport public 6540 Fix for inspec parallel on windows crashing due to error log rename [#74](https://github.com/inspec/inspec-prime/pull/74) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.27 -->
