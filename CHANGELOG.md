@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.22.6 -->
+## [v5.22.6](https://github.com/inspec/inspec/tree/v5.22.6) (2023-07-07)
 
 #### Merged Pull Requests
+- Bump omnibus from `ae855f3` to `9c0643a` in /omnibus [#6543](https://github.com/inspec/inspec/pull/6543) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Update Dockerfile for M1 support [#6541](https://github.com/inspec/inspec/pull/6541) ([ahasunos](https://github.com/ahasunos))
 - Update Docker base image to be ubuntu 22.04 [#6526](https://github.com/inspec/inspec/pull/6526) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
@@ -12,6 +13,7 @@
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Bump omnibus from `ae855f3` to `9c0643a` in /omnibus [#6543](https://github.com/inspec/inspec/pull/6543) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.6 -->
 - Update Dockerfile for M1 support [#6541](https://github.com/inspec/inspec/pull/6541) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.5 -->
 - Update Docker base image to be ubuntu 22.04 [#6526](https://github.com/inspec/inspec/pull/6526) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.5 -->
 - Update RSpec to 3.12 [#6523](https://github.com/inspec/inspec/pull/6523) ([pirj](https://github.com/pirj)) <!-- 5.22.5 -->
