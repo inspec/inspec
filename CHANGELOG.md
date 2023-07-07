@@ -2,17 +2,17 @@
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
 <!-- latest_release 6.4.33 -->
-## [v6.4.33](https://github.com/inspec/inspec-prime/tree/v6.4.33) (2023-07-07)
+## [v6.4.33](https://github.com/inspec/inspec/tree/v6.4.33) (2023-07-07)
 
 #### Merged Pull Requests
-- Adds test for licensing_config [#57](https://github.com/inspec/inspec-prime/pull/57) ([Vasu1105](https://github.com/Vasu1105))
-
+- Add chef-licensing, syncing from inspec-prime repo inspec-6 branch  [#6559](https://github.com/inspec/inspec/pull/6559) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Add chef-licensing, syncing from inspec-prime repo inspec-6 branch  [#6559](https://github.com/inspec/inspec/pull/6559) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.33 -->
 - inspec-6 CI - Add secrets: true to private verify pipeline, delete ruby 2.7 config [#6558](https://github.com/inspec/inspec/pull/6558) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - forcing private in the configuration file [#6556](https://github.com/inspec/inspec/pull/6556) ([sean-simmons-progress](https://github.com/sean-simmons-progress))
 - Adds test for licensing_config [#57](https://github.com/inspec/inspec-prime/pull/57) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.33 -->
