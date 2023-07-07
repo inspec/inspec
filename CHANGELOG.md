@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.35 -->
-## [v4.56.35](https://github.com/inspec/inspec/tree/v4.56.35) (2023-07-07)
+<!-- latest_release 4.56.36 -->
+## [v4.56.36](https://github.com/inspec/inspec/tree/v4.56.36) (2023-07-07)
 
 #### Merged Pull Requests
-- Bump omnibus-software from `a9b13a0` to `4b08f0b` in /omnibus [#6547](https://github.com/inspec/inspec/pull/6547) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Backport-6381 [#6450](https://github.com/inspec/inspec/pull/6450) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.56.20 -->
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Backport-6381 [#6450](https://github.com/inspec/inspec/pull/6450) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.36 -->
 - Bump omnibus-software from `a9b13a0` to `4b08f0b` in /omnibus [#6547](https://github.com/inspec/inspec/pull/6547) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.35 -->
 - Bump berkshelf from 8.0.2 to 8.0.7 in /omnibus [#6529](https://github.com/inspec/inspec/pull/6529) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.34 -->
 - Backport 6240: Update chefstyle from 2.0.x to 2.2.2 to use RuboCop 1.25.1 [#6459](https://github.com/inspec/inspec/pull/6459) ([Nik08](https://github.com/Nik08)) <!-- 4.56.33 -->
