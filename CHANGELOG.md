@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.4.32 -->
-## [v6.4.32](https://github.com/inspec/inspec-prime/tree/v6.4.32) (2023-07-06)
+<!-- latest_release 6.4.33 -->
+## [v6.4.33](https://github.com/inspec/inspec-prime/tree/v6.4.33) (2023-07-07)
 
 #### Merged Pull Requests
-- Configure to use `Inspec::Log` in Chef Licensing [#67](https://github.com/inspec/inspec-prime/pull/67) ([ahasunos](https://github.com/ahasunos))
+- Adds test for licensing_config [#57](https://github.com/inspec/inspec-prime/pull/57) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Adds test for licensing_config [#57](https://github.com/inspec/inspec-prime/pull/57) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.33 -->
 - Configure to use `Inspec::Log` in Chef Licensing [#67](https://github.com/inspec/inspec-prime/pull/67) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.32 -->
 - Crossport public 6549: Drop testing on EOL ruby 2.7, and run linter on Ruby 3.1 [#76](https://github.com/inspec/inspec-prime/pull/76) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.31 -->
 - Case correction of product name in licensing config [#78](https://github.com/inspec/inspec-prime/pull/78) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.30 -->
