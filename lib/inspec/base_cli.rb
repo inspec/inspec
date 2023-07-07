@@ -1,9 +1,11 @@
 require "thor" # rubocop:disable Chef/Ruby/UnlessDefinedRequire
+require "chef-licensing"
 require "inspec/log"
 require "inspec/ui"
 require "inspec/config"
 require "inspec/dist"
 require "inspec/utils/deprecation/global_method"
+require "inspec/utils/licensing_config"
 
 # Allow end of options during array type parsing
 # https://github.com/erikhuda/thor/issues/631
@@ -30,9 +32,32 @@ module Inspec
     end
 
     def self.start(given_args = ARGV, config = {})
-      check_license! if config[:enforce_license] || config[:enforce_license].nil?
+      if Inspec::Dist::EXEC_NAME == "inspec"
+        check_license! if config[:enforce_license] || config[:enforce_license].nil?
+        fetch_and_persist_license
+      end
 
       super(given_args, config)
+    end
+
+    def self.fetch_and_persist_license
+      allowed_commands = ["-h", "--help", "help", "-v", "--version", "version", "license"]
+      begin
+        if (allowed_commands & ARGV.map(&:downcase)).empty? && !ARGV.empty?
+          license_keys = ChefLicensing.fetch_and_persist
+
+          # Only if EULA acceptance or license key args are present. And licenses are successfully persisted, do clean exit.
+          if ARGV.select { |arg| !(arg.include? "--chef-license") }.empty? && !license_keys.blank?
+            Inspec::UI.new.exit
+          end
+        end
+      rescue ChefLicensing::LicenseKeyFetcher::LicenseKeyNotFetchedError
+        Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without valid licenses."
+        Inspec::UI.new.exit(:usage_error)
+      rescue ChefLicensing::Error => e
+        Inspec::Log.error e.message
+        Inspec::UI.new.exit(:usage_error)
+      end
     end
 
     # EULA acceptance
@@ -48,9 +73,6 @@ module Inspec
             Inspec::VERSION,
             logger: Inspec::Log
           )
-          if license_acceptor_output && ARGV.count == 1 && (ARGV.first.include? "--chef-license")
-            Inspec::UI.new.exit
-          end
           license_acceptor_output
         end
       rescue LicenseAcceptance::LicenseNotAcceptedError
@@ -177,8 +199,6 @@ module Inspec
         desc: "Load one or more input files, a YAML file with values for the profile to use."
       option :waiver_file, type: :array,
         desc: "Load one or more waiver files."
-      option :attestation_file, type: :array,
-        desc: "Load one or more attestation files."
       option :attrs, type: :array,
         desc: "Legacy name for --input-file - deprecated."
       option :create_lockfile, type: :boolean,
@@ -213,6 +233,30 @@ module Inspec
 
     def self.help(*args)
       super(*args)
+      if Inspec::Dist::EXEC_NAME == "inspec"
+        puts <<~CHEF_LICENSE_HELP
+          Chef Compliance has three tiers of licensing:
+
+          * Free-Tier
+            Users are limited to audit maximum of 10 targets
+            Entitled for personal or non-commercial use
+
+          * Trial
+            Entitled for unlimited number of targets
+            Entitled for 30 days only
+            Entitled for commercial use
+
+          * Commercial
+            Entitled for purchased number of targets
+            Entitled for period of subscription purchased
+            Entitled for commercial use
+
+          inspec license add: This command helps users to generate or add an additional license (not applicable to local licensing service)
+
+          For more information please visit:
+          www.chef.io/licensing/faqs
+        CHEF_LICENSE_HELP
+      end
       puts "\nAbout #{Inspec::Dist::PRODUCT_NAME}:"
       puts "  Patents: chef.io/patents\n\n"
     end

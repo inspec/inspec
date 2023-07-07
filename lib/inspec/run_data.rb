@@ -29,9 +29,6 @@ module Inspec
     def initialize(raw_run_data)
       @raw_run_data = raw_run_data
 
-      # only try for attestation when attestation file is passed
-      Inspec::Attestations.attest(@raw_run_data) if Inspec::Config.cached[:attestation_file]
-
       self.controls   = @raw_run_data[:controls].map { |c| Inspec::RunData::Control.new(c) }
       self.profiles   = @raw_run_data[:profiles].map { |p| Inspec::RunData::Profile.new(p) }
       self.statistics = Inspec::RunData::Statistics.new(@raw_run_data[:statistics])

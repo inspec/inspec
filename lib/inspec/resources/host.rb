@@ -319,15 +319,9 @@ module Inspec::Resources
         return nil
       end
 
-      resolve_ipv4 = resolve_ipv4.inject(:merge) if resolve_ipv4.is_a?(Array)
-
       # Append the ipv4 addresses
-      resolve_ipv4.each_value do |ip|
-        matched = ip.to_s.chomp.match(Resolv::IPv4::Regex)
-        next if matched.nil? || addresses.include?(matched.to_s)
-
-        addresses << matched.to_s
-      end
+      resolve_ipv4 = [resolve_ipv4] unless resolve_ipv4.is_a?(Array)
+      resolve_ipv4.each { |entry| addresses << entry["IPAddress"] }
 
       # -Type AAAA is the DNS query for IPv6 server Address.
       cmd = inspec.command("Resolve-DnsName –Type AAAA #{hostname} | ConvertTo-Json")
@@ -337,15 +331,9 @@ module Inspec::Resources
         return nil
       end
 
-      resolve_ipv6 = resolve_ipv6.inject(:merge) if resolve_ipv6.is_a?(Array)
-
       # Append the ipv6 addresses
-      resolve_ipv6.each_value do |ip|
-        matched = ip.to_s.chomp.match(Resolv::IPv6::Regex)
-        next if matched.nil? || addresses.include?(matched.to_s)
-
-        addresses << matched.to_s
-      end
+      resolve_ipv6 = [resolve_ipv6] unless resolve_ipv6.is_a?(Array)
+      resolve_ipv6.each { |entry| addresses << entry["IPAddress"] }
 
       addresses
     end

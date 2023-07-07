@@ -1,21 +1,61 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+
+<!-- latest_release 6.4.33 -->
+## [v6.4.33](https://github.com/inspec/inspec-prime/tree/v6.4.33) (2023-07-07)
 
 #### Merged Pull Requests
-- inspec-6 CI - Add secrets: true to private verify pipeline, delete ruby 2.7 config [#6558](https://github.com/inspec/inspec/pull/6558) ([clintoncwolfe](https://github.com/clintoncwolfe))
-- forcing private in the configuration file [#6556](https://github.com/inspec/inspec/pull/6556) ([sean-simmons-progress](https://github.com/sean-simmons-progress))
+- Adds test for licensing_config [#57](https://github.com/inspec/inspec-prime/pull/57) ([Vasu1105](https://github.com/Vasu1105))
+
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
-- inspec-6 CI - Add secrets: true to private verify pipeline, delete ruby 2.7 config [#6558](https://github.com/inspec/inspec/pull/6558) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.46 -->
-- forcing private in the configuration file [#6556](https://github.com/inspec/inspec/pull/6556) ([sean-simmons-progress](https://github.com/sean-simmons-progress)) <!-- 6.2.46 -->
-- Privatize verify pipeline [#6555](https://github.com/inspec/inspec/pull/6555) ([sean-simmons-progress](https://github.com/sean-simmons-progress)) <!-- 6.2.46 -->
-- Prep CI system for inspec-prime merge [#6553](https://github.com/inspec/inspec/pull/6553) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.45 -->
+- inspec-6 CI - Add secrets: true to private verify pipeline, delete ruby 2.7 config [#6558](https://github.com/inspec/inspec/pull/6558) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- forcing private in the configuration file [#6556](https://github.com/inspec/inspec/pull/6556) ([sean-simmons-progress](https://github.com/sean-simmons-progress))
+- Adds test for licensing_config [#57](https://github.com/inspec/inspec-prime/pull/57) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.33 -->
+- Configure to use `Inspec::Log` in Chef Licensing [#67](https://github.com/inspec/inspec-prime/pull/67) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.32 -->
+- Crossport public 6549: Drop testing on EOL ruby 2.7, and run linter on Ruby 3.1 [#76](https://github.com/inspec/inspec-prime/pull/76) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.31 -->
+- Case correction of product name in licensing config [#78](https://github.com/inspec/inspec-prime/pull/78) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.30 -->
+- Foreport - Add postgres support for custom port with a socket connection [#40](https://github.com/inspec/inspec-prime/pull/40) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.29 -->
+- Bump omnibus-software from `88169e3` to `4b08f0b` in /omnibus [#73](https://github.com/inspec/inspec-prime/pull/73) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.28 -->
+- CHEF-3759 Crossport public 6540 Fix for inspec parallel on windows crashing due to error log rename [#74](https://github.com/inspec/inspec-prime/pull/74) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.27 -->
+- Foreports #6526 and #6541: Update Docker base image to be ubuntu 22.04 [#64](https://github.com/inspec/inspec-prime/pull/64) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.26 -->
+- Crossport Public 6545 Fix for InSpec Parallel hangs on certain CIS profiles  [#71](https://github.com/inspec/inspec-prime/pull/71) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.26 -->
+- Bump omnibus from `15122f2` to `9c0643a` in /omnibus [#70](https://github.com/inspec/inspec-prime/pull/70) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.25 -->
+- Bump berkshelf from 8.0.2 to 8.0.7 in /omnibus [#63](https://github.com/inspec/inspec-prime/pull/63) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.24 -->
+- Foreport #6523: Update RSpec to 3.12 [#65](https://github.com/inspec/inspec-prime/pull/65) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.23 -->
+- Bump omnibus from `cf97613` to `15122f2` in /omnibus [#62](https://github.com/inspec/inspec-prime/pull/62) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.22 -->
+- Bump omnibus-software from `225e357` to `88169e3` in /omnibus [#61](https://github.com/inspec/inspec-prime/pull/61) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.21 -->
+- CHEF-3704 Modify help for local licensing service mode and other distros [#59](https://github.com/inspec/inspec-prime/pull/59) ([Nik08](https://github.com/Nik08)) <!-- 6.4.20 -->
+- restrict license commands only to inspec distro [#58](https://github.com/inspec/inspec-prime/pull/58) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.4.19 -->
+- CHEF-3184 Error handling for inspec license add command - disabled in local mode [#52](https://github.com/inspec/inspec-prime/pull/52) ([Nik08](https://github.com/Nik08)) <!-- 6.4.18 -->
+- CHEF-3403: Default server URL to production value [#50](https://github.com/inspec/inspec-prime/pull/50) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.17 -->
+- CHEF-3186: Remove fetching of bearer auth token from vault [#48](https://github.com/inspec/inspec-prime/pull/48) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.16 -->
+- CHEF 83 Revert attestations changes [#47](https://github.com/inspec/inspec-prime/pull/47) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.4.15 -->
+- Foreports 6489 (CHEF-1458 Multiple values changes in SimpleConfig library) [#28](https://github.com/inspec/inspec-prime/pull/28) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.14 -->
+- Foreport - Add nftables resources (#6499) [#44](https://github.com/inspec/inspec-prime/pull/44) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.13 -->
+- Foreport - Update host resource to resolve all ipaddresses (#6481) [#39](https://github.com/inspec/inspec-prime/pull/39) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.12 -->
+- Foreport - Bump rack from 2.2.6.2 to 2.2.6.4 in /omnibus (#6490) [#42](https://github.com/inspec/inspec-prime/pull/42) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.11 -->
+- Foreport - fix: ensure Invoke-WebRequest headers can be configured (#6484) [#41](https://github.com/inspec/inspec-prime/pull/41) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.10 -->
+- Foreport - CHEF-2438 Add train-kubernetes to inspec gemspec (#6512) [#43](https://github.com/inspec/inspec-prime/pull/43) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.9 -->
+- Foreport - Clarify key_rsa docs regarding SSH keys (#6507) [#45](https://github.com/inspec/inspec-prime/pull/45) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.8 -->
+- CHEF-3105 Fix windows openssl issue [#37](https://github.com/inspec/inspec-prime/pull/37) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.7 -->
+- CHEF-2743: Set chef executable name to display in help messages of chef-licensing [#34](https://github.com/inspec/inspec-prime/pull/34) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.6 -->
+- CHEF-2994: Add license command to list of allowed commands [#35](https://github.com/inspec/inspec-prime/pull/35) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.5 -->
+- CHEF-1957: Update chef-licesing api call `license_keys` to `fetch_and_persist` [#30](https://github.com/inspec/inspec-prime/pull/30) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.4 -->
+- Remove kitchen group from Gemfile [#31](https://github.com/inspec/inspec-prime/pull/31) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.3 -->
+- CHEF-52: Add licensing information to help output [#27](https://github.com/inspec/inspec-prime/pull/27) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.2 -->
+- Add command to list license information [#10](https://github.com/inspec/inspec-prime/pull/10) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.1 -->
+- Licensing - Integrates Software Entitlement [#13](https://github.com/inspec/inspec-prime/pull/13) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.0 -->
+- Integration of chef licensing with inspec [#12](https://github.com/inspec/inspec-prime/pull/12) ([Nik08](https://github.com/Nik08)) <!-- 6.3.0 -->
+- CI - Use License Key and API Key Secrets from Vault [#26](https://github.com/inspec/inspec-prime/pull/26) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.49 -->
+- Update Gemfile to add artifactory as source for chef-licensing gem dependency [#25](https://github.com/inspec/inspec-prime/pull/25) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.48 -->
+- testing version bump and pipeline creation [#16](https://github.com/inspec/inspec-prime/pull/16) ([sean-simmons-progress](https://github.com/sean-simmons-progress)) <!-- 6.2.47 -->
+- CHEF-1267 Add omnibus release and adhoc pipelines [#15](https://github.com/inspec/inspec-prime/pull/15) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.46 -->
+- testing version bump [#9](https://github.com/inspec/inspec-prime/pull/9) ([sean-simmons-progress](https://github.com/sean-simmons-progress)) <!-- 6.2.45 -->
 - Forport 6388 [#6477](https://github.com/inspec/inspec/pull/6477) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.44 -->
 - Foreport 6360 [#6476](https://github.com/inspec/inspec/pull/6476) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.43 -->
 - Foreport-6423 [#6474](https://github.com/inspec/inspec/pull/6474) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.42 -->

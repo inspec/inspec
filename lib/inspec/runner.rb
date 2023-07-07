@@ -11,6 +11,7 @@ require "inspec/dependencies/cache"
 require "inspec/dist"
 require "inspec/reporters"
 require "inspec/runner_rspec"
+require "chef-licensing"
 # spec requirements
 
 module Inspec
@@ -64,16 +65,6 @@ module Inspec
           @conf[:waiver_file].each do |file|
             unless File.file?(file)
               raise Inspec::Exceptions::WaiversFileDoesNotExist, "Waiver file #{file} does not exist."
-            end
-          end
-        }
-      end
-
-      if @conf[:attestation_file]
-        Inspec.with_feature("inspec-attestations") {
-          @conf[:attestation_file].each do |file|
-            unless File.file?(file)
-              raise Inspec::Exceptions::AttestationFileDoesNotExist, "Attestation file #{file} does not exist."
             end
           end
         }
@@ -171,17 +162,23 @@ module Inspec
     end
 
     def run(with = nil)
+      ChefLicensing.check_software_entitlement! if Inspec::Dist::EXEC_NAME == "inspec"
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
       load
       run_tests(with)
+    rescue ChefLicensing::SoftwareNotEntitled
+      Inspec::Log.error "License is not entitled to use InSpec."
+      Inspec::UI.new.exit(:license_not_entitled)
+    rescue ChefLicensing::Error => e
+      Inspec::Log.error e.message
+      Inspec::UI.new.exit(:usage_error)
     end
 
     def render_output(run_data)
       return if @conf["reporter"].nil?
 
       @conf["reporter"].each do |reporter|
-        # if attestation file is used then we need enhanced outcomes
-        enhanced_outcome_flag = @conf["attestation_file"] ? true : @conf["enhanced_outcomes"]
+        enhanced_outcome_flag = @conf["enhanced_outcomes"]
         result = Inspec::Reporters.render(reporter, run_data, enhanced_outcome_flag)
         raise Inspec::ReporterError, "Error generating reporter '#{reporter[0]}'" if result == false
       end

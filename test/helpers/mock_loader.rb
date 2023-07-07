@@ -385,6 +385,24 @@ class MockLoader
       # ip6tables
       "/usr/sbin/ip6tables  -S" => cmd.call("ip6tables-s"),
       %{sh -c 'type "/usr/sbin/ip6tables"'} => empty.call,
+      # nftables (version)
+      "/usr/sbin/nft --version" => cmd.call("nftables-version"),
+      # nftables (chain with json output)
+      "/usr/sbin/nft -s -j list chain inet filter INPUT" => cmd.call("nftables-chain-json"),
+      "/usr/sbin/nft  -j list chain inet filter INPUT" => cmd.call("nftables-chain-json"),
+      # nftables (chain)
+      "/usr/sbin/nft -s  list chain inet filter INPUT" => cmd.call("nftables-chain"),
+      "/usr/sbin/nft -s -y list chain inet filter INPUT" => cmd.call("nftables-chain"),
+      "/usr/sbin/nft -s -nn list chain inet filter INPUT" => cmd.call("nftables-chain"),
+      "/usr/sbin/nft  -y list chain inet filter INPUT" => cmd.call("nftables-chain"),
+      "/usr/sbin/nft   list chain inet filter INPUT" => cmd.call("nftables-chain"),
+      # nftables (set with json output)
+      "/usr/sbin/nft -s -j list set inet filter OPEN_PORTS" => cmd.call("nftables-set-json"),
+      "/usr/sbin/nft  -j list set inet filter OPEN_PORTS" => cmd.call("nftables-set-json"),
+      # nftables (set)
+      "/usr/sbin/nft -s list set inet filter OPEN_PORTS" => cmd.call("nftables-set"),
+      "/usr/sbin/nft  list set inet filter OPEN_PORTS" => cmd.call("nftables-set"),
+      %{sh -c 'type "/usr/sbin/nft"'} => empty.call,
       # ipnat
       "/usr/sbin/ipnat -l" => cmd.call("ipnat-l"),
       %{type "/usr/sbin/ipnat"} => empty.call,
@@ -631,6 +649,7 @@ class MockLoader
       # http resource - windows
       "\n$body = \n            $Body = $body | ConvertFrom-Json\n            #convert to hashtable\n            $HashTable = @{}\n            foreach ($property in $Body.PSObject.Properties) {\n              $HashTable[$property.Name] = $property.Value\n            }\n            $response = Invoke-WebRequest -Method HEAD -TimeoutSec 120 'https://www.example.com' -Body $HashTable -UseBasicParsing\n            $response | Select-Object -Property * | ConvertTo-json # We use `Select-Object -Property * ` to get around an odd PowerShell error" => cmd.call("http-windows-remote-no-options"),
       "\n$body = \n            $Body = $body | ConvertFrom-Json\n            #convert to hashtable\n            $HashTable = @{}\n            foreach ($property in $Body.PSObject.Properties) {\n              $HashTable[$property.Name] = $property.Value\n            }\n            $response = Invoke-WebRequest -Method GET -TimeoutSec 120 'https://www.example.com' -Body $HashTable -UseBasicParsing\n            $response | Select-Object -Property * | ConvertTo-json # We use `Select-Object -Property * ` to get around an odd PowerShell error" => cmd.call("http-windows-remote-head"),
+      "\n$body = \n            $Body = $body | ConvertFrom-Json\n            #convert to hashtable\n            $HashTable = @{}\n            foreach ($property in $Body.PSObject.Properties) {\n              $HashTable[$property.Name] = $property.Value\n            }\n            $response = Invoke-WebRequest -Method GET -TimeoutSec 120 -Headers @{ 'X-Test-Header' = 'test/value'; 'foo' = 'bar'} 'https://www.example.com' -Body $HashTable -UseBasicParsing\n            $response | Select-Object -Property * | ConvertTo-json # We use `Select-Object -Property * ` to get around an odd PowerShell error" => cmd.call("http-windows-remote-get-headers"),
       "\n$body = '{ \"a\" : \"1\", \"b\" : \"five\" }'\n            $Body = $body | ConvertFrom-Json\n            #convert to hashtable\n            $HashTable = @{}\n            foreach ($property in $Body.PSObject.Properties) {\n              $HashTable[$property.Name] = $property.Value\n            }\n            $response = Invoke-WebRequest -Method POST -TimeoutSec 120 'https://www.example.com' -Body $HashTable -UseBasicParsing\n            $response | Select-Object -Property * | ConvertTo-json # We use `Select-Object -Property * ` to get around an odd PowerShell error" => cmd.call("http-windows-remote-head"),
       # elasticsearch resource
       "curl -H 'Content-Type: application/json' http://localhost:9200/_nodes" => cmd.call("elasticsearch-cluster-nodes-default"),

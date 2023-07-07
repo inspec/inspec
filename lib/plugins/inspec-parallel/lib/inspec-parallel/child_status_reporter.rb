@@ -1,7 +1,7 @@
 module InspecPlugins::Parallelism
   class StreamingReporter < Inspec.plugin(2, :streaming_reporter)
     # Registering these methods with RSpec::Core::Formatters class is mandatory
-    RSpec::Core::Formatters.register self, :example_passed, :example_failed, :example_pending
+    RSpec::Core::Formatters.register self, :example_passed, :example_failed, :example_pending, :close
 
     def initialize(output)
       @status_mapping = {}
@@ -19,6 +19,11 @@ module InspecPlugins::Parallelism
 
     def example_pending(notification)
       set_example(notification, "skipped")
+    end
+
+    def close(notification)
+      # HACK: if we've reached the end of the execution, send a special marker, to ease EOF detection on Windows
+      puts "EOF_MARKER"
     end
 
     private
@@ -46,10 +51,6 @@ module InspecPlugins::Parallelism
       display_name = control_id.to_s.lstrip.force_encoding(Encoding::UTF_8) unless title
 
       puts "#{@control_counter}/#{stat}/#{controls_count}/#{display_name}"
-      # HACK: if we've reached the end of the execution, send a special marker, to ease EOF detection on Windows
-      if @control_counter == controls_count
-        puts "EOF_MARKER"
-      end
     end
 
     def set_status_mapping(control_id, status)

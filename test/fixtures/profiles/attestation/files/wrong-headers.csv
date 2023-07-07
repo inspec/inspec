@@ -1,8 +1,0 @@
-control_id_random,justification_random,run_random,expiration_date_random,,,
-03_waivered_no_expiry_ran_passes,Sound reasoning,TRUE,,,,
-04_waivered_no_expiry_ran_fails,Unassailable thinking,TRUE,2077-11-10T00:00:00Z,,,
-,,,,,,
-05_waivered_no_expiry_not_ran,Sheer cleverness,FALSE,,,,
-06_waivered_expiry_in_past_ran_passes,Necessity,TRUE,,,,
-14_waivered_expiry_in_future_z_not_ran,Lack of imagination,FALSE,2077-11-10T00:00:00Z,,,
-random contorl id with no data,,,,,,random data in csv!

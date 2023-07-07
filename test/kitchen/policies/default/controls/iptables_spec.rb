@@ -1,3 +1,8 @@
+if ENV['NFTABLES']
+  $stderr.puts "\033[1;33mTODO: Not running #{__FILE__.split("/").last} because we are running with nftables\033[0m"
+  return
+end
+
 case os[:family]
 when 'ubuntu', 'fedora', 'debian', 'suse'
   describe iptables do

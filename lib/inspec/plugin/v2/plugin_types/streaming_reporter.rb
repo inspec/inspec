@@ -1,4 +1,3 @@
-require "inspec/attestations"
 module Inspec::Plugin::V2::PluginType
   class StreamingReporter < Inspec::Plugin::V2::PluginBase
     register_plugin_type(:streaming_reporter)
@@ -14,7 +13,6 @@ module Inspec::Plugin::V2::PluginType
       @controls_count = nil
       @notifications = {}
       @enhanced_outcome_control_wise = {}
-      @attestation_message_control_wise = {}
     end
 
     private
@@ -37,7 +35,7 @@ module Inspec::Plugin::V2::PluginType
       unless @control_checks_count_map[control_id].nil?
         @control_checks_count_map[control_id] -= 1
         control_ended = @control_checks_count_map[control_id] == 0
-        # after a control has ended it checks for certain operations, like enhanced outcomes & attestations
+        # after a control has ended it checks for certain operations, like enhanced outcomes
         run_control_operations(notification, control_id) if control_ended
         control_ended
       else
@@ -47,7 +45,6 @@ module Inspec::Plugin::V2::PluginType
 
     def run_control_operations(notification, control_id)
       check_for_enhanced_outcomes(notification, control_id)
-      check_for_attestation(notification, control_id)
     end
 
     def check_for_enhanced_outcomes(notification, control_id)
@@ -57,25 +54,12 @@ module Inspec::Plugin::V2::PluginType
       end
     end
 
-    def check_for_attestation(notification, control_id)
-      control_outcome = control_outcome(control_id)
-      if control_outcome
-        attestation_result = attest_control(notification, control_id, control_outcome)
-        unless attestation_result.blank?
-          @enhanced_outcome_control_wise[control_id] = attestation_result[0]
-          @attestation_message_control_wise[control_id] = attestation_result[1]
-        end
-      end
-    end
-
     def format_message(indicator, control_id, title, full_description)
       message_to_format = ""
       message_to_format += "#{indicator}  "
       message_to_format += "#{control_id.to_s.strip.dup.force_encoding(Encoding::UTF_8)}  "
       message_to_format += "#{title.gsub(/\n*\s+/, " ").to_s.force_encoding(Encoding::UTF_8)}  " if title
       message_to_format += "#{full_description.gsub(/\n*\s+/, " ").to_s.force_encoding(Encoding::UTF_8)}  " unless title
-      # append attestation message if control is attested
-      message_to_format += "#{@attestation_message_control_wise[control_id].gsub(/\n*\s+/, " ").to_s.force_encoding(Encoding::UTF_8)}  " if @attestation_message_control_wise[control_id]
       message_to_format
     end
 
@@ -146,24 +130,6 @@ module Inspec::Plugin::V2::PluginType
       else
         @notifications[control_id].push([notification, status])
       end
-    end
-
-    def attest_control(notification, control_id, control_outcome)
-      status = control_outcome
-      attestation_data = read_attestation_file(notification, control_id)
-      Inspec::Attestations.attest_streaming_data(attestation_data, status, control_id) unless attestation_data.blank?
-    end
-
-    def read_attestation_file(notification, control_id)
-      # need to re-read the file from config since not using run data for streaming reporters.
-      profile_id = notification.example.metadata[:profile_id]
-      attestation_files = Inspec::Config.cached.final_options["attestation_file"] if Inspec::Config.cached.respond_to?(:final_options)
-
-      attestation_data_by_profile = Inspec::AttestationFileReader.fetch_attestation_by_profile(profile_id, attestation_files) unless attestation_files.nil?
-
-      return unless attestation_data_by_profile && attestation_data_by_profile[control_id] && attestation_data_by_profile[control_id].is_a?(Hash)
-
-      attestation_data_by_profile[control_id]
     end
   end
 end

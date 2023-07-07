@@ -81,7 +81,8 @@ module Inspec::Resources
         # Socket path and empty host in the connection string establishes socket connection
         # Socket connection only enabled for non-windows platforms
         # Windows does not support unix domain sockets
-        "psql -d postgresql://#{@user}:#{@pass}@/#{dbs}?host=#{@socket_path} -A -t -w -c #{escaped_query(query)}"
+        option_port = @port.nil? ? "" : "-p #{@port}" # add explicit port if specified
+        "psql -d postgresql://#{@user}:#{@pass}@/#{dbs}?host=#{@socket_path} #{option_port} -A -t -w -c #{escaped_query(query)}"
       else
         # Host in connection string establishes tcp/ip connection
         if inspec.os.windows?

@@ -314,4 +314,25 @@ describe "Inspec::Resources::Http" do
       _(worker.resource_id).must_equal "https://www.example.com"
     end
   end
+
+  describe "Windows-Get-With-Headers" do
+    let(:backend)     { MockLoader.new(:windows).backend }
+    let(:http_method) { "GET" }
+    let(:url)         { "https://www.example.com" }
+    let(:opts)        { { headers: { "X-Test-Header" => "test/value", "foo" => "bar" } } }
+    let(:worker)      { Inspec::Resources::Http::Worker::Remote.new(backend, http_method, url, opts) }
+
+    describe "simple HTTP request with headers" do
+      it "returns correct data" do
+        Inspec::Resources::Cmd.any_instance
+          .stubs(:exist?)
+          .returns(true)
+        _(worker.status).must_equal 200
+        _(worker.response_headers["Content-Type"]).must_equal "text/html; charset=UTF-8"
+        _(worker.resource_id).must_equal "https://www.example.com"
+        expected_cmd = "Invoke-WebRequest -Method GET -TimeoutSec 120 -Headers @{ 'X-Test-Header' = 'test/value'; 'foo' = 'bar'} 'https://www.example.com' -Body $HashTable -UseBasicParsing"
+        _(worker.send(:load_powershell_command)).must_include expected_cmd
+      end
+    end
+  end
 end
