@@ -8,11 +8,11 @@ GIT
 
 GIT
   remote: https://github.com/chef/omnibus.git
-  revision: 83d8428abde4cb289a161f736822ba02563a884c
+  revision: 9c0643a3a44f3e7119789c2093bfc8edd78c74ff
   branch: main
   specs:
-    omnibus (9.0.3)
-      aws-sdk-s3 (~> 1)
+    omnibus (9.0.21)
+      aws-sdk-s3 (~> 1.116.0)
       chef-cleanroom (~> 1.0)
       chef-utils (>= 15.4)
       contracts (>= 0.16.0, < 0.17.0)
@@ -20,7 +20,7 @@ GIT
       license_scout (~> 1.0)
       mixlib-shellout (>= 2.0, < 4.0)
       mixlib-versioning
-      ohai (>= 15, < 18)
+      ohai (>= 16, < 19)
       pedump
       rexml (~> 3.2)
       ruby-progressbar (~> 1.7)
@@ -43,10 +43,10 @@ GEM
     aws-sdk-kms (1.70.0)
       aws-sdk-core (~> 3, >= 3.177.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.128.0)
-      aws-sdk-core (~> 3, >= 3.177.0)
+    aws-sdk-s3 (1.116.0)
+      aws-sdk-core (~> 3, >= 3.127.0)
       aws-sdk-kms (~> 1)
-      aws-sigv4 (~> 1.6)
+      aws-sigv4 (~> 1.4)
     aws-sdk-secretsmanager (1.76.0)
       aws-sdk-core (~> 3, >= 3.174.0)
       aws-sigv4 (~> 1.1)
