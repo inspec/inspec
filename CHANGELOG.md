@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- inspec-6 CI - Add secrets: true to private verify pipeline, delete ruby 2.7 config [#6558](https://github.com/inspec/inspec/pull/6558) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - forcing private in the configuration file [#6556](https://github.com/inspec/inspec/pull/6556) ([sean-simmons-progress](https://github.com/sean-simmons-progress))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- inspec-6 CI - Add secrets: true to private verify pipeline, delete ruby 2.7 config [#6558](https://github.com/inspec/inspec/pull/6558) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.46 -->
 - forcing private in the configuration file [#6556](https://github.com/inspec/inspec/pull/6556) ([sean-simmons-progress](https://github.com/sean-simmons-progress)) <!-- 6.2.46 -->
 - Privatize verify pipeline [#6555](https://github.com/inspec/inspec/pull/6555) ([sean-simmons-progress](https://github.com/sean-simmons-progress)) <!-- 6.2.46 -->
 - Prep CI system for inspec-prime merge [#6553](https://github.com/inspec/inspec/pull/6553) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.45 -->
