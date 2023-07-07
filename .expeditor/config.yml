@@ -7,7 +7,6 @@ product_key: inspec
 pipelines:
  - verify:
     description: Pull Request validation tests
-    public: false
     env:
      - LANG: "C.UTF-8"
      - SLOW: 1
