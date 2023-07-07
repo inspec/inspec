@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.33 -->
-## [v4.56.33](https://github.com/inspec/inspec/tree/v4.56.33) (2023-04-05)
+<!-- latest_release 4.56.34 -->
+## [v4.56.34](https://github.com/inspec/inspec/tree/v4.56.34) (2023-07-07)
 
 #### Merged Pull Requests
-- Backport 6240: Update chefstyle from 2.0.x to 2.2.2 to use RuboCop 1.25.1 [#6459](https://github.com/inspec/inspec/pull/6459) ([Nik08](https://github.com/Nik08))
+- Bump berkshelf from 8.0.2 to 8.0.7 in /omnibus [#6529](https://github.com/inspec/inspec/pull/6529) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.56.20 -->
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Bump berkshelf from 8.0.2 to 8.0.7 in /omnibus [#6529](https://github.com/inspec/inspec/pull/6529) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.34 -->
 - Backport 6240: Update chefstyle from 2.0.x to 2.2.2 to use RuboCop 1.25.1 [#6459](https://github.com/inspec/inspec/pull/6459) ([Nik08](https://github.com/Nik08)) <!-- 4.56.33 -->
 - Fix Windows CI by not installing html-proofer for Ruby &lt; 3.0 [#6496](https://github.com/inspec/inspec/pull/6496) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.32 -->
 - Backport PR#6043 to Inspec 4 [#6282](https://github.com/inspec/inspec/pull/6282) ([sathish-progress](https://github.com/sathish-progress)) <!-- 4.56.31 -->
