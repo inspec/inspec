@@ -7,6 +7,8 @@
 #### Merged Pull Requests
 - Adds test for licensing_config [#57](https://github.com/inspec/inspec-prime/pull/57) ([Vasu1105](https://github.com/Vasu1105))
 
+<!-- latest_release -->
+
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
