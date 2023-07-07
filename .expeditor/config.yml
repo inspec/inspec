@@ -5,7 +5,7 @@ product_key: inspec
 
 
 pipelines:
- - verify:
+ - verify/private:
     description: Pull Request validation tests
     env:
      - LANG: "C.UTF-8"
