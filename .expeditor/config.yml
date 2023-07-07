@@ -6,12 +6,14 @@ product_key: inspec
 
 pipelines:
  - verify/private:
-    description: Pull Request validation tests
-    env:
-     - LANG: "C.UTF-8"
-     - SLOW: 1
-     - NO_AWS: 1
-     - MT_CPU: 5
+      definition: .expeditor/verify_private.pipeline.yml
+      public: false
+      description: Pull Request validation tests
+      env:
+      - LANG: "C.UTF-8"
+      - SLOW: 1
+      - NO_AWS: 1
+      - MT_CPU: 5
  - omnibus/release:
     env:
      - EXPIRE_CACHE: 1
