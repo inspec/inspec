@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.2.44 -->
-## [v6.2.44](https://github.com/inspec/inspec/tree/v6.2.44) (2023-02-27)
+<!-- latest_release 6.2.45 -->
+## [v6.2.45](https://github.com/inspec/inspec/tree/v6.2.45) (2023-07-07)
 
 #### Merged Pull Requests
-- Forport 6388 [#6477](https://github.com/inspec/inspec/pull/6477) ([Vasu1105](https://github.com/Vasu1105))
+- Prep CI system for inspec-prime merge [#6553](https://github.com/inspec/inspec/pull/6553) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Prep CI system for inspec-prime merge [#6553](https://github.com/inspec/inspec/pull/6553) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.45 -->
 - Forport 6388 [#6477](https://github.com/inspec/inspec/pull/6477) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.44 -->
 - Foreport 6360 [#6476](https://github.com/inspec/inspec/pull/6476) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.43 -->
 - Foreport-6423 [#6474](https://github.com/inspec/inspec/pull/6474) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.2.42 -->
