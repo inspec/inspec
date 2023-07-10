@@ -24,6 +24,19 @@ pipelines:
      - ADHOC: true
      - EXPIRE_CACHE: 1
      - IGNORE_ARTIFACTORY_RUBY_PROXY: true # Artifactory is throwing 500's when downloading some gems like ffi.
+ - habitat/build:
+    env:
+     - HAB_NONINTERACTIVE: "true"
+     - HAB_NOCOLORING: "true"
+     - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+ - artifact/habitat:
+    description: Execute tests against the habitat artifact
+    definition: .expeditor/artifact.habitat.yml
+    env:
+     - HAB_NONINTERACTIVE: "true"
+     - HAB_NOCOLORING: "true"
+     - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+    trigger: pull_request
 
 slack:
  notify_channel: inspec-notify
@@ -78,11 +91,24 @@ subscriptions:
         ignore_labels:
          - "Expeditor: Skip All"
          - "Expeditor: Skip Changelog"
+     - trigger_pipeline:artifact/habitat:
+        only_if: built_in:bump_version
+        ignore_labels:
+         - "Expeditor: Skip Habitat"
+         - "Expeditor: Skip All"
      - trigger_pipeline:omnibus/release:
         only_if: built_in:bump_version
         ignore_labels:
          - "Expeditor: Skip Omnibus"
          - "Expeditor: Skip All"
+     - trigger_pipeline:habitat/build:
+        only_if: built_in:bump_version
+        ignore_labels:
+         - "Expeditor: Skip Habitat"
+         - "Expeditor: Skip All"
+  - workload: artifact_published:current:inspec:{{version_constraint}}
+    actions:
+     - built_in:promote_habitat_packages
   - workload: pull_request_opened:{{github_repo}}:{{release_branch}}:*
     actions:
      - post_github_comment:.expeditor/templates/pull_request.mustache:
