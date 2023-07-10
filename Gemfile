@@ -48,6 +48,4 @@ group :deploy do
   gem "inquirer"
 end
 
-source "https://artifactory-internal.ps.chef.co/artifactory/api/gems/omnibus-gems-local/" do
-  gem "chef-licensing"
-end
+gem 'chef-licensing', '~> 0.4.43'
