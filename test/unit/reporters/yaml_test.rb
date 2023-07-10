@@ -10,6 +10,7 @@ describe Inspec::Reporters::Yaml do
   # Match yaml reporter data
   # Strip leading white spaces from empty scalar values for testing
   # In Ruby, depending on its version, empty values are generated with or without leading spaces
+  # This was affecting the title: and desc: fields
   def strip_white_spaces_from_empty_values(output)
     output.gsub(/:\s*\n/, ":\n")
   end
