@@ -1002,6 +1002,30 @@ describe "inspec exec" do
       end
     end
 
+    describe "when using the --config option and --reporter option to configure reporter in a run in a correct manner" do
+      outpath = Dir.tmpdir
+      let(:cli_args) { "--config " + File.join(config_dir_path, "json-config", "reporter-json-config.json") + " --reporter json:#{outpath}/test-json-report.json" }
+      let(:run_result) { run_inspec_process("exec " + File.join(profile_path, "basic_profile") + " " + cli_args) }
+      it "should be able to configure the reporters from cli and config both" do
+        _(File.exist?("#{outpath}/test-json-report.json")).must_equal true
+        _(run_result.stdout).must_include "InSpec Profile (basic_profile)"
+        _(run_result.stdout).must_include "1 successful control"
+        _(run_result.stdout).must_include "0 control failures"
+        _(run_result.stdout).must_include "0 controls skipped"
+        _(run_result.stderr).must_be_empty
+      end
+    end
+
+    describe "when using the --config option and --reporter option to configure reporter with stdout true from both the options" do
+      outpath = Dir.tmpdir
+      let(:cli_args) { "--config " + File.join(config_dir_path, "json-config", "reporter-json-config.json") + " --reporter json html2" }
+      let(:run_result) { run_inspec_process("exec " + File.join(profile_path, "basic_profile") + " " + cli_args) }
+      it "should raise error that only single reporter can have output to stdout" do
+        _(run_result.stderr).wont_equal ""
+        _(run_result.stderr).must_include "The option --reporter can only have a single report outputting to stdout."
+      end
+    end
+
     unless windows?
       describe "when using the --config option to read from STDIN" do
         let(:json_path) { File.join(config_dir_path, "json-config", "good.json") }
