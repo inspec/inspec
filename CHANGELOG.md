@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.9 -->
-## [v5.22.9](https://github.com/inspec/inspec/tree/v5.22.9) (2023-07-11)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- YAML reporter test fix [#6563](https://github.com/inspec/inspec/pull/6563) ([Nik08](https://github.com/Nik08))
+- Add inspec-6 branch to Dependabot monitoring [#6569](https://github.com/inspec/inspec/pull/6569) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.3 -->
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Add inspec-6 branch to Dependabot monitoring [#6569](https://github.com/inspec/inspec/pull/6569) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.9 -->
 - YAML reporter test fix [#6563](https://github.com/inspec/inspec/pull/6563) ([Nik08](https://github.com/Nik08)) <!-- 5.22.9 -->
 - Bump omnibus-software from `f06bbea` to `4b08f0b` in /omnibus [#6548](https://github.com/inspec/inspec/pull/6548) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.8 -->
 - Bump berkshelf from 8.0.2 to 8.0.7 in /omnibus [#6530](https://github.com/inspec/inspec/pull/6530) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.7 -->
