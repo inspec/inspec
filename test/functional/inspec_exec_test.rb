@@ -1017,7 +1017,6 @@ describe "inspec exec" do
     end
 
     describe "when using the --config option and --reporter option to configure reporter with stdout true from both the options" do
-      outpath = Dir.tmpdir
       let(:cli_args) { "--config " + File.join(config_dir_path, "json-config", "reporter-json-config.json") + " --reporter json html2" }
       let(:run_result) { run_inspec_process("exec " + File.join(profile_path, "basic_profile") + " " + cli_args) }
       it "should raise error that only single reporter can have output to stdout" do

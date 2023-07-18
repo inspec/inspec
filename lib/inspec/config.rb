@@ -484,7 +484,7 @@ module Inspec
 
     def finalize_parse_reporters(options) # rubocop:disable Metrics/AbcSize
       # Default to cli report for ad-hoc runners
-      options["reporter_cli_opts"] = ["cli"] if options["reporter"].nil? && options["reporter_cli_opts"].nil?
+      options["reporter_cli_opts"] = ["cli"] if (options["reporter"].nil? || options["reporter"].empty?) && options["reporter_cli_opts"].nil?
 
       # Parse out reporter_cli_opts to proper report format
       if options["reporter_cli_opts"].is_a?(Array)
@@ -502,13 +502,11 @@ module Inspec
           end
         end
 
-        if options["reporter"]
+        if !options["reporter"].nil? && !options["reporter"].empty?
           options["reporter"].merge!(reports)
         else
           options["reporter"] = reports
         end
-        # Delete reporter_cli_opts after graceful merging of cli and config reporters
-        options.delete("reporter_cli_opts")
       end
 
       # add in stdout if not specified
