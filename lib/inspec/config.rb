@@ -519,6 +519,10 @@ module Inspec
       end
 
       validate_reporters!(options["reporter"])
+
+      # Delete reporter_cli_opts after graceful merging of cli and config reporters
+      options.delete("reporter_cli_opts")
+
       options
     end
 
