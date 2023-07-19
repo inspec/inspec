@@ -1002,29 +1002,6 @@ describe "inspec exec" do
       end
     end
 
-    describe "when using the --config option and --reporter option to configure reporter in a run in a correct manner" do
-      outpath = Dir.tmpdir
-      let(:cli_args) { "--config " + File.join(config_dir_path, "json-config", "reporter-json-config.json") + " --reporter json:#{outpath}/test-json-report.json" }
-      let(:run_result) { run_inspec_process("exec " + File.join(profile_path, "basic_profile") + " " + cli_args) }
-      it "should be able to configure the reporters from cli and config both" do
-        _(File.exist?("#{outpath}/test-json-report.json")).must_equal true
-        _(run_result.stdout).must_include "InSpec Profile (basic_profile)"
-        _(run_result.stdout).must_include "1 successful control"
-        _(run_result.stdout).must_include "0 control failures"
-        _(run_result.stdout).must_include "0 controls skipped"
-        _(run_result.stderr).must_be_empty
-      end
-    end
-
-    describe "when using the --config option and --reporter option to configure reporter with stdout true from both the options" do
-      let(:cli_args) { "--config " + File.join(config_dir_path, "json-config", "reporter-json-config.json") + " --reporter json html2" }
-      let(:run_result) { run_inspec_process("exec " + File.join(profile_path, "basic_profile") + " " + cli_args) }
-      it "should raise error that only single reporter can have output to stdout" do
-        _(run_result.stderr).wont_equal ""
-        _(run_result.stderr).must_include "The option --reporter can only have a single report outputting to stdout."
-      end
-    end
-
     unless windows?
       describe "when using the --config option to read from STDIN" do
         let(:json_path) { File.join(config_dir_path, "json-config", "good.json") }
@@ -1105,6 +1082,34 @@ describe "inspec exec" do
 
         assert_exit_code 1, run_result
       end
+    end
+  end
+
+  describe "When specifying a config file and --reporter option to configure reporter in a run in a correct manner" do
+    it "should obey the configurations of both cli reporter and config reporter options" do
+      outpath = Dir.tmpdir
+      cli_args = "--no-create-lockfile --reporter json:#{outpath}/foo/bar/test.json --config " + File.join(config_dir_path, "json-config", "reporter-json-config.json")
+      inspec("exec #{complete_profile} #{cli_args}")
+
+      # File specified with cli reporter option - test to see file exists
+      _(File.exist?("#{outpath}/foo/bar/test.json")).must_equal true
+      _(File.stat("#{outpath}/foo/bar/test.json").size).must_be :>, 0
+      # STDOUT true set using config - test to see if this is obeyed
+      _(stdout).must_include "complete example profile (complete)"
+      _(stdout).must_include "1 successful control"
+      _(stdout).must_include "0 control failures"
+      _(stdout).must_include "0 controls skipped"
+      _(stderr).must_be_empty
+      assert_exit_code 0, out
+    end
+  end
+
+  describe "When specifying a config file and --reporter option to configure reporter with stdout true from both the options" do
+    let(:cli_args) { "--config " + File.join(config_dir_path, "json-config", "reporter-json-config.json") + " --reporter json html2" }
+    let(:run_result) { run_inspec_process("exec " + File.join(profile_path, "basic_profile") + " " + cli_args) }
+    it "should raise error that only single reporter can have output to stdout" do
+      _(run_result.stderr).wont_equal ""
+      _(run_result.stderr).must_include "The option --reporter can only have a single report outputting to stdout."
     end
   end
 
