@@ -502,10 +502,10 @@ module Inspec
           end
         end
 
-        if !options["reporter"].nil? && !options["reporter"].empty?
-          options["reporter"].merge!(reports)
-        else
+        if options["reporter"].nil? || options["reporter"].empty?
           options["reporter"] = reports
+        else
+          options["reporter"].merge!(reports)
         end
       end
 

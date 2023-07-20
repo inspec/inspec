@@ -1086,12 +1086,12 @@ describe "inspec exec" do
   end
 
   describe "When specifying a config file and --reporter option to configure reporter in a run in a correct manner" do
-    it "should obey the configurations of both cli reporter and config reporter options" do
+    it "should obey the configurations of both --reporter and config reporter options" do
       outpath = Dir.tmpdir
       cli_args = "--no-create-lockfile --reporter json:#{outpath}/foo/bar/test.json --config " + File.join(config_dir_path, "json-config", "reporter-json-config.json")
       inspec("exec #{complete_profile} #{cli_args}")
 
-      # File specified with cli reporter option - test to see file exists
+      # File specified with --reporter option - test to see file exists
       _(File.exist?("#{outpath}/foo/bar/test.json")).must_equal true
       _(File.stat("#{outpath}/foo/bar/test.json").size).must_be :>, 0
       # STDOUT true set using config - test to see if this is obeyed
