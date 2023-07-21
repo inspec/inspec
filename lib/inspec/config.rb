@@ -505,6 +505,28 @@ module Inspec
         if options["reporter"].nil? || options["reporter"].empty?
           options["reporter"] = reports
         else
+          options["reporter"].each do |reporter, config|
+            # Same reporter used via CLI and config both
+            # After merging of same reporter config, final config can have:
+            # - single or multiple files
+            # - stdout true along with files
+            if reports[reporter]
+              config_reporter_stdout = config["stdout"]
+              cli_reporter_stdout = reports[reporter]["stdout"]
+
+              # If files are passed through both cli_opts and config file
+              # Only if file paths are different
+              if (reports[reporter]["file"] && config["file"]) && (reports[reporter]["file"] != config["file"])
+                config["files"] = [config["file"], reports[reporter]["file"]]
+              else
+                # Merge config for same reporters directly
+                config.merge!(reports[reporter])
+              end
+              # Reset stdout as true if stdout was true from cli or config
+              config["stdout"] = true if config_reporter_stdout || cli_reporter_stdout
+              reports.delete(reporter)
+            end
+          end
           options["reporter"].merge!(reports)
         end
       end

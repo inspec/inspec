@@ -37,16 +37,26 @@ module Inspec::Reporters
     reporter.render
     output = reporter.rendered_output
 
-    if config["file"]
-      # create destination directory if it does not exist
-      dirname = File.dirname(config["file"])
-      FileUtils.mkdir_p(dirname) unless File.directory?(dirname)
+    if config["files"]
+      config["files"].each do |file|
+        create_reporter_output_file(file, output)
+      end
+    elsif config["file"]
+      create_reporter_output_file(config["file"], output)
+    end
 
-      File.write(config["file"], output)
-    elsif config["stdout"] == true
+    if config["stdout"] == true
       print output
       $stdout.flush
     end
+  end
+
+  def self.create_reporter_output_file(file, output)
+    # create destination directory if it does not exist
+    dirname = File.dirname(file)
+    FileUtils.mkdir_p(dirname) unless File.directory?(dirname)
+
+    File.write(file, output)
   end
 
   def self.report(reporter, run_data)
