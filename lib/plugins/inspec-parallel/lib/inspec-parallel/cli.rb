@@ -35,5 +35,30 @@ module InspecPlugins::Parallelism
         end
       }
     end
+
+    desc "split", "Generate an options file for inspec parallel exec by splitting a profile"
+    def split(profile_target)
+      begin
+        # Setup logger
+        o = config
+        diagnose(o)
+        o["log_location"] = $stderr
+        configure_logger(o)
+
+        # Process profile using a mock backend - logic lifted from `inspec export`
+        o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
+        o[:check_mode] = true
+        o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
+        profile = Inspec::Profile.for_target(profile_target, o)
+
+        # Split profile
+        require_relative "profile_splitter"
+        ps = InspecPlugins::Parallelism::ProfileSplitter.new(o)
+        ps.split(profile)
+
+      rescue StandardError => e
+        pretty_handle_exception(e)
+      end
+    end
   end
 end
