@@ -1,7 +1,0 @@
-{
-  "reporter": {
-    "json" : {
-      "stdout" : true
-    }
-  }
-}

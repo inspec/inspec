@@ -127,14 +127,7 @@ module InspecPlugins
         end
 
         reporter_config = JSON.parse(config_content)["reporter"] unless config_content.nil? || config_content.empty?
-        if reporter_config
-          reporter_config.each do |reporter, config|
-            unless config["stdout"] == false
-              invocation_data[:validation_errors] << "Config should have reporter option with stdout `false` for each invocation which is not using --reporter option in options file"
-              break
-            end
-          end
-        else
+        unless reporter_config
           invocation_data[:validation_errors] << "Config should have reporter option specified for each invocation which is not using --reporter option in options file"
         end
         @config_content
