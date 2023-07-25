@@ -75,11 +75,9 @@ module InspecPlugins
         # if no reporter option, that's an error
         unless invocation_data[:thor_opts].include?("reporter")
           # Check for config reporter validation only if --reporter option is missing from options file
-          if invocation_data[:thor_opts].include?("config") || invocation_data[:thor_opts].include?("json_config")
-            check_reporter_options_in_config(invocation_data)
-          else
-            invocation_data[:validation_errors] << "A --reporter option must be specified for each invocation in the options file"
-          end
+          return if check_reporter_options_in_config(invocation_data)
+
+          invocation_data[:validation_errors] << "A --reporter option must be specified for each invocation in the options file"
           return
         end
 
@@ -120,9 +118,7 @@ module InspecPlugins
             # Scenario of using default config.json file when path not provided
             default_path = File.join(Inspec.config_dir, "config.json")
             config_opts = default_path
-            unless File.exist?(config_opts)
-              invocation_data[:validation_errors] << "Could not read configuration file at #{config_opts}"
-            end
+            return unless File.exist?(config_opts)
           elsif !File.exist?(config_opts)
             invocation_data[:validation_errors] << "Could not read configuration file at #{config_opts}"
             return
@@ -130,7 +126,7 @@ module InspecPlugins
           @config_content = File.open(config_opts).read
         end
 
-        reporter_config = JSON.parse(config_content)["reporter"] if config_content
+        reporter_config = JSON.parse(config_content)["reporter"] unless config_content.nil? || config_content.empty?
         if reporter_config
           reporter_config.each do |reporter, config|
             unless config["stdout"] == false
@@ -141,6 +137,7 @@ module InspecPlugins
         else
           invocation_data[:validation_errors] << "Config should have reporter option specified for each invocation which is not using --reporter option in options file"
         end
+        @config_content
       end
 
       def check_for_piped_config_from_stdin(config_opts)
