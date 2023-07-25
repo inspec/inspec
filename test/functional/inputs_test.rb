@@ -81,7 +81,7 @@ describe "inputs" do
     let(:common_options) do
       {
         profile: "#{inputs_profiles_path}/via-runner",
-        reporter: ["json"],
+        "reporter" => ["json"],
       }
     end
 

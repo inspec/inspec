@@ -15,7 +15,7 @@ A `reporter` is a facility for formatting and delivering the results of a Chef I
 
 Chef InSpec allows you to output your test results to one or more reporters.
 
-Configure the reporter(s) using either the `--reporter` option or as part of the general configuration file using the `--config` (or `--json-config`, prior to v3.6) option. While you can configure multiple reporters to write to different files, only one reporter can output to the screen(stdout).
+Configure the reporter(s) using the `--reporter` option or as part of the general configuration file using the `--config` (or `--json-config`, prior to v3.6) option. Both the --reporter and --config options may be used, in which case the options are merged. While you can configure multiple reporters to write to different files, only one reporter can output to the screen(stdout).
 
 ## Syntax
 

@@ -1,0 +1,7 @@
+{
+  "reporter": {
+    "cli" : {
+      "stdout" : true
+    }
+  }
+}
