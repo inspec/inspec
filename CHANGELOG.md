@@ -1,17 +1,18 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.34 -->
-## [v6.4.34](https://github.com/inspec/inspec/tree/v6.4.34) (2023-07-07)
+<!-- latest_release 6.4.35 -->
+## [v6.4.35](https://github.com/inspec/inspec/tree/v6.4.35) (2023-07-25)
 
 #### Merged Pull Requests
-- CHEF-3832: Fix for InSpec Parallel fails to fetch remote profiles due to cache contention. [#6546](https://github.com/inspec/inspec/pull/6546) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-4080: Point to latest EULA in GUI installers [#6580](https://github.com/inspec/inspec/pull/6580) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- CHEF-4080: Point to latest EULA in GUI installers [#6580](https://github.com/inspec/inspec/pull/6580) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.35 -->
 - CHEF-3832: Fix for InSpec Parallel fails to fetch remote profiles due to cache contention. [#6546](https://github.com/inspec/inspec/pull/6546) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.34 -->
 - Add chef-licensing, syncing from inspec-prime repo inspec-6 branch  [#6559](https://github.com/inspec/inspec/pull/6559) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.33 -->
 - inspec-6 CI - Add secrets: true to private verify pipeline, delete ruby 2.7 config [#6558](https://github.com/inspec/inspec/pull/6558) ([clintoncwolfe](https://github.com/clintoncwolfe))
