@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.10 -->
-## [v5.22.10](https://github.com/inspec/inspec/tree/v5.22.10) (2023-07-25)
+<!-- latest_release 5.22.11 -->
+## [v5.22.11](https://github.com/inspec/inspec/tree/v5.22.11) (2023-07-25)
 
 #### Merged Pull Requests
-- CHEF-4115 Added ability to merge reporter configurations from both CLI and config [#6568](https://github.com/inspec/inspec/pull/6568) ([Nik08](https://github.com/Nik08))
-- Add inspec-6 branch to Dependabot monitoring [#6569](https://github.com/inspec/inspec/pull/6569) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- CHEF-4080: Point to latest EULA in GUI installers for InSpec-5 [#6582](https://github.com/inspec/inspec/pull/6582) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.3 -->
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- CHEF-4080: Point to latest EULA in GUI installers for InSpec-5 [#6582](https://github.com/inspec/inspec/pull/6582) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.11 -->
 - CHEF-4115 Added ability to merge reporter configurations from both CLI and config [#6568](https://github.com/inspec/inspec/pull/6568) ([Nik08](https://github.com/Nik08)) <!-- 5.22.10 -->
 - Add inspec-6 branch to Dependabot monitoring [#6569](https://github.com/inspec/inspec/pull/6569) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.9 -->
 - YAML reporter test fix [#6563](https://github.com/inspec/inspec/pull/6563) ([Nik08](https://github.com/Nik08)) <!-- 5.22.9 -->
