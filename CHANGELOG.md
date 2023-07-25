@@ -1,17 +1,18 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.35 -->
-## [v6.4.35](https://github.com/inspec/inspec/tree/v6.4.35) (2023-07-25)
+<!-- latest_release 6.4.36 -->
+## [v6.4.36](https://github.com/inspec/inspec/tree/v6.4.36) (2023-07-25)
 
 #### Merged Pull Requests
-- CHEF-4080: Point to latest EULA in GUI installers [#6580](https://github.com/inspec/inspec/pull/6580) ([ahasunos](https://github.com/ahasunos))
+- Foreport 6568 [#6579](https://github.com/inspec/inspec/pull/6579) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Foreport 6568 [#6579](https://github.com/inspec/inspec/pull/6579) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.36 -->
 - CHEF-4080: Point to latest EULA in GUI installers [#6580](https://github.com/inspec/inspec/pull/6580) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.35 -->
 - CHEF-3832: Fix for InSpec Parallel fails to fetch remote profiles due to cache contention. [#6546](https://github.com/inspec/inspec/pull/6546) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.34 -->
 - Add chef-licensing, syncing from inspec-prime repo inspec-6 branch  [#6559](https://github.com/inspec/inspec/pull/6559) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.33 -->
