@@ -448,6 +448,13 @@ module Inspec
       # Reporter options may be defined top-level.
       options.merge!(config_file_reporter_options)
 
+      if @cli_opts["reporter"]
+        # Add reporter_cli_opts in options to capture reporter cli opts separately
+        options.merge!({ "reporter_cli_opts" => @cli_opts["reporter"] })
+        # Delete reporter from cli_opts to avoid direct merging of reporter info of cli and config
+        @cli_opts.delete("reporter")
+      end
+
       # Highest precedence: merge in any options defined via the CLI
       options.merge!(@cli_opts)
 
@@ -476,13 +483,13 @@ module Inspec
     end
 
     def finalize_parse_reporters(options) # rubocop:disable Metrics/AbcSize
-      # default to cli report for ad-hoc runners
-      options["reporter"] = ["cli"] if options["reporter"].nil?
+      # Default to cli report for ad-hoc runners
+      options["reporter_cli_opts"] = ["cli"] if (options["reporter"].nil? || options["reporter"].empty?) && options["reporter_cli_opts"].nil?
 
-      # parse out cli to proper report format
-      if options["reporter"].is_a?(Array)
+      # Parse out reporter_cli_opts to proper report format
+      if options["reporter_cli_opts"].is_a?(Array)
         reports = {}
-        options["reporter"].each do |report|
+        options["reporter_cli_opts"].each do |report|
           reporter_name, destination = report.split(":", 2)
           if destination.nil? || destination.strip == "-"
             reports[reporter_name] = { "stdout" => true }
@@ -494,7 +501,12 @@ module Inspec
             reports[reporter_name]["target_id"] = options["target_id"] if options["target_id"]
           end
         end
-        options["reporter"] = reports
+
+        if options["reporter"].nil? || options["reporter"].empty?
+          options["reporter"] = reports
+        else
+          options["reporter"].merge!(reports)
+        end
       end
 
       # add in stdout if not specified
@@ -507,6 +519,10 @@ module Inspec
       end
 
       validate_reporters!(options["reporter"])
+
+      # Delete reporter_cli_opts after graceful merging of cli and config reporters
+      options.delete("reporter_cli_opts")
+
       options
     end
 
@@ -548,15 +564,12 @@ module Inspec
     class Defaults
       DEFAULTS = {
         exec: {
-          "reporter" => ["cli"],
           "show_progress" => false,
           "color" => true,
           "create_lockfile" => true,
           "backend_cache" => true,
         },
-        shell: {
-          "reporter" => ["cli"],
-        },
+        shell: {},
       }.freeze
 
       def self.for_command(command_name)
