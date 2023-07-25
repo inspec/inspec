@@ -1,17 +1,18 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.38 -->
-## [v6.4.38](https://github.com/inspec/inspec/tree/v6.4.38) (2023-07-25)
+<!-- latest_release 6.4.39 -->
+## [v6.4.39](https://github.com/inspec/inspec/tree/v6.4.39) (2023-07-25)
 
 #### Merged Pull Requests
-- CHEF-4559 Extended support to inspec parallel for reporters using config [#6578](https://github.com/inspec/inspec/pull/6578) ([Nik08](https://github.com/Nik08))
+- Disable git caching in omnibus builds [#6584](https://github.com/inspec/inspec/pull/6584) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- Disable git caching in omnibus builds [#6584](https://github.com/inspec/inspec/pull/6584) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.39 -->
 - CHEF-4559 Extended support to inspec parallel for reporters using config [#6578](https://github.com/inspec/inspec/pull/6578) ([Nik08](https://github.com/Nik08)) <!-- 6.4.38 -->
 - Bump omnibus-software from `4b08f0b` to `3268356` in /omnibus [#6576](https://github.com/inspec/inspec/pull/6576) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.37 -->
 - Foreport 6568 [#6579](https://github.com/inspec/inspec/pull/6579) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.36 -->
