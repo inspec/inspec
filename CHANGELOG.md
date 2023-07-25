@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.22.10 -->
+## [v5.22.10](https://github.com/inspec/inspec/tree/v5.22.10) (2023-07-25)
 
 #### Merged Pull Requests
+- CHEF-4115 Added ability to merge reporter configurations from both CLI and config [#6568](https://github.com/inspec/inspec/pull/6568) ([Nik08](https://github.com/Nik08))
 - Add inspec-6 branch to Dependabot monitoring [#6569](https://github.com/inspec/inspec/pull/6569) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- CHEF-4115 Added ability to merge reporter configurations from both CLI and config [#6568](https://github.com/inspec/inspec/pull/6568) ([Nik08](https://github.com/Nik08)) <!-- 5.22.10 -->
 - Add inspec-6 branch to Dependabot monitoring [#6569](https://github.com/inspec/inspec/pull/6569) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.9 -->
 - YAML reporter test fix [#6563](https://github.com/inspec/inspec/pull/6563) ([Nik08](https://github.com/Nik08)) <!-- 5.22.9 -->
 - Bump omnibus-software from `f06bbea` to `4b08f0b` in /omnibus [#6548](https://github.com/inspec/inspec/pull/6548) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.8 -->
