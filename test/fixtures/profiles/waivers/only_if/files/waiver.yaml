@@ -1,3 +1,8 @@
 01_only_if:
   run: false
   justification: test_message_from_waiver
+
+02_only_if_when_waiver_is_expired:
+  expiration_date: 1977-06-01
+  run: false
+  justification: test_message_from_waiver

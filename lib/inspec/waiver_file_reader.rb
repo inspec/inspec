@@ -19,15 +19,17 @@ module Inspec
         data = nil
         if [".yaml", ".yml"].include? file_extension
           data = Secrets::YAML.resolve(file_path)
-          data = data.inputs unless data.nil?
-          validate_json_yaml(data)
+          unless data.nil?
+            data = data.inputs
+            validate_json_yaml(data)
+          end
         elsif file_extension == ".csv"
           data = Waivers::CSVFileReader.resolve(file_path)
           headers = Waivers::CSVFileReader.headers
           validate_headers(headers)
         elsif file_extension == ".json"
           data = Waivers::JSONFileReader.resolve(file_path)
-          validate_json_yaml(data)
+          validate_json_yaml(data) unless data.nil?
         end
         output.merge!(data) if !data.nil? && data.is_a?(Hash)
 
