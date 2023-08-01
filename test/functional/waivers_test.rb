@@ -72,7 +72,7 @@ describe "waivers" do
     assert_empty act
   end
 
-  def assert_skip_message(control_id = "01_only_if", yea, nay)
+  def assert_skip_message(yea, nay, control_id = "01_only_if")
     msg = controls_by_id.dig(control_id, "results", 0, "skip_message")
     assert_includes msg, yea
     refute_includes msg, nay
@@ -252,9 +252,9 @@ describe "waivers" do
     end
 
     describe "when an only_if is used with waiver file which has waived control with past expiration date" do
-      let(:waiver_file) {"waiver.yaml"}
+      let(:waiver_file) { "waiver.yaml" }
       it "skips the control with a waiver message" do
-        assert_skip_message "02_only_if_when_waiver_is_expired", "test_message_from_dsl_02_only_if", "waiver"
+        assert_skip_message "test_message_from_dsl_02_only_if", "waiver", "02_only_if_when_waiver_is_expired"
       end
     end
 
