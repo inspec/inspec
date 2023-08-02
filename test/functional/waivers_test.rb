@@ -247,7 +247,11 @@ describe "waivers" do
       it "raise unable to parse empty.yaml file error" do
         result = run_result
         assert_includes result.stderr, "unable to parse"
-        assert_equal 102, result.exit_status
+        if windows?
+          assert_equal 1, result.exit_status
+        else
+          assert_equal 102, result.exit_status
+        end
       end
     end
 
