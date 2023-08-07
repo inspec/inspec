@@ -9,7 +9,7 @@ module InspecPlugins::License
       ChefLicensing.list_license_keys_info
     rescue ChefLicensing::Error => e
       Inspec::Log.error e.message
-      Inspec::UI::EXIT_LICENSE_NOT_SET
+      Inspec::UI.new.exit(Inspec::UI::EXIT_LICENSE_NOT_SET)
     end
 
     desc "add", "Add a new license (not applicable to local licensing service)"
