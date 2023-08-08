@@ -1,6 +1,8 @@
 +++
 title = "Install Chef InSpec 6"
 gh_repo = "inspec"
+
+## See the "content/inspec/install.md" file.
 +++
 
 You can install Chef InSpec on MacOS, Windows, and Linux systems.
