@@ -635,23 +635,28 @@ This subcommand has the following additional options:
 
 ## license
 
-Subcommands for interacting with the licensing system.
+Subcommands for interacting with the Chef licensing system.
 
 ### Syntax
 
-`inspec license` currently supports two sub-commands, `list` and `add`.
+`inspec license` supports two subcommands, `add` and `list`.
 
+#### Add
 
-All users. To run license diagnostics and output the details of your current license configuration, run `inspec license list`.
+Add a Chef license.
 
-```bash
-inspec license list
-```
-
-Global license service users only - local license service users not applicable - To add a license, for example when your current license has expired, use `inspec license add`:
+Not applicable for users running the local licensing service.
 
 ```bash
 inspec license add
+```
+
+#### List
+
+Run license diagnostics and output the details of your current Chef license configuration.
+
+```bash
+inspec license list
 ```
 
 ## run_context
