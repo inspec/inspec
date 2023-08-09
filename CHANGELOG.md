@@ -1,17 +1,18 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.40 -->
-## [v6.4.40](https://github.com/inspec/inspec/tree/v6.4.40) (2023-07-25)
+<!-- latest_release 6.4.41 -->
+## [v6.4.41](https://github.com/inspec/inspec/tree/v6.4.41) (2023-08-09)
 
 #### Merged Pull Requests
-- Revert omnibus-software bump (6576) - ffi-yajl issue [#6585](https://github.com/inspec/inspec/pull/6585) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- CHEF-3916 Add section on inspec license subcommand to online docs [#6583](https://github.com/inspec/inspec/pull/6583) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- CHEF-3916 Add section on inspec license subcommand to online docs [#6583](https://github.com/inspec/inspec/pull/6583) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.41 -->
 - Revert omnibus-software bump (6576) - ffi-yajl issue [#6585](https://github.com/inspec/inspec/pull/6585) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.40 -->
 - Disable git caching in omnibus builds [#6584](https://github.com/inspec/inspec/pull/6584) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.39 -->
 - CHEF-4559 Extended support to inspec parallel for reporters using config [#6578](https://github.com/inspec/inspec/pull/6578) ([Nik08](https://github.com/Nik08)) <!-- 6.4.38 -->
