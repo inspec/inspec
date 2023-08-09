@@ -78,9 +78,9 @@ github:
    - "Expeditor: Bump Major Version"
 
 release_branches:
-  - inspec-6:
-     version_constraint: 6.*
   - main:
+     version_constraint: 6.*
+  - inspec-5:
       version_constraint: 5.*
   - inspec-4:
      version_constraint: 4.*
