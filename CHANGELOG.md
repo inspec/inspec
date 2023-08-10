@@ -1,17 +1,18 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.42 -->
-## [v6.4.42](https://github.com/inspec/inspec/tree/v6.4.42) (2023-08-10)
+<!-- latest_release 6.4.43 -->
+## [v6.4.43](https://github.com/inspec/inspec/tree/v6.4.43) (2023-08-10)
 
 #### Merged Pull Requests
-- CHEF-4818 revise inspec parallel docs content [#6586](https://github.com/inspec/inspec/pull/6586) ([IanMadd](https://github.com/IanMadd))
+- CHEF-4010 make a clean exit for License list command [#6552](https://github.com/inspec/inspec/pull/6552) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.18.14 -->
 ### Changes since 5.18.14 release
 
 #### Merged Pull Requests
+- CHEF-4010 make a clean exit for License list command [#6552](https://github.com/inspec/inspec/pull/6552) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.4.43 -->
 - CHEF-4818 revise inspec parallel docs content [#6586](https://github.com/inspec/inspec/pull/6586) ([IanMadd](https://github.com/IanMadd)) <!-- 6.4.42 -->
 - CHEF-3916 Add section on inspec license subcommand to online docs [#6583](https://github.com/inspec/inspec/pull/6583) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.41 -->
 - Revert omnibus-software bump (6576) - ffi-yajl issue [#6585](https://github.com/inspec/inspec/pull/6585) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.40 -->
