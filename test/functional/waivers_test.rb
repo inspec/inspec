@@ -244,14 +244,10 @@ describe "waivers" do
     describe "when an only_if is used with empty waiver file" do
       let(:waiver_file) { "empty.yaml" }
 
-      it "raise unable to parse empty.yaml file error" do
+      it "raise warnings unable to parse empty.yaml file" do
         result = run_result
-        assert_includes result.stderr, "unable to parse"
-        if windows?
-          assert_equal 1, result.exit_status
-        else
-          assert_equal 102, result.exit_status
-        end
+        assert_includes result.stderr, "WARN: Secrets::YAML unable to parse"
+        assert_skip_message "due to only_if", "waiver"
       end
     end
 
