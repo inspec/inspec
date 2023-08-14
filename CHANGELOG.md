@@ -5,10 +5,10 @@
 
 #### Merged Pull Requests
 - CHEF-3832: Fix for InSpec Parallel fails to fetch remote profiles due to cache contention. [#6546](https://github.com/inspec/inspec/pull/6546) ([Vasu1105](https://github.com/Vasu1105))
-- YAML reporter test fix [#6563](https://github.com/inspec/inspec/pull/6563) ([Nik08](https://github.com/Nik08))
+<!-- latest_release -->
 
-<!-- release_rollup since=5.22.8 -->
-### Changes since 5.22.8 release
+<!-- release_rollup since=5.22.12 -->
+### Changes since 5.22.12 release
 
 #### Merged Pull Requests
 - CHEF-3832: Fix for InSpec Parallel fails to fetch remote profiles due to cache contention. [#6546](https://github.com/inspec/inspec/pull/6546) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.34 -->
@@ -104,11 +104,16 @@
 - Feature Config File and Logger Support [#6260](https://github.com/inspec/inspec/pull/6260) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.0 -->
 - CFINSPEC-246/CFINSPEC-247 Attestation changes for N/R outcomes [#6222](https://github.com/inspec/inspec/pull/6222) ([Nik08](https://github.com/Nik08)) <!-- 6.1.0 -->
 - CFINSPEC-452 Added Inspec parallel logging for warn/error [#6245](https://github.com/inspec/inspec/pull/6245) ([Nik08](https://github.com/Nik08)) <!-- 6.0.1 -->
+<!-- release_rollup -->
 
-<!-- latest_stable_release 5.22.8 -->
-## [v5.22.8](https://github.com/inspec/inspec/tree/v5.22.8) (2023-07-07)
+<!-- latest_stable_release 5.22.12 -->
+## [v5.22.12](https://github.com/inspec/inspec/tree/v5.22.12) (2023-08-09)
 
 #### Merged Pull Requests
+- CHEF-5200 Waived controls are not getting waived (skipped) in case of failure at resource level. [#6588](https://github.com/inspec/inspec/pull/6588) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.12 -->
+- CHEF-4080: Point to latest EULA in GUI installers for InSpec-5 [#6582](https://github.com/inspec/inspec/pull/6582) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.11 -->
+- CHEF-4115 Added ability to merge reporter configurations from both CLI and config [#6568](https://github.com/inspec/inspec/pull/6568) ([Nik08](https://github.com/Nik08)) <!-- 5.22.10 -->
+- Add inspec-6 branch to Dependabot monitoring [#6569](https://github.com/inspec/inspec/pull/6569) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.9 -->
 - YAML reporter test fix [#6563](https://github.com/inspec/inspec/pull/6563) ([Nik08](https://github.com/Nik08)) <!-- 5.22.9 -->
 - Bump omnibus-software from `f06bbea` to `4b08f0b` in /omnibus [#6548](https://github.com/inspec/inspec/pull/6548) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.8 -->
 - Bump berkshelf from 8.0.2 to 8.0.7 in /omnibus [#6530](https://github.com/inspec/inspec/pull/6530) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.7 -->
@@ -117,6 +122,7 @@
 - Update Docker base image to be ubuntu 22.04 [#6526](https://github.com/inspec/inspec/pull/6526) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.5 -->
 - Update RSpec to 3.12 [#6523](https://github.com/inspec/inspec/pull/6523) ([pirj](https://github.com/pirj)) <!-- 5.22.5 -->
 - CHEF-1631 Clarify that command timeout default was withdrawn [#6511](https://github.com/inspec/inspec/pull/6511) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.4 -->
+<!-- latest_stable_release -->
 
 ## [v5.22.3](https://github.com/inspec/inspec/tree/v5.22.3) (2023-05-18)
 
