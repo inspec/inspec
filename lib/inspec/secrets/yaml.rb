@@ -25,8 +25,8 @@ module Secrets
       end
 
       if @inputs == false || !@inputs.is_a?(Hash)
-        raise ("#{self.class} unable to parse #{target}: invalid YAML or contents is not a Hash")
         @inputs = nil
+        raise("#{self.class} unable to parse #{target}: invalid YAML or contents is not a Hash")
       end
     rescue => e
       raise "Error reading InSpec inputs: #{e}"
