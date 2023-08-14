@@ -246,8 +246,7 @@ describe "waivers" do
 
       it "raise warnings unable to parse empty.yaml file" do
         result = run_result
-        assert_includes result.stderr, "WARN: Secrets::YAML unable to parse"
-        assert_skip_message "due to only_if", "waiver"
+        assert_includes result.stderr, "unable to parse"
       end
     end
 

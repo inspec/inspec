@@ -25,7 +25,7 @@ module Secrets
       end
 
       if @inputs == false || !@inputs.is_a?(Hash)
-        Inspec::Log.warn("#{self.class} unable to parse #{target}: invalid YAML or contents is not a Hash")
+        raise ("#{self.class} unable to parse #{target}: invalid YAML or contents is not a Hash")
         @inputs = nil
       end
     rescue => e

@@ -19,7 +19,7 @@ module Inspec
         data = nil
         if [".yaml", ".yml"].include? file_extension
           data = Secrets::YAML.resolve(file_path)
-          unless data.nil?
+          unless data.nil? || data.inputs.nil?
             data = data.inputs
             validate_json_yaml(data)
           end
