@@ -1,16 +1,26 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 6.4.34 -->
-## [v6.4.34](https://github.com/inspec/inspec/tree/v6.4.34) (2023-07-07)
+
+<!-- latest_release 6.4.43 -->
+## [v6.4.43](https://github.com/inspec/inspec/tree/v6.4.43) (2023-08-10)
 
 #### Merged Pull Requests
-- CHEF-3832: Fix for InSpec Parallel fails to fetch remote profiles due to cache contention. [#6546](https://github.com/inspec/inspec/pull/6546) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-4010 make a clean exit for License list command [#6552](https://github.com/inspec/inspec/pull/6552) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.12 -->
 ### Changes since 5.22.12 release
 
 #### Merged Pull Requests
+- CHEF-4010 make a clean exit for License list command [#6552](https://github.com/inspec/inspec/pull/6552) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.4.43 -->
+- CHEF-4818 revise inspec parallel docs content [#6586](https://github.com/inspec/inspec/pull/6586) ([IanMadd](https://github.com/IanMadd)) <!-- 6.4.42 -->
+- CHEF-3916 Add section on inspec license subcommand to online docs [#6583](https://github.com/inspec/inspec/pull/6583) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.41 -->
+- Revert omnibus-software bump (6576) - ffi-yajl issue [#6585](https://github.com/inspec/inspec/pull/6585) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.40 -->
+- Disable git caching in omnibus builds [#6584](https://github.com/inspec/inspec/pull/6584) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.39 -->
+- CHEF-4559 Extended support to inspec parallel for reporters using config [#6578](https://github.com/inspec/inspec/pull/6578) ([Nik08](https://github.com/Nik08)) <!-- 6.4.38 -->
+- Bump omnibus-software from `4b08f0b` to `3268356` in /omnibus [#6576](https://github.com/inspec/inspec/pull/6576) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.37 -->
+- Foreport 6568 [#6579](https://github.com/inspec/inspec/pull/6579) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.36 -->
+- CHEF-4080: Point to latest EULA in GUI installers [#6580](https://github.com/inspec/inspec/pull/6580) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.35 -->
 - CHEF-3832: Fix for InSpec Parallel fails to fetch remote profiles due to cache contention. [#6546](https://github.com/inspec/inspec/pull/6546) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.34 -->
 - Add chef-licensing, syncing from inspec-prime repo inspec-6 branch  [#6559](https://github.com/inspec/inspec/pull/6559) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.33 -->
 - inspec-6 CI - Add secrets: true to private verify pipeline, delete ruby 2.7 config [#6558](https://github.com/inspec/inspec/pull/6558) ([clintoncwolfe](https://github.com/clintoncwolfe))
@@ -104,6 +114,12 @@
 - Feature Config File and Logger Support [#6260](https://github.com/inspec/inspec/pull/6260) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.0 -->
 - CFINSPEC-246/CFINSPEC-247 Attestation changes for N/R outcomes [#6222](https://github.com/inspec/inspec/pull/6222) ([Nik08](https://github.com/Nik08)) <!-- 6.1.0 -->
 - CFINSPEC-452 Added Inspec parallel logging for warn/error [#6245](https://github.com/inspec/inspec/pull/6245) ([Nik08](https://github.com/Nik08)) <!-- 6.0.1 -->
+- Fix the dependabot adding  ffi (1.15.5-x64-unknown) to omnibus bump [#6213](https://github.com/inspec/inspec/pull/6213) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.20.1 -->
+- Adds podman resources. [#6183](https://github.com/inspec/inspec/pull/6183) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.20.0 -->
+- CFINSPEC-237 Added enhanced_outcomes option [#6145](https://github.com/inspec/inspec/pull/6145) ([Nik08](https://github.com/Nik08)) <!-- 5.19.0 -->
+- CFINSPEC-400 Fix for verify pipeline failure [#6218](https://github.com/inspec/inspec/pull/6218) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.18.17 -->
+- Docs spellcheck [#6214](https://github.com/inspec/inspec/pull/6214) ([IanMadd](https://github.com/IanMadd)) <!-- 5.18.16 -->
+- Trivial README change to trigger new omnibus build [#6203](https://github.com/inspec/inspec/pull/6203) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.18.15 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release 5.22.12 -->

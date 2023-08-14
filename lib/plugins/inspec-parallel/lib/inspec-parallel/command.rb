@@ -75,7 +75,7 @@ module InspecPlugins
           end
         end
         unless valid
-          @logger.error "Please fix the options file to proceed further."
+          @logger.error "Please fix the options to proceed further."
           Inspec::UI.new.exit(:usage_error)
         end
       end

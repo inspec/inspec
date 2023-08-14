@@ -9,7 +9,7 @@ module InspecPlugins
         "child-status",  # Writes dedicated protocol to STDOUT, expected by parent
       ].freeze
 
-      attr_accessor :invocations, :sub_cmd, :thor_options_for_sub_cmd, :aliases_mapping, :cli_options
+      attr_accessor :invocations, :sub_cmd, :thor_options_for_sub_cmd, :aliases_mapping, :cli_options, :config_content, :stdin_config
 
       def initialize(invocations, cli_options, sub_cmd = "exec")
         @invocations = invocations
@@ -17,6 +17,8 @@ module InspecPlugins
         @thor_options_for_sub_cmd = Inspec::InspecCLI.commands[sub_cmd].options
         @aliases_mapping = create_aliases_mapping
         @cli_options = cli_options
+        @config_content = nil
+        @stdin_config = nil
       end
 
       def validate
@@ -72,6 +74,9 @@ module InspecPlugins
       def check_for_reporter_options(invocation_data)
         # if no reporter option, that's an error
         unless invocation_data[:thor_opts].include?("reporter")
+          # Check for config reporter validation only if --reporter option is missing from options file
+          return if check_reporter_options_in_config(invocation_data)
+
           invocation_data[:validation_errors] << "A --reporter option must be specified for each invocation in the options file"
           return
         end
@@ -99,6 +104,40 @@ module InspecPlugins
           invocation_data[:thor_opts]["reporter"] << "child-status"
           invocation_data[:value].gsub!("--reporter ", "--reporter child-status ")
         end
+      end
+
+      def check_reporter_options_in_config(invocation_data)
+        config_opts = invocation_data[:thor_opts]["config"] || invocation_data[:thor_opts]["json_config"]
+        cfg_io = check_for_piped_config_from_stdin(config_opts)
+
+        if cfg_io == STDIN
+          # Scenario of using config from STDIN
+          @config_content ||= cfg_io.read
+        else
+          if config_opts.nil?
+            # Scenario of using default config.json file when path not provided
+            default_path = File.join(Inspec.config_dir, "config.json")
+            config_opts = default_path
+            return unless File.exist?(config_opts)
+          elsif !File.exist?(config_opts)
+            invocation_data[:validation_errors] << "Could not read configuration file at #{config_opts}"
+            return
+          end
+          @config_content = File.open(config_opts).read
+        end
+
+        reporter_config = JSON.parse(config_content)["reporter"] unless config_content.nil? || config_content.empty?
+        unless reporter_config
+          invocation_data[:validation_errors] << "Config should have reporter option specified for each invocation which is not using --reporter option in options file"
+        end
+        @config_content
+      end
+
+      def check_for_piped_config_from_stdin(config_opts)
+        return nil unless config_opts
+        return nil unless config_opts == "-"
+
+        @stdin_config ||= STDIN
       end
 
       ## Utility functions
