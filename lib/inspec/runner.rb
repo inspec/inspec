@@ -12,6 +12,7 @@ require "inspec/dist"
 require "inspec/reporters"
 require "inspec/runner_rspec"
 require "chef-licensing"
+require "inspec/utils/licensing_config"
 # spec requirements
 
 module Inspec
@@ -162,16 +163,32 @@ module Inspec
     end
 
     def run(with = nil)
-      ChefLicensing.check_software_entitlement! if Inspec::Dist::EXEC_NAME == "inspec"
+      if Inspec::Dist::EXEC_NAME == "inspec"
+        if @conf[:chef_license_key]
+          configure_chef_licensing(@conf)
+          activate_license
+        end
+        ChefLicensing.check_software_entitlement!
+      end
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
       load
       run_tests(with)
     rescue ChefLicensing::SoftwareNotEntitled
+      # Raise a more helpful error message if the user is trying to use kitchen
+      raise "License is not entitled to use InSpec." if @conf[:chef_license_key]
+
       Inspec::Log.error "License is not entitled to use InSpec."
       Inspec::UI.new.exit(:license_not_entitled)
     rescue ChefLicensing::Error => e
+      # Raise a more helpful error message if the user is trying to use kitchen
+      raise if @conf[:chef_license_key]
+
       Inspec::Log.error e.message
       Inspec::UI.new.exit(:usage_error)
+    end
+
+    def activate_license
+      ChefLicensing.fetch_and_persist
     end
 
     def render_output(run_data)
