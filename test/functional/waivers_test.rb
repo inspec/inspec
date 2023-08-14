@@ -72,8 +72,8 @@ describe "waivers" do
     assert_empty act
   end
 
-  def assert_skip_message(yea, nay)
-    msg = controls_by_id.dig("01_only_if", "results", 0, "skip_message")
+  def assert_skip_message(yea, nay, control_id = "01_only_if")
+    msg = controls_by_id.dig(control_id, "results", 0, "skip_message")
     assert_includes msg, yea
     refute_includes msg, nay
   end
@@ -241,10 +241,24 @@ describe "waivers" do
   describe "waivers and only_if" do
     let(:profile_name) { "only_if" }
 
-    describe "when an only_if is used with no waiver" do
+    describe "when an only_if is used with empty waiver file" do
       let(:waiver_file) { "empty.yaml" }
-      it "skips the control with an only_if message" do
-        assert_skip_message "due to only_if", "waiver"
+
+      it "raise unable to parse empty.yaml file error" do
+        result = run_result
+        assert_includes result.stderr, "unable to parse"
+        if windows?
+          assert_equal 1, result.exit_status
+        else
+          assert_equal 102, result.exit_status
+        end
+      end
+    end
+
+    describe "when an only_if is used with waiver file which has waived control with past expiration date" do
+      let(:waiver_file) { "waiver.yaml" }
+      it "skips the control with a waiver message" do
+        assert_skip_message "test_message_from_dsl_02_only_if", "waiver", "02_only_if_when_waiver_is_expired"
       end
     end
 

@@ -11,7 +11,6 @@ gh_repo = "inspec"
     weight = 140
 +++
 
-
 Waivers allow you to waive controls and to dictate the running and/or reporting of those controls. A waiver file identifies:
 
 1. which controls are waived

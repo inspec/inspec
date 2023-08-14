@@ -41,7 +41,7 @@ module Inspec
         validate_headers(headers)
       elsif file_extension == ".json"
         data = Waivers::JSONFileReader.resolve(file_path)
-        validate_json_yaml(data)
+        validate_json_yaml(data) unless data.nil?
       end
       data
     end
