@@ -58,8 +58,8 @@ Please keep in mind that:
     as such people may not understand jokes, sarcasm, and oblique references in
     the same way that you do. Remember that and be kind to the other members
     of the community
-  - Be cautious about making assumptions about what someone does or does not know 
-    about something - assuming that someone does not understand an issue and over 
+  - Be cautious about making assumptions about what someone does or does not know
+    about something - assuming that someone does not understand an issue and over
     explaining can be condescending (even when not intended to be so)
   - Sexist, racist, ableist, ageist, and other prejudicial or exclusionary comments are
     not welcome in the community
