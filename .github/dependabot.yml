@@ -25,6 +25,18 @@ updates:
     interval: daily
   open-pull-requests-limit: 10
 - package-ecosystem: bundler
+  target-branch: "inspec-5"
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+- package-ecosystem: bundler
+  target-branch: "inspec-5"
+  directory: "/omnibus"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+- package-ecosystem: bundler
   target-branch: "inspec-6"
   directory: "/"
   schedule:
@@ -36,3 +48,4 @@ updates:
   schedule:
     interval: daily
   open-pull-requests-limit: 10
+
