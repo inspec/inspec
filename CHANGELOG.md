@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.13 -->
-## [v5.22.13](https://github.com/inspec/inspec/tree/v5.22.13) (2023-08-16)
+<!-- latest_release 5.22.14 -->
+## [v5.22.14](https://github.com/inspec/inspec/tree/v5.22.14) (2023-08-16)
 
 #### Merged Pull Requests
-- CHEF-65: Create inspec-5 release branch in Expeditor and Dependabot configuration [#6591](https://github.com/inspec/inspec/pull/6591) ([Vasu1105](https://github.com/Vasu1105))
+- Test inspec-5 release branch CI pipelines, take 3 [#6600](https://github.com/inspec/inspec/pull/6600) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.3 -->
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Test inspec-5 release branch CI pipelines, take 3 [#6600](https://github.com/inspec/inspec/pull/6600) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.14 -->
 - CHEF-65: Create inspec-5 release branch in Expeditor and Dependabot configuration [#6591](https://github.com/inspec/inspec/pull/6591) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.13 -->
 - CHEF-5200 Waived controls are not getting waived (skipped) in case of failure at resource level. [#6588](https://github.com/inspec/inspec/pull/6588) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.12 -->
 - CHEF-4080: Point to latest EULA in GUI installers for InSpec-5 [#6582](https://github.com/inspec/inspec/pull/6582) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.11 -->
