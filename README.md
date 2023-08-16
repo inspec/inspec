@@ -1,5 +1,8 @@
 # Chef InSpec: Inspect Your Infrastructure
 
+You are viewing the InSpec 5 long-term release branch. To view the current development 
+branch, see https://github.com/inspec/inspec .
+
 * **Project State: Active**
 * **Issues Response SLA: 14 business days**
 * **Pull Request Response SLA: 14 business days**
