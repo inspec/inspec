@@ -8,8 +8,8 @@
 - Bump omnibus-software from `4b08f0b` to `3268356` in /omnibus [#6587](https://github.com/inspec/inspec/pull/6587) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
-<!-- release_rollup since=5.22.12 -->
-### Changes since 5.22.12 release
+<!-- release_rollup since=5.22.13 -->
+### Changes since 5.22.13 release
 
 #### Merged Pull Requests
 - Bump omnibus-software from `4b08f0b` to `3268356` in /omnibus [#6587](https://github.com/inspec/inspec/pull/6587) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.45 -->
@@ -116,15 +116,14 @@
 - Feature Config File and Logger Support [#6260](https://github.com/inspec/inspec/pull/6260) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.0 -->
 - CFINSPEC-246/CFINSPEC-247 Attestation changes for N/R outcomes [#6222](https://github.com/inspec/inspec/pull/6222) ([Nik08](https://github.com/Nik08)) <!-- 6.1.0 -->
 - CFINSPEC-452 Added Inspec parallel logging for warn/error [#6245](https://github.com/inspec/inspec/pull/6245) ([Nik08](https://github.com/Nik08)) <!-- 6.0.1 -->
-- Fix the dependabot adding  ffi (1.15.5-x64-unknown) to omnibus bump [#6213](https://github.com/inspec/inspec/pull/6213) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.20.1 -->
-- Adds podman resources. [#6183](https://github.com/inspec/inspec/pull/6183) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.20.0 -->
-- CFINSPEC-237 Added enhanced_outcomes option [#6145](https://github.com/inspec/inspec/pull/6145) ([Nik08](https://github.com/Nik08)) <!-- 5.19.0 -->
-- CFINSPEC-400 Fix for verify pipeline failure [#6218](https://github.com/inspec/inspec/pull/6218) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.18.17 -->
-- Docs spellcheck [#6214](https://github.com/inspec/inspec/pull/6214) ([IanMadd](https://github.com/IanMadd)) <!-- 5.18.16 -->
-- Trivial README change to trigger new omnibus build [#6203](https://github.com/inspec/inspec/pull/6203) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.18.15 -->
-<!-- release_rollup -->
 
-<!-- latest_stable_release 5.22.12 -->
+<!-- latest_stable_release 5.22.13 -->
+## [v5.22.13](https://github.com/inspec/inspec/tree/v5.22.13) (2023-08-16)
+
+#### Merged Pull Requests
+- CHEF-65: Create inspec-5 release branch in Expeditor and Dependabot configuration [#6591](https://github.com/inspec/inspec/pull/6591) ([Vasu1105](https://github.com/Vasu1105))
+<!-- latest_stable_release -->
+
 ## [v5.22.12](https://github.com/inspec/inspec/tree/v5.22.12) (2023-08-09)
 
 #### Merged Pull Requests
@@ -140,7 +139,6 @@
 - Update Docker base image to be ubuntu 22.04 [#6526](https://github.com/inspec/inspec/pull/6526) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.5 -->
 - Update RSpec to 3.12 [#6523](https://github.com/inspec/inspec/pull/6523) ([pirj](https://github.com/pirj)) <!-- 5.22.5 -->
 - CHEF-1631 Clarify that command timeout default was withdrawn [#6511](https://github.com/inspec/inspec/pull/6511) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.4 -->
-<!-- latest_stable_release -->
 
 ## [v5.22.3](https://github.com/inspec/inspec/tree/v5.22.3) (2023-05-18)
 
@@ -164,6 +162,7 @@
 - Bump rack from 2.2.6.2 to 2.2.6.4 in /omnibus [#6490](https://github.com/inspec/inspec/pull/6490) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - fix: ensure Invoke-WebRequest headers can be configured [#6484](https://github.com/inspec/inspec/pull/6484) ([amlodzianowski](https://github.com/amlodzianowski))
 - For #6493 : Add postgres_session support for custom port with a socket connection [#6494](https://github.com/inspec/inspec/pull/6494) ([Taknok](https://github.com/Taknok))
+
 
 ## [v5.21.29](https://github.com/inspec/inspec/tree/v5.21.29) (2023-01-24)
 

@@ -637,8 +637,6 @@ This subcommand has the following additional options:
 
 Subcommands for interacting with the Chef licensing system.
 
-### Syntax
-
 `inspec license` supports two subcommands, `add` and `list`.
 
 #### Add
