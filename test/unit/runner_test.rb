@@ -4,6 +4,7 @@ require "helper"
 require "inspec/secrets"
 require "inspec/runner"
 require "inspec/fetcher/mock"
+require "inspec/utils/licensing_config"
 
 describe Inspec::Runner do
   let(:runner) { Inspec::Runner.new({ command_runner: :generic, reporter: [] }) }
@@ -73,6 +74,7 @@ describe Inspec::Runner do
 
   describe "testing runner.run exit codes" do
     it "returns proper exit code when no profile is added" do
+      WebMock.allow_net_connect!
       _(runner.run).must_equal 0
     end
   end

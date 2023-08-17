@@ -12,6 +12,7 @@ module Inspec::Plugin::V2::PluginType
       @control_checks_count_map = {}
       @controls_count = nil
       @notifications = {}
+      @enhanced_outcome_control_wise = {}
     end
 
     private
@@ -29,14 +30,41 @@ module Inspec::Plugin::V2::PluginType
 
     # method to identify when the control ended running
     # this will be useful in executing operations on control's level end
-    def control_ended?(control_id)
+    def control_ended?(notification, control_id)
       set_control_checks_count_map_value
       unless @control_checks_count_map[control_id].nil?
         @control_checks_count_map[control_id] -= 1
-        @control_checks_count_map[control_id] == 0
+        control_ended = @control_checks_count_map[control_id] == 0
+        # after a control has ended it checks for certain operations, like enhanced outcomes
+        run_control_operations(notification, control_id) if control_ended
+        control_ended
       else
         false
       end
+    end
+
+    def run_control_operations(notification, control_id)
+      check_for_enhanced_outcomes(notification, control_id)
+    end
+
+    def check_for_enhanced_outcomes(notification, control_id)
+      if enhanced_outcomes
+        control_outcome = add_enhanced_outcomes(control_id)
+        @enhanced_outcome_control_wise[control_id] = control_outcome
+      end
+    end
+
+    def format_message(indicator, control_id, title, full_description)
+      message_to_format = ""
+      message_to_format += "#{indicator}  "
+      message_to_format += "#{control_id.to_s.strip.dup.force_encoding(Encoding::UTF_8)}  "
+      message_to_format += "#{title.gsub(/\n*\s+/, " ").to_s.force_encoding(Encoding::UTF_8)}  " if title
+      message_to_format += "#{full_description.gsub(/\n*\s+/, " ").to_s.force_encoding(Encoding::UTF_8)}  " unless title
+      message_to_format
+    end
+
+    def control_outcome(control_id)
+      @enhanced_outcome_control_wise[control_id]
     end
 
     # method to identify total no. of controls

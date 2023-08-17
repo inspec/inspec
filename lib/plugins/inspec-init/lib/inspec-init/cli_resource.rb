@@ -35,21 +35,23 @@ module InspecPlugins
       #  + Add --overwrite option
 
       def resource(resource_name)
-        resource_vars_from_opts_resource
-        template_vars = {
-          name: options[:path], # This is used for the path prefix
-          resource_name: resource_name,
-        }
-        template_vars.merge!(options)
-        template_path = File.join("resources", template_vars["template"])
+        Inspec.with_feature("inspec-cli-init-resource") {
+          resource_vars_from_opts_resource
+          template_vars = {
+            name: options[:path], # This is used for the path prefix
+            resource_name: resource_name,
+          }
+          template_vars.merge!(options)
+          template_path = File.join("resources", template_vars["template"])
 
-        render_opts = {
-          templates_path: TEMPLATES_PATH,
-          overwrite: options[:overwrite],
-          file_rename_map: make_rename_map_resource(template_vars),
+          render_opts = {
+            templates_path: TEMPLATES_PATH,
+            overwrite: options[:overwrite],
+            file_rename_map: make_rename_map_resource(template_vars),
+          }
+          renderer = InspecPlugins::Init::Renderer.new(ui, render_opts)
+          renderer.render_with_values(template_path, "resource", template_vars)
         }
-        renderer = InspecPlugins::Init::Renderer.new(ui, render_opts)
-        renderer.render_with_values(template_path, "resource", template_vars)
       end
 
       private
