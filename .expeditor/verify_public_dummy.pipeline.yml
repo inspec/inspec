@@ -1,0 +1,8 @@
+# TODO: Simplify the pipeline in future
+steps:
+  - label: "keeping-verify-pipeline-alive"
+    expeditor:
+      executor:
+        docker:
+    commands:
+      - "echo ## Keeping the pipeline alive ##"
