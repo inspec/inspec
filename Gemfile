@@ -1,3 +1,8 @@
+# For Chef internal builds, allows preview versions of gems if available.
+if ENV["ARTIFACTORY_BASE_URL"]
+  source ENV["ARTIFACTORY_BASE_URL"] + "/artifactory/api/gems/omnibus-gems-local/"
+end
+
 source "https://rubygems.org"
 
 gem "inspec", path: "."
