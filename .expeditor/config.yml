@@ -5,6 +5,10 @@ product_key: inspec
 
 
 pipelines:
+ - verify:
+      definition: .expeditor/verify_public_dummy.pipeline.yml
+      description: Keeping the verify pipeline alive to preserve the history
+      public: true
  - verify/private:
       definition: .expeditor/verify_private.pipeline.yml
       public: false
