@@ -5,8 +5,13 @@
 ## [v6.4.45](https://github.com/inspec/inspec/tree/v6.4.45) (2023-08-17)
 
 #### Merged Pull Requests
-- Bump omnibus-software from `4b08f0b` to `3268356` in /omnibus [#6587](https://github.com/inspec/inspec/pull/6587) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Make InSpec 6 the main branch [#6601](https://github.com/inspec/inspec/pull/6601) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
+
+## [v6.4.45](https://github.com/inspec/inspec/tree/v6.4.45) (2023-08-17)
+
+#### Merged Pull Requests
+- Bump omnibus-software from `4b08f0b` to `3268356` in /omnibus [#6587](https://github.com/inspec/inspec/pull/6587) ([dependabot[bot]](https://github.com/dependabot[bot]))
 
 <!-- release_rollup since=5.22.13 -->
 ### Changes since 5.22.13 release
