@@ -1,17 +1,18 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.44 -->
-## [v6.4.44](https://github.com/inspec/inspec/tree/v6.4.44) (2023-08-14)
+<!-- latest_release 6.4.45 -->
+## [v6.4.45](https://github.com/inspec/inspec/tree/v6.4.45) (2023-08-17)
 
 #### Merged Pull Requests
-- Missing changes from main [#6564](https://github.com/inspec/inspec/pull/6564) ([sathish-progress](https://github.com/sathish-progress))
+- Bump omnibus-software from `4b08f0b` to `3268356` in /omnibus [#6587](https://github.com/inspec/inspec/pull/6587) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.12 -->
 ### Changes since 5.22.12 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `4b08f0b` to `3268356` in /omnibus [#6587](https://github.com/inspec/inspec/pull/6587) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.45 -->
 - Missing changes from main [#6564](https://github.com/inspec/inspec/pull/6564) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.4.44 -->
 - CHEF-4010 make a clean exit for License list command [#6552](https://github.com/inspec/inspec/pull/6552) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.4.43 -->
 - CHEF-4818 revise inspec parallel docs content [#6586](https://github.com/inspec/inspec/pull/6586) ([IanMadd](https://github.com/IanMadd)) <!-- 6.4.42 -->
