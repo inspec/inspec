@@ -164,8 +164,10 @@ module Inspec
 
     def run(with = nil)
       if Inspec::Dist::EXEC_NAME == "inspec"
+        # Set the configuration if configuration is not set
+        configure_chef_licensing(@conf) unless ChefLicensing::Config.chef_entitlement_id
+
         activate_license if @conf[:chef_license_key]
-        configure_chef_licensing(@conf)
         ChefLicensing.check_software_entitlement!
       end
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
