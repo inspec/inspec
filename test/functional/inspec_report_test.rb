@@ -1,12 +1,14 @@
 require "functional/helper"
 require "inspec/runner"
 require "inspec/resources/file"
+require "inspec/utils/licensing_config"
 
 describe "inspec report tests" do
   include FunctionalHelper
 
   describe "report" do
     it "loads a json report" do
+      WebMock.allow_net_connect!
       o = { "reporter" => ["json"], "report" => true }
       runner = ::Inspec::Runner.new(o)
       runner.add_target(example_profile)

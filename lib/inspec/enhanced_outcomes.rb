@@ -15,5 +15,6 @@ module Inspec
         "passed"
       end
     end
+
   end
 end

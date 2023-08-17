@@ -115,6 +115,11 @@ module Inspec::Fetcher
       %i{branch tag ref}.map { |opt_name| update_ivar_from_opt(opt_name, opts) }.any?
     end
 
+    # Git fetcher is sensitive to cache contention so it needs cache locking mechanism.
+    def requires_locking?
+      true
+    end
+
     private
 
     def resolved_ref

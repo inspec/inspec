@@ -27,11 +27,13 @@ module Inspec
   ) do
     include HashLikeStruct
     def initialize(raw_run_data)
-      self.controls   = raw_run_data[:controls].map { |c| Inspec::RunData::Control.new(c) }
-      self.profiles   = raw_run_data[:profiles].map { |p| Inspec::RunData::Profile.new(p) }
-      self.statistics = Inspec::RunData::Statistics.new(raw_run_data[:statistics])
-      self.platform   = Inspec::RunData::Platform.new(raw_run_data[:platform])
-      self.version    = raw_run_data[:version]
+      @raw_run_data = raw_run_data
+
+      self.controls   = @raw_run_data[:controls].map { |c| Inspec::RunData::Control.new(c) }
+      self.profiles   = @raw_run_data[:profiles].map { |p| Inspec::RunData::Profile.new(p) }
+      self.statistics = Inspec::RunData::Statistics.new(@raw_run_data[:statistics])
+      self.platform   = Inspec::RunData::Platform.new(@raw_run_data[:platform])
+      self.version    = @raw_run_data[:version]
     end
   end
 

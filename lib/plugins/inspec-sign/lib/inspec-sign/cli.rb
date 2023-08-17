@@ -1,5 +1,6 @@
 require_relative "base"
 require "inspec/dist"
+require "inspec/feature"
 
 #
 # Notes:
@@ -85,8 +86,10 @@ module InspecPlugins
       option :keydir, type: :string, default: "./",
         desc: "Directory to search for keys"
       def generate_keys
-        puts "Generating keys"
-        InspecPlugins::Sign::Base.keygen(options)
+        Inspec.with_feature("inspec-cli-sign-generate-keys") {
+          puts "Generating keys"
+          InspecPlugins::Sign::Base.keygen(options)
+        }
       end
 
       desc "profile PATH", "sign the profile in PATH and generate .iaf artifact."
@@ -95,12 +98,16 @@ module InspecPlugins
       option :profile_content_id, type: :string,
         desc: "UUID of the profile. This will write the profile_content_id in the metadata file if it does not already exist in the metadata file."
       def profile(profile_path)
-        InspecPlugins::Sign::Base.profile_sign(profile_path, options)
+        Inspec.with_feature("inspec-cli-sign-profile") {
+          InspecPlugins::Sign::Base.profile_sign(profile_path, options)
+        }
       end
 
       desc "verify PATH", "Verify a signed profile .iaf artifact at given path."
       def verify(signed_profile_path)
-        InspecPlugins::Sign::Base.profile_verify(signed_profile_path)
+        Inspec.with_feature("inspec-cli-sign-verify") {
+          InspecPlugins::Sign::Base.profile_verify(signed_profile_path)
+        }
       end
     end
   end

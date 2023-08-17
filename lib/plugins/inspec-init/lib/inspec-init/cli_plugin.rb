@@ -27,33 +27,35 @@ module InspecPlugins
       option :copyright, type: :string, default: nil, desc: "A copyright statement, to be added to LICENSE"
 
       def plugin(plugin_name)
-        plugin_type = determine_plugin_type(plugin_name)
-        snake_case = plugin_name.tr("-", "_")
+        Inspec.with_feature("inspec-cli-init-plugin") {
+          plugin_type = determine_plugin_type(plugin_name)
+          snake_case = plugin_name.tr("-", "_")
 
-        # Handle deprecation of option --hook
-        unless options[:hook].nil?
-          Inspec.deprecate "cli_option_hook"
-          options[:activator] = options.delete(:hook)
-        end
+          # Handle deprecation of option --hook
+          unless options[:hook].nil?
+            Inspec.deprecate "cli_option_hook"
+            options[:activator] = options.delete(:hook)
+          end
 
-        template_vars = {
-          name: plugin_name,
-          plugin_name: plugin_name,
-          snake_case: snake_case,
-        }.merge(plugin_vars_from_opts)
+          template_vars = {
+            name: plugin_name,
+            plugin_name: plugin_name,
+            snake_case: snake_case,
+          }.merge(plugin_vars_from_opts)
 
-        template_path = File.join("plugins", plugin_type + "-plugin-template")
+          template_path = File.join("plugins", plugin_type + "-plugin-template")
 
-        render_opts = {
-          templates_path: TEMPLATES_PATH,
-          overwrite: options[:overwrite],
-          file_rename_map: make_rename_map(plugin_type, plugin_name, snake_case),
-          skip_files: make_skip_list(template_vars["activators"].keys),
+          render_opts = {
+            templates_path: TEMPLATES_PATH,
+            overwrite: options[:overwrite],
+            file_rename_map: make_rename_map(plugin_type, plugin_name, snake_case),
+            skip_files: make_skip_list(template_vars["activators"].keys),
+          }
+
+          renderer = InspecPlugins::Init::Renderer.new(ui, render_opts)
+
+          renderer.render_with_values(template_path, plugin_type + " plugin", template_vars)
         }
-
-        renderer = InspecPlugins::Init::Renderer.new(ui, render_opts)
-
-        renderer.render_with_values(template_path, plugin_type + " plugin", template_vars)
       end
 
       private

@@ -70,5 +70,38 @@ module Inspec
     def base_path_for(cache_key)
       File.join(@path, cache_key)
     end
+
+    #
+    # For given cache key, return true if the
+    # cache path is locked
+    def locked?(key)
+      locked = false
+      path = base_path_for(key)
+      # For archive there is no need to lock the directory so we skip those and return false for archive formatted cache
+      if File.directory?(path)
+        locked = File.exist?("#{path}/.lock")
+      end
+      locked
+    end
+
+    def lock(cache_path)
+      lock_file_path = File.join(cache_path, ".lock")
+      begin
+        FileUtils.mkdir_p(cache_path)
+        Inspec::Log.debug("Locking cache ..... #{cache_path}")
+        FileUtils.touch(lock_file_path)
+      rescue Errno::EACCES
+        raise "Permission denied while creating cache lock #{cache_path}/.lock."
+      end
+    end
+
+    def unlock(cache_path)
+      Inspec::Log.debug("Unlocking cache..... #{cache_path}")
+      begin
+        FileUtils.rm("#{cache_path}/.lock") if File.exist?("#{cache_path}/.lock")
+      rescue Errno::EACCES
+        raise "Permission denied while removing cache lock #{cache_path}/.lock"
+      end
+    end
   end
 end

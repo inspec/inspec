@@ -1,0 +1,13 @@
+# This pipeline is a dummy pipeline that does nothing. It exists simply
+# because removing the config from expeditor
+# will delete the pipeline, and we want to preserve the
+# pipeline history.
+
+# TODO: Simplify the pipeline in future
+steps:
+  - label: "keeping-verify-pipeline-alive"
+    expeditor:
+      executor:
+        docker:
+    commands:
+      - "echo ## This pipeline does nothing. The actual verify pipeline is verify/private. This exists as a placeholder to prevent deletion of the historical main verify pipeline."

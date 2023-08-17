@@ -1,0 +1,28 @@
+# This option file is used for testing parallel dry run
+# Test 1: test_parallel_dry_run
+# Command to execute: bundle exec inspec parallel exec test/fixtures/profiles/complete-profile -o lib/plugins/inspec-parallel/test/fixtures/options-file-1.txt --dry-run
+
+# Comments (line starting with #),
+  # comments with improper indentation (whitespaces at beginning and end).
+# and blank lines will be ignored while parsing this option file.
+
+
+# Scenario 1: Use profile if specified in the cli
+-t ssh://vagrant@127.0.0.1:2201 --reporter cli:myfile.out --no-create-lockfile --no-sudo
+
+# Scenario 2: Use profile specified in the option file
+test/fixtures/profiles/control-tags -t ssh://vagrant@127.0.0.1:2201 --reporter cli:myfile.out
+test/fixtures/profiles/control-tags --input input1=testvalue1 input2=testvalue2 --command-timeout 10 --reporter cli:myfile.out
+
+# Test 2: test_parallel_dry_run_with_default_opts
+# Command to execute: bundle exec inspec parallel exec test/fixtures/profiles/complete-profile -o lib/plugins/inspec-parallel/test/fixtures/options-file-1.txt -t docker://8b5ec1a0344b --reporter json --dry-run
+
+# Scenario 1: Append no default options from the cli
+test/fixtures/profiles/basic_profile -t docker://8b5ec1a0344b --reporter json:myfile.json
+
+# Scenario 2: Append default profile from the cli
+-t docker://1870886821c3 --reporter cli:myfile.out
+
+# Scenario 3: Append default profile and target from the cli
+--reporter cli:myfile.out
+

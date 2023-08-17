@@ -160,7 +160,7 @@ module Inspec::Formatters
           end
 
           # added this additionally because stats summary is also used for determining exit code in runner rspec
-          skipped += 1 if control[:results].any? { |r| r[:status] == "skipped" }
+          skipped += 1 if control[:results] && (control[:results].any? { |r| r[:status] == "skipped" })
 
         end
         total = error + not_applicable + not_reviewed + failed + passed
