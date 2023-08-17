@@ -637,8 +637,6 @@ This subcommand has the following additional options:
 
 Subcommands for interacting with the Chef licensing system.
 
-### Syntax
-
 `inspec license` supports two subcommands, `add` and `list`.
 
 #### Add
@@ -658,8 +656,6 @@ Run license diagnostics and output the details of your current Chef license conf
 ```bash
 inspec license list
 ```
-
-## run_context
 
 Used to test run-context detection
 
