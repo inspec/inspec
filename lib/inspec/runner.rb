@@ -167,7 +167,7 @@ module Inspec
         # Set the configuration if configuration is not set
         configure_chef_licensing(@conf) unless ChefLicensing::Config.chef_entitlement_id
 
-        activate_license if @conf[:chef_license_key]
+        ChefLicensing.fetch_and_persist if @conf[:chef_license_key]
         ChefLicensing.check_software_entitlement!
       end
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
@@ -182,10 +182,6 @@ module Inspec
     rescue ChefLicensing::Error => e
       Inspec::Log.error e.message
       Inspec::UI.new.exit(:usage_error)
-    end
-
-    def activate_license
-      ChefLicensing.fetch_and_persist
     end
 
     def render_output(run_data)
