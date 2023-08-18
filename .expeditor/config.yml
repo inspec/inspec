@@ -18,6 +18,16 @@ pipelines:
       - SLOW: 1
       - NO_AWS: 1
       - MT_CPU: 5
+ - coverage:
+      description: Unit test coverage
+      public: false
+      # Private due to use of tokens
+      trigger: pull_request
+      env:
+      - LANG: "C.UTF-8"
+      - SLOW: 1
+      - NO_AWS: 1
+      - MT_CPU: 5
  - omnibus/release:
     env:
      - EXPIRE_CACHE: 1
