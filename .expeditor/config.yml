@@ -79,8 +79,6 @@ github:
 
 release_branches:
   - main:
-     version_constraint: 99.*
-  - inspec-6:
      version_constraint: 6.*
   - inspec-5:
      version_constraint: 5.*
