@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.16 -->
-## [v5.22.16](https://github.com/inspec/inspec/tree/v5.22.16) (2023-08-22)
+<!-- latest_release 5.22.17 -->
+## [v5.22.17](https://github.com/inspec/inspec/tree/v5.22.17) (2023-08-22)
 
 #### Merged Pull Requests
-- GEMFILE: Remove kitchen group from Gemfile [#6590](https://github.com/inspec/inspec/pull/6590) ([ahasunos](https://github.com/ahasunos))
+- Bump omnibus-software from `4b08f0b` to `c208191` in /omnibus [#6616](https://github.com/inspec/inspec/pull/6616) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.3 -->
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `4b08f0b` to `c208191` in /omnibus [#6616](https://github.com/inspec/inspec/pull/6616) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.17 -->
 - GEMFILE: Remove kitchen group from Gemfile [#6590](https://github.com/inspec/inspec/pull/6590) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.16 -->
 - Backport - Configure expeditor to match 6.* on main and drop inspec-6 release branch [#6621](https://github.com/inspec/inspec/pull/6621) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.15 -->
 - Test inspec-5 release branch CI pipelines, take 3 [#6600](https://github.com/inspec/inspec/pull/6600) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.14 -->
