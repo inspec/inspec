@@ -1,12 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.46 -->
+<!-- latest_release unreleased -->
+## Unreleased
+
+#### Merged Pull Requests
+- Configure coverage pipeline on main [#6613](https://github.com/inspec/inspec/pull/6613) ([Vasu1105](https://github.com/Vasu1105))
+<!-- latest_release -->
+
 ## [v6.4.46](https://github.com/inspec/inspec/tree/v6.4.46) (2023-08-17)
 
 #### Merged Pull Requests
 - CHEF-5751 Test CI pipelines on main after inspec-6 merge [#6608](https://github.com/inspec/inspec/pull/6608) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_release -->
 
 ## [v6.4.45](https://github.com/inspec/inspec/tree/v6.4.45) (2023-08-17)
 
