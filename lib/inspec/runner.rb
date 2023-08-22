@@ -165,6 +165,7 @@ module Inspec
     def run(with = nil)
       if Inspec::Dist::EXEC_NAME == "inspec"
         # Set the configuration if configuration is not set
+        @conf[:chef_license_server] = @conf[:chef_license_server].join(",") if @conf[:chef_license_server].is_a? Array
         configure_chef_licensing(@conf) unless ChefLicensing::Config.chef_entitlement_id
 
         ChefLicensing.fetch_and_persist if @conf[:chef_license_key]
