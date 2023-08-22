@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.4.47 -->
+## [v6.4.47](https://github.com/inspec/inspec/tree/v6.4.47) (2023-08-22)
 
 #### Merged Pull Requests
+- Exit code changes when chef license key not found and set for inspec [#6611](https://github.com/inspec/inspec/pull/6611) ([Nik08](https://github.com/Nik08))
 - Configure coverage pipeline on main [#6613](https://github.com/inspec/inspec/pull/6613) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
