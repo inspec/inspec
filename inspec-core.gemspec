@@ -46,4 +46,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "multipart-post",           "~> 2.0"
 
   spec.add_dependency "train-core", "~> 3.10"
+  spec.add_dependency "chef-licensing", ">= 0.4.44"
 end

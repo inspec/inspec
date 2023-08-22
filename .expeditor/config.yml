@@ -18,6 +18,7 @@ pipelines:
       - SLOW: 1
       - NO_AWS: 1
       - MT_CPU: 5
+      - ARTIFACTORY_BASE_URL: https://artifactory-internal.ps.chef.co
  - coverage:
       description: Unit test coverage
       public: false
@@ -28,16 +29,19 @@ pipelines:
       - SLOW: 1
       - NO_AWS: 1
       - MT_CPU: 5
+      - ARTIFACTORY_BASE_URL: https://artifactory-internal.ps.chef.co
  - omnibus/release:
     env:
      - EXPIRE_CACHE: 1
      - IGNORE_ARTIFACTORY_RUBY_PROXY: true # Artifactory is throwing 500's when downloading some gems like ffi.
+     - ARTIFACTORY_BASE_URL: https://artifactory-internal.ps.chef.co
  - omnibus/adhoc:
     definition: .expeditor/release.omnibus.yml
     env:
      - ADHOC: true
      - EXPIRE_CACHE: 1
      - IGNORE_ARTIFACTORY_RUBY_PROXY: true # Artifactory is throwing 500's when downloading some gems like ffi.
+     - ARTIFACTORY_BASE_URL: https://artifactory-internal.ps.chef.co
 
 slack:
  notify_channel: inspec-notify
