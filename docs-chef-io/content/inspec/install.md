@@ -189,12 +189,6 @@ With this method, Chef InSpec users do not need to know the license key -- only 
 Chef InSpec sends a request to the Local License Server for a list of license keys and then uses that response to license itself during execution.
 The user is not interactively prompted for a license key at all. The keys are not stored for long-term use.
 
-This method has several advantages:
-
-- The local license server works in isolation along with the Chef InSpec scanning instances, so you can control network communications to the internet.
-- You do not need to manage a secret on each Chef InSpec scanning node and the local license server URL changes less often than the license key.
-- You can scale the license server(s) along with the workload.
-
 For details about how to obtain, setup, and run a Chef Local License Server, please contact LINK TODO.
 
 ##### Environment Variable
