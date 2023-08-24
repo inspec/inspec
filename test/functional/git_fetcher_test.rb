@@ -174,4 +174,15 @@ describe "running profiles with git-based dependencies" do
       assert_exit_code 0, out
     end
   end
+
+  describe "running a remote GIT profile from directory which does not have .git directory" do
+    it "should use default HEAD branch" do
+      Dir.mktmpdir do |temp_dir_path|
+        Dir.chdir(temp_dir_path) do
+          inspec("exec #{git_default_main_profile_url}")
+          assert_empty stderr
+        end
+      end
+    end
+  end
 end
