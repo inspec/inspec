@@ -98,6 +98,29 @@ subscriptions:
         ignore_labels:
          - "Expeditor: Skip All"
          - "Expeditor: Skip Changelog"
+    - trigger_pipeline:omnibus/adhoc:
+        not_if: built_in:bump_version
+        ignore_labels:
+         - "Expeditor: Skip Omnibus"
+         - "Expeditor: Skip All"
+     - built_in:build_gem:
+        only_if:
+         - built_in:bump_version
+  - workload: project_promoted:{{agent_id}}:*
+    actions:
+      - built_in:promote_artifactory_artifact
+  - workload: artifact_published:stable:inspec:{{version_constraint}}
+    actions:
+     - built_in:rollover_changelog
+     - built_in:publish_rubygems
+     - built_in:create_github_release
+     - bash:.expeditor/publish-release-notes.sh:
+        post_commit: true
+     - purge_packages_chef_io_fastly:{{target_channel}}/inspec/latest:
+        post_commit: true
+     - bash:.expeditor/announce-release.sh:
+        post_commit: true
+     - built_in:notify_chefio_slack_channels
      - trigger_pipeline:omnibus/release:
         only_if: built_in:bump_version
         ignore_labels:
