@@ -96,9 +96,14 @@ module Inspec::Fetcher
     end
 
     def cache_key
-      return resolved_ref unless @relative_path
-
-      OpenSSL::Digest.hexdigest("SHA256", resolved_ref + @relative_path)
+      cache_key = if @relative_path
+                    OpenSSL::Digest.hexdigest("SHA256", resolved_ref + @relative_path)
+                  elsif resolved_ref.nil?
+                    OpenSSL::Digest.hexdigest("SHA256", @remote_url)
+                  else
+                    resolved_ref
+                  end
+      cache_key
     end
 
     def archive_path
@@ -130,15 +135,24 @@ module Inspec::Fetcher
                         elsif @tag
                           resolve_ref(@tag)
                         else
-                          resolve_ref(default_ref)
+                          if default_ref.nil?
+                            nil
+                          else
+                            resolve_ref(default_ref)
+                          end
                         end
     end
 
     def default_ref
       command_string = "git remote show #{@remote_url}"
       cmd = shellout(command_string)
+
       unless cmd.exitstatus == 0
-        raise(Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{@remote_url} - error running '#{command_string}': #{cmd.stderr}")
+        if cmd.stderr.include?("not a git repository (or any of the parent directories): .git")
+          nil
+        else
+          raise(Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{@remote_url} - error running '#{command_string}': #{cmd.stderr}")
+        end
       else
         ref = cmd.stdout.lines.detect { |l| l.include? "HEAD branch:" }&.split(":")&.last&.strip
         unless ref
@@ -205,7 +219,12 @@ module Inspec::Fetcher
 
     def checkout(dir = @repo_directory)
       clone(dir)
-      git_cmd("checkout #{resolved_ref}", dir)
+      if resolved_ref.nil?
+        git_cmd("checkout", dir)
+      else
+        git_cmd("checkout #{resolved_ref}", dir)
+      end
+
       @repo_directory
     end
 
