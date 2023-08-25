@@ -98,8 +98,13 @@ subscriptions:
         ignore_labels:
          - "Expeditor: Skip All"
          - "Expeditor: Skip Changelog"
-    - trigger_pipeline:omnibus/adhoc:
+     - trigger_pipeline:omnibus/adhoc:
         not_if: built_in:bump_version
+        ignore_labels:
+         - "Expeditor: Skip Omnibus"
+         - "Expeditor: Skip All"
+     - trigger_pipeline:omnibus/release:
+        only_if: built_in:bump_version
         ignore_labels:
          - "Expeditor: Skip Omnibus"
          - "Expeditor: Skip All"
@@ -121,11 +126,6 @@ subscriptions:
      - bash:.expeditor/announce-release.sh:
         post_commit: true
      - built_in:notify_chefio_slack_channels
-     - trigger_pipeline:omnibus/release:
-        only_if: built_in:bump_version
-        ignore_labels:
-         - "Expeditor: Skip Omnibus"
-         - "Expeditor: Skip All"
   - workload: pull_request_opened:{{github_repo}}:{{release_branch}}:*
     actions:
      - post_github_comment:.expeditor/templates/pull_request.mustache:
