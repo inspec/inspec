@@ -111,7 +111,11 @@ module Inspec::Fetcher
     end
 
     def resolved_source
-      source = { git: @remote_url, ref: resolved_ref }
+      if resolved_ref.nil?
+        source = { git: @remote_url }
+      else
+        source = { git: @remote_url, ref: resolved_ref }
+      end
       source[:relative_path] = @relative_path if @relative_path
       source
     end
@@ -135,32 +139,8 @@ module Inspec::Fetcher
                         elsif @tag
                           resolve_ref(@tag)
                         else
-                          if default_ref.nil?
-                            nil
-                          else
-                            resolve_ref(default_ref)
-                          end
+                          nil
                         end
-    end
-
-    def default_ref
-      command_string = "git remote show #{@remote_url}"
-      cmd = shellout(command_string)
-
-      unless cmd.exitstatus == 0
-        if cmd.stderr.include?("not a git repository (or any of the parent directories): .git")
-          nil
-        else
-          raise(Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{@remote_url} - error running '#{command_string}': #{cmd.stderr}")
-        end
-      else
-        ref = cmd.stdout.lines.detect { |l| l.include? "HEAD branch:" }&.split(":")&.last&.strip
-        unless ref
-          raise(Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{@remote_url} - error running '#{command_string}': NULL reference")
-        end
-
-        ref
-      end
     end
 
     def resolve_ref(ref_name)
