@@ -96,9 +96,6 @@ module Inspec::Fetcher
     end
 
     def cache_key
-      # Verifies the git repo url is valid and avoids to create cache directory before validating the git repo url
-      verify_repo_is_valid_git_repo
-
       cache_key = if @relative_path && !resolved_ref.nil?
                     OpenSSL::Digest.hexdigest("SHA256", resolved_ref + @relative_path)
                   elsif @relative_path && resolved_ref.nil?
@@ -109,10 +106,6 @@ module Inspec::Fetcher
                     resolved_ref
                   end
       cache_key
-    end
-
-    def verify_repo_is_valid_git_repo
-      git_cmd("ls-remote \"#{@remote_url}\"")
     end
 
     def archive_path
@@ -148,18 +141,26 @@ module Inspec::Fetcher
                         elsif @tag
                           resolve_ref(@tag)
                         else
-                          nil
+                          resolve_ref
                         end
     end
 
-    def resolve_ref(ref_name)
-      command_string = "git ls-remote \"#{@remote_url}\" \"#{ref_name}*\""
+    def resolve_ref(ref_name = nil)
+      command_string = if ref_name.nil?
+                        # This helps to validate the remote url and raise error before we generate cache_key
+                        "git ls-remote \"#{@remote_url}\""
+                      else
+                        "git ls-remote \"#{@remote_url}\" \"#{ref_name}*\""
+                      end
       cmd = shellout(command_string)
       raise(Inspec::FetcherFailure, "Profile git dependency failed for #{@remote_url} - error running '#{command_string}': #{cmd.stderr}") unless cmd.exitstatus == 0
-
-      ref = parse_ls_remote(cmd.stdout, ref_name)
-      unless ref
-        raise Inspec::FetcherFailure, "Profile git dependency failed - unable to resolve #{ref_name} to a specific git commit for #{@remote_url}"
+      if ref_name.nil?
+        ref = nil
+      else
+        ref = parse_ls_remote(cmd.stdout, ref_name)
+        unless ref
+          raise Inspec::FetcherFailure, "Profile git dependency failed - unable to resolve #{ref_name} to a specific git commit for #{@remote_url}"
+        end
       end
 
       ref
