@@ -57,6 +57,7 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       out.stubs(:stderr).returns("")
       out.stubs(:error!).returns(false)
       out.stubs(:run_command).returns(true)
+      out.stubs(:status).returns(true)
       out
     end
 
@@ -69,6 +70,14 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
 
     def expect_ls_remote(ref)
       Mixlib::ShellOut.expects(:new).with("git ls-remote \"#{git_dep_dir}\" \"#{ref}*\"", {}).returns(git_ls_remote_output)
+    end
+
+    def expect_ls_remote_without_ref
+      Mixlib::ShellOut.expects(:new).with("git ls-remote \"#{git_dep_dir}\"", {}).returns(git_ls_remote_output)
+    end
+
+    def expect_ls_remote_without_ref_with_fetch_path(at = "fetchpath")
+      Mixlib::ShellOut.expects(:new).with("git ls-remote \"#{git_dep_dir}\"", { cwd: "fetchpath" }).returns(git_ls_remote_output)
     end
 
     def expect_checkout(ref, at = "test-tmp-dir")
@@ -88,6 +97,7 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
     end
 
     it "it should able to resolve" do
+      expect_ls_remote_without_ref
       result = fetcher.resolve({ git: git_dep_dir })
       _(result.resolved_source).must_equal({ git: git_dep_dir })
     end
@@ -110,6 +120,7 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
     end
 
     it "fetches to the given location" do
+      expect_ls_remote_without_ref.twice
       expect_clone
       expect_checkout_without_ref
       expect_mv_into_place
@@ -118,6 +129,7 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
     end
 
     it "doesn't refetch an already cloned repo" do
+      expect_ls_remote_without_ref
       File.expects(:directory?).with("fetchpath/.git").at_least_once.returns(true)
       expect_checkout_without_ref("fetchpath")
       result = fetcher.resolve({ git: git_dep_dir })
@@ -125,11 +137,36 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
     end
 
     it "returns the repo_path that we fetched to as the archive_path" do
+      expect_ls_remote_without_ref
       File.expects(:directory?).with("fetchpath/.git").at_least_once.returns(true)
       expect_checkout_without_ref("fetchpath")
       result = fetcher.resolve({ git: git_dep_dir })
       result.fetch("fetchpath")
       _(result.archive_path).must_equal "fetchpath"
+    end
+  end
+
+  describe "when given a invalid repository" do
+    let(:git_dep_dir) { "test-directory" }
+
+    let(:git_ls_remote_output) do
+      out = mock
+      out.stubs(:stdout).returns("")
+      out.stubs(:exitstatus).returns(1)
+      out.stubs(:stderr).returns("repository 'test-directory' not found")
+      out.stubs(:error!).returns(true)
+      out.stubs(:run_command).returns(false)
+      out
+    end
+
+    def expect_ls_remote
+      Mixlib::ShellOut.expects(:new).with("git ls-remote \"#{git_dep_dir}\"", {}).returns(git_ls_remote_output)
+    end
+
+    it "it raises error" do
+      expect_ls_remote
+      result = fetcher.resolve({ git: git_dep_dir })
+      _ { result.resolved_source }.must_raise Inspec::FetcherFailure
     end
   end
 end

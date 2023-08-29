@@ -41,6 +41,7 @@ module Inspec::Fetcher
       @ref = opts[:ref]
       @remote_url = expand_local_path(remote_url)
       @repo_directory = nil
+      @resolved_ref = nil
       @relative_path = opts[:relative_path] if opts[:relative_path] && !opts[:relative_path].empty?
     end
 
@@ -147,13 +148,14 @@ module Inspec::Fetcher
 
     def resolve_ref(ref_name = nil)
       command_string = if ref_name.nil?
-                        # This helps to validate the remote url and raise error before we generate cache_key
-                        "git ls-remote \"#{@remote_url}\""
-                      else
-                        "git ls-remote \"#{@remote_url}\" \"#{ref_name}*\""
-                      end
+                         # Running git ls-remote command helps to raise error if git URL is invalid and avoids cache_key creation
+                         "git ls-remote \"#{@remote_url}\""
+                       else
+                         "git ls-remote \"#{@remote_url}\" \"#{ref_name}*\""
+                       end
       cmd = shellout(command_string)
       raise(Inspec::FetcherFailure, "Profile git dependency failed for #{@remote_url} - error running '#{command_string}': #{cmd.stderr}") unless cmd.exitstatus == 0
+
       if ref_name.nil?
         ref = nil
       else
@@ -209,6 +211,8 @@ module Inspec::Fetcher
 
     def checkout(dir = @repo_directory)
       clone(dir)
+      # In case of branch, tag or git reference is not provided by User the resolved_ref will always be nil
+      # and will always checkout the default HEAD branch, else it will checkout specific branch, tag or git reference.
       if resolved_ref.nil?
         git_cmd("checkout", dir)
       else
