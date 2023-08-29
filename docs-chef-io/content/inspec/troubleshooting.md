@@ -30,19 +30,20 @@ See the [InSpec install documentation](/inspec/install/) for setting a Chef Lice
 See the [Chef License documentation](/licensing/) for more information about Chef licensing.
 ## License is not entitled to use InSpec
 
-The error indicates the license key used with Chef InSpec, version 6 or higher, is not entitled to the software Chef InSpec. To resolve this issue you need to use a license key which is entitled to Chef InSpec.
-<!-- TODO Need to check the validity of below license information link-->
-See the [Chef License documentation](/license/) for more information about Chef licensing.
+The license key used with Chef InSpec is not entitled to use Chef InSpec. To resolve this issue, set a license key that is entitled to Chef InSpec.
+
+See the [Chef Licensing documentation](/licensing/) for more information.
 
 ## Unable to connect to the licensing server. InSpec requires server communication to operate
 
-The error indicates that Chef InSpec, version 6 or higher, is having trouble connecting to the Licensing Service. This service is responsible for validating the Chef license key used with Chef InSpec. The Licensing Service can either be a Chef's Licensing Service or it can be configured to point to Local Licensing Service.
+Chef InSpec cannot connect to Chef's licensing service or a user-deployed Chef Private Licensing Service.
+This service is responsible for validating the Chef license key set with Chef InSpec.
 
-Here are a few steps to troubleshoot and resolve this issue:
+Check the following possible causes of this issue:
 
-- Check Network Connectivity: Ensure that the machine running Chef InSpec has proper network connectivity. It should be able to reach the Licensing Service's endpoint. This includes checking firewall settings and network configuration.
+- Check Network Connectivity: Ensure that the machine running Chef InSpec has proper network connectivity. It should be able to reach the Chef's Licensing Service or a user-deployed Private Licensing Service. This includes checking firewall settings and network configuration.
 
-- Service Availability: If it's a Local Licensing Service, ensure that it's properly configured and operational. Any misconfigurations or issues with the local service could lead to connection problems.
+- Service Availability: If you're using a user-deployed Chef Private Licensing Service, verify that it's correctly configured and operational. Any misconfigurations or issues with the Private Licensing Service could lead to connection problems.
 
 - URL Configuration: Verify that the URL configured in Chef InSpec is correct. If the URL is configured using an environment variable, check the value for environment variable `CHEF_LICENSE_SERVER` to confirm the configured URL.
 
@@ -52,15 +53,13 @@ Here are a few steps to troubleshoot and resolve this issue:
 
 ## Invalid File Format Version
 
-This error encountered with Chef InSpec, version 6 or higher, is specifically related to `licenses.yaml` file.
-It indicates that the version of file format used in the file is either unsupported or is invalid.
-It is a requirement for `licenses.yaml` file to use the latest supported file format version.
+The file format version used in the `licenses.yaml` file is either unsupported or is invalid.
+The `licenses.yaml` file must have the latest supported file format version.
 
 Please restore the file to the original state to resolve this issue.
 
 ## License file contents are corrupted
 
-This error encountered with Chef InSpec, version 6 or higher, is specifically related to `licenses.yaml` file.
-It indicates that the file has been malformed and corrupted due to external tampering.
+The `licenses.yaml` file is malformed and corrupt.
 
 Please restore the file content to its original state to resolve this issue.
