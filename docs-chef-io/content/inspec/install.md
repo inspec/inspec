@@ -88,11 +88,11 @@ sudo zypper install /path-to/inspec.rpm
 Starting with **Chef InSpec 6**, you must provide a Chef License key the first time you run Chef InSpec.
 If you don't already have one, you can [generate a license key](#generate-a-license-key) in the Chef InSpec CLI.
 
-Chef Licenses are available in several tiers. For more information, please see LINK TODO.
+Chef licenses are available in several tiers. For more information, please see LINK TODO.
 
 {{< note >}}
 
-Existing commercial customers of Progress Chef may use your asset serial number from the [Progress support portal](https://community.progress.com/s/products/chef) as a license key. For further details, see LINK TODO.
+Existing commercial customers of Progress Chef may use an asset serial number from the [Progress support portal](https://community.progress.com/s/products/chef) as a license key.
 
 {{< /note >}}
 
@@ -102,68 +102,70 @@ Chef InSpec provides several ways to set a license key.
 
 #### Interactive license dialog
 
-The easiest way to provide a license key to Chef InSpec is to simply run Chef InSpec. Running any major top-level command, such as `inspec exec`, `inspec check`, or `inspec shell` (among others) will trigger the interactive licensing dialog if no license key has previously been set, and no automated method of setting the license key was detected.
+The easiest way to provide a license key to Chef InSpec is to run Chef InSpec.
+Run any major top-level command (such as `inspec exec`, `inspec check`, or `inspec shell`) and InSpec will start an interactive licensing dialog
+if no license key is already set, and it doesn't detect an automated method of setting the license key.
 
-This example shows how to interactively provide a license key using the `inspec shell` command.
+1. To start the interactive licensing dialog, run a top-level command such as `inspec shell`.
 
-```bash
-inspec shell
-------------------------------------------------------------
-  License ID Validation
+1. At the first prompt, select **I already have a license ID**.
 
-  To continue using Chef InSpec, a license ID is required.
-  (Free, Trial, or Commercial)
+    ```bash
+    inspec shell
+    ------------------------------------------------------------
+      License ID Validation
 
-  If you generated a license previously, you might
-  have received it in an email.
+      To continue using Chef InSpec, a license ID is required.
+      (Free, Trial, or Commercial)
 
-  If you are a commercial user, you can also find it in the
-  supportlink.chef.io portal.
-------------------------------------------------------------
+      If you generated a license previously, you might
+      have received it in an email.
 
-Please choose one of the options below (Press ↑/↓ arrow to move and Enter to select)
-‣ I already have a license ID
-  I don't have a license ID and would like to generate a new license ID
-  Skip
-```
+      If you are a commercial user, you can also find it in the
+      supportlink.chef.io portal.
+    ------------------------------------------------------------
 
-At the first prompt, choose "I already have a license ID". You are then prompted to enter your license key.
+    Please choose one of the options below (Press ↑/↓ arrow to move and Enter to select)
+    ‣ I already have a license ID
+      I don't have a license ID and would like to generate a new license ID
+      Skip
+    ```
 
-```bash
-Please choose one of the options below I already have a license ID
-Please enter your license ID:  <LICENSE_KEY>
-✔ [Success] License validated successfully.
-------------------------------------------------------------
-License Details
-  Asset Name       : InSpec
-  License ID       : <LICENSE_KEY>
-  Type             : Trial
-  Status           : Active
-  Validity         : Unlimited
-  No. Of Units     : 10 Targets
-------------------------------------------------------------
-Welcome to the interactive InSpec Shell
-To find out how to use it, type: help
+1. Enter your license key at the second prompt.
 
-You are currently running on:
+   ```bash
+   Please choose one of the options below I already have a license ID
+   Please enter your license ID:  <LICENSE_KEY>
+   ✔ [Success] License validated successfully.
+   ------------------------------------------------------------
+   License Details
+     Asset Name       : InSpec
+     License ID       : <LICENSE_KEY>
+     Type             : Trial
+     Status           : Active
+     Validity         : Unlimited
+     No. Of Units     : 10 Targets
+   ------------------------------------------------------------
+   Welcome to the interactive InSpec Shell
+   To find out how to use it, type: help
 
-    Name:      mac_os_x
-    Families:  darwin, bsd, unix, os
-    Release:   22.5.0
-    Arch:      arm64
+   You are currently running on:
 
-inspec> exit
-```
+       Name:      mac_os_x
+       Families:  darwin, bsd, unix, os
+       Release:   22.5.0
+       Arch:      arm64
 
-Chef InSpec will validate the license key, display information about the license entitlements, and then proceed to run `inspec shell` as requested. The license key will be stored for future use, and the user will not be prompted again when they run another major Chef InSpec command.
+   inspec> exit
+   ```
 
-Chef InSpec tries to detect a human operator because it is often run under test automation environments such as CI systems. If no human operator was detected and no license key was provided, Chef InSpec will exit with error code 173. If Chef InSpec thinks there is a human there but gets no response for 60 seconds, it will give up and exit with code 173. To set a license key in ways that are friendly to CI, please read the following sections.
+Chef InSpec validates the license key, displays information about the license entitlements, and then runs `inspec shell` as requested.
+Chef InSpec stores license keys for future use, and InSpec will not prompt you for the license key for the duration of your license.
 
 #### Command line option
 
-You can set the license key in the command line using the `--chef-license-key` option. You may provide this argument to most Chef InSpec CLI main commands; some plugins may not support the flag.
-
-This example shows setting a license key formatted as a Commercial Asset Number.
+You can set the license key in the command line using the `--chef-license-key` option.
+You may provide this argument to most Chef InSpec CLI main commands, however some plugins may not support the flag.
 
 ```bash
 inspec exec profile_name --chef-license-key <LICENSE_KEY>
@@ -172,28 +174,30 @@ inspec exec profile_name --chef-license-key <LICENSE_KEY>
 #### Environment variable
 
 You can set the license key as an environment variable using the `CHEF_LICENSE_KEY`
-Chef InSpec will read the license key from the variable and attempt to validate the key. If successful, the key will be saved for future use. The user is not interactively prompted.
-
-This example shows setting a trial license key.
+Chef InSpec will read the license key from the variable and attempt to validate the key.
+If successful, InSpec saves the key and will not prompt you for it the next time you run InSpec.
 
 ```bash
 export CHEF_LICENSE_KEY=<LICENSE_KEY>
 inspec exec profile_name
 ```
 
-#### Chef Local License Server
+#### Chef Private License Server
 
-For large or isolated (air-gapped) fleets, Chef InSpec can retrieve a license key from a Chef Local License Server.
-With this method, Chef InSpec users do not need to know the license key -- only the URL(s) of the local license servers.
+For large or isolated (air-gapped) fleets, Chef InSpec can retrieve a license key from a Chef Private License Server.
+With a Chef Private License Server, InSpec users do not need to know a license key -- only the URL(s) of the server.
 
-Chef InSpec sends a request to the Local License Server for a list of license keys and then uses that response to license itself during execution.
-The user is not interactively prompted for a license key at all. The keys are not stored for long-term use.
+Chef InSpec sends a request to the Private License Server for a list of license keys and then uses that response to license itself during execution.
+InSpec will not prompt you for a license key.
+Chef InSpec does not store license keys for long-term use when they are retrieved from a Chef Private License Server.
 
-For details about how to obtain, setup, and run a Chef Local License Server, please contact LINK TODO.
+You can set the URL of a Chef Private License Server using an [environment variable](#environment-variable-1) or with a [command line option](#command-line-option-1).
 
-##### Environment Variable
+For details about how to obtain, setup, and run a Chef Private License Server, please contact LINK TODO.
 
-You can use the `CHEF_LICENSE_SERVER` environment variable to set a license server.
+##### Environment variable
+
+Use the `CHEF_LICENSE_SERVER` environment variable to set a Chef Private License Server URL.
 
 ```bash
 export CHEF_LICENSE_SERVER=https://license-server.example.com
@@ -202,7 +206,7 @@ inspec exec profile_name
 
 ##### Command line option
 
-You can use the `--chef-license-server` command line option to set a Local License Server URL.
+Use the `--chef-license-server` command line option to set a Chef Private License Server URL.
 
 ```bash
 inspec exec profile_name --chef-license-server https://license-server.example.com
@@ -210,140 +214,140 @@ inspec exec profile_name --chef-license-server https://license-server.example.co
 
 ##### Multiple license servers
 
-You can set multiple license servers, which provides resiliency and redundancy for managing licenses.
+You can set multiple Chef Private License Servers which provides resiliency and redundancy for managing licenses.
 
-If the value of `CHEF_LICENSE_SERVER` appears to be a comma-separated list of up to five URLs, then Chef InSpec will try each URL in turn, and use the first that works.
+Enter up to five Chef Private License Server URLS as a comma-separated list. Chef InSpec will try each URL and use the first one that works.
 
 ```bash
 export CHEF_LICENSE_SERVER=https://license-server-01.example.com,https://license-server-02.example.com
 inspec exec profile_name
 ```
 
-This capability is basic and requires the license servers to be synchronized, otherwise incosistent results will occur.
+This capability is basic and you must synchronize the license servers, otherwise you may get inconsistent results.
 
 ### Generate a license key
 
-If you are interested in a free or trial license, you may generate a license at the command prompt. The license will be emailed to you and then you must [set the license key](#set-a-license-key) to make it active.
+If you want a free or trial license, you may generate a license at the command prompt. Progress Chef will email the license to you and then you must [set the license key](#set-a-license-key) to make it active.
 
-To generate a license, run a Chef InSpec command, such as `inspec shell` or `inspec exec`. You can also use the `inspec license add` command to explicitly trigger the license UI.
+To generate a new license, run a top-level Chef InSpec command, such as `inspec shell` or `inspec exec`. You can also use the `inspec license add` command to explicitly trigger the interactive licensing dialog.
 
-This example uses the `inspec shell` command to trigger the interactive license dialog.
+1. To start the interactive licensing dialog, run a top-level command such as `inspec shell`.
 
-```bash
-$ inspec shell
-------------------------------------------------------------
-  License ID Validation
+1. Select **I don't have a license ID and would like to generate a new license ID**..
 
-  To continue using Chef InSpec, a license ID is required.
-  (Free, Trial, or Commercial)
+    ```bash
+    $ inspec shell
+    ------------------------------------------------------------
+      License ID Validation
 
-  If you generated a license previously, you might
-  have received it in an email.
+      To continue using Chef InSpec, a license ID is required.
+      (Free, Trial, or Commercial)
 
-  If you are a commercial user, you can also find it in the
-  supportlink.chef.io portal.
-------------------------------------------------------------
+      If you generated a license previously, you might
+      have received it in an email.
 
-Please choose one of the options below
-  I already have a license ID
-‣ I don't have a license ID and would like to generate a new license ID
-  Skip
-```
+      If you are a commercial user, you can also find it in the
+      supportlink.chef.io portal.
+    ------------------------------------------------------------
 
-Choose **I don't have a license ID and would like to generate a new license ID**.
+    Please choose one of the options below
+      I already have a license ID
+    ‣ I don't have a license ID and would like to generate a new license ID
+      Skip
+    ```
 
-```bash
-Thank you for taking interest in InSpec.
+1. Select either **Free License** or **Trial License** to generate a license. This example selects a trial license.
 
-We have the following types of licenses.
-Select the type of license below and then enter user details
+    ```bash
+    Thank you for taking interest in InSpec.
 
-  1. Free License
-     Validity: Unlimited
-     No. of units: 10 targets
+    We have the following types of licenses.
+    Select the type of license below and then enter user details
 
-‣ 2. Trial License
-     Validity: 30 Days
+      1. Free License
+        Validity: Unlimited
+        No. of units: 10 targets
+
+    ‣ 2. Trial License
+        Validity: 30 Days
+        No. of units: Unlimited targets
+
+      3. Commercial License
+
+      4. Quit license generation
+    ```
+
+1. Enter the user details when prompted and then select **Confirm the details and proceed**. Chef InSpec requires a valid company email address.
+
+   ```bash
+   Select the type of license below and then enter user details
+    2. Trial License
+        Validity: 30 Days
+        No. of units: Unlimited targets
+
+   Please enter the following details:
+   First Name, Last Name, Email, Company, Phone
+   Enter First Name:  Alice
+   Enter Last Name:  Scanswell
+   Enter Email Address (Business email is mandatory for a trial license): alice@example.com
+   Enter Company Name:  Example Company Name
+   Enter phone number:  8005550150
+   ------------------------------------------------------------
+   Review the details below and confirm to proceed.
+   ------------------------------------------------------------
+   License Details
+
+     Type: Trial License
+     Validity: 30 days
      No. of units: Unlimited targets
 
-  3. Commercial License
+   User Details
 
-  4. Quit license generation
-```
+     First Name: Alice
+     Last Name: Scanswell
+     Email: alice@example.com
+     Company: Example Company
+     Phone number: 8005550150
+   ------------------------------------------------------------
+   Please select (Press ↑/↓ arrow to move and Enter to select)
+   ‣ Confirm the details and proceed
+     Reselect the license type
+     Edit user details
+     Quit the license generation process
+   ```
 
-You may choose either Free or Trial to generate a license; this example chooses Trial.
+1. Progress Chef will email a license key to you. Enter the license key at the prompt.
 
-You'll next be asked for your user details. A valid company email is required.
+   ```bash
+   Please select Confirm the details and proceed
+   ✔ [Success] License generated successfully
 
-```bash
-Select the type of license below and then enter user details
- 2. Trial License
-     Validity: 30 Days
-     No. of units: Unlimited targets
+   The license ID has been sent to alice@example.com.
+   Please enter your license ID:  <LICENSE_KEY>
+   ✔ [Success] License validated successfully.
+   ------------------------------------------------------------
+   License Details
+     Asset Name       : InSpec
+     License ID       : <LICENSE_KEY>
+     Type             : Trial
+     Status           : Active
+     Validity         : 30 Days
+     No. Of Units     : Unlimited
+   ------------------------------------------------------------
+   Welcome to the interactive InSpec Shell
+   To find out how to use it, type: help
 
-Please enter the following details:
-First Name, Last Name, Email, Company, Phone
-Enter First Name:  Alice
-Enter Last Name:  Scanswell
-Enter Email Address (Business email is mandatory for a trial license): alice@example.com
-Enter Company Name:  Example Company
-Enter phone number:  4155551212
-------------------------------------------------------------
-Review the details below and confirm to proceed.
-------------------------------------------------------------
-License Details
+   You are currently running on:
 
-  Type: Trial License
-  Validity: 30 days
-  No. of units: Unlimited targets
+       Name:      mac_os_x
+       Families:  darwin, bsd, unix, os
+       Release:   22.5.0
+       Arch:      arm64
 
-User Details
+   inspec> exit
+   ```
 
-  First Name: Alice
-  Last Name: Scanswell
-  Email: alice@example.com
-  Company: Example Company
-  Phone number: 4155551212
-------------------------------------------------------------
-Please select (Press ↑/↓ arrow to move and Enter to select)
-‣ Confirm the details and proceed
-  Reselect the license type
-  Edit user details
-  Quit the license generation process
-```
-
-Confirm the details and proceed. The license key will be emailed to you. You may enter it immediately.
-
-```bash
-Please select Confirm the details and proceed
-✔ [Success] License generated successfully
-
-The license ID has been sent to alice@example.com.
-Please enter your license ID:  <LICENSE_KEY>
-✔ [Success] License validated successfully.
-------------------------------------------------------------
-License Details
-  Asset Name       : InSpec
-  License ID       : <LICENSE_KEY>
-  Type             : Trial
-  Status           : Active
-  Validity         : 30 Days
-  No. Of Units     : Unlimited
-------------------------------------------------------------
-Welcome to the interactive InSpec Shell
-To find out how to use it, type: help
-
-You are currently running on:
-
-    Name:      mac_os_x
-    Families:  darwin, bsd, unix, os
-    Release:   22.5.0
-    Arch:      arm64
-
-inspec> exit
-```
-
-Chef InSpec will display the license entitlement details and then run `inspec shell`. Because you have entered a license key, you will not be prompted again for a key the next time you run Chef InSpec.
+Chef InSpec displays the license entitlement details and then runs `inspec shell`. Because you have entered a license key, Chef InSpec will not prompt you for a key the next time you run Chef InSpec.
 
 ## Uninstall Chef InSpec
 
