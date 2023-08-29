@@ -70,7 +70,7 @@ module Inspec::Fetcher
           if @relative_path
             perform_relative_path_fetch(destination_path, working_dir)
           else
-            Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
+            Inspec::Log.debug("Checkout of #{resolved_ref.nil? ? @remote_url : resolved_ref} successful. " \
                               "Moving checkout to #{destination_path}")
             FileUtils.cp_r(working_dir + "/.", destination_path)
           end
@@ -80,14 +80,14 @@ module Inspec::Fetcher
     end
 
     def perform_relative_path_fetch(destination_path, working_dir)
-      Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
+      Inspec::Log.debug("Checkout of #{resolved_ref.nil? ? @remote_url : resolved_ref} successful. " \
                         "Moving #{@relative_path} to #{destination_path}")
       unless File.exist?("#{working_dir}/#{@relative_path}")
         # Cleanup the destination path - otherwise we'll have an empty dir
         # in the cache, which is enough to confuse the cache reader
         # This is a courtesy, assuming we're writing to the cache; if we're
         # vendoring to something more complex, don't bother.
-        FileUtils.rmdir(destination_path) if Dir.empty?(destination_path)
+        FileUtils.rm_r(destination_path) if Dir.exist?(destination_path)
 
         raise Inspec::FetcherFailure, "Cannot find relative path '#{@relative_path}' " \
                                       "within profile in git repo specified by '#{@remote_url}'"
@@ -96,14 +96,23 @@ module Inspec::Fetcher
     end
 
     def cache_key
-      cache_key = if @relative_path
+      # Verifies the git repo url is valid and avoids to create cache directory before validating the git repo url
+      verify_repo_is_valid_git_repo
+
+      cache_key = if @relative_path && !resolved_ref.nil?
                     OpenSSL::Digest.hexdigest("SHA256", resolved_ref + @relative_path)
+                  elsif @relative_path && resolved_ref.nil?
+                    OpenSSL::Digest.hexdigest("SHA256", @remote_url + @relative_path)
                   elsif resolved_ref.nil?
                     OpenSSL::Digest.hexdigest("SHA256", @remote_url)
                   else
                     resolved_ref
                   end
       cache_key
+    end
+
+    def verify_repo_is_valid_git_repo
+      git_cmd("ls-remote \"#{@remote_url}\"")
     end
 
     def archive_path
@@ -212,6 +221,8 @@ module Inspec::Fetcher
       cmd = shellout("git #{cmd}", cwd: dir)
       cmd.error!
       cmd.status
+    rescue Mixlib::ShellOut::ShellCommandFailed => e
+      raise Inspec::FetcherFailure, "Error while running git command. #{e.message} "
     rescue Errno::ENOENT
       raise Inspec::FetcherFailure, "Profile git dependency failed for #{@remote_url} - to use git sources, you must have git installed."
     end
