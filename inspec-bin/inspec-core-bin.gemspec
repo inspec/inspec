@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.summary       = "Infrastructure and compliance testing."
   spec.description   = "InSpec executable for inspec-core gem. Use of this executable may require accepting a license agreement."
   spec.homepage      = "https://github.com/inspec/inspec/tree/main/inspec-bin"
-  spec.license       = "Apache-2.0"
+  spec.license       = "LicenseRef-Chef-EULA"
 
   spec.require_paths = ["lib"]
   spec.required_ruby_version = ">= 2.4"

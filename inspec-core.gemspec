@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.summary       = "Infrastructure and compliance testing. Core library."
   spec.description   = "InSpec provides a framework for creating end-to-end infrastructure tests. You can use it for integration or even compliance testing. Create fully portable test profiles and use them in your workflow to ensure stability and security. Integrate InSpec in your change lifecycle for local testing, CI/CD, and deployment verification. This has local support only. See the `inspec` gem for full support."
   spec.homepage      = "https://github.com/inspec/inspec"
-  spec.license       = "Apache-2.0"
+  spec.license       = "LicenseRef-Chef-EULA"
   spec.require_paths = ["lib"]
 
   spec.required_ruby_version = ">= 2.7"
