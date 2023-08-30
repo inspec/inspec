@@ -1,12 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.48 -->
+<!-- latest_release 6.4.49 -->
+## [v6.4.49](https://github.com/inspec/inspec/tree/v6.4.49) (2023-08-30)
+
+#### Merged Pull Requests
+- Explicitly list which gems to pull from Artifactory [#6627](https://github.com/inspec/inspec/pull/6627) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
+
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
 
 #### Merged Pull Requests
 - Move chef-licensing gem dependency to inspec gemspec file [#6610](https://github.com/inspec/inspec/pull/6610) ([Vasu1105](https://github.com/Vasu1105))
-<!-- latest_release -->
 
 ## [v6.4.47](https://github.com/inspec/inspec/tree/v6.4.47) (2023-08-22)
 
