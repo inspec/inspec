@@ -142,6 +142,7 @@
 - Feature Config File and Logger Support [#6260](https://github.com/inspec/inspec/pull/6260) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.2.0 -->
 - CFINSPEC-246/CFINSPEC-247 Attestation changes for N/R outcomes [#6222](https://github.com/inspec/inspec/pull/6222) ([Nik08](https://github.com/Nik08)) <!-- 6.1.0 -->
 - CFINSPEC-452 Added Inspec parallel logging for warn/error [#6245](https://github.com/inspec/inspec/pull/6245) ([Nik08](https://github.com/Nik08)) <!-- 6.0.1 -->
+<!-- release_rollup -->
 
 <!-- latest_stable_release 5.22.13 -->
 ## [v5.22.13](https://github.com/inspec/inspec/tree/v5.22.13) (2023-08-16)
