@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.49 -->
-## [v6.4.49](https://github.com/inspec/inspec/tree/v6.4.49) (2023-08-30)
+<!-- latest_release 6.4.50 -->
+## [v6.4.50](https://github.com/inspec/inspec/tree/v6.4.50) (2023-08-31)
 
 #### Merged Pull Requests
-- Explicitly list which gems to pull from Artifactory [#6627](https://github.com/inspec/inspec/pull/6627) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Adds missing release-rollup tag in CHANGELOG file [#6639](https://github.com/inspec/inspec/pull/6639) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- Adds missing release-rollup tag in CHANGELOG file [#6639](https://github.com/inspec/inspec/pull/6639) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.50 -->
 - Bump omnibus-software from `4b08f0b` to `3268356` in /omnibus [#6587](https://github.com/inspec/inspec/pull/6587) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.45 -->
 - Missing changes from main [#6564](https://github.com/inspec/inspec/pull/6564) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.4.44 -->
 - CHEF-4010 make a clean exit for License list command [#6552](https://github.com/inspec/inspec/pull/6552) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.4.43 -->
