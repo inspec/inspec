@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.50 -->
-## [v6.4.50](https://github.com/inspec/inspec/tree/v6.4.50) (2023-08-31)
+<!-- latest_release 6.4.51 -->
+## [v6.4.51](https://github.com/inspec/inspec/tree/v6.4.51) (2023-08-31)
 
 #### Merged Pull Requests
-- Adds missing release-rollup tag in CHANGELOG file [#6639](https://github.com/inspec/inspec/pull/6639) ([Vasu1105](https://github.com/Vasu1105))
+- Adds missing expeditor configuration for inspec 6 release [#6624](https://github.com/inspec/inspec/pull/6624) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- Adds missing expeditor configuration for inspec 6 release [#6624](https://github.com/inspec/inspec/pull/6624) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.51 -->
 - Adds missing release-rollup tag in CHANGELOG file [#6639](https://github.com/inspec/inspec/pull/6639) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.50 -->
 - Bump omnibus-software from `4b08f0b` to `3268356` in /omnibus [#6587](https://github.com/inspec/inspec/pull/6587) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.45 -->
 - Missing changes from main [#6564](https://github.com/inspec/inspec/pull/6564) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.4.44 -->
