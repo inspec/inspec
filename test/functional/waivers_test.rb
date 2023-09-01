@@ -246,7 +246,7 @@ describe "waivers" do
 
       it "raise unable to parse empty.yaml file error" do
         result = run_result
-        assert_includes result.stderr, "unable to parse"
+        assert_includes result.stderr, "ERROR: Secrets::YAML unable to parse"
         if windows?
           assert_equal 1, result.exit_status
         else
@@ -309,6 +309,16 @@ describe "waivers" do
         assert_includes result.stderr, "Missing column headers: [\"justification\"]"
         assert_includes result.stderr, "Extra column headers: [\"justification_random\", \"run_random\", \"expiration_date_random\"]"
       end
+    end
+  end
+
+  describe "with a waiver file with wrong headers" do
+    let(:profile_name) { "basic" }
+    let(:waiver_file) { "malformed-waiver.yaml" }
+
+    it "raise error" do
+      result = run_result
+      assert_includes result.stderr, "ERROR: Secrets::YAML unable to parse"
     end
   end
 end
