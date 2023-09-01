@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.18 -->
-## [v5.22.18](https://github.com/inspec/inspec/tree/v5.22.18) (2023-08-31)
+<!-- latest_release 5.22.19 -->
+## [v5.22.19](https://github.com/inspec/inspec/tree/v5.22.19) (2023-09-01)
 
 #### Merged Pull Requests
-- Fix missing nil check for control variable in formatter&#39;s base - Issue 6510 [#6629](https://github.com/inspec/inspec/pull/6629) ([ahasunos](https://github.com/ahasunos))
+- Backport #6626 - Fix for git fetcher [#6640](https://github.com/inspec/inspec/pull/6640) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.3 -->
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Backport #6626 - Fix for git fetcher [#6640](https://github.com/inspec/inspec/pull/6640) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.19 -->
 - Fix missing nil check for control variable in formatter&#39;s base - Issue 6510 [#6629](https://github.com/inspec/inspec/pull/6629) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.18 -->
 - Bump omnibus-software from `4b08f0b` to `c208191` in /omnibus [#6616](https://github.com/inspec/inspec/pull/6616) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.17 -->
 - GEMFILE: Remove kitchen group from Gemfile [#6590](https://github.com/inspec/inspec/pull/6590) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.16 -->
