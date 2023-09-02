@@ -12,6 +12,7 @@ require "inspec/dist"
 require "inspec/reporters"
 require "inspec/runner_rspec"
 require "chef-licensing"
+require "inspec/utils/licensing_config"
 # spec requirements
 
 module Inspec
@@ -162,13 +163,23 @@ module Inspec
     end
 
     def run(with = nil)
-      ChefLicensing.check_software_entitlement! if Inspec::Dist::EXEC_NAME == "inspec"
+      if Inspec::Dist::EXEC_NAME == "inspec"
+        # Set the configuration if configuration is not set
+        @conf[:chef_license_server] = @conf[:chef_license_server].join(",") if @conf[:chef_license_server].is_a? Array
+        configure_chef_licensing(@conf) unless ChefLicensing::Config.chef_entitlement_id
+
+        ChefLicensing.fetch_and_persist if @conf[:chef_license_key]
+        ChefLicensing.check_software_entitlement!
+      end
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
       load
       run_tests(with)
     rescue ChefLicensing::SoftwareNotEntitled
       Inspec::Log.error "License is not entitled to use InSpec."
       Inspec::UI.new.exit(:license_not_entitled)
+    rescue ChefLicensing::LicenseKeyFetcher::LicenseKeyNotFetchedError
+      Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without valid licenses."
+      Inspec::UI.new.exit(:license_not_set)
     rescue ChefLicensing::Error => e
       Inspec::Log.error e.message
       Inspec::UI.new.exit(:usage_error)

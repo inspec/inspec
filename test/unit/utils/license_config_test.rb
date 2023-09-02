@@ -2,6 +2,7 @@ require "helper"
 require "inspec/utils/licensing_config"
 
 describe "ChefLicensing::Config" do
+  configure_chef_licensing
   it "returns the default chef product name as foo" do
     expect(ChefLicensing::Config.chef_product_name).must_equal("InSpec")
   end
