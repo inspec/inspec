@@ -20,9 +20,12 @@ module Inspec
 
         if data.nil?
           raise Inspec::Exceptions::WaiversFileNotReadable,
-              "Cannot find parser for waivers file '#{file_path}'. " \
+              "Cannot find parser for waivers file." \
               "Check to make sure file has the appropriate extension."
         end
+      rescue Inspec::Exceptions::WaiversFileNotReadable, Inspec::Exceptions::WaiversFileInvalidFormatting => e
+        Inspec::Log.error "Error reading waivers file #{file_path }.#{e.message}"
+        Inspec::UI.new.exit(:usage_error)
       end
 
       @waivers_data[profile_id] = output
@@ -52,9 +55,14 @@ module Inspec
 
     def self.validate_headers(headers, json_yaml = false)
       required_fields = json_yaml ? %w{justification} : %w{control_id justification}
-      Inspec::Log.warn "Missing column headers: #{(required_fields - headers)}" unless (required_fields - headers).empty?
-      Inspec::Log.warn "Invalid column header: Column can't be nil" if headers.include? nil
-      Inspec::Log.warn "Extra column headers: #{(headers - all_fields)}" unless (headers - all_fields).empty?
+
+      # In case of invalid headers raise error to provide valid waiver file.
+      if !(required_fields - headers).empty?
+        raise Inspec::Exceptions::WaiversFileInvalidFormatting,
+            "\n Missing parameters: #{required_fields}.\n Valid parameters are #{all_fields}."
+      end
+      Inspec::Log.warn "Invalid parameters: Column can't be nil" if headers.include? nil
+      Inspec::Log.warn "Extra parameters: #{(headers - all_fields)}" unless (headers - all_fields).empty?
     end
 
     def self.validate_json_yaml(data)
