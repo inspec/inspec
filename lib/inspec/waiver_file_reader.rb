@@ -24,7 +24,7 @@ module Inspec
               "Check to make sure file has the appropriate extension."
         end
       rescue Inspec::Exceptions::WaiversFileNotReadable, Inspec::Exceptions::WaiversFileInvalidFormatting => e
-        Inspec::Log.error "Error reading waivers file #{file_path }.#{e.message}"
+        Inspec::Log.error "Error reading waivers file #{file_path}.#{e.message}"
         Inspec::UI.new.exit(:usage_error)
       end
 
@@ -57,11 +57,11 @@ module Inspec
       required_fields = json_yaml ? %w{justification} : %w{control_id justification}
 
       # In case of invalid headers raise error to provide valid waiver file.
-      if !(required_fields - headers).empty?
+      unless (required_fields - headers).empty?
         raise Inspec::Exceptions::WaiversFileInvalidFormatting,
             "\n Missing parameters: #{required_fields}.\n Valid parameters are #{all_fields}."
       end
-      Inspec::Log.warn "Invalid column headers: Column can't be nil" if headers.include? nil && !json_yaml
+      Inspec::Log.warn "Invalid column headers: Column can't be nil" if (headers.include? nil) && !json_yaml
       Inspec::Log.warn "Extra parameters: #{(headers - all_fields)}" unless (headers - all_fields).empty?
     end
 
