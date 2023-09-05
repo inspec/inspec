@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.52 -->
-## [v6.4.52](https://github.com/inspec/inspec/tree/v6.4.52) (2023-09-05)
+<!-- latest_release 6.4.53 -->
+## [v6.4.53](https://github.com/inspec/inspec/tree/v6.4.53) (2023-09-05)
 
 #### Merged Pull Requests
-- Update podman.md [#6502](https://github.com/inspec/inspec/pull/6502) ([IanMadd](https://github.com/IanMadd))
+- Fix for omnibus build failure on Windows due to ffi-yajl error [#6628](https://github.com/inspec/inspec/pull/6628) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- Fix for omnibus build failure on Windows due to ffi-yajl error [#6628](https://github.com/inspec/inspec/pull/6628) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.53 -->
 - Update podman.md [#6502](https://github.com/inspec/inspec/pull/6502) ([IanMadd](https://github.com/IanMadd)) <!-- 6.4.52 -->
 - Adds missing expeditor configuration for inspec 6 release [#6624](https://github.com/inspec/inspec/pull/6624) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.51 -->
 - Adds missing release-rollup tag in CHANGELOG file [#6639](https://github.com/inspec/inspec/pull/6639) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.50 -->
