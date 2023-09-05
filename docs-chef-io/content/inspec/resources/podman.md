@@ -26,7 +26,7 @@ Use the `podman` Chef InSpec audit resource to test multiple Podman containers.
 ```ruby
 describe podman.containers do
   its('ids') { should include "591270d8d80d26671fd6ed622f367fbe19004d16e3b519c292313feb5f22e7f7" }
-  its('images) { should include "docker.io/library/ubuntu:latest" }
+  its('images') { should include "docker.io/library/ubuntu:latest" }
 end
 ```
 
