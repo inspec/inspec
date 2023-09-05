@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.39 -->
-## [v4.56.39](https://github.com/inspec/inspec/tree/v4.56.39) (2023-08-22)
+<!-- latest_release 4.56.40 -->
+## [v4.56.40](https://github.com/inspec/inspec/tree/v4.56.40) (2023-09-05)
 
 #### Merged Pull Requests
-- Bump omnibus from `9c0643a` to `26c34d2` in /omnibus [#6617](https://github.com/inspec/inspec/pull/6617) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Fix inspec-4 omnibus build failure happening due to x64-unknown platform [#6646](https://github.com/inspec/inspec/pull/6646) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.56.20 -->
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Fix inspec-4 omnibus build failure happening due to x64-unknown platform [#6646](https://github.com/inspec/inspec/pull/6646) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.40 -->
 - Bump omnibus from `9c0643a` to `26c34d2` in /omnibus [#6617](https://github.com/inspec/inspec/pull/6617) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.39 -->
 - [Backport] - CHEF-4080: Point to latest EULA in GUI installers [#6581](https://github.com/inspec/inspec/pull/6581) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.38 -->
 - Bump omnibus from `83d8428` to `9c0643a` in /omnibus [#6544](https://github.com/inspec/inspec/pull/6544) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.37 -->
