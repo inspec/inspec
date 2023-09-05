@@ -246,7 +246,8 @@ describe "waivers" do
 
       it "raise warning unable to parse empty.yaml file error" do
         result = run_result
-        assert_includes result.stderr, "WARN: Secrets::YAML unable to parse"
+        assert_includes result.stderr, "WARN: Unable to parse"
+        assert_includes result.stderr, "YAML file is empty."
         if windows?
           assert_equal 1, result.exit_status
         else
@@ -288,7 +289,7 @@ describe "waivers" do
       it "raise errors" do
         result = run_result
         assert_includes result.stderr, "ERROR: Error reading waivers file"
-        assert_includes result.stderr, "Missing parameters: [\"control_id\", \"justification\"]"
+        assert_includes result.stderr, "Missing required parameters: [\"control_id\", \"justification\"]"
         assert_includes result.stderr, "Valid parameters are [\"control_id\", \"justification\", \"expiration_date\", \"run\"]"
       end
     end
@@ -298,7 +299,7 @@ describe "waivers" do
       it "raise errors" do
         result = run_result
         assert_includes result.stderr, "ERROR: Error reading waivers file"
-        assert_includes result.stderr, "Missing parameters: [\"justification\"]"
+        assert_includes result.stderr, "Missing required parameters: [\"justification\"]"
         assert_includes result.stderr, "Valid parameters are [\"control_id\", \"justification\", \"expiration_date\", \"run\"]"
       end
     end
@@ -308,7 +309,7 @@ describe "waivers" do
       it "raise errors" do
         result = run_result
         assert_includes result.stderr, "ERROR: Error reading waivers file"
-        assert_includes result.stderr, "Missing parameters: [\"justification\"]"
+        assert_includes result.stderr, "Missing required parameters: [\"justification\"]"
         assert_includes result.stderr, "Valid parameters are [\"control_id\", \"justification\", \"expiration_date\", \"run\"]"
       end
     end

@@ -26,7 +26,7 @@ module Secrets
 
       # In case of empty yaml file raise the warning else raise the parsing error.
       if @inputs.nil? || @inputs == false
-        Inspec::Log.warn("#{self.class} unable to parse #{target}: Yaml file is empty.")
+        Inspec::Log.warn("Unable to parse #{target}: YAML file is empty.")
         @inputs = nil if @inputs == false
       elsif !@inputs.is_a?(Hash)
         # Exits with usage error.

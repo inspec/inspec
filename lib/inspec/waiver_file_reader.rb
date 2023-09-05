@@ -59,7 +59,7 @@ module Inspec
       # In case of invalid headers raise error to provide valid waiver file.
       unless (required_fields - headers).empty?
         raise Inspec::Exceptions::WaiversFileInvalidFormatting,
-            "\n Missing parameters: #{required_fields}.\n Valid parameters are #{all_fields}."
+            "\n Missing required parameters: #{required_fields}.\n Valid parameters are #{all_fields}."
       end
       Inspec::Log.warn "Invalid column headers: Column can't be nil" if (headers.include? nil) && !json_yaml
       Inspec::Log.warn "Extra parameters: #{(headers - all_fields)}" unless (headers - all_fields).empty?
