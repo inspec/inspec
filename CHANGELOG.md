@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.54 -->
-## [v6.4.54](https://github.com/inspec/inspec/tree/v6.4.54) (2023-09-05)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- CHEF-6123 Updated URL for chef licensing global service [#6647](https://github.com/inspec/inspec/pull/6647) ([Nik08](https://github.com/Nik08))
+- Fix liniting in omnibus/Gemfile [#6649](https://github.com/inspec/inspec/pull/6649) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- Fix liniting in omnibus/Gemfile [#6649](https://github.com/inspec/inspec/pull/6649) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.54 -->
 - CHEF-6123 Updated URL for chef licensing global service [#6647](https://github.com/inspec/inspec/pull/6647) ([Nik08](https://github.com/Nik08)) <!-- 6.4.54 -->
 - Fix for omnibus build failure on Windows due to ffi-yajl error [#6628](https://github.com/inspec/inspec/pull/6628) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.53 -->
 - Update podman.md [#6502](https://github.com/inspec/inspec/pull/6502) ([IanMadd](https://github.com/IanMadd)) <!-- 6.4.52 -->
