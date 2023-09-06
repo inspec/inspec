@@ -325,7 +325,7 @@ describe "waivers" do
     end
   end
 
-  describe "with a waiver file with wrong headers" do
+  describe "with a waiver file with malformed data" do
     let(:profile_name) { "basic" }
     let(:waiver_file) { "malformed-waiver.yaml" }
 
