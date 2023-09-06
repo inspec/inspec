@@ -301,6 +301,7 @@ describe "waivers" do
         assert_includes result.stderr, "ERROR: Error reading waivers file"
         assert_includes result.stderr, "Missing required parameters: [\"justification\"]"
         assert_includes result.stderr, "Valid parameters are [\"control_id\", \"justification\", \"expiration_date\", \"run\"]"
+        assert_includes result.stderr, "WARN: Extra parameters:"
       end
     end
 
@@ -311,6 +312,7 @@ describe "waivers" do
         assert_includes result.stderr, "ERROR: Error reading waivers file"
         assert_includes result.stderr, "Missing required parameters: [\"justification\"]"
         assert_includes result.stderr, "Valid parameters are [\"control_id\", \"justification\", \"expiration_date\", \"run\"]"
+        assert_includes result.stderr, "WARN: Extra parameters:"
       end
     end
   end

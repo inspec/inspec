@@ -1,9 +1,11 @@
 {
   "03_waivered_no_expiry_ran_passes": {
-    "justification_random": "Sound reasoning",
+    "justification": "Sound reasoning",
     "run_random": true,
     "expiration_date_random": "1977-06-01T00:00:00.000Z"
   },
   "04_waivered_no_expiry_ran_fails": {
+    "justification_random": "Sound reasoning",
+    "run_random": true
   }
 }
