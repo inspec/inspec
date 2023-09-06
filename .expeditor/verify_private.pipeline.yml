@@ -49,6 +49,7 @@ steps:
     command:
       - RAKE_TASK=test:isolated /workdir/.expeditor/buildkite/verify.sh
     expeditor:
+      secrets: true
       executor:
         docker:
           image: ruby:3.2
