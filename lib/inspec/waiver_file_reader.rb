@@ -68,9 +68,10 @@ module Inspec
     def self.validate_json_yaml(data)
       headers = []
       data.each_value do |value|
+        # In case of yaml or json we need to validate headers/parametes for each value
+        validate_headers(value.keys, true)
         headers.push value.keys
       end
-      validate_headers(headers.flatten.uniq, true)
     end
   end
 end
