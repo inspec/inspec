@@ -613,6 +613,34 @@ This subcommand has the following additional options:
 `--vendor-cache=VENDOR_CACHE`
 : Use the given path for caching dependencies. (default: `~/.inspec/cache`).
 
+## license
+
+Subcommands for interacting with the Chef licensing system.
+
+`inspec license` supports two subcommands, `add` and `list`.
+
+### license add
+
+Add a Chef license.
+
+Not applicable for users running a Chef Private Licensing Service.
+
+#### Syntax
+
+```bash
+inspec license add
+```
+
+### license list
+
+Run license diagnostics and output the details of your current Chef license configuration.
+
+#### Syntax
+
+```bash
+inspec license list
+```
+
 ## nothing
 
 Does nothing.
