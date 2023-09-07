@@ -68,7 +68,6 @@ module Inspec
     def self.validate_headers(headers, json_yaml = false)
       required_fields = json_yaml ? %w{justification} : %w{control_id justification}
       missing_required_field = []
-      extra_headers = []
       # Finds missing required fields
       unless (required_fields - headers).empty?
         missing_required_field = required_fields - headers
