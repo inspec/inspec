@@ -289,8 +289,8 @@ describe "waivers" do
       it "raise errors" do
         result = run_result
         assert_includes result.stderr, "ERROR: Error reading waivers file"
-        assert_includes result.stderr, "Missing required parameters: [\"control_id\", \"justification\"]"
-        assert_includes result.stderr, "Valid parameters are [\"control_id\", \"justification\", \"expiration_date\", \"run\"]"
+        assert_includes result.stderr, "Missing required header/s [\"control_id\", \"justification\"]"
+        assert_includes result.stderr, "Fix headers in file to proceed."
       end
     end
 
@@ -299,9 +299,9 @@ describe "waivers" do
       it "raise errors" do
         result = run_result
         assert_includes result.stderr, "ERROR: Error reading waivers file"
-        assert_includes result.stderr, "Missing required parameters: [\"justification\"]"
-        assert_includes result.stderr, "Valid parameters are [\"control_id\", \"justification\", \"expiration_date\", \"run\"]"
-        assert_includes result.stderr, "WARN: Extra parameters:"
+        assert_includes result.stderr, "ERROR: Control ID 04_waivered_no_expiry_ran_fails: missing required parameter/s [\"justification\"]"
+        assert_includes result.stderr, "Fix parameters in file to proceed."
+        assert_includes result.stderr, "WARN: Control ID 03_waivered_no_expiry_ran_passes: extra parameter/s [\"run_random\", \"expiration_date_random\"]"
       end
     end
 
@@ -310,20 +310,10 @@ describe "waivers" do
       it "raise errors" do
         result = run_result
         assert_includes result.stderr, "ERROR: Error reading waivers file"
-        assert_includes result.stderr, "Missing required parameters: [\"justification\"]"
-        assert_includes result.stderr, "Valid parameters are [\"control_id\", \"justification\", \"expiration_date\", \"run\"]"
-        assert_includes result.stderr, "WARN: Extra parameters:"
+        assert_includes result.stderr, "ERROR: Control ID 04_waivered_no_expiry_ran_fails: missing required parameter/s [\"justification\"]"
+        assert_includes result.stderr, "Fix parameters in file to proceed."
+        assert_includes result.stderr, "WARN: Control ID 03_waivered_no_expiry_ran_passes: extra parameter/s [\"run_random\", \"expiration_date_random\"]"
       end
-    end
-  end
-
-  describe "with a waiver file with extra headers" do
-    let(:profile_name) { "basic" }
-    let(:waiver_file) { "extra-headers.csv" }
-    it "raise warnings" do
-      result = run_result
-      assert_includes result.stderr, "WARN: Invalid column headers: Column can't be nil"
-      assert_includes result.stderr, "WARN: Extra parameters: [\"run_random\", \"expiration_date_random\", nil]"
     end
   end
 
