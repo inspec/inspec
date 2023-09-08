@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.4.55 -->
+## [v6.4.55](https://github.com/inspec/inspec/tree/v6.4.55) (2023-09-08)
 
 #### Merged Pull Requests
+- Add license key error to troubleshooting page [#6609](https://github.com/inspec/inspec/pull/6609) ([IanMadd](https://github.com/IanMadd))
 - Fix liniting in omnibus/Gemfile [#6649](https://github.com/inspec/inspec/pull/6649) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- Add license key error to troubleshooting page [#6609](https://github.com/inspec/inspec/pull/6609) ([IanMadd](https://github.com/IanMadd)) <!-- 6.4.55 -->
 - Fix liniting in omnibus/Gemfile [#6649](https://github.com/inspec/inspec/pull/6649) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.54 -->
 - CHEF-6123 Updated URL for chef licensing global service [#6647](https://github.com/inspec/inspec/pull/6647) ([Nik08](https://github.com/Nik08)) <!-- 6.4.54 -->
 - Fix for omnibus build failure on Windows due to ffi-yajl error [#6628](https://github.com/inspec/inspec/pull/6628) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.53 -->
