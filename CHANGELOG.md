@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.56 -->
-## [v6.4.56](https://github.com/inspec/inspec/tree/v6.4.56) (2023-09-11)
+<!-- latest_release 6.4.57 -->
+## [v6.4.57](https://github.com/inspec/inspec/tree/v6.4.57) (2023-09-11)
 
 #### Merged Pull Requests
-- Revert CLI docs page changes [#6650](https://github.com/inspec/inspec/pull/6650) ([IanMadd](https://github.com/IanMadd))
+- CHEF-5898: Update latest EULA as used in MacOS installers [#6652](https://github.com/inspec/inspec/pull/6652) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- CHEF-5898: Update latest EULA as used in MacOS installers [#6652](https://github.com/inspec/inspec/pull/6652) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.57 -->
 - Revert CLI docs page changes [#6650](https://github.com/inspec/inspec/pull/6650) ([IanMadd](https://github.com/IanMadd)) <!-- 6.4.56 -->
 - Add license key error to troubleshooting page [#6609](https://github.com/inspec/inspec/pull/6609) ([IanMadd](https://github.com/IanMadd)) <!-- 6.4.55 -->
 - Fix liniting in omnibus/Gemfile [#6649](https://github.com/inspec/inspec/pull/6649) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.54 -->
