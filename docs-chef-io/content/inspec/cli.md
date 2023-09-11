@@ -31,39 +31,53 @@ inspec archive PATH
 
 This subcommand has the following additional options:
 
-<dl>
-<dt><code>--airgap</code>, <code>--no-airgap</code></dt>
-<dd>Fallback to using local archives if fetching fails.</dd>
+`--airgap`
+`--no-airgap`
+: Fallback to using local archives if fetching fails.
 
-<dt><code>--auto-install-gems</code>, <code>--no-auto-install-gems</code></dt>
-<dd>Auto installs gem dependencies of the profile or resource pack.</dd>
+`--ignore-errors`
+`--no-ignore-errors`
+: Ignore profile warnings.
 
-<dt><code>--ignore-errors</code>, <code>--no-ignore-errors</code></dt>
-<dd>Ignore profile warnings.</dd>
+`-o`
+`--output=OUTPUT`
+: Save the archive to a path.
 
-<dt><code>-o</code>, <code>--output=OUTPUT</code></dt>
-<dd>Save the archive to a path.</dd>
+`--overwrite`
+`--no-overwrite`
+: Overwrite existing archive.
 
-<dt><code>--overwrite</code>, <code>--no-overwrite</code></dt>
-<dd>Overwrite existing archive.</dd>
+`--profiles-path=PROFILES_PATH`
+: Folder which contains referenced profiles.
 
-<dt><code>--profiles-path=PROFILES_PATH</code></dt>
-<dd>Folder which contains referenced profiles.</dd>
+`--tar`
+`--no-tar`
+: Generates a tar.gz archive.
 
-<dt><code>--tar</code>, <code>--no-tar</code></dt>
-<dd>Generates a tar.gz archive.</dd>
+`--vendor-cache=VENDOR_CACHE`
+: Use the given path for caching dependencies, (default: `~/.inspec/cache`).
 
-<dt><code>--vendor-cache=VENDOR_CACHE</code></dt>
-<dd>Use the given path for caching dependencies, (default: ~/.inspec/cache).</dd>
+`--zip`
+`--no-zip`
+: Generates a zip archive.
 
-<dt><code>--zip</code>, <code>--no-zip</code></dt>
-<dd>Generates a zip archive.</dd>
 
-</dl>
+
+## automate
+
+Communicates with Chef Automate.
+
+### Syntax
+
+This subcommand has the following syntax:
+
+```bash
+inspec automate SUBCOMMAND
+```
 
 ## check
 
-Verify the metadata in the `inspec.yml` file,  verify that control blocks have the correct fields (title, description, impact),  and define that all controls have visible tests and the controls are not using deprecated inspec dsl code
+Verify the metadata in the `inspec.yml` file, verify that control blocks have the correct fields (title, description, impact), and define that all controls have visible tests and the controls are not using deprecated InSpec DSL code.
 
 ### Syntax
 
@@ -77,49 +91,22 @@ inspec check PATH
 
 This subcommand has the following additional options:
 
-<dl>
-<dt><code>--auto-install-gems</code>, <code>--no-auto-install-gems</code></dt>
-<dd>Auto installs gem dependencies of the profile or resource pack.</dd>
+`--format=FORMAT`
+: The output format to use. Valid values: `json` and `doc`. Default value: `doc`.
 
-<dt><code>--format=FORMAT</code></dt>
-<dd>The output format to use. Valid values: `json` and `doc`. Default value: `doc`.</dd>
+`--profiles-path=PROFILES_PATH`
+: Folder which contains referenced profiles.
 
-<dt><code>--profiles-path=PROFILES_PATH</code></dt>
-<dd>Folder which contains referenced profiles.</dd>
+`--vendor-cache=VENDOR_CACHE`
+: Use the given path for caching dependencies, (default: `~/.inspec/cache`).
 
-<dt><code>--vendor-cache=VENDOR_CACHE</code></dt>
-<dd>Use the given path for caching dependencies, (default: ~/.inspec/cache).</dd>
-
-<dt><code>--with-cookstyle</code>, <code>--no-with-cookstyle</code></dt>
-<dd>Enable or disable cookstyle checks.</dd>
-
-</dl>
-
-## clear_cache
-
-Clears the inspec cache. useful for debugging.
-
-### Syntax
-
-This subcommand has the following syntax:
-
-```bash
-inspec clear_cache
-```
-
-### Options
-
-This subcommand has the following additional options:
-
-<dl>
-<dt><code>--vendor-cache=VENDOR_CACHE</code></dt>
-<dd>Use the given path for caching dependencies, (default: `~/.inspec/cache`).</dd>
-
-</dl>
+`--with-cookstyle`
+`--no-with-cookstyle`
+: Enable or disable cookstyle checks.
 
 ## detect
 
-Detects the target os.
+Detects the target OS.
 
 ### Syntax
 
@@ -133,120 +120,126 @@ inspec detect
 
 This subcommand has the following additional options:
 
-<dl>
-<dt><code>-b</code>, <code>--backend=BACKEND</code></dt>
-<dd>Choose a backend: local, ssh, winrm, docker.</dd>
+`-b`
+`--backend=BACKEND`
+: Choose a backend: local, ssh, winrm, docker.
 
-<dt><code>--bastion-host=BASTION_HOST</code></dt>
-<dd>Specifies the bastion host if applicable.</dd>
+`--bastion-host=BASTION_HOST`
+: Specifies the bastion host if applicable.
 
-<dt><code>--bastion-port=BASTION_PORT</code></dt>
-<dd>Specifies the bastion port if applicable.</dd>
+`--bastion-port=BASTION_PORT`
+: Specifies the bastion port if applicable.
 
-<dt><code>--bastion-user=BASTION_USER</code></dt>
-<dd>Specifies the bastion user if applicable.</dd>
+`--bastion-user=BASTION_USER`
+: Specifies the bastion user if applicable.
 
-<dt><code>--ca-trust-file=CA_TRUST_FILE</code></dt>
-<dd>Specify CA certificate required for SSL authentication (WinRM).</dd>
+`--ca-trust-file=PATH_TO_CA_TRUST_FILE`
+: Specify CA certificate required for SSL authentication (WinRM).
 
-<dt><code>--client-cert=CLIENT_CERT</code></dt>
-<dd>Specify client certificate for SSL authentication</dd>
+`--client-cert=PATH_TO_CLIENT_CERTIFICATE`
+: Specify client certificate required for SSL authentication (WinRM).
 
-<dt><code>--client-key=CLIENT_KEY</code></dt>
-<dd>Specify client key required with client cert for SSL authentication</dd>
+`--client-key=PATH_TO_CLIENT_KEY`
+: Specify client key required with client certificate for SSL authentication (WinRM).
 
-<dt><code>--client-key-pass=CLIENT_KEY_PASS</code></dt>
-<dd>Specify client cert password, if required for SSL authentication</dd>
+`--client-key-pass=CLIENT_CERT_PASSWORD`
+: Specify client certificate password, if required for SSL authentication (WinRM).
 
-<dt><code>--config=CONFIG</code></dt>
-<dd>Read configuration from JSON file (`-` reads from stdin).</dd>
+`--config=CONFIG`
+: Read configuration from the JSON file (`-` reads from stdin).
 
-<dt><code>--docker-url=DOCKER_URL</code></dt>
-<dd>Provides path to Docker API endpoint (Docker). Defaults to unix:///var/run/docker.sock on Unix systems and tcp://localhost:2375 on Windows.</dd>
+`--docker-url`
+: Provides a path to the Docker API endpoint (Docker).
 
-<dt><code>--enable-password=ENABLE_PASSWORD</code></dt>
-<dd>Password for enable mode on Cisco IOS devices.</dd>
+`--enable-password=ENABLE_PASSWORD`
+: Password for enable mode on Cisco IOS devices.
 
-<dt><code>--format=FORMAT</code></dt>
-<dt><code>--host=HOST</code></dt>
-<dd>Specify a remote host which is tested.</dd>
+`--format=FORMAT`
 
-<dt><code>--insecure</code>, <code>--no-insecure</code></dt>
-<dd>Disable SSL verification on select targets.</dd>
+`--host=HOST`
+: Specify a remote host which is tested.
 
-<dt><code>-i</code>, <code>--key-files=one two three</code></dt>
-<dd>Login key or certificate file for a remote scan.</dd>
+`--insecure`
+`--no-insecure`
+: Disable SSL verification on select targets.
 
-<dt><code>--password=PASSWORD</code></dt>
-<dd>Login password for a remote scan, if required.</dd>
+`-i`
+`--key-files=one two three`
+: Login key or certificate file for a remote scan.
 
-<dt><code>--path=PATH</code></dt>
-<dd>Login path to use when connecting to the target (WinRM).</dd>
+`--password=PASSWORD`
+: Login password for a remote scan, if required.
 
-<dt><code>--podman-url=PODMAN_URL</code></dt>
-<dd>Provides the path to the Podman API endpoint. Defaults to unix:///run/user/$UID/podman/podman.sock for rootless container, unix:///run/podman/podman.sock for rootful container (for this you need to execute inspec as root user).</dd>
+`--path=PATH`
+: Login path to use when connecting to the target (WinRM).
 
-<dt><code>-p</code>, <code>--port=N</code></dt>
-<dd>Specify the login port for a remote scan.</dd>
+`-p`
+`--port=N`
+: Specify the login port for a remote scan.
 
-<dt><code>--proxy-command=PROXY_COMMAND</code></dt>
-<dd>Specifies the command to use to connect to the server.</dd>
+`--podman-url`
+: Provides the path to the Podman API endpoint. Defaults to unix:///run/user/$UID/podman/podman.sock for rootless container, unix:///run/podman/podman.sock for rootful container (for this you need to execute inspec as root user).
 
-<dt><code>--self-signed</code>, <code>--no-self-signed</code></dt>
-<dd>Allow remote scans with self-signed certificates (WinRM).</dd>
+`--proxy-command=PROXY_COMMAND`
+: Specifies the command to use to connect to the server.
 
-<dt><code>--shell</code>, <code>--no-shell</code></dt>
-<dd>Run scans in a subshell. Only activates on Unix.</dd>
+`--self-signed`
+`--no-self-signed`
+: Allow remote scans with self-signed certificates (WinRM).
 
-<dt><code>--shell-command=SHELL_COMMAND</code></dt>
-<dd>Specify a particular shell to use.</dd>
+`--shell`
+`--no-shell`
+: Run scans in a subshell. Only activates on Unix.
 
-<dt><code>--shell-options=SHELL_OPTIONS</code></dt>
-<dd>Additional shell options.</dd>
+`--shell-command=SHELL_COMMAND`
+: Specify a particular shell to use.
 
-<dt><code>--ssh-config-file=one two three</code></dt>
-<dd>A list of paths to the ssh config file, e.g ~/.ssh/config or /etc/ssh/ssh_config.</dd>
+`--shell-options=SHELL_OPTIONS`
+: Additional shell options.
 
-<dt><code>--ssl</code>, <code>--no-ssl</code></dt>
-<dd>Use SSL for transport layer encryption (WinRM).</dd>
+`--ssl`
+`--no-ssl`
+: Use SSL for transport layer encryption (WinRM).
 
-<dt><code>--ssl-peer-fingerprint=SSL_PEER_FINGERPRINT</code></dt>
-<dd>Specify SSL peer fingerprint in place of certificates for SSL authentication (WinRM).</dd>
+`--ssl-peer-fingerprint`
+: Specify SSL peer fingerprint in place of certificates for SSL authentication (WinRM).
 
-<dt><code>--sudo</code>, <code>--no-sudo</code></dt>
-<dd>Run scans with sudo. Only activates on Unix and non-root user.</dd>
+`--sudo`
+`--no-sudo`
+: Run scans with sudo. Only activates on Unix and non-root user.
 
-<dt><code>--sudo-command=SUDO_COMMAND</code></dt>
-<dd>Alternate command for sudo.</dd>
+`--sudo-command=SUDO_COMMAND`
+: Alternate command for sudo.
 
-<dt><code>--sudo-options=SUDO_OPTIONS</code></dt>
-<dd>Additional sudo options for a remote scan.</dd>
+`--sudo-options=SUDO_OPTIONS`
+: Additional sudo options for a remote scan.
 
-<dt><code>--sudo-password=SUDO_PASSWORD</code></dt>
-<dd>Specify a sudo password, if it is required.</dd>
+`--sudo-password=SUDO_PASSWORD`
+: Specify a sudo password, if it is required.
 
-<dt><code>-t</code>, <code>--target=TARGET</code></dt>
-<dd>Simple targeting option using URIs, e.g. ssh://user:pass@host:port</dd>
+`-t`
+`--target=TARGET`
+: Simple targeting option using URIs, e.g. ssh://user:pass@host:port.
 
-<dt><code>--target-id=TARGET_ID</code></dt>
-<dd>Provide an ID which will be included on reports - deprecated</dd>
+`--target-id=TARGET_ID`
+: Provide a ID which will be included on reports.
 
-<dt><code>--user=USER</code></dt>
-<dd>The login user for a remote scan.</dd>
+`--user=USER`
+: The login user for a remote scan.
 
-<dt><code>--winrm-basic-auth-only</code>, <code>--no-winrm-basic-auth-only</code></dt>
-<dd>Whether to use basic authentication, defaults to false (WinRM).</dd>
+`--winrm-basic-auth-only`
+`--no-winrm-basic-auth-only`
+: Whether to use basic authentication, defaults to false (WinRM).
 
-<dt><code>--winrm-disable-sspi</code>, <code>--no-winrm-disable-sspi</code></dt>
-<dd>Whether to use disable sspi authentication, defaults to false (WinRM).</dd>
+`--winrm-disable-sspi`
+`--no-winrm-disable-sspi`
+: Whether to use disable sspi authentication, defaults to false (WinRM).
 
-<dt><code>--winrm-shell-type=WINRM_SHELL_TYPE</code></dt>
-<dd>Specify which shell type to use (powershell, elevated, or cmd), which defaults to powershell (WinRM).</dd>
+`--winrm-transport=WINRM_TRANSPORT`
+: Specify which transport to use, defaults to negotiate (WinRM).
 
-<dt><code>--winrm-transport=WINRM_TRANSPORT</code></dt>
-<dd>Specify which transport to use, defaults to negotiate (WinRM).</dd>
-
-</dl>
+`--winrm-shell-type=WINRM_SHELL_TYPE`
+: Specify which shell type to use (powershell, elevated, or cmd), which defaults to powershell (WinRM).
 
 ## env
 
@@ -264,78 +257,90 @@ inspec env
 
 Run all test files at the specified locations.
 
-The subcommand loads the given profiles, fetches their dependencies if needed, then connects to the target and executes any controls in the profiles.
-One or more reporters are used to generate the output.
-```
-Exit codes:
-    0  Normal exit, all tests passed
-    1  Usage or general error
-    2  Error in plugin system
-    3  Fatal deprecation encountered
-  100  Normal exit, at least one test failed
-  101  Normal exit, at least one test skipped but none failed
-  172  Chef License not accepted
+The subcommand loads the given profiles, fetches their dependencies if needed, then connects to the target and executes any controls in the profiles. One or more reporters are used to generate the output.
+
+```ruby
+exit codes:
+  0  normal exit, all tests passed
+  1  usage or general error
+  2  error in plugin system
+  3  fatal deprecation encountered
+  100  normal exit, at least one test failed
+  101  normal exit, at least one test skipped but none failed
+  172  chef license not accepted
 ```
 
-Below are some examples of using `exec` with different test LOCATIONS:
+Below are some examples of using `exec` with different test locations:
 
 Chef Automate:
-  ```
-  inspec automate login
-  inspec exec compliance://username/linux-baseline
-  ```
-  `inspec compliance` is a backwards compatible alias for `inspec automate` and works the same way:
-  ```
-  inspec compliance login
-  ```
+
+```ruby
+inspec automate login
+inspec exec compliance://username/linux-baseline
+```
+
+`inspec compliance` is a backwards compatible alias for `inspec automate` and works the same way:
+
+```ruby
+inspec compliance login
+```
 
 Chef Supermarket:
-  ```
-  inspec exec supermarket://username/linux-baseline
-  ```
+
+```ruby
+inspec exec supermarket://username/linux-baseline
+inspec exec supermarket://username/linux-baseline --supermarket_url="https://privatesupermarket.example.com"
+```
 
 Local profile (executes all tests in `controls/`):
-  ```
-  inspec exec /path/to/profile
-  ```
 
-Local single test (doesn't allow inputs or custom resources)
-  ```
-  inspec exec /path/to/a_test.rb
-  ```
+```ruby
+inspec exec /path/to/profile
+```
 
-Git via SSH
-  ```
-  inspec exec git@github.com:dev-sec/linux-baseline.git
-  ```
+Local single test (doesn't allow inputs or custom resources):
+
+```ruby
+inspec exec /path/to/a_test.rb
+```
+
+Git via SSH:
+
+```ruby
+inspec exec git@github.com:dev-sec/linux-baseline.git
+```
 
 Git via HTTPS (.git suffix is required):
-  ```
-  inspec exec https://github.com/dev-sec/linux-baseline.git
-  ```
+
+```ruby
+inspec exec https://github.com/dev-sec/linux-baseline.git
+```
 
 Private Git via HTTPS (.git suffix is required):
-  ```
-  inspec exec https://API_TOKEN@github.com/dev-sec/linux-baseline.git
-  ```
+
+```ruby
+inspec exec https://api_token@github.com/dev-sec/linux-baseline.git
+```
 
 Private Git via HTTPS and cached credentials (.git suffix is required):
-  ```
-  git config credential.helper cache
-  git ls-remote https://github.com/dev-sec/linux-baseline.git
-  inspec exec https://github.com/dev-sec/linux-baseline.git
-  ```
 
-Web hosted file (also supports .zip):
-  ```
-  inspec exec https://webserver/linux-baseline.tar.gz
-  ```
+```bash
+git config credential.helper cache
+git ls-remote https://github.com/dev-sec/linux-baseline.git
+inspec exec https://github.com/dev-sec/linux-baseline.git
+```
 
-Web hosted file with basic authentication (supports .zip):
-  ```
-  inspec exec https://username:password@webserver/linux-baseline.tar.gz
-  ```
+Web-hosted file (also supports .zip):
 
+```bash
+inspec exec https://webserver/linux-baseline.tar.gz
+```
+
+Web-hosted file with basic authentication (supports .zip):
+
+```bash
+inspec exec https://username:password@webserver/linux-baseline.tar.gz
+```
 
 ### Syntax
 
@@ -349,244 +354,212 @@ inspec exec LOCATIONS
 
 This subcommand has the following additional options:
 
-<dl>
-<dt><code>--attrs=one two three</code></dt>
-<dd>Legacy name for --input-file - deprecated.</dd>
+`--attrs=one two three`
+: Legacy name for --input-file - deprecated.
 
-<dt><code>--auto-install-gems</code>, <code>--no-auto-install-gems</code></dt>
-<dd>Auto installs gem dependencies of the profile or resource pack.</dd>
+`--auto-install-gems`
+: Auto installs gem dependencies of the profile or resource pack.
 
-<dt><code>-b</code>, <code>--backend=BACKEND</code></dt>
-<dd>Choose a backend: local, ssh, winrm, docker.</dd>
+`-b`
+`--backend=BACKEND`
+: Choose a backend: local, ssh, winrm, docker.
 
-<dt><code>--backend-cache</code>, <code>--no-backend-cache</code></dt>
-<dd>Allow caching for backend command output. (default: true).</dd>
+`--backend-cache`
+`--no-backend-cache`
+: Allow caching for backend command output. (default: true).
 
-<dt><code>--bastion-host=BASTION_HOST</code></dt>
-<dd>Specifies the bastion host if applicable.</dd>
+`--bastion-host=BASTION_HOST`
+: Specifies the bastion host if applicable.
 
-<dt><code>--bastion-port=BASTION_PORT</code></dt>
-<dd>Specifies the bastion port if applicable.</dd>
+`--bastion-port=BASTION_PORT`
+: Specifies the bastion port if applicable.
 
-<dt><code>--bastion-user=BASTION_USER</code></dt>
-<dd>Specifies the bastion user if applicable.</dd>
+`--bastion-user=BASTION_USER`
+: Specifies the bastion user if applicable.
 
-<dt><code>--ca-trust-file=CA_TRUST_FILE</code></dt>
-<dd>Specify CA certificate required for SSL authentication (WinRM).</dd>
+`--ca-trust-file=PATH_TO_CA_TRUST_FILE`
+: Specify CA certificate required for SSL authentication (WinRM).
 
-<dt><code>--client-cert=CLIENT_CERT</code></dt>
-<dd>Specify client certificate for SSL authentication</dd>
+`--client-cert=PATH_TO_CLIENT_CERTIFICATE`
+: Specify client certificate required for SSL authentication (WinRM).
 
-<dt><code>--client-key=CLIENT_KEY</code></dt>
-<dd>Specify client key required with client cert for SSL authentication</dd>
+`--client-key=PATH_TO_CLIENT_KEY`
+: Specify client key required with client certificate for SSL authentication (WinRM).
 
-<dt><code>--client-key-pass=CLIENT_KEY_PASS</code></dt>
-<dd>Specify client cert password, if required for SSL authentication</dd>
+`--client-key-pass=CLIENT_CERT_PASSWORD`
+: Specify client certificate password, if required for SSL authentication (WinRM).
 
-<dt><code>--command-timeout=N</code></dt>
-<dd>Maximum seconds to allow commands to run during execution.</dd>
+`--command-timeout=SECONDS`
+: Maximum seconds to allow a command to run.
 
-<dt><code>--config=CONFIG</code></dt>
-<dd>Read configuration from JSON file (`-` reads from stdin).</dd>
+`--config=CONFIG`
+: Read configuration from the JSON file (`-` reads from stdin).
 
-<dt><code>--controls=one two three</code></dt>
-<dd>A list of control names to run, or a list of /regexes/ to match against control names. Ignore all other tests.</dd>
+`--controls=one two three`
+: A list of control names to run or a list of /regexes/ to match against control names. Ignore all other tests.
 
-<dt><code>--create-lockfile</code>, <code>--no-create-lockfile</code></dt>
-<dd>Write out a lockfile based on this execution (unless one already exists)</dd>
+`--create-lockfile`
+`--no-create-lockfile`
+: Write out a lockfile based on this execution (unless one already exists).
 
-<dt><code>--diff</code>, <code>--no-diff</code></dt>
-<dd>Use --no-diff to suppress 'diff' output of failed textual test results.</dd>
+`--distinct-exit`
+`--no-distinct-exit`
+: Exit with code 101 if any tests fail and 100 if any are skipped (default). If disabled, exit 0 on skips and 1 for failures.
 
-<dt><code>--distinct-exit</code>, <code>--no-distinct-exit</code></dt>
-<dd>Exit with code 101 if any tests fail, and 100 if any are skipped (default).  If disabled, exit 0 on skips and 1 for failures.</dd>
+`--docker-url`
+: Provides path to Docker API endpoint (Docker). Defaults to unix:///var/run/docker.sock on Unix systems and tcp://localhost:2375 on Windows.
 
-<dt><code>--docker-url=DOCKER_URL</code></dt>
-<dd>Provides path to Docker API endpoint (Docker). Defaults to unix:///var/run/docker.sock on Unix systems and tcp://localhost:2375 on Windows.</dd>
+`--enable-password=ENABLE_PASSWORD`
+: Password for enable mode on Cisco IOS devices.
 
-<dt><code>--enable-password=ENABLE_PASSWORD</code></dt>
-<dd>Password for enable mode on Cisco IOS devices.</dd>
+`--filter-empty-profiles`
+`--no-filter-empty-profiles`
+: Filter empty profiles (profiles without controls) from the report.
 
-<dt><code>--enhanced-outcomes</code>, <code>--no-enhanced-outcomes</code></dt>
-<dd>Show enhanced outcomes in output</dd>
+`--filter-waived-controls`
+: Do not execute waived controls in InSpec at all. Must use with --waiver-file. Ignores the `run` setting of the waiver file.
 
-<dt><code>--filter-empty-profiles</code>, <code>--no-filter-empty-profiles</code></dt>
-<dd>Filter empty profiles (profiles without controls) from the report.</dd>
+`--host=HOST`
+: Specify a remote host which is tested.
 
-<dt><code>--filter-waived-controls</code>, <code>--no-filter-waived-controls</code></dt>
-<dd>Do not execute waived controls in InSpec at all. Must use with --waiver-file. Ignores the `run` setting of the waiver file.</dd>
+`--input=name1=value1 name2=value2`
+: Specify one or more inputs directly on the command line, as --input NAME=VALUE. Accepts single-quoted YAML and JSON structures.
 
-<dt><code>--host=HOST</code></dt>
-<dd>Specify a remote host which is tested.</dd>
+`--input-file=one two three`
+: Load one or more input files, a YAML file with values for the profile to use.
 
-<dt><code>--input=name1=value1 name2=value2</code></dt>
-<dd>Specify one or more inputs directly on the command line, as --input NAME=VALUE. Accepts single-quoted YAML and JSON structures.</dd>
+`--insecure`
+`--no-insecure`
+: Disable SSL verification on select targets.
 
-<dt><code>--input-file=one two three</code></dt>
-<dd>Load one or more input files, a YAML file with values for the profile to use.</dd>
+`-i`
+`--key-files=one two three`
+: Login key or certificate file for a remote scan.
 
-<dt><code>--insecure</code>, <code>--no-insecure</code></dt>
-<dd>Disable SSL verification on select targets.</dd>
+`--password=PASSWORD`
+: Login password for a remote scan, if required.
 
-<dt><code>-i</code>, <code>--key-files=one two three</code></dt>
-<dd>Login key or certificate file for a remote scan.</dd>
+`--path=PATH`
+: Login path to use when connecting to the target (WinRM).
 
-<dt><code>--password=PASSWORD</code></dt>
-<dd>Login password for a remote scan, if required.</dd>
+`-p`
+`--port=N`
+: Specify the login port for a remote scan.
 
-<dt><code>--path=PATH</code></dt>
-<dd>Login path to use when connecting to the target (WinRM).</dd>
+`--podman-url`
+: Provides the path to the Podman API endpoint. Defaults to unix:///run/user/$UID/podman/podman.sock for rootless container, unix:///run/podman/podman.sock for rootful container (for this you need to execute inspec as root user).
 
-<dt><code>--podman-url=PODMAN_URL</code></dt>
-<dd>Provides the path to the Podman API endpoint. Defaults to unix:///run/user/$UID/podman/podman.sock for rootless container, unix:///run/podman/podman.sock for rootful container (for this you need to execute inspec as root user).</dd>
+`--profiles-path=PROFILES_PATH`
+: Folder which contains referenced profiles.
 
-<dt><code>-p</code>, <code>--port=N</code></dt>
-<dd>Specify the login port for a remote scan.</dd>
+`--proxy-command=PROXY_COMMAND`
+: Specifies the command to use to connect to the server.
 
-<dt><code>--profiles-path=PROFILES_PATH</code></dt>
-<dd>Folder which contains referenced profiles.</dd>
+`--reporter=one two:/output/file/path`
+: Enable one or more output reporters: cli, documentation, html2, progress, progress-bar, json, json-min, json-rspec, junit2, yaml.
 
-<dt><code>--proxy-command=PROXY_COMMAND</code></dt>
-<dd>Specifies the command to use to connect to the server.</dd>
+`--reporter-backtrace-inclusion`
+`--no-reporter-backtrace-inclusion`
+: Include a code backtrace in report data (default: true).
 
-<dt><code>--reporter=one two:/output/file/path</code></dt>
-<dd>Enable one or more output reporters: cli, documentation, html, progress, progress-bar, json, json-min, json-rspec, junit, yaml</dd>
+`--reporter-include-source`
+: Include full source code of controls in the CLI report.
 
-<dt><code>--reporter-backtrace-inclusion</code>, <code>--no-reporter-backtrace-inclusion</code></dt>
-<dd>Include a code backtrace in report data (default: true)</dd>
+`--reporter-message-truncation=REPORTER_MESSAGE_TRUNCATION`
+: Number of characters to truncate failure messages in report data (default: no truncation).
 
-<dt><code>--reporter-include-source</code>, <code>--no-reporter-include-source</code></dt>
-<dd>Include full source code of controls in the CLI report</dd>
+`--self-signed`
+`--no-self-signed`
+: Allow remote scans with self-signed certificates (WinRM).
 
-<dt><code>--reporter-message-truncation=REPORTER_MESSAGE_TRUNCATION</code></dt>
-<dd>Number of characters to truncate failure messages and code_desc in report data to (default: no truncation)</dd>
+`--shell`
+`--no-shell`
+: Run scans in a subshell. Only activates on Unix.
 
-<dt><code>--retain-waiver-data</code>, <code>--no-retain-waiver-data</code></dt>
-<dd>EXPERIMENTAL: Only works in conjunction with --filter-waived-controls, retains waiver data about controls that were skipped</dd>
+`--shell-command=SHELL_COMMAND`
+: Specify a particular shell to use.
 
-<dt><code>--self-signed</code>, <code>--no-self-signed</code></dt>
-<dd>Allow remote scans with self-signed certificates (WinRM).</dd>
+`--shell-options=SHELL_OPTIONS`
+: Additional shell options.
 
-<dt><code>--shell</code>, <code>--no-shell</code></dt>
-<dd>Run scans in a subshell. Only activates on Unix.</dd>
+`--show-progress`
+`--no-show-progress`
+: Show progress while executing tests.
 
-<dt><code>--shell-command=SHELL_COMMAND</code></dt>
-<dd>Specify a particular shell to use.</dd>
+`--silence-deprecations=all|GROUP GROUP...`
+: Suppress deprecation warnings. See install_dir/etc/deprecations.json for a list of GROUPs or use 'all'.
 
-<dt><code>--shell-options=SHELL_OPTIONS</code></dt>
-<dd>Additional shell options.</dd>
+`--ssh-config-file=one two three`
+: A list of paths to the SSH configuration file, for example: `~/.ssh/config` or `/etc/ssh/ssh_config`.
 
-<dt><code>--show-progress</code>, <code>--no-show-progress</code></dt>
-<dd>Show progress while executing tests.</dd>
+`--ssl`
+`--no-ssl`
+: Use SSL for transport layer encryption (WinRM).
 
-<dt><code>--silence-deprecations=all|GROUP GROUP...</code></dt>
-<dd>Suppress deprecation warnings. See install_dir/etc/deprecations.json for a list of GROUPs or use 'all'.</dd>
+`--ssl-peer-fingerprint`
+: Specify SSL peer fingerprint in place of certificates for SSL authentication (WinRM).
 
-<dt><code>--sort-results-by=--sort-results-by=none|control|file|random</code></dt>
-<dd>After normal execution order, results are sorted by control ID, or by file (default), or randomly. None uses legacy unsorted mode.</dd>
+`--sudo`
+`--no-sudo`
+: Run scans with sudo. Only activates on Unix and non-root user.
 
-<dt><code>--ssh-config-file=one two three</code></dt>
-<dd>A list of paths to the ssh config file, e.g ~/.ssh/config or /etc/ssh/ssh_config.</dd>
+`--sudo-command=SUDO_COMMAND`
+: Alternate command for sudo.
 
-<dt><code>--ssl</code>, <code>--no-ssl</code></dt>
-<dd>Use SSL for transport layer encryption (WinRM).</dd>
+`--sudo-options=SUDO_OPTIONS`
+: Additional sudo options for a remote scan.
 
-<dt><code>--ssl-peer-fingerprint=SSL_PEER_FINGERPRINT</code></dt>
-<dd>Specify SSL peer fingerprint in place of certificates for SSL authentication (WinRM).</dd>
+`--sudo-password=SUDO_PASSWORD`
+: Specify a sudo password, if it is required.
 
-<dt><code>--sudo</code>, <code>--no-sudo</code></dt>
-<dd>Run scans with sudo. Only activates on Unix and non-root user.</dd>
+`-t`
+`--target=TARGET`
+: Simple targeting option using URIs, e.g. ssh://user:pass@host:port.
 
-<dt><code>--sudo-command=SUDO_COMMAND</code></dt>
-<dd>Alternate command for sudo.</dd>
+`--target-id=TARGET_ID`
+: Provide an ID that is included on reports - deprecated.
 
-<dt><code>--sudo-options=SUDO_OPTIONS</code></dt>
-<dd>Additional sudo options for a remote scan.</dd>
+`--tags=one two three`
+: A list of tags or regular expressions that match tags. `exec` will run controls referenced by the listed or matching tags.
 
-<dt><code>--sudo-password=SUDO_PASSWORD</code></dt>
-<dd>Specify a sudo password, if it is required.</dd>
+`--user=USER`
+: The login user for a remote scan.
 
-<dt><code>--supermarket-url=SUPERMARKET_URL</code></dt>
-<dd>Specify the URL of a private Chef Supermarket.</dd>
+`--vendor-cache=VENDOR_CACHE`
+: Use the given path for caching dependencies. (default: `~/.inspec/cache`).
 
-<dt><code>--tags=one two three</code></dt>
-<dd>A list of tags names that are part of controls to filter and run controls, or a list of /regexes/ to match against tags names of controls. Ignore all other tests.</dd>
+`--waiver-file=one two three`
+: Load one or more waiver files.
 
-<dt><code>-t</code>, <code>--target=TARGET</code></dt>
-<dd>Simple targeting option using URIs, e.g. ssh://user:pass@host:port</dd>
+`--winrm-basic-auth-only`
+`--no-winrm-basic-auth-only`
+: Whether to use basic authentication, defaults to false (WinRM).
 
-<dt><code>--target-id=TARGET_ID</code></dt>
-<dd>Provide an ID which will be included on reports - deprecated</dd>
+`--winrm-disable-sspi`
+`--no-winrm-disable-sspi`
+: Whether to use disable sspi authentication, defaults to false (WinRM).
 
-<dt><code>--user=USER</code></dt>
-<dd>The login user for a remote scan.</dd>
+`--winrm-transport=WINRM_TRANSPORT`
+: Specify which transport to use, defaults to negotiate (WinRM).
 
-<dt><code>--vendor-cache=VENDOR_CACHE</code></dt>
-<dd>Use the given path for caching dependencies, (default: ~/.inspec/cache).</dd>
+`--enhanced-outcomes`
+: Includes enhanced outcome of controls in report data.
 
-<dt><code>--waiver-file=one two three</code></dt>
-<dd>Load one or more waiver files.</dd>
+## habitat
 
-<dt><code>--winrm-basic-auth-only</code>, <code>--no-winrm-basic-auth-only</code></dt>
-<dd>Whether to use basic authentication, defaults to false (WinRM).</dd>
-
-<dt><code>--winrm-disable-sspi</code>, <code>--no-winrm-disable-sspi</code></dt>
-<dd>Whether to use disable sspi authentication, defaults to false (WinRM).</dd>
-
-<dt><code>--winrm-shell-type=WINRM_SHELL_TYPE</code></dt>
-<dd>Specify which shell type to use (powershell, elevated, or cmd), which defaults to powershell (WinRM).</dd>
-
-<dt><code>--winrm-transport=WINRM_TRANSPORT</code></dt>
-<dd>Specify which transport to use, defaults to negotiate (WinRM).</dd>
-
-</dl>
-
-## export
-
-Read the profile in path and generate a summary in the given format.
+Create a Chef Habitat package.
 
 ### Syntax
 
 This subcommand has the following syntax:
 
 ```bash
-inspec export PATH
+inspec habitat SUBCOMMAND
 ```
-
-### Options
-
-This subcommand has the following additional options:
-
-<dl>
-<dt><code>--auto-install-gems</code>, <code>--no-auto-install-gems</code></dt>
-<dd>Auto installs gem dependencies of the profile or resource pack.</dd>
-
-<dt><code>--controls=one two three</code></dt>
-<dd>For --what=profile, a list of controls to include. Ignore all other tests.</dd>
-
-<dt><code>--format=FORMAT</code></dt>
-<dd>The output format to use: json, raw, yaml. If valid format is not provided then it will use the default for the given 'what'.</dd>
-
-<dt><code>-o</code>, <code>--output=OUTPUT</code></dt>
-<dd>Save the created output to a path.</dd>
-
-<dt><code>--profiles-path=PROFILES_PATH</code></dt>
-<dd>Folder which contains referenced profiles.</dd>
-
-<dt><code>--tags=one two three</code></dt>
-<dd>For --what=profile, a list of tags to filter controls and include only those. Ignore all other tests.</dd>
-
-<dt><code>--vendor-cache=VENDOR_CACHE</code></dt>
-<dd>Use the given path for caching dependencies, (default: ~/.inspec/cache).</dd>
-
-<dt><code>--what=WHAT</code></dt>
-<dd>What to export: profile (default), readme, metadata.</dd>
-
-</dl>
 
 ## help
 
-Describe available commands or one specific command
+Describe available commands or one specific command.
 
 ### Syntax
 
@@ -594,6 +567,18 @@ This subcommand has the following syntax:
 
 ```bash
 inspec help [COMMAND]
+```
+
+## init
+
+Scaffold a new project.
+
+### Syntax
+
+This subcommand has the following syntax:
+
+```bash
+inspec init TEMPLATE
 ```
 
 ## json
@@ -612,26 +597,21 @@ inspec json PATH
 
 This subcommand has the following additional options:
 
-<dl>
-<dt><code>--auto-install-gems</code>, <code>--no-auto-install-gems</code></dt>
-<dd>Auto installs gem dependencies of the profile or resource pack.</dd>
+`--controls=one two three`
+: A list of controls to include. Ignore all other tests.
 
-<dt><code>--controls=one two three</code></dt>
-<dd>A list of controls to include. Ignore all other tests.</dd>
+`-o`
+`--output=OUTPUT`
+: Save the created profile to a path.
 
-<dt><code>-o</code>, <code>--output=OUTPUT</code></dt>
-<dd>Save the created profile to a path.</dd>
+`--profiles-path=PROFILES_PATH`
+: Folder which contains referenced profiles.
 
-<dt><code>--profiles-path=PROFILES_PATH</code></dt>
-<dd>Folder which contains referenced profiles.</dd>
+`--tags=one two three`
+: A list of tags that reference specific controls. Other controls are ignored.
 
-<dt><code>--tags=one two three</code></dt>
-<dd>A list of tags to filter controls and include only those. Ignore all other tests.</dd>
-
-<dt><code>--vendor-cache=VENDOR_CACHE</code></dt>
-<dd>Use the given path for caching dependencies, (default: ~/.inspec/cache).</dd>
-
-</dl>
+`--vendor-cache=VENDOR_CACHE`
+: Use the given path for caching dependencies. (default: `~/.inspec/cache`).
 
 ## license
 
@@ -639,39 +619,55 @@ Subcommands for interacting with the Chef licensing system.
 
 `inspec license` supports two subcommands, `add` and `list`.
 
-#### Add
+### license add
 
 Add a Chef license.
 
-Not applicable for users running the local licensing service.
+Not applicable for users running a Chef Private Licensing Service.
+
+#### Syntax
 
 ```bash
 inspec license add
 ```
 
-#### List
+### license list
 
 Run license diagnostics and output the details of your current Chef license configuration.
+
+#### Syntax
 
 ```bash
 inspec license list
 ```
 
-## run_context
+## nothing
 
-Used to test run-context detection
+Does nothing.
 
 ### Syntax
 
 This subcommand has the following syntax:
 
 ```bash
-inspec run_context
+inspec nothing
+```
+
+## plugin
+
+Install and manage [Chef InSpec plugins](/inspec/plugins/).
+
+### Syntax
+
+This subcommand has the following syntax:
+
+```bash
+inspec plugin SUBCOMMAND
 ```
 
 ## schema
 
-Print the json schema
+Print the json schema.
 
 ### Syntax
 
@@ -683,13 +679,10 @@ inspec schema NAME
 
 ### Options
 
-This subcommand has the following additional options:
+This subcommand has the following additional option:
 
-<dl>
-<dt><code>--enhanced-outcomes</code>, <code>--no-enhanced-outcomes</code></dt>
-<dd>Show enhanced outcomes output</dd>
-
-</dl>
+`--enhanced-outcomes`
+: Includes enhanced outcome of controls in report data.
 
 ## shell
 
@@ -707,150 +700,152 @@ inspec shell
 
 This subcommand has the following additional options:
 
-<dl>
-<dt><code>-b</code>, <code>--backend=BACKEND</code></dt>
-<dd>Choose a backend: local, ssh, winrm, docker.</dd>
+`-b`
+`--backend=BACKEND`
+: Choose a backend: local, ssh, winrm, docker.
 
-<dt><code>--bastion-host=BASTION_HOST</code></dt>
-<dd>Specifies the bastion host if applicable.</dd>
+`--bastion-host=BASTION_HOST`
+: Specifies the bastion host if applicable.
 
-<dt><code>--bastion-port=BASTION_PORT</code></dt>
-<dd>Specifies the bastion port if applicable.</dd>
+`--bastion-port=BASTION_PORT`
+: Specifies the bastion port if applicable.
 
-<dt><code>--bastion-user=BASTION_USER</code></dt>
-<dd>Specifies the bastion user if applicable.</dd>
+`--bastion-user=BASTION_USER`
+: Specifies the bastion user if applicable.
 
-<dt><code>--ca-trust-file=CA_TRUST_FILE</code></dt>
-<dd>Specify CA certificate required for SSL authentication (WinRM).</dd>
+`-c`
+`--command=COMMAND`
+: A single command string to run instead of launching the shell.
 
-<dt><code>--client-cert=CLIENT_CERT</code></dt>
-<dd>Specify client certificate for SSL authentication</dd>
+`--command-timeout=SECONDS`
+: Maximum seconds to allow a command to run.
 
-<dt><code>--client-key=CLIENT_KEY</code></dt>
-<dd>Specify client key required with client cert for SSL authentication</dd>
+`--ca-trust-file=PATH_TO_CA_TRUST_FILE`
+: Specify CA certificate required for SSL authentication (WinRM).
 
-<dt><code>--client-key-pass=CLIENT_KEY_PASS</code></dt>
-<dd>Specify client cert password, if required for SSL authentication</dd>
+`--client-cert=PATH_TO_CLIENT_CERTIFICATE`
+: Specify client certificate required for SSL authentication (WinRM).
 
-<dt><code>-c</code>, <code>--command=COMMAND</code></dt>
-<dd>A single command string to run instead of launching the shell</dd>
+`--client-key=PATH_TO_CLIENT_KEY`
+: Specify client key required with client certificate for SSL authentication (WinRM).
 
-<dt><code>--command-timeout=N</code></dt>
-<dd>Maximum seconds to allow a command to run.</dd>
+`--client-key-pass=CLIENT_CERT_PASSWORD`
+: Specify client certificate password, if required for SSL authentication (WinRM).
 
-<dt><code>--config=CONFIG</code></dt>
-<dd>Read configuration from JSON file (`-` reads from stdin).</dd>
+`--config=CONFIG`
+: Read configuration from the JSON file (`-` reads from stdin).
 
-<dt><code>--depends=one two three</code></dt>
-<dd>A space-delimited list of local folders containing profiles whose libraries and resources will be loaded into the new shell</dd>
+`--depends=one two three`
+: A space-delimited list of local folders containing profiles whose libraries and resources will be loaded into the new shell.
 
-<dt><code>--distinct-exit</code>, <code>--no-distinct-exit</code></dt>
-<dd>Exit with code 100 if any tests fail, and 101 if any are skipped but none failed (default).  If disabled, exit 0 on skips and 1 for failures.</dd>
+`--distinct-exit`
+`--no-distinct-exit`
+: Exit with code 100 if any tests fail and 101 if any are skipped, but none failed (default).  If disabled, exit 0 on skips and 1 for failures.
 
-<dt><code>--docker-url=DOCKER_URL</code></dt>
-<dd>Provides path to Docker API endpoint (Docker). Defaults to unix:///var/run/docker.sock on Unix systems and tcp://localhost:2375 on Windows.</dd>
+`--docker-url`
+: Provides path to Docker API endpoint (Docker). Defaults to unix:///var/run/docker.sock on Unix systems and tcp://localhost:2375 on Windows.
 
-<dt><code>--enable-password=ENABLE_PASSWORD</code></dt>
-<dd>Password for enable mode on Cisco IOS devices.</dd>
+`--enable-password=ENABLE_PASSWORD`
+: Password for enable mode on Cisco IOS devices.
 
-<dt><code>--enhanced-outcomes</code>, <code>--no-enhanced-outcomes</code></dt>
-<dd>Show enhanced outcomes in output</dd>
+`--host=HOST`
+: Specify a remote host which is tested.
 
-<dt><code>--host=HOST</code></dt>
-<dd>Specify a remote host which is tested.</dd>
+`--insecure`
+`--no-insecure`
+: Disable SSL verification on select targets.
 
-<dt><code>--input=name1=value1 name2=value2</code></dt>
-<dd>Specify one or more inputs directly on the command line to the shell, as --input NAME=VALUE. Accepts single-quoted YAML and JSON structures.</dd>
+`--inspect`
+`--no-inspect`
+: Use verbose/debugging output for resources.
 
-<dt><code>--input-file=one two three</code></dt>
-<dd>Load one or more input files, a YAML file with values for the shell to use</dd>
+`-i`
+`--key-files=one two three`
+: Login key or certificate file for a remote scan.
 
-<dt><code>--insecure</code>, <code>--no-insecure</code></dt>
-<dd>Disable SSL verification on select targets.</dd>
+`--password=PASSWORD`
+: Login password for a remote scan, if required.
 
-<dt><code>--inspect</code>, <code>--no-inspect</code></dt>
-<dd>Use verbose/debugging output for resources.</dd>
+`--path=PATH`
+: Login path to use when connecting to the target (WinRM).
 
-<dt><code>-i</code>, <code>--key-files=one two three</code></dt>
-<dd>Login key or certificate file for a remote scan.</dd>
+`-p`
+`--port=N`
+: Specify the login port for a remote scan.
 
-<dt><code>--password=PASSWORD</code></dt>
-<dd>Login password for a remote scan, if required.</dd>
+`--podman-url`
+: Provides the path to the Podman API endpoint. Defaults to unix:///run/user/$UID/podman/podman.sock for rootless container, unix:///run/podman/podman.sock for rootful container (for this you need to execute inspec as root user).
 
-<dt><code>--path=PATH</code></dt>
-<dd>Login path to use when connecting to the target (WinRM).</dd>
+`--proxy-command=PROXY_COMMAND`
+: Specifies the command to use to connect to the server.
 
-<dt><code>--podman-url=PODMAN_URL</code></dt>
-<dd>Provides the path to the Podman API endpoint. Defaults to unix:///run/user/$UID/podman/podman.sock for rootless container, unix:///run/podman/podman.sock for rootful container (for this you need to execute inspec as root user).</dd>
+`--reporter=one two:/output/file/path`
+: Enable one or more output reporters: cli, documentation, html2, progress, json, json-min, json-rspec, junit2.
 
-<dt><code>-p</code>, <code>--port=N</code></dt>
-<dd>Specify the login port for a remote scan.</dd>
+`--self-signed`
+`--no-self-signed`
+: Allow remote scans with self-signed certificates (WinRM).
 
-<dt><code>--proxy-command=PROXY_COMMAND</code></dt>
-<dd>Specifies the command to use to connect to the server.</dd>
+`--shell`
+`--no-shell`
+: Run scans in a subshell. Only activates on Unix.
 
-<dt><code>--reporter=one two:/output/file/path</code></dt>
-<dd>Enable one or more output reporters: cli, documentation, html, progress, json, json-min, json-rspec, junit</dd>
+`--shell-command=SHELL_COMMAND`
+: Specify a particular shell to use.
 
-<dt><code>--self-signed</code>, <code>--no-self-signed</code></dt>
-<dd>Allow remote scans with self-signed certificates (WinRM).</dd>
+`--shell-options=SHELL_OPTIONS`
+: Additional shell options.
 
-<dt><code>--shell</code>, <code>--no-shell</code></dt>
-<dd>Run scans in a subshell. Only activates on Unix.</dd>
+`--ssh-config-file=one two three`
+: A list of paths to the SSH configuration file, for example: `~/.ssh/config` or `/etc/ssh/ssh_config`.
 
-<dt><code>--shell-command=SHELL_COMMAND</code></dt>
-<dd>Specify a particular shell to use.</dd>
+`--ssl`
+`--no-ssl`
+: Use SSL for transport layer encryption (WinRM).
 
-<dt><code>--shell-options=SHELL_OPTIONS</code></dt>
-<dd>Additional shell options.</dd>
+`--ssl-peer-fingerprint=SSL_PEER_FINGERPRINT`
+: Specify SSL peer fingerprint in place of certificates for SSL authentication (WinRM).
 
-<dt><code>--ssh-config-file=one two three</code></dt>
-<dd>A list of paths to the ssh config file, e.g ~/.ssh/config or /etc/ssh/ssh_config.</dd>
+`--sudo`
+`--no-sudo`
+: Run scans with sudo. Only activates on Unix and non-root user.
 
-<dt><code>--ssl</code>, <code>--no-ssl</code></dt>
-<dd>Use SSL for transport layer encryption (WinRM).</dd>
+`--sudo-command=SUDO_COMMAND`
+: Alternate command for sudo.
 
-<dt><code>--ssl-peer-fingerprint=SSL_PEER_FINGERPRINT</code></dt>
-<dd>Specify SSL peer fingerprint in place of certificates for SSL authentication (WinRM).</dd>
+`--sudo-options=SUDO_OPTIONS`
+: Additional sudo options for a remote scan.
 
-<dt><code>--sudo</code>, <code>--no-sudo</code></dt>
-<dd>Run scans with sudo. Only activates on Unix and non-root user.</dd>
+`--sudo-password=SUDO_PASSWORD`
+: Specify a sudo password, if it is required.
 
-<dt><code>--sudo-command=SUDO_COMMAND</code></dt>
-<dd>Alternate command for sudo.</dd>
+`-t`
+`--target=TARGET`
+: Simple targeting option using URIs, e.g. ssh://user:pass@host:port.
 
-<dt><code>--sudo-options=SUDO_OPTIONS</code></dt>
-<dd>Additional sudo options for a remote scan.</dd>
+`--target-id=TARGET_ID`
+: Provide a ID which will be included on reports.
 
-<dt><code>--sudo-password=SUDO_PASSWORD</code></dt>
-<dd>Specify a sudo password, if it is required.</dd>
+`--user=USER`
+: The login user for a remote scan.
 
-<dt><code>-t</code>, <code>--target=TARGET</code></dt>
-<dd>Simple targeting option using URIs, e.g. ssh://user:pass@host:port</dd>
+`--winrm-basic-auth-only`
+`--no-winrm-basic-auth-only`
+: Whether to use basic authentication, defaults to false (WinRM).
 
-<dt><code>--target-id=TARGET_ID</code></dt>
-<dd>Provide an ID which will be included on reports - deprecated</dd>
+`--winrm-disable-sspi`
+`--no-winrm-disable-sspi`
+: Whether to use disable sspi authentication, defaults to false (WinRM).
 
-<dt><code>--user=USER</code></dt>
-<dd>The login user for a remote scan.</dd>
+`--winrm-transport=WINRM_TRANSPORT`
+: Specify which transport to use, defaults to negotiate (WinRM).
 
-<dt><code>--winrm-basic-auth-only</code>, <code>--no-winrm-basic-auth-only</code></dt>
-<dd>Whether to use basic authentication, defaults to false (WinRM).</dd>
-
-<dt><code>--winrm-disable-sspi</code>, <code>--no-winrm-disable-sspi</code></dt>
-<dd>Whether to use disable sspi authentication, defaults to false (WinRM).</dd>
-
-<dt><code>--winrm-shell-type=WINRM_SHELL_TYPE</code></dt>
-<dd>Specify which shell type to use (powershell, elevated, or cmd), which defaults to powershell (WinRM).</dd>
-
-<dt><code>--winrm-transport=WINRM_TRANSPORT</code></dt>
-<dd>Specify which transport to use, defaults to negotiate (WinRM).</dd>
-
-</dl>
+`--enhanced-outcomes`
+: Includes enhanced outcome of controls in report data.
 
 ## supermarket
 
-Supermarket commands
+Supermarket commands.
 
 ### Syntax
 
@@ -860,9 +855,16 @@ This subcommand has the following syntax:
 inspec supermarket SUBCOMMAND ...
 ```
 
+### Options
+
+This subcommand has additional options:
+
+`--supermarket_url`
+: Specify the URL of a private Chef Supermarket.
+
 ## vendor
 
-Download all dependencies and generate a lockfile in a `vendor` directory
+Download all dependencies and generate a lockfile in a `vendor` directory.
 
 ### Syntax
 
@@ -874,13 +876,11 @@ inspec vendor PATH
 
 ### Options
 
-This subcommand has the following additional options:
+This subcommand has additional options:
 
-<dl>
-<dt><code>--overwrite</code>, <code>--no-overwrite</code></dt>
-<dd>Overwrite existing vendored dependencies and lockfile.</dd>
-
-</dl>
+`--overwrite`
+`--no-overwrite`
+: Overwrite existing vendored dependencies and lockfiles.
 
 ## version
 
@@ -898,7 +898,4 @@ inspec version
 
 This subcommand has the following additional options:
 
-<dl>
-<dt><code>--format=FORMAT</code></dt>
-</dl>
-
+`--format=FORMAT`
