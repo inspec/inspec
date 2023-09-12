@@ -16,7 +16,7 @@ Packaged distributions of Progress® Chef® products obtained from RubyGems are 
 
 Source code obtained from the Chef GitHub repository is made available under Apache-2.0, a copy of which is included below.
 
-EOT
+  EOT
   spec.homepage      = "https://github.com/inspec/inspec"
   spec.license       = "LicenseRef-Chef-EULA"
   spec.require_paths = ["lib"]
