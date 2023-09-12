@@ -25,7 +25,7 @@ Source code obtained from the Chef GitHub repository is made available under Apa
 
   # the gemfile and gemspec are necessary for appbundler so don't remove it
   spec.files =
-    Dir.glob("{{lib,etc}/**/*,LICENSE,Gemfile,inspec-core.gemspec}")
+    Dir.glob("{{lib,etc}/**/*,LICENSE,Chef-EULA,Gemfile,inspec-core.gemspec}")
       .grep_v(%r{(?<!inspec-init/templates/profiles/)(aws|azure|gcp|alicloud)})
       .grep_v(%r{lib/plugins/.*/test/})
       .reject { |f| File.directory?(f) }
