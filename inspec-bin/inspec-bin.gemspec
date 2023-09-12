@@ -13,7 +13,7 @@ InSpec executable for inspec gem. Use of this executable may require accepting a
 
 Packaged distributions of Progress® Chef® products obtained from RubyGems are made available pursuant to the Progress Chef EULA at https://www.chef.io/end-user-license-agreement, unless there is an executed agreement in effect between you and Progress that covers the Progress Chef products ("Master Agreement"), in which case the Master Agreement shall govern.
 
-Source code obtained from the Chef GitHub repository is made available under Apache-2.0, a copy of which is included below.
+Source code obtained from the Chef GitHub repository is made available under Apache-2.0, a copy of which is included.
 
   EOT
 
