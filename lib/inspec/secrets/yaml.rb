@@ -24,12 +24,18 @@ module Secrets
         @inputs = ::YAML.load_file(target)
       end
 
-      if @inputs == false || !@inputs.is_a?(Hash)
-        Inspec::Log.warn("#{self.class} unable to parse #{target}: invalid YAML or contents is not a Hash")
+      # In case of empty yaml file raise the warning else raise the parsing error.
+      if !@inputs || @inputs.empty?
+        Inspec::Log.warn("Unable to parse #{target}: YAML file is empty.")
         @inputs = nil
+      elsif !@inputs.is_a?(Hash)
+        # Exits with usage error.
+        Inspec::Log.error("Unable to parse #{target}: invalid YAML or contents is not a Hash")
+        Inspec::UI.new.exit(:usage_error)
       end
     rescue => e
-      raise "Error reading InSpec inputs: #{e}"
+      # Any other error related to Yaml parsing will be raised here.
+      raise "Error reading YAML file #{target}: #{e}"
     end
   end
 end
