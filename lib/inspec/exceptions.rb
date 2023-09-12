@@ -12,5 +12,6 @@ module Inspec
     class ProfileSigningKeyNotFound < ArgumentError; end
     class WaiversFileNotReadable < ArgumentError; end
     class WaiversFileDoesNotExist < ArgumentError; end
+    class WaiversFileInvalidFormatting < ArgumentError; end
   end
 end
