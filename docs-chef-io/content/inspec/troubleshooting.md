@@ -30,7 +30,7 @@ See the [InSpec install documentation](/inspec/install/) for setting a Chef Lice
 See the [Chef License documentation](/licensing/) for more information about Chef licensing.
 ## License is not entitled to use InSpec
 
-The license key set with Chef InSpec is not entitled to use Chef InSpec. Each license key is entitled to one or more Chef products. To to view which products your key is entitled to, run the `inspec license list` command, which will list your license entitlements.
+The license key set with Chef InSpec is not entitled to use Chef InSpec. Each license key is entitled to one or more Chef products. To view the products that your key is entitled to, run the `inspec license list` command, which will list your license entitlements.
 
 To resolve this issue, set a license key that is entitled to Chef InSpec.
 
