@@ -1,6 +1,5 @@
-require "openssl" unless defined?(OpenSSL)
 require "inspec/utils/file_reader"
-require "net/ssh"
+require "net/ssh" unless defined?(Net::SSH)
 
 # Change module if required
 module Inspec::Resources
@@ -41,7 +40,7 @@ module Inspec::Resources
       @key[:public]
     end
 
-     # So this will be called as:
+    # So this will be called as:
     #  describe "ssh_key" do
     #    it { should be_private }
     #  end
