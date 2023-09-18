@@ -514,6 +514,18 @@ module Inspec
       res
     end
 
+    # Return data like profile.info(params), but try to do so without evaluating the profile.
+    def info_from_parse
+      # TODO - look at the various source contents
+      # PASS 1: parse them useing rubocop-ast
+      #   Look for controls, top-level metadata, and inputs
+      # PASS 2: Using the control IDs, deterimine the extents - 
+      # line locations - of the coontrol IDs in each file, and 
+      # then extract each source code block. Use this to populate the source code
+      # locations and 'code' properties.
+      raise "Not implemented"
+    end
+
     def cookstyle_linting_check
       msgs = []
       return msgs if Inspec.locally_windows? # See #5723
