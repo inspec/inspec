@@ -135,12 +135,12 @@ class Inspec::InspecCLI < Inspec::BaseCLI
             require "json" unless defined?(JSON)
             # Write JSON
             Inspec::Utils::JsonProfileSummary.produce_json(
-              info: profile.info,
+              info: profile.info_from_parse,
               write_path: dst
             )
           elsif format == "yaml"
             Inspec::Utils::YamlProfileSummary.produce_yaml(
-              info: profile.info,
+              info: profile.info_from_parse,
               write_path: dst
             )
           end
