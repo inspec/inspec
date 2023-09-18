@@ -9,6 +9,17 @@ describe "inspec export" do
 
   let(:iaf) { "#{profile_path}/signed/profile-1.0.0.iaf" }
 
+  let(:evalprobe) { "#{profile_path}/eval-markers" }
+
+  it "does not evaluate a profile " do
+    out = inspec("export " + evalprobe)
+    # This profile has special code in it that emits messages to 
+    # STDERR at various points in evaluation
+    _(out.stderr).wont_include "EVALUATION_MARKER"
+    _(out.stderr).wont_include "METADATA_MARKER"
+    assert_exit_code 0, out
+  end
+
   it "exports the profile in default yaml format" do
     out = inspec("export " + example_profile)
     _(out.stderr).must_equal ""
