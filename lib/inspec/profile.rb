@@ -15,6 +15,7 @@ require "inspec/dependencies/dependency_set"
 require "inspec/utils/json_profile_summary"
 require "inspec/dependency_loader"
 require "inspec/dependency_installer"
+require "inspec/utils/profile_ast_helpers"
 
 module Inspec
   class Profile
@@ -517,12 +518,27 @@ module Inspec
     # Return data like profile.info(params), but try to do so without evaluating the profile.
     def info_from_parse
       # TODO - look at the various source contents
-      # PASS 1: parse them useing rubocop-ast
+      # PASS 1: parse them using rubocop-ast
       #   Look for controls, top-level metadata, and inputs
       # PASS 2: Using the control IDs, deterimine the extents - 
       # line locations - of the coontrol IDs in each file, and 
       # then extract each source code block. Use this to populate the source code
       # locations and 'code' properties.
+
+      # @source_reader.tests contains a hash mapping control filenames to control file contents
+      @source_reader.tests.each do |control_filename, control_file_source|
+        # Parse the source code
+        src = RuboCop::AST::ProcessedSource.new(control_file_source, RUBY_VERSION.to_f)
+
+        # require "byebug"; byebug
+
+        # Look for control IDs
+        ctl_id_collector = Inspec::Profile::AstHelper::ControlIDCollector.new
+        src.ast.each_node { |n| ctl_id_collector.process(n) }
+
+        # For each control ID
+        #  Look for per-control metadata
+      end
       raise "Not implemented"
     end
 
@@ -712,7 +728,7 @@ module Inspec
 
       # Generate temporary inspec.json for archive
       Inspec::Utils::JsonProfileSummary.produce_json(
-        info: info,
+        info: info_from_parse,
         write_path: "#{root_path}inspec.json",
         suppress_output: true
       )
