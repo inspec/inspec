@@ -517,6 +517,10 @@ module Inspec
 
     # Return data like profile.info(params), but try to do so without evaluating the profile.
     def info_from_parse
+      res = {
+        controls: []
+      }
+
       # TODO - look at the various source contents
       # PASS 1: parse them using rubocop-ast
       #   Look for controls, top-level metadata, and inputs
@@ -530,16 +534,15 @@ module Inspec
         # Parse the source code
         src = RuboCop::AST::ProcessedSource.new(control_file_source, RUBY_VERSION.to_f)
 
-        # require "byebug"; byebug
-
-        # Look for control IDs
-        ctl_id_collector = Inspec::Profile::AstHelper::ControlIDCollector.new
+        ctl_id_collector = Inspec::Profile::AstHelper::ControlIDCollector.new(res)
+        # TODO: look for inputs
+        # TODO: look for top-level metadata like title
         src.ast.each_node { |n| ctl_id_collector.process(n) }
 
         # For each control ID
         #  Look for per-control metadata
       end
-      raise "Not implemented"
+      res
     end
 
     def cookstyle_linting_check
