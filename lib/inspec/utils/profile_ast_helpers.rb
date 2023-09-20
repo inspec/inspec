@@ -3,8 +3,7 @@ require "rubocop-ast"
 module Inspec
   class Profile
     class AstHelper
-
-      class ImpactCollector
+      class CollectorBase
         include Parser::AST::Processor::Mixin
         include RuboCop::AST::Traversal
 
@@ -12,7 +11,9 @@ module Inspec
         def initialize(memo)
           @memo = memo
         end
+      end
 
+      class ImpactCollector < CollectorBase
         def on_send(node)
           if RuboCop::AST::NodePattern.new("(send nil? :impact ...)").match(node)
             # TODO - any special processing for impact (float)
@@ -21,15 +22,7 @@ module Inspec
         end
       end
 
-      class DescCollector
-        include Parser::AST::Processor::Mixin
-        include RuboCop::AST::Traversal
-
-        attr_reader :memo
-        def initialize(memo)
-          @memo = memo
-        end
-
+      class DescCollector < CollectorBase
         def on_send(node)
           # TODO - description is also available as "description"
           if RuboCop::AST::NodePattern.new("(send nil? :desc ...)").match(node)
@@ -39,15 +32,7 @@ module Inspec
         end
       end
 
-      class TitleCollector
-        include Parser::AST::Processor::Mixin
-        include RuboCop::AST::Traversal
-
-        attr_reader :memo
-        def initialize(memo)
-          @memo = memo
-        end
-
+      class TitleCollector < CollectorBase
         def on_send(node)
           if RuboCop::AST::NodePattern.new("(send nil? :title ...)").match(node)
             # TODO - title may not be a simple string
@@ -56,19 +41,12 @@ module Inspec
         end
       end
 
-
-
-      class ControlIDCollector
-        include Parser::AST::Processor::Mixin
-        include RuboCop::AST::Traversal
-
-        attr_reader :memo
+      class ControlIDCollector < CollectorBase
         attr_reader :seen_control_ids
         def initialize(memo)
           @memo = memo
           @seen_control_ids = {}
         end
-
 
         def on_block(block_node)
           if RuboCop::AST::NodePattern.new("(block (send nil? :control ...) ...)").match(block_node)
