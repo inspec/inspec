@@ -94,6 +94,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "For --what=profile, a list of controls to include. Ignore all other tests."
   option :tags, type: :array,
     desc: "For --what=profile, a list of tags to filter controls and include only those. Ignore all other tests."
+  option :"legacy-export", type: :boolean, default: false,
+         desc: "Run with legacy export."
   profile_options
   def export(target, as_json = false)
     Inspec.with_feature("inspec-cli-export") {
