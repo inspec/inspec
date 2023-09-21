@@ -41,6 +41,52 @@ module Inspec
         end
       end
 
+      class TagCollector < CollectorBase
+        def on_send(node)
+          if RuboCop::AST::NodePattern.new("(send nil? :tag ...)").match(node)
+            # TODO & NOTE - tags may be read as a hash or a string; verify this is correct
+            memo[:tags] ||= {}
+            # Check if the tag is a string or a hash
+            if node.children[2].type == :str
+              memo[:tags] = memo[:tags].merge(node.children[2].value => nil)
+            else
+              memo[:tags] = memo[:tags].merge(node.children[2].children[0].key.value => node.children[2].children[0].value.value)
+            end
+          end
+        end
+      end
+
+      class RefCollector < CollectorBase
+        def on_send(node)
+          if RuboCop::AST::NodePattern.new("(send nil? :ref ...)").match(node)
+            # TODO: This maybe loose, needs testing
+            # Construct the array of refs hash as below
+
+            # "refs": [
+            #   {
+            #     "url": "http://",
+            #     "ref": "Some ref"
+            #   },
+            #   {
+            #     "ref": "https://",
+            #   }
+            # ]
+
+            references = {
+              ref: node.children[2].value
+            }
+
+            if node.children[3] && node.children[3].type == :hash
+              references.merge!(node.children[3].children[0].key.value => node.children[3].children[0].value.value)
+            elsif node.children[3] && node.children[3].type == :str
+              references.merge!(node.children[3].value => nil)
+            end
+            memo[:refs] ||= []
+            memo[:refs] << references
+          end
+        end
+      end
+
       class ControlIDCollector < CollectorBase
         attr_reader :seen_control_ids
         def initialize(memo)
@@ -53,7 +99,7 @@ module Inspec
             # NOTE: Assuming begin block is at the index 2
             begin_block = block_node.children[2]
             control_node = block_node.children[0]
-            
+
             # TODO - This assumes the control ID is always a plain string, which we know it is often not!
             control_id = control_node.children[2].value
             # TODO - BUG - this keeps seeing the same nodes over and over againa, and so repeating control IDs. We are ignoring duplicate control IDs, which is incorrect.
@@ -70,8 +116,10 @@ module Inspec
             collectors.push ImpactCollector.new(control_data)
             collectors.push DescCollector.new(control_data)
             collectors.push TitleCollector.new(control_data)
-          
-            begin_block.each_node do |node_within_control| 
+            collectors.push TagCollector.new(control_data)
+            collectors.push RefCollector.new(control_data)
+
+            begin_block.each_node do |node_within_control|
               collectors.each { |collector| collector.process(node_within_control) }
             end
 
