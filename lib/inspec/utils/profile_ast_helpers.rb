@@ -127,7 +127,7 @@ module Inspec
             collectors.push TagCollector.new(control_data)
             collectors.push RefCollector.new(control_data)
 
-            begin_block.each_node do |node_within_control|
+            begin_block.each_child_node do |node_within_control|
               collectors.each { |collector| collector.process(node_within_control) }
             end
 
