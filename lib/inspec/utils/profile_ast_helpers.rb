@@ -24,10 +24,18 @@ module Inspec
 
       class DescCollector < CollectorBase
         def on_send(node)
-          # TODO - description is also available as "description"
+          # TODO (WIP) - description is also available as "description"
           if RuboCop::AST::NodePattern.new("(send nil? :desc ...)").match(node)
-            # TODO - description may be read as a hash or a string
-            memo[:desc] = node.children[2].value
+            # TODO (WIP) - description may be read as a hash or a string
+            memo[:descriptions] ||= {}
+            if node.children[2] && node.children[3]
+              # NOTE: This assumes the description is as below
+              # desc 'label', 'An optional description with a label' # Pair a part of the description with a label
+              memo[:descriptions] = memo[:descriptions].merge(node.children[2].value => node.children[3].value)
+            else
+              memo[:desc] = node.children[2].value
+              memo[:descriptions] = memo[:descriptions].merge("default" => node.children[2].value)
+            end
           end
         end
       end
