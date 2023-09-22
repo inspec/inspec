@@ -525,8 +525,8 @@ module Inspec
       # TODO - look at the various source contents
       # PASS 1: parse them using rubocop-ast
       #   Look for controls, top-level metadata, and inputs
-      # PASS 2: Using the control IDs, deterimine the extents - 
-      # line locations - of the coontrol IDs in each file, and 
+      # PASS 2: Using the control IDs, deterimine the extents -
+      # line locations - of the coontrol IDs in each file, and
       # then extract each source code block. Use this to populate the source code
       # locations and 'code' properties.
 
@@ -538,7 +538,7 @@ module Inspec
         ctl_id_collector = Inspec::Profile::AstHelper::ControlIDCollector.new(@info_from_parse)
         # TODO: look for inputs
         # TODO: look for top-level metadata like title
-        src.ast.each_node { |n| ctl_id_collector.process(n) }
+        src.ast.each_child_node { |n| ctl_id_collector.process(n) }
 
         # For each control ID
         #  Look for per-control metadata
