@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Update mocha requirement from ~&gt; 1.1 to ~&gt; 2.1 [#6632](https://github.com/inspec/inspec/pull/6632) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.19 to &gt;= 0.2.1, &lt; 2.0.1 [#6631](https://github.com/inspec/inspec/pull/6631) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Update mocha requirement from ~&gt; 1.1 to ~&gt; 2.1 [#6632](https://github.com/inspec/inspec/pull/6632) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.19 -->
 - Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.19 to &gt;= 0.2.1, &lt; 2.0.1 [#6631](https://github.com/inspec/inspec/pull/6631) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.19 -->
 - Backport #6626 - Fix for git fetcher [#6640](https://github.com/inspec/inspec/pull/6640) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.19 -->
 - Fix missing nil check for control variable in formatter&#39;s base - Issue 6510 [#6629](https://github.com/inspec/inspec/pull/6629) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.18 -->
