@@ -31,13 +31,24 @@ describe "inspec archive" do
     end
   end
 
-  it "archives an inspec.json file" do
+  it "archives an inspec.json file if export if provided --export option" do
+    prepare_examples("profile") do |dir|
+      out = inspec("archive " + dir + " --overwrite --export")
+
+      _(out.stderr).must_equal ""
+      t = Zlib::GzipReader.open(auto_dst)
+      _(Gem::Package::TarReader.new(t).entries.map(&:header).map(&:name)).must_include "inspec.json"
+      assert_exit_code 0, out
+    end
+  end
+
+  it "does not archive an inspec.json file by default" do
     prepare_examples("profile") do |dir|
       out = inspec("archive " + dir + " --overwrite")
 
       _(out.stderr).must_equal ""
       t = Zlib::GzipReader.open(auto_dst)
-      _(Gem::Package::TarReader.new(t).entries.map(&:header).map(&:name)).must_include "inspec.json"
+      _(Gem::Package::TarReader.new(t).entries.map(&:header).map(&:name)).wont_include "inspec.json"
       assert_exit_code 0, out
     end
   end
