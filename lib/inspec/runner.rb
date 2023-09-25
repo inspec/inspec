@@ -163,6 +163,11 @@ module Inspec
 
     def run(with = nil)
       ChefLicensing.check_software_entitlement! if Inspec::Dist::EXEC_NAME == "inspec"
+
+      # Check if target profiles are all signed
+      unless @conf["chef_allow_unsigned"] || ENV["CHEF_ALLOW_UNSIGNED"]
+        verify_target_profiles_if_signed(@target_profiles)
+      end
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
       load
       run_tests(with)
@@ -172,6 +177,22 @@ module Inspec
     rescue ChefLicensing::Error => e
       Inspec::Log.error e.message
       Inspec::UI.new.exit(:usage_error)
+    end
+
+    def verify_target_profiles_if_signed(target_profiles)
+      unsigned_profiles = []
+      target_profiles.each do |profile|
+        if profile.signed?
+          profile.verify_signed_profile
+        else
+          unsigned_profiles.push(profile.name)
+        end
+      end
+
+      unless unsigned_profiles.empty?
+        Inspec::Log.error "Signature Required for Profile/s: #{unsigned_profiles.join(", ")}"
+        Inspec::UI.new.exit(:signature_required)
+      end
     end
 
     def render_output(run_data)
