@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.58 -->
-## [v6.4.58](https://github.com/inspec/inspec/tree/v6.4.58) (2023-09-12)
+<!-- latest_release 6.4.59 -->
+## [v6.4.59](https://github.com/inspec/inspec/tree/v6.4.59) (2023-09-25)
 
 #### Merged Pull Requests
-- CHEF-3849: InSpec should exit quickly and clearly if waiver file is malformed/corrupt [#6644](https://github.com/inspec/inspec/pull/6644) ([Vasu1105](https://github.com/Vasu1105))
+- Move InSpec docs menu from chef-web-docs [#6657](https://github.com/inspec/inspec/pull/6657) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- Move InSpec docs menu from chef-web-docs [#6657](https://github.com/inspec/inspec/pull/6657) ([IanMadd](https://github.com/IanMadd)) <!-- 6.4.59 -->
 - CHEF-3849: InSpec should exit quickly and clearly if waiver file is malformed/corrupt [#6644](https://github.com/inspec/inspec/pull/6644) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.58 -->
 - CHEF-5898: Update latest EULA as used in MacOS installers [#6652](https://github.com/inspec/inspec/pull/6652) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.57 -->
 - Revert CLI docs page changes [#6650](https://github.com/inspec/inspec/pull/6650) ([IanMadd](https://github.com/IanMadd)) <!-- 6.4.56 -->
