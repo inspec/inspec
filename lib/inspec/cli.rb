@@ -133,16 +133,17 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
         case what
         when "profile"
+          profile_info = o[:"legacy-export"] ? profile.info : profile.info_from_parse
           if format == "json"
             require "json" unless defined?(JSON)
             # Write JSON
             Inspec::Utils::JsonProfileSummary.produce_json(
-              info: profile.info_from_parse,
+              info: profile_info,
               write_path: dst
             )
           elsif format == "yaml"
             Inspec::Utils::YamlProfileSummary.produce_yaml(
-              info: profile.info_from_parse,
+              info: profile_info,
               write_path: dst
             )
           end
