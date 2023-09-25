@@ -28,7 +28,7 @@ group :test do
   gem "json_schemer", ">= 0.2.1", "< 2.0.1"
   gem "m"
   gem "minitest-sprint", "~> 1.0"
-  gem "minitest", "5.15.0"
+  gem "minitest", "5.20.0"
   gem "mocha", "~> 2.1"
   gem "nokogiri", "~> 1.9"
   gem "pry-byebug"
