@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.4.60 -->
+## [v6.4.60](https://github.com/inspec/inspec/tree/v6.4.60) (2023-09-25)
 
 #### Merged Pull Requests
+- Bump omnibus-software from `3268356` to `c44dea9` in /omnibus [#6665](https://github.com/inspec/inspec/pull/6665) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Bump omnibus from `9c0643a` to `56015cb` in /omnibus [#6670](https://github.com/inspec/inspec/pull/6670) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `3268356` to `c44dea9` in /omnibus [#6665](https://github.com/inspec/inspec/pull/6665) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.60 -->
 - Bump omnibus from `9c0643a` to `56015cb` in /omnibus [#6670](https://github.com/inspec/inspec/pull/6670) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.59 -->
 - Move InSpec docs menu from chef-web-docs [#6657](https://github.com/inspec/inspec/pull/6657) ([IanMadd](https://github.com/IanMadd)) <!-- 6.4.59 -->
 - CHEF-3849: InSpec should exit quickly and clearly if waiver file is malformed/corrupt [#6644](https://github.com/inspec/inspec/pull/6644) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.58 -->
