@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.19 -->
-## [v5.22.19](https://github.com/inspec/inspec/tree/v5.22.19) (2023-09-01)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Backport #6626 - Fix for git fetcher [#6640](https://github.com/inspec/inspec/pull/6640) ([Vasu1105](https://github.com/Vasu1105))
+- Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.19 to &gt;= 0.2.1, &lt; 2.0.1 [#6631](https://github.com/inspec/inspec/pull/6631) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.3 -->
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.19 to &gt;= 0.2.1, &lt; 2.0.1 [#6631](https://github.com/inspec/inspec/pull/6631) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.19 -->
 - Backport #6626 - Fix for git fetcher [#6640](https://github.com/inspec/inspec/pull/6640) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.19 -->
 - Fix missing nil check for control variable in formatter&#39;s base - Issue 6510 [#6629](https://github.com/inspec/inspec/pull/6629) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.18 -->
 - Bump omnibus-software from `4b08f0b` to `c208191` in /omnibus [#6616](https://github.com/inspec/inspec/pull/6616) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.17 -->
