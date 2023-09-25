@@ -94,6 +94,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "For --what=profile, a list of controls to include. Ignore all other tests."
   option :tags, type: :array,
     desc: "For --what=profile, a list of tags to filter controls and include only those. Ignore all other tests."
+  option :"legacy-export", type: :boolean, default: false,
+         desc: "Run with legacy export."
   profile_options
   def export(target, as_json = false)
     Inspec.with_feature("inspec-cli-export") {
@@ -131,16 +133,17 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
         case what
         when "profile"
+          profile_info = o[:"legacy-export"] ? profile.info : profile.info_from_parse
           if format == "json"
             require "json" unless defined?(JSON)
             # Write JSON
             Inspec::Utils::JsonProfileSummary.produce_json(
-              info: profile.info_from_parse,
+              info: profile_info,
               write_path: dst
             )
           elsif format == "yaml"
             Inspec::Utils::YamlProfileSummary.produce_yaml(
-              info: profile.info_from_parse,
+              info: profile_info,
               write_path: dst
             )
           end
