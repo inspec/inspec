@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Bump ffi from 1.15.5 to 1.16.1 in /omnibus [#6672](https://github.com/inspec/inspec/pull/6672) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Bump omnibus from `26c34d2` to `56015cb` in /omnibus [#6671](https://github.com/inspec/inspec/pull/6671) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Update minitest requirement from 5.15.0 to 5.20.0 [#6651](https://github.com/inspec/inspec/pull/6651) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Update parslet requirement from &gt;= 1.5, &lt; 2.0 to &gt;= 1.5, &lt; 3.0 [#6638](https://github.com/inspec/inspec/pull/6638) ([dependabot[bot]](https://github.com/dependabot[bot]))
@@ -18,6 +19,7 @@
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Bump ffi from 1.15.5 to 1.16.1 in /omnibus [#6672](https://github.com/inspec/inspec/pull/6672) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.19 -->
 - Bump omnibus from `26c34d2` to `56015cb` in /omnibus [#6671](https://github.com/inspec/inspec/pull/6671) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.19 -->
 - Update minitest requirement from 5.15.0 to 5.20.0 [#6651](https://github.com/inspec/inspec/pull/6651) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.19 -->
 - Update parslet requirement from &gt;= 1.5, &lt; 2.0 to &gt;= 1.5, &lt; 3.0 [#6638](https://github.com/inspec/inspec/pull/6638) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.19 -->
