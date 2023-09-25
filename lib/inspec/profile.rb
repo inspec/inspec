@@ -517,8 +517,9 @@ module Inspec
 
     # Return data like profile.info(params), but try to do so without evaluating the profile.
     def info_from_parse
-      res = {
-        controls: []
+      return @info_from_parse unless @info_from_parse.nil?
+      @info_from_parse = {
+        controls: [],
       }
 
       # TODO - look at the various source contents
@@ -530,11 +531,11 @@ module Inspec
       # locations and 'code' properties.
 
       # @source_reader.tests contains a hash mapping control filenames to control file contents
-      @source_reader.tests.each do |control_filename, control_file_source|
+      @source_reader.tests.each do |_control_filename, control_file_source|
         # Parse the source code
         src = RuboCop::AST::ProcessedSource.new(control_file_source, RUBY_VERSION.to_f)
 
-        ctl_id_collector = Inspec::Profile::AstHelper::ControlIDCollector.new(res)
+        ctl_id_collector = Inspec::Profile::AstHelper::ControlIDCollector.new(@info_from_parse)
         # TODO: look for inputs
         # TODO: look for top-level metadata like title
         src.ast.each_node { |n| ctl_id_collector.process(n) }
@@ -542,7 +543,7 @@ module Inspec
         # For each control ID
         #  Look for per-control metadata
       end
-      res
+      @info_from_parse
     end
 
     def cookstyle_linting_check
