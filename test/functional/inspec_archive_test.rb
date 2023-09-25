@@ -138,4 +138,18 @@ describe "inspec archive" do
       assert_exit_code 0, out
     end
   end
+
+  it "does not evaluate a profile by default" do
+    eval_marker_path = File.join(profile_path, "eval-markers")
+
+    Dir.mktmpdir do |tmpdir|
+      FileUtils.cp_r(eval_marker_path + "/.", tmpdir)
+
+      out = inspec("archive " + tmpdir + " --output " + dst.path)
+
+      _(out.stderr).wont_include "EVALUATION_MARKER"
+      _(out.stderr).must_equal ""
+      assert_exit_code 0, out
+    end
+  end
 end
