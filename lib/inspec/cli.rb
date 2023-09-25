@@ -262,7 +262,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   option :ignore_errors, type: :boolean, default: false,
     desc: "Ignore profile warnings."
   option :check, type: :boolean, default: false,
-    desc: "Run profile check."
+    desc: "Run profile check before archiving."
   def archive(path, log_level = nil)
     Inspec.with_feature("inspec-cli-archive") {
       begin

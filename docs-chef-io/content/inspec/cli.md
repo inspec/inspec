@@ -35,6 +35,10 @@ This subcommand has the following additional options:
 `--no-airgap`
 : Fallback to using local archives if fetching fails.
 
+`--check`
+`--no-check`
+: Before running archive, run `inspec check`. Default: do not check.
+
 `--ignore-errors`
 `--no-ignore-errors`
 : Ignore profile warnings.
