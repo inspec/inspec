@@ -92,12 +92,14 @@ module InspecPlugins
         Inspec::UI.new.exit(:usage_error)
       end
 
-      def self.profile_verify(signed_profile_path)
+      def self.profile_verify(signed_profile_path, runner_call = false)
         file_to_verify = signed_profile_path
         puts "Verifying #{file_to_verify}"
 
         iaf_file = Inspec::IafFile.new(file_to_verify)
         if iaf_file.valid?
+          return if runner_call
+
           puts "Detected format version '#{iaf_file.version}'"
           puts "Attempting to verify using key '#{iaf_file.key_name}'"
           puts "Profile is valid."

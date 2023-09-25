@@ -16,6 +16,7 @@ require "inspec/utils/json_profile_summary"
 require "inspec/dependency_loader"
 require "inspec/dependency_installer"
 require "inspec/utils/profile_ast_helpers"
+require "plugins/inspec-sign/lib/inspec-sign/base"
 
 module Inspec
   class Profile
@@ -82,7 +83,7 @@ module Inspec
     end
 
     attr_reader :source_reader, :backend, :runner_context, :check_mode
-    attr_accessor :parent_profile, :profile_id, :profile_name
+    attr_accessor :parent_profile, :profile_id, :profile_name, :target
     def_delegator :@source_reader, :tests
     def_delegator :@source_reader, :libraries
     def_delegator :@source_reader, :metadata
@@ -179,6 +180,14 @@ module Inspec
 
     def failed?
       @state == :failed
+    end
+
+    def signed?
+      (@source_reader.target.parent.class == Inspec::IafProvider)
+    end
+
+    def verify_signed_profile
+      InspecPlugins::Sign::Base.profile_verify(target, true)
     end
 
     #
