@@ -229,6 +229,8 @@ module Inspec
         desc: "Include full source code of controls in the CLI report"
       option :enhanced_outcomes, type: :boolean,
         desc: "Show enhanced outcomes in output"
+      option :chef_allow_unsigned, type: :boolean, default: false,
+        desc: "Allow unsigned profiles to be used in InSpec profile executions"
     end
 
     def self.help(*args)
