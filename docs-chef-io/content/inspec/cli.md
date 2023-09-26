@@ -561,6 +561,9 @@ This subcommand has the following additional options:
 `--enhanced-outcomes`
 : Includes enhanced outcome of controls in report data.
 
+`--chef-allow-unsigned`
+: Flag to allow inspec run for unsigned profiles, defaults to false.
+
 ## habitat
 
 Create a Chef Habitat package.
