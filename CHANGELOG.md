@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.56.41 -->
+## [v4.56.41](https://github.com/inspec/inspec/tree/v4.56.41) (2023-09-26)
 
 #### Merged Pull Requests
+- Backport #6674 to inspec-4 [#6683](https://github.com/inspec/inspec/pull/6683) ([Vasu1105](https://github.com/Vasu1105))
 - Bump omnibus-software from `a7904a1` to `c44dea9` in /omnibus [#6664](https://github.com/inspec/inspec/pull/6664) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Backport #6674 to inspec-4 [#6683](https://github.com/inspec/inspec/pull/6683) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.41 -->
 - Bump omnibus-software from `a7904a1` to `c44dea9` in /omnibus [#6664](https://github.com/inspec/inspec/pull/6664) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.40 -->
 - Fix inspec-4 omnibus build failure happening due to x64-unknown platform [#6646](https://github.com/inspec/inspec/pull/6646) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.40 -->
 - Bump omnibus from `9c0643a` to `26c34d2` in /omnibus [#6617](https://github.com/inspec/inspec/pull/6617) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.39 -->
