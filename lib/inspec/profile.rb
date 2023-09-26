@@ -546,7 +546,7 @@ module Inspec
         #  Look for per-control metadata
 
         # TODO: Handle errors
-        res[:controls][index][:source_location][:ref] = source_location_ref
+        @info_from_parse[:controls][index][:source_location][:ref] = source_location_ref
         index += 1
       end
       @info_from_parse
