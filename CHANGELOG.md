@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Update rspec requirement from &gt;= 3.9, &lt;= 3.11 to &gt;= 3.9, &lt;= 3.13 [#6689](https://github.com/inspec/inspec/pull/6689) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Update mongo requirement from = 2.13.2 to = 2.19.1 [#6688](https://github.com/inspec/inspec/pull/6688) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Update rspec requirement from &gt;= 3.9, &lt;= 3.11 to &gt;= 3.9, &lt;= 3.13 [#6689](https://github.com/inspec/inspec/pull/6689) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.42 -->
 - Update mongo requirement from = 2.13.2 to = 2.19.1 [#6688](https://github.com/inspec/inspec/pull/6688) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.42 -->
 - Fix Gemfile on inspec-4 [#6687](https://github.com/inspec/inspec/pull/6687) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.42 -->
 - Backport #6674 to inspec-4 [#6683](https://github.com/inspec/inspec/pull/6683) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.41 -->
