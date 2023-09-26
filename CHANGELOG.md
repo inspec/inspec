@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Update mocha requirement from ~&gt; 1.1 to ~&gt; 2.1 [#6691](https://github.com/inspec/inspec/pull/6691) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.19 to &gt;= 0.2.1, &lt; 2.0.1 [#6690](https://github.com/inspec/inspec/pull/6690) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Update rspec requirement from &gt;= 3.9, &lt;= 3.11 to &gt;= 3.9, &lt;= 3.13 [#6689](https://github.com/inspec/inspec/pull/6689) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Update mongo requirement from = 2.13.2 to = 2.19.1 [#6688](https://github.com/inspec/inspec/pull/6688) ([dependabot[bot]](https://github.com/dependabot[bot]))
@@ -13,6 +14,7 @@
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Update mocha requirement from ~&gt; 1.1 to ~&gt; 2.1 [#6691](https://github.com/inspec/inspec/pull/6691) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.42 -->
 - Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.19 to &gt;= 0.2.1, &lt; 2.0.1 [#6690](https://github.com/inspec/inspec/pull/6690) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.42 -->
 - Update rspec requirement from &gt;= 3.9, &lt;= 3.11 to &gt;= 3.9, &lt;= 3.13 [#6689](https://github.com/inspec/inspec/pull/6689) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.42 -->
 - Update mongo requirement from = 2.13.2 to = 2.19.1 [#6688](https://github.com/inspec/inspec/pull/6688) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.42 -->
