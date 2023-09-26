@@ -164,7 +164,9 @@ module Inspec
     def run(with = nil)
       ChefLicensing.check_software_entitlement! if Inspec::Dist::EXEC_NAME == "inspec"
 
-      # Check if target profiles are all signed
+      # Security Update: Default behaviour to validate if profiles are signed and verified
+      # This security check could be skipped using flag --chef-allow-unsigned in command line
+      # Or by setting ENV value CHEF_ALLOW_UNSIGNED as true
       unless @conf["chef_allow_unsigned"] || ENV["CHEF_ALLOW_UNSIGNED"]
         verify_target_profiles_if_signed(@target_profiles)
       end
@@ -190,6 +192,7 @@ module Inspec
       end
 
       unless unsigned_profiles.empty?
+        # Log information of all unsigned profiles used with inspec exec
         Inspec::Log.error "Signature Required for Profile/s: #{unsigned_profiles.join(", ")}"
         Inspec::UI.new.exit(:signature_required)
       end

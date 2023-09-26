@@ -94,10 +94,12 @@ module InspecPlugins
 
       def self.profile_verify(signed_profile_path, runner_call = false)
         file_to_verify = signed_profile_path
-        puts "Verifying #{file_to_verify}"
+        puts "Verifying #{file_to_verify}" unless runner_call
 
         iaf_file = Inspec::IafFile.new(file_to_verify)
         if iaf_file.valid?
+          # Signed profile verification is called from runner and not from CLI
+          # Do not exit and do not print logs
           return if runner_call
 
           puts "Detected format version '#{iaf_file.version}'"

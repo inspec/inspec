@@ -183,6 +183,7 @@ module Inspec
     end
 
     def signed?
+      # Signed profiles have .iaf extension
       (@source_reader.target.parent.class == Inspec::IafProvider)
     end
 
