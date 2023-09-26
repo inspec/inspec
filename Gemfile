@@ -47,7 +47,3 @@ end
 group :deploy do
   gem "inquirer"
 end
-
-if Gem.ruby_version < Gem::Version.new("2.7.0")
-  gem "activesupport", "6.1.4.4"
-end
