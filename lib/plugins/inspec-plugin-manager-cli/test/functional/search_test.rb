@@ -24,7 +24,7 @@ class PluginManagerCliSearch < Minitest::Test
   end
 
   def test_search_for_a_real_gem_with_stub_name_no_options
-    result = run_inspec_process("plugin search --include-test-fixture inspec-test-")
+    result = run_inspec_process("plugin search --include-test-fixture inspec-test-fix")
 
     assert_includes result.stdout, "inspec-test-fixture", "Search result should contain the gem name"
     assert_includes result.stdout, "1 plugin(s) found", "Search result should find 1 plugin"
