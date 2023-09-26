@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.61 -->
-## [v6.4.61](https://github.com/inspec/inspec/tree/v6.4.61) (2023-09-26)
+<!-- latest_release 6.4.62 -->
+## [v6.4.62](https://github.com/inspec/inspec/tree/v6.4.62) (2023-09-26)
 
 #### Merged Pull Requests
-- Bump omnibus from `56015cb` to `82dae89` in /omnibus [#6679](https://github.com/inspec/inspec/pull/6679) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Fix broken plugin search test [#6674](https://github.com/inspec/inspec/pull/6674) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- Fix broken plugin search test [#6674](https://github.com/inspec/inspec/pull/6674) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.62 -->
 - Bump omnibus from `56015cb` to `82dae89` in /omnibus [#6679](https://github.com/inspec/inspec/pull/6679) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.61 -->
 - Bump omnibus-software from `3268356` to `c44dea9` in /omnibus [#6665](https://github.com/inspec/inspec/pull/6665) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.60 -->
 - Bump omnibus from `9c0643a` to `56015cb` in /omnibus [#6670](https://github.com/inspec/inspec/pull/6670) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.59 -->
