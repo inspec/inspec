@@ -116,7 +116,8 @@ module Inspec
             seen_control_ids[control_id] = true
 
             control_data = {
-              id: control_id
+              id: control_id,
+              code: block_node.source
             }
 
             # Scan the code block for per-control metadata
