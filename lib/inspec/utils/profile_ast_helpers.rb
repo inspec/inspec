@@ -117,7 +117,11 @@ module Inspec
 
             control_data = {
               id: control_id,
-              code: block_node.source
+              code: block_node.source,
+              source_location: {
+                line: block_node.first_line,
+                ref: "TODO - add ref to file"
+              }
             }
 
             # Scan the code block for per-control metadata
