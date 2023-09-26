@@ -1551,4 +1551,60 @@ EOT
       _(run_result.exit_status).must_equal 6
     end
   end
+
+  describe "when running combination of signed and unsigned profile without flag --chef-allow-unsigned" do
+    it "should raise signature required error and exit" do
+      prepare_examples do |dir|
+        skip_windows! # Breakage confirmed, only on CI: https://buildkite.com/chef-oss/inspec-inspec-master-verify/builds/2355#2c9d032e-4a24-4e7c-aef2-1c9e2317d9e2
+
+        unique_key_name = SecureRandom.uuid
+
+        # Create profile
+        profile = File.join(dir, "artifact-profile")
+        run_inspec_process("init profile artifact-profile", prefix: "cd #{dir};")
+
+        # Generate key to sign profile
+        run_inspec_process("sign generate-keys --keyname #{unique_key_name}", prefix: "cd #{dir};")
+
+        # Sign profile
+        run_inspec_process("sign profile #{profile} --keyname #{unique_key_name}", prefix: "cd #{dir};")
+
+        # Run inspec exec on combination of a signed profile and an unsigned profile with chef_allow_unsigned false (default behaviour)
+        run_result = run_inspec_process("exec #{complete_profile} artifact-profile-0.1.0.iaf", prefix: "cd #{dir};", chef_allow_unsigned: false)
+        _(run_result.stdout).must_include "ERROR: Signature Required"
+        _(run_result.stdout).must_include "Profile/s: complete"
+        _(run_result.exit_status).must_equal 6
+
+        delete_signing_keys(unique_key_name)
+      end
+    end
+  end
+
+  describe "when running combination of signed and unsigned profile with flag --chef-allow-unsigned" do
+    it "should run successfully without raising signature required error" do
+      prepare_examples do |dir|
+        skip_windows! # Breakage confirmed, only on CI: https://buildkite.com/chef-oss/inspec-inspec-master-verify/builds/2355#2c9d032e-4a24-4e7c-aef2-1c9e2317d9e2
+
+        unique_key_name = SecureRandom.uuid
+
+        # Create profile
+        profile = File.join(dir, "artifact-profile")
+        run_inspec_process("init profile artifact-profile", prefix: "cd #{dir};")
+
+        # Generate key to sign profile
+        run_inspec_process("sign generate-keys --keyname #{unique_key_name}", prefix: "cd #{dir};")
+
+        # Sign profile
+        run_inspec_process("sign profile #{profile} --keyname #{unique_key_name}", prefix: "cd #{dir};")
+
+        # Run inspec exec on combination of a signed profile and an unsigned profile with chef_allow_unsigned true
+
+        run_result = run_inspec_process("exec #{complete_profile} artifact-profile-0.1.0.iaf", prefix: "cd #{dir};", chef_allow_unsigned: true)
+        _(run_result.stdout).must_include "2 successful controls"
+        _(run_result.exit_status).must_equal 0
+
+        delete_signing_keys(unique_key_name)
+      end
+    end
+  end
 end
