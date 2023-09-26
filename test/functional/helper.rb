@@ -154,6 +154,9 @@ module FunctionalHelper
   end
 
   def inspec(commandline, prefix = nil)
+    # Allow unsigned profiles in exec to avoid breaking existing tests
+    # Only append --chef-allow-unsigned if flag not set explicitly in tests
+    commandline += " --chef-allow-unsigned " if (commandline =~ /\bexec\b/) && !(commandline =~ /\bchef-allow-unsigned\b/)
     run_cmd "#{exec_inspec} #{commandline}", prefix
   end
 
@@ -186,8 +189,9 @@ module FunctionalHelper
     prefix += opts[:prefix] || ""
     prefix += assemble_env_prefix(opts[:env])
     command_line += " --reporter json " if opts[:json] && command_line =~ /\bexec\b/
-    command_line += " --no-create-lockfile " if (!opts[:lock]) && command_line =~ /\bexec\b/
     command_line += " --enhanced_outcomes " if opts[:enhanced_outcomes] && command_line =~ /\bexec\b/
+    command_line += " --chef-allow-unsigned #{opts[:chef_allow_unsigned]}" if command_line =~ /\bexec\b/ # Allow unsigned profiles in exec to avoid breaking existing tests
+    command_line += " --no-create-lockfile" if (!opts[:lock]) && command_line =~ /\bexec\b/
 
     run_result = nil
     if opts[:tmpdir]
@@ -254,6 +258,11 @@ module FunctionalHelper
       bn = File.basename(profile_path)
       yield(File.join(tmpdir, bn, dir.to_s))
     end
+  end
+
+  def delete_signing_keys(unique_key_name)
+    File.delete("#{Inspec.config_dir}/keys/#{unique_key_name}.pem.key") if File.exist?("#{Inspec.config_dir}/keys/#{unique_key_name}.pem.key")
+    File.delete("#{Inspec.config_dir}/keys/#{unique_key_name}.pem.pub") if File.exist?("#{Inspec.config_dir}/keys/#{unique_key_name}.pem.pub")
   end
 
   private

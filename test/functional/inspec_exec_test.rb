@@ -1479,4 +1479,76 @@ EOT
       _(run_result.stdout).must_include ":status: passed"
     end
   end
+
+  describe "when running signed profile/s" do
+    it "should be able to run a single signed profile successfully" do
+      prepare_examples do |dir|
+        skip_windows! # Breakage confirmed, only on CI: https://buildkite.com/chef-oss/inspec-inspec-master-verify/builds/2355#2c9d032e-4a24-4e7c-aef2-1c9e2317d9e2
+
+        unique_key_name = SecureRandom.uuid
+
+        # Create profile
+        profile = File.join(dir, "artifact-profile")
+        run_inspec_process("init profile artifact-profile", prefix: "cd #{dir};")
+
+        # Generate key to sign profile
+        run_inspec_process("sign generate-keys --keyname #{unique_key_name}", prefix: "cd #{dir};")
+
+        # Sign profile
+        run_inspec_process("sign profile #{profile} --keyname #{unique_key_name}", prefix: "cd #{dir};")
+
+        # Run inspec exec on signed profiles with chef_allow_unsigned false (default behaviour)
+        run_result = run_inspec_process("exec artifact-profile-0.1.0.iaf", prefix: "cd #{dir};", chef_allow_unsigned: false)
+        _(run_result.stdout).must_include "1 successful control"
+        _(run_result.exit_status).must_equal 0
+
+        delete_signing_keys(unique_key_name)
+      end
+    end
+
+    it "should be able to run multiple signed profiles successfully" do
+      prepare_examples do |dir|
+        skip_windows! # Breakage confirmed, only on CI: https://buildkite.com/chef-oss/inspec-inspec-master-verify/builds/2355#2c9d032e-4a24-4e7c-aef2-1c9e2317d9e2
+
+        unique_key_name = SecureRandom.uuid
+
+        # Create 2 profiles
+        profile_1 = File.join(dir, "artifact-profile-1")
+        run_inspec_process("init profile artifact-profile-1", prefix: "cd #{dir};")
+
+        profile_2 = File.join(dir, "artifact-profile-2")
+        run_inspec_process("init profile artifact-profile-2", prefix: "cd #{dir};")
+
+        # Generate key to sign profile
+        run_inspec_process("sign generate-keys --keyname #{unique_key_name}", prefix: "cd #{dir};")
+
+        # Sign both the profiles
+        run_inspec_process("sign profile #{profile_1} --keyname #{unique_key_name}", prefix: "cd #{dir};")
+        run_inspec_process("sign profile #{profile_2} --keyname #{unique_key_name}", prefix: "cd #{dir};")
+
+        # Run inspec exec on both the signed profiles with chef_allow_unsigned false (default behaviour)
+        run_result = run_inspec_process("exec artifact-profile-1-0.1.0.iaf artifact-profile-2-0.1.0.iaf", prefix: "cd #{dir};", chef_allow_unsigned: false)
+        _(run_result.stdout).must_include "2 successful controls"
+        _(run_result.exit_status).must_equal 0
+
+        delete_signing_keys(unique_key_name)
+      end
+    end
+  end
+
+  describe "when running unsigned profile/s without flag --chef-allow-unsigned" do
+    it "should raise signature required error for single unsigned profile" do
+      run_result = run_inspec_process("exec #{complete_profile} --no-create-lockfile", chef_allow_unsigned: false)
+      _(run_result.stdout).must_include "ERROR: Signature Required"
+      _(run_result.stdout).must_include "Profile/s: complete"
+      _(run_result.exit_status).must_equal 6
+    end
+
+    it "should raise signature required error for multiple unsigned profiles" do
+      run_result = run_inspec_process("exec #{complete_profile} #{inheritance_profile} --no-create-lockfile", chef_allow_unsigned: false)
+      _(run_result.stdout).must_include "ERROR: Signature Required"
+      _(run_result.stdout).must_include "Profile/s: complete, inheritance"
+      _(run_result.exit_status).must_equal 6
+    end
+  end
 end
