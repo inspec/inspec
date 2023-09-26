@@ -525,15 +525,17 @@ module Inspec
       # TODO - look at the various source contents
       # PASS 1: parse them using rubocop-ast
       #   Look for controls, top-level metadata, and inputs
-      # PASS 2: Using the control IDs, deterimine the extents - 
-      # line locations - of the coontrol IDs in each file, and 
+      # PASS 2: Using the control IDs, deterimine the extents -
+      # line locations - of the coontrol IDs in each file, and
       # then extract each source code block. Use this to populate the source code
       # locations and 'code' properties.
 
       # @source_reader.tests contains a hash mapping control filenames to control file contents
-      @source_reader.tests.each do |_control_filename, control_file_source|
+      @source_reader.tests.each_with_index do |(control_filename, control_file_source), index|
         # Parse the source code
         src = RuboCop::AST::ProcessedSource.new(control_file_source, RUBY_VERSION.to_f)
+
+        source_location_ref = @source_reader.target.abs_path(control_filename)
 
         ctl_id_collector = Inspec::Profile::AstHelper::ControlIDCollector.new(@info_from_parse)
         # TODO: look for inputs
@@ -542,6 +544,10 @@ module Inspec
 
         # For each control ID
         #  Look for per-control metadata
+
+        # TODO: Handle errors
+        res[:controls][index][:source_location][:ref] = source_location_ref
+        index += 1
       end
       @info_from_parse
     end
