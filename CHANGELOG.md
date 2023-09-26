@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.22.20 -->
+## [v5.22.20](https://github.com/inspec/inspec/tree/v5.22.20) (2023-09-26)
 
 #### Merged Pull Requests
+- Backport #6674 to inspec-5 [#6685](https://github.com/inspec/inspec/pull/6685) ([Vasu1105](https://github.com/Vasu1105))
 - Bump ffi from 1.15.5 to 1.16.1 in /omnibus [#6672](https://github.com/inspec/inspec/pull/6672) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Bump omnibus from `26c34d2` to `56015cb` in /omnibus [#6671](https://github.com/inspec/inspec/pull/6671) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Update minitest requirement from 5.15.0 to 5.20.0 [#6651](https://github.com/inspec/inspec/pull/6651) ([dependabot[bot]](https://github.com/dependabot[bot]))
@@ -19,6 +20,7 @@
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Backport #6674 to inspec-5 [#6685](https://github.com/inspec/inspec/pull/6685) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.20 -->
 - Bump ffi from 1.15.5 to 1.16.1 in /omnibus [#6672](https://github.com/inspec/inspec/pull/6672) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.19 -->
 - Bump omnibus from `26c34d2` to `56015cb` in /omnibus [#6671](https://github.com/inspec/inspec/pull/6671) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.19 -->
 - Update minitest requirement from 5.15.0 to 5.20.0 [#6651](https://github.com/inspec/inspec/pull/6651) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.19 -->
