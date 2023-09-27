@@ -96,10 +96,11 @@ module Inspec
       end
 
       class ControlIDCollector < CollectorBase
-        attr_reader :seen_control_ids
-        def initialize(memo)
+        attr_reader :seen_control_ids, :source_location_ref
+        def initialize(memo, source_location_ref)
           @memo = memo
           @seen_control_ids = {}
+          @source_location_ref = source_location_ref
         end
 
         def on_block(block_node)
@@ -120,7 +121,7 @@ module Inspec
               code: block_node.source,
               source_location: {
                 line: block_node.first_line,
-                ref: "TODO - add ref to file"
+                ref: source_location_ref
               }
             }
 

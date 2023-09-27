@@ -531,23 +531,19 @@ module Inspec
       # locations and 'code' properties.
 
       # @source_reader.tests contains a hash mapping control filenames to control file contents
-      @source_reader.tests.each_with_index do |(control_filename, control_file_source), index|
+      @source_reader.tests.each do |control_filename, control_file_source|
         # Parse the source code
         src = RuboCop::AST::ProcessedSource.new(control_file_source, RUBY_VERSION.to_f)
 
         source_location_ref = @source_reader.target.abs_path(control_filename)
 
-        ctl_id_collector = Inspec::Profile::AstHelper::ControlIDCollector.new(@info_from_parse)
+        ctl_id_collector = Inspec::Profile::AstHelper::ControlIDCollector.new(@info_from_parse, source_location_ref)
         # TODO: look for inputs
         # TODO: look for top-level metadata like title
         src.ast.each_node { |n| ctl_id_collector.process(n) }
 
         # For each control ID
         #  Look for per-control metadata
-
-        # TODO: Handle errors
-        @info_from_parse[:controls][index][:source_location][:ref] = source_location_ref
-        index += 1
       end
       @info_from_parse
     end
