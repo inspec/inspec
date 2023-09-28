@@ -1539,15 +1539,16 @@ EOT
   describe "when running unsigned profile/s without flag --allow-unsigned" do
     it "should raise signature required error for single unsigned profile" do
       run_result = run_inspec_process("exec #{complete_profile} --no-create-lockfile", allow_unsigned: false)
-      _(run_result.stdout).must_include "ERROR: Signature Required"
-      _(run_result.stdout).must_include "Profile/s: complete"
+      _(run_result.stdout).must_include "ERROR: Signature required"
+      _(run_result.stdout).must_include "profile: complete"
       _(run_result.exit_status).must_equal 6
     end
 
     it "should raise signature required error for multiple unsigned profiles" do
       run_result = run_inspec_process("exec #{complete_profile} #{inheritance_profile} --no-create-lockfile", allow_unsigned: false)
-      _(run_result.stdout).must_include "ERROR: Signature Required"
-      _(run_result.stdout).must_include "Profile/s: complete, inheritance"
+      _(run_result.stdout).must_include "ERROR: Signature required"
+      _(run_result.stdout).must_include "profile: complete"
+      _(run_result.stdout).must_include "profile: inheritance"
       _(run_result.exit_status).must_equal 6
     end
   end
@@ -1571,8 +1572,8 @@ EOT
 
         # Run inspec exec on combination of a signed profile and an unsigned profile with allow_unsigned false (default behaviour)
         run_result = run_inspec_process("exec #{complete_profile} artifact-profile-0.1.0.iaf", prefix: "cd #{dir};", allow_unsigned: false)
-        _(run_result.stdout).must_include "ERROR: Signature Required"
-        _(run_result.stdout).must_include "Profile/s: complete"
+        _(run_result.stdout).must_include "ERROR: Signature required"
+        _(run_result.stdout).must_include "profile: complete"
         _(run_result.exit_status).must_equal 6
 
         delete_signing_keys(unique_key_name)

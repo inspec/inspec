@@ -182,20 +182,11 @@ module Inspec
     end
 
     def verify_target_profiles_if_signed(target_profiles)
-      unsigned_profiles = []
+      unsigned_profile_present = false
       target_profiles.each do |profile|
-        if profile.signed?
-          profile.verify_signed_profile
-        else
-          unsigned_profiles.push(profile.name)
-        end
+        unsigned_profile_present = true unless profile.verify_if_signed
       end
-
-      unless unsigned_profiles.empty?
-        # Log information of all unsigned profiles used with inspec exec
-        Inspec::Log.error "Signature Required for Profile/s: #{unsigned_profiles.join(", ")}"
-        Inspec::UI.new.exit(:signature_required)
-      end
+      Inspec::UI.new.exit(:signature_required) if unsigned_profile_present
     end
 
     def render_output(run_data)

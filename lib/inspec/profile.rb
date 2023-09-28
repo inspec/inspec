@@ -182,6 +182,17 @@ module Inspec
       @state == :failed
     end
 
+    def verify_if_signed
+      if signed?
+        verify_signed_profile
+        true
+      else
+        # Log information of unsigned profile
+        Inspec::Log.error "Signature required for profile: #{name}"
+        false
+      end
+    end
+
     def signed?
       # Signed profiles have .iaf extension
       (@source_reader.target.parent.class == Inspec::IafProvider)
