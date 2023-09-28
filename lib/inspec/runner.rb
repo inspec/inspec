@@ -164,10 +164,10 @@ module Inspec
     def run(with = nil)
       ChefLicensing.check_software_entitlement! if Inspec::Dist::EXEC_NAME == "inspec"
 
-      # Security Update: Default behaviour to validate if profiles are signed and verified
-      # This security check could be skipped using flag --chef-allow-unsigned in command line
+      # Default behaviour to validate if profiles are signed and verified
+      # This security check could be skipped using flag --allow-unsigned in command line
       # Or by setting ENV value CHEF_ALLOW_UNSIGNED as true
-      unless @conf["chef_allow_unsigned"] || ENV["CHEF_ALLOW_UNSIGNED"]
+      unless @conf["allow_unsigned"] || ENV["CHEF_ALLOW_UNSIGNED"]
         verify_target_profiles_if_signed(@target_profiles)
       end
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
