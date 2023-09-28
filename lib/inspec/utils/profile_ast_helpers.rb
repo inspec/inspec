@@ -62,22 +62,35 @@ module Inspec
             # TODO & NOTE - tags may be read as a hash or a string; verify this is correct
             memo[:tags] ||= {}
             tag_node = node.children[2]
-
-            if tag_node.type == :str
-              key = tag_node.value
-              value = nil
-            elsif tag_node.type == :hash
-              key = tag_node.children[0].key.value
-              if tag_node.children[0].value.type == :array
-                value = tag_node.children[0].value.children.map { |child_node| child_node.type == :str ? child_node.children.first : nil }
-              elsif ACCPETABLE_TAG_TYPE_TO_VALUES.key?(tag_node.children[0].value.type)
-                value = ACCPETABLE_TAG_TYPE_TO_VALUES[tag_node.children[0].value.type]
-              else
-                value = tag_node.children[0].value.value
+            # We can have array of tags
+            values = []
+            node.children.each do |child|
+              if child.is_a?(RuboCop::AST::Node) && (child.type == :str || child.type == :sym)
+                values << child.children.first
               end
             end
 
-            memo[:tags] = memo[:tags].merge(key => value)
+            unless values.empty?
+              values.each do |x|
+                memo[:tags] = memo[:tags].merge(x => nil)
+              end
+            else
+              if tag_node.type == :str
+                key = tag_node.value
+                value = nil
+              elsif tag_node.type == :hash
+                key = tag_node.children[0].key.value
+                if tag_node.children[0].value.type == :array
+                  value = tag_node.children[0].value.children.map { |child_node| child_node.type == :str ? child_node.children.first : nil }
+                elsif ACCPETABLE_TAG_TYPE_TO_VALUES.key?(tag_node.children[0].value.type)
+                  value = ACCPETABLE_TAG_TYPE_TO_VALUES[tag_node.children[0].value.type]
+                else
+                  value = tag_node.children[0].value.value
+                end
+              end
+
+              memo[:tags] = memo[:tags].merge(key => value)
+            end
           end
         end
       end
