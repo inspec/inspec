@@ -50,16 +50,34 @@ module Inspec
       end
 
       class TagCollector < CollectorBase
+
+        ACCPETABLE_TAG_TYPE_TO_VALUES = {
+          :false => false,
+          :true => true,
+          :nil => nil
+        }
+
         def on_send(node)
           if RuboCop::AST::NodePattern.new("(send nil? :tag ...)").match(node)
             # TODO & NOTE - tags may be read as a hash or a string; verify this is correct
             memo[:tags] ||= {}
-            # Check if the tag is a string or a hash
-            if node.children[2].type == :str
-              memo[:tags] = memo[:tags].merge(node.children[2].value => nil)
-            else
-              memo[:tags] = memo[:tags].merge(node.children[2].children[0].key.value => node.children[2].children[0].value.value)
+            tag_node = node.children[2]
+
+            if tag_node.type == :str
+              key = tag_node.value
+              value = nil
+            elsif tag_node.type == :hash
+              key = tag_node.children[0].key.value
+              if tag_node.children[0].value.type == :array
+                value = tag_node.children[0].value.children.map { |child_node| child_node.type == :str ? child_node.children.first : nil }
+              elsif ACCPETABLE_TAG_TYPE_TO_VALUES.key?(tag_node.children[0].value.type)
+                value = ACCPETABLE_TAG_TYPE_TO_VALUES[tag_node.children[0].value.type]
+              else
+                value = tag_node.children[0].value.value
+              end
             end
+
+            memo[:tags] = memo[:tags].merge(key => value)
           end
         end
       end
