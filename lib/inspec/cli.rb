@@ -189,6 +189,10 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "Fallback to using local archives if fetching fails."
   option :ignore_errors, type: :boolean, default: false,
     desc: "Ignore profile warnings."
+  option :check, type: :boolean, default: false,
+    desc: "Run profile check before archiving."
+  option :export, type: :boolean, default: false,
+    desc: "Export the profile to inspec.json and include in archive"
   def archive(path)
     o = config
     diagnose(o)
@@ -203,7 +207,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     vendor_deps(path, vendor_options)
 
     profile = Inspec::Profile.for_target(path, o)
-    result = profile.check
+    result = profile.check if o[:check]
 
     if result && !o[:ignore_errors] == false
       o[:logger].info "Profile check failed. Please fix the profile before generating an archive."
