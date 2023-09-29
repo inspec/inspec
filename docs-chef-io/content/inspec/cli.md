@@ -38,6 +38,12 @@ This subcommand has the following additional options:
 <dt><code>--auto-install-gems</code>, <code>--no-auto-install-gems</code></dt>
 <dd>Auto installs gem dependencies of the profile or resource pack.</dd>
 
+<dt><code>--check</code>, <code>--no-check</code></dt>
+<dd>Before running archive, run `inspec check`. Default: do not check.</dd>
+
+<dt><code>--export</code>, <code>--no-export</code></dt>
+<dd>Include an inspec.json file in the archive, the results of running `inspec export`.</dd>
+
 <dt><code>--ignore-errors</code>, <code>--no-ignore-errors</code></dt>
 <dd>Ignore profile warnings.</dd>
 
