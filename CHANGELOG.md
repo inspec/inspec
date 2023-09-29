@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.4.63 -->
+## [v6.4.63](https://github.com/inspec/inspec/tree/v6.4.63) (2023-09-29)
 
 #### Merged Pull Requests
+- Update html-proofer requirement from ~&gt; 3.19.4 to ~&gt; 5.0.8 [#6697](https://github.com/inspec/inspec/pull/6697) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.19 to &gt;= 0.2.1, &lt; 2.0.1 [#6693](https://github.com/inspec/inspec/pull/6693) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- Update html-proofer requirement from ~&gt; 3.19.4 to ~&gt; 5.0.8 [#6697](https://github.com/inspec/inspec/pull/6697) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.63 -->
 - Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.19 to &gt;= 0.2.1, &lt; 2.0.1 [#6693](https://github.com/inspec/inspec/pull/6693) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.62 -->
 - Fix broken plugin search test [#6674](https://github.com/inspec/inspec/pull/6674) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.62 -->
 - Bump omnibus from `56015cb` to `82dae89` in /omnibus [#6679](https://github.com/inspec/inspec/pull/6679) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.61 -->
