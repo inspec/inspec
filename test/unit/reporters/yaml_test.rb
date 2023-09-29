@@ -7,14 +7,22 @@ describe Inspec::Reporters::Yaml do
     Inspec::Reporters::Yaml.new({ run_data: data })
   end
 
+  # Match yaml reporter data
+  # Strip leading white spaces from empty scalar values for testing
+  # In Ruby, depending on its version, empty values are generated with or without leading spaces
+  # This was affecting the title: and desc: fields
+  def strip_white_spaces_from_empty_values(output)
+    output.gsub(/:\s*\n/, ":\n")
+  end
+
   describe "#render" do
     it "confirm render output" do
-      # The test is skipped on Windows because the output is different due to EOL differences.
-      return if windows?
-
       output = File.read("test/fixtures/reporters/yaml_output")
       report.render
-      _(report.rendered_output).must_equal output
+      stripped_rendered_output = strip_white_spaces_from_empty_values(report.rendered_output)
+      stripped_output = strip_white_spaces_from_empty_values(output)
+      # Match successful parsing of YAML reporter data
+      _(stripped_rendered_output).must_equal stripped_output
     end
   end
 end
