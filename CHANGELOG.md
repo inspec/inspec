@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.44 -->
-## [v4.56.44](https://github.com/inspec/inspec/tree/v4.56.44) (2023-09-29)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Backport 6391 - Add ruby-msys2-devkit as omnibus build dependency [#6714](https://github.com/inspec/inspec/pull/6714) ([Nik08](https://github.com/Nik08))
+- Revert &quot;Update html-proofer requirement from ~&gt; 3.19.4 to ~&gt; 5.0.8&quot; [#6718](https://github.com/inspec/inspec/pull/6718) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.56.20 -->
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Revert &quot;Update html-proofer requirement from ~&gt; 3.19.4 to ~&gt; 5.0.8&quot; [#6718](https://github.com/inspec/inspec/pull/6718) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.44 -->
 - Backport 6391 - Add ruby-msys2-devkit as omnibus build dependency [#6714](https://github.com/inspec/inspec/pull/6714) ([Nik08](https://github.com/Nik08)) <!-- 4.56.44 -->
 - Backport 6563 - YAML reporter test fix  [#6715](https://github.com/inspec/inspec/pull/6715) ([Nik08](https://github.com/Nik08)) <!-- 4.56.43 -->
 - Update mocha requirement from ~&gt; 1.1 to ~&gt; 2.1 [#6691](https://github.com/inspec/inspec/pull/6691) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.42 -->
