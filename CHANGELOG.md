@@ -1,25 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.20 -->
-## [v5.22.20](https://github.com/inspec/inspec/tree/v5.22.20) (2023-09-26)
+<!-- latest_release 5.22.21 -->
+## [v5.22.21](https://github.com/inspec/inspec/tree/v5.22.21) (2023-09-29)
 
 #### Merged Pull Requests
-- Backport #6674 to inspec-5 [#6685](https://github.com/inspec/inspec/pull/6685) ([Vasu1105](https://github.com/Vasu1105))
-- Bump ffi from 1.15.5 to 1.16.1 in /omnibus [#6672](https://github.com/inspec/inspec/pull/6672) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- Bump omnibus from `26c34d2` to `56015cb` in /omnibus [#6671](https://github.com/inspec/inspec/pull/6671) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- Update minitest requirement from 5.15.0 to 5.20.0 [#6651](https://github.com/inspec/inspec/pull/6651) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- Update parslet requirement from &gt;= 1.5, &lt; 2.0 to &gt;= 1.5, &lt; 3.0 [#6638](https://github.com/inspec/inspec/pull/6638) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- Update faraday_middleware requirement from &gt;= 0.12.2, &lt; 1.1 to &gt;= 0.12.2, &lt; 1.3 [#6636](https://github.com/inspec/inspec/pull/6636) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- Update html-proofer requirement from ~&gt; 3.19.4 to ~&gt; 5.0.8 [#6634](https://github.com/inspec/inspec/pull/6634) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- Update mongo requirement from = 2.13.2 to = 2.19.1 [#6633](https://github.com/inspec/inspec/pull/6633) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- Update mocha requirement from ~&gt; 1.1 to ~&gt; 2.1 [#6632](https://github.com/inspec/inspec/pull/6632) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.19 to &gt;= 0.2.1, &lt; 2.0.1 [#6631](https://github.com/inspec/inspec/pull/6631) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Drop Ruby 2.7 tests on inspec-5 [#6716](https://github.com/inspec/inspec/pull/6716) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.3 -->
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Drop Ruby 2.7 tests on inspec-5 [#6716](https://github.com/inspec/inspec/pull/6716) ([Nik08](https://github.com/Nik08)) <!-- 5.22.21 -->
 - Backport #6674 to inspec-5 [#6685](https://github.com/inspec/inspec/pull/6685) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.20 -->
 - Bump ffi from 1.15.5 to 1.16.1 in /omnibus [#6672](https://github.com/inspec/inspec/pull/6672) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.19 -->
 - Bump omnibus from `26c34d2` to `56015cb` in /omnibus [#6671](https://github.com/inspec/inspec/pull/6671) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.19 -->
