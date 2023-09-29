@@ -262,7 +262,7 @@ module Inspec::Fetcher
 
       open(target, opts)
 
-    rescue SocketError, Errno::ECONNREFUSED, OpenURI::HTTPError => e
+    rescue SocketError, Net::OpenTimeout, Errno::ECONNREFUSED, OpenURI::HTTPError => e
       raise Inspec::FetcherFailure, "Profile URL dependency #{target} could not be fetched: #{e.message}"
     end
 

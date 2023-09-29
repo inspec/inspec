@@ -107,6 +107,7 @@ namespace :test do
 
   task :parallel do
     n      = (ENV["K"] || 4).to_i
+    warn "Have RUBY_PLATFORM as #{RUBY_PLATFORM}"
     lock   = Mutex.new
     passed = true
 
