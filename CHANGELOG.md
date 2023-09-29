@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.56.43 -->
+## [v4.56.43](https://github.com/inspec/inspec/tree/v4.56.43) (2023-09-29)
 
 #### Merged Pull Requests
+- Backport 6563 - YAML reporter test fix  [#6715](https://github.com/inspec/inspec/pull/6715) ([Nik08](https://github.com/Nik08))
 - Update mocha requirement from ~&gt; 1.1 to ~&gt; 2.1 [#6691](https://github.com/inspec/inspec/pull/6691) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.19 to &gt;= 0.2.1, &lt; 2.0.1 [#6690](https://github.com/inspec/inspec/pull/6690) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Update rspec requirement from &gt;= 3.9, &lt;= 3.11 to &gt;= 3.9, &lt;= 3.13 [#6689](https://github.com/inspec/inspec/pull/6689) ([dependabot[bot]](https://github.com/dependabot[bot]))
@@ -14,6 +15,7 @@
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Backport 6563 - YAML reporter test fix  [#6715](https://github.com/inspec/inspec/pull/6715) ([Nik08](https://github.com/Nik08)) <!-- 4.56.43 -->
 - Update mocha requirement from ~&gt; 1.1 to ~&gt; 2.1 [#6691](https://github.com/inspec/inspec/pull/6691) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.42 -->
 - Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.19 to &gt;= 0.2.1, &lt; 2.0.1 [#6690](https://github.com/inspec/inspec/pull/6690) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.42 -->
 - Update rspec requirement from &gt;= 3.9, &lt;= 3.11 to &gt;= 3.9, &lt;= 3.13 [#6689](https://github.com/inspec/inspec/pull/6689) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.42 -->
