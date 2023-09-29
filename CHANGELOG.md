@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.56.45 -->
+## [v4.56.45](https://github.com/inspec/inspec/tree/v4.56.45) (2023-09-29)
 
 #### Merged Pull Requests
+- [BACKPORT] EULA: Update latest EULA (markdown copy) - 31AUG2023 [#6711](https://github.com/inspec/inspec/pull/6711) ([ahasunos](https://github.com/ahasunos))
 - Revert &quot;Update html-proofer requirement from ~&gt; 3.19.4 to ~&gt; 5.0.8&quot; [#6718](https://github.com/inspec/inspec/pull/6718) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- [BACKPORT] EULA: Update latest EULA (markdown copy) - 31AUG2023 [#6711](https://github.com/inspec/inspec/pull/6711) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.45 -->
 - Revert &quot;Update html-proofer requirement from ~&gt; 3.19.4 to ~&gt; 5.0.8&quot; [#6718](https://github.com/inspec/inspec/pull/6718) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.44 -->
 - Backport 6391 - Add ruby-msys2-devkit as omnibus build dependency [#6714](https://github.com/inspec/inspec/pull/6714) ([Nik08](https://github.com/Nik08)) <!-- 4.56.44 -->
 - Backport 6563 - YAML reporter test fix  [#6715](https://github.com/inspec/inspec/pull/6715) ([Nik08](https://github.com/Nik08)) <!-- 4.56.43 -->
