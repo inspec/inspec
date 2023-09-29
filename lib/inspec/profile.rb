@@ -617,7 +617,6 @@ module Inspec
     end
 
     # generates a archive of a folder profile
-    # assumes that the profile was checked before
     def archive(opts)
       # check if file exists otherwise overwrite the archive
       dst = archive_name(opts)
@@ -634,31 +633,34 @@ module Inspec
       # TODO ignore all .files, but add the files to debug output
 
       # Generate temporary inspec.json for archive
-      Inspec::Utils::JsonProfileSummary.produce_json(
-        info: info,
-        write_path: "#{root_path}inspec.json",
-        suppress_output: true
-      )
+      if opts[:export]
+        Inspec::Utils::JsonProfileSummary.produce_json(
+          info: info, # TODO: conditionalize and call info_from_parse
+          write_path: "#{root_path}inspec.json",
+          suppress_output: true
+        )
+      end
 
       # display all files that will be part of the archive
       @logger.debug "Add the following files to archive:"
       files.each { |f| @logger.debug "    " + f }
-      @logger.debug "    inspec.json"
+      @logger.debug "    inspec.json" if opts[:export]
 
+      archive_files = opts[:export] ? files.push("inspec.json") : files
       if opts[:zip]
         # generate zip archive
         require "inspec/archive/zip"
         zag = Inspec::Archive::ZipArchiveGenerator.new
-        zag.archive(root_path, files.push("inspec.json"), dst)
+        zag.archive(root_path, archive_files, dst)
       else
         # generate tar archive
         require "inspec/archive/tar"
         tag = Inspec::Archive::TarArchiveGenerator.new
-        tag.archive(root_path, files.push("inspec.json"), dst)
+        tag.archive(root_path, archive_files, dst)
       end
 
       # Cleanup
-      FileUtils.rm_f("#{root_path}inspec.json")
+      FileUtils.rm_f("#{root_path}inspec.json") if opts[:export]
 
       @logger.info "Finished archive generation."
       true

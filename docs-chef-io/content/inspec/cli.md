@@ -31,6 +31,10 @@ This subcommand has the following additional options:
 
 * ``--airgap``, ``--no-airgap``
     Fallback to using local archives if fetching fails.
+* ``--check``, ``--no-check``
+    Before running archive, run `inspec check`. Default: do not check.
+* ``--export``, ``--no-check``
+    Include an inspec.json file in the archive, the results of running `inspec export`.
 * ``--ignore-errors``, ``--no-ignore-errors``
     Ignore profile warnings.
 * ``-o``, ``--output=OUTPUT``
