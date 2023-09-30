@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.68 -->
-## [v6.4.68](https://github.com/inspec/inspec/tree/v6.4.68) (2023-09-30)
+<!-- latest_release 6.4.69 -->
+## [v6.4.69](https://github.com/inspec/inspec/tree/v6.4.69) (2023-09-30)
 
 #### Merged Pull Requests
-- CHEF-5899: Update latest EULA as used in Windows installers [#6655](https://github.com/inspec/inspec/pull/6655) ([ahasunos](https://github.com/ahasunos))
+- Changed params usage in `inspec archive` to skip evaluation [#6741](https://github.com/inspec/inspec/pull/6741) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- Changed params usage in `inspec archive` to skip evaluation [#6741](https://github.com/inspec/inspec/pull/6741) ([Nik08](https://github.com/Nik08)) <!-- 6.4.69 -->
 - CHEF-5899: Update latest EULA as used in Windows installers [#6655](https://github.com/inspec/inspec/pull/6655) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.68 -->
 - Fix Syntax [#6483](https://github.com/inspec/inspec/pull/6483) ([bryaend](https://github.com/bryaend)) <!-- 6.4.67 -->
 - CHEF-6429: Update omnibus config to use updated signing method for msi packages [#6658](https://github.com/inspec/inspec/pull/6658) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.66 -->
