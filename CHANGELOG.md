@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.56.50 -->
+## [v4.56.50](https://github.com/inspec/inspec/tree/v4.56.50) (2023-09-30)
 
 #### Merged Pull Requests
+- Revert #6688 [#6744](https://github.com/inspec/inspec/pull/6744) ([Vasu1105](https://github.com/Vasu1105))
 - Backport 6342 [#6740](https://github.com/inspec/inspec/pull/6740) ([Vasu1105](https://github.com/Vasu1105))
 - Add x64-mingw-ucrt platform to omnibus for inspec-4 [#6738](https://github.com/inspec/inspec/pull/6738) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
@@ -12,6 +13,7 @@
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Revert #6688 [#6744](https://github.com/inspec/inspec/pull/6744) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.50 -->
 - Backport 6342 [#6740](https://github.com/inspec/inspec/pull/6740) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.49 -->
 - Add x64-mingw-ucrt platform to omnibus for inspec-4 [#6738](https://github.com/inspec/inspec/pull/6738) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.49 -->
 - CHEF-6928 Backport 6659, inspec archive no check/ no export by default, to inspec-4 [#6720](https://github.com/inspec/inspec/pull/6720) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.49 -->
