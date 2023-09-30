@@ -29,6 +29,7 @@ pipelines:
     env:
      - ADHOC: true
      - EXPIRE_CACHE: 1
+     - IGNORE_ARTIFACTORY_RUBY_PROXY: true # Artifactory is throwing 500's when downloading some gems like ffi.
  - verify:
     description: Pull Request validation tests
     public: true
