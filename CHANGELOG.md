@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.56.48 -->
+## [v4.56.48](https://github.com/inspec/inspec/tree/v4.56.48) (2023-09-30)
 
 #### Merged Pull Requests
+- [Backport] - EULA: Update EULA in Windows Installers for inspec-4 [#6725](https://github.com/inspec/inspec/pull/6725) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Pin ffi-yajl to 2.4.0 in omnibus Gemfile (#6728) [#6729](https://github.com/inspec/inspec/pull/6729) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - CHEF-6910 Backport 6658, windows signing key changes [#6724](https://github.com/inspec/inspec/pull/6724) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
@@ -12,6 +13,7 @@
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- [Backport] - EULA: Update EULA in Windows Installers for inspec-4 [#6725](https://github.com/inspec/inspec/pull/6725) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.48 -->
 - Pin ffi-yajl to 2.4.0 in omnibus Gemfile (#6728) [#6729](https://github.com/inspec/inspec/pull/6729) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.47 -->
 - CHEF-6910 Backport 6658, windows signing key changes [#6724](https://github.com/inspec/inspec/pull/6724) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.47 -->
 - [BACKPORT] CHEF-5898: Update latest EULA as used in MacOS installers (#6652) [#6710](https://github.com/inspec/inspec/pull/6710) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.47 -->
