@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.22.22 -->
+## [v5.22.22](https://github.com/inspec/inspec/tree/v5.22.22) (2023-09-30)
 
 #### Merged Pull Requests
+- Bump omnibus from `56015cb` to `82dae89` in /omnibus [#6678](https://github.com/inspec/inspec/pull/6678) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Revert &quot;Update html-proofer requirement from ~&gt; 3.19.4 to ~&gt; 5.0.8&quot; [#6722](https://github.com/inspec/inspec/pull/6722) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Bump omnibus from `56015cb` to `82dae89` in /omnibus [#6678](https://github.com/inspec/inspec/pull/6678) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.22 -->
 - Revert &quot;Update html-proofer requirement from ~&gt; 3.19.4 to ~&gt; 5.0.8&quot; [#6722](https://github.com/inspec/inspec/pull/6722) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.21 -->
 - Drop Ruby 2.7 tests on inspec-5 [#6716](https://github.com/inspec/inspec/pull/6716) ([Nik08](https://github.com/Nik08)) <!-- 5.22.21 -->
 - Backport #6674 to inspec-5 [#6685](https://github.com/inspec/inspec/pull/6685) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.20 -->
