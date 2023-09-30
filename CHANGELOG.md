@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.47 -->
-## [v4.56.47](https://github.com/inspec/inspec/tree/v4.56.47) (2023-09-30)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- [BACKPORT] CHEF-5898: Update latest EULA as used in MacOS installers (#6652) [#6710](https://github.com/inspec/inspec/pull/6710) ([ahasunos](https://github.com/ahasunos))
-- Bump omnibus from `26c34d2` to `82dae89` in /omnibus [#6675](https://github.com/inspec/inspec/pull/6675) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- CHEF-6910 Backport 6658, windows signing key changes [#6724](https://github.com/inspec/inspec/pull/6724) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.56.20 -->
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- CHEF-6910 Backport 6658, windows signing key changes [#6724](https://github.com/inspec/inspec/pull/6724) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.47 -->
 - [BACKPORT] CHEF-5898: Update latest EULA as used in MacOS installers (#6652) [#6710](https://github.com/inspec/inspec/pull/6710) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.47 -->
 - Bump omnibus from `26c34d2` to `82dae89` in /omnibus [#6675](https://github.com/inspec/inspec/pull/6675) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.46 -->
 - Use Ruby 3.1 for InSpec 4; Drop EOL 2.7 [#6713](https://github.com/inspec/inspec/pull/6713) ([Nik08](https://github.com/Nik08)) <!-- 4.56.46 -->
