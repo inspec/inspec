@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.22.24 -->
+## [v5.22.24](https://github.com/inspec/inspec/tree/v5.22.24) (2023-09-30)
 
 #### Merged Pull Requests
+- CHEF-6915 [Backport] - EULA: Update EULA in Windows Installers for inspec-5 [#6726](https://github.com/inspec/inspec/pull/6726) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Revert minitest requirement from 5.20.0 to 5.15.0 [#6734](https://github.com/inspec/inspec/pull/6734) ([ahasunos](https://github.com/ahasunos))
 - Correct quotes on ffi-yajl [#6731](https://github.com/inspec/inspec/pull/6731) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Pin ffi-yajl to 2.4.0 in omnibus Gemfile [#6728](https://github.com/inspec/inspec/pull/6728) ([clintoncwolfe](https://github.com/clintoncwolfe))
@@ -13,6 +14,7 @@
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- CHEF-6915 [Backport] - EULA: Update EULA in Windows Installers for inspec-5 [#6726](https://github.com/inspec/inspec/pull/6726) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.24 -->
 - Revert minitest requirement from 5.20.0 to 5.15.0 [#6734](https://github.com/inspec/inspec/pull/6734) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.23 -->
 - Correct quotes on ffi-yajl [#6731](https://github.com/inspec/inspec/pull/6731) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.23 -->
 - Pin ffi-yajl to 2.4.0 in omnibus Gemfile [#6728](https://github.com/inspec/inspec/pull/6728) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.23 -->
