@@ -6,7 +6,28 @@ export HAB_ORIGIN='ci'
 export PLAN='inspec'
 export CHEF_LICENSE="accept-no-persist"
 export HAB_LICENSE="accept-no-persist"
+
+echo "--- checking if git is installed"
+if ! command -v git &> /dev/null; then
+    echo "Git is not installed. Installing Git..."
+    sudo yum install -y git
+else
+    echo "Git is already installed."
+    git --version
+fi
+
+echo "--- add an exception for this directory since detected dubious ownership in repository at /workdir"
+git config --global --add safe.directory /workdir
+
+echo "--- git status for this workdir"
+git status
+
+echo "--- ruby version"
+ruby -v
+
 export project_root="$(git rev-parse --show-toplevel)"
+echo "The value for project_root is: $project_root"
+
 export HAB_NONINTERACTIVE=true
 export HAB_NOCOLORING=true
 export HAB_STUDIO_SECRET_HAB_NONINTERACTIVE=true
@@ -46,6 +67,9 @@ if [ -f ./results/last_build.env ]; then
 fi
 
 echo "+++ Installing ${pkg_ident:?is undefined}"
+echo "++++"
+echo $project_root
+echo "+++"
 hab pkg install -b "${project_root:?is undefined}/results/${pkg_artifact:?is undefined}"
 
 echo "--- Removing world readability from /usr/local/bundle"
