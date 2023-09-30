@@ -147,7 +147,7 @@ describe "inspec archive" do
 
       out = inspec("archive " + tmpdir + " --overwrite")
 
-      _(out.out).wont_include "EVALUATION_MARKER"
+      _(out.stdout).wont_include "EVALUATION_MARKER"
       _(out.stderr).must_equal ""
       assert_exit_code 0, out
     end

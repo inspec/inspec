@@ -831,7 +831,7 @@ module Inspec
         return Pathname.new(name)
       end
 
-      # Using metadata to fetch basic info of name and params
+      # Using metadata to fetch basic info of name and version
       metadata = @source_reader.metadata.params
       name = metadata[:name] ||
         raise("Cannot create an archive without a profile name! Please "\
