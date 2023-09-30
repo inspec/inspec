@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- CHEF-6429 Backport 6658 to inspec-5, CI windows msi signing changes [#6723](https://github.com/inspec/inspec/pull/6723) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Bump omnibus-software from `c208191` to `c44dea9` in /omnibus [#6663](https://github.com/inspec/inspec/pull/6663) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- CHEF-6429 Backport 6658 to inspec-5, CI windows msi signing changes [#6723](https://github.com/inspec/inspec/pull/6723) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.22 -->
 - Bump omnibus-software from `c208191` to `c44dea9` in /omnibus [#6663](https://github.com/inspec/inspec/pull/6663) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.22 -->
 - Bump omnibus from `56015cb` to `82dae89` in /omnibus [#6678](https://github.com/inspec/inspec/pull/6678) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.22 -->
 - Revert &quot;Update html-proofer requirement from ~&gt; 3.19.4 to ~&gt; 5.0.8&quot; [#6722](https://github.com/inspec/inspec/pull/6722) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.21 -->
