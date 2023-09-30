@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Correct quotes on ffi-yajl [#6731](https://github.com/inspec/inspec/pull/6731) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Pin ffi-yajl to 2.4.0 in omnibus Gemfile [#6728](https://github.com/inspec/inspec/pull/6728) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Correct quotes on ffi-yajl [#6731](https://github.com/inspec/inspec/pull/6731) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.23 -->
 - Pin ffi-yajl to 2.4.0 in omnibus Gemfile [#6728](https://github.com/inspec/inspec/pull/6728) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.23 -->
 - [BACKPORT] CHEF-5898: Update latest EULA as used in MacOS installers (#6652) [#6709](https://github.com/inspec/inspec/pull/6709) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.23 -->
 - CHEF-6429 Backport 6658 to inspec-5, CI windows msi signing changes [#6723](https://github.com/inspec/inspec/pull/6723) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.22 -->
