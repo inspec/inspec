@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.66 -->
-## [v6.4.66](https://github.com/inspec/inspec/tree/v6.4.66) (2023-09-30)
+<!-- latest_release 6.4.67 -->
+## [v6.4.67](https://github.com/inspec/inspec/tree/v6.4.67) (2023-09-30)
 
 #### Merged Pull Requests
-- CHEF-6429: Update omnibus config to use updated signing method for msi packages [#6658](https://github.com/inspec/inspec/pull/6658) ([ahasunos](https://github.com/ahasunos))
+- Fix Syntax [#6483](https://github.com/inspec/inspec/pull/6483) ([bryaend](https://github.com/bryaend))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- Fix Syntax [#6483](https://github.com/inspec/inspec/pull/6483) ([bryaend](https://github.com/bryaend)) <!-- 6.4.67 -->
 - CHEF-6429: Update omnibus config to use updated signing method for msi packages [#6658](https://github.com/inspec/inspec/pull/6658) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.66 -->
 - Revert &quot;Update html-proofer requirement from ~&gt; 3.19.4 to ~&gt; 5.0.8&quot; [#6717](https://github.com/inspec/inspec/pull/6717) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.65 -->
 - Update hashie requirement from &gt;= 3.4, &lt; 5.0 to &gt;= 3.4, &lt; 6.0 [#6696](https://github.com/inspec/inspec/pull/6696) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.64 -->
