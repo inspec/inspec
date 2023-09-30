@@ -145,9 +145,9 @@ describe "inspec archive" do
     Dir.mktmpdir do |tmpdir|
       FileUtils.cp_r(eval_marker_path + "/.", tmpdir)
 
-      out = inspec("archive " + tmpdir + " --output " + dst.path)
+      out = inspec("archive " + tmpdir + " --overwrite")
 
-      _(out.stderr).wont_include "EVALUATION_MARKER"
+      _(out.stdout).wont_include "EVALUATION_MARKER"
       _(out.stderr).must_equal ""
       assert_exit_code 0, out
     end
