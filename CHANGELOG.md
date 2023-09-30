@@ -1,18 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.50 -->
-## [v4.56.50](https://github.com/inspec/inspec/tree/v4.56.50) (2023-09-30)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Revert #6688 [#6744](https://github.com/inspec/inspec/pull/6744) ([Vasu1105](https://github.com/Vasu1105))
-- Backport 6342 [#6740](https://github.com/inspec/inspec/pull/6740) ([Vasu1105](https://github.com/Vasu1105))
-- Add x64-mingw-ucrt platform to omnibus for inspec-4 [#6738](https://github.com/inspec/inspec/pull/6738) ([Vasu1105](https://github.com/Vasu1105))
+- Set  IGNORE_ARTIFACTORY_RUBY_PROXY to true on inspec-4 for adhoc build [#6745](https://github.com/inspec/inspec/pull/6745) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.56.20 -->
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Set  IGNORE_ARTIFACTORY_RUBY_PROXY to true on inspec-4 for adhoc build [#6745](https://github.com/inspec/inspec/pull/6745) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.50 -->
 - Revert #6688 [#6744](https://github.com/inspec/inspec/pull/6744) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.50 -->
 - Backport 6342 [#6740](https://github.com/inspec/inspec/pull/6740) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.49 -->
 - Add x64-mingw-ucrt platform to omnibus for inspec-4 [#6738](https://github.com/inspec/inspec/pull/6738) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.49 -->
