@@ -831,10 +831,12 @@ module Inspec
         return Pathname.new(name)
       end
 
-      name = params[:name] ||
+      # Using metadata to fetch basic info of name and version
+      metadata = @source_reader.metadata.params
+      name = metadata[:name] ||
         raise("Cannot create an archive without a profile name! Please "\
              "specify the name in metadata or use --output to create the archive.")
-      version = params[:version] ||
+      version = metadata[:version] ||
         raise("Cannot create an archive without a profile version! Please "\
              "specify the version in metadata or use --output to create the archive.")
       ext = opts[:zip] ? "zip" : "tar.gz"
