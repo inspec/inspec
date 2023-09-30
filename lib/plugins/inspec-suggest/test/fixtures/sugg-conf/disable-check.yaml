@@ -1,0 +1,9 @@
+working_directory: lib/plugins/inspec-suggest/test/fixtures/tmp
+
+sets:
+  test-fixture:
+    paths:
+      - ../src/*
+    check:
+      disable-checks:
+        - resource-type
