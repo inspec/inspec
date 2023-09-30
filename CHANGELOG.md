@@ -1,18 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.23 -->
-## [v5.22.23](https://github.com/inspec/inspec/tree/v5.22.23) (2023-09-30)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- [BACKPORT] CHEF-5898: Update latest EULA as used in MacOS installers (#6652) [#6709](https://github.com/inspec/inspec/pull/6709) ([ahasunos](https://github.com/ahasunos))
-- CHEF-6429 Backport 6658 to inspec-5, CI windows msi signing changes [#6723](https://github.com/inspec/inspec/pull/6723) ([clintoncwolfe](https://github.com/clintoncwolfe))
-- Bump omnibus-software from `c208191` to `c44dea9` in /omnibus [#6663](https://github.com/inspec/inspec/pull/6663) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Pin ffi-yajl to 2.4.0 in omnibus Gemfile [#6728](https://github.com/inspec/inspec/pull/6728) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.3 -->
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Pin ffi-yajl to 2.4.0 in omnibus Gemfile [#6728](https://github.com/inspec/inspec/pull/6728) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.23 -->
 - [BACKPORT] CHEF-5898: Update latest EULA as used in MacOS installers (#6652) [#6709](https://github.com/inspec/inspec/pull/6709) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.23 -->
 - CHEF-6429 Backport 6658 to inspec-5, CI windows msi signing changes [#6723](https://github.com/inspec/inspec/pull/6723) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.22 -->
 - Bump omnibus-software from `c208191` to `c44dea9` in /omnibus [#6663](https://github.com/inspec/inspec/pull/6663) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.22 -->
