@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.46 -->
-## [v4.56.46](https://github.com/inspec/inspec/tree/v4.56.46) (2023-09-29)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Use Ruby 3.1 for InSpec 4; Drop EOL 2.7 [#6713](https://github.com/inspec/inspec/pull/6713) ([Nik08](https://github.com/Nik08))
+- Bump omnibus from `26c34d2` to `82dae89` in /omnibus [#6675](https://github.com/inspec/inspec/pull/6675) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.56.20 -->
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Bump omnibus from `26c34d2` to `82dae89` in /omnibus [#6675](https://github.com/inspec/inspec/pull/6675) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.46 -->
 - Use Ruby 3.1 for InSpec 4; Drop EOL 2.7 [#6713](https://github.com/inspec/inspec/pull/6713) ([Nik08](https://github.com/Nik08)) <!-- 4.56.46 -->
 - [BACKPORT] EULA: Update latest EULA (markdown copy) - 31AUG2023 [#6711](https://github.com/inspec/inspec/pull/6711) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.45 -->
 - Revert &quot;Update html-proofer requirement from ~&gt; 3.19.4 to ~&gt; 5.0.8&quot; [#6718](https://github.com/inspec/inspec/pull/6718) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.44 -->
