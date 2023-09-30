@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.49 -->
-## [v4.56.49](https://github.com/inspec/inspec/tree/v4.56.49) (2023-09-30)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- CHEF-6928 Backport 6659, inspec archive no check/ no export by default, to inspec-4 [#6720](https://github.com/inspec/inspec/pull/6720) ([clintoncwolfe](https://github.com/clintoncwolfe))
-- Correct quotes on ffi-yajl [#6732](https://github.com/inspec/inspec/pull/6732) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add x64-mingw-ucrt platform to omnibus for inspec-4 [#6738](https://github.com/inspec/inspec/pull/6738) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.56.20 -->
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Add x64-mingw-ucrt platform to omnibus for inspec-4 [#6738](https://github.com/inspec/inspec/pull/6738) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.49 -->
 - CHEF-6928 Backport 6659, inspec archive no check/ no export by default, to inspec-4 [#6720](https://github.com/inspec/inspec/pull/6720) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.49 -->
 - Correct quotes on ffi-yajl [#6732](https://github.com/inspec/inspec/pull/6732) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.48 -->
 - [Backport] - EULA: Update EULA in Windows Installers for inspec-4 [#6725](https://github.com/inspec/inspec/pull/6725) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.48 -->
