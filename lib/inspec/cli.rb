@@ -244,6 +244,10 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "Fallback to using local archives if fetching fails."
   option :ignore_errors, type: :boolean, default: false,
     desc: "Ignore profile warnings."
+  option :check, type: :boolean, default: false,
+    desc: "Run profile check before archiving."
+  option :export, type: :boolean, default: false,
+    desc: "Export the profile to inspec.json and include in archive"
   def archive(path, log_level = nil)
     o = config
     diagnose(o)
@@ -264,7 +268,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       o[:logger].warn "Archiving a profile that contains gem dependencies, but InSpec cannot package gems with the profile! Please archive your ~/.inspec/gems directory separately."
     end
 
-    result = profile.check
+    result = profile.check if o[:check]
 
     if result && !o[:ignore_errors] == false
       o[:logger].info "Profile check failed. Please fix the profile before generating an archive."
