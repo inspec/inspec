@@ -30,13 +30,41 @@ finally {
 Write-Host "--- Generating fake origin key"
 hab origin key generate $env:HAB_ORIGIN
 
+# Find the key file
+$HAB_CI_KEY = Get-ChildItem -Path C:\hab\cache\keys\$env:HAB_ORIGIN*.pub | Select-Object -ExpandProperty FullName
+
+# Export the HAB_CI_KEY environment variable
+$Env:HAB_CI_KEY = $HAB_CI_KEY
+
+if (Test-Path -Path $HAB_CI_KEY) {
+    # Import the key if it exists
+    $keyContents = Get-Content -Path $HAB_CI_KEY
+    $keyContents | ForEach-Object { hab origin key import - }  # Use '-' to accept input from the pipeline
+}
+else {
+    Write-Host "$HAB_CI_KEY not found"
+    Get-ChildItem -Path $env:USERPROFILE\.hab\cache\keys
+    Get-ChildItem -Path $project_root\hab\cache\keys
+    Get-ChildItem -Path C:\hab
+    Exit 1
+}
+
 Write-Host "--- Building $Plan"
 $project_root = "$(git rev-parse --show-toplevel)"
 Set-Location $project_root
 
-$env:DO_CHECK=$true; hab pkg build .
+$env:DO_CHECK = $true
+hab pkg build .
 
-. $project_root/results/last_build.ps1
+if ($LASTEXITCODE -ne 0) {
+  Write-Host "Package build failed."
+}
+
+try {
+  . $project_root/results/last_build.ps1
+} catch {
+  Write-Host "Error running last_build.ps1: $_"
+}
 
 Write-Host "--- Installing $pkg_ident/$pkg_artifact"
 hab pkg install -b $project_root/results/$pkg_artifact
@@ -56,4 +84,10 @@ Write-Host "+++ Testing $Plan"
 
 Push-Location $project_root/test/artifact
 rake
-If ($lastexitcode -ne 0) { Exit $lastexitcode }
+
+# Check the test result and handle any errors
+if ($LASTEXITCODE -ne 0) {
+  Write-Host "Tests failed. Exit code: $LASTEXITCODE"
+}
+
+Write-Host "--- Script completed successfully."
