@@ -41,6 +41,7 @@ module Inspec::Fetcher
       @ref = opts[:ref]
       @remote_url = expand_local_path(remote_url)
       @repo_directory = nil
+      @resolved_ref = nil
       @relative_path = opts[:relative_path] if opts[:relative_path] && !opts[:relative_path].empty?
     end
 
@@ -70,7 +71,7 @@ module Inspec::Fetcher
           if @relative_path
             perform_relative_path_fetch(destination_path, working_dir)
           else
-            Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
+            Inspec::Log.debug("Checkout of #{resolved_ref.nil? ? @remote_url : resolved_ref} successful. " \
                               "Moving checkout to #{destination_path}")
             FileUtils.cp_r(working_dir + "/.", destination_path)
           end
@@ -80,14 +81,14 @@ module Inspec::Fetcher
     end
 
     def perform_relative_path_fetch(destination_path, working_dir)
-      Inspec::Log.debug("Checkout of #{resolved_ref} successful. " \
+      Inspec::Log.debug("Checkout of #{resolved_ref.nil? ? @remote_url : resolved_ref} successful. " \
                         "Moving #{@relative_path} to #{destination_path}")
       unless File.exist?("#{working_dir}/#{@relative_path}")
         # Cleanup the destination path - otherwise we'll have an empty dir
         # in the cache, which is enough to confuse the cache reader
         # This is a courtesy, assuming we're writing to the cache; if we're
         # vendoring to something more complex, don't bother.
-        FileUtils.rmdir(destination_path) if Dir.empty?(destination_path)
+        FileUtils.rm_r(destination_path) if Dir.exist?(destination_path)
 
         raise Inspec::FetcherFailure, "Cannot find relative path '#{@relative_path}' " \
                                       "within profile in git repo specified by '#{@remote_url}'"
@@ -96,9 +97,16 @@ module Inspec::Fetcher
     end
 
     def cache_key
-      return resolved_ref unless @relative_path
-
-      OpenSSL::Digest.hexdigest("SHA256", resolved_ref + @relative_path)
+      cache_key = if @relative_path && !resolved_ref.nil?
+                    OpenSSL::Digest.hexdigest("SHA256", resolved_ref + @relative_path)
+                  elsif @relative_path && resolved_ref.nil?
+                    OpenSSL::Digest.hexdigest("SHA256", @remote_url + @relative_path)
+                  elsif resolved_ref.nil?
+                    OpenSSL::Digest.hexdigest("SHA256", @remote_url)
+                  else
+                    resolved_ref
+                  end
+      cache_key
     end
 
     def archive_path
@@ -106,7 +114,11 @@ module Inspec::Fetcher
     end
 
     def resolved_source
-      source = { git: @remote_url, ref: resolved_ref }
+      if resolved_ref.nil?
+        source = { git: @remote_url }
+      else
+        source = { git: @remote_url, ref: resolved_ref }
+      end
       source[:relative_path] = @relative_path if @relative_path
       source
     end
@@ -125,33 +137,27 @@ module Inspec::Fetcher
                         elsif @tag
                           resolve_ref(@tag)
                         else
-                          resolve_ref(default_ref)
+                          resolve_ref
                         end
     end
 
-    def default_ref
-      command_string = "git remote show #{@remote_url}"
-      cmd = shellout(command_string)
-      unless cmd.exitstatus == 0
-        raise(Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{@remote_url} - error running '#{command_string}': #{cmd.stderr}")
-      else
-        ref = cmd.stdout.lines.detect { |l| l.include? "HEAD branch:" }&.split(":")&.last&.strip
-        unless ref
-          raise(Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{@remote_url} - error running '#{command_string}': NULL reference")
-        end
-
-        ref
-      end
-    end
-
-    def resolve_ref(ref_name)
-      command_string = "git ls-remote \"#{@remote_url}\" \"#{ref_name}*\""
+    def resolve_ref(ref_name = nil)
+      command_string = if ref_name.nil?
+                         # Running git ls-remote command helps to raise error if git URL is invalid and avoids cache_key creation
+                         "git ls-remote \"#{@remote_url}\""
+                       else
+                         "git ls-remote \"#{@remote_url}\" \"#{ref_name}*\""
+                       end
       cmd = shellout(command_string)
       raise(Inspec::FetcherFailure, "Profile git dependency failed for #{@remote_url} - error running '#{command_string}': #{cmd.stderr}") unless cmd.exitstatus == 0
 
-      ref = parse_ls_remote(cmd.stdout, ref_name)
-      unless ref
-        raise Inspec::FetcherFailure, "Profile git dependency failed - unable to resolve #{ref_name} to a specific git commit for #{@remote_url}"
+      if ref_name.nil?
+        ref = nil
+      else
+        ref = parse_ls_remote(cmd.stdout, ref_name)
+        unless ref
+          raise Inspec::FetcherFailure, "Profile git dependency failed - unable to resolve #{ref_name} to a specific git commit for #{@remote_url}"
+        end
       end
 
       ref
@@ -200,7 +206,14 @@ module Inspec::Fetcher
 
     def checkout(dir = @repo_directory)
       clone(dir)
-      git_cmd("checkout #{resolved_ref}", dir)
+      # In case of branch, tag or git reference is not provided by User the resolved_ref will always be nil
+      # and will always checkout the default HEAD branch, else it will checkout specific branch, tag or git reference.
+      if resolved_ref.nil?
+        git_cmd("checkout", dir)
+      else
+        git_cmd("checkout #{resolved_ref}", dir)
+      end
+
       @repo_directory
     end
 
@@ -208,6 +221,8 @@ module Inspec::Fetcher
       cmd = shellout("git #{cmd}", cwd: dir)
       cmd.error!
       cmd.status
+    rescue Mixlib::ShellOut::ShellCommandFailed => e
+      raise Inspec::FetcherFailure, "Error while running git command. #{e.message} "
     rescue Errno::ENOENT
       raise Inspec::FetcherFailure, "Profile git dependency failed for #{@remote_url} - to use git sources, you must have git installed."
     end

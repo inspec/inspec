@@ -57,16 +57,7 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       out.stubs(:stderr).returns("")
       out.stubs(:error!).returns(false)
       out.stubs(:run_command).returns(true)
-      out
-    end
-
-    let(:git_remote_head_master) do
-      out = mock
-      out.stubs(:stdout).returns("HEAD branch: master\n")
-      out.stubs(:exitstatus).returns(0)
-      out.stubs(:stderr).returns("")
-      out.stubs(:error!).returns(false)
-      out.stubs(:run_command).returns(true)
+      out.stubs(:status).returns(true)
       out
     end
 
@@ -77,16 +68,24 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       FileUtils.stubs(:mkdir_p)
     end
 
-    def expect_git_remote_head_master(remote_url)
-      Mixlib::ShellOut.expects(:new).with("git remote show #{remote_url}", {}).returns(git_remote_head_master)
-    end
-
     def expect_ls_remote(ref)
       Mixlib::ShellOut.expects(:new).with("git ls-remote \"#{git_dep_dir}\" \"#{ref}*\"", {}).returns(git_ls_remote_output)
     end
 
+    def expect_ls_remote_without_ref
+      Mixlib::ShellOut.expects(:new).with("git ls-remote \"#{git_dep_dir}\"", {}).returns(git_ls_remote_output)
+    end
+
+    def expect_ls_remote_without_ref_with_fetch_path(at = "fetchpath")
+      Mixlib::ShellOut.expects(:new).with("git ls-remote \"#{git_dep_dir}\"", { cwd: "fetchpath" }).returns(git_ls_remote_output)
+    end
+
     def expect_checkout(ref, at = "test-tmp-dir")
       Mixlib::ShellOut.expects(:new).with("git checkout #{ref}", { cwd: at }).returns(git_output)
+    end
+
+    def expect_checkout_without_ref(at = "test-tmp-dir")
+      Mixlib::ShellOut.expects(:new).with("git checkout", { cwd: at }).returns(git_output)
     end
 
     def expect_clone
@@ -97,11 +96,10 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       FileUtils.expects(:cp_r).with("test-tmp-dir/.", "fetchpath")
     end
 
-    it "resolves to the revision of master when head branch master" do
-      expect_git_remote_head_master(git_dep_dir)
-      expect_ls_remote("master")
+    it "it should able to resolve" do
+      expect_ls_remote_without_ref
       result = fetcher.resolve({ git: git_dep_dir })
-      _(result.resolved_source).must_equal({ git: git_dep_dir, ref: git_master_ref })
+      _(result.resolved_source).must_equal({ git: git_dep_dir })
     end
 
     it "can resolve a tag" do
@@ -122,72 +120,53 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
     end
 
     it "fetches to the given location" do
-      expect_git_remote_head_master(git_dep_dir)
-      expect_ls_remote("master")
+      expect_ls_remote_without_ref.twice
       expect_clone
-      expect_checkout(git_master_ref)
+      expect_checkout_without_ref
       expect_mv_into_place
       result = fetcher.resolve({ git: git_dep_dir })
       result.fetch("fetchpath")
     end
 
     it "doesn't refetch an already cloned repo" do
+      expect_ls_remote_without_ref
       File.expects(:directory?).with("fetchpath/.git").at_least_once.returns(true)
-      expect_git_remote_head_master(git_dep_dir)
-      expect_ls_remote("master")
-      expect_checkout(git_master_ref, "fetchpath")
+      expect_checkout_without_ref("fetchpath")
       result = fetcher.resolve({ git: git_dep_dir })
       result.fetch("fetchpath")
     end
 
     it "returns the repo_path that we fetched to as the archive_path" do
+      expect_ls_remote_without_ref
       File.expects(:directory?).with("fetchpath/.git").at_least_once.returns(true)
-      expect_git_remote_head_master(git_dep_dir)
-      expect_ls_remote("master")
-      expect_checkout(git_master_ref, "fetchpath")
+      expect_checkout_without_ref("fetchpath")
       result = fetcher.resolve({ git: git_dep_dir })
       result.fetch("fetchpath")
       _(result.archive_path).must_equal "fetchpath"
     end
   end
 
-  describe "when given a repository with default branch main" do
-    let(:git_default_main) { "inspec-test-profile-default-main" }
-    let(:git_main_ref) { "69220a2ba6a3b276184f328e69a953e83e283323" }
+  describe "when given a invalid repository" do
+    let(:git_dep_dir) { "test-directory" }
 
-    let(:git_remote_head_main) do
+    let(:git_ls_remote_output) do
       out = mock
-      out.stubs(:stdout).returns("HEAD branch: main\n")
-      out.stubs(:exitstatus).returns(0)
-      out.stubs(:stderr).returns("")
-      out.stubs(:error!).returns(false)
-      out.stubs(:run_command).returns(true)
+      out.stubs(:stdout).returns("")
+      out.stubs(:exitstatus).returns(1)
+      out.stubs(:stderr).returns("repository 'test-directory' not found")
+      out.stubs(:error!).returns(true)
+      out.stubs(:run_command).returns(false)
       out
     end
 
-    let(:git_ls_remote_output_for_main) do
-      out = mock
-      out.stubs(:stdout).returns("69220a2ba6a3b276184f328e69a953e83e283323\trefs/heads/main")
-      out.stubs(:exitstatus).returns(0)
-      out.stubs(:stderr).returns("")
-      out.stubs(:error!).returns(false)
-      out.stubs(:run_command).returns(true)
-      out
+    def expect_ls_remote
+      Mixlib::ShellOut.expects(:new).with("git ls-remote \"#{git_dep_dir}\"", {}).returns(git_ls_remote_output)
     end
 
-    def expect_git_remote_head_main(remote_url)
-      Mixlib::ShellOut.expects(:new).with("git remote show #{remote_url}", {}).returns(git_remote_head_main)
-    end
-
-    def expect_ls_remote(ref)
-      Mixlib::ShellOut.expects(:new).with("git ls-remote \"#{git_default_main}\" \"#{ref}*\"", {}).returns(git_ls_remote_output_for_main)
-    end
-
-    it "resolves to the revision of main when head branch main" do
-      expect_git_remote_head_main(git_default_main)
-      expect_ls_remote("main")
-      result = fetcher.resolve({ git: git_default_main })
-      _(result.resolved_source).must_equal({ git: git_default_main, ref: git_main_ref })
+    it "it raises error" do
+      expect_ls_remote
+      result = fetcher.resolve({ git: git_dep_dir })
+      _ { result.resolved_source }.must_raise Inspec::FetcherFailure
     end
   end
 end
