@@ -20,8 +20,8 @@ GIT
 
 GIT
   remote: https://github.com/clintoncwolfe/omnibus-software.git
-  revision: 1289659f3a7ede58db17e77f8c1962b697eafcd8
-  branch: cw/openssl-add-1.1.1w
+  revision: 12bd86cd5a9098d4085da42be3f0e3faaf8b787f
+  branch: cw/oct-2023-inspec-rollup
   specs:
     omnibus-software (23.9.296)
       omnibus (>= 9.0.0)

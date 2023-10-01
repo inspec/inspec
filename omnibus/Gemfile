@@ -6,7 +6,7 @@ gem "omnibus", github: ENV.fetch("OMNIBUS_GITHUB_REPO", "chef/omnibus"), branch:
 
 # Remove this after openssl upgrade testing
 # Pointing to the test branch clintoncwolfe:cw/openssl-add-1.1.1w for openssl upgrade testing
-gem "omnibus-software", github: ENV.fetch("OMNIBUS_SOFTWARE_GITHUB_REPO", "clintoncwolfe/omnibus-software"), branch: ENV.fetch("OMNIBUS_SOFTWARE_GITHUB_BRANCH", "cw/openssl-add-1.1.1w")
+gem "omnibus-software", github: ENV.fetch("OMNIBUS_SOFTWARE_GITHUB_REPO", "clintoncwolfe/omnibus-software"), branch: ENV.fetch("OMNIBUS_SOFTWARE_GITHUB_BRANCH", "cw/oct-2023-inspec-rollup")
 gem "artifactory"
 
 gem "ffi", ">= 1.9.14", "!= 1.13.0"
