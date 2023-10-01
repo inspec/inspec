@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.51 -->
-## [v4.56.51](https://github.com/inspec/inspec/tree/v4.56.51) (2023-09-30)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Backport 6741: Changed params usage in inspec archive to skip evaluation [#6742](https://github.com/inspec/inspec/pull/6742) ([Nik08](https://github.com/Nik08))
-- Set  IGNORE_ARTIFACTORY_RUBY_PROXY to true on inspec-4 for adhoc build [#6745](https://github.com/inspec/inspec/pull/6745) ([Vasu1105](https://github.com/Vasu1105))
+- Fix Habitat package pipeline for inspec-4 [#6747](https://github.com/inspec/inspec/pull/6747) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.56.20 -->
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Fix Habitat package pipeline for inspec-4 [#6747](https://github.com/inspec/inspec/pull/6747) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.51 -->
 - Backport 6741: Changed params usage in inspec archive to skip evaluation [#6742](https://github.com/inspec/inspec/pull/6742) ([Nik08](https://github.com/Nik08)) <!-- 4.56.51 -->
 - Set  IGNORE_ARTIFACTORY_RUBY_PROXY to true on inspec-4 for adhoc build [#6745](https://github.com/inspec/inspec/pull/6745) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.50 -->
 - Revert #6688 [#6744](https://github.com/inspec/inspec/pull/6744) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.50 -->
