@@ -8,8 +8,8 @@ GIT
 
 GIT
   remote: https://github.com/chef/omnibus.git
-  revision: 82dae896a066542f1b66dc866186f856f37e518e
-  branch: main
+  revision: 4b5c45a8f21a9f54cfaabe29b303cd4501d76cd7
+  branch: ss/signing-cmd-requires-admin-privileges
   specs:
     omnibus (9.0.23)
       aws-sdk-s3 (~> 1.116.0)
@@ -53,8 +53,6 @@ GEM
     aws-sigv4 (1.6.0)
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt_pbkdf (1.1.0)
-    bcrypt_pbkdf (1.1.0-x64-mingw32)
-    bcrypt_pbkdf (1.1.0-x86-mingw32)
     berkshelf (8.0.7)
       chef (>= 15.7.32)
       chef-config
@@ -521,4 +519,4 @@ DEPENDENCIES
   winrm-fs (~> 1.0)
 
 BUNDLED WITH
-   2.3.7
+   2.3.26
