@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.56.52 -->
+## [v4.56.52](https://github.com/inspec/inspec/tree/v4.56.52) (2023-10-01)
 
 #### Merged Pull Requests
+- BACKPORT 6626: Fix for inspec exec fails with git fetcher if current directory does not have .git directory [#6750](https://github.com/inspec/inspec/pull/6750) ([Nik08](https://github.com/Nik08))
 - Fix Habitat package pipeline for inspec-4 [#6747](https://github.com/inspec/inspec/pull/6747) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- BACKPORT 6626: Fix for inspec exec fails with git fetcher if current directory does not have .git directory [#6750](https://github.com/inspec/inspec/pull/6750) ([Nik08](https://github.com/Nik08)) <!-- 4.56.52 -->
 - Fix Habitat package pipeline for inspec-4 [#6747](https://github.com/inspec/inspec/pull/6747) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.51 -->
 - Backport 6741: Changed params usage in inspec archive to skip evaluation [#6742](https://github.com/inspec/inspec/pull/6742) ([Nik08](https://github.com/Nik08)) <!-- 4.56.51 -->
 - Set  IGNORE_ARTIFACTORY_RUBY_PROXY to true on inspec-4 for adhoc build [#6745](https://github.com/inspec/inspec/pull/6745) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.50 -->
