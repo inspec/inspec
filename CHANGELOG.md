@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.26 -->
-## [v5.22.26](https://github.com/inspec/inspec/tree/v5.22.26) (2023-09-30)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Backport 6741: Changed params usage in inspec archive to skip evaluation [#6743](https://github.com/inspec/inspec/pull/6743) ([Nik08](https://github.com/Nik08))
+- Fix Habitat package pipeline for inspec-5 [#6735](https://github.com/inspec/inspec/pull/6735) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.3 -->
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Fix Habitat package pipeline for inspec-5 [#6735](https://github.com/inspec/inspec/pull/6735) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.26 -->
 - Backport 6741: Changed params usage in inspec archive to skip evaluation [#6743](https://github.com/inspec/inspec/pull/6743) ([Nik08](https://github.com/Nik08)) <!-- 5.22.26 -->
 - Revert &quot;Update mongo requirement from = 2.13.2 to = 2.19.1 (#6633)&quot; [#6746](https://github.com/inspec/inspec/pull/6746) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.25 -->
 - CHEF-6915 [Backport] - EULA: Update EULA in Windows Installers for inspec-5 [#6726](https://github.com/inspec/inspec/pull/6726) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.24 -->
