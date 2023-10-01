@@ -71,11 +71,21 @@ package :pkg do
 end
 compress :dmg
 
+# package :msi do
+#   fast_msi true
+#   upgrade_code "DFCD452F-31E5-4236-ACD1-253F4720250B"
+#   wix_light_extension "WixUtilExtension"
+#   signing_identity "769E6AF679126F184850AAC7C5C823A80DB3ADAA", machine_store: false, keypair_alias: "key_495941360"
+# end
+msi_upgrade_code = "DFCD452F-31E5-4236-ACD1-253F4720250B"
+project_location_dir = name
 package :msi do
   fast_msi true
-  upgrade_code "DFCD452F-31E5-4236-ACD1-253F4720250B"
+  upgrade_code msi_upgrade_code
+  wix_candle_extension "WixUtilExtension"
   wix_light_extension "WixUtilExtension"
   signing_identity "769E6AF679126F184850AAC7C5C823A80DB3ADAA", machine_store: false, keypair_alias: "key_495941360"
+  parameters ProjectLocationDir: project_location_dir
 end
 
 exclude "**/.git"
