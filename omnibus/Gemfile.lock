@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: https://github.com/chef/omnibus.git
-  revision: 4b5c45a8f21a9f54cfaabe29b303cd4501d76cd7
+  revision: b634c4deda6e07bf08504e4456b0b7bb5c20c076
   branch: ss/signing-cmd-requires-admin-privileges
   specs:
     omnibus (9.0.23)
