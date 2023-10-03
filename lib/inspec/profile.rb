@@ -518,8 +518,10 @@ module Inspec
     # Return data like profile.info(params), but try to do so without evaluating the profile.
     def info_from_parse
       return @info_from_parse unless @info_from_parse.nil?
+
       @info_from_parse = {
         controls: [],
+        groups: [],
       }
 
       # TODO - look at the various source contents
@@ -534,18 +536,30 @@ module Inspec
       @source_reader.tests.each do |control_filename, control_file_source|
         # Parse the source code
         src = RuboCop::AST::ProcessedSource.new(control_file_source, RUBY_VERSION.to_f)
-
         source_location_ref = @source_reader.target.abs_path(control_filename)
 
         ctl_id_collector = Inspec::Profile::AstHelper::ControlIDCollector.new(@info_from_parse, source_location_ref)
         # TODO: look for inputs
         # TODO: look for top-level metadata like title
         src.ast.each_node { |n| ctl_id_collector.process(n) }
+        update_groups_from(control_filename, src)
 
         # For each control ID
         #  Look for per-control metadata
       end
       @info_from_parse
+    end
+
+    def update_groups_from(control_filename, src)
+      group_data = {
+        id: control_filename,
+      }
+      source_location_ref = @source_reader.target.abs_path(control_filename)
+      Inspec::Profile::AstHelper::TitleCollector.new(group_data)
+        .process(src.ast.child_nodes.first) # Picking the title defined for the whole controls file
+      group_controls = @info_from_parse[:controls].select { |control| control[:source_location][:ref] == source_location_ref }
+      group_data[:controls] = group_controls.map { |control| control[:id] }
+      @info_from_parse[:groups].push(group_data)
     end
 
     def cookstyle_linting_check
