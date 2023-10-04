@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.52 -->
-## [v4.56.52](https://github.com/inspec/inspec/tree/v4.56.52) (2023-10-01)
+<!-- latest_release 4.56.53 -->
+## [v4.56.53](https://github.com/inspec/inspec/tree/v4.56.53) (2023-10-04)
 
 #### Merged Pull Requests
-- BACKPORT 6626: Fix for inspec exec fails with git fetcher if current directory does not have .git directory [#6750](https://github.com/inspec/inspec/pull/6750) ([Nik08](https://github.com/Nik08))
-- Fix Habitat package pipeline for inspec-4 [#6747](https://github.com/inspec/inspec/pull/6747) ([ahasunos](https://github.com/ahasunos))
+- Backport 6351: Upgraded mock Ubuntu fixture to latest LTS version [#6457](https://github.com/inspec/inspec/pull/6457) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.56.20 -->
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Backport 6351: Upgraded mock Ubuntu fixture to latest LTS version [#6457](https://github.com/inspec/inspec/pull/6457) ([Nik08](https://github.com/Nik08)) <!-- 4.56.53 -->
 - BACKPORT 6626: Fix for inspec exec fails with git fetcher if current directory does not have .git directory [#6750](https://github.com/inspec/inspec/pull/6750) ([Nik08](https://github.com/Nik08)) <!-- 4.56.52 -->
 - Fix Habitat package pipeline for inspec-4 [#6747](https://github.com/inspec/inspec/pull/6747) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.51 -->
 - Backport 6741: Changed params usage in inspec archive to skip evaluation [#6742](https://github.com/inspec/inspec/pull/6742) ([Nik08](https://github.com/Nik08)) <!-- 4.56.51 -->
