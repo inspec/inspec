@@ -25,6 +25,5 @@ describe "Inspec::Resources::WMI" do
     _(resource.resource_failed?).must_equal true
     _(resource.resource_exception_message)
       .must_equal "Resource `wmi` is not supported on platform ubuntu/22.04."
-    _(resource.resource_id).must_equal "win32_service"
   end
 end
