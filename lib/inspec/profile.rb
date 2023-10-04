@@ -534,6 +534,23 @@ module Inspec
 
       # TODO: Verify that it doesn't do evaluation (ideally shouldn't because it is reading simply yaml file)
       @info_from_parse = @info_from_parse.merge(self.metadata.params)
+
+      inputs_hash = {}
+      if @profile_id.nil?
+        # identifying inputs using profile name
+        inputs_hash = Inspec::InputRegistry.list_inputs_for_profile(@info_from_parse[:name])
+      else
+        inputs_hash = Inspec::InputRegistry.list_inputs_for_profile(@profile_id)
+      end
+
+      # TODO: Verify if I need to do the below conversion for inputs to array
+      if inputs_hash.nil? || inputs_hash.empty?
+        # convert to array for backwards compatability
+        @info_from_parse[:inputs] = []
+      else
+        @info_from_parse[:inputs] = inputs_hash.values.map(&:to_hash)
+      end
+
       @info_from_parse[:sha256] = sha256
 
       # @source_reader.tests contains a hash mapping control filenames to control file contents
