@@ -81,6 +81,8 @@ if [ -n "${CI_ENABLE_COVERAGE:-}" ]; then
   # See sonar-project.properties for additional settings
   echo "--- running sonarscanner"
   sonar-scanner \
+  -Dsonar.organization=inspec \
+  -Dsonar.projectKey=inspec_inspec \
   -Dsonar.sources=. \
   -Dsonar.host.url=https://sonar.progress.com
 fi
