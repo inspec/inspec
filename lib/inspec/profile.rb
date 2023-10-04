@@ -532,6 +532,10 @@ module Inspec
       # then extract each source code block. Use this to populate the source code
       # locations and 'code' properties.
 
+      # TODO: Verify that it doesn't do evaluation (ideally shouldn't because it is reading simply yaml file)
+      @info_from_parse = @info_from_parse.merge(self.metadata.params)
+      @info_from_parse[:sha256] = sha256
+
       # @source_reader.tests contains a hash mapping control filenames to control file contents
       @source_reader.tests.each do |control_filename, control_file_source|
         # Parse the source code
