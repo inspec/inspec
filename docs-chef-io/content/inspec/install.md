@@ -1,5 +1,5 @@
 +++
-title = "Install Chef InSpec"
+title = "Install and Uninstall Chef InSpec"
 draft = false
 gh_repo = "inspec"
 
@@ -86,11 +86,9 @@ sudo zypper install /path-to/inspec.rpm
 ## Add a license
 
 Starting with **Chef InSpec 6**, you must set a Chef license key the first time you run Chef InSpec.
-Chef licenses are available in several tiers. For more information, please see LINK TODO.
-
-You can [request a trial license](https://www.chef.io/licensing/inspec/license-genertation-free-trial) if you'd like to try out InSpec.
-
 Chef InSpec provides several ways to set a license key.
+
+You can [request a trial license](https://www.chef.io/licensing/inspec/license-generation-free-trial) if you'd like to try out InSpec.
 
 {{< note >}}
 
@@ -102,7 +100,7 @@ Existing commercial customers of Progress Chef may use an asset serial number fr
 
 The easiest way to provide a license key to Chef InSpec is to run Chef InSpec.
 Run any major top-level command (such as `inspec exec`, `inspec check`, or `inspec shell`) and InSpec will start an interactive licensing dialog
-if no license key is already set, and it doesn't detect an automated method of setting the license key.
+if no license key is already set and it doesn't detect an automated method of setting the license key.
 
 1. To start the interactive licensing dialog, run a top-level command such as `inspec shell`.
 
@@ -180,22 +178,22 @@ export CHEF_LICENSE_KEY=<LICENSE_KEY>
 inspec exec profile_name
 ```
 
-### Chef Private License Server
+### Chef Local License Service
 
-For large or isolated (air-gapped) fleets, Chef InSpec can retrieve a license key from a Chef Private License Server.
-With a Chef Private License Server, InSpec users do not need to know a license key -- only the URL(s) of the server.
+For large or isolated (air-gapped) fleets, Chef InSpec can retrieve a license key from a [Chef Local License Service](/licensing/local_license_service/).
+With Chef Local License Service, InSpec users do not need to know a license key -- only the service URL(s).
 
-Chef InSpec sends a request to the Private License Server for a list of license keys and then uses that response to license itself during execution.
+Chef InSpec sends a request to the Local License Service for a list of license keys and then uses that response to license itself during execution.
 InSpec will not prompt you for a license key.
-Chef InSpec does not store license keys for long-term use when they are retrieved from a Chef Private License Server.
+Chef InSpec does not store license keys for long-term use when they are retrieved from a Chef Local License Service.
 
-You can set the URL of a Chef Private License Server using an [environment variable](#environment-variable-1) or with a [command line option](#command-line-option-1).
+You can set the URL of a Chef Local License Service using an [environment variable](#environment-variable-1) or with a [command line option](#command-line-option-1).
 
-For details about how to obtain, setup, and run a Chef Private License Server, please contact LINK TODO.
+See the [Chef Local License Service documentation](/licensing/local_license_service/) for more information.
 
 #### Environment variable
 
-Use the `CHEF_LICENSE_SERVER` environment variable to set a Chef Private License Server URL.
+Use the `CHEF_LICENSE_SERVER` environment variable to set a Chef Local License Service URL.
 
 ```bash
 export CHEF_LICENSE_SERVER=https://license-server.example.com
@@ -204,7 +202,7 @@ inspec exec profile_name
 
 #### Command line option
 
-Use the `--chef-license-server` command line option to set a Chef Private License Server URL.
+Use the `--chef-license-server` command line option to set a Chef Local License Service URL.
 
 ```bash
 inspec exec profile_name --chef-license-server https://license-server.example.com
@@ -212,9 +210,9 @@ inspec exec profile_name --chef-license-server https://license-server.example.co
 
 #### Multiple license servers
 
-You can set multiple Chef Private License Servers which provides resiliency and redundancy for managing licenses.
+You can set multiple Chef Local License Services which provides resiliency and redundancy for managing licenses.
 
-Enter up to five Chef Private License Server URLS as a comma-separated list. Chef InSpec will try each URL and use the first one that works.
+Enter up to five Chef Local License Service URLS as a comma-separated list. Chef InSpec will try each URL and use the first one that works.
 
 ```bash
 export CHEF_LICENSE_SERVER=https://license-server-01.example.com,https://license-server-02.example.com
