@@ -10,6 +10,12 @@ title = "Chef InSpec"
 identifier = "inspec"
 
   [[menu.inspec]]
+  title = "Install"
+  identifier = "inspec/install"
+  parent = "inspec"
+  weight = 20
+
+  [[menu.inspec]]
   title = "Chef InSpec Reference"
   identifier = "inspec/reference"
   parent = "inspec"
