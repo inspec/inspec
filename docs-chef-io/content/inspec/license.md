@@ -13,10 +13,10 @@ gh_repo = "inspec"
 
 Before running Chef InSpec, you must accept the Chef EULA and---starting with **Chef InSpec 6**---add a license key.
 
-Chef InSpec accepts a license key using one of two methods.
+Chef InSpec accepts a license key using one of two methods:
 
-- [using a license key](#license-key)
-- [from a Chef Local License Service URL](#chef-local-license-service)
+- by setting a license key with an [environment variable or using the InSpec CLI](#license-key)
+- by retrieving a license key from a [Chef Local License Service URL](#chef-local-license-service)
 
 For more information on Chef licenses, see [Chef's licensing documentation](/licensing/).
 
@@ -38,7 +38,7 @@ If the product attempts to persist the accepted license and fails, Chef InSpec s
 Use the `--chef-license <value>` argument to accept the Chef EULA.
 
 ```sh
-inspec exec profile_name --chef-license <value>
+inspec exec <PROFILE_NAME> --chef-license <value>
 ```
 
 Replace `<value>` with one of the following options.
@@ -58,7 +58,7 @@ Use the `CHEF_LICENSE="<value>"` environment variable to accept the Chef EULA.
 
 ```sh
 export CHEF_LICENSE="<value>"
-inspec exec profile_name
+inspec exec <PROFILE_NAME>
 ```
 
 Replace `<value>` with one of the following options.
@@ -154,7 +154,7 @@ You can set the license key in the command line using the `--chef-license-key` o
 You may provide this argument to most Chef InSpec CLI main commands, however some plugins may not support the flag.
 
 ```bash
-inspec exec profile_name --chef-license-key <LICENSE_KEY>
+inspec exec <PROFILE_NAME> --chef-license-key <LICENSE_KEY>
 ```
 
 ### Environment variable
@@ -165,7 +165,7 @@ If successful, InSpec saves the key and will not prompt you for it the next time
 
 ```bash
 export CHEF_LICENSE_KEY=<LICENSE_KEY>
-inspec exec profile_name
+inspec exec <PROFILE_NAME>
 ```
 
 ## Chef Local License Service
@@ -187,7 +187,7 @@ Use one of the following methods to set a Local License Service URL.
 Use the `--chef-license-server` command line option to set a Chef Local License Service URL.
 
 ```bash
-inspec exec profile_name --chef-license-server https://license-server.example.com
+inspec exec <PROFILE_NAME> --chef-license-server https://license-server.example.com
 ```
 
 ### Environment variable
@@ -196,7 +196,7 @@ Use the `CHEF_LICENSE_SERVER` environment variable to set a Chef Local License S
 
 ```bash
 export CHEF_LICENSE_SERVER=https://license-server.example.com
-inspec exec profile_name
+inspec exec <PROFILE_NAME>
 ```
 
 #### Multiple license servers
@@ -207,7 +207,7 @@ Enter up to five Chef Local License Service URLs as a comma-separated list. Chef
 
 ```bash
 export CHEF_LICENSE_SERVER=https://license-server-01.example.com,https://license-server-02.example.com
-inspec exec profile_name
+inspec exec <PROFILE_NAME>
 ```
 
 This capability is basic and you must synchronize the license servers, otherwise you may get inconsistent results.
