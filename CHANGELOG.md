@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.53 -->
-## [v4.56.53](https://github.com/inspec/inspec/tree/v4.56.53) (2023-10-04)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Backport 6351: Upgraded mock Ubuntu fixture to latest LTS version [#6457](https://github.com/inspec/inspec/pull/6457) ([Nik08](https://github.com/Nik08))
+- Bump omnibus-software from `c44dea9` to `7723be6` in /omnibus [#6769](https://github.com/inspec/inspec/pull/6769) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.56.20 -->
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `c44dea9` to `7723be6` in /omnibus [#6769](https://github.com/inspec/inspec/pull/6769) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.53 -->
 - Backport 6351: Upgraded mock Ubuntu fixture to latest LTS version [#6457](https://github.com/inspec/inspec/pull/6457) ([Nik08](https://github.com/Nik08)) <!-- 4.56.53 -->
 - BACKPORT 6626: Fix for inspec exec fails with git fetcher if current directory does not have .git directory [#6750](https://github.com/inspec/inspec/pull/6750) ([Nik08](https://github.com/Nik08)) <!-- 4.56.52 -->
 - Fix Habitat package pipeline for inspec-4 [#6747](https://github.com/inspec/inspec/pull/6747) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.51 -->
