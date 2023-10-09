@@ -475,7 +475,6 @@ describe "Inspec::Resources::Service" do
     _(resource.enabled?).must_equal true
     _(resource.running?).must_equal false
     _(resource.params).must_equal params
-    _(resource.resource_id).must_equal "org.example.killed-agent"
   end
 
   # wrlinux

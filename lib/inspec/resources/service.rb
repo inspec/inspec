@@ -273,10 +273,6 @@ module Inspec::Resources
       info[:startname]
     end
 
-    def resource_id
-      @service_name || "Service"
-    end
-
     def to_s
       "Service #{@service_name}"
     end
