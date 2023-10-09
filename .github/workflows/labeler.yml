@@ -22,8 +22,10 @@ jobs:
         run: |
           BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
           if [ "$BASE_BRANCH" == "main" ]; then
+            echo "::set-output name=base_branch::main"
             echo "::set-output name=base_branch_name::inspec-6"
           elif [ "$BASE_BRANCH" == "inspec-4" ] || [ "$BASE_BRANCH" == "inspec-5" ]; then
+            echo "::set-output name=base_branch::${BASE_BRANCH}"
             echo "::set-output name=base_branch_name::${BASE_BRANCH}"
           else
             echo "Unknown base branch for labelling : ${BASE_BRANCH}"
