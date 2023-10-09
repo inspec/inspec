@@ -10,6 +10,7 @@ jobs:
     permissions:
       contents: read  # for actions/labeler to determine modified files
       pull-requests: write  # for actions/labeler to add labels to PRs
+      issues: write # for typeform/labeler to add labels to PRs
     runs-on: ubuntu-latest
     steps:
       - name: Use Git Actions labeler
