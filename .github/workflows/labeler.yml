@@ -1,6 +1,7 @@
 name: "Pull Request Labeler"
 on:
-  - pull_request_target
+  pull_request:
+    types: [opened, synchronize]
 
 permissions:
   contents: read
@@ -12,6 +13,25 @@ jobs:
       pull-requests: write  # for actions/labeler to add labels to PRs
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/labeler@main
+      - name: Use Git Actions labeler
+        uses: actions/labeler@main
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Fetch pull request base branch
+        id: pr_info
+        run: |
+          BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
+          if [ "$BASE_BRANCH" == "main" ]; then
+            echo "::set-output name=base_branch_name::inspec-6"
+          else
+            echo "::set-output name=base_branch_name::${BASE_BRANCH}"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Use Git API to update labels based on base branch
+        run: |
+          curl -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -d '{"labels":["${{ steps.pr_info.outputs.base_branch_name }}"]}' "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/labels"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
