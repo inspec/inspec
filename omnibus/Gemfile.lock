@@ -26,14 +26,6 @@ GIT
       ruby-progressbar (~> 1.7)
       thor (>= 0.18, < 2.0)
 
-GIT
-  remote: https://github.com/clintoncwolfe/omnibus-software.git
-  revision: 1289659f3a7ede58db17e77f8c1962b697eafcd8
-  branch: cw/openssl-add-1.1.1w
-  specs:
-    omnibus-software (23.9.296)
-      omnibus (>= 9.0.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
