@@ -52,10 +52,10 @@ module Inspec
       class TagCollector < CollectorBase
 
         ACCPETABLE_TAG_TYPE_TO_VALUES = {
-          :false => false,
-          :true => true,
-          :nil => nil
-        }
+          false: false,
+          true: true,
+          nil: nil,
+        }.freeze
 
         def on_send(node)
           if RuboCop::AST::NodePattern.new("(send nil? :tag ...)").match(node)
@@ -108,7 +108,7 @@ module Inspec
             # ]
 
             references = {
-              ref: node.children[2].value
+              ref: node.children[2].value,
             }
 
             if node.children[3] && node.children[3].type == :hash
@@ -148,8 +148,14 @@ module Inspec
               code: block_node.source,
               source_location: {
                 line: block_node.first_line,
-                ref: source_location_ref
-              }
+                ref: source_location_ref,
+              },
+              title: nil,
+              desc: nil,
+              descriptions: {},
+              impact: nil,
+              refs: [],
+              tags: {},
             }
 
             # Scan the code block for per-control metadata
