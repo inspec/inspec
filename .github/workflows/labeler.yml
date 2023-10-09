@@ -24,13 +24,16 @@ jobs:
           BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
           if [ "$BASE_BRANCH" == "main" ]; then
             echo "::set-output name=base_branch_name::inspec-6"
-          else
+          elif [ "$BASE_BRANCH" == "inspec-4" ] || [ "$BASE_BRANCH" == "inspec-5" ]; then
             echo "::set-output name=base_branch_name::${BASE_BRANCH}"
+          else
+            echo "Unknown base branch for labelling : ${BASE_BRANCH}"
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Use Git API to update labels based on base branch
+        if: startsWith(steps.pr_info.outputs.base_branch_name, 'inspec-')
         run: |
           curl -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -d '{"labels":["${{ steps.pr_info.outputs.base_branch_name }}"]}' "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/labels"
         env:
