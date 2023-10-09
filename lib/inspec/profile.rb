@@ -533,7 +533,7 @@ module Inspec
       # locations and 'code' properties.
 
       # TODO: Verify that it doesn't do evaluation (ideally shouldn't because it is reading simply yaml file)
-      @info_from_parse = @info_from_parse.merge(self.metadata.params)
+      @info_from_parse = @info_from_parse.merge(metadata.params)
 
       inputs_hash = {}
       if @profile_id.nil?
@@ -552,6 +552,16 @@ module Inspec
       end
 
       @info_from_parse[:sha256] = sha256
+
+      # Populate :status and :status_message
+      if supports_platform?
+        @info_from_parse[:status_message] = @status_message || ""
+        @info_from_parse[:status] = failed? ? "failed" : "loaded"
+      else
+        @info_from_parse[:status] = "skipped"
+        msg = "Skipping profile: '#{name}' on unsupported platform: '#{backend.platform.name}/#{backend.platform.release}'."
+        @info_from_parse[:status_message] = msg
+      end
 
       # @source_reader.tests contains a hash mapping control filenames to control file contents
       @source_reader.tests.each do |control_filename, control_file_source|
