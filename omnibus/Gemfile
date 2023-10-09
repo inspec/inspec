@@ -1,12 +1,8 @@
 source "https://rubygems.org"
 
 gem "omnibus", github: ENV.fetch("OMNIBUS_GITHUB_REPO", "chef/omnibus"), branch: ENV.fetch("OMNIBUS_GITHUB_BRANCH", "main")
-# Uncomment this after openssl upgrade testing
-# gem "omnibus-software", github: ENV.fetch("OMNIBUS_SOFTWARE_GITHUB_REPO", "chef/omnibus-software"), branch: ENV.fetch("OMNIBUS_SOFTWARE_GITHUB_BRANCH", "main")
+gem "omnibus-software", github: ENV.fetch("OMNIBUS_SOFTWARE_GITHUB_REPO", "chef/omnibus-software"), branch: ENV.fetch("OMNIBUS_SOFTWARE_GITHUB_BRANCH", "main")
 
-# Remove this after openssl upgrade testing
-# Pointing to the test branch clintoncwolfe:cw/openssl-add-1.1.1w for openssl upgrade testing
-gem "omnibus-software", github: ENV.fetch("OMNIBUS_SOFTWARE_GITHUB_REPO", "clintoncwolfe/omnibus-software"), branch: ENV.fetch("OMNIBUS_SOFTWARE_GITHUB_BRANCH", "cw/openssl-add-1.1.1w")
 gem "artifactory"
 
 gem "ffi", ">= 1.9.14", "!= 1.13.0"
