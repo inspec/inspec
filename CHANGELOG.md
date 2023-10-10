@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- REVERT: Upgrade ruby version from 3.1.2 to 3.1.4 [#6784](https://github.com/inspec/inspec/pull/6784) ([ahasunos](https://github.com/ahasunos))
 - [BACKPORT] Upgrade ruby version from 3.1.2 to 3.1.4 for omnibus-overrides [#6778](https://github.com/inspec/inspec/pull/6778) ([ahasunos](https://github.com/ahasunos))
 - Backport 6748 Openssl upgrade with version 1.1.1w [#6776](https://github.com/inspec/inspec/pull/6776) ([Nik08](https://github.com/Nik08))
 - Remove resource_id for `service` resource , we do not support in inspec-4 [#6774](https://github.com/inspec/inspec/pull/6774) ([ahasunos](https://github.com/ahasunos))
@@ -13,6 +14,7 @@
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- REVERT: Upgrade ruby version from 3.1.2 to 3.1.4 [#6784](https://github.com/inspec/inspec/pull/6784) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.54 -->
 - [BACKPORT] Upgrade ruby version from 3.1.2 to 3.1.4 for omnibus-overrides [#6778](https://github.com/inspec/inspec/pull/6778) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.54 -->
 - Backport 6748 Openssl upgrade with version 1.1.1w [#6776](https://github.com/inspec/inspec/pull/6776) ([Nik08](https://github.com/Nik08)) <!-- 4.56.54 -->
 - Remove resource_id for `service` resource , we do not support in inspec-4 [#6774](https://github.com/inspec/inspec/pull/6774) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.54 -->
