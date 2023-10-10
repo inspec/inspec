@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- [BACKPORT] Upgrade ruby version from 3.1.2 to 3.1.4 for omnibus-overrides [#6778](https://github.com/inspec/inspec/pull/6778) ([ahasunos](https://github.com/ahasunos))
 - Backport 6748 Openssl upgrade with version 1.1.1w [#6776](https://github.com/inspec/inspec/pull/6776) ([Nik08](https://github.com/Nik08))
 - Remove resource_id for `service` resource , we do not support in inspec-4 [#6774](https://github.com/inspec/inspec/pull/6774) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
@@ -12,6 +13,7 @@
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- [BACKPORT] Upgrade ruby version from 3.1.2 to 3.1.4 for omnibus-overrides [#6778](https://github.com/inspec/inspec/pull/6778) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.54 -->
 - Backport 6748 Openssl upgrade with version 1.1.1w [#6776](https://github.com/inspec/inspec/pull/6776) ([Nik08](https://github.com/Nik08)) <!-- 4.56.54 -->
 - Remove resource_id for `service` resource , we do not support in inspec-4 [#6774](https://github.com/inspec/inspec/pull/6774) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.54 -->
 - BACKPORT 6262: Prevent negative status from crashing launchd service resource  [#6751](https://github.com/inspec/inspec/pull/6751) ([Nik08](https://github.com/Nik08)) <!-- 4.56.54 -->
