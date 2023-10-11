@@ -10,5 +10,5 @@ supports:
   platform: os
 depends:
   - name: ssh
-    git: https://github.com/dev-sec/ssh-baseline.git
-    tag: 2.6.0
+    git: https://github.com/dev-sec/windows-baseline.git
+    tag: 1.1.0

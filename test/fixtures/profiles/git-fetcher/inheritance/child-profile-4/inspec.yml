@@ -1,14 +1,13 @@
-name: child-profile-2
+name: child-profile-4
 title: InSpec Profile
 maintainer: The Authors
 copyright: The Authors
 copyright_email: you@example.com
 license: Apache-2.0
 summary: An InSpec Compliance Profile
-version: 0.1.0 Release Inspec 5 NotASemverVersion 1
+version: 0.1.0
 supports:
   platform: os
 depends:
-  - name: ssh
-    git: https://github.com/dev-sec/ssh-baseline.git
-    tag: 2.6.0
+  - name: child-profile-5
+    path: ../child-profile-5

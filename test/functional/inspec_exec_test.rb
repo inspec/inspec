@@ -1304,15 +1304,53 @@ EOT
   end
 
   unless windows?
-    describe "when profiles are dependent on different versions of same profile - test in unix" do
-      let(:profile) { "#{profile_path}/git-fetcher/inheritance/parent-profile" }
-      let(:run_result) { run_inspec_process("exec #{profile}") }
-      it "should evaluate all test controls of all versions correctly" do
-        _(run_result.stderr).must_be_empty
-        _(run_result.stdout).must_include "2.7.0"
-        _(run_result.stdout).must_include "2.6.0"
-        _(run_result.stdout).must_include "sshd-01"
-        _(run_result.stdout).must_include "sshd-50"
+    unless windows?
+      describe "when profiles are dependent on different versions of same profile - test in unix - test in unix" do
+        let(:profile) { "#{profile_path}/git-fetcher/inheritance/parent-profile" }
+        let(:run_result) { run_inspec_process("exec #{profile}") }
+        it "should evaluate all test controls of all versions correctly" do
+          skip_windows!
+          _(run_result.stderr).must_be_empty
+          _(run_result.stdout).must_include "2.7.0"
+          _(run_result.stdout).must_include "2.6.0"
+          _(run_result.stdout).must_include "sshd-01"
+          _(run_result.stdout).must_include "sshd-50"
+          # Test with version which is not following semver scheme.
+          _(run_result.stdout).must_include "0.1.0 Release Inspec 5 NotASemverVersion 1"
+        end
+      end
+
+      describe "Using require control with version: when profiles are dependent on different versions of same profile" do
+        let(:profile) { "#{profile_path}/git-fetcher/inheritance/child-profile-3" }
+        let(:run_result) { run_inspec_process("exec #{profile}") }
+        it "should evaluate all test controls of all versions correctly" do
+          skip_windows!
+          _(run_result.stderr).must_be_empty
+          _(run_result.stdout).must_include "2.6.0"
+          _(run_result.stdout).must_include "sshd-01"
+        end
+      end
+
+      describe "When profiles are dependent on a profile with no version" do
+        let(:profile) { "#{profile_path}/git-fetcher/inheritance/child-profile-4" }
+        let(:run_result) { run_inspec_process("exec #{profile}") }
+        it "should evaluate all test controls of all versions correctly" do
+          skip_windows!
+          _(run_result.stderr).must_be_empty
+        end
+      end
+    end
+
+    if windows?
+      describe "when profiles are dependent on different versions of same profile - test in windows" do
+        let(:profile) { "#{profile_path}/git-fetcher/inheritance-windows/parent-profile" }
+        let(:run_result) { run_inspec_process("exec #{profile}") }
+        it "should evaluate all test controls of all versions correctly" do
+          _(run_result.stdout).must_include "1.1.2"
+          _(run_result.stdout).must_include "1.1.0"
+          # Test with version which is not following semver scheme.
+          _(run_result.stdout).must_include "0.1.0 Release Inspec 5 NotASemverVersion 1"
+        end
       end
     end
   end
