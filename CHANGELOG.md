@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.56.55 -->
+## [v4.56.55](https://github.com/inspec/inspec/tree/v4.56.55) (2023-10-11)
 
 #### Merged Pull Requests
+- Backport-6410:  Dependent profiles fix for any scheme of version used in profiles [#6471](https://github.com/inspec/inspec/pull/6471) ([ahasunos](https://github.com/ahasunos))
 - REVERT: Upgrade ruby version from 3.1.2 to 3.1.4 [#6784](https://github.com/inspec/inspec/pull/6784) ([ahasunos](https://github.com/ahasunos))
 - [BACKPORT] Upgrade ruby version from 3.1.2 to 3.1.4 for omnibus-overrides [#6778](https://github.com/inspec/inspec/pull/6778) ([ahasunos](https://github.com/ahasunos))
 - Backport 6748 Openssl upgrade with version 1.1.1w [#6776](https://github.com/inspec/inspec/pull/6776) ([Nik08](https://github.com/Nik08))
@@ -14,6 +15,7 @@
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Backport-6410:  Dependent profiles fix for any scheme of version used in profiles [#6471](https://github.com/inspec/inspec/pull/6471) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.55 -->
 - REVERT: Upgrade ruby version from 3.1.2 to 3.1.4 [#6784](https://github.com/inspec/inspec/pull/6784) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.54 -->
 - [BACKPORT] Upgrade ruby version from 3.1.2 to 3.1.4 for omnibus-overrides [#6778](https://github.com/inspec/inspec/pull/6778) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.54 -->
 - Backport 6748 Openssl upgrade with version 1.1.1w [#6776](https://github.com/inspec/inspec/pull/6776) ([Nik08](https://github.com/Nik08)) <!-- 4.56.54 -->
