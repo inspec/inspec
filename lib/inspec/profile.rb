@@ -577,8 +577,19 @@ module Inspec
 
         # For each control ID
         #  Look for per-control metadata
+        # Filter controls by --controls, list of controls to include is available in include_controls_list
+        @info_from_parse[:controls] = filter_controls_by_id(@info_from_parse[:controls])
       end
       @info_from_parse
+    end
+
+    def filter_controls_by_id(controls)
+      unless include_controls_list.empty?
+        controls = controls.select do |control|
+          include_controls_list.any? { |control_id| control_id.match?(control[:id]) }
+        end
+      end
+      controls
     end
 
     def update_groups_from(control_filename, src)
@@ -590,6 +601,9 @@ module Inspec
         .process(src.ast.child_nodes.first) # Picking the title defined for the whole controls file
       group_controls = @info_from_parse[:controls].select { |control| control[:source_location][:ref] == source_location_ref }
       group_data[:controls] = group_controls.map { |control| control[:id] }
+
+      # Filter groups by --controls, list of controls to include is available in include_controls_list
+      # group_data[:controls] = filter_controls_by_id(group_data[:controls])
       @info_from_parse[:groups].push(group_data)
     end
 
