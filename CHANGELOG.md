@@ -1,12 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.70 -->
-## [v6.4.70](https://github.com/inspec/inspec/tree/v6.4.70) (2023-10-11)
+<!-- latest_release 6.4.71 -->
+## [v6.4.71](https://github.com/inspec/inspec/tree/v6.4.71) (2023-10-11)
 
 #### Merged Pull Requests
-- Bump omnibus-software from `7723be6` to `b3d89a4` in /omnibus [#6787](https://github.com/inspec/inspec/pull/6787) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- Bump omnibus-software from `c44dea9` to `7723be6` in /omnibus [#6770](https://github.com/inspec/inspec/pull/6770) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- CHEF-2627 Clarify License Description on Rubygems [#6630](https://github.com/inspec/inspec/pull/6630) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -39,6 +38,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- CHEF-2627 Clarify License Description on Rubygems [#6630](https://github.com/inspec/inspec/pull/6630) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.71 -->
 - Bump omnibus-software from `7723be6` to `b3d89a4` in /omnibus [#6787](https://github.com/inspec/inspec/pull/6787) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.70 -->
 - Bump omnibus-software from `c44dea9` to `7723be6` in /omnibus [#6770](https://github.com/inspec/inspec/pull/6770) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.69 -->
 - Changed params usage in `inspec archive` to skip evaluation [#6741](https://github.com/inspec/inspec/pull/6741) ([Nik08](https://github.com/Nik08)) <!-- 6.4.69 -->
