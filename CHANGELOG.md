@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.22.27 -->
+## [v5.22.27](https://github.com/inspec/inspec/tree/v5.22.27) (2023-10-16)
 
 #### Merged Pull Requests
+- [Backport] Update EULA for windows to fix formattings [#6781](https://github.com/inspec/inspec/pull/6781) ([ahasunos](https://github.com/ahasunos))
 - Backport 6748 Openssl upgrade with version 1.1.1w [#6775](https://github.com/inspec/inspec/pull/6775) ([Nik08](https://github.com/Nik08))
 - Bump omnibus-software from `c44dea9` to `7723be6` in /omnibus [#6771](https://github.com/inspec/inspec/pull/6771) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Fix Habitat package pipeline for inspec-5 [#6735](https://github.com/inspec/inspec/pull/6735) ([ahasunos](https://github.com/ahasunos))
@@ -13,6 +14,7 @@
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- [Backport] Update EULA for windows to fix formattings [#6781](https://github.com/inspec/inspec/pull/6781) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.27 -->
 - Backport 6748 Openssl upgrade with version 1.1.1w [#6775](https://github.com/inspec/inspec/pull/6775) ([Nik08](https://github.com/Nik08)) <!-- 5.22.26 -->
 - Bump omnibus-software from `c44dea9` to `7723be6` in /omnibus [#6771](https://github.com/inspec/inspec/pull/6771) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.26 -->
 - Fix Habitat package pipeline for inspec-5 [#6735](https://github.com/inspec/inspec/pull/6735) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.26 -->
