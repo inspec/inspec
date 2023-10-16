@@ -166,12 +166,23 @@ module Inspec
             collectors.push TitleCollector.new(control_data)
             collectors.push TagCollector.new(control_data)
             collectors.push RefCollector.new(control_data)
+            collectors.push TestsCollector.new(control_data)
 
             begin_block.each_node do |node_within_control|
               collectors.each { |collector| collector.process(node_within_control) }
             end
 
             memo[:controls].push control_data
+          end
+        end
+      end
+
+      class TestsCollector < CollectorBase
+
+        def on_block(node)
+          if RuboCop::AST::NodePattern.new("(block (send nil? :describe ...) ...)").match(node) ||
+              RuboCop::AST::NodePattern.new("(block (send nil? :expect ...) ...)").match(node)
+            memo[:checks] << node.source
           end
         end
       end
