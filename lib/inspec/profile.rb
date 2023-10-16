@@ -238,6 +238,17 @@ module Inspec
 
     def collect_tests
       unless @tests_collected || failed?
+
+        # Checking for profile signature in parent profile only
+        # Child profiles of a signed profile are extracted to cache dir
+        # Hence they are not in .iaf format
+        unless parent_profile
+          cfg = Inspec::Config.cached
+          unless cfg["allow_unsigned"] || ENV["CHEF_ALLOW_UNSIGNED"]
+            Inspec::UI.new.exit(:signature_required) unless verify_if_signed
+          end
+        end
+
         return unless supports_platform?
 
         locked_dependencies.each(&:collect_tests)

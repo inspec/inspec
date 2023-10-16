@@ -561,8 +561,8 @@ This subcommand has the following additional options:
 `--enhanced-outcomes`
 : Includes enhanced outcome of controls in report data.
 
-`--chef-allow-unsigned`
-: Flag to allow inspec run for unsigned profiles, defaults to false.
+`--allow-unsigned`
+: Flag to allow inspec run with unsigned profiles, defaults to false
 
 ## habitat
 
@@ -677,6 +677,9 @@ This subcommand has the following additional options:
 
 `--vendor-cache=VENDOR_CACHE`
 : Use the given path for caching dependencies. (default: `~/.inspec/cache`).
+
+`--allow-unsigned`
+: Flag to use inspec command with unsigned profile, defaults to false.
 
 ## license
 

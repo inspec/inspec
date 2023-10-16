@@ -156,7 +156,7 @@ module FunctionalHelper
   def inspec(commandline, prefix = nil)
     # Allow unsigned profiles in exec to avoid breaking existing tests
     # Only append --allow-unsigned if flag not set explicitly in tests
-    commandline += " --allow-unsigned " if (commandline =~ /\bexec\b/) && !(commandline =~ /\ballow-unsigned\b/)
+    commandline += " --allow-unsigned " if (commandline =~ /\bexec\b/ ||  commandline =~ /\bexport\b/ || commandline =~ /\barchive\b/ || commandline =~ /\bcheck\b/) && !(commandline =~ /\ballow-unsigned\b/)
     run_cmd "#{exec_inspec} #{commandline}", prefix
   end
 
@@ -190,7 +190,8 @@ module FunctionalHelper
     prefix += assemble_env_prefix(opts[:env])
     command_line += " --reporter json " if opts[:json] && command_line =~ /\bexec\b/
     command_line += " --enhanced_outcomes " if opts[:enhanced_outcomes] && command_line =~ /\bexec\b/
-    command_line += " --allow-unsigned #{opts[:allow_unsigned]}" if command_line =~ /\bexec\b/ # Allow unsigned profiles in exec to avoid breaking existing tests
+    # Allow unsigned profiles in inspec exec and export to not breaking existing tests
+    command_line += " --allow-unsigned #{opts[:allow_unsigned]}" if command_line =~ /\bexec\b/ ||  command_line =~ /\bexport\b/ || command_line =~ /\barchive\b/ || command_line =~ /\bcheck\b/
     command_line += " --no-create-lockfile" if (!opts[:lock]) && command_line =~ /\bexec\b/
 
     run_result = nil
