@@ -34,7 +34,7 @@ module Inspec
               memo[:descriptions] = memo[:descriptions].merge(node.children[2].value => node.children[3].value)
             else
               memo[:desc] = node.children[2].value
-              memo[:descriptions] = memo[:descriptions].merge("default" => node.children[2].value)
+              memo[:descriptions] = memo[:descriptions].merge(default: node.children[2].value)
             end
           end
         end
