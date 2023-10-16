@@ -84,6 +84,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       # Without config initialisation, the config value is not set and hence calling config get through deprecator will set the value of config as blank, making options of json command inaccessible.
       config
       # This deprecation warning is ignored currently.
+      config
       Inspec.deprecate(:renamed_to_inspec_export)
       export(target, true)
     }
