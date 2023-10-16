@@ -187,8 +187,8 @@ module Inspec
         verify_signed_profile
         true
       else
-        # Log information of unsigned profile
-        Inspec::Log.error "Signature required for profile: #{name}"
+        # Log error on unsigned profile usage
+        Inspec::Log.error "Signature required for profile: #{name}. Please provide a signed profile. Or use `--allow-unsigned` flag to run the profile. Or set CHEF_ALLOW_UNSIGNED in the environment."
         false
       end
     end
