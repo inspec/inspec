@@ -679,7 +679,7 @@ module Inspec
       meta_path = @source_reader.target.abs_path(@source_reader.metadata.ref)
 
       # verify metadata
-      m_errors, m_warnings = metadata.valid
+      m_errors, m_warnings = validity_check
       m_errors.each { |msg| error.call(meta_path, 0, 0, nil, msg) }
       m_warnings.each { |msg| warn.call(meta_path, 0, 0, nil, msg) }
       m_unsupported = metadata.unsupported
@@ -713,7 +713,7 @@ module Inspec
       end
 
       # extract profile name
-      result[:summary][:profile] = metadata.params[:name]
+      result[:summary][:profile] = info_from_parse[:name]
 
       count = controls_count
       result[:summary][:controls] = count
@@ -724,9 +724,10 @@ module Inspec
       end
 
       # iterate over hash of groups
-      params[:controls].each do |id, control|
+      info_from_parse[:controls].each do |control|
         sfile = control[:source_location][:ref]
         sline = control[:source_location][:line]
+        id = control[:id]
         error.call(sfile, sline, nil, id, "Avoid controls with empty IDs") if id.nil? || id.empty?
         next if id.start_with? "(generated "
 
@@ -752,8 +753,79 @@ module Inspec
       result
     end
 
+    def validity_check # rubocop:disable Metrics/AbcSize
+      errors = []
+      warnings = []
+      yml_metadata = Metadata.from_file(@source_reader.target.abs_path(@source_reader.metadata.ref), nil) || {}
+      info_from_parse.merge!(yml_metadata.params)
+
+      %w{name version}.each do |field|
+        next unless info_from_parse[field.to_sym].nil?
+
+        errors.push("Missing profile #{field} in #{yml_metadata.ref}")
+      end
+
+      if %r{[\/\\]} =~ info_from_parse[:name]
+        errors.push("The profile name (#{info_from_parse[:name]}) contains a slash" \
+                      " which is not permitted. Please remove all slashes from `inspec.yml`.")
+      end
+
+      # if version is set, ensure it is correct
+      if !info_from_parse[:version].nil? && !metadata.valid_version?(info_from_parse[:version])
+        errors.push("Version needs to be in SemVer format")
+      end
+
+      if info_from_parse[:entitlement_id] && info_from_parse[:entitlement_id].strip.empty?
+        errors.push("Entitlement ID should not be blank.")
+      end
+
+      unless metadata.supports_runtime?
+        warnings.push("The current inspec version #{Inspec::VERSION} cannot satisfy profile inspec_version constraint #{info_from_parse[:inspec_version]}")
+      end
+
+      %w{title summary maintainer copyright license}.each do |field|
+        next unless info_from_parse[field.to_sym].nil?
+
+        warnings.push("Missing profile #{field} in #{yml_metadata.ref}")
+      end
+
+      # if license is set, ensure it is in SPDX format or marked as proprietary
+      if !info_from_parse[:license].nil? && !metadata.valid_license?(info_from_parse[:license])
+        warnings.push("License '#{info_from_parse[:license]}' needs to be in SPDX format or marked as 'Proprietary'. See https://spdx.org/licenses/.")
+      end
+
+      # If gem_dependencies is set, it must be an array of hashes with keys name and optional version
+      unless info_from_parse[:gem_dependencies].nil?
+        list = info_from_parse[:gem_dependencies]
+        if list.is_a?(Array) && list.all? { |e| e.is_a? Hash }
+          list.each do |entry|
+            errors.push("gem_dependencies entries must all have a 'name' field") unless entry.key?(:name)
+            if entry[:version]
+              orig = entry[:version]
+              begin
+                # Split on commas as we may have a complex dep
+                orig.split(",").map { |c| Gem::Requirement.parse(c) }
+              rescue Gem::Requirement::BadRequirementError
+                errors.push "Unparseable gem dependency '#{orig}' for #{entry[:name]}"
+              rescue Inspec::GemDependencyInstallError => e
+                errors.push e.message
+              end
+            end
+            extra = (entry.keys - %i{name version})
+            unless extra.empty?
+              warnings.push "Unknown gem_dependencies key(s) #{extra.join(",")} seen for entry '#{entry[:name]}'"
+            end
+          end
+        else
+          errors.push("gem_dependencies must be a List of Hashes")
+        end
+      end
+
+      [errors, warnings]
+    end
+
     def controls_count
-      params[:controls].values.length
+      info_from_parse[:controls].count
     end
 
     def set_status_message(msg)
