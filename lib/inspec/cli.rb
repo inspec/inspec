@@ -77,8 +77,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   profile_options
   def json(target)
     Inspec.with_feature("inspec-cli-json") {
-      # This deprecation warning is ignored currently.
       config
+      # This deprecation warning is ignored currently.
       Inspec.deprecate(:renamed_to_inspec_export)
       export(target, true)
     }
