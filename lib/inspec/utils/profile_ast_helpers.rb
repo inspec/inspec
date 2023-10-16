@@ -156,6 +156,7 @@ module Inspec
               impact: nil,
               refs: [],
               tags: {},
+              checks: Set.new,
             }
 
             # Scan the code block for per-control metadata
