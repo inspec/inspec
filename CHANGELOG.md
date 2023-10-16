@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.56.56 -->
+## [v4.56.56](https://github.com/inspec/inspec/tree/v4.56.56) (2023-10-16)
 
 #### Merged Pull Requests
+- [Backports] Update EULA for windows to fix formattings [#6782](https://github.com/inspec/inspec/pull/6782) ([ahasunos](https://github.com/ahasunos))
 - Bump omnibus-software from `7723be6` to `b3d89a4` in /omnibus [#6786](https://github.com/inspec/inspec/pull/6786) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- [Backports] Update EULA for windows to fix formattings [#6782](https://github.com/inspec/inspec/pull/6782) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.56 -->
 - Bump omnibus-software from `7723be6` to `b3d89a4` in /omnibus [#6786](https://github.com/inspec/inspec/pull/6786) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.55 -->
 - Backport-6410:  Dependent profiles fix for any scheme of version used in profiles [#6471](https://github.com/inspec/inspec/pull/6471) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.55 -->
 - REVERT: Upgrade ruby version from 3.1.2 to 3.1.4 [#6784](https://github.com/inspec/inspec/pull/6784) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.54 -->
