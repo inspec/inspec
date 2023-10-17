@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.56 -->
-## [v4.56.56](https://github.com/inspec/inspec/tree/v4.56.56) (2023-10-16)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- [Backports] Update EULA for windows to fix formattings [#6782](https://github.com/inspec/inspec/pull/6782) ([ahasunos](https://github.com/ahasunos))
-- Bump omnibus-software from `7723be6` to `b3d89a4` in /omnibus [#6786](https://github.com/inspec/inspec/pull/6786) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- [Backport] - CI: Build on MacOS 11 intel, dropping EOL 10.15 [#6794](https://github.com/inspec/inspec/pull/6794) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.56.20 -->
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- [Backport] - CI: Build on MacOS 11 intel, dropping EOL 10.15 [#6794](https://github.com/inspec/inspec/pull/6794) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.56 -->
 - [Backports] Update EULA for windows to fix formattings [#6782](https://github.com/inspec/inspec/pull/6782) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.56 -->
 - Bump omnibus-software from `7723be6` to `b3d89a4` in /omnibus [#6786](https://github.com/inspec/inspec/pull/6786) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.55 -->
 - Backport-6410:  Dependent profiles fix for any scheme of version used in profiles [#6471](https://github.com/inspec/inspec/pull/6471) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.55 -->
