@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.4.72 -->
+## [v6.4.72](https://github.com/inspec/inspec/tree/v6.4.72) (2023-10-17)
 
 #### Merged Pull Requests
+- Update EULA for windows to fix formattings [#6780](https://github.com/inspec/inspec/pull/6780) ([ahasunos](https://github.com/ahasunos))
 - Renames the project name in the SonarQube [#6797](https://github.com/inspec/inspec/pull/6797) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- Update EULA for windows to fix formattings [#6780](https://github.com/inspec/inspec/pull/6780) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.72 -->
 - Renames the project name in the SonarQube [#6797](https://github.com/inspec/inspec/pull/6797) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.71 -->
 - CHEF-2627 Clarify License Description on Rubygems [#6630](https://github.com/inspec/inspec/pull/6630) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.71 -->
 - Bump omnibus-software from `7723be6` to `b3d89a4` in /omnibus [#6787](https://github.com/inspec/inspec/pull/6787) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.70 -->
