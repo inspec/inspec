@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.56.57 -->
+## [v4.56.57](https://github.com/inspec/inspec/tree/v4.56.57) (2023-10-18)
 
 #### Merged Pull Requests
+- [Backport] OMNIBUS: Drop enterprise linux 6 support as it has reached EOL [#6802](https://github.com/inspec/inspec/pull/6802) ([ahasunos](https://github.com/ahasunos))
 - [Backport] - CI: Build on MacOS 11 intel, dropping EOL 10.15 [#6794](https://github.com/inspec/inspec/pull/6794) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- [Backport] OMNIBUS: Drop enterprise linux 6 support as it has reached EOL [#6802](https://github.com/inspec/inspec/pull/6802) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.57 -->
 - [Backport] - CI: Build on MacOS 11 intel, dropping EOL 10.15 [#6794](https://github.com/inspec/inspec/pull/6794) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.56 -->
 - [Backports] Update EULA for windows to fix formattings [#6782](https://github.com/inspec/inspec/pull/6782) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.56 -->
 - Bump omnibus-software from `7723be6` to `b3d89a4` in /omnibus [#6786](https://github.com/inspec/inspec/pull/6786) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.55 -->
