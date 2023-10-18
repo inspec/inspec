@@ -5,6 +5,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- OMNIBUS: Drop enterprise linux 6 support as it has reached EOL [#6801](https://github.com/inspec/inspec/pull/6801) ([ahasunos](https://github.com/ahasunos))
 - Docs updates to install inspec 6 [#6574](https://github.com/inspec/inspec/pull/6574) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- OMNIBUS: Drop enterprise linux 6 support as it has reached EOL [#6801](https://github.com/inspec/inspec/pull/6801) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.72 -->
 - Docs updates to install inspec 6 [#6574](https://github.com/inspec/inspec/pull/6574) ([IanMadd](https://github.com/IanMadd)) <!-- 6.4.72 -->
 - Update EULA for windows to fix formattings [#6780](https://github.com/inspec/inspec/pull/6780) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.72 -->
 - Renames the project name in the SonarQube [#6797](https://github.com/inspec/inspec/pull/6797) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.71 -->
