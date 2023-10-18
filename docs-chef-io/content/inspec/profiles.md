@@ -196,7 +196,7 @@ A Chef InSpec profile can bring in the controls and custom resources from anothe
 Chef InSpec profile. Additionally, when inheriting the controls of another profile,
 a profile can skip or even modify those included controls.
 
-For hands-on examples, check out [Create a custom Chef InSpec profile](https://learn.chef.io/modules/create-a-custom-profile#/)
+For hands-on examples, check out [Test Expectations with Chef InSpec](https://learn.chef.io/courses/course-v1:chef+Inspec101+Perpetual/about)
 on Learn Chef Rally.
 
 ### Defining the Dependencies

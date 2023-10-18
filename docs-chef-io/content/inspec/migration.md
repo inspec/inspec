@@ -13,7 +13,7 @@ gh_repo = "inspec"
 
 ## How is Chef InSpec different from Serverspec
 
-We've written a complete blog post about that topic: [The Road to InSpec](https://blog.chef.io/2015/11/04/the-road-to-inspec/)
+We've written a complete blog post about that topic: [The Road to InSpec](https://www.chef.io/blog/the-road-to-inspec)
 
 ## Is Chef InSpec suitable for infrastructure testing?
 
