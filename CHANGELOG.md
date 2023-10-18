@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Bump omnibus-software from `7723be6` to `4fef367` in /omnibus [#6806](https://github.com/inspec/inspec/pull/6806) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - [Backport] - CI: Build on MacOS 11 intel, dropping EOL 10.15 [#6795](https://github.com/inspec/inspec/pull/6795) ([ahasunos](https://github.com/ahasunos))
 - CHEF-6914: Enable SonarQube to work with inspec-5 branch [#6799](https://github.com/inspec/inspec/pull/6799) ([Vasu1105](https://github.com/Vasu1105))
 - Backport-6796 on inspec-5 [#6798](https://github.com/inspec/inspec/pull/6798) ([Vasu1105](https://github.com/Vasu1105))
@@ -13,6 +14,7 @@
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `7723be6` to `4fef367` in /omnibus [#6806](https://github.com/inspec/inspec/pull/6806) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.27 -->
 - [Backport] - CI: Build on MacOS 11 intel, dropping EOL 10.15 [#6795](https://github.com/inspec/inspec/pull/6795) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.27 -->
 - CHEF-6914: Enable SonarQube to work with inspec-5 branch [#6799](https://github.com/inspec/inspec/pull/6799) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.27 -->
 - Backport-6796 on inspec-5 [#6798](https://github.com/inspec/inspec/pull/6798) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.27 -->
