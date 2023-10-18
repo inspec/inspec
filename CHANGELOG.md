@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Bump omnibus-software from `b3d89a4` to `4fef367` in /omnibus [#6804](https://github.com/inspec/inspec/pull/6804) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - CHEF-7151: Configures SonarQube and coverage pipeline on inspec-4 [#6800](https://github.com/inspec/inspec/pull/6800) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `b3d89a4` to `4fef367` in /omnibus [#6804](https://github.com/inspec/inspec/pull/6804) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.57 -->
 - CHEF-7151: Configures SonarQube and coverage pipeline on inspec-4 [#6800](https://github.com/inspec/inspec/pull/6800) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.57 -->
 - [Backport] OMNIBUS: Drop enterprise linux 6 support as it has reached EOL [#6802](https://github.com/inspec/inspec/pull/6802) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.57 -->
 - [Backport] - CI: Build on MacOS 11 intel, dropping EOL 10.15 [#6794](https://github.com/inspec/inspec/pull/6794) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.56 -->
