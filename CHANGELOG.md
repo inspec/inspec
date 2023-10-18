@@ -1,12 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.72 -->
-## [v6.4.72](https://github.com/inspec/inspec/tree/v6.4.72) (2023-10-17)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Update EULA for windows to fix formattings [#6780](https://github.com/inspec/inspec/pull/6780) ([ahasunos](https://github.com/ahasunos))
-- Renames the project name in the SonarQube [#6797](https://github.com/inspec/inspec/pull/6797) ([Vasu1105](https://github.com/Vasu1105))
+- Docs updates to install inspec 6 [#6574](https://github.com/inspec/inspec/pull/6574) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -39,6 +38,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- Docs updates to install inspec 6 [#6574](https://github.com/inspec/inspec/pull/6574) ([IanMadd](https://github.com/IanMadd)) <!-- 6.4.72 -->
 - Update EULA for windows to fix formattings [#6780](https://github.com/inspec/inspec/pull/6780) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.72 -->
 - Renames the project name in the SonarQube [#6797](https://github.com/inspec/inspec/pull/6797) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.71 -->
 - CHEF-2627 Clarify License Description on Rubygems [#6630](https://github.com/inspec/inspec/pull/6630) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.71 -->
