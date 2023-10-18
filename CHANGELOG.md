@@ -5,6 +5,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- CI: Build on MacOS 11 intel, dropping EOL 10.15 [#6789](https://github.com/inspec/inspec/pull/6789) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Bump omnibus-software from `b3d89a4` to `4fef367` in /omnibus [#6805](https://github.com/inspec/inspec/pull/6805) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - OMNIBUS: Drop enterprise linux 6 support as it has reached EOL [#6801](https://github.com/inspec/inspec/pull/6801) ([ahasunos](https://github.com/ahasunos))
 - Docs updates to install inspec 6 [#6574](https://github.com/inspec/inspec/pull/6574) ([IanMadd](https://github.com/IanMadd))
@@ -40,6 +41,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- CI: Build on MacOS 11 intel, dropping EOL 10.15 [#6789](https://github.com/inspec/inspec/pull/6789) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.72 -->
 - Bump omnibus-software from `b3d89a4` to `4fef367` in /omnibus [#6805](https://github.com/inspec/inspec/pull/6805) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.72 -->
 - OMNIBUS: Drop enterprise linux 6 support as it has reached EOL [#6801](https://github.com/inspec/inspec/pull/6801) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.72 -->
 - Docs updates to install inspec 6 [#6574](https://github.com/inspec/inspec/pull/6574) ([IanMadd](https://github.com/IanMadd)) <!-- 6.4.72 -->
