@@ -536,6 +536,7 @@ module Inspec
       @info_from_parse = @info_from_parse.merge(metadata.params)
 
       inputs_hash = {}
+      # Note: This only handles the case when inputs are defined in metadata file
       if @profile_id.nil?
         # identifying inputs using profile name
         inputs_hash = Inspec::InputRegistry.list_inputs_for_profile(@info_from_parse[:name])
@@ -569,10 +570,17 @@ module Inspec
         src = RuboCop::AST::ProcessedSource.new(control_file_source, RUBY_VERSION.to_f)
         source_location_ref = @source_reader.target.abs_path(control_filename)
 
+        # TODO: Collect inputs from the source code
+        input_collector = Inspec::Profile::AstHelper::InputCollector.new(@info_from_parse)
+
         ctl_id_collector = Inspec::Profile::AstHelper::ControlIDCollector.new(@info_from_parse, source_location_ref)
         # TODO: look for inputs
         # TODO: look for top-level metadata like title
-        src.ast.each_node { |n| ctl_id_collector.process(n) }
+        src.ast.each_node { |n|
+
+          ctl_id_collector.process(n)
+          input_collector.process(n)
+        }
         update_groups_from(control_filename, src)
 
         # For each control ID

@@ -174,6 +174,18 @@ module Inspec
           end
         end
       end
+
+      class InputCollector < CollectorBase
+        def initialize(memo)
+          @memo = memo
+        end
+
+        # :lvasgn in ast stands for "local variable assignment"
+        def on_lvasgn(node)
+          # require 'byebug'; byebug
+          # TODO: Populate rules to extract inputs
+        end
+      end
     end
   end
 end
