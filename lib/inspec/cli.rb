@@ -70,6 +70,10 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "A list of tags to filter controls and include only those. Ignore all other tests."
   profile_options
   def json(target)
+    # Config initialisation is needed before deprecation warning can be issued
+    # Deprecator calls config get method to fetch the config value
+    # Without config initialisation, the config value is not set and hence calling config get through deprecator will set the value of config as blank, making options of json command inaccessible.
+    config
     # This deprecation warning is ignored currently.
     Inspec.deprecate(:renamed_to_inspec_export)
     export(target, true)
