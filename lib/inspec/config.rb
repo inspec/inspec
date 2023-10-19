@@ -25,6 +25,13 @@ module Inspec
       shell_command
     }.freeze
 
+    AUDIT_LOG_OPTIONS = %w{
+      audit_log_size
+      audit_log_frequency
+      audit_log_location
+      enable_audit_log
+    }.freeze
+
     KNOWN_VERSIONS = [
       "1.1",
       "1.2",
@@ -113,6 +120,7 @@ module Inspec
       # Helper methods prefixed with _utc_ (Unpack Train Credentials)
 
       credentials.merge!(_utc_generic_credentials)
+      credentials.merge!(_utc_merge_audit_log_options)
 
       _utc_determine_backend(credentials)
       transport_name = credentials[:backend].to_s
@@ -153,6 +161,11 @@ module Inspec
     end
 
     private
+
+    def _utc_merge_audit_log_options
+      @final_options[:audit_log_app_name] = Inspec::Dist::EXEC_NAME
+      @final_options.select { |option, _value| AUDIT_LOG_OPTIONS.include?(option) }
+    end
 
     def _utc_merge_transport_options(credentials, transport_name)
       # Ask Train for the names of the transport options
