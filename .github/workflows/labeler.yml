@@ -18,6 +18,10 @@ jobs:
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
 
+      # Current logic uses main branch to use label of inspec-6
+      # Will need to update this everytime on a new major version release
+      # Will need to update the elif condition to allow inspec-6 in case next major version is released
+      # TODO: Update logic to add label on main based on major version defined in VERSION file
       - name: Fetch pull request base branch
         id: pr_info
         run: |
