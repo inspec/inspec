@@ -1,16 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.73 -->
-## [v6.4.73](https://github.com/inspec/inspec/tree/v6.4.73) (2023-10-19)
+<!-- latest_release 6.4.74 -->
+## [v6.4.74](https://github.com/inspec/inspec/tree/v6.4.74) (2023-10-19)
 
 #### Merged Pull Requests
-- CHEF-3928 Fix in HTML2 reporter - unique ID usage for control HTML divisions [#6645](https://github.com/inspec/inspec/pull/6645) ([Nik08](https://github.com/Nik08))
-- Update links in docs [#6788](https://github.com/inspec/inspec/pull/6788) ([IanMadd](https://github.com/IanMadd))
-- CI: Build on MacOS 11 intel, dropping EOL 10.15 [#6789](https://github.com/inspec/inspec/pull/6789) ([clintoncwolfe](https://github.com/clintoncwolfe))
-- Bump omnibus-software from `b3d89a4` to `4fef367` in /omnibus [#6805](https://github.com/inspec/inspec/pull/6805) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- OMNIBUS: Drop enterprise linux 6 support as it has reached EOL [#6801](https://github.com/inspec/inspec/pull/6801) ([ahasunos](https://github.com/ahasunos))
-- Docs updates to install inspec 6 [#6574](https://github.com/inspec/inspec/pull/6574) ([IanMadd](https://github.com/IanMadd))
+- CHEF-3917 Troubleshooting Page for Chef Licensing issues/errors [#6612](https://github.com/inspec/inspec/pull/6612) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -43,6 +38,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- CHEF-3917 Troubleshooting Page for Chef Licensing issues/errors [#6612](https://github.com/inspec/inspec/pull/6612) ([Nik08](https://github.com/Nik08)) <!-- 6.4.74 -->
 - CHEF-3928 Fix in HTML2 reporter - unique ID usage for control HTML divisions [#6645](https://github.com/inspec/inspec/pull/6645) ([Nik08](https://github.com/Nik08)) <!-- 6.4.73 -->
 - Update links in docs [#6788](https://github.com/inspec/inspec/pull/6788) ([IanMadd](https://github.com/IanMadd)) <!-- 6.4.72 -->
 - CI: Build on MacOS 11 intel, dropping EOL 10.15 [#6789](https://github.com/inspec/inspec/pull/6789) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.72 -->
