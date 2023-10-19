@@ -569,6 +569,18 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     }
   end
 
+  class_option :audit_log_location, type: :string, default: "#{Inspec.log_dir}/train-audit.log",
+  desc: "Audit log location to send diagnostic log messages to. (default: '~/.inspec/logs/train-audit.log')"
+
+  class_option :enable_audit_log, type: :boolean, default: true,
+  desc: "Enable audit logging. {default: true}"
+
+  class_option :audit_log_size, type: :numeric, default: 2097152,
+  desc: "Set audit log file size in bytes, (default: 2097152(2MB))"
+
+  class_option :audit_log_frequency, type: :string, default: "daily",
+  desc: "Set audit log rotation frequency: daily(default), weekly, monthly"
+
   private
 
   def deprecate_target_id(config)
