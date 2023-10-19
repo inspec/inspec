@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.4.73 -->
+## [v6.4.73](https://github.com/inspec/inspec/tree/v6.4.73) (2023-10-19)
 
 #### Merged Pull Requests
+- CHEF-3928 Fix in HTML2 reporter - unique ID usage for control HTML divisions [#6645](https://github.com/inspec/inspec/pull/6645) ([Nik08](https://github.com/Nik08))
 - Update links in docs [#6788](https://github.com/inspec/inspec/pull/6788) ([IanMadd](https://github.com/IanMadd))
 - CI: Build on MacOS 11 intel, dropping EOL 10.15 [#6789](https://github.com/inspec/inspec/pull/6789) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Bump omnibus-software from `b3d89a4` to `4fef367` in /omnibus [#6805](https://github.com/inspec/inspec/pull/6805) ([dependabot[bot]](https://github.com/dependabot[bot]))
@@ -42,6 +43,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- CHEF-3928 Fix in HTML2 reporter - unique ID usage for control HTML divisions [#6645](https://github.com/inspec/inspec/pull/6645) ([Nik08](https://github.com/Nik08)) <!-- 6.4.73 -->
 - Update links in docs [#6788](https://github.com/inspec/inspec/pull/6788) ([IanMadd](https://github.com/IanMadd)) <!-- 6.4.72 -->
 - CI: Build on MacOS 11 intel, dropping EOL 10.15 [#6789](https://github.com/inspec/inspec/pull/6789) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.72 -->
 - Bump omnibus-software from `b3d89a4` to `4fef367` in /omnibus [#6805](https://github.com/inspec/inspec/pull/6805) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.72 -->
