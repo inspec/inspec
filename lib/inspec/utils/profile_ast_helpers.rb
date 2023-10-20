@@ -182,8 +182,36 @@ module Inspec
 
         # :lvasgn in ast stands for "local variable assignment"
         def on_lvasgn(node)
-          # require 'byebug'; byebug
           # TODO: Populate rules to extract inputs
+          # Case 1: the happy case: a = input('a', value: 'a')
+          if node.children[1].type == :send && node.children[1].children[1] == :input
+            input_name = node.children[1].children[2].value
+
+            if node.children[1].children[3].nil?
+              input_value = "Input #{input_name} does not have a value. Skipping test."
+            else
+              if node.children[1].children[3].type == :hash && node.children[1].children[3].keys[0].value == :value
+                input_value = node.children[1].children[3].values[0].children[0]
+              else
+                # TODO: Find what other cases are possible apart from hash
+                input_value = "Input #{input_name} does not have a value. Skipping test."
+              end
+            end
+            memo[:inputs] ||= []
+            input_hash = {
+              name: input_name,
+              options: {
+                value: input_value,
+              },
+            }
+            memo[:inputs] << input_hash
+          end
+
+          # Case 2: a = { x: 'x', y: 'y' }
+          # TODO: Implement this case
+          #
+          # TODO: Find another ways how inputs can be defined
+          # TODO: Handle duplicate inputs
         end
       end
     end
