@@ -15,6 +15,12 @@ gh_repo = "inspec"
 
 Use the InSpec Command Line Interface (CLI) to run tests and audits against targets using local, SSH, WinRM, or Docker connections.
 
+> **Note**
+
+> With a version of Chef InSpec above **6.0.0**, using a signed profile with Chef InSpec commands is going to be mandatory behaviour by default.<br>
+> To use an unsigned profile with Chef InSpec CLI commands, you will need to provide an additional CLI options `--allow-unsigned`. You can also set an environment variable `CHEF_ALLOW_UNSIGNED` for the same.<br><br>
+> See the [Signed InSpec Profiles](/inspec/signing/) for more information on InSpec signed profiles and profile signing process.
+
 ## archive
 
 Archive a profile to a tar file (default) or zip file.
@@ -288,11 +294,14 @@ exit codes:
 
 Below are some examples of using `exec` with different test locations:
 
+Since with Chef InSpec version above **6.0.0**, using a signed profile with Chef InSpec commands is going to be mandatory behaviour by default.<br>
+InSpec executions using an Automate, Supermarket, GIT or an URL based profiles will always require using `--allow-unsigned` flag. You can also set an environment variable `CHEF_ALLOW_UNSIGNED` for the same.<br><br>
+
 Chef Automate:
 
 ```ruby
 inspec automate login
-inspec exec compliance://username/linux-baseline
+inspec exec compliance://username/linux-baselinem --allow-unsigned
 ```
 
 `inspec compliance` is a backwards compatible alias for `inspec automate` and works the same way:
@@ -304,8 +313,8 @@ inspec compliance login
 Chef Supermarket:
 
 ```ruby
-inspec exec supermarket://username/linux-baseline
-inspec exec supermarket://username/linux-baseline --supermarket_url="https://privatesupermarket.example.com"
+inspec exec supermarket://username/linux-baseline --allow-unsigned
+inspec exec supermarket://username/linux-baseline --supermarket_url="https://privatesupermarket.example.com" --allow-unsigned
 ```
 
 Local profile (executes all tests in `controls/`):
@@ -323,19 +332,19 @@ inspec exec /path/to/a_test.rb
 Git via SSH:
 
 ```ruby
-inspec exec git@github.com:dev-sec/linux-baseline.git
+inspec exec git@github.com:dev-sec/linux-baseline.git --allow-unsigned
 ```
 
 Git via HTTPS (.git suffix is required):
 
 ```ruby
-inspec exec https://github.com/dev-sec/linux-baseline.git
+inspec exec https://github.com/dev-sec/linux-baseline.git --allow-unsigned
 ```
 
 Private Git via HTTPS (.git suffix is required):
 
 ```ruby
-inspec exec https://api_token@github.com/dev-sec/linux-baseline.git
+inspec exec https://api_token@github.com/dev-sec/linux-baseline.git --allow-unsigned
 ```
 
 Private Git via HTTPS and cached credentials (.git suffix is required):
@@ -343,19 +352,19 @@ Private Git via HTTPS and cached credentials (.git suffix is required):
 ```bash
 git config credential.helper cache
 git ls-remote https://github.com/dev-sec/linux-baseline.git
-inspec exec https://github.com/dev-sec/linux-baseline.git
+inspec exec https://github.com/dev-sec/linux-baseline.git --allow-unsigned
 ```
 
 Web-hosted file (also supports .zip):
 
 ```bash
-inspec exec https://webserver/linux-baseline.tar.gz
+inspec exec https://webserver/linux-baseline.tar.gz --allow-unsigned
 ```
 
 Web-hosted file with basic authentication (supports .zip):
 
 ```bash
-inspec exec https://username:password@webserver/linux-baseline.tar.gz
+inspec exec https://username:password@webserver/linux-baseline.tar.gz --allow-unsigned
 ```
 
 ### Syntax
