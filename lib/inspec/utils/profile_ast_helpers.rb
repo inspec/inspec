@@ -153,7 +153,7 @@ module Inspec
               title: nil,
               desc: nil,
               descriptions: {},
-              impact: nil,
+              impact: 0.5,
               refs: [],
               tags: {},
             }

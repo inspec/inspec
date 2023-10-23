@@ -38,6 +38,7 @@ describe "inspec export" do
   let(:desc_example) { "#{control_fields_example}/controls/desc.rb" }
   let(:title_example) { "#{control_fields_example}/controls/title.rb" }
   let(:refs_example) { "#{control_fields_example}/controls/refs.rb" }
+  let(:impact_example) { "#{control_fields_example}/controls/impact.rb" }
 
   it "does not evaluate a profile " do
     out = inspec("export " + evalprobe)
@@ -55,43 +56,8 @@ describe "inspec export" do
     _(YAML.load(out.stdout)).must_be_kind_of Hash
   end
 
-  it "parses different styles/syntax of tags & exports the equivalent data with --legacy-export and current export" do
-    legacy_export_data = inspec("export " + profile_with_diff_control_tag_styles + " --legacy-export")
-    latest_export_data = inspec("export " + profile_with_diff_control_tag_styles)
-
-    # both the options should work with no errors
-    _(legacy_export_data.stderr).must_equal ""
-    _(latest_export_data.stderr).must_equal ""
-    assert_exit_code 0, legacy_export_data
-    assert_exit_code 0, latest_export_data
-
-    # Compare data against legacy and latest export
-    legacy_export_data_hash = YAML.load(legacy_export_data.stdout)
-    latest_export_data_hash = YAML.load(latest_export_data.stdout)
-
-    # TODO: Populate the comparision as we develop latest export
-    # legacy_export_data_hash.keys
-    # [:name, :title, :license, :summary, :version, :supports, :controls, :groups, :inputs, :sha256, :status_message, :status, :generator]
-
-    # Test for control block
-    # (byebug) legacy_export_data_hash[:controls][0].keys
-    # [:title, :desc, :descriptions, :impact, :refs, :tags, :code, :source_location, :id]
-    # TODO: Refactor tests later if required
-    legacy_export_data_hash[:controls].each_with_index do | legacy_control_data, index |
-      assert_equal legacy_control_data[:tags], latest_export_data_hash[:controls][index][:tags], "Both tags are equal"
-      assert_equal legacy_control_data[:id], latest_export_data_hash[:controls][index][:id], "Both id are equal"
-      assert_equal legacy_control_data[:source_location], latest_export_data_hash[:controls][index][:source_location], "Both source_location are equal"
-      chomped_code = legacy_control_data[:code].chomp # Legacy export adds a newline at the end of code
-      assert_equal chomped_code, latest_export_data_hash[:controls][index][:code], "Both code are equal" # Legacy export adds a newline
-      # TODO: Improve ControlIDCollector to initialize missing fields with empty or nil values as applicable
-      #       Uncomment the below tests once it is done!
-      assert_nil legacy_control_data[:title], latest_export_data_hash[:controls][index][:title]
-      assert_nil legacy_control_data[:desc], latest_export_data_hash[:controls][index][:desc]
-      assert_equal legacy_control_data[:descriptions], latest_export_data_hash[:controls][index][:descriptions], "Both descriptions are equal"
-      # NOTE: Legacy export defaults impact to 0.5 if not specified, latest export defaults to nil
-      # assert_equal legacy_control_data[:impact], latest_export_data_hash[:controls][index][:impact], "Both impacts are equal"
-      assert_equal legacy_control_data[:refs], latest_export_data_hash[:controls][index][:refs], "Both refs are equal"
-    end
+  it "parses variations of tags & exports the equivalent data with --legacy-export and current export" do
+    test_export_and_compare(profile_with_diff_control_tag_styles, :tags)
   end
 
   it "parses variations of description & exports the equivalent data with --legacy-export and current export" do
@@ -105,6 +71,10 @@ describe "inspec export" do
   it "parses variations of refs & exports the equivalent data with --legacy-export and current export" do
     # TODO: Currently, refs are duplicated in latest export. Fix it!
     # test_export_and_compare(refs_example, :refs)
+  end
+
+  it "parses variations of impact & exports the equivalent data with --legacy-export and current export" do
+    test_export_and_compare(impact_example, :impact)
   end
 
   it "exports the iaf format profile to default yaml" do
