@@ -518,8 +518,10 @@ module Inspec
     # Return data like profile.info(params), but try to do so without evaluating the profile.
     def info_from_parse
       return @info_from_parse unless @info_from_parse.nil?
+
       @info_from_parse = {
         controls: [],
+        groups: [],
       }
 
       # TODO - look at the various source contents
@@ -530,20 +532,96 @@ module Inspec
       # then extract each source code block. Use this to populate the source code
       # locations and 'code' properties.
 
+      # TODO: Verify that it doesn't do evaluation (ideally shouldn't because it is reading simply yaml file)
+      @info_from_parse = @info_from_parse.merge(metadata.params)
+
+      inputs_hash = {}
+      # Note: This only handles the case when inputs are defined in metadata file
+      if @profile_id.nil?
+        # identifying inputs using profile name
+        inputs_hash = Inspec::InputRegistry.list_inputs_for_profile(@info_from_parse[:name])
+      else
+        inputs_hash = Inspec::InputRegistry.list_inputs_for_profile(@profile_id)
+      end
+
+      # TODO: Verify if I need to do the below conversion for inputs to array
+      if inputs_hash.nil? || inputs_hash.empty?
+        # convert to array for backwards compatability
+        @info_from_parse[:inputs] = []
+      else
+        @info_from_parse[:inputs] = inputs_hash.values.map(&:to_hash)
+      end
+
+      @info_from_parse[:sha256] = sha256
+
+      # Populate :status and :status_message
+      if supports_platform?
+        @info_from_parse[:status_message] = @status_message || ""
+        @info_from_parse[:status] = failed? ? "failed" : "loaded"
+      else
+        @info_from_parse[:status] = "skipped"
+        msg = "Skipping profile: '#{name}' on unsupported platform: '#{backend.platform.name}/#{backend.platform.release}'."
+        @info_from_parse[:status_message] = msg
+      end
+
       # @source_reader.tests contains a hash mapping control filenames to control file contents
-      @source_reader.tests.each do |_control_filename, control_file_source|
+      @source_reader.tests.each do |control_filename, control_file_source|
         # Parse the source code
         src = RuboCop::AST::ProcessedSource.new(control_file_source, RUBY_VERSION.to_f)
+        source_location_ref = @source_reader.target.abs_path(control_filename)
 
-        ctl_id_collector = Inspec::Profile::AstHelper::ControlIDCollector.new(@info_from_parse)
+        # TODO: Collect inputs from the source code
+        input_collector = Inspec::Profile::AstHelper::InputCollector.new(@info_from_parse)
+
+        ctl_id_collector = Inspec::Profile::AstHelper::ControlIDCollector.new(@info_from_parse, source_location_ref)
         # TODO: look for inputs
         # TODO: look for top-level metadata like title
-        src.ast.each_node { |n| ctl_id_collector.process(n) }
+        src.ast.each_node { |n|
+
+          ctl_id_collector.process(n)
+          input_collector.process(n)
+        }
+        update_groups_from(control_filename, src)
 
         # For each control ID
         #  Look for per-control metadata
+        # Filter controls by --controls, list of controls to include is available in include_controls_list
+
+        # NOTE: This is a hack to duplicate refs.
+        # TODO: Fix this in the ref collector or the way we traverse the AST
+        @info_from_parse[:controls].each { |control| control[:refs].uniq! }
+
+        @info_from_parse[:controls] = filter_controls_by_id(@info_from_parse[:controls])
+
+        # NOTE: This is a hack to duplicate inputs.
+        # TODO: Fix this in the input collector or the way we traverse the AST
+        @info_from_parse[:inputs] = @info_from_parse[:inputs].uniq
       end
       @info_from_parse
+    end
+
+    def filter_controls_by_id(controls)
+      unless include_controls_list.empty?
+        controls = controls.select do |control|
+          include_controls_list.any? { |control_id| control_id.match?(control[:id]) }
+        end
+      end
+      controls
+    end
+
+    def update_groups_from(control_filename, src)
+      group_data = {
+        id: control_filename,
+      }
+      source_location_ref = @source_reader.target.abs_path(control_filename)
+      Inspec::Profile::AstHelper::TitleCollector.new(group_data)
+        .process(src.ast.child_nodes.first) # Picking the title defined for the whole controls file
+      group_controls = @info_from_parse[:controls].select { |control| control[:source_location][:ref] == source_location_ref }
+      group_data[:controls] = group_controls.map { |control| control[:id] }
+
+      # Filter groups by --controls, list of controls to include is available in include_controls_list
+      # group_data[:controls] = filter_controls_by_id(group_data[:controls])
+      @info_from_parse[:groups].push(group_data)
     end
 
     def cookstyle_linting_check

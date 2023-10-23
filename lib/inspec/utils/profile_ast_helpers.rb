@@ -24,10 +24,18 @@ module Inspec
 
       class DescCollector < CollectorBase
         def on_send(node)
-          # TODO - description is also available as "description"
+          # TODO (WIP) - description is also available as "description"
           if RuboCop::AST::NodePattern.new("(send nil? :desc ...)").match(node)
-            # TODO - description may be read as a hash or a string
-            memo[:desc] = node.children[2].value
+            # TODO (WIP) - description may be read as a hash or a string
+            memo[:descriptions] ||= {}
+            if node.children[2] && node.children[3]
+              # NOTE: This assumes the description is as below
+              # desc 'label', 'An optional description with a label' # Pair a part of the description with a label
+              memo[:descriptions] = memo[:descriptions].merge(node.children[2].value => node.children[3].value)
+            else
+              memo[:desc] = node.children[2].value
+              memo[:descriptions] = memo[:descriptions].merge("default" => node.children[2].value)
+            end
           end
         end
       end
@@ -41,11 +49,85 @@ module Inspec
         end
       end
 
+      class TagCollector < CollectorBase
+
+        ACCPETABLE_TAG_TYPE_TO_VALUES = {
+          false: false,
+          true: true,
+          nil: nil,
+        }.freeze
+
+        def on_send(node)
+          if RuboCop::AST::NodePattern.new("(send nil? :tag ...)").match(node)
+            # TODO & NOTE - tags may be read as a hash or a string; verify this is correct
+            memo[:tags] ||= {}
+
+            node.children[2..-1].each do |tag_node|
+              collect_tags(tag_node)
+            end
+          end
+        end
+
+        private
+
+        def collect_tags(tag_node)
+          if tag_node.type == :str || tag_node.type == :sym
+            memo[:tags] = memo[:tags].merge(tag_node.value => nil)
+          elsif tag_node.type == :hash
+            tags_coll = {}
+            tag_node.children.each do |child_tag|
+              key = child_tag.key.value
+              if child_tag.value.type == :array
+                value = child_tag.value.children.map { |child_node| child_node.type == :str ? child_node.children.first : nil }
+              elsif ACCPETABLE_TAG_TYPE_TO_VALUES.key?(child_tag.value.type)
+                value = ACCPETABLE_TAG_TYPE_TO_VALUES[child_tag.value.type]
+              else
+                value = child_tag.value.value
+              end
+              tags_coll.merge!(key => value)
+            end
+            memo[:tags] = memo[:tags].merge(tags_coll)
+          end
+        end
+      end
+
+      class RefCollector < CollectorBase
+        def on_send(node)
+          if RuboCop::AST::NodePattern.new("(send nil? :ref ...)").match(node)
+            # TODO: This maybe loose, needs testing
+            # Construct the array of refs hash as below
+
+            # "refs": [
+            #   {
+            #     "url": "http://",
+            #     "ref": "Some ref"
+            #   },
+            #   {
+            #     "ref": "https://",
+            #   }
+            # ]
+
+            references = {
+              ref: node.children[2].value,
+            }
+
+            if node.children[3] && node.children[3].type == :hash
+              references.merge!(node.children[3].children[0].key.value => node.children[3].children[0].value.value)
+            elsif node.children[3] && node.children[3].type == :str
+              references.merge!(node.children[3].value => nil)
+            end
+            memo[:refs] ||= []
+            memo[:refs] << references
+          end
+        end
+      end
+
       class ControlIDCollector < CollectorBase
-        attr_reader :seen_control_ids
-        def initialize(memo)
+        attr_reader :seen_control_ids, :source_location_ref
+        def initialize(memo, source_location_ref)
           @memo = memo
           @seen_control_ids = {}
+          @source_location_ref = source_location_ref
         end
 
         def on_block(block_node)
@@ -53,7 +135,7 @@ module Inspec
             # NOTE: Assuming begin block is at the index 2
             begin_block = block_node.children[2]
             control_node = block_node.children[0]
-            
+
             # TODO - This assumes the control ID is always a plain string, which we know it is often not!
             control_id = control_node.children[2].value
             # TODO - BUG - this keeps seeing the same nodes over and over againa, and so repeating control IDs. We are ignoring duplicate control IDs, which is incorrect.
@@ -62,7 +144,18 @@ module Inspec
             seen_control_ids[control_id] = true
 
             control_data = {
-              id: control_id
+              id: control_id,
+              code: block_node.source,
+              source_location: {
+                line: block_node.first_line,
+                ref: source_location_ref,
+              },
+              title: nil,
+              desc: nil,
+              descriptions: {},
+              impact: 0.5,
+              refs: [],
+              tags: {},
             }
 
             # Scan the code block for per-control metadata
@@ -70,13 +163,55 @@ module Inspec
             collectors.push ImpactCollector.new(control_data)
             collectors.push DescCollector.new(control_data)
             collectors.push TitleCollector.new(control_data)
-          
-            begin_block.each_node do |node_within_control| 
+            collectors.push TagCollector.new(control_data)
+            collectors.push RefCollector.new(control_data)
+
+            begin_block.each_node do |node_within_control|
               collectors.each { |collector| collector.process(node_within_control) }
             end
 
             memo[:controls].push control_data
           end
+        end
+      end
+
+      class InputCollector < CollectorBase
+        def initialize(memo)
+          @memo = memo
+        end
+
+        # :lvasgn in ast stands for "local variable assignment"
+        def on_lvasgn(node)
+          # TODO: Populate rules to extract inputs
+          # Case 1: the happy case: a = input('a', value: 'a')
+          if node.children[1].type == :send && node.children[1].children[1] == :input
+            input_name = node.children[1].children[2].value
+
+            if node.children[1].children[3].nil?
+              input_value = "Input #{input_name} does not have a value. Skipping test."
+            else
+              if node.children[1].children[3].type == :hash && node.children[1].children[3].keys[0].value == :value
+                input_value = node.children[1].children[3].values[0].children[0]
+              else
+                # TODO: Find what other cases are possible apart from hash
+                input_value = "Input #{input_name} does not have a value. Skipping test."
+              end
+            end
+            memo[:inputs] ||= []
+            input_hash = {
+              name: input_name,
+              options: {
+                value: input_value,
+              },
+            }
+            memo[:inputs] << input_hash
+          end
+
+          # Case 2: a = { x: 'x', y: 'y' }
+          # TODO: Implement this case
+          #
+          # TODO: Find another ways how inputs can be defined
+          # TODO: Handle duplicate inputs
         end
       end
     end

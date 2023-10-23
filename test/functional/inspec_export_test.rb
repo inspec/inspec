@@ -1,5 +1,23 @@
 require "functional/helper"
 
+def run_export(file_path, legacy = false)
+  cmd = "export #{file_path}" + (legacy ? " --legacy-export" : "")
+  out = inspec(cmd)
+  assert_exit_code 0, out
+  _(out.stderr).must_equal ""
+  YAML.load(out.stdout)
+end
+
+def test_export_and_compare(file_path, control_key)
+  # Compare data against legacy and latest export
+  legacy_export_data_hash = run_export(file_path, true)
+  latest_export_data_hash = run_export(file_path)
+
+  legacy_export_data_hash[:controls].each_with_index do |legacy_control_data, index|
+    assert_equal legacy_control_data[control_key], latest_export_data_hash[:controls][index][control_key], "Both #{control_key} are equal"
+  end
+end
+
 describe "inspec export" do
   include FunctionalHelper
 
@@ -10,10 +28,21 @@ describe "inspec export" do
   let(:iaf) { "#{profile_path}/signed/profile-1.0.0.iaf" }
 
   let(:evalprobe) { "#{profile_path}/eval-markers" }
+  let(:profile_with_diff_control_tag_styles) { "#{profile_path}/control-tags" }
+
+
+  # Control fields validation
+  let(:control_fields_example) { "#{profile_path}/control-fields-examples" }
+  let(:desc_example) { "#{control_fields_example}/controls/desc.rb" }
+  let(:title_example) { "#{control_fields_example}/controls/title.rb" }
+  let(:refs_example) { "#{control_fields_example}/controls/refs.rb" }
+  let(:impact_example) { "#{control_fields_example}/controls/impact.rb" }
+
+  let(:input_in_describe_one) { "#{profile_path}/inputs/describe-one" }
 
   it "does not evaluate a profile " do
     out = inspec("export " + evalprobe)
-    # This profile has special code in it that emits messages to 
+    # This profile has special code in it that emits messages to
     # STDERR at various points in evaluation
     _(out.stderr).wont_include "EVALUATION_MARKER"
     _(out.stderr).wont_include "METADATA_MARKER"
@@ -25,6 +54,34 @@ describe "inspec export" do
     _(out.stderr).must_equal ""
     assert_exit_code 0, out
     _(YAML.load(out.stdout)).must_be_kind_of Hash
+  end
+
+  it "parses variations of tags & exports the equivalent data with --legacy-export and current export" do
+    test_export_and_compare(profile_with_diff_control_tag_styles, :tags)
+  end
+
+  it "parses variations of description & exports the equivalent data with --legacy-export and current export" do
+    test_export_and_compare(desc_example, :desc)
+  end
+
+  it "parses variations of title & exports the equivalent data with --legacy-export and current export" do
+    test_export_and_compare(title_example, :title)
+  end
+
+  it "parses variations of refs & exports the equivalent data with --legacy-export and current export" do
+    test_export_and_compare(refs_example, :refs)
+  end
+
+  it "parses inputs & exports the equivalent data with --legacy-export and current export" do
+    # Compare data against legacy and latest export
+    legacy_export_data_hash = run_export(input_in_describe_one, true)
+    latest_export_data_hash = run_export(input_in_describe_one)
+
+    assert_equal legacy_export_data_hash[:inputs], latest_export_data_hash[:inputs], "Both inputs are equal"
+  end
+
+  it "parses variations of impact & exports the equivalent data with --legacy-export and current export" do
+    test_export_and_compare(impact_example, :impact)
   end
 
   it "exports the iaf format profile to default yaml" do
