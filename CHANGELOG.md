@@ -1,20 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.28 -->
-## [v5.22.28](https://github.com/inspec/inspec/tree/v5.22.28) (2023-10-18)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- [Backport] OMNIBUS: Drop enterprise linux 6 support as it has reached EOL [#6803](https://github.com/inspec/inspec/pull/6803) ([ahasunos](https://github.com/ahasunos))
-- Bump omnibus-software from `7723be6` to `4fef367` in /omnibus [#6806](https://github.com/inspec/inspec/pull/6806) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- [Backport] - CI: Build on MacOS 11 intel, dropping EOL 10.15 [#6795](https://github.com/inspec/inspec/pull/6795) ([ahasunos](https://github.com/ahasunos))
-- CHEF-6914: Enable SonarQube to work with inspec-5 branch [#6799](https://github.com/inspec/inspec/pull/6799) ([Vasu1105](https://github.com/Vasu1105))
-- Backport-6796 on inspec-5 [#6798](https://github.com/inspec/inspec/pull/6798) ([Vasu1105](https://github.com/Vasu1105))
+- Backport #6815 - Pin Thor &lt; 1.3.0 [#6817](https://github.com/inspec/inspec/pull/6817) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.3 -->
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Backport #6815 - Pin Thor &lt; 1.3.0 [#6817](https://github.com/inspec/inspec/pull/6817) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.28 -->
 - [Backport] OMNIBUS: Drop enterprise linux 6 support as it has reached EOL [#6803](https://github.com/inspec/inspec/pull/6803) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.28 -->
 - Bump omnibus-software from `7723be6` to `4fef367` in /omnibus [#6806](https://github.com/inspec/inspec/pull/6806) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.27 -->
 - [Backport] - CI: Build on MacOS 11 intel, dropping EOL 10.15 [#6795](https://github.com/inspec/inspec/pull/6795) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.27 -->
