@@ -58,11 +58,12 @@ describe "inspec export" do
       assert_equal chomped_code, latest_export_data_hash[:controls][index][:code], "Both code are equal" # Legacy export adds a newline
       # TODO: Improve ControlIDCollector to initialize missing fields with empty or nil values as applicable
       #       Uncomment the below tests once it is done!
-      # assert_equal legacy_control_data[:title], latest_export_data_hash[:controls][index][:title], "Both titles are equal"
-      # assert_equal legacy_control_data[:desc], latest_export_data_hash[:controls][index][:desc], "Both descs are equal"
-      # assert_equal legacy_control_data[:descriptions], latest_export_data_hash[:controls][index][:descriptions], "Both descriptions are equal"
+      assert_nil legacy_control_data[:title], latest_export_data_hash[:controls][index][:title]
+      assert_nil legacy_control_data[:desc], latest_export_data_hash[:controls][index][:desc]
+      assert_equal legacy_control_data[:descriptions], latest_export_data_hash[:controls][index][:descriptions], "Both descriptions are equal"
+      # NOTE: Legacy export defaults impact to 0.5 if not specified, latest export defaults to nil
       # assert_equal legacy_control_data[:impact], latest_export_data_hash[:controls][index][:impact], "Both impacts are equal"
-      # assert_equal legacy_control_data[:refs], latest_export_data_hash[:controls][index][:refs], "Both refs are equal"
+      assert_equal legacy_control_data[:refs], latest_export_data_hash[:controls][index][:refs], "Both refs are equal"
     end
   end
 
