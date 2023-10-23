@@ -587,6 +587,10 @@ module Inspec
         #  Look for per-control metadata
         # Filter controls by --controls, list of controls to include is available in include_controls_list
         @info_from_parse[:controls] = filter_controls_by_id(@info_from_parse[:controls])
+
+        # NOTE: This is a hack to duplicate inputs.
+        # TODO: Fix this in the input collector or the way we traverse the AST
+        @info_from_parse[:inputs] = @info_from_parse[:inputs].uniq
       end
       @info_from_parse
     end
