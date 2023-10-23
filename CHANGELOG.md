@@ -5,6 +5,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Openssl upgrade with version 1.1.1w [#6748](https://github.com/inspec/inspec/pull/6748) ([Nik08](https://github.com/Nik08))
 - Pin Thor to &lt; 1.3.0 to fix test failures related to aliases [#6815](https://github.com/inspec/inspec/pull/6815) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- Openssl upgrade with version 1.1.1w [#6748](https://github.com/inspec/inspec/pull/6748) ([Nik08](https://github.com/Nik08)) <!-- 6.4.75 -->
 - Pin Thor to &lt; 1.3.0 to fix test failures related to aliases [#6815](https://github.com/inspec/inspec/pull/6815) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.75 -->
 - Fixed `inspec json` ability to use cli options successfully [#6796](https://github.com/inspec/inspec/pull/6796) ([Nik08](https://github.com/Nik08)) <!-- 6.4.75 -->
 - CHEF-3917 Troubleshooting Page for Chef Licensing issues/errors [#6612](https://github.com/inspec/inspec/pull/6612) ([Nik08](https://github.com/Nik08)) <!-- 6.4.74 -->
