@@ -40,6 +40,8 @@ describe "inspec export" do
   let(:refs_example) { "#{control_fields_example}/controls/refs.rb" }
   let(:impact_example) { "#{control_fields_example}/controls/impact.rb" }
 
+  let(:input_in_describe_one) { "#{profile_path}/inputs/describe-one" }
+
   it "does not evaluate a profile " do
     out = inspec("export " + evalprobe)
     # This profile has special code in it that emits messages to
@@ -71,6 +73,24 @@ describe "inspec export" do
   it "parses variations of refs & exports the equivalent data with --legacy-export and current export" do
     # TODO: Currently, refs are duplicated in latest export. Fix it!
     # test_export_and_compare(refs_example, :refs)
+  end
+
+  it "parses inputs & exports the equivalent data with --legacy-export and current export" do
+    legacy_export_data = inspec("export #{input_in_describe_one} --legacy-export")
+    latest_export_data = inspec("export #{input_in_describe_one}")
+
+    # Both options should work with no errors
+    _(legacy_export_data.stderr).must_equal ""
+    _(latest_export_data.stderr).must_equal ""
+
+    assert_exit_code 0, legacy_export_data
+    assert_exit_code 0, latest_export_data
+
+    # Compare data against legacy and latest export
+    legacy_export_data_hash = YAML.load(legacy_export_data.stdout)
+    latest_export_data_hash = YAML.load(latest_export_data.stdout)
+
+    assert_equal legacy_export_data_hash[:inputs], latest_export_data_hash[:inputs], "Both inputs are equal"
   end
 
   it "parses variations of impact & exports the equivalent data with --legacy-export and current export" do
