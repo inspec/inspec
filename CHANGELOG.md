@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Disable artifactory cache on inspec-5-omnibus-adhoc to fix ffi [#6819](https://github.com/inspec/inspec/pull/6819) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Backport #6815 - Pin Thor &lt; 1.3.0 [#6817](https://github.com/inspec/inspec/pull/6817) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Disable artifactory cache on inspec-5-omnibus-adhoc to fix ffi [#6819](https://github.com/inspec/inspec/pull/6819) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.28 -->
 - Backport #6815 - Pin Thor &lt; 1.3.0 [#6817](https://github.com/inspec/inspec/pull/6817) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.28 -->
 - [Backport] OMNIBUS: Drop enterprise linux 6 support as it has reached EOL [#6803](https://github.com/inspec/inspec/pull/6803) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.28 -->
 - Bump omnibus-software from `7723be6` to `4fef367` in /omnibus [#6806](https://github.com/inspec/inspec/pull/6806) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.27 -->
