@@ -69,8 +69,7 @@ describe "inspec export" do
   end
 
   it "parses variations of refs & exports the equivalent data with --legacy-export and current export" do
-    # TODO: Currently, refs are duplicated in latest export. Fix it!
-    # test_export_and_compare(refs_example, :refs)
+    test_export_and_compare(refs_example, :refs)
   end
 
   it "parses inputs & exports the equivalent data with --legacy-export and current export" do
