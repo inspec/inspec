@@ -16,6 +16,7 @@ describe "inspec export" do
   # Control fields validation
   let(:control_fields_example) { "#{profile_path}/control-fields-examples" }
   let(:desc_example) { "#{control_fields_example}/controls/desc.rb" }
+  let(:title_example) { "#{control_fields_example}/controls/title.rb" }
 
   it "does not evaluate a profile " do
     out = inspec("export " + evalprobe)
@@ -89,6 +90,26 @@ describe "inspec export" do
 
     legacy_export_data_hash[:controls].each_with_index do | legacy_control_data, index |
       assert_equal legacy_control_data[:desc], latest_export_data_hash[:controls][index][:desc], "Both desc are equal"
+    end
+  end
+
+  it "parses variations of title & exports the equivalent data with --legacy-export and current export" do
+    legacy_export_data = inspec("export " + title_example + " --legacy-export")
+    latest_export_data = inspec("export " + title_example)
+
+    # both the options should work with no errors
+    _(legacy_export_data.stderr).must_equal ""
+    _(latest_export_data.stderr).must_equal ""
+
+    assert_exit_code 0, legacy_export_data
+    assert_exit_code 0, latest_export_data
+
+    # Compare data against legacy and latest export
+    legacy_export_data_hash = YAML.load(legacy_export_data.stdout)
+    latest_export_data_hash = YAML.load(latest_export_data.stdout)
+
+    legacy_export_data_hash[:controls].each_with_index do | legacy_control_data, index |
+      assert_equal legacy_control_data[:title], latest_export_data_hash[:controls][index][:title], "Both title are equal"
     end
   end
 
