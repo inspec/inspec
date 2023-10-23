@@ -586,6 +586,11 @@ module Inspec
         # For each control ID
         #  Look for per-control metadata
         # Filter controls by --controls, list of controls to include is available in include_controls_list
+
+        # NOTE: This is a hack to duplicate refs.
+        # TODO: Fix this in the ref collector or the way we traverse the AST
+        @info_from_parse[:controls].each { |control| control[:refs].uniq! }
+
         @info_from_parse[:controls] = filter_controls_by_id(@info_from_parse[:controls])
 
         # NOTE: This is a hack to duplicate inputs.

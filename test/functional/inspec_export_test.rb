@@ -1,19 +1,17 @@
 require "functional/helper"
 
+def run_export(file_path, legacy = false)
+  cmd = "export #{file_path}" + (legacy ? " --legacy-export" : "")
+  out = inspec(cmd)
+  assert_exit_code 0, out
+  _(out.stderr).must_equal ""
+  YAML.load(out.stdout)
+end
+
 def test_export_and_compare(file_path, control_key)
-  legacy_export_data = inspec("export #{file_path} --legacy-export")
-  latest_export_data = inspec("export #{file_path}")
-
-  # Both options should work with no errors
-  _(legacy_export_data.stderr).must_equal ""
-  _(latest_export_data.stderr).must_equal ""
-
-  assert_exit_code 0, legacy_export_data
-  assert_exit_code 0, latest_export_data
-
   # Compare data against legacy and latest export
-  legacy_export_data_hash = YAML.load(legacy_export_data.stdout)
-  latest_export_data_hash = YAML.load(latest_export_data.stdout)
+  legacy_export_data_hash = run_export(file_path, true)
+  latest_export_data_hash = run_export(file_path)
 
   legacy_export_data_hash[:controls].each_with_index do |legacy_control_data, index|
     assert_equal legacy_control_data[control_key], latest_export_data_hash[:controls][index][control_key], "Both #{control_key} are equal"
@@ -76,19 +74,9 @@ describe "inspec export" do
   end
 
   it "parses inputs & exports the equivalent data with --legacy-export and current export" do
-    legacy_export_data = inspec("export #{input_in_describe_one} --legacy-export")
-    latest_export_data = inspec("export #{input_in_describe_one}")
-
-    # Both options should work with no errors
-    _(legacy_export_data.stderr).must_equal ""
-    _(latest_export_data.stderr).must_equal ""
-
-    assert_exit_code 0, legacy_export_data
-    assert_exit_code 0, latest_export_data
-
     # Compare data against legacy and latest export
-    legacy_export_data_hash = YAML.load(legacy_export_data.stdout)
-    latest_export_data_hash = YAML.load(latest_export_data.stdout)
+    legacy_export_data_hash = run_export(input_in_describe_one, true)
+    latest_export_data_hash = run_export(input_in_describe_one)
 
     assert_equal legacy_export_data_hash[:inputs], latest_export_data_hash[:inputs], "Both inputs are equal"
   end
