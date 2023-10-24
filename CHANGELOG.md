@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.56.58 -->
+## [v4.56.58](https://github.com/inspec/inspec/tree/v4.56.58) (2023-10-24)
 
 #### Merged Pull Requests
+- Backport - Update runtime platform list (#6826) [#6828](https://github.com/inspec/inspec/pull/6828) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Explicitly pin openssl to 1.0.2zi to avoid a CVE - inspec-4 [#6823](https://github.com/inspec/inspec/pull/6823) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Backport #6815 - Pin Thor to &lt; 1.3.0 [#6818](https://github.com/inspec/inspec/pull/6818) ([Vasu1105](https://github.com/Vasu1105))
 - Bump omnibus-software from `b3d89a4` to `4fef367` in /omnibus [#6804](https://github.com/inspec/inspec/pull/6804) ([dependabot[bot]](https://github.com/dependabot[bot]))
@@ -14,6 +15,7 @@
 ### Changes since 4.56.20 release
 
 #### Merged Pull Requests
+- Backport - Update runtime platform list (#6826) [#6828](https://github.com/inspec/inspec/pull/6828) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.58 -->
 - Explicitly pin openssl to 1.0.2zi to avoid a CVE - inspec-4 [#6823](https://github.com/inspec/inspec/pull/6823) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.57 -->
 - Backport #6815 - Pin Thor to &lt; 1.3.0 [#6818](https://github.com/inspec/inspec/pull/6818) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.57 -->
 - Bump omnibus-software from `b3d89a4` to `4fef367` in /omnibus [#6804](https://github.com/inspec/inspec/pull/6804) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.57 -->
