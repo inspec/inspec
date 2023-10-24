@@ -339,11 +339,11 @@ In addition, runtime support is provided for:
 
 | Platform | Versions | Arch   |
 | -------- | -------- | ------ |
-| macOS    | 10.14+   | x86_64 |
-| Debian   | 9, 10    | x86_64 |
-| RHEL     | 6, 7, 8  | x86_64 |
-| Fedora   | 29+      | x86_64 |
-| Ubuntu   | 16.04+   | x86_64 |
+| macOS    | 11+      | x86_64, arm64 |
+| Debian   | 9, 10    | x86_64, aarch64 |
+| RHEL     | 7, 8, 9  | x86_64, aarch64 |
+| Fedora   | 29+      | x86_64, aarch64 |
+| Ubuntu   | 16.04+   | x86_64, aarch64 |
 | Windows  | 8+       | x86_64 |
 | Windows  | 2012+    | x86_64 |
 
