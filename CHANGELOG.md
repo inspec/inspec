@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.22.29 -->
+## [v5.22.29](https://github.com/inspec/inspec/tree/v5.22.29) (2023-10-24)
 
 #### Merged Pull Requests
+- Update runtime platform list (#6826) [#6827](https://github.com/inspec/inspec/pull/6827) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Explicitly pin openssl to 1.0.2zi to avoid a CVE - inspec-5 [#6824](https://github.com/inspec/inspec/pull/6824) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Disable artifactory cache on inspec-5-omnibus-adhoc to fix ffi [#6819](https://github.com/inspec/inspec/pull/6819) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Backport #6815 - Pin Thor &lt; 1.3.0 [#6817](https://github.com/inspec/inspec/pull/6817) ([Vasu1105](https://github.com/Vasu1105))
@@ -13,6 +14,7 @@
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Update runtime platform list (#6826) [#6827](https://github.com/inspec/inspec/pull/6827) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.29 -->
 - Explicitly pin openssl to 1.0.2zi to avoid a CVE - inspec-5 [#6824](https://github.com/inspec/inspec/pull/6824) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.28 -->
 - Disable artifactory cache on inspec-5-omnibus-adhoc to fix ffi [#6819](https://github.com/inspec/inspec/pull/6819) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.28 -->
 - Backport #6815 - Pin Thor &lt; 1.3.0 [#6817](https://github.com/inspec/inspec/pull/6817) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.28 -->
