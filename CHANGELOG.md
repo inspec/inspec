@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Explicitly pin openssl to 1.0.2zi to avoid a CVE - inspec-5 [#6824](https://github.com/inspec/inspec/pull/6824) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Disable artifactory cache on inspec-5-omnibus-adhoc to fix ffi [#6819](https://github.com/inspec/inspec/pull/6819) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Backport #6815 - Pin Thor &lt; 1.3.0 [#6817](https://github.com/inspec/inspec/pull/6817) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
@@ -12,6 +13,7 @@
 ### Changes since 5.22.3 release
 
 #### Merged Pull Requests
+- Explicitly pin openssl to 1.0.2zi to avoid a CVE - inspec-5 [#6824](https://github.com/inspec/inspec/pull/6824) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.28 -->
 - Disable artifactory cache on inspec-5-omnibus-adhoc to fix ffi [#6819](https://github.com/inspec/inspec/pull/6819) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.28 -->
 - Backport #6815 - Pin Thor &lt; 1.3.0 [#6817](https://github.com/inspec/inspec/pull/6817) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.28 -->
 - [Backport] OMNIBUS: Drop enterprise linux 6 support as it has reached EOL [#6803](https://github.com/inspec/inspec/pull/6803) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.28 -->
