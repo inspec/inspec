@@ -187,15 +187,13 @@ module Inspec
         verify_signed_profile
         true
       else
-        # Log error on unsigned profile usage
-        Inspec::Log.error "Signature required for profile: #{name}. Please provide a signed profile. Or use `--allow-unsigned` flag to run the profile. Or set CHEF_ALLOW_UNSIGNED in the environment."
         false
       end
     end
 
     def signed?
       # Signed profiles have .iaf extension
-      (@source_reader.target.parent.class == Inspec::IafProvider)
+      (@source_reader&.target&.parent&.class == Inspec::IafProvider)
     end
 
     def verify_signed_profile
@@ -245,7 +243,7 @@ module Inspec
         unless parent_profile
           cfg = Inspec::Config.cached
           unless cfg["allow_unsigned"] || ENV["CHEF_ALLOW_UNSIGNED"]
-            Inspec::UI.new.exit(:signature_required) unless verify_if_signed
+            raise Inspec::ProfileSignatureRequired, "Signature required for profile: #{name}. Please provide a signed profile. Or use `--allow-unsigned` flag to run the profile. Or set CHEF_ALLOW_UNSIGNED in the environment." unless verify_if_signed
           end
         end
 

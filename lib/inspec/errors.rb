@@ -27,4 +27,6 @@ module Inspec
 
   class FeatureConfigMissingError < Error; end
   class FeatureConfigTamperedError < Error; end
+
+  class ProfileSignatureRequired < Error; end
 end
