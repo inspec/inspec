@@ -13,6 +13,38 @@ module Inspec
         end
       end
 
+      class InputCollectorBase < CollectorBase
+        def initialize(memo)
+          @memo = memo
+        end
+
+        def collect_input(input_children)
+          input_name = input_children.children[2].value
+
+          # Check if memo[:inputs] already has a value for the input_name, if yes, then skip adding it to the array
+          unless memo[:inputs].any? { |input| input[:name] == input_name }
+            if input_children.children[3].nil?
+              input_value = "Input #{input_name} does not have a value. Skipping test."
+            else
+              if input_children.children[3].type == :hash && input_children.children[3].keys[0].value == :value
+                input_value = input_children.children[3].values[0].children[0]
+              else
+                # TODO: Find what other cases are possible apart from hash
+                input_value = "Input #{input_name} does not have a value. Skipping test."
+              end
+            end
+            memo[:inputs] ||= []
+            input_hash = {
+              name: input_name,
+              options: {
+                value: input_value,
+              },
+            }
+            memo[:inputs] << input_hash
+          end
+        end
+      end
+
       class ImpactCollector < CollectorBase
         def on_send(node)
           if RuboCop::AST::NodePattern.new("(send nil? :impact ...)").match(node)
@@ -165,6 +197,7 @@ module Inspec
             collectors.push TitleCollector.new(control_data)
             collectors.push TagCollector.new(control_data)
             collectors.push RefCollector.new(control_data)
+            collectors.push InputCollectorWithinControlBlock.new(@memo)
 
             begin_block.each_node do |node_within_control|
               collectors.each { |collector| collector.process(node_within_control) }
@@ -175,43 +208,30 @@ module Inspec
         end
       end
 
-      class InputCollector < CollectorBase
+      class InputCollectorWithinControlBlock < InputCollectorBase
+        def initialize(memo)
+          @memo = memo
+        end
+
+        def on_send(node)
+          if RuboCop::AST::NodePattern.new("(send nil? :input ...)").match(node.children[2])
+            input_children = node.children[2]
+            collect_input(input_children)
+          end
+        end
+      end
+
+      class InputCollectorOutsideControlBlock < InputCollectorBase
         def initialize(memo)
           @memo = memo
         end
 
         # :lvasgn in ast stands for "local variable assignment"
         def on_lvasgn(node)
-          # TODO: Populate rules to extract inputs
-          # Case 1: the happy case: a = input('a', value: 'a')
           if node.children[1].type == :send && node.children[1].children[1] == :input
-            input_name = node.children[1].children[2].value
-
-            if node.children[1].children[3].nil?
-              input_value = "Input #{input_name} does not have a value. Skipping test."
-            else
-              if node.children[1].children[3].type == :hash && node.children[1].children[3].keys[0].value == :value
-                input_value = node.children[1].children[3].values[0].children[0]
-              else
-                # TODO: Find what other cases are possible apart from hash
-                input_value = "Input #{input_name} does not have a value. Skipping test."
-              end
-            end
-            memo[:inputs] ||= []
-            input_hash = {
-              name: input_name,
-              options: {
-                value: input_value,
-              },
-            }
-            memo[:inputs] << input_hash
+            input_children = node.children[1]
+            collect_input(input_children)
           end
-
-          # Case 2: a = { x: 'x', y: 'y' }
-          # TODO: Implement this case
-          #
-          # TODO: Find another ways how inputs can be defined
-          # TODO: Handle duplicate inputs
         end
       end
     end

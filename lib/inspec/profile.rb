@@ -571,7 +571,7 @@ module Inspec
         source_location_ref = @source_reader.target.abs_path(control_filename)
 
         # TODO: Collect inputs from the source code
-        input_collector = Inspec::Profile::AstHelper::InputCollector.new(@info_from_parse)
+        input_collector = Inspec::Profile::AstHelper::InputCollectorOutsideControlBlock.new(@info_from_parse)
 
         ctl_id_collector = Inspec::Profile::AstHelper::ControlIDCollector.new(@info_from_parse, source_location_ref)
         # TODO: look for inputs
