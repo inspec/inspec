@@ -272,6 +272,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "Run profile check before archiving."
   option :export, type: :boolean, default: false,
     desc: "Export the profile to inspec.json and include in archive"
+  option :legacy_export, type: :boolean, default: false,
+    desc: "Export the profile in legacy mode to inspec.json and include in archive"
   def archive(path, log_level = nil)
     Inspec.with_feature("inspec-cli-archive") {
       begin
