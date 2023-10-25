@@ -1,14 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.76 -->
-## [v6.4.76](https://github.com/inspec/inspec/tree/v6.4.76) (2023-10-24)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Update runtime platform list [#6826](https://github.com/inspec/inspec/pull/6826) ([clintoncwolfe](https://github.com/clintoncwolfe))
-- Explicitly pin openssl to 1.0.2zi to avoid a CVE - inspec-6 [#6825](https://github.com/inspec/inspec/pull/6825) ([clintoncwolfe](https://github.com/clintoncwolfe))
-- Openssl upgrade with version 1.1.1w [#6748](https://github.com/inspec/inspec/pull/6748) ([Nik08](https://github.com/Nik08))
-- Pin Thor to &lt; 1.3.0 to fix test failures related to aliases [#6815](https://github.com/inspec/inspec/pull/6815) ([Vasu1105](https://github.com/Vasu1105))
+- Fix lint offense, TrailingWhitespace &amp; EmptyLines [#6830](https://github.com/inspec/inspec/pull/6830) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -41,6 +38,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- Fix lint offense, TrailingWhitespace &amp; EmptyLines [#6830](https://github.com/inspec/inspec/pull/6830) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.76 -->
 - Update runtime platform list [#6826](https://github.com/inspec/inspec/pull/6826) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.76 -->
 - Explicitly pin openssl to 1.0.2zi to avoid a CVE - inspec-6 [#6825](https://github.com/inspec/inspec/pull/6825) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.75 -->
 - Openssl upgrade with version 1.1.1w [#6748](https://github.com/inspec/inspec/pull/6748) ([Nik08](https://github.com/Nik08)) <!-- 6.4.75 -->
