@@ -237,12 +237,14 @@ module Inspec
     def collect_tests
       unless @tests_collected || failed?
 
+        # This is that one common place in InSpec engine which is used to collect tests of InSpec profile
+        # One common place used by most of the CLI commands using profile, like exec, export etc
         # Checking for profile signature in parent profile only
         # Child profiles of a signed profile are extracted to cache dir
         # Hence they are not in .iaf format
         unless parent_profile
           cfg = Inspec::Config.cached
-          unless cfg["allow_unsigned_profile"] || ENV["CHEF_ALLOW_UNSIGNED_PROFILE"]
+          unless cfg.allow_unsigned_profiles?
             raise Inspec::ProfileSignatureRequired, "Signature required for profile: #{name}. Please provide a signed profile. Or use `--allow-unsigned-profile` flag to run the profile. Or set CHEF_ALLOW_UNSIGNED_PROFILE in the environment." unless verify_if_signed
           end
         end
