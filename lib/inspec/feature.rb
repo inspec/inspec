@@ -7,11 +7,12 @@ module Inspec
   end
 
   class Feature
-    attr_reader :name, :description
+    attr_reader :name, :description, :flag
     def initialize(feature_name, feature_yaml_opts)
       @name = feature_name
       feature_yaml_opts ||= {}
       @description = feature_yaml_opts["description"]
+      @flag = feature_yaml_opts["flag"]
     end
   end
 end

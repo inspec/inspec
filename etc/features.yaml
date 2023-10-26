@@ -86,3 +86,5 @@
       description: Use progress bar streaming reporter
     inspec-reporter-child-status:
       description: Child status reporter used in inspec parallel reporting.
+    inspec-profile-mandatory-signing:
+      flag: CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING

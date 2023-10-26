@@ -14,7 +14,9 @@ module Inspec
           logger.warn "Unrecognized feature name '#{feature_name}'"
         end
 
-        yield feature_implementation
+        if (feature.flag && (%w{1 true}.include? ENV[feature.flag])) || !feature.flag
+          yield feature_implementation
+        end
       end
     end
   end
