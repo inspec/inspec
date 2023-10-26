@@ -171,7 +171,7 @@ module Inspec
         desc: "Use the given path for caching dependencies, (default: ~/.inspec/cache)."
       option :auto_install_gems, type: :boolean, default: false,
         desc: "Auto installs gem dependencies of the profile or resource pack."
-      option :allow_unsigned, type: :boolean, default: false,
+      option :allow_unsigned_profile, type: :boolean, default: false,
         desc: "Allow unsigned profiles to be used in InSpec command."
     end
 
@@ -231,7 +231,7 @@ module Inspec
         desc: "Include full source code of controls in the CLI report"
       option :enhanced_outcomes, type: :boolean,
         desc: "Show enhanced outcomes in output"
-      option :allow_unsigned, type: :boolean, default: false,
+      option :allow_unsigned_profile, type: :boolean, default: false,
         desc: "Allow unsigned profiles to be used in InSpec profile executions"
     end
 

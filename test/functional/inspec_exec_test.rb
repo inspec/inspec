@@ -1536,7 +1536,7 @@ EOT
     end
   end
 
-  describe "when running unsigned profile/s without flag --allow-unsigned" do
+  describe "when running unsigned profile/s without flag --allow-unsigned-profile" do
     it "should raise signature required error for single unsigned profile" do
       run_result = run_inspec_process("exec #{complete_profile} --no-create-lockfile", allow_unsigned: false)
       _(run_result.stdout).must_include "ERROR: Signature required"
@@ -1553,7 +1553,7 @@ EOT
     end
   end
 
-  describe "when running combination of signed and unsigned profile without flag --allow-unsigned" do
+  describe "when running combination of signed and unsigned profile without flag --allow-unsigned-profile" do
     it "should raise signature required error and exit" do
       prepare_examples do |dir|
         skip_windows! # Breakage confirmed, only on CI: https://buildkite.com/chef-oss/inspec-inspec-master-verify/builds/2355#2c9d032e-4a24-4e7c-aef2-1c9e2317d9e2
@@ -1581,7 +1581,7 @@ EOT
     end
   end
 
-  describe "when running combination of signed and unsigned profile with flag --allow-unsigned" do
+  describe "when running combination of signed and unsigned profile with flag --allow-unsigned-profile" do
     it "should run successfully without raising signature required error" do
       prepare_examples do |dir|
         skip_windows! # Breakage confirmed, only on CI: https://buildkite.com/chef-oss/inspec-inspec-master-verify/builds/2355#2c9d032e-4a24-4e7c-aef2-1c9e2317d9e2
