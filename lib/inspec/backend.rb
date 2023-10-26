@@ -61,6 +61,8 @@ module Inspec
       raise "Client error, can't connect to '#{transport_name}' backend: #{e.message}"
     rescue Train::TransportError => e
       raise "Transport error, can't connect to '#{transport_name}' backend: #{e.message}"
+    rescue Errno::ENOENT => e
+      raise "#{e.message}"
     end
 
     def initialize(backend)
