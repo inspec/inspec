@@ -233,6 +233,20 @@ module Inspec
         desc: "Show enhanced outcomes in output"
     end
 
+    def self.audit_log_options
+      option :audit_log_location, type: :string,
+      desc: "Audit log location to send diagnostic log messages to. (default: '~/.inspec/logs/train-audit.log')"
+
+      option :enable_audit_log, type: :boolean, default: true,
+      desc: "Enable audit logging."
+
+      option :audit_log_size, type: :numeric, default: 2097152,
+      desc: "Set audit log file size in bytes."
+
+      option :audit_log_frequency, type: :string, default: "daily",
+      desc: "Set audit log rotation frequency: daily(default), weekly, monthly"
+    end
+
     def self.help(*args)
       super(*args)
       if Inspec::Dist::EXEC_NAME == "inspec"
@@ -429,6 +443,17 @@ module Inspec
         o[:logger].formatter = Logger::JSONFormatter.new
       end
       o[:logger].level = get_log_level(o["log_level"])
+    end
+
+    def set_and_validate_audit_log_options(o)
+      o[:audit_log_location] ||= "#{Inspec.log_dir}/train-audit.log"
+      o[:audit_log_app_name] = Inspec::Dist::EXEC_NAME
+      err = []
+      err << "Invalid audit log frequency. Valid options are daily, weekly, monthly" unless %w{daily weekly monthly}.include?(o[:audit_log_frequency])
+      err << "Audit log location directory #{o[:audit_log_location]} does not exist." unless File.directory?(File.dirname(o[:audit_log_location]))
+      unless err.empty?
+        raise Inspec::Error.new(err.join("\n"))
+      end
     end
   end
 end

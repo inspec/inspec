@@ -30,6 +30,7 @@ module Inspec
       audit_log_frequency
       audit_log_location
       enable_audit_log
+      audit_log_app_name
     }.freeze
 
     KNOWN_VERSIONS = [
@@ -167,7 +168,6 @@ module Inspec
     private
 
     def _utc_merge_audit_log_options
-      @final_options[:audit_log_app_name] = Inspec::Dist::EXEC_NAME
       @final_options.select { |option, _value| AUDIT_LOG_OPTIONS.include?(option) }
     end
 

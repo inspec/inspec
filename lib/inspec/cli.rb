@@ -390,6 +390,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       ```
   EOT
   exec_options
+  audit_log_options
   def exec(*targets)
     Inspec.with_feature("inspec-cli-exec") {
       begin
@@ -397,6 +398,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
         diagnose(o)
         deprecate_target_id(config)
         configure_logger(o)
+        set_and_validate_audit_log_options(o)
 
         runner = Inspec::Runner.new(o)
         targets.each { |target| runner.add_target(target) }
@@ -461,6 +463,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "Specify one or more inputs directly on the command line to the shell, as --input NAME=VALUE. Accepts single-quoted YAML and JSON structures."
   option :enhanced_outcomes, type: :boolean,
     desc: "Show enhanced outcomes in output"
+  audit_log_options
   def shell_func
     Inspec.with_feature("inspec-cli-shell") {
       begin
@@ -468,6 +471,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
         deprecate_target_id(config)
         diagnose(o)
         o[:debug_shell] = true
+        set_and_validate_audit_log_options(o)
 
         Inspec::Resource.toggle_inspect unless o[:inspect]
 
@@ -568,18 +572,6 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       o[:logger].info "== InSpec cache cleared successfully =="
     }
   end
-
-  class_option :audit_log_location, type: :string, default: "#{Inspec.log_dir}/train-audit.log",
-  desc: "Audit log location to send diagnostic log messages to. (default: '~/.inspec/logs/train-audit.log')"
-
-  class_option :enable_audit_log, type: :boolean, default: true,
-  desc: "Enable audit logging. {default: true}"
-
-  class_option :audit_log_size, type: :numeric, default: 2097152,
-  desc: "Set audit log file size in bytes, (default: 2097152(2MB))"
-
-  class_option :audit_log_frequency, type: :string, default: "daily",
-  desc: "Set audit log rotation frequency: daily(default), weekly, monthly"
 
   private
 
