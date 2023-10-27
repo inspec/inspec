@@ -80,6 +80,12 @@ describe Inspec::Profile do
   end
 
   describe "code info_from_parse" do
+    let(:profile_id) { "complete-profile" }
+
+    let(:code) { "control 'test01' do\n  impact 0.5\n  title 'Catchy title'\n  desc 'example.com should always exist.'\n  describe host('example.com') do\n    it { should be_resolvable }\n  end\nend" }
+
+    let(:loc) { { ref: "controls/host_spec.rb", line: 5 } }
+
     it "gets code from an uncompressed profile" do
       info = MockLoader.load_profile(profile_id).info_from_parse
       _(info[:controls][0][:code]).must_equal code
