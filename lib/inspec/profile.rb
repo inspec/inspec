@@ -612,6 +612,7 @@ module Inspec
     def update_groups_from(control_filename, src)
       group_data = {
         id: control_filename,
+        title: nil,
       }
       source_location_ref = @source_reader.target.abs_path(control_filename)
       Inspec::Profile::AstHelper::TitleCollector.new(group_data)
