@@ -19,6 +19,10 @@ module Inspec
       !!env_preview
     end
 
+    def no_preview?
+      env_preview.nil?
+    end
+
     def env_preview_value
       env_preview_feature_name = name.to_s.split("inspec-")[-1]
       ENV["CHEF_PREVIEW_#{env_preview_feature_name.gsub("-", "_").upcase}"]
