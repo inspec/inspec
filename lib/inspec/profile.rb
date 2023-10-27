@@ -581,7 +581,6 @@ module Inspec
           ctl_id_collector.process(n)
           input_collector.process(n)
         }
-        update_groups_from(control_filename, src)
 
         # For each control ID
         #  Look for per-control metadata
@@ -592,6 +591,9 @@ module Inspec
         @info_from_parse[:controls].each { |control| control[:refs].uniq! }
 
         @info_from_parse[:controls] = filter_controls_by_id(@info_from_parse[:controls])
+
+        # Update groups after filtering controls to handle --controls option
+        update_groups_from(control_filename, src)
 
         # NOTE: This is a hack to duplicate inputs.
         # TODO: Fix this in the input collector or the way we traverse the AST
@@ -620,8 +622,6 @@ module Inspec
       group_controls = @info_from_parse[:controls].select { |control| control[:source_location][:ref] == source_location_ref }
       group_data[:controls] = group_controls.map { |control| control[:id] }
 
-      # Filter groups by --controls, list of controls to include is available in include_controls_list
-      # group_data[:controls] = filter_controls_by_id(group_data[:controls])
       @info_from_parse[:groups].push(group_data)
     end
 
