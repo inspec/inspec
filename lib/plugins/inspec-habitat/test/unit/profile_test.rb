@@ -22,7 +22,7 @@ class InspecPlugins::Habitat::ProfileTest < Minitest::Test
     )
     @test_profile = Inspec::Profile.for_target(
       @test_profile_path,
-      backend: Inspec::Backend.create(Inspec::Config.mock)
+      backend: Inspec::Backend.create(Inspec::Config.mock({ allow_unsigned_profile: true }))
     )
 
     @hab_profile = InspecPlugins::Habitat::Profile.new(

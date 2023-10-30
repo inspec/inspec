@@ -156,7 +156,7 @@ module FunctionalHelper
   def inspec(commandline, prefix = nil)
     # Allow unsigned profiles in exec to avoid breaking existing tests
     # Only append --allow-unsigned-profile if flag not set explicitly in tests
-    commandline += " --allow-unsigned-profile " if (commandline =~ /\bexec\b/ || commandline =~ /\bexport\b/ || commandline =~ /\barchive\b/ || commandline =~ /\bcheck\b/ || commandline =~ /\bjson\b/) && !(commandline =~ /\ballow-unsigned\b/)
+    commandline += " --allow-unsigned-profile " if (commandline =~ /\bexec\s+/ || commandline =~ /\bexport\b/ || commandline =~ /\barchive\b/ || commandline =~ /\bcheck\b/ || commandline =~ /\bjson\s+/) && !(commandline =~ /\ballow-unsigned-profile\b/)
     run_cmd "#{exec_inspec} #{commandline}", prefix
   end
 
@@ -191,7 +191,7 @@ module FunctionalHelper
     command_line += " --reporter json " if opts[:json] && command_line =~ /\bexec\b/
     command_line += " --enhanced_outcomes " if opts[:enhanced_outcomes] && command_line =~ /\bexec\b/
     # Allow unsigned profiles in inspec exec and export to not breaking existing tests
-    command_line += " --allow-unsigned-profile #{opts[:allow_unsigned]}" if command_line =~ /\bexec\b/ || command_line =~ /\bexport\b/ || command_line =~ /\barchive\b/ || command_line =~ /\bcheck\b/ || command_line =~ /\bjson\b/
+    command_line += " --allow-unsigned-profile #{opts[:allow_unsigned_profile]}" if command_line =~ /\bexec\s+/ || command_line =~ /\bexport\b/ || command_line =~ /\barchive\b/ || command_line =~ /\bcheck\b/ || command_line =~ /\bjson\s+/
     command_line += " --no-create-lockfile" if (!opts[:lock]) && command_line =~ /\bexec\b/
 
     run_result = nil
