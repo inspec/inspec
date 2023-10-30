@@ -130,5 +130,66 @@ describe "Inspec::Feature" do
         _ { Inspec::Feature::Config.new(tampered_config_file) }.must_raise(Inspec::FeatureConfigTamperedError)
       end
     end
+
+    describe "When using feature preview flag" do
+      let(:feature_config_file) { File.join(fixtures_path, "features-02.yaml") }
+      # you should be able to load it from a test file
+      let(:cfg) { Inspec::Feature::Config.new(feature_config_file) }
+
+      before do
+        # Setting ENV value for test feature 1
+        ENV["CHEF_PREVIEW_TEST_FEATURE_01"] = "1"
+      end
+      after do
+        ENV.delete("CHEF_PREVIEW_TEST_FEATURE_01")
+      end
+
+      it "yields block only when previewable and ENV value is set" do
+        test_feature_01 = cfg.features[0]
+        test_feature_01_called = false
+        Inspec.with_feature("inspec-test-feature-01", config: cfg) do
+          test_feature_01_called = true
+        end
+        _(test_feature_01_called).must_equal true
+        _(test_feature_01.previewable?).must_equal true
+      end
+
+      it "does not yields block when preview_env true but ENV value is not set" do
+        test_feature_02 = cfg.features[1]
+        test_feature_02_called = false
+        Inspec.with_feature("inspec-test-feature-02", config: cfg) do
+          test_feature_02_called = true
+        end
+        _(test_feature_02_called).must_equal false
+        _(test_feature_02.previewable?).must_equal false
+      end
+
+      it "does not yields block when not previewable" do
+        test_feature_03 = cfg.features[2]
+        test_feature_03_called = false
+        Inspec.with_feature("inspec-test-feature-03", config: cfg) do
+          test_feature_03_called = true
+        end
+        _(test_feature_03_called).must_equal false
+        _(test_feature_03.previewable?).must_equal false
+      end
+    end
+
+    describe "When not using feature preview flag" do
+      let(:feature_config_file) { File.join(fixtures_path, "features-02.yaml") }
+      # you should be able to load it from a test file
+      let(:cfg) { Inspec::Feature::Config.new(feature_config_file) }
+
+      it "yields block when flag not set" do
+        test_feature_04 = cfg.features[3]
+        test_feature_04_called = false
+        Inspec.with_feature("inspec-test-feature-04", config: cfg) do
+          test_feature_04_called = true
+        end
+        _(test_feature_04_called).must_equal true
+        _(test_feature_04.previewable?).must_equal false
+        _(test_feature_04.no_preview?).must_equal true
+      end
+    end
   end
 end

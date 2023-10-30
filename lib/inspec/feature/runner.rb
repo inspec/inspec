@@ -14,7 +14,12 @@ module Inspec
           logger.warn "Unrecognized feature name '#{feature_name}'"
         end
 
-        yield feature_implementation
+        # If the feature is not recognized
+        # If the feature has no env_preview flag set in config
+        # If the feature is previewable
+        if feature.nil? || feature&.no_preview? || feature&.previewable?
+          yield feature_implementation
+        end
       end
     end
   end

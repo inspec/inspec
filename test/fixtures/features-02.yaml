@@ -1,0 +1,13 @@
+---
+  features:
+    inspec-test-feature-01:
+      description: Fun for the whole security organization
+      env_preview: true
+    inspec-test-feature-02:
+      description: Fun for the whole security organization
+      env_preview: true
+    inspec-test-feature-03:
+      description: A great use of your time
+      env_preview: false
+    inspec-test-feature-04:
+      description: A great use of your time and also fun
