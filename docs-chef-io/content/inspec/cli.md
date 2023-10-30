@@ -17,8 +17,10 @@ Use the InSpec Command Line Interface (CLI) to run tests and audits against targ
 
 > **Note**
 
-> With a version of Chef InSpec above **6.0.0**, using a signed profile with Chef InSpec commands is going to be mandatory behaviour by default.<br>
-> To use an unsigned profile with Chef InSpec CLI commands, you will need to provide an additional CLI options `--allow-unsigned-profile`. You can also set an environment variable `CHEF_ALLOW_UNSIGNED_PROFILE` for the same.<br><br>
+> With a version of Chef InSpec above **6.0.0**, using a signed profile with Chef InSpec commands is going to be a mandatory behaviour by default.<br>
+> Using signed InSpec profiles attests to the authenticity of the profiles. Therefore, providing control over profiles that are used with InSpec commands for scan or other InSpec operations. Hence, it is a secure behaviour to use signed InSpec profiles.<br><br>
+> To use an unsigned profile with Chef InSpec CLI commands, you will need to provide an additional CLI option `--allow-unsigned-profile`. You can also set an environment variable `CHEF_ALLOW_UNSIGNED_PROFILE` for the same.<br>
+> By using these options, you are consenting to use InSpec profiles with insecure behaviour.<br><br>
 > See the [Signed InSpec Profiles](/inspec/signing/) for more information on InSpec signed profiles and profile signing process.
 
 ## archive
@@ -294,7 +296,7 @@ exit codes:
 
 Below are some examples of using `exec` with different test locations:
 
-Since with Chef InSpec version above **6.0.0**, using a signed profile with Chef InSpec commands is going to be mandatory behaviour by default.<br>
+Since with Chef InSpec version above **6.0.0**, using a signed profile with Chef InSpec commands is going to be a mandatory behaviour by default.<br>
 InSpec executions using an Automate, Supermarket, GIT or an URL based profiles will currently require using `--allow-unsigned-profile` flag. You can also set an environment variable `CHEF_ALLOW_UNSIGNED_PROFILE` for the same.<br><br>
 
 Chef Automate:
