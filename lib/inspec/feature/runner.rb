@@ -16,8 +16,8 @@ module Inspec
 
         # If the feature is not recognized
         # If the feature has no env_preview flag set in config
-        # If the feature is previewable & has an environment value set to use previewed feature
-        if feature.nil? || feature&.no_preview? || (feature&.previewable? && feature.env_preview_value)
+        # If the feature is previewable
+        if feature.nil? || feature&.no_preview? || feature&.previewable?
           yield feature_implementation
         end
       end

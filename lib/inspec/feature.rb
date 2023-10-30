@@ -16,7 +16,8 @@ module Inspec
     end
 
     def previewable?
-      !!env_preview
+      # If the feature is previewable in config (features.yaml) & has an environment value set to use previewed feature
+      !!env_preview && !env_preview_value.nil?
     end
 
     def no_preview?
@@ -24,6 +25,8 @@ module Inspec
     end
 
     def env_preview_value
+      # Examples: If feature name is "inspec-test-feature"
+      # ENV used for this feature preview would be CHEF_PREVIEW_TEST_FEATURE
       env_preview_feature_name = name.to_s.split("inspec-")[-1]
       ENV["CHEF_PREVIEW_#{env_preview_feature_name.gsub("-", "_").upcase}"]
     end

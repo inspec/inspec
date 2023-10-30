@@ -154,14 +154,14 @@ describe "Inspec::Feature" do
         _(test_feature_01.previewable?).must_equal true
       end
 
-      it "does not yields block when previewable but ENV value is not set" do
+      it "does not yields block when preview_env true but ENV value is not set" do
         test_feature_02 = cfg.features[1]
         test_feature_02_called = false
         Inspec.with_feature("inspec-test-feature-02", config: cfg) do
           test_feature_02_called = true
         end
         _(test_feature_02_called).must_equal false
-        _(test_feature_02.previewable?).must_equal true
+        _(test_feature_02.previewable?).must_equal false
       end
 
       it "does not yields block when not previewable" do
