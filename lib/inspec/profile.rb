@@ -234,6 +234,12 @@ module Inspec
       @params ||= load_params
     end
 
+    def virtual_profile?
+      # A virtual profile is for virtual profile evaluation
+      # Used by shell & inspec detect command.
+      name == "inspec-shell"
+    end
+
     def collect_tests
       unless @tests_collected || failed?
 
@@ -242,10 +248,10 @@ module Inspec
         # Checking for profile signature in parent profile only
         # Child profiles of a signed profile are extracted to cache dir
         # Hence they are not in .iaf format
-        unless parent_profile
+        if !parent_profile && !virtual_profile?
           cfg = Inspec::Config.cached
-          unless cfg.allow_unsigned_profiles?
-            raise Inspec::ProfileSignatureRequired, "Signature required for profile: #{name}. Please provide a signed profile. Or use `--allow-unsigned-profile` flag to run the profile. Or set CHEF_ALLOW_UNSIGNED_PROFILE in the environment." unless verify_if_signed
+          if cfg.is_a?(Inspec::Config) && !cfg.allow_unsigned_profiles?
+            raise Inspec::ProfileSignatureRequired, "Signature required for profile: #{name}. Please provide a signed profile. Or set CHEF_ALLOW_UNSIGNED_PROFILE in the environment. Or use `--allow-unsigned-profile` flag with InSpec CLI." unless verify_if_signed
           end
         end
 
