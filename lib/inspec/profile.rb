@@ -590,7 +590,7 @@ module Inspec
         # TODO: Fix this in the ref collector or the way we traverse the AST
         @info_from_parse[:controls].each { |control| control[:refs].uniq! }
 
-        @info_from_parse[:controls] = filter_controls_by_id(@info_from_parse[:controls])
+        @info_from_parse[:controls] = filter_controls_by_id_and_tags(@info_from_parse[:controls])
 
         # Update groups after filtering controls to handle --controls option
         update_groups_from(control_filename, src)
@@ -602,13 +602,22 @@ module Inspec
       @info_from_parse
     end
 
-    def filter_controls_by_id(controls)
-      unless include_controls_list.empty?
-        controls = controls.select do |control|
-          include_controls_list.any? { |control_id| control_id.match?(control[:id]) }
-        end
+    def filter_controls_by_id_and_tags(controls)
+      controls.select do |control|
+        tag_ids = get_all_tags_list(control[:tags])
+        (include_controls_list.empty? || include_controls_list.any? { |control_id| control_id.match?(control[:id]) }) &&
+          (include_tags_list.empty? || include_tags_list.any? { |tag_id| tag_ids.any? { |tag| tag_id.match?(tag) } })
       end
-      controls
+    end
+
+    def get_all_tags_list(control_tags)
+      all_tags = []
+      control_tags.each do |tags|
+        all_tags.push(tags)
+      end
+      all_tags.flatten.compact.uniq.map(&:to_s)
+    rescue
+      []
     end
 
     def include_group_data?(group_data)
