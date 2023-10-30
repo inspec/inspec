@@ -1,12 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.77 -->
-## [v6.4.77](https://github.com/inspec/inspec/tree/v6.4.77) (2023-10-30)
+<!-- latest_release 6.4.78 -->
+## [v6.4.78](https://github.com/inspec/inspec/tree/v6.4.78) (2023-10-30)
 
 #### Merged Pull Requests
-- CHEF-7670 Ability to set feature preview flag using ENV [#6833](https://github.com/inspec/inspec/pull/6833) ([Nik08](https://github.com/Nik08))
-- Fix lint offense, TrailingWhitespace &amp; EmptyLines [#6830](https://github.com/inspec/inspec/pull/6830) ([ahasunos](https://github.com/ahasunos))
+- Profile params usage changes - inspec compliance plugin [#6832](https://github.com/inspec/inspec/pull/6832) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -39,6 +38,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- Profile params usage changes - inspec compliance plugin [#6832](https://github.com/inspec/inspec/pull/6832) ([Nik08](https://github.com/Nik08)) <!-- 6.4.78 -->
 - CHEF-7670 Ability to set feature preview flag using ENV [#6833](https://github.com/inspec/inspec/pull/6833) ([Nik08](https://github.com/Nik08)) <!-- 6.4.77 -->
 - Fix lint offense, TrailingWhitespace &amp; EmptyLines [#6830](https://github.com/inspec/inspec/pull/6830) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.76 -->
 - Update runtime platform list [#6826](https://github.com/inspec/inspec/pull/6826) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.76 -->
