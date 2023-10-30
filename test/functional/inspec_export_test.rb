@@ -20,6 +20,11 @@ def export_hash_compare(latest_export_data_hash, legacy_export_data_hash)
         if latest_value.class == Hash
           export_hash_compare(latest_value, legacy_export_data_hash[key][index])
         else
+          if key.to_s == "code"
+            # Remove the trailing \n from the code
+            latest_value.chomp!
+            legacy_export_data_hash[key][index].chomp!
+          end
           assert_equal latest_value, legacy_export_data_hash[key][index], "Both #{key} are equal"
         end
       end
@@ -28,6 +33,11 @@ def export_hash_compare(latest_export_data_hash, legacy_export_data_hash)
       if latest_export_data_hash[key].nil?
         assert_nil latest_export_data_hash[key], legacy_export_data_hash[key]
       else
+        if key.to_s == "code"
+          # Remove the trailing \n from the code
+          latest_export_data_hash[key].chomp!
+          legacy_export_data_hash[key].chomp!
+        end
         assert_equal latest_export_data_hash[key], legacy_export_data_hash[key], "Both #{key} are equal"
       end
     end
@@ -140,6 +150,18 @@ describe "inspec export" do
   it "exports the profile in json format correctly using latest and legacy export" do
     legacy_export_data_hash = run_export(basic_profile, true)
     latest_export_data_hash = run_export(basic_profile)
+    export_hash_compare(latest_export_data_hash, legacy_export_data_hash)
+  end
+
+  it "exports the profile in json format for the specified control using --controls flag correctly using latest and legacy export" do
+    legacy_export_data_hash = run_export(basic_profile + " --controls='The letter a'", true)
+    latest_export_data_hash = run_export(basic_profile + " --controls='The letter a'")
+    export_hash_compare(latest_export_data_hash, legacy_export_data_hash)
+  end
+
+  it "exports the profile in json format for the specified control using --tags correctly using latest and legacy export" do
+    legacy_export_data_hash = run_export(profile_with_diff_control_tag_styles  + " --tags symbol_key1", true)
+    latest_export_data_hash = run_export(profile_with_diff_control_tag_styles + " --tags symbol_key1")
     export_hash_compare(latest_export_data_hash, legacy_export_data_hash)
   end
 
