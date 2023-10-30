@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.4.77 -->
+## [v6.4.77](https://github.com/inspec/inspec/tree/v6.4.77) (2023-10-30)
 
 #### Merged Pull Requests
+- CHEF-7670 Ability to set feature preview flag using ENV [#6833](https://github.com/inspec/inspec/pull/6833) ([Nik08](https://github.com/Nik08))
 - Fix lint offense, TrailingWhitespace &amp; EmptyLines [#6830](https://github.com/inspec/inspec/pull/6830) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- CHEF-7670 Ability to set feature preview flag using ENV [#6833](https://github.com/inspec/inspec/pull/6833) ([Nik08](https://github.com/Nik08)) <!-- 6.4.77 -->
 - Fix lint offense, TrailingWhitespace &amp; EmptyLines [#6830](https://github.com/inspec/inspec/pull/6830) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.76 -->
 - Update runtime platform list [#6826](https://github.com/inspec/inspec/pull/6826) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.76 -->
 - Explicitly pin openssl to 1.0.2zi to avoid a CVE - inspec-6 [#6825](https://github.com/inspec/inspec/pull/6825) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.75 -->
