@@ -811,7 +811,7 @@ module Inspec
       # Generate temporary inspec.json for archive
       export_opt_enabled = opts[:export] || opts[:legacy_export]
       if export_opt_enabled
-        info_for_profile_summary = opts[:export] ? info_from_parse : info
+        info_for_profile_summary = opts[:legacy_export] ? info : info_from_parse
         Inspec::Utils::JsonProfileSummary.produce_json(
           info: info_for_profile_summary,
           write_path: "#{root_path}inspec.json",
