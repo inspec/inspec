@@ -32,7 +32,7 @@ module Inspec
           unless memo[:inputs].any? { |input| input[:name] == input_name }
             # The value will be updated if available in the input_children
             opts = {
-              value: "Input #{input_name} does not have a value. Skipping test.",
+              value: "Input '#{input_name}' does not have a value. Skipping test.",
             }
 
             if input_children.children[3]&.type == :hash

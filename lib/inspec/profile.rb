@@ -611,6 +611,18 @@ module Inspec
       controls
     end
 
+    def include_group_data?(group_data)
+      unless include_controls_list.empty?
+        # {:id=>"controls/example-tmp.rb", :title=>"/ profile", :controls=>["tmp-1.0"]}
+        # Check if the group should be included based on the controls it contains
+        group_data[:controls].any? do |control_id|
+          include_controls_list.any? { |id| id.match?(control_id) }
+        end
+      else
+        true
+      end
+    end
+
     def update_groups_from(control_filename, src)
       group_data = {
         id: control_filename,
@@ -622,7 +634,7 @@ module Inspec
       group_controls = @info_from_parse[:controls].select { |control| control[:source_location][:ref] == source_location_ref }
       group_data[:controls] = group_controls.map { |control| control[:id] }
 
-      @info_from_parse[:groups].push(group_data)
+      @info_from_parse[:groups].push(group_data) if include_group_data?(group_data)
     end
 
     def cookstyle_linting_check
