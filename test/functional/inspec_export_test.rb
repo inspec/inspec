@@ -160,7 +160,7 @@ describe "inspec export" do
   end
 
   it "exports the profile in json format for the specified control using --tags correctly using latest and legacy export" do
-    legacy_export_data_hash = run_export(profile_with_diff_control_tag_styles  + " --tags symbol_key1", true)
+    legacy_export_data_hash = run_export(profile_with_diff_control_tag_styles + " --tags symbol_key1", true)
     latest_export_data_hash = run_export(profile_with_diff_control_tag_styles + " --tags symbol_key1")
     export_hash_compare(latest_export_data_hash, legacy_export_data_hash)
   end
