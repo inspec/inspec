@@ -166,9 +166,12 @@ module Inspec
 
       # Validate if profiles are signed and verified
       # Additional check is required to provide error message in case of inspec exec command (exec command can use multiple profiles as well)
-      if @conf.is_a?(Inspec::Config) && !@conf.allow_unsigned_profiles?
-        verify_target_profiles_if_signed(@target_profiles)
-      end
+      # Only runs this block when preview flag CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING is set
+      Inspec.with_feature("inspec-mandatory-profile-signing") {
+        unless @conf.allow_unsigned_profiles?
+          verify_target_profiles_if_signed(@target_profiles)
+        end
+      }
 
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
       load
