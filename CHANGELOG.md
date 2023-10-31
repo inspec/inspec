@@ -1,91 +1,84 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.58 -->
-## [v4.56.58](https://github.com/inspec/inspec/tree/v4.56.58) (2023-10-24)
-
-#### Merged Pull Requests
-- Backport - Update runtime platform list (#6826) [#6828](https://github.com/inspec/inspec/pull/6828) ([clintoncwolfe](https://github.com/clintoncwolfe))
-- Explicitly pin openssl to 1.0.2zi to avoid a CVE - inspec-4 [#6823](https://github.com/inspec/inspec/pull/6823) ([clintoncwolfe](https://github.com/clintoncwolfe))
-- Backport #6815 - Pin Thor to &lt; 1.3.0 [#6818](https://github.com/inspec/inspec/pull/6818) ([Vasu1105](https://github.com/Vasu1105))
-- Bump omnibus-software from `b3d89a4` to `4fef367` in /omnibus [#6804](https://github.com/inspec/inspec/pull/6804) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- CHEF-7151: Configures SonarQube and coverage pipeline on inspec-4 [#6800](https://github.com/inspec/inspec/pull/6800) ([Vasu1105](https://github.com/Vasu1105))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=4.56.20 -->
-### Changes since 4.56.20 release
-
-#### Merged Pull Requests
-- Backport - Update runtime platform list (#6826) [#6828](https://github.com/inspec/inspec/pull/6828) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.58 -->
-- Explicitly pin openssl to 1.0.2zi to avoid a CVE - inspec-4 [#6823](https://github.com/inspec/inspec/pull/6823) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.57 -->
-- Backport #6815 - Pin Thor to &lt; 1.3.0 [#6818](https://github.com/inspec/inspec/pull/6818) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.57 -->
-- Bump omnibus-software from `b3d89a4` to `4fef367` in /omnibus [#6804](https://github.com/inspec/inspec/pull/6804) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.57 -->
-- CHEF-7151: Configures SonarQube and coverage pipeline on inspec-4 [#6800](https://github.com/inspec/inspec/pull/6800) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.57 -->
-- [Backport] OMNIBUS: Drop enterprise linux 6 support as it has reached EOL [#6802](https://github.com/inspec/inspec/pull/6802) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.57 -->
-- [Backport] - CI: Build on MacOS 11 intel, dropping EOL 10.15 [#6794](https://github.com/inspec/inspec/pull/6794) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.56 -->
-- [Backports] Update EULA for windows to fix formattings [#6782](https://github.com/inspec/inspec/pull/6782) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.56 -->
-- Bump omnibus-software from `7723be6` to `b3d89a4` in /omnibus [#6786](https://github.com/inspec/inspec/pull/6786) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.55 -->
-- Backport-6410:  Dependent profiles fix for any scheme of version used in profiles [#6471](https://github.com/inspec/inspec/pull/6471) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.55 -->
-- REVERT: Upgrade ruby version from 3.1.2 to 3.1.4 [#6784](https://github.com/inspec/inspec/pull/6784) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.54 -->
-- [BACKPORT] Upgrade ruby version from 3.1.2 to 3.1.4 for omnibus-overrides [#6778](https://github.com/inspec/inspec/pull/6778) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.54 -->
-- Backport 6748 Openssl upgrade with version 1.1.1w [#6776](https://github.com/inspec/inspec/pull/6776) ([Nik08](https://github.com/Nik08)) <!-- 4.56.54 -->
-- Remove resource_id for `service` resource , we do not support in inspec-4 [#6774](https://github.com/inspec/inspec/pull/6774) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.54 -->
-- BACKPORT 6262: Prevent negative status from crashing launchd service resource  [#6751](https://github.com/inspec/inspec/pull/6751) ([Nik08](https://github.com/Nik08)) <!-- 4.56.54 -->
-- Bump omnibus-software from `c44dea9` to `7723be6` in /omnibus [#6769](https://github.com/inspec/inspec/pull/6769) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.53 -->
-- Backport 6351: Upgraded mock Ubuntu fixture to latest LTS version [#6457](https://github.com/inspec/inspec/pull/6457) ([Nik08](https://github.com/Nik08)) <!-- 4.56.53 -->
-- BACKPORT 6626: Fix for inspec exec fails with git fetcher if current directory does not have .git directory [#6750](https://github.com/inspec/inspec/pull/6750) ([Nik08](https://github.com/Nik08)) <!-- 4.56.52 -->
-- Fix Habitat package pipeline for inspec-4 [#6747](https://github.com/inspec/inspec/pull/6747) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.51 -->
-- Backport 6741: Changed params usage in inspec archive to skip evaluation [#6742](https://github.com/inspec/inspec/pull/6742) ([Nik08](https://github.com/Nik08)) <!-- 4.56.51 -->
-- Set  IGNORE_ARTIFACTORY_RUBY_PROXY to true on inspec-4 for adhoc build [#6745](https://github.com/inspec/inspec/pull/6745) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.50 -->
-- Revert #6688 [#6744](https://github.com/inspec/inspec/pull/6744) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.50 -->
-- Backport 6342 [#6740](https://github.com/inspec/inspec/pull/6740) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.49 -->
-- Add x64-mingw-ucrt platform to omnibus for inspec-4 [#6738](https://github.com/inspec/inspec/pull/6738) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.49 -->
-- CHEF-6928 Backport 6659, inspec archive no check/ no export by default, to inspec-4 [#6720](https://github.com/inspec/inspec/pull/6720) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.49 -->
-- Correct quotes on ffi-yajl [#6732](https://github.com/inspec/inspec/pull/6732) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.48 -->
-- [Backport] - EULA: Update EULA in Windows Installers for inspec-4 [#6725](https://github.com/inspec/inspec/pull/6725) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.48 -->
-- Pin ffi-yajl to 2.4.0 in omnibus Gemfile (#6728) [#6729](https://github.com/inspec/inspec/pull/6729) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.47 -->
-- CHEF-6910 Backport 6658, windows signing key changes [#6724](https://github.com/inspec/inspec/pull/6724) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.47 -->
-- [BACKPORT] CHEF-5898: Update latest EULA as used in MacOS installers (#6652) [#6710](https://github.com/inspec/inspec/pull/6710) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.47 -->
-- Bump omnibus from `26c34d2` to `82dae89` in /omnibus [#6675](https://github.com/inspec/inspec/pull/6675) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.46 -->
-- Use Ruby 3.1 for InSpec 4; Drop EOL 2.7 [#6713](https://github.com/inspec/inspec/pull/6713) ([Nik08](https://github.com/Nik08)) <!-- 4.56.46 -->
-- [BACKPORT] EULA: Update latest EULA (markdown copy) - 31AUG2023 [#6711](https://github.com/inspec/inspec/pull/6711) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.45 -->
-- Revert &quot;Update html-proofer requirement from ~&gt; 3.19.4 to ~&gt; 5.0.8&quot; [#6718](https://github.com/inspec/inspec/pull/6718) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.44 -->
-- Backport 6391 - Add ruby-msys2-devkit as omnibus build dependency [#6714](https://github.com/inspec/inspec/pull/6714) ([Nik08](https://github.com/Nik08)) <!-- 4.56.44 -->
-- Backport 6563 - YAML reporter test fix  [#6715](https://github.com/inspec/inspec/pull/6715) ([Nik08](https://github.com/Nik08)) <!-- 4.56.43 -->
-- Update mocha requirement from ~&gt; 1.1 to ~&gt; 2.1 [#6691](https://github.com/inspec/inspec/pull/6691) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.42 -->
-- Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.19 to &gt;= 0.2.1, &lt; 2.0.1 [#6690](https://github.com/inspec/inspec/pull/6690) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.42 -->
-- Update rspec requirement from &gt;= 3.9, &lt;= 3.11 to &gt;= 3.9, &lt;= 3.13 [#6689](https://github.com/inspec/inspec/pull/6689) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.42 -->
-- Update mongo requirement from = 2.13.2 to = 2.19.1 [#6688](https://github.com/inspec/inspec/pull/6688) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.42 -->
-- Fix Gemfile on inspec-4 [#6687](https://github.com/inspec/inspec/pull/6687) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.42 -->
-- Backport #6674 to inspec-4 [#6683](https://github.com/inspec/inspec/pull/6683) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.41 -->
-- Bump omnibus-software from `a7904a1` to `c44dea9` in /omnibus [#6664](https://github.com/inspec/inspec/pull/6664) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.40 -->
-- Fix inspec-4 omnibus build failure happening due to x64-unknown platform [#6646](https://github.com/inspec/inspec/pull/6646) ([Vasu1105](https://github.com/Vasu1105)) <!-- 4.56.40 -->
-- Bump omnibus from `9c0643a` to `26c34d2` in /omnibus [#6617](https://github.com/inspec/inspec/pull/6617) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.39 -->
-- [Backport] - CHEF-4080: Point to latest EULA in GUI installers [#6581](https://github.com/inspec/inspec/pull/6581) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.38 -->
-- Bump omnibus from `83d8428` to `9c0643a` in /omnibus [#6544](https://github.com/inspec/inspec/pull/6544) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.37 -->
-- Backport-6381 [#6450](https://github.com/inspec/inspec/pull/6450) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.36 -->
-- Bump omnibus-software from `a9b13a0` to `4b08f0b` in /omnibus [#6547](https://github.com/inspec/inspec/pull/6547) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.35 -->
-- Bump berkshelf from 8.0.2 to 8.0.7 in /omnibus [#6529](https://github.com/inspec/inspec/pull/6529) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.34 -->
-- Backport 6240: Update chefstyle from 2.0.x to 2.2.2 to use RuboCop 1.25.1 [#6459](https://github.com/inspec/inspec/pull/6459) ([Nik08](https://github.com/Nik08)) <!-- 4.56.33 -->
-- Fix Windows CI by not installing html-proofer for Ruby &lt; 3.0 [#6496](https://github.com/inspec/inspec/pull/6496) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.32 -->
-- Backport PR#6043 to Inspec 4 [#6282](https://github.com/inspec/inspec/pull/6282) ([sathish-progress](https://github.com/sathish-progress)) <!-- 4.56.31 -->
-- Bump kitchen-vagrant from 1.12.0 to 1.12.1 in /omnibus [#6212](https://github.com/inspec/inspec/pull/6212) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.30 -->
-- Backport multiple profiles with same name fix to inspec 4 [#6163](https://github.com/inspec/inspec/pull/6163) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.29 -->
-- Bump kitchen-vagrant from 1.11.0 to 1.12.0 in /omnibus [#6139](https://github.com/inspec/inspec/pull/6139) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.28 -->
-- Backport fix for processes resource on windows when path is empty [#6130](https://github.com/inspec/inspec/pull/6130) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.27 -->
-- Bump berkshelf from 8.0.0 to 8.0.2 in /omnibus [#6113](https://github.com/inspec/inspec/pull/6113) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.26 -->
-- CFINSPEC-250: Fix for inspec json command populating inputs [#6059](https://github.com/inspec/inspec/pull/6059) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.25 -->
-- Bump berkshelf from 7.2.2 to 8.0.0 in /omnibus [#6021](https://github.com/inspec/inspec/pull/6021) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.24 -->
-- Backport amazonlinux2022 service resource fix to inspec-4 [#6017](https://github.com/inspec/inspec/pull/6017) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.23 -->
-- Bump omnibus-software from `5947560` to `b2bc35b` in /omnibus [#6005](https://github.com/inspec/inspec/pull/6005) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 4.56.22 -->
-- Re-enable habitat builds on inspec-4 branch [#6008](https://github.com/inspec/inspec/pull/6008) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.21 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v4.56.58](https://github.com/inspec/inspec/tree/v4.56.58) (2023-10-31)
+
+#### Merged Pull Requests
+- Re-enable habitat builds on inspec-4 branch [#6008](https://github.com/inspec/inspec/pull/6008) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Bump omnibus-software from `5947560` to `b2bc35b` in /omnibus [#6005](https://github.com/inspec/inspec/pull/6005) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Backport amazonlinux2022 service resource fix to inspec-4 [#6017](https://github.com/inspec/inspec/pull/6017) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Bump berkshelf from 7.2.2 to 8.0.0 in /omnibus [#6021](https://github.com/inspec/inspec/pull/6021) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- CFINSPEC-250: Fix for inspec json command populating inputs [#6059](https://github.com/inspec/inspec/pull/6059) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Bump berkshelf from 8.0.0 to 8.0.2 in /omnibus [#6113](https://github.com/inspec/inspec/pull/6113) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Backport fix for processes resource on windows when path is empty [#6130](https://github.com/inspec/inspec/pull/6130) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Bump kitchen-vagrant from 1.11.0 to 1.12.0 in /omnibus [#6139](https://github.com/inspec/inspec/pull/6139) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Backport multiple profiles with same name fix to inspec 4 [#6163](https://github.com/inspec/inspec/pull/6163) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Bump kitchen-vagrant from 1.12.0 to 1.12.1 in /omnibus [#6212](https://github.com/inspec/inspec/pull/6212) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Backport PR#6043 to Inspec 4 [#6282](https://github.com/inspec/inspec/pull/6282) ([sathish-progress](https://github.com/sathish-progress))
+- Fix Windows CI by not installing html-proofer for Ruby &lt; 3.0 [#6496](https://github.com/inspec/inspec/pull/6496) ([ahasunos](https://github.com/ahasunos))
+- Backport 6240: Update chefstyle from 2.0.x to 2.2.2 to use RuboCop 1.25.1 [#6459](https://github.com/inspec/inspec/pull/6459) ([Nik08](https://github.com/Nik08))
+- Bump berkshelf from 8.0.2 to 8.0.7 in /omnibus [#6529](https://github.com/inspec/inspec/pull/6529) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump omnibus-software from `a9b13a0` to `4b08f0b` in /omnibus [#6547](https://github.com/inspec/inspec/pull/6547) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Backport-6381 [#6450](https://github.com/inspec/inspec/pull/6450) ([ahasunos](https://github.com/ahasunos))
+- Bump omnibus from `83d8428` to `9c0643a` in /omnibus [#6544](https://github.com/inspec/inspec/pull/6544) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- [Backport] - CHEF-4080: Point to latest EULA in GUI installers [#6581](https://github.com/inspec/inspec/pull/6581) ([ahasunos](https://github.com/ahasunos))
+- Bump omnibus from `9c0643a` to `26c34d2` in /omnibus [#6617](https://github.com/inspec/inspec/pull/6617) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Fix inspec-4 omnibus build failure happening due to x64-unknown platform [#6646](https://github.com/inspec/inspec/pull/6646) ([Vasu1105](https://github.com/Vasu1105))
+- Bump omnibus-software from `a7904a1` to `c44dea9` in /omnibus [#6664](https://github.com/inspec/inspec/pull/6664) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Backport #6674 to inspec-4 [#6683](https://github.com/inspec/inspec/pull/6683) ([Vasu1105](https://github.com/Vasu1105))
+- Fix Gemfile on inspec-4 [#6687](https://github.com/inspec/inspec/pull/6687) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Update mongo requirement from = 2.13.2 to = 2.19.1 [#6688](https://github.com/inspec/inspec/pull/6688) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update rspec requirement from &gt;= 3.9, &lt;= 3.11 to &gt;= 3.9, &lt;= 3.13 [#6689](https://github.com/inspec/inspec/pull/6689) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.19 to &gt;= 0.2.1, &lt; 2.0.1 [#6690](https://github.com/inspec/inspec/pull/6690) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update mocha requirement from ~&gt; 1.1 to ~&gt; 2.1 [#6691](https://github.com/inspec/inspec/pull/6691) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Backport 6563 - YAML reporter test fix  [#6715](https://github.com/inspec/inspec/pull/6715) ([Nik08](https://github.com/Nik08))
+- Backport 6391 - Add ruby-msys2-devkit as omnibus build dependency [#6714](https://github.com/inspec/inspec/pull/6714) ([Nik08](https://github.com/Nik08))
+- Revert &quot;Update html-proofer requirement from ~&gt; 3.19.4 to ~&gt; 5.0.8&quot; [#6718](https://github.com/inspec/inspec/pull/6718) ([Vasu1105](https://github.com/Vasu1105))
+- [BACKPORT] EULA: Update latest EULA (markdown copy) - 31AUG2023 [#6711](https://github.com/inspec/inspec/pull/6711) ([ahasunos](https://github.com/ahasunos))
+- Use Ruby 3.1 for InSpec 4; Drop EOL 2.7 [#6713](https://github.com/inspec/inspec/pull/6713) ([Nik08](https://github.com/Nik08))
+- Bump omnibus from `26c34d2` to `82dae89` in /omnibus [#6675](https://github.com/inspec/inspec/pull/6675) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- [BACKPORT] CHEF-5898: Update latest EULA as used in MacOS installers (#6652) [#6710](https://github.com/inspec/inspec/pull/6710) ([ahasunos](https://github.com/ahasunos))
+- CHEF-6910 Backport 6658, windows signing key changes [#6724](https://github.com/inspec/inspec/pull/6724) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Pin ffi-yajl to 2.4.0 in omnibus Gemfile (#6728) [#6729](https://github.com/inspec/inspec/pull/6729) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- [Backport] - EULA: Update EULA in Windows Installers for inspec-4 [#6725](https://github.com/inspec/inspec/pull/6725) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Correct quotes on ffi-yajl [#6732](https://github.com/inspec/inspec/pull/6732) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- CHEF-6928 Backport 6659, inspec archive no check/ no export by default, to inspec-4 [#6720](https://github.com/inspec/inspec/pull/6720) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add x64-mingw-ucrt platform to omnibus for inspec-4 [#6738](https://github.com/inspec/inspec/pull/6738) ([Vasu1105](https://github.com/Vasu1105))
+- Backport 6342 [#6740](https://github.com/inspec/inspec/pull/6740) ([Vasu1105](https://github.com/Vasu1105))
+- Revert #6688 [#6744](https://github.com/inspec/inspec/pull/6744) ([Vasu1105](https://github.com/Vasu1105))
+- Set  IGNORE_ARTIFACTORY_RUBY_PROXY to true on inspec-4 for adhoc build [#6745](https://github.com/inspec/inspec/pull/6745) ([Vasu1105](https://github.com/Vasu1105))
+- Backport 6741: Changed params usage in inspec archive to skip evaluation [#6742](https://github.com/inspec/inspec/pull/6742) ([Nik08](https://github.com/Nik08))
+- Fix Habitat package pipeline for inspec-4 [#6747](https://github.com/inspec/inspec/pull/6747) ([ahasunos](https://github.com/ahasunos))
+- BACKPORT 6626: Fix for inspec exec fails with git fetcher if current directory does not have .git directory [#6750](https://github.com/inspec/inspec/pull/6750) ([Nik08](https://github.com/Nik08))
+- Backport 6351: Upgraded mock Ubuntu fixture to latest LTS version [#6457](https://github.com/inspec/inspec/pull/6457) ([Nik08](https://github.com/Nik08))
+- Bump omnibus-software from `c44dea9` to `7723be6` in /omnibus [#6769](https://github.com/inspec/inspec/pull/6769) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- BACKPORT 6262: Prevent negative status from crashing launchd service resource  [#6751](https://github.com/inspec/inspec/pull/6751) ([Nik08](https://github.com/Nik08))
+- Remove resource_id for `service` resource , we do not support in inspec-4 [#6774](https://github.com/inspec/inspec/pull/6774) ([ahasunos](https://github.com/ahasunos))
+- Backport 6748 Openssl upgrade with version 1.1.1w [#6776](https://github.com/inspec/inspec/pull/6776) ([Nik08](https://github.com/Nik08))
+- [BACKPORT] Upgrade ruby version from 3.1.2 to 3.1.4 for omnibus-overrides [#6778](https://github.com/inspec/inspec/pull/6778) ([ahasunos](https://github.com/ahasunos))
+- REVERT: Upgrade ruby version from 3.1.2 to 3.1.4 [#6784](https://github.com/inspec/inspec/pull/6784) ([ahasunos](https://github.com/ahasunos))
+- Backport-6410:  Dependent profiles fix for any scheme of version used in profiles [#6471](https://github.com/inspec/inspec/pull/6471) ([ahasunos](https://github.com/ahasunos))
+- Bump omnibus-software from `7723be6` to `b3d89a4` in /omnibus [#6786](https://github.com/inspec/inspec/pull/6786) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- [Backports] Update EULA for windows to fix formattings [#6782](https://github.com/inspec/inspec/pull/6782) ([ahasunos](https://github.com/ahasunos))
+- [Backport] - CI: Build on MacOS 11 intel, dropping EOL 10.15 [#6794](https://github.com/inspec/inspec/pull/6794) ([ahasunos](https://github.com/ahasunos))
+- [Backport] OMNIBUS: Drop enterprise linux 6 support as it has reached EOL [#6802](https://github.com/inspec/inspec/pull/6802) ([ahasunos](https://github.com/ahasunos))
+- CHEF-7151: Configures SonarQube and coverage pipeline on inspec-4 [#6800](https://github.com/inspec/inspec/pull/6800) ([Vasu1105](https://github.com/Vasu1105))
+- Bump omnibus-software from `b3d89a4` to `4fef367` in /omnibus [#6804](https://github.com/inspec/inspec/pull/6804) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Backport #6815 - Pin Thor to &lt; 1.3.0 [#6818](https://github.com/inspec/inspec/pull/6818) ([Vasu1105](https://github.com/Vasu1105))
+- Explicitly pin openssl to 1.0.2zi to avoid a CVE - inspec-4 [#6823](https://github.com/inspec/inspec/pull/6823) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Backport - Update runtime platform list (#6826) [#6828](https://github.com/inspec/inspec/pull/6828) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v4.56.20](https://github.com/inspec/inspec/tree/v4.56.20) (2022-04-20)
 
 #### Merged Pull Requests
 - CFINSPEC-181: Make cookstyle checks optional by default - backport to inspec 4 [#5992](https://github.com/inspec/inspec/pull/5992) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v4.56.19](https://github.com/inspec/inspec/tree/v4.56.19) (2022-03-23)
 
