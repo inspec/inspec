@@ -132,7 +132,8 @@ describe "inspec export" do
     # {:name=>"test_input_04", :options=>{:value=>0.0}} - legacy
     # {:name=>"test_input_04", :options=>{:type=>"Numeric", :value=>0.0}} - latest
     # In the legacy export, the type is not included in the options hash
-    # HACK: Injecting the type in the legacy export to make the test pass. This is a hack and needs to be fixed.
+    # HACK: Injecting the type in the legacy export to make the test pass.
+    # TODO: This is a hack and needs to be addressed as whether or not to include the type in the options hash
     legacy_export_data_hash[:inputs][0][:options][:type] = "Numeric"
     assert_equal legacy_export_data_hash[:inputs], latest_export_data_hash[:inputs], "Both inputs are equal"
   end

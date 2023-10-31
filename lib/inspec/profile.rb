@@ -570,14 +570,11 @@ module Inspec
         src = RuboCop::AST::ProcessedSource.new(control_file_source, RUBY_VERSION.to_f)
         source_location_ref = @source_reader.target.abs_path(control_filename)
 
-        # TODO: Collect inputs from the source code
         input_collector = Inspec::Profile::AstHelper::InputCollectorOutsideControlBlock.new(@info_from_parse)
-
         ctl_id_collector = Inspec::Profile::AstHelper::ControlIDCollector.new(@info_from_parse, source_location_ref)
-        # TODO: look for inputs
-        # TODO: look for top-level metadata like title
-        src.ast.each_node { |n|
 
+        # Collect all metadata defined in the control block and inputs defined inside the control block
+        src.ast.each_node { |n|
           ctl_id_collector.process(n)
           input_collector.process(n)
         }

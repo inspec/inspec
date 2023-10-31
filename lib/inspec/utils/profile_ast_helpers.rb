@@ -86,7 +86,6 @@ module Inspec
       class ImpactCollector < CollectorBase
         def on_send(node)
           if RuboCop::AST::NodePattern.new("(send nil? :impact ...)").match(node)
-            # TODO - any special processing for impact (float)
             memo[:impact] = node.children[2].value
           end
         end
@@ -94,9 +93,7 @@ module Inspec
 
       class DescCollector < CollectorBase
         def on_send(node)
-          # TODO (WIP) - description is also available as "description"
           if RuboCop::AST::NodePattern.new("(send nil? :desc ...)").match(node)
-            # TODO (WIP) - description may be read as a hash or a string
             memo[:descriptions] ||= {}
             if node.children[2] && node.children[3]
               # NOTE: This assumes the description is as below
@@ -129,7 +126,6 @@ module Inspec
 
         def on_send(node)
           if RuboCop::AST::NodePattern.new("(send nil? :tag ...)").match(node)
-            # TODO & NOTE - tags may be read as a hash or a string; verify this is correct
             memo[:tags] ||= {}
 
             node.children[2..-1].each do |tag_node|
@@ -164,7 +160,6 @@ module Inspec
       class RefCollector < CollectorBase
         def on_send(node)
           if RuboCop::AST::NodePattern.new("(send nil? :ref ...)").match(node)
-            # TODO: This maybe loose, needs testing
             # Construct the array of refs hash as below
 
             # "refs": [
