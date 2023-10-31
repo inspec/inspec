@@ -17,7 +17,7 @@ Use the InSpec Command Line Interface (CLI) to run tests and audits against targ
 
 > **Note**
 
-> With a version of Chef InSpec above **6.0.0**, using a signed profile with Chef InSpec commands is going to be a mandatory behaviour by default.<br>
+> With a version of Chef InSpec above **6.0.0**, using a signed profile with Chef InSpec commands can be enabled as a mandatory default behaviour by setting a feature flag `CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING` in environment.<br>
 > Using signed InSpec profiles attests to the authenticity of the profiles. Therefore, providing control over profiles that are used with InSpec commands for scan or other InSpec operations. Hence, it is a secure behaviour to use signed InSpec profiles.<br><br>
 > To use an unsigned profile with Chef InSpec CLI commands, you will need to provide an additional CLI option `--allow-unsigned-profile`. You can also set an environment variable `CHEF_ALLOW_UNSIGNED_PROFILE` for the same.<br>
 > By using these options, you are consenting to use InSpec profiles with insecure behaviour.<br><br>
@@ -296,13 +296,19 @@ exit codes:
 
 Below are some examples of using `exec` with different test locations:
 
-Since with Chef InSpec version above **6.0.0**, using a signed profile with Chef InSpec commands is going to be a mandatory behaviour by default.<br>
-InSpec executions using an Automate, Supermarket, GIT or an URL based profiles will currently require using `--allow-unsigned-profile` flag. You can also set an environment variable `CHEF_ALLOW_UNSIGNED_PROFILE` for the same.<br><br>
+Since with Chef InSpec version above **6.0.0**, using a signed profile with Chef InSpec commands can be enabled as a mandatory default behaviour by using feature flag `CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING` in environment.<br>
+InSpec executions using an Automate, Supermarket, GIT or an URL based profiles will then require using `--allow-unsigned-profile` flag. You can also set an environment variable `CHEF_ALLOW_UNSIGNED_PROFILE` for the same.<br><br>
 
 Chef Automate:
 
 ```ruby
 inspec automate login
+inspec exec compliance://username/linux-baselinem
+```
+
+With mandatory signed profile usage enabled:
+
+```ruby
 inspec exec compliance://username/linux-baselinem --allow-unsigned-profile
 ```
 
@@ -316,8 +322,15 @@ Chef Supermarket:
 
 ```ruby
 inspec exec supermarket://username/linux-baseline --allow-unsigned-profile
+inspec exec supermarket://username/linux-baseline --supermarket_url="https://privatesupermarket.example.com"
+```
+
+Or with mandatory signed profile usage enabled:
+
+```ruby
 inspec exec supermarket://username/linux-baseline --supermarket_url="https://privatesupermarket.example.com" --allow-unsigned-profile
 ```
+
 
 Local profile (executes all tests in `controls/`):
 
@@ -334,16 +347,34 @@ inspec exec /path/to/a_test.rb
 Git via SSH:
 
 ```ruby
+inspec exec git@github.com:dev-sec/linux-baseline.git
+```
+
+Or with mandatory signed profile usage enabled:
+
+```ruby
 inspec exec git@github.com:dev-sec/linux-baseline.git --allow-unsigned-profile
 ```
 
 Git via HTTPS (.git suffix is required):
 
 ```ruby
+inspec exec https://github.com/dev-sec/linux-baseline.git
+```
+
+Or with mandatory signed profile usage enabled:
+
+```ruby
 inspec exec https://github.com/dev-sec/linux-baseline.git --allow-unsigned-profile
 ```
 
 Private Git via HTTPS (.git suffix is required):
+
+```ruby
+inspec exec https://api_token@github.com/dev-sec/linux-baseline.git
+```
+
+Or with mandatory signed profile usage enabled:
 
 ```ruby
 inspec exec https://api_token@github.com/dev-sec/linux-baseline.git --allow-unsigned-profile
@@ -354,16 +385,36 @@ Private Git via HTTPS and cached credentials (.git suffix is required):
 ```bash
 git config credential.helper cache
 git ls-remote https://github.com/dev-sec/linux-baseline.git
+inspec exec https://github.com/dev-sec/linux-baseline.git
+```
+
+Or with mandatory signed profile usage enabled:
+
+```bash
+git config credential.helper cache
+git ls-remote https://github.com/dev-sec/linux-baseline.git
 inspec exec https://github.com/dev-sec/linux-baseline.git --allow-unsigned-profile
 ```
 
 Web-hosted file (also supports .zip):
 
 ```bash
+inspec exec https://webserver/linux-baseline.tar.gz
+```
+
+Or with mandatory signed profile usage enabled:
+
+```bash
 inspec exec https://webserver/linux-baseline.tar.gz --allow-unsigned-profile
 ```
 
 Web-hosted file with basic authentication (supports .zip):
+
+```bash
+inspec exec https://username:password@webserver/linux-baseline.tar.gz
+```
+
+Or with mandatory signed profile usage enabled:
 
 ```bash
 inspec exec https://username:password@webserver/linux-baseline.tar.gz --allow-unsigned-profile
