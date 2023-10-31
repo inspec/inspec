@@ -169,9 +169,11 @@ module Inspec::Resources
       # special handling for string values with "
       elsif !(m = /^\"(.*)\"$/.match(val)).nil?
         m[1]
+      # When there is Registry Values value is not seprated with comma we are not spliting the value for backward compatibility
+      elsif !key.include?("\\") && val.match(/,/)
+        val.split(",")
       else
-        # When there is Registry Values we are not spliting the value for backward compatibility
-        key.include?("\\") ? val : val.split(",")
+        val
       end
     end
 
