@@ -33,7 +33,7 @@ describe "inspec exec with json formatter" do
   end
 
   it "can execute a simple file while using end of options after reporter cli option" do
-    out = inspec("exec --allow-unsigned-profile --no-create-lockfile --reporter json -- " + example_control)
+    out = inspec("exec --no-create-lockfile --reporter json -- " + example_control)
     _(out.stderr).must_equal ""
     _(out.exit_status).must_equal 0
     data = JSON.parse(out.stdout)

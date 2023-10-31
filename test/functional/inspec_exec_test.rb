@@ -1480,7 +1480,15 @@ EOT
     end
   end
 
-  describe "when running signed profile/s" do
+  describe "Signed profile mandatory feature" do
+    before(:each) do
+      # Setting ENV value for test feature 1
+      ENV["CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING"] = "1"
+    end
+    after do
+      ENV.delete("CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING")
+    end
+
     it "should be able to run a single signed profile successfully" do
       prepare_examples do |dir|
         skip_windows! # Breakage confirmed, only on CI: https://buildkite.com/chef-oss/inspec-inspec-master-verify/builds/2355#2c9d032e-4a24-4e7c-aef2-1c9e2317d9e2
@@ -1534,26 +1542,22 @@ EOT
         delete_signing_keys(unique_key_name)
       end
     end
-  end
 
-  describe "when running unsigned profile/s without flag --allow-unsigned-profile" do
-    it "should raise signature required error for single unsigned profile" do
+    it "should raise signature required error for single unsigned profile without flag --allow-unsigned-profile" do
       run_result = run_inspec_process("exec #{complete_profile} --no-create-lockfile", allow_unsigned_profile: false)
       _(run_result.stderr).must_include "Signature required"
       _(run_result.stderr).must_include "profile/s: complete"
       _(run_result.exit_status).must_equal 6
     end
 
-    it "should raise signature required error for multiple unsigned profiles" do
+    it "should raise signature required error for multiple unsigned profiles without flag --allow-unsigned-profile" do
       run_result = run_inspec_process("exec #{complete_profile} #{inheritance_profile} --no-create-lockfile", allow_unsigned_profile: false)
       _(run_result.stderr).must_include "Signature required"
       _(run_result.stderr).must_include "profile/s: complete, inheritance"
       _(run_result.exit_status).must_equal 6
     end
-  end
 
-  describe "when running combination of signed and unsigned profile without flag --allow-unsigned-profile" do
-    it "should raise signature required error and exit" do
+    it "when running combination of signed and unsigned profile without flag --allow-unsigned-profile should raise signature required error and exit" do
       prepare_examples do |dir|
         skip_windows! # Breakage confirmed, only on CI: https://buildkite.com/chef-oss/inspec-inspec-master-verify/builds/2355#2c9d032e-4a24-4e7c-aef2-1c9e2317d9e2
 
@@ -1578,10 +1582,8 @@ EOT
         delete_signing_keys(unique_key_name)
       end
     end
-  end
 
-  describe "when running combination of signed and unsigned profile with flag --allow-unsigned-profile" do
-    it "should run successfully without raising signature required error" do
+    it "when running combination of signed and unsigned profile with flag --allow-unsigned-profile should run successfully without raising signature required error" do
       prepare_examples do |dir|
         skip_windows! # Breakage confirmed, only on CI: https://buildkite.com/chef-oss/inspec-inspec-master-verify/builds/2355#2c9d032e-4a24-4e7c-aef2-1c9e2317d9e2
 

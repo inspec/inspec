@@ -3,6 +3,7 @@ require "fileutils" unless defined?(FileUtils)
 require "minitest/autorun"
 require "inspec/backend"
 require_relative "../../lib/inspec-habitat/profile"
+require "inspec/feature"
 
 class InspecPlugins::Habitat::ProfileTest < Minitest::Test
   def setup
@@ -22,7 +23,7 @@ class InspecPlugins::Habitat::ProfileTest < Minitest::Test
     )
     @test_profile = Inspec::Profile.for_target(
       @test_profile_path,
-      backend: Inspec::Backend.create(Inspec::Config.mock({ allow_unsigned_profile: true }))
+      backend: Inspec::Backend.create(Inspec::Config.mock)
     )
 
     @hab_profile = InspecPlugins::Habitat::Profile.new(

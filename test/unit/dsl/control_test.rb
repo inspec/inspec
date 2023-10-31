@@ -3,17 +3,18 @@ require "inspec/config"
 require "inspec/profile"
 require "inspec/runner_mock"
 require "inspec/fetcher/mock"
+require "inspec/feature"
 
 describe "controls" do
-  def load(content, opts = {})
+  def load(content)
     data = {
       "inspec.yml" => "name: mock",
       "controls/mock.rb" => "control '1' do\n#{content}\nend\n",
     }
-
-    opts[:test_collector] = Inspec::RunnerMock.new
-    opts[:allow_unsigned_profile] = true
-    opts[:backend] = Inspec::Backend.create(Inspec::Config.mock(opts))
+    opts = {
+      test_collector: Inspec::RunnerMock.new,
+      backend: Inspec::Backend.create(Inspec::Config.mock),
+    }
 
     Inspec::Profile.for_target(data, opts).params[:controls]["1"]
   end

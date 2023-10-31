@@ -817,7 +817,6 @@ class MockLoader
   def self.load_profile(name, opts = {})
     require "inspec/profile"
     opts[:test_collector] = Inspec::RunnerMock.new
-    opts[:allow_unsigned_profile] = true # To allow existing profile test to run without having to sign them
     opts[:backend] = Inspec::Backend.create(Inspec::Config.mock(opts))
     Inspec::Profile.for_target(profile_path(name), opts)
   end

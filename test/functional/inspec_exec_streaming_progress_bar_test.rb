@@ -18,7 +18,7 @@ describe "inspec exec with streaming progress bar reporter" do
   it "can execute a simple file while using end of options after reporter streaming progress bar option" do
     skip_windows!
 
-    out = inspec("exec --allow-unsigned-profile --no-create-lockfile --reporter progress-bar -- " + example_control)
+    out = inspec("exec --no-create-lockfile --reporter progress-bar -- " + example_control)
     _(out.stderr).must_include "[100.00%]"
     _(out.stderr).must_include "[38;5;41m"
     _(out.stderr).wont_include "[38;5;9m"
