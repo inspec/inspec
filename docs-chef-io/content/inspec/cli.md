@@ -43,6 +43,10 @@ This subcommand has the following additional options:
 `--no-export`
 : Include an inspec.json file in the archive, the results of running `inspec export`.
 
+`--legacy-export`
+`--no-legacy-export`
+: Include an inspec.json file in the archive by utilizing information from the legacy export procedure, the results of running `inspec export --legacy-export`.
+
 `--ignore-errors`
 `--no-ignore-errors`
 : Ignore profile warnings.

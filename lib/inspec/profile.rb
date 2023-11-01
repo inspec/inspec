@@ -827,9 +827,11 @@ module Inspec
       # TODO ignore all .files, but add the files to debug output
 
       # Generate temporary inspec.json for archive
-      if opts[:export]
+      export_opt_enabled = opts[:export] || opts[:legacy_export]
+      if export_opt_enabled
+        info_for_profile_summary = opts[:legacy_export] ? info : info_from_parse
         Inspec::Utils::JsonProfileSummary.produce_json(
-          info: info, # TODO: conditionalize and call info_from_parse
+          info: info_for_profile_summary,
           write_path: "#{root_path}inspec.json",
           suppress_output: true
         )
@@ -838,9 +840,9 @@ module Inspec
       # display all files that will be part of the archive
       @logger.debug "Add the following files to archive:"
       files.each { |f| @logger.debug "    " + f }
-      @logger.debug "    inspec.json" if opts[:export]
+      @logger.debug "    inspec.json" if export_opt_enabled
 
-      archive_files = opts[:export] ? files.push("inspec.json") : files
+      archive_files = export_opt_enabled ? files.push("inspec.json") : files
       if opts[:zip]
         # generate zip archive
         require "inspec/archive/zip"
@@ -854,7 +856,7 @@ module Inspec
       end
 
       # Cleanup
-      FileUtils.rm_f("#{root_path}inspec.json") if opts[:export]
+      FileUtils.rm_f("#{root_path}inspec.json") if export_opt_enabled
 
       @logger.info "Finished archive generation."
       true
