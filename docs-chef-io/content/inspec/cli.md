@@ -275,99 +275,6 @@ Run all test files at the specified locations.
 
 The subcommand loads the given profiles, fetches their dependencies if needed, then connects to the target and executes any controls in the profiles. One or more reporters are used to generate the output.
 
-```ruby
-exit codes:
-  0  normal exit, all tests passed
-  1  usage or general error
-  2  error in plugin system
-  3  fatal deprecation encountered
-  5  invalid profile signature
-  6  mandatory profile signing mode enabled and no signature found
-  100  normal exit, at least one test failed
-  101  normal exit, at least one test skipped but none failed
-  172  chef license not accepted
-```
-
-### Examples
-
-Below are some examples of using `exec` with different test locations.
-
-Chef Automate:
-
-```ruby
-inspec automate login
-inspec exec compliance://username/linux-baselinem
-```
-
-`inspec compliance` is a backwards compatible alias for `inspec automate` and works the same way:
-
-```ruby
-inspec compliance login
-```
-
-Chef Supermarket:
-
-```ruby
-inspec exec supermarket://username/linux-baseline
-inspec exec supermarket://username/linux-baseline --supermarket_url="https://privatesupermarket.example.com"
-```
-
-Local profile (executes all tests in `controls/`):
-
-```ruby
-inspec exec /path/to/profile
-```
-
-Local single test (doesn't allow inputs or custom resources):
-
-```ruby
-inspec exec /path/to/a_test.rb
-```
-
-Git via SSH:
-
-```ruby
-inspec exec git@github.com:dev-sec/linux-baseline.git
-```
-
-Git via HTTPS (.git suffix is required):
-
-```ruby
-inspec exec https://github.com/dev-sec/linux-baseline.git
-```
-
-Private Git via HTTPS (.git suffix is required):
-
-```ruby
-inspec exec https://api_token@github.com/dev-sec/linux-baseline.git
-```
-
-Private Git via HTTPS and cached credentials (.git suffix is required):
-
-```bash
-git config credential.helper cache
-git ls-remote https://github.com/dev-sec/linux-baseline.git
-inspec exec https://github.com/dev-sec/linux-baseline.git
-```
-
-Web-hosted file (also supports .zip):
-
-```bash
-inspec exec https://webserver/linux-baseline.tar.gz
-```
-
-Web-hosted file with basic authentication (supports .zip):
-
-```bash
-inspec exec https://username:password@webserver/linux-baseline.tar.gz
-```
-
-Web-hosted signed profile:
-
-```bash
-inspec exec https://username:password@webserver/linux-baseline.iaf
-```
-
 ### Syntax
 
 This subcommand has the following syntax:
@@ -390,7 +297,7 @@ This subcommand has the following additional options:
   For more information, see [Signed InSpec Profiles](/inspec/signing/).
 
 `--attrs=one two three`
-: Legacy name for --input-file - deprecated.
+: Legacy name for `--input-file` - deprecated.
 
 `--audit-log-location=AUDIT_LOG_LOCATION`
 : The directory that the audit log saves diagnostic log files to.
@@ -409,7 +316,7 @@ This subcommand has the following additional options:
 
 `--backend-cache`
 `--no-backend-cache`
-: Allow caching for backend command output. (default: true).
+: Allow caching for backend command output. (default: `true`).
 
 `--bastion-host=BASTION_HOST`
 : Specifies the bastion host if applicable.
@@ -450,7 +357,7 @@ This subcommand has the following additional options:
 : Exit with code 101 if any tests fail and 100 if any are skipped (default). If disabled, exit 0 on skips and 1 for failures.
 
 `--docker-url`
-: Provides path to Docker API endpoint (Docker). Defaults to unix:///var/run/docker.sock on Unix systems and tcp://localhost:2375 on Windows.
+: Provides path to Docker API endpoint (Docker). Defaults to `unix:///var/run/docker.sock` on Unix systems and `tcp://localhost:2375` on Windows.
 
 `--enable-password=ENABLE_PASSWORD`
 : Password for enable mode on Cisco IOS devices.
@@ -460,13 +367,13 @@ This subcommand has the following additional options:
 : Filter empty profiles (profiles without controls) from the report.
 
 `--filter-waived-controls`
-: Do not execute waived controls in InSpec at all. Must use with --waiver-file. Ignores the `run` setting of the waiver file.
+: Do not execute waived controls in InSpec at all. Must use with `--waiver-file`. Ignores the `run` setting of the waiver file.
 
 `--host=HOST`
 : Specify a remote host which is tested.
 
 `--input=name1=value1 name2=value2`
-: Specify one or more inputs directly on the command line, as --input NAME=VALUE. Accepts single-quoted YAML and JSON structures.
+: Specify one or more inputs directly on the command line, as `--input NAME=VALUE`. Accepts single-quoted YAML and JSON structures.
 
 `--input-file=one two three`
 : Load one or more input files, a YAML file with values for the profile to use.
@@ -490,7 +397,7 @@ This subcommand has the following additional options:
 : Specify the login port for a remote scan.
 
 `--podman-url`
-: Provides the path to the Podman API endpoint. Defaults to unix:///run/user/$UID/podman/podman.sock for rootless container, unix:///run/podman/podman.sock for rootful container (for this you need to execute inspec as root user).
+: Provides the path to the Podman API endpoint. Defaults to `unix:///run/user/$UID/podman/podman.sock` for rootless container, `unix:///run/podman/podman.sock` for rootful container (for this you need to execute inspec as root user).
 
 `--profiles-path=PROFILES_PATH`
 : Folder which contains referenced profiles.
@@ -503,7 +410,7 @@ This subcommand has the following additional options:
 
 `--reporter-backtrace-inclusion`
 `--no-reporter-backtrace-inclusion`
-: Include a code backtrace in report data (default: true).
+: Include a code backtrace in report data (default: `true`).
 
 `--reporter-include-source`
 : Include full source code of controls in the CLI report.
@@ -587,6 +494,115 @@ This subcommand has the following additional options:
 
 `--enhanced-outcomes`
 : Includes enhanced outcome of controls in report data.
+
+### Exit codes
+
+`0`
+: normal exit, all tests passed
+
+`1`
+: usage or general error
+
+`2`
+: error in plugin system
+
+`3`
+: fatal deprecation encountered
+
+`5`
+: invalid profile signature
+
+`6`
+: mandatory profile signing mode enabled and no signature found
+
+`100`
+: normal exit, at least one test failed
+
+`101`
+: normal exit, at least one test skipped but none failed
+
+`172`
+: Chef license not accepted
+
+### Examples
+
+Below are some examples of using `exec` with different test locations.
+
+Chef Automate:
+
+```ruby
+inspec automate login
+inspec exec compliance://username/linux-baselinem
+```
+
+`inspec compliance` is a backwards compatible alias for `inspec automate` and works the same way:
+
+```ruby
+inspec compliance login
+```
+
+Chef Supermarket:
+
+```ruby
+inspec exec supermarket://username/linux-baseline
+inspec exec supermarket://username/linux-baseline --supermarket_url="https://privatesupermarket.example.com"
+```
+
+Local profile (executes all tests in `controls/`):
+
+```ruby
+inspec exec /path/to/profile
+```
+
+Local single test (doesn't allow inputs or custom resources):
+
+```ruby
+inspec exec /path/to/a_test.rb
+```
+
+Git via SSH:
+
+```ruby
+inspec exec git@github.com:dev-sec/linux-baseline.git
+```
+
+Git via HTTPS (.git suffix is required):
+
+```ruby
+inspec exec https://github.com/dev-sec/linux-baseline.git
+```
+
+Private Git via HTTPS (.git suffix is required):
+
+```ruby
+inspec exec https://api_token@github.com/dev-sec/linux-baseline.git
+```
+
+Private Git via HTTPS and cached credentials (.git suffix is required):
+
+```bash
+git config credential.helper cache
+git ls-remote https://github.com/dev-sec/linux-baseline.git
+inspec exec https://github.com/dev-sec/linux-baseline.git
+```
+
+Web-hosted file (also supports .zip):
+
+```bash
+inspec exec https://webserver/linux-baseline.tar.gz
+```
+
+Web-hosted file with basic authentication (supports .zip):
+
+```bash
+inspec exec https://username:password@webserver/linux-baseline.tar.gz
+```
+
+Web-hosted signed profile:
+
+```bash
+inspec exec https://username:password@webserver/linux-baseline.iaf
+```
 
 ## habitat
 
