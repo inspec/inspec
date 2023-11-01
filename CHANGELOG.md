@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release unreleased -->
+## Unreleased
+
+#### Merged Pull Requests
+- Fix trailing whitespace on omnibus overrides file [#6841](https://github.com/inspec/inspec/pull/6841) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=4.56.58 -->
+### Changes since 4.56.58 release
+
+#### Merged Pull Requests
+- Fix trailing whitespace on omnibus overrides file [#6841](https://github.com/inspec/inspec/pull/6841) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.58 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
