@@ -16,6 +16,30 @@ identifier = "inspec"
   weight = 20
 
   [[menu.inspec]]
+  title = "Profiles"
+  identifier = "inspec/profiles"
+  parent = "inspec"
+  weight = 40
+
+  [[menu.inspec]]
+  title = "Cloud Platforms"
+  identifier = "inspec/cloud"
+  parent = "inspec"
+  weight = 50
+
+  [[menu.inspec]]
+  title = "Chef Tools"
+  identifier = "inspec/chef"
+  parent = "inspec"
+  weight = 480
+
+  [[menu.inspec]]
+  title = "Related Projects"
+  identifier = "inspec/friends"
+  parent = "inspec"
+  weight = 490
+
+  [[menu.inspec]]
   title = "Chef InSpec Reference"
   identifier = "inspec/reference"
   parent = "inspec"
