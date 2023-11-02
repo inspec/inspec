@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Pull release notes from v4 wiki page [#6839](https://github.com/inspec/inspec/pull/6839) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Fix trailing whitespace on omnibus overrides file [#6841](https://github.com/inspec/inspec/pull/6841) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 4.56.58 release
 
 #### Merged Pull Requests
+- Pull release notes from v4 wiki page [#6839](https://github.com/inspec/inspec/pull/6839) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.58 -->
 - Fix trailing whitespace on omnibus overrides file [#6841](https://github.com/inspec/inspec/pull/6841) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.58 -->
 <!-- release_rollup -->
 
