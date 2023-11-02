@@ -1481,13 +1481,6 @@ EOT
   end
 
   describe "Signed profile mandatory feature" do
-    before(:each) do
-      # Setting ENV value for test feature 1
-      ENV["CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING"] = "1"
-    end
-    after do
-      ENV.delete("CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING")
-    end
 
     it "should be able to run a single signed profile successfully" do
       prepare_examples do |dir|
@@ -1506,7 +1499,7 @@ EOT
         run_inspec_process("sign profile #{profile} --keyname #{unique_key_name}", prefix: "cd #{dir};")
 
         # Run inspec exec on signed profiles with allow_unsigned_profile false (default behaviour)
-        run_result = run_inspec_process("exec artifact-profile-0.1.0.iaf", prefix: "cd #{dir};", allow_unsigned_profile: false)
+        run_result = run_inspec_process("exec artifact-profile-0.1.0.iaf", prefix: "cd #{dir};", allow_unsigned_profile: false, env: { CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING: "1" })
         _(run_result.stdout).must_include "1 successful control"
         _(run_result.exit_status).must_equal 0
 
@@ -1535,7 +1528,7 @@ EOT
         run_inspec_process("sign profile #{profile_2} --keyname #{unique_key_name}", prefix: "cd #{dir};")
 
         # Run inspec exec on both the signed profiles with allow_unsigned_profile false (default behaviour)
-        run_result = run_inspec_process("exec artifact-profile-1-0.1.0.iaf artifact-profile-2-0.1.0.iaf", prefix: "cd #{dir};", allow_unsigned_profile: false)
+        run_result = run_inspec_process("exec artifact-profile-1-0.1.0.iaf artifact-profile-2-0.1.0.iaf", prefix: "cd #{dir};", allow_unsigned_profile: false, env: { CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING: "1" })
         _(run_result.stdout).must_include "2 successful controls"
         _(run_result.exit_status).must_equal 0
 
@@ -1544,14 +1537,14 @@ EOT
     end
 
     it "should raise signature required error for single unsigned profile without flag --allow-unsigned-profile" do
-      run_result = run_inspec_process("exec #{complete_profile} --no-create-lockfile", allow_unsigned_profile: false)
+      run_result = run_inspec_process("exec #{complete_profile} --no-create-lockfile", allow_unsigned_profile: false, env: { CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING: "1" })
       _(run_result.stderr).must_include "Signature required"
       _(run_result.stderr).must_include "profile/s: complete"
       _(run_result.exit_status).must_equal 6
     end
 
     it "should raise signature required error for multiple unsigned profiles without flag --allow-unsigned-profile" do
-      run_result = run_inspec_process("exec #{complete_profile} #{inheritance_profile} --no-create-lockfile", allow_unsigned_profile: false)
+      run_result = run_inspec_process("exec #{complete_profile} #{inheritance_profile} --no-create-lockfile", allow_unsigned_profile: false, env: { CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING: "1" })
       _(run_result.stderr).must_include "Signature required"
       _(run_result.stderr).must_include "profile/s: complete, inheritance"
       _(run_result.exit_status).must_equal 6
@@ -1574,7 +1567,7 @@ EOT
         run_inspec_process("sign profile #{profile} --keyname #{unique_key_name}", prefix: "cd #{dir};")
 
         # Run inspec exec on combination of a signed profile and an unsigned profile with allow_unsigned_profile false (default behaviour)
-        run_result = run_inspec_process("exec #{complete_profile} artifact-profile-0.1.0.iaf", prefix: "cd #{dir};", allow_unsigned_profile: false)
+        run_result = run_inspec_process("exec #{complete_profile} artifact-profile-0.1.0.iaf", prefix: "cd #{dir};", allow_unsigned_profile: false, env: { CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING: "1" })
         _(run_result.stderr).must_include "Signature required"
         _(run_result.stderr).must_include "profile/s: complete"
         _(run_result.exit_status).must_equal 6
@@ -1601,7 +1594,7 @@ EOT
 
         # Run inspec exec on combination of a signed profile and an unsigned profile with allow_unsigned_profile true
 
-        run_result = run_inspec_process("exec #{complete_profile} artifact-profile-0.1.0.iaf", prefix: "cd #{dir};", allow_unsigned_profile: true)
+        run_result = run_inspec_process("exec #{complete_profile} artifact-profile-0.1.0.iaf", prefix: "cd #{dir};", allow_unsigned_profile: true, env: { CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING: "1" })
         _(run_result.stdout).must_include "2 successful controls"
         _(run_result.exit_status).must_equal 0
 
