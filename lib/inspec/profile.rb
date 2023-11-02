@@ -197,7 +197,9 @@ module Inspec
     end
 
     def verify_signed_profile
-      InspecPlugins::Sign::Base.profile_verify(target, true)
+      # Kitchen inspec send target profile in Hash format in some scenarios. For example: While using local profile with kitchen, {:path => "path/to/kitchen/lcoal-profile"}
+      target_profile = target.is_a?(Hash) ? target.values[0] : target
+      InspecPlugins::Sign::Base.profile_verify(target_profile, true) if target_profile
     end
 
     #
