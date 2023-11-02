@@ -553,6 +553,19 @@ This subcommand has the following additional options:
 `--enhanced-outcomes`
 : Includes enhanced outcome of controls in report data.
 
+`--audit-log-location=AUDIT_LOG_LOCATION`
+: Audit log location to send diagnostic log messages to (default: '~/.inspec/logs/train-audit.log').
+
+`--enable-audit-log`
+`--no-enable-audit-log`
+: Enable audit logging. (default: true)
+
+`--audit-log-size=N`
+: Set audit log file size in bytes.(default: 2097152)
+
+`--audit-log-frequency=AUDIT_LOG_FREQUENCY`
+: Set audit log rotation frequency: daily(default), weekly, monthly (default: daily)
+
 ## habitat
 
 Create a Chef Habitat package.
@@ -850,6 +863,19 @@ This subcommand has the following additional options:
 
 `--enhanced-outcomes`
 : Includes enhanced outcome of controls in report data.
+
+`--audit-log-location=AUDIT_LOG_LOCATION`
+: Audit log location to send diagnostic log messages to (default: '~/.inspec/logs/train-audit.log').
+
+`--enable-audit-log`
+`--no-enable-audit-log`
+: Enable audit logging. (default: true)
+
+`--audit-log-size=N`
+: Set audit log file size in bytes.(default: 2097152)
+
+`--audit-log-frequency=AUDIT_LOG_FREQUENCY`
+: Set audit log rotation frequency: daily(default), weekly, monthly (default: daily)
 
 ## supermarket
 
