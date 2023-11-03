@@ -15,7 +15,6 @@ aliases = ['/inspec/style/']
 
 This is a set of recommended Chef InSpec rules you should use when writing controls.
 
-
 ## "should" vs. "expect" syntax
 
 Users familiar with the RSpec testing framework may know that there are two ways
@@ -67,7 +66,6 @@ end
 test file
   ✔  should be a file
 ```
-
 
 ## Control Files
 

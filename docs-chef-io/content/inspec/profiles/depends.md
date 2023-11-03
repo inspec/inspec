@@ -8,7 +8,7 @@ gh_repo = "inspec"
     title = "Dependencies"
     identifier = "inspec/profiles/depends"
     parent = "inspec/profiles"
-    weight = 70
+    weight = 50
 +++
 
 A Chef InSpec profile can bring in the controls and custom resources from another
@@ -131,15 +131,6 @@ gem_dependencies:
     version: ">= 2.3.12"
 ```
 
-## Vendor dependencies
-
-When you execute a local profile, Inspec reads the `inspec.yml` file in order to
-source any profile dependencies. It then caches the dependencies locally and
-generates an `inspec.lock` file.
-
-If you add or update dependencies in `inspec.yml`, dependencies may be re-vendored
-and the lockfile updated with `inspec vendor --overwrite`
-
 ## Alternate resource names
 
 By default, all [custom resources](/inspec/profiles/custom_resources/) from a listed dependency are available for use in a profile.
@@ -159,7 +150,213 @@ where:
 - `<RESOURCE_NAME>` is the resource name in the dependent profile
 - `<ALTERNATE_RESOURCE_NAME>` is an alternate name for that resource
 
-
 ## Use controls from a dependent profile
 
-To use controls from a dependent profile, see the [controls documentation](/inspec/profiles/controls/#use-controls-from-an-included-profile).
+After you define a dependent profile in the `inspec.yml` file, you can use controls from those profiles.
+
+See the `inspec` repository for an [example profile](https://github.com/inspec/inspec/tree/main/examples/inheritance) that inherits controls from another profile.
+
+The following examples show you how to include controls from a dependent profile.
+
+### Include all controls
+
+With the `include_controls` command in a profile, all controls from the named
+profile will be executed every time the including profile is executed.
+
+For example, if you have a profile called `baseline-profile` with the following controls:
+
+- baseline-1
+- baseline-2
+
+And `app-profile` with the following controls:
+
+- app-1
+- app-2
+- app-3
+
+Add `baseline-profile` as dependency of `app-profile`, then include the `baseline-profile` controls using `include_controls` in the control code of `app-profile`:
+
+```ruby
+include_controls 'baseline-profile'
+```
+
+Every time you execute `app-profile`, InSpec also executes all the controls from `baseline-profile`:
+
+- app-1
+- app-2
+- app-3
+- baseline-1
+- baseline-2
+
+This is a great reminder that having a good naming convention for your controls
+is helpful to avoid confusion when including controls from other profiles!
+
+### Skip a control
+
+What if one of the controls from the included profile does not apply to your environment?
+Luckily, it is not necessary to maintain a slightly-modified copy of the included profile just to delete a control.
+The `skip_control` command tells Chef InSpec to not run a particular control.
+
+For example, if you have a profile called `baseline-profile` with the following controls:
+
+- baseline-1
+- baseline-2
+
+And `app-profile` with the following controls:
+
+- app-1
+- app-2
+- app-3
+
+Add `baseline-profile` as dependency of `app-profile`, then include the `baseline-profile` controls using `include_controls` and `skip_control` to exclude the profile you don't want execute:
+
+```ruby
+include_controls 'baseline-profile' do
+  skip_control 'baseline-2'
+end
+```
+
+Every time you execute `app-profile`, InSpec also executes all the controls from `baseline-profile` except `baseline-2`:
+
+- app-1
+- app-2
+- app-3
+- baseline-1
+
+### Modify a control
+
+Let's say a particular control from an included profile should still be run, but
+the impact isn't appropriate? Perhaps the test should still run, but if it fails,
+it should be treated as low severity instead of high severity?
+
+When a control is included, it can also be modified!
+
+For example, if you have a profile called `baseline-profile` with the following controls:
+
+- baseline-1
+- baseline-2
+
+And `baseline-1` has an `impact` of `1.0` defined in `baseline-profile`:
+
+```ruby
+control 'baseline-1' do
+  impact 1.0
+  ...
+end
+```
+
+Add `baseline-profile` as dependency of `app-profile`, then include the `baseline-profile` controls to `app-profile` using `include_controls` and redefine the impact of `baseline-1`:
+
+```ruby
+include_controls 'baseline-profile' do
+  control 'baseline-1' do
+    impact 0.5
+  end
+end
+```
+
+In the above example, all controls from `baseline-profile` are executed along with all the controls from the including profile, `app-profile`.
+However, should control `baseline-1` fail, it will be raised with an impact of `0.5` instead of the originally intended impact of `1.0`.
+
+### Selectively include controls
+
+Use the `require_controls` command selectively include certain controls from an included
+profile. You don't have to skip all the unneeded controls, or worse,
+copy/paste those controls bit-for-bit into your profile.
+
+For example, if you have a profile called `baseline-profile` with the following controls:
+
+- baseline-1
+- baseline-2
+- baseline-3
+- baseline-4
+- baseline-5
+
+And `app-profile` with the following controls:
+
+- app-1
+- app-2
+- app-3
+
+Add `baseline-profile` as dependency of `app-profile`, then include specific `baseline-profile` controls using `require_controls` in the control code of `app-profile`:
+
+```ruby
+require_controls 'baseline-profile' do
+  control 'baseline-2'
+  control 'baseline-4'
+end
+```
+
+Every time you execute `app-profile`, InSpec executes the controls `app-profile` and the controls specified in the `require_controls` block:
+
+- app-1
+- app-2
+- app-3
+- baseline-2
+- baseline-4
+
+Controls `baseline-1`, `baseline-3`, and `baseline-5` are not run, just as if they were manually skipped.
+This method of including specific controls ensures only the controls specified are executed; if new controls are added to a later version of `baseline-profile`, they would not be run.
+
+And, just the way its possible to modify controls when using `include_controls`,
+controls can be modified with `require_controls` as well.
+
+```ruby
+require_controls 'baseline-profile' do
+  control 'baseline-2' do
+    impact 0.5
+  end
+  control 'baseline-4'
+end
+```
+
+As with the prior example, only `baseline-2` and `baseline-4` are executed, but
+if `baseline-2` fails, it will report with an impact of `0.5` instead of the
+originally-intended `1.0` impact.
+
+## Include controls from different profile versions
+
+When a Chef InSpec profile has dependency on another profile to its specific version, then the controls can be included or selected by using the profile name and version separated by `-`.
+
+Here, `profile-a` has following dependency:
+
+```yaml
+name: profile-a
+depends:
+  - name: ssh
+    git: https://github.com/dev-sec/ssh-baseline.git
+    tag: 2.6.0
+```
+
+And `profile-b` has following dependency:
+
+```yaml
+name: profile-b
+depends:
+  - name: ssh
+    git: https://github.com/dev-sec/ssh-baseline.git
+    tag: 2.7.0
+```
+
+You can include or require controls of these profiles in a following manner:
+
+```ruby
+include_controls "ssh-2.6.0"
+include_controls "ssh-2.7.0"
+```
+
+OR
+
+```ruby
+require_controls "ssh-2.6.0"
+require_controls "ssh-2.7.0"
+```
+
+## Vendor dependencies
+
+When you execute a local profile, Inspec reads the `inspec.yml` file in order to
+source any profile dependencies. It then caches the dependencies locally and
+generates an `inspec.lock` file.
+
+If you add or update dependencies in `inspec.yml`, dependencies may be re-vendored
+and the lockfile updated with `inspec vendor --overwrite`

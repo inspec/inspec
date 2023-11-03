@@ -6,8 +6,8 @@ gh_repo = "inspec"
 [menu]
   [menu.inspec]
     title = "Chef InSpec Glossary"
-    identifier = "inspec/glossary.md Chef InSpec Glossary"
-    parent = "inspec"
+    identifier = "inspec/reference/Chef InSpec Glossary"
+    parent = "inspec/reference"
     weight = 50
 +++
 
@@ -172,7 +172,7 @@ end
 
 When using a [plural resource](#plural-resource), a _`filter statement`_ is used to select individual test subjects using [filter criteria](#filter-criteria). A filter statement almost always is indicated by the keyword `where`, and may be repeated using method chaining.
 
-A filter statement may use method call syntax (which allows basic criteria operations, such as equality, regex matching, and ruby `===` comparison) or block syntax (which allows arbitrary code).
+A filter statement may use method call syntax (which allows basic criteria operations, such as equality, regex matching, and Ruby `===` comparison) or block syntax (which allows arbitrary code).
 
 In this example, `where(...)` is the filter statement.
 

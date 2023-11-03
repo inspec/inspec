@@ -8,7 +8,7 @@ gh_repo = "inspec"
     title = "Troubleshooting"
     identifier = "inspec/Troubleshooting"
     parent = "inspec"
-    weight = 55
+    weight = 120
 +++
 
 ## Exit code 5

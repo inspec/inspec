@@ -36,7 +36,7 @@ There are two possible versions for this config file, `1.1` or `1.2`. Only versi
   "credentials": {
     "ssh": {
       "my-target": {
-        "host":"somewhere.there.com",
+        "host":"somewhere.example.com",
         "user":"bob"
       }
     }
@@ -44,8 +44,8 @@ There are two possible versions for this config file, `1.1` or `1.2`. Only versi
   "reporter": {
     "automate" : {
       "stdout" : false,
-      "url" : "https://YOUR_A2_URL/data-collector/v0/",
-      "token" : "YOUR_A2_API_TOKEN",
+      "url" : "https://AUTOMATE_URL/data-collector/v0/",
+      "token" : "AUTOMATE_API_TOKEN",
       "insecure" : true,
       "node_name" : "inspec_test_node",
       "environment" : "prod"
@@ -69,9 +69,10 @@ There are two possible versions for this config file, `1.1` or `1.2`. Only versi
 
 `version`
 : **required**
-: The file format version.
-: Allowed values: `1.1` or `1.2`
 
+  The file format version.
+
+  Allowed values: `1.1` or `1.2`
 
 `cli_options`
 : Any long-form command line option, without the leading dashes.
@@ -109,7 +110,7 @@ There are two possible versions for this config file, `1.1` or `1.2`. Only versi
   Credential sets are intended to work hand-in-hand with the underlying credentials storage facility of the transport. For example, if you have a `~/.ssh/config` file specifying that the sally-key.pem file should be used with the host `example.com`, and you have a credential set that specifies that host, then when Train tries to connect to that host, the SSH library will automatically use the SSH config file to use the indicated key.
 
 `reporter`
-: Formats and delivers the results of a Chef InSpec audit run.
+: Formats and delivers the results of a Chef InSpec audit run. For information on configuring reporters, see the [InSpec reporters documentation](/inspec/reporters/).
 
 `plugins`
 
@@ -118,6 +119,6 @@ There are two possible versions for this config file, `1.1` or `1.2`. Only versi
 
   Each plugin will have a key-value are that it may use as it sees fit - Chef InSpec does not specify the structure.
 
-  The config file must be set to **version 1.2**.
+  Set the config file to **version 1.2** to use this setting.
 
   For more information on plugins, see the [Chef InSpec plugins documentation](/inspec/plugins/).
