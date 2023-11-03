@@ -398,7 +398,11 @@ class Inspec::InspecCLI < Inspec::BaseCLI
         diagnose(o)
         deprecate_target_id(config)
         configure_logger(o)
-        set_and_validate_audit_log_options(o)
+
+        # Only runs this block when preview flag CHEF_PREVIEW_AUDIT_LOGGING is set
+        Inspec.with_feature("inspec-audit-logging") {
+          set_and_validate_audit_log_options(o)
+        }
 
         runner = Inspec::Runner.new(o)
         targets.each { |target| runner.add_target(target) }
@@ -471,7 +475,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
         deprecate_target_id(config)
         diagnose(o)
         o[:debug_shell] = true
-        set_and_validate_audit_log_options(o)
+        Inspec.with_feature("inspec-audit-logging") {
+          set_and_validate_audit_log_options(o)
+        }
 
         Inspec::Resource.toggle_inspect unless o[:inspect]
 

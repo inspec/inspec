@@ -89,3 +89,6 @@
     inspec-mandatory-profile-signing:
       description: Required to use a signed Inspec profile by default with inspec commands
       env_preview: true
+    inspec-audit-logging:
+      description: Use audit logging.
+      env_preview: true

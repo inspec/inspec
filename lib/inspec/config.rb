@@ -7,6 +7,7 @@ require "forwardable" unless defined?(Forwardable)
 require "thor" unless defined?(Thor)
 require "base64" unless defined?(Base64)
 require "inspec/plugin/v2/filter"
+require "inspec/feature"
 
 module Inspec
   class Config
@@ -121,12 +122,14 @@ module Inspec
     def unpack_train_credentials
       # Internally, use indifferent access while we build the creds
       credentials = Thor::CoreExt::HashWithIndifferentAccess.new({})
-
       # Helper methods prefixed with _utc_ (Unpack Train Credentials)
 
       credentials.merge!(_utc_generic_credentials)
-      credentials.merge!(_utc_merge_audit_log_options)
 
+      # Only runs this block when preview flag CHEF_PREVIEW_AUDIT_LOGGING is set
+      Inspec.with_feature("inspec-audit-logging") {
+        credentials.merge!(_utc_merge_audit_log_options)
+      }
       _utc_determine_backend(credentials)
       transport_name = credentials[:backend].to_s
 
@@ -176,8 +179,12 @@ module Inspec
       transport_options = Train.options(transport_name).keys.map(&:to_s)
 
       # If there are any options with those (unprefixed) names, merge them in.
+      # e.g., 'host'
       unprefixed_transport_options = final_options.select do |option_name, _value|
-        transport_options.include? option_name # e.g., 'host'
+        # We currently want this option only to be set if CHEF_PREVIEW_AUDIT_LOGGING is set
+        # and we already merging the audit_log_options within _utc_merge_audit_log_options method which only invoke if feature flag is on
+        # we don't want audit log option to get set from here again so this is a safe check and can be removed when we remove preview feature flag.
+        transport_options.include? option_name unless option_name.match?("disable_audit_log")
       end
       credentials.merge!(unprefixed_transport_options)
 
