@@ -239,7 +239,7 @@ module Inspec
     def virtual_profile?
       # A virtual profile is for virtual profile evaluation
       # Used by shell & inspec detect command.
-      name == "inspec-shell"
+      (name == "inspec-shell") && (files&.length == 1) && (files[0] == "inspec.yml")
     end
 
     def collect_tests
