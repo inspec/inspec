@@ -256,9 +256,16 @@ module Inspec
           @memo = memo
         end
 
+        # TODO: There is scope to refactor InputCollectorOutsideControlBlock and InputCollectorWithinControlBlock
+        # 1. We can have a single class for both the collectors
+        # 2. We can have a on_send and on_lvasgn method in the same class
         # :lvasgn in ast stands for "local variable assignment"
         def on_lvasgn(node)
-          if node.children[1].type == :send && node.children[1].children[1] == :input
+          # We are looking for the following pattern in the AST
+          # (lvasgn :var_name (send nil? :input ...))
+          # example: a = input('a') or a = input('a', value: 'b')
+          # and not this: a = 1
+          if RuboCop::AST::NodePattern.new("(lvasgn _ (send nil? :input ...))").match(node)
             input_children = node.children[1]
             collect_input(input_children)
           end
