@@ -172,17 +172,47 @@ module Inspec
             #   }
             # ]
 
-            references = {
-              ref: node.children[2].value,
-            }
+            # node.children[1] && node.children[1] == :ref - we don't need this check as the pattern match above will take care of it
+            return unless node.children[2]
 
-            if node.children[3] && node.children[3].type == :hash
-              references.merge!(node.children[3].children[0].key.value => node.children[3].children[0].value.value)
-            elsif node.children[3] && node.children[3].type == :str
-              references.merge!(node.children[3].value => nil)
+            references = {}
+
+            if node.children[2].type == :begin
+              # Case for: ref   ({:ref=>"Some ref", :url=>"https://"})
+              # find the hash node
+              iterate_child_and_collect_ref(node.children[2].children, references)
+            elsif node.children[2].type == :str
+              # Case for: ref "ref1", url: "http://",
+              references.merge!(ref: node.children[2].value)
+              iterate_child_and_collect_ref(node.children[3..-1], references)
             end
+
             memo[:refs] ||= []
             memo[:refs] << references
+          end
+        end
+
+        private
+
+        def iterate_child_and_collect_ref(child_node, references = {})
+          child_node.each do |ref_node|
+            if ref_node.type == :hash
+              iterate_hash_node(ref_node, references)
+            elsif ref_node.type == :str
+              references.merge!(ref_node.value => nil)
+            end
+          end
+        end
+
+        def iterate_hash_node(hash_node, references = {})
+          # s(:hash,
+          #   s(:pair,
+          #     s(:sym, :url),
+          #     s(:str, "https://")))
+          hash_node.children.each do |child_node|
+            if child_node.type == :pair
+              references.merge!(child_node.key.value => child_node.value.value)
+            end
           end
         end
       end
