@@ -237,8 +237,8 @@ module Inspec
       option :audit_log_location, type: :string,
       desc: "Audit log location to send diagnostic log messages to. (default: '~/.inspec/logs/train-audit.log')"
 
-      option :enable_audit_log, type: :boolean, default: true,
-      desc: "Enable audit logging."
+      option :disable_audit_log, type: :boolean, default: false,
+      desc: "Disable audit logging."
 
       option :audit_log_size, type: :numeric, default: 2097152,
       desc: "Set audit log file size in bytes."
