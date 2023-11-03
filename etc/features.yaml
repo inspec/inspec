@@ -86,3 +86,6 @@
       description: Use progress bar streaming reporter
     inspec-reporter-child-status:
       description: Child status reporter used in inspec parallel reporting.
+    inspec-audit-logging:
+      description: Use audit logging.
+      env_preview: true
