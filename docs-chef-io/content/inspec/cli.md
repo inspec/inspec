@@ -959,6 +959,9 @@ This subcommand has the following additional options:
 `--audit-log-frequency=AUDIT_LOG_FREQUENCY`
 : Set audit log rotation frequency: daily(default), weekly, monthly (default: daily)
 
+ **Note:**
+> With a version of Chef InSpec above **6.0.0** Audit logging feature for Chef InSpec exec and shell commands can be enabled as default behavior by setting a feature flag `CHEF_PREVIEW_AUDIT_LOGGING` in environment.
+
 ## supermarket
 
 Supermarket commands.
