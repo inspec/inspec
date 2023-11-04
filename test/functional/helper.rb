@@ -154,8 +154,6 @@ module FunctionalHelper
   end
 
   def inspec(commandline, prefix = nil)
-    # Turn off audit logs in test environment unless and until the --enable-audit-log options is provided in test
-    commandline += " --no-enable-audit-log" if (commandline.match?(/exec/) || commandline.match?(/shell/)) && !commandline.match?(/--enable-audit-log/)
     run_cmd "#{exec_inspec} #{commandline}", prefix
   end
 
