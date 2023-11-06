@@ -11,13 +11,24 @@ gh_repo = "inspec"
     weight = 60
 +++
 
-This page documents the `inspec sign` command introduced in InSpec 5 and details some methods to work with signed profiles.
+This page documents the `inspec sign` command introduced in InSpec 5, the mandatory profile signing feature introduced in InSpec 6, and details some methods to work with signed profiles.
 
 ## Usage
 
 ### What is a Signed Profile?
 
 A signed profile, or `.iaf` file, is an InSpec profile with a digital signature that attests to its authenticity. Progress Chef authored profiles are available as signed profiles starting from 2022.
+
+IAF files are not human-readable, but may be viewed using `inspec export`. Support for IAF v2.0 was added to InSpec 5.
+
+### What is Mandatory Profile Signing?
+
+In versions of Chef InSpec above 6.0.0, a feature known as **mandatory profile signing** may be enabled. In this mode, Chef InSpec will require all profiles to be signed. If the profile is unsigned, Chef InSpec will refuse to execute the profile, instead exiting with code 6 (signature required). In this way, Chef InSpec can be part of a chain of trust as it will only execute signed, trusted content. **Mandatory profile signing** will become enabled by default in a future major version of Chef InSpec.
+
+
+To enable this feature in CHef InSpec 6, set the environment variable `CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING` to any non-empty value. The next time you run an InSpec scan using `inspec exec`, InSpec will require the profile to be a signed profile (an IAF file).
+
+With mandatory profile signing enabled, you may need to bypass it temporarily to run a local unsigned profile or to run a profile from a fetcher that does not support signed profiles. In that case, you may consent to insecure behavior by passing the `--allow-unsigned-profiles` option to certain commands. The `CHEF_ALLOW_UNSIGNED_PROFILES` environment variable has a similar effect.
 
 ### How does Profile Signing Work?
 
@@ -180,3 +191,12 @@ Dependencies for profile simple successfully vendored to /Users/cwolfe/sandbox/i
 Successfully generated simple-0.1.0.iaf
 [cwolfe@lodi temp]$
 ```
+
+### What do the new exit codes mean?
+
+Signing introduces two new exit codes:
+
+5 - Signature Invalid or not verifiable. You tried to execute a signed profile, but the signature was either bad, or the key could not be obtained.
+
+6 - Mandatory Profile Signing Enabled and No Signature. You have enabled Mandatory Profile Signing, so Chef InSpec is requiring that all profiles be signed; apparetnly it encounted an unsigned profile.
+

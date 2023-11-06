@@ -17,11 +17,10 @@ Use the InSpec Command Line Interface (CLI) to run tests and audits against targ
 
 > **Note**
 
-> With a version of Chef InSpec above **6.0.0**, using a signed profile with Chef InSpec commands can be enabled as a mandatory default behaviour by setting a feature flag `CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING` in environment.<br>
-> Using signed InSpec profiles attests to the authenticity of the profiles. Therefore, providing control over profiles that are used with InSpec commands for scan or other InSpec operations. Hence, it is a secure behaviour to use signed InSpec profiles.<br><br>
-> To use an unsigned profile with Chef InSpec CLI commands, you will need to provide an additional CLI option `--allow-unsigned-profile`. You can also set an environment variable `CHEF_ALLOW_UNSIGNED_PROFILE` for the same.<br>
-> By using these options, you are consenting to use InSpec profiles with insecure behaviour.<br><br>
-> See the [Signed InSpec Profiles](/inspec/signing/) for more information on InSpec signed profiles and profile signing process.
+> In versions of Chef InSpec above **6.0.0**, a feature known as **mandatory profile signing** may be enabled. In this mode, InSpec will require all profiles to be signed, or else will refuse to execute the profile, instead exiting with code 6 (signature required). In this way, InSpec can be part of a chain of trust as it will only execute signed, trusted content. **Mandatory profile signing** will become enabled by default in a future major version of InSpec.
+> To enable this feature, set the environemnt variable `CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING` to any non-empty value. The next time you run an InSpec scan using `inspec exec`, InSpec will require the profile to be signed. See [Signed InSpec Profiles](/inspec/signing/) for more information on InSpec signed profiles and the profile signing process.
+> With mandatory profile signing enabled, you may need to bypass it temporarily to run a local unsigned profile to to run a profile from a fetcher that does not support signed profiles. In that case, you may consent to insecure behavior by passing the `--allow-unsigned-profiles` option to certain commands. The `CHEF_ALLOW_UNSIGNED_PROFILES` environment variable has a similar effect.
+>
 
 ## archive
 
@@ -289,15 +288,14 @@ exit codes:
   1  usage or general error
   2  error in plugin system
   3  fatal deprecation encountered
+  5  invalid profile signature
+  6  mandatory profile signing mode enabled and no signature found
   100  normal exit, at least one test failed
   101  normal exit, at least one test skipped but none failed
   172  chef license not accepted
 ```
 
-Below are some examples of using `exec` with different test locations:
-
-Since with Chef InSpec version above **6.0.0**, using a signed profile with Chef InSpec commands can be enabled as a mandatory default behaviour by using feature flag `CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING` in environment.<br>
-InSpec executions using an Automate, Supermarket, GIT or an URL based profiles will then require using `--allow-unsigned-profile` flag. You can also set an environment variable `CHEF_ALLOW_UNSIGNED_PROFILE` for the same.<br><br>
+Below are some examples of using `exec` with different test locations. If you are using the **mandatory profile signing** feature, you may need to pass an extra option for certain fetchers that do not support signed profiles yet.
 
 Chef Automate:
 
@@ -321,7 +319,7 @@ inspec compliance login
 Chef Supermarket:
 
 ```ruby
-inspec exec supermarket://username/linux-baseline --allow-unsigned-profile
+inspec exec supermarket://username/linux-baseline
 inspec exec supermarket://username/linux-baseline --supermarket_url="https://privatesupermarket.example.com"
 ```
 
@@ -414,10 +412,10 @@ Web-hosted file with basic authentication (supports .zip):
 inspec exec https://username:password@webserver/linux-baseline.tar.gz
 ```
 
-Or with mandatory signed profile usage enabled:
+Or with mandatory signed profile usage enabled (note no need for extra flag if you serve an IAF file):
 
 ```bash
-inspec exec https://username:password@webserver/linux-baseline.tar.gz --allow-unsigned-profile
+inspec exec https://username:password@webserver/linux-baseline.iaf
 ```
 
 ### Syntax
