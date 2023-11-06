@@ -251,7 +251,7 @@ module Inspec
               impact: 0.5,
               refs: [],
               tags: {},
-              checks: Set.new
+              checks: []
             }
 
             # Scan the code block for per-control metadata
