@@ -1,5 +1,5 @@
 # Chef InSpec: Inspect Your Infrastructure
-  
+
 * **Project State: Active**
 * **Issues Response SLA: 14 business days**
 * **Pull Request Response SLA: 14 business days**
@@ -314,7 +314,7 @@ Remote Targets
 | CentOS                       | 6, 7, 8                                          | i386, x86_64  |
 | Debian                       | 9, 10                                            | i386, x86_64  |
 | FreeBSD                      | 9, 10, 11                                        | i386, amd64   |
-| macOS                        | 10.14, 10.15, 11.0                               | x86_64        |
+| macOS                        | 11.0                                             | x86_64        |
 | Oracle Enterprise Linux      | 6, 7, 8                                          | i386, x86_64  |
 | Red Hat Enterprise Linux     | 6, 7, 8                                          | i386, x86_64  |
 | Solaris                      | 10, 11                                           | sparc, x86    |
