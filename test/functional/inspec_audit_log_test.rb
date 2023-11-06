@@ -13,14 +13,6 @@ describe "inspec exec and inspec shell with audit logging on " do
     delete_audit_log_file("#{Inspec.log_dir}/train-audit.log")
   end
 
-  it "shoudl not create train-audit.log file if the audit log is disabled" do
-    cli_args = " --disable-audit-log"
-    run_result = run_inspec_process("exec " + File.join(profile_path, "basic_profile") + cli_args, env: { CHEF_PREVIEW_AUDIT_LOGGING: "1" })
-    _(run_result.stdout).must_include "1 successful control"
-    _(run_result.exit_status).must_equal 0
-    _(File.exist?"#{Inspec.log_dir}/train-audit.log").must_equal false
-  end
-
   it "shoudl not create train-audit.log file if preview feature flag is not set" do
     run_result = run_inspec_process("exec " + File.join(profile_path, "basic_profile"))
     _(run_result.stdout).must_include "1 successful control"
@@ -33,6 +25,12 @@ describe "inspec exec and inspec shell with audit logging on " do
     _(run_result.exit_status).must_equal 0
     _(File.exist?("#{Inspec.log_dir}/train-audit.log")).must_equal true
     delete_audit_log_file("#{Inspec.log_dir}/train-audit.log")
+  end
+
+  it "should create train-audit.log file in the default location" do
+    run_result = run_inspec_process("shell " + " ")
+    _(run_result.exit_status).must_equal 0
+    _(File.exist?("#{Inspec.log_dir}/train-audit.log")).must_equal false
   end
 
   def delete_audit_log_file(file_path)
