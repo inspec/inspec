@@ -171,7 +171,7 @@ module Inspec
         desc: "Use the given path for caching dependencies, (default: ~/.inspec/cache)."
       option :auto_install_gems, type: :boolean, default: false,
         desc: "Auto installs gem dependencies of the profile or resource pack."
-      option :allow_unsigned_profile, type: :boolean, default: false,
+      option :allow_unsigned_profiles, type: :boolean, default: false,
         desc: "Allow unsigned profiles to be used in InSpec command."
     end
 

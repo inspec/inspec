@@ -187,7 +187,7 @@ module FunctionalHelper
     prefix += assemble_env_prefix(opts[:env])
     command_line += " --reporter json " if opts[:json] && command_line =~ /\bexec\b/
     command_line += " --enhanced_outcomes " if opts[:enhanced_outcomes] && command_line =~ /\bexec\b/
-    command_line += " --allow-unsigned-profile #{opts[:allow_unsigned_profile]}" if opts[:allow_unsigned_profile]
+    command_line += " --allow-unsigned-profiles #{opts[:allow_unsigned_profiles]}" if opts[:allow_unsigned_profiles]
     command_line += " --no-create-lockfile" if (!opts[:lock]) && command_line =~ /\bexec\b/
 
     run_result = nil

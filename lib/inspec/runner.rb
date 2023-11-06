@@ -189,7 +189,7 @@ module Inspec
       target_profiles.each do |profile|
         unsigned_profiles << profile.name unless profile.verify_if_signed
       end
-      raise Inspec::ProfileSignatureRequired, "Signature required for profile/s: #{unsigned_profiles.join(", ")}. Please provide a signed profile. Or set CHEF_ALLOW_UNSIGNED_PROFILE in the environment. Or use `--allow-unsigned-profile` flag with InSpec CLI. " unless unsigned_profiles.empty?
+      raise Inspec::ProfileSignatureRequired, "Signature required for profile/s: #{unsigned_profiles.join(", ")}. Please provide a signed profile. Or set CHEF_ALLOW_UNSIGNED_PROFILES in the environment. Or use `--allow-unsigned-profiles` flag with InSpec CLI. " unless unsigned_profiles.empty?
     end
 
     def render_output(run_data)

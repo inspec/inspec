@@ -307,7 +307,7 @@ inspec exec compliance://username/linux-baselinem
 With mandatory signed profile usage enabled:
 
 ```ruby
-inspec exec compliance://username/linux-baselinem --allow-unsigned-profile
+inspec exec compliance://username/linux-baselinem --allow-unsigned-profiles
 ```
 
 `inspec compliance` is a backwards compatible alias for `inspec automate` and works the same way:
@@ -326,7 +326,7 @@ inspec exec supermarket://username/linux-baseline --supermarket_url="https://pri
 Or with mandatory signed profile usage enabled:
 
 ```ruby
-inspec exec supermarket://username/linux-baseline --supermarket_url="https://privatesupermarket.example.com" --allow-unsigned-profile
+inspec exec supermarket://username/linux-baseline --supermarket_url="https://privatesupermarket.example.com" --allow-unsigned-profiles
 ```
 
 
@@ -351,7 +351,7 @@ inspec exec git@github.com:dev-sec/linux-baseline.git
 Or with mandatory signed profile usage enabled:
 
 ```ruby
-inspec exec git@github.com:dev-sec/linux-baseline.git --allow-unsigned-profile
+inspec exec git@github.com:dev-sec/linux-baseline.git --allow-unsigned-profiles
 ```
 
 Git via HTTPS (.git suffix is required):
@@ -363,7 +363,7 @@ inspec exec https://github.com/dev-sec/linux-baseline.git
 Or with mandatory signed profile usage enabled:
 
 ```ruby
-inspec exec https://github.com/dev-sec/linux-baseline.git --allow-unsigned-profile
+inspec exec https://github.com/dev-sec/linux-baseline.git --allow-unsigned-profiles
 ```
 
 Private Git via HTTPS (.git suffix is required):
@@ -375,7 +375,7 @@ inspec exec https://api_token@github.com/dev-sec/linux-baseline.git
 Or with mandatory signed profile usage enabled:
 
 ```ruby
-inspec exec https://api_token@github.com/dev-sec/linux-baseline.git --allow-unsigned-profile
+inspec exec https://api_token@github.com/dev-sec/linux-baseline.git --allow-unsigned-profiles
 ```
 
 Private Git via HTTPS and cached credentials (.git suffix is required):
@@ -391,7 +391,7 @@ Or with mandatory signed profile usage enabled:
 ```bash
 git config credential.helper cache
 git ls-remote https://github.com/dev-sec/linux-baseline.git
-inspec exec https://github.com/dev-sec/linux-baseline.git --allow-unsigned-profile
+inspec exec https://github.com/dev-sec/linux-baseline.git --allow-unsigned-profiles
 ```
 
 Web-hosted file (also supports .zip):
@@ -403,7 +403,7 @@ inspec exec https://webserver/linux-baseline.tar.gz
 Or with mandatory signed profile usage enabled:
 
 ```bash
-inspec exec https://webserver/linux-baseline.tar.gz --allow-unsigned-profile
+inspec exec https://webserver/linux-baseline.tar.gz --allow-unsigned-profiles
 ```
 
 Web-hosted file with basic authentication (supports .zip):
@@ -621,7 +621,7 @@ This subcommand has the following additional options:
 `--enhanced-outcomes`
 : Includes enhanced outcome of controls in report data.
 
-`--allow-unsigned-profile`
+`--allow-unsigned-profiles`
 : Flag to allow inspec run with unsigned profiles, defaults to false
 
 ## habitat
@@ -738,7 +738,7 @@ This subcommand has the following additional options:
 `--vendor-cache=VENDOR_CACHE`
 : Use the given path for caching dependencies. (default: `~/.inspec/cache`).
 
-`--allow-unsigned-profile`
+`--allow-unsigned-profiles`
 : Flag to use inspec command with unsigned profile, defaults to false.
 
 ## license

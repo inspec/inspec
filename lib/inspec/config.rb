@@ -81,7 +81,7 @@ module Inspec
     end
 
     def allow_unsigned_profiles?
-      self["allow_unsigned_profile"] || ENV["CHEF_ALLOW_UNSIGNED_PROFILE"]
+      self["allow_unsigned_profiles"] || ENV["CHEF_ALLOW_UNSIGNED_PROFILES"]
     end
 
     # return all telemetry options from config
