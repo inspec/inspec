@@ -234,9 +234,6 @@ module Inspec
     end
 
     def self.audit_log_options
-      option :audit_log_location, type: :string,
-      desc: "Audit log location to send diagnostic log messages to. (default: '~/.inspec/logs/train-audit.log')"
-
       option :enable_audit_log, type: :boolean, default: true,
       desc: "Enable audit logging."
 
@@ -445,7 +442,9 @@ module Inspec
       o[:logger].level = get_log_level(o["log_level"])
     end
 
+    # This method is currenlty under feature preview flag and audit log will only be enabeld when CHEF_PREVIEW_AUDIT_LOGGING is set in the env variable
     def set_and_validate_audit_log_options(o)
+      o[:enable_audit_log] ||= true
       o[:audit_log_location] ||= "#{Inspec.log_dir}/train-audit.log"
       o[:audit_log_app_name] = Inspec::Dist::EXEC_NAME
       err = []
