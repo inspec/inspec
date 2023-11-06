@@ -116,6 +116,10 @@ This subcommand has the following additional options:
 `--no-with-cookstyle`
 : Enable or disable cookstyle checks.
 
+`--legacy-check`
+`--no-legacy-check`
+: For running checks on profiles that needs train connections, run `inspec check --legacy-check`. Default: do not check.
+
 ## detect
 
 Detects the target OS.
