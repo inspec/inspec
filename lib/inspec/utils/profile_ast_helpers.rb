@@ -148,7 +148,26 @@ module Inspec
               elsif ACCPETABLE_TAG_TYPE_TO_VALUES.key?(child_tag.value.type)
                 value = ACCPETABLE_TAG_TYPE_TO_VALUES[child_tag.value.type]
               else
-                value = child_tag.value.value
+                if child_tag.value.children.first.class == RuboCop::AST::SendNode
+                  # Cases like this: (where there is no assignment of the value to a variable like gcp_project_id)
+                  # tag project: gcp_project_id.to_s
+                  #
+                  # Lecacy evaluates gcp_project_id.to_s and then passes the value to the tag
+                  # We are not evaluating the value here, so we are just passing the value as it is
+                  #
+                  # TODO: Do we need to evaluate the value here?
+                  # (byebug) child_tag.value
+                  # s(:send,
+                  # s(:send, nil, :gcp_project_id), :to_s)
+                  value = child_tag.value.children.first.children[1]
+                elsif child_tag.value.children.first.class == RuboCop::AST::Node
+                  # Cases like this:
+                  # control_id = '1.1'
+                  # tag cis_gcp: control_id.to_s
+                  value = child_tag.value.children.first.children[0]
+                else
+                  value = child_tag.value.value
+                end
               end
               tags_coll.merge!(key => value)
             end
@@ -205,13 +224,43 @@ module Inspec
         end
 
         def iterate_hash_node(hash_node, references = {})
+          # hash node like this:
           # s(:hash,
           #   s(:pair,
           #     s(:sym, :url),
           #     s(:str, "https://")))
+          #
+          # or like this:
+          # (byebug) hash_node
+          # s(:hash,
+          # s(:pair,
+          #   s(:sym, :url),
+          #   s(:send,
+          #     s(:send, nil, :cis_url), :to_s)))
           hash_node.children.each do |child_node|
             if child_node.type == :pair
-              references.merge!(child_node.key.value => child_node.value.value)
+              if child_node.value.children.first.class == RuboCop::AST::SendNode
+                # Case like this  (where there is no assignment of the value to a variable like cis_url)
+                # ref 'CIS Benchmark', url: cis_url.to_s
+                # Lecacy evaluates cis_url.to_s and then passes the value to the ref
+                # We are not evaluating the value here, so we are just passing the value as it is
+                #
+                # TODO: Do we need to evaluate the value here?
+                #
+                # (byebug) child_node.value.children.first
+                # s(:send, nil, :cis_url)
+                value = child_node.value.children.first.children[1]
+              elsif child_node.value.class == RuboCop::AST::SendNode
+                # Cases like this:
+                # cis_url = attribute('cis_url')
+                # ref 'CIS Benchmark', url: cis_url.to_s
+                value = child_node.value.children.first.children[0]
+              else
+                # Cases like this: ref 'CIS Benchmark - 2', url: "https://"
+                # require 'byebug'; byebug
+                value = child_node.value.value
+              end
+              references.merge!(child_node.key.value => value)
             end
           end
         end
