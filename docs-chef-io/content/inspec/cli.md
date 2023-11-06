@@ -17,10 +17,7 @@ Use the InSpec Command Line Interface (CLI) to run tests and audits against targ
 
 > **Note**
 
-> In versions of Chef InSpec above **6.0.0**, a feature known as **mandatory profile signing** may be enabled. In this mode, InSpec will require all profiles to be signed, or else will refuse to execute the profile, instead exiting with code 6 (signature required). In this way, InSpec can be part of a chain of trust as it will only execute signed, trusted content. **Mandatory profile signing** will become enabled by default in a future major version of InSpec.
-> To enable this feature, set the environemnt variable `CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING` to any non-empty value. The next time you run an InSpec scan using `inspec exec`, InSpec will require the profile to be signed. See [Signed InSpec Profiles](/inspec/signing/) for more information on InSpec signed profiles and the profile signing process.
-> With mandatory profile signing enabled, you may need to bypass it temporarily to run a local unsigned profile to to run a profile from a fetcher that does not support signed profiles. In that case, you may consent to insecure behavior by passing the `--allow-unsigned-profiles` option to certain commands. The `CHEF_ALLOW_UNSIGNED_PROFILES` environment variable has a similar effect.
->
+> In versions of Chef InSpec above **6.0.0**, a feature known as **mandatory profile signing** may be enabled. In this mode, InSpec will require all profiles to be signed, or else will refuse to execute the profile. For more details, see [Signed InSpec Profiles](/inspec/signing/).
 
 ## archive
 
