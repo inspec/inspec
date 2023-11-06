@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.79 -->
-## [v6.4.79](https://github.com/inspec/inspec/tree/v6.4.79) (2023-11-06)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Dev docs on profile evaluations and more [#6813](https://github.com/inspec/inspec/pull/6813) ([Nik08](https://github.com/Nik08))
+- CHEF-7281: Remove references to MacOS 10.15 in docs [#6845](https://github.com/inspec/inspec/pull/6845) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- CHEF-7281: Remove references to MacOS 10.15 in docs [#6845](https://github.com/inspec/inspec/pull/6845) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.79 -->
 - Dev docs on profile evaluations and more [#6813](https://github.com/inspec/inspec/pull/6813) ([Nik08](https://github.com/Nik08)) <!-- 6.4.79 -->
 - Profile params usage changes - inspec compliance plugin [#6832](https://github.com/inspec/inspec/pull/6832) ([Nik08](https://github.com/Nik08)) <!-- 6.4.78 -->
 - CHEF-7670 Ability to set feature preview flag using ENV [#6833](https://github.com/inspec/inspec/pull/6833) ([Nik08](https://github.com/Nik08)) <!-- 6.4.77 -->
