@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 4.56.59 -->
+## [v4.56.59](https://github.com/inspec/inspec/tree/v4.56.59) (2023-11-06)
 
 #### Merged Pull Requests
+- BACKPORT: Fix in HTML2 reporter [#6812](https://github.com/inspec/inspec/pull/6812) ([Nik08](https://github.com/Nik08))
 - Pull release notes from v4 wiki page [#6839](https://github.com/inspec/inspec/pull/6839) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Fix trailing whitespace on omnibus overrides file [#6841](https://github.com/inspec/inspec/pull/6841) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
@@ -12,6 +13,7 @@
 ### Changes since 4.56.58 release
 
 #### Merged Pull Requests
+- BACKPORT: Fix in HTML2 reporter [#6812](https://github.com/inspec/inspec/pull/6812) ([Nik08](https://github.com/Nik08)) <!-- 4.56.59 -->
 - Pull release notes from v4 wiki page [#6839](https://github.com/inspec/inspec/pull/6839) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.58 -->
 - Fix trailing whitespace on omnibus overrides file [#6841](https://github.com/inspec/inspec/pull/6841) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.58 -->
 <!-- release_rollup -->
