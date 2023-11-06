@@ -5,32 +5,32 @@ describe "inspec exec and inspec shell with audit logging on " do
 
   include FunctionalHelper
 
-  it "should create train-audit.log file in the default location when inpsec exec run" do
+  it "should create inspec-audit.log file in the default location when inpsec exec run" do
     run_result = run_inspec_process("exec " + File.join(profile_path, "basic_profile") + " ", env: { CHEF_PREVIEW_AUDIT_LOGGING: "1" })
     _(run_result.stdout).must_include "1 successful control"
     _(run_result.exit_status).must_equal 0
-    _(File.exist?("#{Inspec.log_dir}/train-audit.log")).must_equal true
-    delete_audit_log_file("#{Inspec.log_dir}/train-audit.log")
+    _(File.exist?("#{Inspec.log_dir}/inspec-audit.log")).must_equal true
+    delete_audit_log_file("#{Inspec.log_dir}/inspec-audit.log")
   end
 
-  it "shoudl not create train-audit.log file if preview feature flag is not set" do
+  it "shoudl not create inspec-audit.log file if preview feature flag is not set" do
     run_result = run_inspec_process("exec " + File.join(profile_path, "basic_profile"))
     _(run_result.stdout).must_include "1 successful control"
     _(run_result.exit_status).must_equal 0
-    _(File.exist?"#{Inspec.log_dir}/train-audit.log").must_equal false
+    _(File.exist?"#{Inspec.log_dir}/inspec-audit.log").must_equal false
   end
 
-  it "should create train-audit.log file in the default location" do
+  it "should create inspec-audit.log file in the default location" do
     run_result = run_inspec_process("shell " + " ", env: { CHEF_PREVIEW_AUDIT_LOGGING: "1" })
     _(run_result.exit_status).must_equal 0
-    _(File.exist?("#{Inspec.log_dir}/train-audit.log")).must_equal true
-    delete_audit_log_file("#{Inspec.log_dir}/train-audit.log")
+    _(File.exist?("#{Inspec.log_dir}/inspec-audit.log")).must_equal true
+    delete_audit_log_file("#{Inspec.log_dir}/inspec-audit.log")
   end
 
-  it "should create train-audit.log file in the default location" do
+  it "should create inspec-audit.log file in the default location" do
     run_result = run_inspec_process("shell " + " ")
     _(run_result.exit_status).must_equal 0
-    _(File.exist?("#{Inspec.log_dir}/train-audit.log")).must_equal false
+    _(File.exist?("#{Inspec.log_dir}/inspec-audit.log")).must_equal false
   end
 
   def delete_audit_log_file(file_path)
