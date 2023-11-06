@@ -173,6 +173,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "The output format to use. Valid values: `json` and `doc`. Default value: `doc`."
   option :with_cookstyle, type: :boolean,
     desc: "Enable or disable cookstyle checks.", default: false
+  option :legacy_check, type: :boolean, default: false,
+         desc: "Run with legacy check."
   profile_options
   def check(path) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     Inspec.with_feature("inspec-cli-check") {
@@ -189,7 +191,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
         # run check
         profile = Inspec::Profile.for_target(path, o)
-        result = profile.check
+        result = o[:legacy_check] ? profile.legacy_check : profile.check
 
         if o["format"] == "json"
           puts JSON.generate(result)
