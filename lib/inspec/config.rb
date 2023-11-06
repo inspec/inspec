@@ -30,7 +30,7 @@ module Inspec
       audit_log_size
       audit_log_frequency
       audit_log_location
-      disable_audit_log
+      enable_audit_log
       audit_log_app_name
     }.freeze
 
