@@ -556,10 +556,6 @@ This subcommand has the following additional options:
 `--audit-log-location=AUDIT_LOG_LOCATION`
 : Audit log location to send diagnostic log messages to (default: '~/.inspec/logs/train-audit.log').
 
-`--enable-audit-log`
-`--no-enable-audit-log`
-: Enable audit logging. (default: true)
-
 `--audit-log-size=N`
 : Set audit log file size in bytes.(default: 2097152)
 
@@ -866,10 +862,6 @@ This subcommand has the following additional options:
 
 `--audit-log-location=AUDIT_LOG_LOCATION`
 : Audit log location to send diagnostic log messages to (default: '~/.inspec/logs/train-audit.log').
-
-`--enable-audit-log`
-`--no-enable-audit-log`
-: Enable audit logging. (default: true)
 
 `--audit-log-size=N`
 : Set audit log file size in bytes.(default: 2097152)

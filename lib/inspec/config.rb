@@ -180,7 +180,7 @@ module Inspec
         # We currently want this option only to be set if CHEF_PREVIEW_AUDIT_LOGGING is set
         # and we already merging the audit_log_options within _utc_merge_audit_log_options method which only invoke if feature flag is on
         # we don't want audit log option to get set from here again so this is a safe check and can be removed when we remove preview feature flag.
-        transport_options.include? option_name unless option_name.match?("disable_audit_log")
+        transport_options.include? option_name unless option_name.match?("enable_audit_log")
       end
       credentials.merge!(unprefixed_transport_options)
 
