@@ -316,7 +316,7 @@ Remote Targets
 | FreeBSD                      | 9, 10, 11                                        | i386, amd64   |
 | macOS                        | 11.0                                             | x86_64        |
 | Oracle Enterprise Linux      | 6, 7, 8                                          | i386, x86_64  |
-| Red Hat Enterprise Linux     | 6, 7, 8                                          | i386, x86_64  |
+| Red Hat Enterprise Linux     | 7, 8, 9                                          | i386, x86_64  |
 | Solaris                      | 10, 11                                           | sparc, x86    |
 | Windows\*                    | 8, 8.1, 10, 2012, 2012R2, 2016, 2019             | x86, x86_64   |
 | Ubuntu Linux                 |                                                  | x86, x86_64   |
