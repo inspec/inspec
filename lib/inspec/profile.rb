@@ -806,13 +806,12 @@ module Inspec
     def validity_check # rubocop:disable Metrics/AbcSize
       errors = []
       warnings = []
-      yml_metadata = Metadata.from_file(@source_reader.target.abs_path(@source_reader.metadata.ref), nil) || {}
-      info_from_parse.merge!(yml_metadata.params)
+      info_from_parse.merge!(metadata.params)
 
       %w{name version}.each do |field|
         next unless info_from_parse[field.to_sym].nil?
 
-        errors.push("Missing profile #{field} in #{yml_metadata.ref}")
+        errors.push("Missing profile #{field} in #{metadata.ref}")
       end
 
       if %r{[\/\\]} =~ info_from_parse[:name]
@@ -836,7 +835,7 @@ module Inspec
       %w{title summary maintainer copyright license}.each do |field|
         next unless info_from_parse[field.to_sym].nil?
 
-        warnings.push("Missing profile #{field} in #{yml_metadata.ref}")
+        warnings.push("Missing profile #{field} in #{metadata.ref}")
       end
 
       # if license is set, ensure it is in SPDX format or marked as proprietary
