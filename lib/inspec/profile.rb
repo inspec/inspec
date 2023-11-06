@@ -682,6 +682,122 @@ module Inspec
       end
     end
 
+    def legacy_check # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
+      # initial values for response object
+      result = {
+        summary: {
+          valid: false,
+          timestamp: Time.now.iso8601,
+          location: @target,
+          profile: nil,
+          controls: 0,
+        },
+        errors: [],
+        warnings: [],
+        offenses: [],
+      }
+
+      entry = lambda { |file, line, column, control, msg|
+        {
+          file: file,
+          line: line,
+          column: column,
+          control_id: control,
+          msg: msg,
+        }
+      }
+
+      warn = lambda { |file, line, column, control, msg|
+        @logger.warn(msg)
+        result[:warnings].push(entry.call(file, line, column, control, msg))
+      }
+
+      error = lambda { |file, line, column, control, msg|
+        @logger.error(msg)
+        result[:errors].push(entry.call(file, line, column, control, msg))
+      }
+
+      offense = lambda { |file, line, column, control, msg|
+        result[:offenses].push(entry.call(file, line, column, control, msg))
+      }
+
+      @logger.info "Checking profile in #{@target}"
+      meta_path = @source_reader.target.abs_path(@source_reader.metadata.ref)
+
+      # verify metadata
+      m_errors, m_warnings = metadata.valid
+      m_errors.each { |msg| error.call(meta_path, 0, 0, nil, msg) }
+      m_warnings.each { |msg| warn.call(meta_path, 0, 0, nil, msg) }
+      m_unsupported = metadata.unsupported
+      m_unsupported.each { |u| warn.call(meta_path, 0, 0, nil, "doesn't support: #{u}") }
+      @logger.info "Metadata OK." if m_errors.empty? && m_unsupported.empty?
+
+      # only run the vendor check if the legacy profile-path is not used as argument
+      if @legacy_profile_path == false
+        # verify that a lockfile is present if we have dependencies
+        unless metadata.dependencies.empty?
+          error.call(meta_path, 0, 0, nil, "Your profile needs to be vendored with `inspec vendor`.") unless lockfile_exists?
+        end
+
+        if lockfile_exists?
+          # verify if metadata and lockfile are out of sync
+          if lockfile.deps.size != metadata.dependencies.size
+            error.call(meta_path, 0, 0, nil, "inspec.yml and inspec.lock are out-of-sync. Please re-vendor with `inspec vendor`.")
+          end
+
+          # verify if metadata and lockfile have the same dependency names
+          metadata.dependencies.each do |dep|
+            # Skip if the dependency does not specify a name
+            next if dep[:name].nil?
+
+            # TODO: should we also verify that the soure is the same?
+            unless lockfile.deps.map { |x| x[:name] }.include? dep[:name]
+              error.call(meta_path, 0, 0, nil, "Cannot find #{dep[:name]} in lockfile. Please re-vendor with `inspec vendor`.")
+            end
+          end
+        end
+      end
+
+      # extract profile name
+      result[:summary][:profile] = metadata.params[:name]
+
+      count = params[:controls].values.length
+      result[:summary][:controls] = count
+      if count == 0
+        warn.call(nil, nil, nil, nil, "No controls or tests were defined.")
+      else
+        @logger.info("Found #{count} controls.")
+      end
+
+      # iterate over hash of groups
+      params[:controls].each do |id, control|
+        sfile = control[:source_location][:ref]
+        sline = control[:source_location][:line]
+        error.call(sfile, sline, nil, id, "Avoid controls with empty IDs") if id.nil? || id.empty?
+        next if id.start_with? "(generated "
+
+        warn.call(sfile, sline, nil, id, "Control #{id} has no title") if control[:title].to_s.empty?
+        warn.call(sfile, sline, nil, id, "Control #{id} has no descriptions") if control[:descriptions][:default].to_s.empty?
+        warn.call(sfile, sline, nil, id, "Control #{id} has impact > 1.0") if control[:impact].to_f > 1.0
+        warn.call(sfile, sline, nil, id, "Control #{id} has impact < 0.0") if control[:impact].to_f < 0.0
+        warn.call(sfile, sline, nil, id, "Control #{id} has no tests defined") if control[:checks].nil? || control[:checks].empty?
+      end
+
+      # Running cookstyle to check for code offenses
+      if @check_cookstyle
+        cookstyle_linting_check.each do |lint_output|
+          data = lint_output.split(":")
+          msg = "#{data[-2]}:#{data[-1]}"
+          offense.call(data[0], data[1], data[2], nil, msg)
+        end
+      end
+      # profile is valid if we could not find any error & offenses
+      result[:summary][:valid] = result[:errors].empty? && result[:offenses].empty?
+
+      @logger.info "Control definitions OK." if result[:warnings].empty?
+      result
+    end
+
     # Check if the profile is internally well-structured. The logger will be
     # used to print information on errors and warnings which are found.
     #
@@ -765,7 +881,7 @@ module Inspec
       # extract profile name
       result[:summary][:profile] = info_from_parse[:name]
 
-      count = controls_count
+      count = info_from_parse[:controls].count
       result[:summary][:controls] = count
       if count == 0
         warn.call(nil, nil, nil, nil, "No controls or tests were defined.")
@@ -871,10 +987,6 @@ module Inspec
       end
 
       [errors, warnings]
-    end
-
-    def controls_count
-      info_from_parse[:controls].count
     end
 
     def set_status_message(msg)
