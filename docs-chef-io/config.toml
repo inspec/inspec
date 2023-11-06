@@ -1,2 +1,74 @@
 [params.inspec]
 gh_path = "https://github.com/inspec/inspec/tree/main/docs-chef-io/content/"
+
+####
+# Chef InSpec Menu
+####
+
+[[menu.inspec]]
+title = "Chef InSpec"
+identifier = "inspec"
+
+  [[menu.inspec]]
+  title = "Install"
+  identifier = "inspec/install"
+  parent = "inspec"
+  weight = 20
+
+  [[menu.inspec]]
+  title = "Chef InSpec Reference"
+  identifier = "inspec/reference"
+  parent = "inspec"
+  weight = 500
+
+  [[menu.inspec]]
+  title = "Chef InSpec Resources"
+  identifier = "inspec/resources"
+  parent = "inspec"
+  weight = 999
+
+    [[menu.inspec]]
+    title = "OS Resources"
+    identifier = "inspec/resources/os"
+    parent = "inspec/resources"
+    weight = 20
+
+    [[menu.inspec]]
+    title = "Alibaba Resources"
+    identifier = "inspec/resources/alicloud"
+    parent = "inspec/resources"
+    weight = 25
+
+    [[menu.inspec]]
+    title = "AWS Resources"
+    identifier = "inspec/resources/aws"
+    parent = "inspec/resources"
+    weight = 30
+
+    [[menu.inspec]]
+    title = "Azure Resources"
+    identifier = "inspec/resources/azure"
+    parent = "inspec/resources"
+    weight = 40
+
+    [[menu.inspec]]
+    title = "GCP Resources"
+    identifier = "inspec/resources/gcp"
+    parent = "inspec/resources"
+    weight = 50
+
+    [[menu.inspec]]
+    title = "Habitat Resources"
+    identifier = "inspec/resources/habitat"
+    parent = "inspec/resources"
+    weight = 60
+
+    [[menu.inspec]]
+    title = "Kubernetes Resources"
+    identifier = "inspec/resources/k8s"
+    parent = "inspec/resources"
+    weight = 70
+
+####
+# End Chef InSpec Menu
+####

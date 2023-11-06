@@ -336,11 +336,11 @@ In addition, runtime support is provided for:
 
 | Platform | Versions | Arch   |
 | -------- | -------- | ------ |
-| macOS    | 10.14+   | x86_64 |
-| Debian   | 9, 10    | x86_64 |
-| RHEL     | 6, 7, 8  | x86_64 |
-| Fedora   | 29+      | x86_64 |
-| Ubuntu   | 16.04+   | x86_64 |
+| macOS    | 11+      | x86_64, arm64 |
+| Debian   | 9, 10    | x86_64, aarch64 |
+| RHEL     | 7, 8, 9  | x86_64, aarch64 |
+| Fedora   | 29+      | x86_64, aarch64 |
+| Ubuntu   | 16.04+   | x86_64, aarch64 |
 | Windows  | 8+       | x86_64 |
 | Windows  | 2012+    | x86_64 |
 
@@ -461,8 +461,9 @@ KITCHEN_YAML=kitchen.dokken.yml bundle exec kitchen test -c 3
 | **License:**   | Apache License, Version 2.0                    |
 | **License:**   | Chef End User License Agreement                |
 
-Chef InSpec is distributed under the Apache License, Version 2.0.
-Permission to use the software is governed by the [Chef EULA](https://docs.chef.io/chef_license_accept.html).
+Packaged distributions of Progress® Chef® products obtained from any authorised Progress Chef distribution source are made available pursuant to the Progress Chef EULA at https://www.chef.io/end-user-license-agreement, unless there is an executed agreement in effect between you and Progress that covers the Progress Chef products ("Master Agreement"), in which case the Master Agreement shall govern.
+
+Source code obtained from the Chef GitHub repository is made available under Apache-2.0, a copy of which is included below.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

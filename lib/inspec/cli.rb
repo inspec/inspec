@@ -74,9 +74,15 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "A list of controls to include. Ignore all other tests."
   option :tags, type: :array,
     desc: "A list of tags to filter controls and include only those. Ignore all other tests."
+  option :legacy_export, type: :boolean, default: false,
+    desc: "Run with legacy export."
   profile_options
   def json(target)
     Inspec.with_feature("inspec-cli-json") {
+      # Config initialisation is needed before deprecation warning can be issued
+      # Deprecator calls config get method to fetch the config value
+      # Without config initialisation, the config value is not set and hence calling config get through deprecator will set the value of config as blank, making options of json command inaccessible.
+      config
       # This deprecation warning is ignored currently.
       Inspec.deprecate(:renamed_to_inspec_export)
       export(target, true)
@@ -94,7 +100,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "For --what=profile, a list of controls to include. Ignore all other tests."
   option :tags, type: :array,
     desc: "For --what=profile, a list of tags to filter controls and include only those. Ignore all other tests."
-  option :"legacy-export", type: :boolean, default: false,
+  option :legacy_export, type: :boolean, default: false,
          desc: "Run with legacy export."
   profile_options
   def export(target, as_json = false)
@@ -133,7 +139,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
         case what
         when "profile"
-          profile_info = o[:"legacy-export"] ? profile.info : profile.info_from_parse
+          profile_info = o[:legacy_export] ? profile.info : profile.info_from_parse
           if format == "json"
             require "json" unless defined?(JSON)
             # Write JSON
@@ -264,6 +270,12 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "Fallback to using local archives if fetching fails."
   option :ignore_errors, type: :boolean, default: false,
     desc: "Ignore profile warnings."
+  option :check, type: :boolean, default: false,
+    desc: "Run profile check before archiving."
+  option :export, type: :boolean, default: false,
+    desc: "Export the profile to inspec.json and include in archive"
+  option :legacy_export, type: :boolean, default: false,
+    desc: "Export the profile in legacy mode to inspec.json and include in archive"
   def archive(path, log_level = nil)
     Inspec.with_feature("inspec-cli-archive") {
       begin
@@ -286,7 +298,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
           o[:logger].warn "Archiving a profile that contains gem dependencies, but InSpec cannot package gems with the profile! Please archive your ~/.inspec/gems directory separately."
         end
 
-        result = profile.check
+        result = profile.check if o[:check]
 
         if result && !o[:ignore_errors] == false
           o[:logger].info "Profile check failed. Please fix the profile before generating an archive."

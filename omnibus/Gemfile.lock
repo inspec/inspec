@@ -1,17 +1,17 @@
 GIT
   remote: https://github.com/chef/omnibus-software.git
-  revision: 3268356b2eaf80715887e452c89b36d8f86974a0
+  revision: 4fef36786ead96e7f2f23e6f01f09efb71894992
   branch: main
   specs:
-    omnibus-software (23.7.295)
+    omnibus-software (23.10.302)
       omnibus (>= 9.0.0)
 
 GIT
   remote: https://github.com/chef/omnibus.git
-  revision: 9c0643a3a44f3e7119789c2093bfc8edd78c74ff
+  revision: 82dae896a066542f1b66dc866186f856f37e518e
   branch: main
   specs:
-    omnibus (9.0.21)
+    omnibus (9.0.23)
       aws-sdk-s3 (~> 1.116.0)
       chef-cleanroom (~> 1.0)
       chef-utils (>= 15.4)
@@ -34,14 +34,14 @@ GEM
     artifactory (3.0.15)
     awesome_print (1.9.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.803.0)
-    aws-sdk-core (3.180.3)
+    aws-partitions (1.837.0)
+    aws-sdk-core (3.185.1)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-kms (1.71.0)
-      aws-sdk-core (~> 3, >= 3.177.0)
+    aws-sdk-kms (1.72.0)
+      aws-sdk-core (~> 3, >= 3.184.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-s3 (1.116.0)
       aws-sdk-core (~> 3, >= 3.127.0)
@@ -458,7 +458,7 @@ GEM
     vault (0.17.0)
       aws-sigv4
     webrick (1.8.1)
-    win32-api (1.10.1)
+    win32-api (1.10.1-universal-mingw32)
     win32-certstore (0.6.15)
       chef-powershell (>= 1.0.12)
       ffi

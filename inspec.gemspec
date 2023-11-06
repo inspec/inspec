@@ -8,9 +8,17 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Chef InSpec Team"]
   spec.email         = ["inspec@chef.io"]
   spec.summary       = "Infrastructure and compliance testing."
-  spec.description   = "InSpec provides a framework for creating end-to-end infrastructure tests. You can use it for integration or even compliance testing. Create fully portable test profiles and use them in your workflow to ensure stability and security. Integrate InSpec in your change lifecycle for local testing, CI/CD, and deployment verification."
+  spec.description   = <<-EOT
+InSpec provides a framework for creating end-to-end infrastructure tests. You can use it for integration or even compliance testing. Create fully portable test profiles and use them in your workflow to ensure stability and security. Integrate InSpec in your change lifecycle for local testing, CI/CD, and deployment verification.
+
+Packaged distributions of Progress® Chef® products obtained from RubyGems are made available pursuant to the Progress Chef EULA at https://www.chef.io/end-user-license-agreement, unless there is an executed agreement in effect between you and Progress that covers the Progress Chef products ("Master Agreement"), in which case the Master Agreement shall govern.
+
+Source code obtained from the Chef GitHub repository is made available under Apache-2.0, a copy of which is included.
+
+  EOT
+
   spec.homepage      = "https://github.com/inspec/inspec"
-  spec.license       = "Apache-2.0"
+  spec.license       = "LicenseRef-Chef-EULA"
   spec.require_paths = ["lib"]
 
   spec.required_ruby_version = ">= 2.7"

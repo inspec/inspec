@@ -1,70 +1,51 @@
 +++
-title = "Install and Uninstall"
+title = "Install Chef InSpec"
 draft = false
 gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
-    title = "Install and Uninstall"
-    identifier = "inspec/install.md Install and Uninstall"
-    parent = "inspec"
+    title = "Install"
+    identifier = "inspec/install/install"
+    parent = "inspec/install"
     weight = 20
 +++
 
-Users can choose between operating systems of MacOS, Windows, and Linux for Chef InSpec.
+Use [Chef Downloads](https://www.chef.io/downloads), an installer, script, or package manager to install Chef InSpec.
 
-## Install Chef InSpec
+To see which platforms and platform versions Chef InSpec is supported on, see the [InSpec's platforms documentation](/inspec/platforms/).
 
-You can download the latest Chef InSpec package relevant to your operating system
-at [our Downloads Page](https://www.chef.io/downloads/tools/inspec).
+## macOS
 
-Alternatively, Chef InSpec can be installed via installer, script, or package
-manager, according to your operating system and method as listed below.
+### CLI
 
-### macOS
-
-#### Homebrew
-
-Chef InSpec is available as a standalone [Homebrew](https://brew.sh/) package.
-Run the following command in your terminal to install Chef InSpec:
-
-```bash
-brew install chef/chef/inspec
-```
-
-While this command is running, you may be prompted to enter your macOS user account
-password for installation to complete.
-
-#### CLI
-
-You can download Chef InSpec via curl script:
+You can install Chef InSpec using a curl script.
 
 ```bash
 curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
 ```
 
-### Windows
+## Windows
 
-#### Installer
+### Installer
 
-Once you downloaded the latest [Chef InSpec package](https://www.chef.io/downloads/tools/inspec)
-relevant to your Microsoft version, double-click the `.msi` file to launch the
-installer and follow the prompts.
+Download a Windows Chef InSpec package from [Chef Downloads](https://www.chef.io/downloads),
+then double-click on the `.msi` file to launch the installer and follow the prompts.
 
-#### Powershell
+### Powershell
 
-Use the following command to install Chef InSpec via Powershell script:
+You can install Chef InSpec using the following Powershell script.
 
 ```powershell
 . { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project inspec
 ```
 
-Once Chef InSpec is installed, run `inspec version` to verify that the installation
+Once you have installed Chef InSpec, run `inspec version` to verify that the installation
 was successful.
 
-### Linux
+## Linux
 
-#### CLI
+### CLI
 
 The following curl script will install Chef InSpec for Ubuntu and Red Hat Enterprise Linux:
 
@@ -73,7 +54,7 @@ curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
 ```
 
 If you prefer, you can use a package manager to install Chef InSpec.
-Once you downloaded the latest [Chef InSpec package](https://www.chef.io/downloads/tools/inspec)
+Once you downloaded the latest [Chef InSpec package](https://www.chef.io/downloads)
 relevant to your Linux-based platform, use the command for the respective package
 manager listed below. Replace the example file path with the file path leading to
 your downloaded package.
@@ -96,57 +77,7 @@ For SUSE Linux Enterprise Server, use the following command to install Chef InSp
 sudo zypper install /path-to/inspec.rpm
 ```
 
+## Next steps
 
-## Uninstall Chef InSpec
-
-Chef InSpec can be uninstalled using the steps below that are appropriate for the
-method of Chef InSpec installation.
-
-### macOS
-
-#### Homebrew
-
-Use the following *destructive* command to remove the Chef InSpec standalone Homebrew package:
-
-```bash
-brew cask uninstall inspec
-```
-
-#### CLI
-
-Use the following *destructive* command in your terminal to remove the Chef InSpec package:
-
-```bash
-sudo rm -rf /opt/inspec
-```
-
-### Windows
-
-#### Installer
-
-Use *Add / Remove Programs* to remove Chef InSpec.
-
-### Linux
-
-#### CLI
-
-The supported Linux-based platforms and their respective *destructive* command
-for their package manager are listed below.
-
-For Ubuntu, use the following *destructive* command to uninstall:
-
-```bash
-sudo dpkg -P inspec
-```
-
-For Red Hat Enterprise Linux, use the following *destructive* command to uninstall:
-
-```bash
-sudo rpm -e inspec
-```
-
-For SUSE Linux Enterprise Server, use the following *destructive* command to uninstall Chef InSpec:
-
-```bash
-sudo zypper remove inspec
-```
+After installing Chef InSpec, you must accept the Chef EULA and---starting with **Chef InSpec 6**---add a license key.
+See the [Chef InSpec license documentation](/inspec/license/) to complete these tasks.

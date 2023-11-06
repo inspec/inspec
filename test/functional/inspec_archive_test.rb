@@ -31,13 +31,50 @@ describe "inspec archive" do
     end
   end
 
-  it "archives an inspec.json file" do
+  it "archives an inspec.json file if export if provided --export option" do
+    prepare_examples("profile") do |dir|
+      out = inspec("archive " + dir + " --overwrite --export")
+
+      _(out.stderr).must_equal ""
+      t = Zlib::GzipReader.open(auto_dst)
+      _(Gem::Package::TarReader.new(t).entries.map(&:header).map(&:name)).must_include "inspec.json"
+      assert_exit_code 0, out
+    end
+  end
+
+  it "archives an inspec.json file utilizing info from legacy export if provided --legacy-export option with a non-marker profile" do
+    prepare_examples("profile") do |dir|
+      out = inspec("archive " + dir + " --overwrite --legacy-export")
+
+      _(out.stderr).must_equal ""
+      t = Zlib::GzipReader.open(auto_dst)
+      _(Gem::Package::TarReader.new(t).entries.map(&:header).map(&:name)).must_include "inspec.json"
+      assert_exit_code 0, out
+    end
+  end
+
+  it "archives an inspec.json file utilizing info from legacy export if provided --legacy-export option with a marker profile" do
+    prepare_profiles("eval-markers") do |dir|
+      out = inspec("archive " + dir + " --overwrite --legacy-export --output " + dst.path)
+
+      _(out.stderr).must_include "TOP_LEVEL_MARKER"
+      _(out.stderr).must_include "CONTROL_BODY_MARKER"
+      _(out.stderr).must_include "METADATA_MARKER"
+      _(out.stdout).must_include "Generate archive " + dst.path
+      t = Zlib::GzipReader.open(dst.path)
+      files = Gem::Package::TarReader.new(t).entries.map(&:header).map(&:name)
+      _(files).must_include "inspec.json"
+      assert_exit_code 0, out
+    end
+  end
+
+  it "does not archive an inspec.json file by default" do
     prepare_examples("profile") do |dir|
       out = inspec("archive " + dir + " --overwrite")
 
       _(out.stderr).must_equal ""
       t = Zlib::GzipReader.open(auto_dst)
-      _(Gem::Package::TarReader.new(t).entries.map(&:header).map(&:name)).must_include "inspec.json"
+      _(Gem::Package::TarReader.new(t).entries.map(&:header).map(&:name)).wont_include "inspec.json"
       assert_exit_code 0, out
     end
   end
@@ -123,6 +160,20 @@ describe "inspec archive" do
 
       out = inspec("archive " + tmpdir + " --output " + dst.path)
 
+      _(out.stderr).must_equal ""
+      assert_exit_code 0, out
+    end
+  end
+
+  it "does not evaluate a profile by default" do
+    eval_marker_path = File.join(profile_path, "eval-markers")
+
+    Dir.mktmpdir do |tmpdir|
+      FileUtils.cp_r(eval_marker_path + "/.", tmpdir)
+
+      out = inspec("archive " + tmpdir + " --overwrite")
+
+      _(out.stdout).wont_include "EVALUATION_MARKER"
       _(out.stderr).must_equal ""
       assert_exit_code 0, out
     end

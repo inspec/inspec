@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.58 -->
-## [v6.4.58](https://github.com/inspec/inspec/tree/v6.4.58) (2023-09-12)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- CHEF-3849: InSpec should exit quickly and clearly if waiver file is malformed/corrupt [#6644](https://github.com/inspec/inspec/pull/6644) ([Vasu1105](https://github.com/Vasu1105))
+- Fix lint offense, TrailingWhitespace &amp; EmptyLines [#6830](https://github.com/inspec/inspec/pull/6830) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,37 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- Fix lint offense, TrailingWhitespace &amp; EmptyLines [#6830](https://github.com/inspec/inspec/pull/6830) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.76 -->
+- Update runtime platform list [#6826](https://github.com/inspec/inspec/pull/6826) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.76 -->
+- Explicitly pin openssl to 1.0.2zi to avoid a CVE - inspec-6 [#6825](https://github.com/inspec/inspec/pull/6825) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.75 -->
+- Openssl upgrade with version 1.1.1w [#6748](https://github.com/inspec/inspec/pull/6748) ([Nik08](https://github.com/Nik08)) <!-- 6.4.75 -->
+- Pin Thor to &lt; 1.3.0 to fix test failures related to aliases [#6815](https://github.com/inspec/inspec/pull/6815) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.75 -->
+- Fixed `inspec json` ability to use cli options successfully [#6796](https://github.com/inspec/inspec/pull/6796) ([Nik08](https://github.com/Nik08)) <!-- 6.4.75 -->
+- CHEF-3917 Troubleshooting Page for Chef Licensing issues/errors [#6612](https://github.com/inspec/inspec/pull/6612) ([Nik08](https://github.com/Nik08)) <!-- 6.4.74 -->
+- CHEF-3928 Fix in HTML2 reporter - unique ID usage for control HTML divisions [#6645](https://github.com/inspec/inspec/pull/6645) ([Nik08](https://github.com/Nik08)) <!-- 6.4.73 -->
+- Update links in docs [#6788](https://github.com/inspec/inspec/pull/6788) ([IanMadd](https://github.com/IanMadd)) <!-- 6.4.72 -->
+- CI: Build on MacOS 11 intel, dropping EOL 10.15 [#6789](https://github.com/inspec/inspec/pull/6789) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.72 -->
+- Bump omnibus-software from `b3d89a4` to `4fef367` in /omnibus [#6805](https://github.com/inspec/inspec/pull/6805) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.72 -->
+- OMNIBUS: Drop enterprise linux 6 support as it has reached EOL [#6801](https://github.com/inspec/inspec/pull/6801) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.72 -->
+- Docs updates to install inspec 6 [#6574](https://github.com/inspec/inspec/pull/6574) ([IanMadd](https://github.com/IanMadd)) <!-- 6.4.72 -->
+- Update EULA for windows to fix formattings [#6780](https://github.com/inspec/inspec/pull/6780) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.72 -->
+- Renames the project name in the SonarQube [#6797](https://github.com/inspec/inspec/pull/6797) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.71 -->
+- CHEF-2627 Clarify License Description on Rubygems [#6630](https://github.com/inspec/inspec/pull/6630) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.71 -->
+- Bump omnibus-software from `7723be6` to `b3d89a4` in /omnibus [#6787](https://github.com/inspec/inspec/pull/6787) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.70 -->
+- Bump omnibus-software from `c44dea9` to `7723be6` in /omnibus [#6770](https://github.com/inspec/inspec/pull/6770) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.69 -->
+- Changed params usage in `inspec archive` to skip evaluation [#6741](https://github.com/inspec/inspec/pull/6741) ([Nik08](https://github.com/Nik08)) <!-- 6.4.69 -->
+- CHEF-5899: Update latest EULA as used in Windows installers [#6655](https://github.com/inspec/inspec/pull/6655) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.68 -->
+- Fix Syntax [#6483](https://github.com/inspec/inspec/pull/6483) ([bryaend](https://github.com/bryaend)) <!-- 6.4.67 -->
+- CHEF-6429: Update omnibus config to use updated signing method for msi packages [#6658](https://github.com/inspec/inspec/pull/6658) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.66 -->
+- Revert &quot;Update html-proofer requirement from ~&gt; 3.19.4 to ~&gt; 5.0.8&quot; [#6717](https://github.com/inspec/inspec/pull/6717) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.65 -->
+- Update hashie requirement from &gt;= 3.4, &lt; 5.0 to &gt;= 3.4, &lt; 6.0 [#6696](https://github.com/inspec/inspec/pull/6696) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.64 -->
+- Update html-proofer requirement from ~&gt; 3.19.4 to ~&gt; 5.0.8 [#6697](https://github.com/inspec/inspec/pull/6697) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.63 -->
+- Update json_schemer requirement from &gt;= 0.2.1, &lt; 0.2.19 to &gt;= 0.2.1, &lt; 2.0.1 [#6693](https://github.com/inspec/inspec/pull/6693) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.62 -->
+- Fix broken plugin search test [#6674](https://github.com/inspec/inspec/pull/6674) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.4.62 -->
+- Bump omnibus from `56015cb` to `82dae89` in /omnibus [#6679](https://github.com/inspec/inspec/pull/6679) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.61 -->
+- Bump omnibus-software from `3268356` to `c44dea9` in /omnibus [#6665](https://github.com/inspec/inspec/pull/6665) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.60 -->
+- Bump omnibus from `9c0643a` to `56015cb` in /omnibus [#6670](https://github.com/inspec/inspec/pull/6670) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.4.59 -->
+- Move InSpec docs menu from chef-web-docs [#6657](https://github.com/inspec/inspec/pull/6657) ([IanMadd](https://github.com/IanMadd)) <!-- 6.4.59 -->
 - CHEF-3849: InSpec should exit quickly and clearly if waiver file is malformed/corrupt [#6644](https://github.com/inspec/inspec/pull/6644) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.58 -->
 - CHEF-5898: Update latest EULA as used in MacOS installers [#6652](https://github.com/inspec/inspec/pull/6652) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.57 -->
 - Revert CLI docs page changes [#6650](https://github.com/inspec/inspec/pull/6650) ([IanMadd](https://github.com/IanMadd)) <!-- 6.4.56 -->

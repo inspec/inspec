@@ -35,6 +35,18 @@ This subcommand has the following additional options:
 `--no-airgap`
 : Fallback to using local archives if fetching fails.
 
+`--check`
+`--no-check`
+: Before running archive, run `inspec check`. Default: do not check.
+
+`--export`
+`--no-export`
+: Include an inspec.json file in the archive, the results of running `inspec export`.
+
+`--legacy-export`
+`--no-legacy-export`
+: Include an inspec.json file in the archive by utilizing information from the legacy export procedure, the results of running `inspec export --legacy-export`.
+
 `--ignore-errors`
 `--no-ignore-errors`
 : Ignore profile warnings.
@@ -581,6 +593,48 @@ This subcommand has the following syntax:
 inspec init TEMPLATE
 ```
 
+## export
+
+Read the profile in path and generate a summary in the given format.
+
+### Syntax
+
+This subcommand has the following syntax:
+
+```bash
+inspec export PATH
+```
+
+### Options
+
+This subcommand has the following additional options:
+
+`--what=WHAT`
+: What to export: profile (default), readme, metadata.
+
+`--controls=one two three`
+: For --what=profile, a list of controls to include. Other controls are ignored..
+
+`--format=FORMAT`
+: The output format to use: json, raw, yaml. If valid format is not provided then it will use the default for the given 'what'.
+
+`--legacy-export`
+`--no-legacy-export`
+: Run with legacy export.
+
+`-o`
+`--output=OUTPUT`
+: Save the created output to a path.
+
+`--profiles-path=PROFILES_PATH`
+: Folder which contains referenced profiles.
+
+`--tags=one two three`
+: For --what=profile, a list of tags to filter controls and include only those. Other controls are ignored.
+
+`--vendor-cache=VENDOR_CACHE`
+: Use the given path for caching dependencies, (default: `~/.inspec/cache`).
+
 ## json
 
 Read all tests in the path and generate a json summary.
@@ -599,6 +653,10 @@ This subcommand has the following additional options:
 
 `--controls=one two three`
 : A list of controls to include. Ignore all other tests.
+
+`--legacy-export`
+`--no-legacy-export`
+: Run with legacy export.
 
 `-o`
 `--output=OUTPUT`

@@ -536,6 +536,7 @@ module Inspec
       @info_from_parse = @info_from_parse.merge(metadata.params)
 
       inputs_hash = {}
+      # Note: This only handles the case when inputs are defined in metadata file
       if @profile_id.nil?
         # identifying inputs using profile name
         inputs_hash = Inspec::InputRegistry.list_inputs_for_profile(@info_from_parse[:name])
@@ -569,28 +570,77 @@ module Inspec
         src = RuboCop::AST::ProcessedSource.new(control_file_source, RUBY_VERSION.to_f)
         source_location_ref = @source_reader.target.abs_path(control_filename)
 
+        input_collector = Inspec::Profile::AstHelper::InputCollectorOutsideControlBlock.new(@info_from_parse)
         ctl_id_collector = Inspec::Profile::AstHelper::ControlIDCollector.new(@info_from_parse, source_location_ref)
-        # TODO: look for inputs
-        # TODO: look for top-level metadata like title
-        src.ast.each_node { |n| ctl_id_collector.process(n) }
-        update_groups_from(control_filename, src)
+
+        # Collect all metadata defined in the control block and inputs defined inside the control block
+        src.ast.each_node { |n|
+          ctl_id_collector.process(n)
+          input_collector.process(n)
+        }
 
         # For each control ID
         #  Look for per-control metadata
+        # Filter controls by --controls, list of controls to include is available in include_controls_list
+
+        # NOTE: This is a hack to duplicate refs.
+        # TODO: Fix this in the ref collector or the way we traverse the AST
+        @info_from_parse[:controls].each { |control| control[:refs].uniq! }
+
+        @info_from_parse[:controls] = filter_controls_by_id_and_tags(@info_from_parse[:controls])
+
+        # Update groups after filtering controls to handle --controls option
+        update_groups_from(control_filename, src)
+
+        # NOTE: This is a hack to duplicate inputs.
+        # TODO: Fix this in the input collector or the way we traverse the AST
+        @info_from_parse[:inputs] = @info_from_parse[:inputs].uniq
       end
       @info_from_parse
+    end
+
+    def filter_controls_by_id_and_tags(controls)
+      controls.select do |control|
+        tag_ids = get_all_tags_list(control[:tags])
+        (include_controls_list.empty? || include_controls_list.any? { |control_id| control_id.match?(control[:id]) }) &&
+          (include_tags_list.empty? || include_tags_list.any? { |tag_id| tag_ids.any? { |tag| tag_id.match?(tag) } })
+      end
+    end
+
+    def get_all_tags_list(control_tags)
+      all_tags = []
+      control_tags.each do |tags|
+        all_tags.push(tags)
+      end
+      all_tags.flatten.compact.uniq.map(&:to_s)
+    rescue
+      []
+    end
+
+    def include_group_data?(group_data)
+      unless include_controls_list.empty?
+        # {:id=>"controls/example-tmp.rb", :title=>"/ profile", :controls=>["tmp-1.0"]}
+        # Check if the group should be included based on the controls it contains
+        group_data[:controls].any? do |control_id|
+          include_controls_list.any? { |id| id.match?(control_id) }
+        end
+      else
+        true
+      end
     end
 
     def update_groups_from(control_filename, src)
       group_data = {
         id: control_filename,
+        title: nil,
       }
       source_location_ref = @source_reader.target.abs_path(control_filename)
       Inspec::Profile::AstHelper::TitleCollector.new(group_data)
         .process(src.ast.child_nodes.first) # Picking the title defined for the whole controls file
       group_controls = @info_from_parse[:controls].select { |control| control[:source_location][:ref] == source_location_ref }
       group_data[:controls] = group_controls.map { |control| control[:id] }
-      @info_from_parse[:groups].push(group_data)
+
+      @info_from_parse[:groups].push(group_data) if include_group_data?(group_data)
     end
 
     def cookstyle_linting_check
@@ -833,7 +883,6 @@ module Inspec
     end
 
     # generates a archive of a folder profile
-    # assumes that the profile was checked before
     def archive(opts)
       # check if file exists otherwise overwrite the archive
       dst = archive_name(opts)
@@ -850,31 +899,36 @@ module Inspec
       # TODO ignore all .files, but add the files to debug output
 
       # Generate temporary inspec.json for archive
-      Inspec::Utils::JsonProfileSummary.produce_json(
-        info: info_from_parse,
-        write_path: "#{root_path}inspec.json",
-        suppress_output: true
-      )
+      export_opt_enabled = opts[:export] || opts[:legacy_export]
+      if export_opt_enabled
+        info_for_profile_summary = opts[:legacy_export] ? info : info_from_parse
+        Inspec::Utils::JsonProfileSummary.produce_json(
+          info: info_for_profile_summary,
+          write_path: "#{root_path}inspec.json",
+          suppress_output: true
+        )
+      end
 
       # display all files that will be part of the archive
       @logger.debug "Add the following files to archive:"
       files.each { |f| @logger.debug "    " + f }
-      @logger.debug "    inspec.json"
+      @logger.debug "    inspec.json" if export_opt_enabled
 
+      archive_files = export_opt_enabled ? files.push("inspec.json") : files
       if opts[:zip]
         # generate zip archive
         require "inspec/archive/zip"
         zag = Inspec::Archive::ZipArchiveGenerator.new
-        zag.archive(root_path, files.push("inspec.json"), dst)
+        zag.archive(root_path, archive_files, dst)
       else
         # generate tar archive
         require "inspec/archive/tar"
         tag = Inspec::Archive::TarArchiveGenerator.new
-        tag.archive(root_path, files.push("inspec.json"), dst)
+        tag.archive(root_path, archive_files, dst)
       end
 
       # Cleanup
-      FileUtils.rm_f("#{root_path}inspec.json")
+      FileUtils.rm_f("#{root_path}inspec.json") if export_opt_enabled
 
       @logger.info "Finished archive generation."
       true
@@ -980,10 +1034,12 @@ module Inspec
         return Pathname.new(name)
       end
 
-      name = params[:name] ||
+      # Using metadata to fetch basic info of name and version
+      metadata = @source_reader.metadata.params
+      name = metadata[:name] ||
         raise("Cannot create an archive without a profile name! Please "\
              "specify the name in metadata or use --output to create the archive.")
-      version = params[:version] ||
+      version = metadata[:version] ||
         raise("Cannot create an archive without a profile version! Please "\
              "specify the version in metadata or use --output to create the archive.")
       ext = opts[:zip] ? "zip" : "tar.gz"

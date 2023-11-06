@@ -8,16 +8,24 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Chef InSpec Team"]
   spec.email         = ["inspec@chef.io"]
   spec.summary       = "Infrastructure and compliance testing. Core library."
-  spec.description   = "InSpec provides a framework for creating end-to-end infrastructure tests. You can use it for integration or even compliance testing. Create fully portable test profiles and use them in your workflow to ensure stability and security. Integrate InSpec in your change lifecycle for local testing, CI/CD, and deployment verification. This has local support only. See the `inspec` gem for full support."
+  spec.description   = <<-EOT
+InSpec provides a framework for creating end-to-end infrastructure tests. You can use it for integration or even compliance testing. Create fully portable test profiles and use them in your workflow to ensure stability and security. Integrate InSpec in your change lifecycle for local testing, CI/CD, and deployment verification.
+This has local support only. See the `inspec` gem for full support.
+
+Packaged distributions of Progress® Chef® products obtained from RubyGems are made available pursuant to the Progress Chef EULA at https://www.chef.io/end-user-license-agreement, unless there is an executed agreement in effect between you and Progress that covers the Progress Chef products ("Master Agreement"), in which case the Master Agreement shall govern.
+
+Source code obtained from the Chef GitHub repository is made available under Apache-2.0, a copy of which is included.
+
+  EOT
   spec.homepage      = "https://github.com/inspec/inspec"
-  spec.license       = "Apache-2.0"
+  spec.license       = "LicenseRef-Chef-EULA"
   spec.require_paths = ["lib"]
 
   spec.required_ruby_version = ">= 2.7"
 
   # the gemfile and gemspec are necessary for appbundler so don't remove it
   spec.files =
-    Dir.glob("{{lib,etc}/**/*,LICENSE,Gemfile,inspec-core.gemspec}")
+    Dir.glob("{{lib,etc}/**/*,LICENSE,Chef-EULA,Gemfile,inspec-core.gemspec}")
       .grep_v(%r{(?<!inspec-init/templates/profiles/)(aws|azure|gcp|alicloud)})
       .grep_v(%r{lib/plugins/.*/test/})
       .reject { |f| File.directory?(f) }
@@ -25,13 +33,15 @@ Gem::Specification.new do |spec|
   # Implementation dependencies
   spec.add_dependency "chef-telemetry",           "~> 1.0", ">= 1.0.8" # 1.0.8+ removes the http dep
   spec.add_dependency "license-acceptance",       ">= 0.2.13", "< 3.0"
-  spec.add_dependency "thor",                     ">= 0.20", "< 2.0"
+  # TODO: We should remove the thor pinning in next upcoming releases currently it's breaking our unit test in cli_args_test for aliases due to
+  # recent changes made in thor library REF: https://github.com/rails/thor/releases/tag/v1.3.0 & https://github.com/rails/thor/pull/800
+  spec.add_dependency "thor",                     ">= 0.20", "< 1.3.0"
   spec.add_dependency "method_source",            ">= 0.8", "< 2.0"
   spec.add_dependency "rubyzip",                  ">= 1.2.2", "< 3.0"
   spec.add_dependency "rspec",                    ">= 3.9", "<= 3.12"
   spec.add_dependency "rspec-its",                "~> 1.2"
   spec.add_dependency "pry",                      "~> 0.13"
-  spec.add_dependency "hashie",                   ">= 3.4", "< 5.0"
+  spec.add_dependency "hashie",                   ">= 3.4", "< 6.0"
   spec.add_dependency "mixlib-log",               "~> 3.0"
   spec.add_dependency "sslshake",                 "~> 1.2"
   spec.add_dependency "parallel",                 "~> 1.9"
