@@ -198,5 +198,5 @@ Signing introduces two new exit codes:
 
 5 - Signature Invalid or not verifiable. You tried to execute a signed profile, but the signature was either bad, or the key could not be obtained.
 
-6 - Mandatory Profile Signing Enabled and No Signature. You have enabled Mandatory Profile Signing, so Chef InSpec is requiring that all profiles be signed; apparetnly it encounted an unsigned profile.
+6 - Mandatory Profile Signing Enabled and No Signature. You have enabled Mandatory Profile Signing, so Chef InSpec is requiring that all profiles be signed; apparently it encounted an unsigned profile.
 
