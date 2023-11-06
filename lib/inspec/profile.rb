@@ -682,11 +682,7 @@ module Inspec
       end
     end
 
-    # Check if the profile is internally well-structured. The logger will be
-    # used to print information on errors and warnings which are found.
-    #
-    # @return [Boolean] true if no errors were found, false otherwise
-    def check # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
+    def legacy_check # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
       # initial values for response object
       result = {
         summary: {
@@ -765,7 +761,7 @@ module Inspec
       # extract profile name
       result[:summary][:profile] = metadata.params[:name]
 
-      count = controls_count
+      count = params[:controls].values.length
       result[:summary][:controls] = count
       if count == 0
         warn.call(nil, nil, nil, nil, "No controls or tests were defined.")
@@ -802,8 +798,195 @@ module Inspec
       result
     end
 
-    def controls_count
-      params[:controls].values.length
+    # Check if the profile is internally well-structured. The logger will be
+    # used to print information on errors and warnings which are found.
+    #
+    # @return [Boolean] true if no errors were found, false otherwise
+    def check # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
+      # initial values for response object
+      result = {
+        summary: {
+          valid: false,
+          timestamp: Time.now.iso8601,
+          location: @target,
+          profile: nil,
+          controls: 0,
+        },
+        errors: [],
+        warnings: [],
+        offenses: [],
+      }
+
+      entry = lambda { |file, line, column, control, msg|
+        {
+          file: file,
+          line: line,
+          column: column,
+          control_id: control,
+          msg: msg,
+        }
+      }
+
+      warn = lambda { |file, line, column, control, msg|
+        @logger.warn(msg)
+        result[:warnings].push(entry.call(file, line, column, control, msg))
+      }
+
+      error = lambda { |file, line, column, control, msg|
+        @logger.error(msg)
+        result[:errors].push(entry.call(file, line, column, control, msg))
+      }
+
+      offense = lambda { |file, line, column, control, msg|
+        result[:offenses].push(entry.call(file, line, column, control, msg))
+      }
+
+      @logger.info "Checking profile in #{@target}"
+      meta_path = @source_reader.target.abs_path(@source_reader.metadata.ref)
+
+      # verify metadata
+      m_errors, m_warnings = validity_check
+      m_errors.each { |msg| error.call(meta_path, 0, 0, nil, msg) }
+      m_warnings.each { |msg| warn.call(meta_path, 0, 0, nil, msg) }
+      m_unsupported = metadata.unsupported
+      m_unsupported.each { |u| warn.call(meta_path, 0, 0, nil, "doesn't support: #{u}") }
+      @logger.info "Metadata OK." if m_errors.empty? && m_unsupported.empty?
+
+      # only run the vendor check if the legacy profile-path is not used as argument
+      if @legacy_profile_path == false
+        # verify that a lockfile is present if we have dependencies
+        unless metadata.dependencies.empty?
+          error.call(meta_path, 0, 0, nil, "Your profile needs to be vendored with `inspec vendor`.") unless lockfile_exists?
+        end
+
+        if lockfile_exists?
+          # verify if metadata and lockfile are out of sync
+          if lockfile.deps.size != metadata.dependencies.size
+            error.call(meta_path, 0, 0, nil, "inspec.yml and inspec.lock are out-of-sync. Please re-vendor with `inspec vendor`.")
+          end
+
+          # verify if metadata and lockfile have the same dependency names
+          metadata.dependencies.each do |dep|
+            # Skip if the dependency does not specify a name
+            next if dep[:name].nil?
+
+            # TODO: should we also verify that the soure is the same?
+            unless lockfile.deps.map { |x| x[:name] }.include? dep[:name]
+              error.call(meta_path, 0, 0, nil, "Cannot find #{dep[:name]} in lockfile. Please re-vendor with `inspec vendor`.")
+            end
+          end
+        end
+      end
+
+      # extract profile name
+      result[:summary][:profile] = info_from_parse[:name]
+
+      count = info_from_parse[:controls].count
+      result[:summary][:controls] = count
+      if count == 0
+        warn.call(nil, nil, nil, nil, "No controls or tests were defined.")
+      else
+        @logger.info("Found #{count} controls.")
+      end
+
+      # iterate over hash of groups
+      info_from_parse[:controls].each do |control|
+        sfile = control[:source_location][:ref]
+        sline = control[:source_location][:line]
+        id = control[:id]
+        error.call(sfile, sline, nil, id, "Avoid controls with empty IDs") if id.nil? || id.empty?
+        next if id.start_with? "(generated "
+
+        warn.call(sfile, sline, nil, id, "Control #{id} has no title") if control[:title].to_s.empty?
+        warn.call(sfile, sline, nil, id, "Control #{id} has no descriptions") if control[:descriptions][:default].to_s.empty?
+        warn.call(sfile, sline, nil, id, "Control #{id} has impact > 1.0") if control[:impact].to_f > 1.0
+        warn.call(sfile, sline, nil, id, "Control #{id} has impact < 0.0") if control[:impact].to_f < 0.0
+        warn.call(sfile, sline, nil, id, "Control #{id} has no tests defined") if control[:checks].nil? || control[:checks].empty?
+      end
+
+      # Running cookstyle to check for code offenses
+      if @check_cookstyle
+        cookstyle_linting_check.each do |lint_output|
+          data = lint_output.split(":")
+          msg = "#{data[-2]}:#{data[-1]}"
+          offense.call(data[0], data[1], data[2], nil, msg)
+        end
+      end
+      # profile is valid if we could not find any error & offenses
+      result[:summary][:valid] = result[:errors].empty? && result[:offenses].empty?
+
+      @logger.info "Control definitions OK." if result[:warnings].empty?
+      result
+    end
+
+    def validity_check # rubocop:disable Metrics/AbcSize
+      errors = []
+      warnings = []
+      info_from_parse.merge!(metadata.params)
+
+      %w{name version}.each do |field|
+        next unless info_from_parse[field.to_sym].nil?
+
+        errors.push("Missing profile #{field} in #{metadata.ref}")
+      end
+
+      if %r{[\/\\]} =~ info_from_parse[:name]
+        errors.push("The profile name (#{info_from_parse[:name]}) contains a slash" \
+                      " which is not permitted. Please remove all slashes from `inspec.yml`.")
+      end
+
+      # if version is set, ensure it is correct
+      if !info_from_parse[:version].nil? && !metadata.valid_version?(info_from_parse[:version])
+        errors.push("Version needs to be in SemVer format")
+      end
+
+      if info_from_parse[:entitlement_id] && info_from_parse[:entitlement_id].strip.empty?
+        errors.push("Entitlement ID should not be blank.")
+      end
+
+      unless metadata.supports_runtime?
+        warnings.push("The current inspec version #{Inspec::VERSION} cannot satisfy profile inspec_version constraint #{info_from_parse[:inspec_version]}")
+      end
+
+      %w{title summary maintainer copyright license}.each do |field|
+        next unless info_from_parse[field.to_sym].nil?
+
+        warnings.push("Missing profile #{field} in #{metadata.ref}")
+      end
+
+      # if license is set, ensure it is in SPDX format or marked as proprietary
+      if !info_from_parse[:license].nil? && !metadata.valid_license?(info_from_parse[:license])
+        warnings.push("License '#{info_from_parse[:license]}' needs to be in SPDX format or marked as 'Proprietary'. See https://spdx.org/licenses/.")
+      end
+
+      # If gem_dependencies is set, it must be an array of hashes with keys name and optional version
+      unless info_from_parse[:gem_dependencies].nil?
+        list = info_from_parse[:gem_dependencies]
+        if list.is_a?(Array) && list.all? { |e| e.is_a? Hash }
+          list.each do |entry|
+            errors.push("gem_dependencies entries must all have a 'name' field") unless entry.key?(:name)
+            if entry[:version]
+              orig = entry[:version]
+              begin
+                # Split on commas as we may have a complex dep
+                orig.split(",").map { |c| Gem::Requirement.parse(c) }
+              rescue Gem::Requirement::BadRequirementError
+                errors.push "Unparseable gem dependency '#{orig}' for #{entry[:name]}"
+              rescue Inspec::GemDependencyInstallError => e
+                errors.push e.message
+              end
+            end
+            extra = (entry.keys - %i{name version})
+            unless extra.empty?
+              warnings.push "Unknown gem_dependencies key(s) #{extra.join(",")} seen for entry '#{entry[:name]}'"
+            end
+          end
+        else
+          errors.push("gem_dependencies must be a List of Hashes")
+        end
+      end
+
+      [errors, warnings]
     end
 
     def set_status_message(msg)

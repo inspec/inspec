@@ -116,6 +116,10 @@ This subcommand has the following additional options:
 `--no-with-cookstyle`
 : Enable or disable cookstyle checks.
 
+`--legacy-check`
+`--no-legacy-check`
+: Run check in legacy mode, which examines the profile in a different way. Default: use newer parser-based method.
+
 ## detect
 
 Detects the target OS.

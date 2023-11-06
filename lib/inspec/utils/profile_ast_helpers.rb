@@ -300,6 +300,7 @@ module Inspec
               impact: 0.5,
               refs: [],
               tags: {},
+              checks: []
             }
 
             # Scan the code block for per-control metadata
@@ -310,6 +311,7 @@ module Inspec
             collectors.push TagCollector.new(control_data)
             collectors.push RefCollector.new(control_data)
             collectors.push InputCollectorWithinControlBlock.new(@memo)
+            collectors.push TestsCollector.new(control_data)
 
             begin_block.each_node do |node_within_control|
               collectors.each { |collector| collector.process(node_within_control) }
@@ -352,6 +354,16 @@ module Inspec
 
         def on_send(node)
           check_and_collect_input(node)
+        end
+      end
+
+      class TestsCollector < CollectorBase
+
+        def on_block(node)
+          if RuboCop::AST::NodePattern.new("(block (send nil? :describe ...) ...)").match(node) ||
+            RuboCop::AST::NodePattern.new("(block (send nil? :expect ...) ...)").match(node)
+            memo[:checks] << node.source
+          end
         end
       end
     end
