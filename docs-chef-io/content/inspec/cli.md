@@ -118,7 +118,7 @@ This subcommand has the following additional options:
 
 `--legacy-check`
 `--no-legacy-check`
-: For running checks on profiles that needs train connections, run `inspec check --legacy-check`. Default: do not check.
+: Run check in legacy mode, which examines the profile in a different way. Default: use newer parser-based method.
 
 ## detect
 
