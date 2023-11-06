@@ -235,7 +235,7 @@ module Inspec
 
     def self.audit_log_options
       option :audit_log_location, type: :string,
-      desc: "Audit log location to send diagnostic log messages to. (default: '~/.inspec/logs/train-audit.log')"
+      desc: "Audit log location to send diagnostic log messages to. (default: '~/.inspec/logs/inspec-audit.log')"
 
       option :audit_log_size, type: :numeric, default: 2097152,
       desc: "Set audit log file size in bytes."
@@ -445,7 +445,7 @@ module Inspec
     # This method is currenlty under feature preview flag and audit log will only be enabeld when CHEF_PREVIEW_AUDIT_LOGGING is set in the env variable
     def set_and_validate_audit_log_options(o)
       o[:enable_audit_log] ||= true
-      o[:audit_log_location] ||= "#{Inspec.log_dir}/train-audit.log"
+      o[:audit_log_location] ||= "#{Inspec.log_dir}/inspec-audit.log"
       o[:audit_log_app_name] = Inspec::Dist::EXEC_NAME
       err = []
       err << "Invalid audit log frequency. Valid options are daily, weekly, monthly" unless %w{daily weekly monthly}.include?(o[:audit_log_frequency])

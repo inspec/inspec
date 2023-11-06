@@ -581,7 +581,7 @@ This subcommand has the following additional options:
 : Includes enhanced outcome of controls in report data.
 
 `--audit-log-location=AUDIT_LOG_LOCATION`
-: Audit log location to send diagnostic log messages to (default: '~/.inspec/logs/train-audit.log').
+: Audit log location to send diagnostic log messages to (default: '~/.inspec/logs/inspec-audit.log').
 
 `--audit-log-size=N`
 : Set audit log file size in bytes.(default: 2097152)
@@ -943,7 +943,7 @@ This subcommand has the following additional options:
 : Includes enhanced outcome of controls in report data.
 
 `--audit-log-location=AUDIT_LOG_LOCATION`
-: Audit log location to send diagnostic log messages to (default: '~/.inspec/logs/train-audit.log').
+: Audit log location to send diagnostic log messages to (default: '~/.inspec/logs/inspec-audit.log').
 
 `--audit-log-size=N`
 : Set audit log file size in bytes.(default: 2097152)
