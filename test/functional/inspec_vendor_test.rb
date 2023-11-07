@@ -134,7 +134,7 @@ describe "example inheritance profile" do
 
       hm = JSON.load(File.read(dst.path))
       _(hm["name"]).must_equal "profile"
-      _(hm["controls"].length).must_be :>=, 4
+      _(hm["controls"].length).must_equal 3 # Orphaned describe block (without control as parent) is not considered a control in the new export
 
       # out.stdout.scan(/Copy .* to cache directory/).length.must_equal 3
       # out.stdout.scan(/Dependency does not exist in the cache/).length.must_equal 1

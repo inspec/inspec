@@ -79,6 +79,35 @@ describe Inspec::Profile do
     end
   end
 
+  describe "code info_from_parse" do
+    let(:profile_id) { "complete-profile" }
+
+    let(:code) { "control 'test01' do\n  impact 0.5\n  title 'Catchy title'\n  desc 'example.com should always exist.'\n  describe host('example.com') do\n    it { should be_resolvable }\n  end\nend" }
+
+    let(:loc) { { ref: "controls/host_spec.rb", line: 5 } }
+
+    it "gets code from an uncompressed profile" do
+      info = MockLoader.load_profile(profile_id).info_from_parse
+      _(info[:controls][0][:code]).must_equal code
+      loc[:ref] = File.join(MockLoader.profile_path(profile_id), loc[:ref])
+      _(info[:controls][0][:source_location]).must_equal loc
+    end
+
+    it "gets code on zip profiles" do
+      path = MockLoader.profile_zip(profile_id)
+      info = MockLoader.load_profile(path).info_from_parse
+      _(info[:controls][0][:code]).must_equal code
+      _(info[:controls][0][:source_location]).must_equal loc
+    end
+
+    it "gets code on tgz profiles" do
+      path = MockLoader.profile_tgz(profile_id)
+      info = MockLoader.load_profile(path).info_from_parse
+      _(info[:controls][0][:code]).must_equal code
+      _(info[:controls][0][:source_location]).must_equal loc
+    end
+  end
+
   describe "code info with supports override" do
     let(:profile_id) { "skippy-profile-os" }
 
