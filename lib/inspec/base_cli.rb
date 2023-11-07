@@ -434,7 +434,7 @@ module Inspec
     # This method is currenlty under feature preview flag and audit log will only be enabeld when CHEF_PREVIEW_AUDIT_LOGGING is set in the env variable
     def set_and_validate_audit_log_options(o)
       o[:enable_audit_log] ||= true
-      o[:audit_log_location] ||= "#{Inspec.log_dir}/inspec-audit.log"
+      o[:audit_log_location] ||= "#{Inspec.log_dir}/inspec-audit-#{Time.now.strftime("%Y%m%dT%H%M%S")}-#{Process.pid}.log"
       o[:audit_log_app_name] = Inspec::Dist::EXEC_NAME
       err = []
       err << "Audit log location directory #{o[:audit_log_location]} does not exist." unless File.directory?(File.dirname(o[:audit_log_location]))
