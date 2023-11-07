@@ -127,33 +127,31 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     profile = Inspec::Profile.for_target(target, o)
     dst = o[:output].to_s
 
-        case what
-        when "profile"
-          profile_info = o[:legacy_export] ? profile.info : profile.info_from_parse
-          if format == "json"
-            require "json" unless defined?(JSON)
-            # Write JSON
-            Inspec::Utils::JsonProfileSummary.produce_json(
-              info: profile_info,
-              write_path: dst
-            )
-          elsif format == "yaml"
-            Inspec::Utils::YamlProfileSummary.produce_yaml(
-              info: profile_info,
-              write_path: dst
-            )
-          end
-        when "readme"
-          out = dst.empty? ? $stdout : File.open(dst, "w")
-          out.write(profile.readme)
-        when "metadata"
-          out = dst.empty? ? $stdout : File.open(dst, "w")
-          out.write(profile.metadata_src)
-        end
-      rescue StandardError => e
-        pretty_handle_exception(e)
+    case what
+    when "profile"
+      profile_info = o[:legacy_export] ? profile.info : profile.info_from_parse
+      if format == "json"
+        require "json" unless defined?(JSON)
+        # Write JSON
+        Inspec::Utils::JsonProfileSummary.produce_json(
+          info: profile_info,
+          write_path: dst
+        )
+      elsif format == "yaml"
+        Inspec::Utils::YamlProfileSummary.produce_yaml(
+          info: profile_info,
+          write_path: dst
+        )
       end
-    }
+    when "readme"
+      out = dst.empty? ? $stdout : File.open(dst, "w")
+      out.write(profile.readme)
+    when "metadata"
+      out = dst.empty? ? $stdout : File.open(dst, "w")
+      out.write(profile.metadata_src)
+    end
+  rescue StandardError => e
+    pretty_handle_exception(e)
   end
 
   desc "check PATH", "Verify the metadata in the `inspec.yml` file,\
@@ -177,9 +175,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     o[:check_mode] = true
     o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
 
-        # run check
-        profile = Inspec::Profile.for_target(path, o)
-        result = o[:legacy_check] ? profile.legacy_check : profile.check
+    # run check
+    profile = Inspec::Profile.for_target(path, o)
+    result = o[:legacy_check] ? profile.legacy_check : profile.check
 
     if o["format"] == "json"
       puts JSON.generate(result)
