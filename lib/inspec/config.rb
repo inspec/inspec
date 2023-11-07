@@ -27,8 +27,6 @@ module Inspec
     }.freeze
 
     AUDIT_LOG_OPTIONS = %w{
-      audit_log_size
-      audit_log_frequency
       audit_log_location
       enable_audit_log
       audit_log_app_name
