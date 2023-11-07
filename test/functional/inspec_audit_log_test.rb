@@ -5,6 +5,10 @@ describe "inspec exec and inspec shell with audit logging on " do
 
   include FunctionalHelper
 
+  before do
+    delete_audit_log_file("#{Inspec.log_dir}/inspec-audit.log")
+  end
+
   it "should create inspec-audit.log file in the default location when inpsec exec run" do
     run_result = run_inspec_process("exec " + File.join(profile_path, "basic_profile") + " ", env: { CHEF_PREVIEW_AUDIT_LOGGING: "1" })
     _(run_result.stdout).must_include "1 successful control"
