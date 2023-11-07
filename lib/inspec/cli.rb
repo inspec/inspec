@@ -67,14 +67,62 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "A list of controls to include. Ignore all other tests."
   option :tags, type: :array,
     desc: "A list of tags to filter controls and include only those. Ignore all other tests."
+  option :legacy_export, type: :boolean, default: false,
+    desc: "Run with legacy export."
   profile_options
   def json(target)
-    require "json" unless defined?(JSON)
+    Inspec.with_feature("inspec-cli-json") {
+      # Config initialisation is needed before deprecation warning can be issued
+      # Deprecator calls config get method to fetch the config value
+      # Without config initialisation, the config value is not set and hence calling config get through deprecator will set the value of config as blank, making options of json command inaccessible.
+      config
+      # This deprecation warning is ignored currently.
+      Inspec.deprecate(:renamed_to_inspec_export)
+      export(target, true)
+    }
+  end
 
-    o = config
-    diagnose(o)
-    o["log_location"] = $stderr
-    configure_logger(o)
+  desc "export PATH", "read the profile in PATH and generate a summary in the given format."
+  option :what, type: :string,
+    desc: "What to export: profile (default), readme, metadata."
+  option :format, type: :string,
+    desc: "The output format to use: json, raw, yaml. If valid format is not provided then it will use the default for the given 'what'."
+  option :output, aliases: :o, type: :string,
+    desc: "Save the created output to a path."
+  option :controls, type: :array,
+    desc: "For --what=profile, a list of controls to include. Ignore all other tests."
+  option :tags, type: :array,
+    desc: "For --what=profile, a list of tags to filter controls and include only those. Ignore all other tests."
+  option :legacy_export, type: :boolean, default: false,
+         desc: "Run with legacy export."
+  profile_options
+  def export(target, as_json = false)
+    Inspec.with_feature("inspec-cli-export") {
+      begin
+        o = config
+        diagnose(o)
+        o["log_location"] = $stderr
+        configure_logger(o)
+
+        # using dup to resolve "can't modify frozen String" error.
+        what = o[:what].dup || "profile"
+        what.downcase!
+        raise Inspec::Error.new("Unrecognized option '#{what}' for --what - expected one of profile, readme, or metadata.") unless %w{profile readme metadata}.include?(what)
+
+        default_format_for_what = {
+          "profile" => "yaml",
+          "metadata" => "raw",
+          "readme" => "raw",
+        }
+        valid_formats_for_what = {
+          "profile" => %w{yaml json},
+          "metadata" => %w{yaml raw}, # not going to argue
+          "readme" => ["raw"],
+        }
+        format = o[:format] || default_format_for_what[what]
+        # default is json if we were called as old json command
+        format = "json" if as_json
+        raise Inspec::Error.new("Invalid option '#{format}' for --format and --what combination") unless format && valid_formats_for_what[what].include?(format)
 
     o[:backend] = Inspec::Backend.create(Inspec::Config.mock)
     o[:check_mode] = true
@@ -83,13 +131,33 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     profile = Inspec::Profile.for_target(target, o)
     dst = o[:output].to_s
 
-    # Write JSON
-    Inspec::Utils::JsonProfileSummary.produce_json(
-      info: profile.info,
-      write_path: dst
-    )
-  rescue StandardError => e
-    pretty_handle_exception(e)
+        case what
+        when "profile"
+          profile_info = o[:legacy_export] ? profile.info : profile.info_from_parse
+          if format == "json"
+            require "json" unless defined?(JSON)
+            # Write JSON
+            Inspec::Utils::JsonProfileSummary.produce_json(
+              info: profile_info,
+              write_path: dst
+            )
+          elsif format == "yaml"
+            Inspec::Utils::YamlProfileSummary.produce_yaml(
+              info: profile_info,
+              write_path: dst
+            )
+          end
+        when "readme"
+          out = dst.empty? ? $stdout : File.open(dst, "w")
+          out.write(profile.readme)
+        when "metadata"
+          out = dst.empty? ? $stdout : File.open(dst, "w")
+          out.write(profile.metadata_src)
+        end
+      rescue StandardError => e
+        pretty_handle_exception(e)
+      end
+    }
   end
 
   desc "check PATH", "verify all tests at the specified PATH"
@@ -97,6 +165,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "The output format to use doc (default), json. If valid format is not provided then it will use the default."
   option :with_cookstyle, type: :boolean,
     desc: "Enable or disable cookstyle checks.", default: false
+  option :legacy_check, type: :boolean, default: false,
+         desc: "Run with legacy check."
   profile_options
   def check(path) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     o = config
@@ -109,9 +179,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     o[:check_mode] = true
     o[:vendor_cache] = Inspec::Cache.new(o[:vendor_cache])
 
-    # run check
-    profile = Inspec::Profile.for_target(path, o)
-    result = profile.check
+        # run check
+        profile = Inspec::Profile.for_target(path, o)
+        result = o[:legacy_check] ? profile.legacy_check : profile.check
 
     if o["format"] == "json"
       puts JSON.generate(result)
@@ -193,9 +263,13 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "Run profile check before archiving."
   option :export, type: :boolean, default: false,
     desc: "Export the profile to inspec.json and include in archive"
-  def archive(path)
-    o = config
-    diagnose(o)
+  option :legacy_export, type: :boolean, default: false,
+    desc: "Export the profile in legacy mode to inspec.json and include in archive"
+  def archive(path, log_level = nil)
+    Inspec.with_feature("inspec-cli-archive") {
+      begin
+        o = config
+        diagnose(o)
 
     o[:logger] = Logger.new($stdout)
     o[:logger].level = get_log_level(o[:log_level])

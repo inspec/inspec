@@ -29,26 +29,49 @@ inspec archive PATH
 
 This subcommand has the following additional options:
 
-* ``--airgap``, ``--no-airgap``
-    Fallback to using local archives if fetching fails.
-* ``--check``, ``--no-check``
-    Before running archive, run `inspec check`. Default: do not check.
-* ``--export``, ``--no-check``
-    Include an inspec.json file in the archive, the results of running `inspec export`.
-* ``--ignore-errors``, ``--no-ignore-errors``
-    Ignore profile warnings.
-* ``-o``, ``--output=OUTPUT``
-    Save the archive to a path.
-* ``--overwrite``, ``--no-overwrite``
-    Overwrite existing archive.
-* ``--profiles-path=PROFILES_PATH``
-    Folder which contains referenced profiles.
-* ``--tar``, ``--no-tar``
-    Generates a tar.gz archive.
-* ``--vendor-cache=VENDOR_CACHE``
-    Use the given path for caching dependencies, (default: `~/.inspec/cache`).
-* ``--zip``, ``--no-zip``
-    Generates a zip archive.
+`--airgap`
+`--no-airgap`
+: Fallback to using local archives if fetching fails.
+
+`--check`
+`--no-check`
+: Before running archive, run `inspec check`. Default: do not check.
+
+`--export`
+`--no-export`
+: Include an inspec.json file in the archive, the results of running `inspec export`.
+
+`--legacy-export`
+`--no-legacy-export`
+: Include an inspec.json file in the archive by utilizing information from the legacy export procedure, the results of running `inspec export --legacy-export`.
+
+`--ignore-errors`
+`--no-ignore-errors`
+: Ignore profile warnings.
+
+`-o`
+`--output=OUTPUT`
+: Save the archive to a path.
+
+`--overwrite`
+`--no-overwrite`
+: Overwrite existing archive.
+
+`--profiles-path=PROFILES_PATH`
+: Folder which contains referenced profiles.
+
+`--tar`
+`--no-tar`
+: Generates a tar.gz archive.
+
+`--vendor-cache=VENDOR_CACHE`
+: Use the given path for caching dependencies, (default: `~/.inspec/cache`).
+
+`--zip`
+`--no-zip`
+: Generates a zip archive.
+
+
 
 ## automate
 
@@ -78,12 +101,22 @@ inspec check PATH
 
 This subcommand has the following additional options:
 
-* ``--format=FORMAT``
-    The output format to use. Valid values: `json` and `doc`. Default value: `doc`.
-* ``--profiles-path=PROFILES_PATH``
-    Folder which contains referenced profiles.
-* ``--vendor-cache=VENDOR_CACHE``
-    Use the given path for caching dependencies, (default: `~/.inspec/cache`).
+`--format=FORMAT`
+: The output format to use. Valid values: `json` and `doc`. Default value: `doc`.
+
+`--profiles-path=PROFILES_PATH`
+: Folder which contains referenced profiles.
+
+`--vendor-cache=VENDOR_CACHE`
+: Use the given path for caching dependencies, (default: `~/.inspec/cache`).
+
+`--with-cookstyle`
+`--no-with-cookstyle`
+: Enable or disable cookstyle checks.
+
+`--legacy-check`
+`--no-legacy-check`
+: Run check in legacy mode, which examines the profile in a different way. Default: use newer parser-based method.
 
 ## detect
 
@@ -414,6 +447,48 @@ This subcommand has the following syntax:
 inspec init TEMPLATE
 ```
 
+## export
+
+Read the profile in path and generate a summary in the given format.
+
+### Syntax
+
+This subcommand has the following syntax:
+
+```bash
+inspec export PATH
+```
+
+### Options
+
+This subcommand has the following additional options:
+
+`--what=WHAT`
+: What to export: profile (default), readme, metadata.
+
+`--controls=one two three`
+: For --what=profile, a list of controls to include. Other controls are ignored..
+
+`--format=FORMAT`
+: The output format to use: json, raw, yaml. If valid format is not provided then it will use the default for the given 'what'.
+
+`--legacy-export`
+`--no-legacy-export`
+: Run with legacy export.
+
+`-o`
+`--output=OUTPUT`
+: Save the created output to a path.
+
+`--profiles-path=PROFILES_PATH`
+: Folder which contains referenced profiles.
+
+`--tags=one two three`
+: For --what=profile, a list of tags to filter controls and include only those. Other controls are ignored.
+
+`--vendor-cache=VENDOR_CACHE`
+: Use the given path for caching dependencies, (default: `~/.inspec/cache`).
+
 ## json
 
 Read all tests in path and generate a json summary.
@@ -430,16 +505,53 @@ inspec json PATH
 
 This subcommand has the following additional options:
 
-* ``--controls=one two three``
-    A list of controls to include. Ignore all other tests.
-* ``-o``, ``--output=OUTPUT``
-    Save the created profile to a path.
-* ``--profiles-path=PROFILES_PATH``
-    Folder which contains referenced profiles.
-* ``--tags=one two three``
-    A list of tags that reference certain controls. Other controls are ignored.
-* ``--vendor-cache=VENDOR_CACHE``
-    Use the given path for caching dependencies. (default: `~/.inspec/cache`).
+`--controls=one two three`
+: A list of controls to include. Ignore all other tests.
+
+`--legacy-export`
+`--no-legacy-export`
+: Run with legacy export.
+
+`-o`
+`--output=OUTPUT`
+: Save the created profile to a path.
+
+`--profiles-path=PROFILES_PATH`
+: Folder which contains referenced profiles.
+
+`--tags=one two three`
+: A list of tags that reference specific controls. Other controls are ignored.
+
+`--vendor-cache=VENDOR_CACHE`
+: Use the given path for caching dependencies. (default: `~/.inspec/cache`).
+
+## license
+
+Subcommands for interacting with the Chef licensing system.
+
+`inspec license` supports two subcommands, `add` and `list`.
+
+### license add
+
+Add a Chef license.
+
+Not applicable for users running a Chef Private Licensing Service.
+
+#### Syntax
+
+```bash
+inspec license add
+```
+
+### license list
+
+Run license diagnostics and output the details of your current Chef license configuration.
+
+#### Syntax
+
+```bash
+inspec license list
+```
 
 ## nothing
 
