@@ -267,11 +267,12 @@ module Inspec
       end
 
       class ControlIDCollector < CollectorBase
-        attr_reader :seen_control_ids, :source_location_ref
-        def initialize(memo, source_location_ref)
+        attr_reader :seen_control_ids, :source_location_ref, :include_tests
+        def initialize(memo, source_location_ref, include_tests: false)
           @memo = memo
           @seen_control_ids = {}
           @source_location_ref = source_location_ref
+          @include_tests = include_tests
         end
 
         def on_block(block_node)
@@ -300,8 +301,8 @@ module Inspec
               impact: 0.5,
               refs: [],
               tags: {},
-              checks: [],
             }
+            control_data[:checks] = [] if include_tests
 
             # Scan the code block for per-control metadata
             collectors = []
@@ -311,7 +312,7 @@ module Inspec
             collectors.push TagCollector.new(control_data)
             collectors.push RefCollector.new(control_data)
             collectors.push InputCollectorWithinControlBlock.new(@memo)
-            collectors.push TestsCollector.new(control_data)
+            collectors.push TestsCollector.new(control_data) if include_tests
 
             begin_block.each_node do |node_within_control|
               collectors.each { |collector| collector.process(node_within_control) }
