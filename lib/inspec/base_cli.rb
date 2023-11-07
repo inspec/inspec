@@ -437,12 +437,22 @@ module Inspec
     end
 
     # This method is currenlty under feature preview flag and audit log will only be enabeld when CHEF_PREVIEW_AUDIT_LOGGING is set in the env variable
-    def set_and_validate_audit_log_options(o)
-      o[:enable_audit_log] ||= true
-      o[:audit_log_location] ||= "#{Inspec.log_dir}/inspec-audit-#{Time.now.strftime("%Y%m%dT%H%M%S")}-#{Process.pid}.log"
-      o[:audit_log_app_name] = Inspec::Dist::EXEC_NAME
+    def set_and_validate_audit_log_options(opts)
       err = []
-      err << "Audit log location directory #{o[:audit_log_location]} does not exist." unless File.directory?(File.dirname(o[:audit_log_location]))
+      opts[:enable_audit_log] ||= true
+      if opts[:audit_log_location].nil?
+        opts[:audit_log_location] = "#{Inspec.log_dir}/inspec-audit-#{Time.now.strftime("%Y%m%dT%H%M%S")}-#{Process.pid}.log"
+      else
+        if File.directory?(File.dirname(opts[:audit_log_location]))
+          file_path = opts[:audit_log_location]
+          # suffix the timestamp and pid to the audit log file name if log location is set through cli option
+          filename  = "#{File.basename(file_path, ".*")}-#{Time.now.strftime("%Y%m%dT%H%M%S")}-#{Process.pid}"
+          opts[:audit_log_location] = File.join( File.dirname(file_path), "#{filename}#{File.extname(file_path)}" )
+        else
+          err << "Audit log location directory #{opts[:audit_log_location]} does not exist."
+        end
+      end
+      opts[:audit_log_app_name] = Inspec::Dist::EXEC_NAME
       unless err.empty?
         raise Inspec::Error.new(err.join("\n"))
       end
