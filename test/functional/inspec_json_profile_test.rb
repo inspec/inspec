@@ -55,7 +55,7 @@ describe "inspec json" do
     end
 
     it "has controls" do
-      _(json["controls"].length).must_equal 4
+      _(json["controls"].length).must_equal 3 # Orphaned describe block (without control as parent) is not considered a control in the new export
     end
 
     describe "a control" do
@@ -84,7 +84,7 @@ describe "inspec json" do
       end
 
       it "has a the source code" do
-        _(control["code"]).must_match(/\Acontrol 'tmp-1.0' do.*end\n\Z/m)
+        _(control["code"]).must_match(/\Acontrol 'tmp-1.0' do.*end\Z/m) # New export doesn't add a new line at the end
       end
     end
   end
@@ -120,7 +120,7 @@ describe "inspec json" do
 
     hm = JSON.load(File.read(dst.path))
     _(hm["name"]).must_equal "profile"
-    _(hm["controls"].length).must_equal 4
+    _(hm["controls"].length).must_equal 3 # Orphaned describe block (without control as parent) is not considered a control in the new export
 
     _(out.stderr).must_include "----> creating #{dst.path}"
 
@@ -170,7 +170,7 @@ describe "inspec json" do
 
   describe "inspec json does not write logs to STDOUT" do
     it "can execute a profile with warn calls and parse STDOUT as valid JSON" do
-      out = inspec("json " + File.join(profile_path, "warn_logs"))
+      out = inspec("json " + File.join(profile_path, "warn_logs") + " --legacy-export") # Latest export doesn't show the warn calls
 
       assert_equal "warn_logs", JSON.load(out.stdout)["name"]
 

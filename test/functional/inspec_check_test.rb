@@ -39,16 +39,17 @@ describe "inspec check" do
     end
   end
 
-  describe "inspec check with a aws profile" do
+  describe "inspec check with a aws profile using a legacy check" do
     it "ignore train connection error" do
-      out = inspec("check " + File.join(examples_path, "profile-aws"))
+      out = inspec("check " + File.join(examples_path, "profile-aws") + " --legacy_check")
+
       assert_exit_code 3, out
     end
   end
 
   describe "inspec check with a azure profile" do
     it "ignore train connection error" do
-      out = inspec("check " + File.join(examples_path, "profile-azure"))
+      out = inspec("check " + File.join(examples_path, "profile-azure") + " --legacy_check")
 
       assert_exit_code 3, out
     end
@@ -97,10 +98,10 @@ describe "inspec check" do
     end
   end
 
-  describe "inspec check with invalid `include_controls` reference" do
+  describe "inspec check with invalid `include_controls` reference using legacy checks" do
     it "raises an error matching /Cannot load 'invalid_name'/" do
       invalid_profile = File.join(profile_path, "invalid-include-controls")
-      out = inspec("check " + invalid_profile)
+      out = inspec("check " + invalid_profile + " --legacy_check")
 
       _(out.stderr).must_match(/Cannot load 'no_such_profile'/)
       _(out.stderr).must_match(/not listed as a dependency/)
@@ -110,7 +111,7 @@ describe "inspec check" do
 
   describe "inspec check with unsatisfied runtime version constraint" do
     it "should enforce runtime version constraint" do
-      out = inspec("check #{profile_path}/unsupported_inspec")
+      out = inspec("check #{profile_path}/unsupported_inspec" + " --legacy_check")
       _(out.stdout).must_include "The current inspec version #{Inspec::VERSION}"
       _(out.stdout).must_include ">= 99.0.0"
       assert_exit_code 1, out
