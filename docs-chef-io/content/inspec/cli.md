@@ -556,12 +556,6 @@ This subcommand has the following additional options:
 `--audit-log-location=AUDIT_LOG_LOCATION`
 : Audit log location to send diagnostic log messages to (default: '~/.inspec/logs/inspec-audit.log').
 
-`--audit-log-size=N`
-: Set audit log file size in bytes.(default: 2097152)
-
-`--audit-log-frequency=AUDIT_LOG_FREQUENCY`
-: Set audit log rotation frequency: daily(default), weekly, monthly (default: daily)
-
 ## habitat
 
 Create a Chef Habitat package.
@@ -862,12 +856,6 @@ This subcommand has the following additional options:
 
 `--audit-log-location=AUDIT_LOG_LOCATION`
 : Audit log location to send diagnostic log messages to (default: '~/.inspec/logs/inspec-audit.log').
-
-`--audit-log-size=N`
-: Set audit log file size in bytes.(default: 2097152)
-
-`--audit-log-frequency=AUDIT_LOG_FREQUENCY`
-: Set audit log rotation frequency: daily(default), weekly, monthly (default: daily)
 
  **Note:**
 > With a version of Chef InSpec above **6.0.0** Audit logging feature for Chef InSpec exec and shell commands can be enabled as default behavior by setting a feature flag `CHEF_PREVIEW_AUDIT_LOGGING` in environment.
