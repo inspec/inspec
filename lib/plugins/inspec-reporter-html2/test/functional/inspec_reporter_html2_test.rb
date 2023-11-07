@@ -24,6 +24,9 @@ describe "inspec-reporter-html2" do
       # and we really only need to verify this on one platform
       return if is_windows?
 
+      # html-proofer relies on io-event, which is ruby-3 only
+      skip unless Gem.ruby_version >= Gem::Version.new("3.0.0")
+
       require "html-proofer"
 
       proofer_opts = {

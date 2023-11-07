@@ -1,4 +1,5 @@
-<% slugged_id = control.id.tr(" ", "_") %>
+<% slugged_control_id = control.id.tr(" ", "_") %>
+<% slugged_profile_id = profile.name.gsub(/\W/, "_") %>
 <%
     if enhanced_outcomes
       status = control.status
@@ -13,7 +14,7 @@
     end
 %>
 
-<div class="control control-status-<%= status %>" id="control-<%= slugged_id %>">
+<div class="control control-status-<%= status %>" id="profile-<%= slugged_profile_id %>-control-<%= slugged_control_id %>">
 
   <%
     # Determine range of impact
@@ -29,7 +30,7 @@
   %>
 
   <h3 class="control-title">Control <code><%= control.id %></code></h3>
-  <table class="control-metadata info" id="control-metadata-<%= slugged_id %>">
+  <table class="control-metadata info" id="profile-<%= slugged_profile_id %>-control-metadata-<%= slugged_control_id %>">
   <caption>Control Table</caption>
     <tr class="status status-<%= status %>"><th>Status:</th><td><div><%= status.capitalize %></div></td></tr>
     <% if control.title %><tr class="title"><th>Title:</th><td><%= control.title %></td></tr> <% end %>
@@ -64,9 +65,9 @@
     <tr class="code">
       <th>Source Code:</th>
       <td>
-        <input type="button" class="show-source-code" id="show-code-<%= slugged_id %>" value="Show Source"/>
-        <input type="button" class="hide-source-code hidden" id="hide-code-<%= slugged_id %>" value="Hide Source"/>
-        <pre class="source-code hidden" id="source-code-<%= slugged_id %>">
+        <input type="button" class="show-source-code" id="show-code-<%= slugged_profile_id %>-<%= slugged_control_id %>" value="Show Source"/>
+        <input type="button" class="hide-source-code hidden" id="hide-code-<%= slugged_profile_id %>-<%= slugged_control_id %>" value="Hide Source"/>
+        <pre class="source-code hidden" id="source-code-<%= slugged_profile_id %>-<%= slugged_control_id %>">
           <code>
 <%= control.code %>
           </code>

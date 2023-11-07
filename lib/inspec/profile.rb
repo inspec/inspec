@@ -388,24 +388,25 @@ module Inspec
       @runner_context
     end
 
-    def collect_gem_dependencies(profile_context)
+    # This collects the gem dependencies data from parent and its dependent profiles
+    def collect_gem_dependencies
       gem_dependencies = []
-      all_profiles = []
-      profile_context.dependencies.list.values.each do |requirement|
-        all_profiles << requirement.profile
-      end
-      all_profiles << self
-      all_profiles.each do |profile|
+      # This collects the dependent profiles gem dependencies if any
+      locked_dependencies.dep_list.each do |_name, dep|
+        profile = dep.profile
         gem_dependencies << profile.metadata.gem_dependencies unless profile.metadata.gem_dependencies.empty?
       end
+      # Appends the parent profile gem dependencies which are available through metadata
+      gem_dependencies << metadata.gem_dependencies unless metadata.gem_dependencies.empty?
       gem_dependencies.flatten.uniq
     end
 
     # Loads the required gems specified in the Profile's metadata file from default inspec gems path i.e. ~/.inspec/gems
     # else installs and loads them.
     def load_gem_dependencies
-      gem_dependencies = collect_gem_dependencies(load_libraries)
+      gem_dependencies = collect_gem_dependencies
       gem_dependencies.each do |gem_data|
+
         dependency_loader = DependencyLoader.new
         if dependency_loader.gem_version_installed?(gem_data[:name], gem_data[:version]) ||
             dependency_loader.gem_installed?(gem_data[:name])
@@ -686,7 +687,6 @@ module Inspec
     end
 
     # generates a archive of a folder profile
-    # assumes that the profile was checked before
     def archive(opts)
       # check if file exists otherwise overwrite the archive
       dst = archive_name(opts)
@@ -703,31 +703,34 @@ module Inspec
       # TODO ignore all .files, but add the files to debug output
 
       # Generate temporary inspec.json for archive
-      Inspec::Utils::JsonProfileSummary.produce_json(
-        info: info,
-        write_path: "#{root_path}inspec.json",
-        suppress_output: true
-      )
+      if opts[:export]
+        Inspec::Utils::JsonProfileSummary.produce_json(
+          info: info, # TODO: conditionalize and call info_from_parse
+          write_path: "#{root_path}inspec.json",
+          suppress_output: true
+        )
+      end
 
       # display all files that will be part of the archive
       @logger.debug "Add the following files to archive:"
       files.each { |f| @logger.debug "    " + f }
-      @logger.debug "    inspec.json"
+      @logger.debug "    inspec.json" if opts[:export]
 
+      archive_files = opts[:export] ? files.push("inspec.json") : files
       if opts[:zip]
         # generate zip archive
         require "inspec/archive/zip"
         zag = Inspec::Archive::ZipArchiveGenerator.new
-        zag.archive(root_path, files.push("inspec.json"), dst)
+        zag.archive(root_path, archive_files, dst)
       else
         # generate tar archive
         require "inspec/archive/tar"
         tag = Inspec::Archive::TarArchiveGenerator.new
-        tag.archive(root_path, files.push("inspec.json"), dst)
+        tag.archive(root_path, archive_files, dst)
       end
 
       # Cleanup
-      FileUtils.rm_f("#{root_path}inspec.json")
+      FileUtils.rm_f("#{root_path}inspec.json") if opts[:export]
 
       @logger.info "Finished archive generation."
       true
@@ -833,10 +836,12 @@ module Inspec
         return Pathname.new(name)
       end
 
-      name = params[:name] ||
+      # Using metadata to fetch basic info of name and version
+      metadata = @source_reader.metadata.params
+      name = metadata[:name] ||
         raise("Cannot create an archive without a profile name! Please "\
              "specify the name in metadata or use --output to create the archive.")
-      version = params[:version] ||
+      version = metadata[:version] ||
         raise("Cannot create an archive without a profile version! Please "\
              "specify the version in metadata or use --output to create the archive.")
       ext = opts[:zip] ? "zip" : "tar.gz"

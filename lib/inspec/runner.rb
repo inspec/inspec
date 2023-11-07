@@ -12,6 +12,7 @@ require "inspec/dist"
 require "inspec/reporters"
 require "inspec/runner_rspec"
 require_relative "utils/license_data_collector"
+require "chef-licensing"
 # spec requirements
 
 module Inspec
@@ -61,11 +62,13 @@ module Inspec
       end
 
       if @conf[:waiver_file]
-        @conf[:waiver_file].each do |file|
-          unless File.file?(file)
-            raise Inspec::Exceptions::WaiversFileDoesNotExist, "Waiver file #{file} does not exist."
+        Inspec.with_feature("inspec-waivers") {
+          @conf[:waiver_file].each do |file|
+            unless File.file?(file)
+              raise Inspec::Exceptions::WaiversFileDoesNotExist, "Waiver file #{file} does not exist."
+            end
           end
-        end
+        }
       end
 
       # About reading inputs:
@@ -160,17 +163,25 @@ module Inspec
     end
 
     def run(with = nil)
+      ChefLicensing.check_software_entitlement! if Inspec::Dist::EXEC_NAME == "inspec"
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
       Inspec::LicenseDataCollector.scan_starting(runner: self)
       load
       run_tests(with)
+    rescue ChefLicensing::SoftwareNotEntitled
+      Inspec::Log.error "License is not entitled to use InSpec."
+      Inspec::UI.new.exit(:license_not_entitled)
+    rescue ChefLicensing::Error => e
+      Inspec::Log.error e.message
+      Inspec::UI.new.exit(:usage_error)
     end
 
     def render_output(run_data)
       return if @conf["reporter"].nil?
 
       @conf["reporter"].each do |reporter|
-        result = Inspec::Reporters.render(reporter, run_data, @conf["enhanced_outcomes"])
+        enhanced_outcome_flag = @conf["enhanced_outcomes"]
+        result = Inspec::Reporters.render(reporter, run_data, enhanced_outcome_flag)
         raise Inspec::ReporterError, "Error generating reporter '#{reporter[0]}'" if result == false
       end
     end

@@ -1,9 +1,11 @@
 require "thor" # rubocop:disable Chef/Ruby/UnlessDefinedRequire
+require "chef-licensing"
 require "inspec/log"
 require "inspec/ui"
 require "inspec/config"
 require "inspec/dist"
 require "inspec/utils/deprecation/global_method"
+require "inspec/utils/licensing_config"
 
 # Allow end of options during array type parsing
 # https://github.com/erikhuda/thor/issues/631
@@ -30,9 +32,32 @@ module Inspec
     end
 
     def self.start(given_args = ARGV, config = {})
-      check_license! if config[:enforce_license] || config[:enforce_license].nil?
+      if Inspec::Dist::EXEC_NAME == "inspec"
+        check_license! if config[:enforce_license] || config[:enforce_license].nil?
+        fetch_and_persist_license
+      end
 
       super(given_args, config)
+    end
+
+    def self.fetch_and_persist_license
+      allowed_commands = ["-h", "--help", "help", "-v", "--version", "version", "license"]
+      begin
+        if (allowed_commands & ARGV.map(&:downcase)).empty? && !ARGV.empty?
+          license_keys = ChefLicensing.fetch_and_persist
+
+          # Only if EULA acceptance or license key args are present. And licenses are successfully persisted, do clean exit.
+          if ARGV.select { |arg| !(arg.include? "--chef-license") }.empty? && !license_keys.blank?
+            Inspec::UI.new.exit
+          end
+        end
+      rescue ChefLicensing::LicenseKeyFetcher::LicenseKeyNotFetchedError
+        Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without valid licenses."
+        Inspec::UI.new.exit(:license_not_set)
+      rescue ChefLicensing::Error => e
+        Inspec::Log.error e.message
+        Inspec::UI.new.exit(:usage_error)
+      end
     end
 
     # EULA acceptance
@@ -48,9 +73,6 @@ module Inspec
             Inspec::VERSION,
             logger: Inspec::Log
           )
-          if license_acceptor_output && ARGV.count == 1 && (ARGV.first.include? "--chef-license")
-            Inspec::UI.new.exit
-          end
           license_acceptor_output
         end
       rescue LicenseAcceptance::LicenseNotAcceptedError
@@ -100,11 +122,11 @@ module Inspec
       option :ssl, type: :boolean,
         desc: "Use SSL for transport layer encryption (WinRM)."
       option :ssl_peer_fingerprint, type: :string,
-        desc: "Specify peer fingerprint for SSL authentication, used in lieu of certificates"
+        desc: "Specify SSL peer fingerprint in place of certificates for SSL authentication (WinRM)."
       option :self_signed, type: :boolean,
         desc: "Allow remote scans with self-signed certificates (WinRM)."
       option :ca_trust_file, type: :string,
-        desc: "Specify CA trust file for SSL authentication"
+        desc: "Specify CA certificate required for SSL authentication (WinRM)."
       option :client_cert, type: :string,
         desc: "Specify client certificate for SSL authentication"
       option :client_key, type: :string,
@@ -121,32 +143,32 @@ module Inspec
         desc: "Read configuration from JSON file (`-` reads from stdin)."
       option :json_config, type: :string, hide: true
       option :proxy_command, type: :string,
-        desc: "Specifies the command to use to connect to the server"
+        desc: "Specifies the command to use to connect to the server."
       option :bastion_host, type: :string,
-        desc: "Specifies the bastion host if applicable"
+        desc: "Specifies the bastion host if applicable."
       option :bastion_user, type: :string,
-        desc: "Specifies the bastion user if applicable"
+        desc: "Specifies the bastion user if applicable."
       option :bastion_port, type: :string,
-        desc: "Specifies the bastion port if applicable"
+        desc: "Specifies the bastion port if applicable."
       option :insecure, type: :boolean, default: false,
-        desc: "Disable SSL verification on select targets"
+        desc: "Disable SSL verification on select targets."
       option :target_id, type: :string,
-        desc: "Provide a ID which will be included on reports - deprecated"
+        desc: "Provide an ID which will be included on reports - deprecated"
       option :winrm_shell_type, type: :string, default: "powershell",
-        desc: "Specify a shell type for winrm (eg. 'elevated' or 'powershell')"
+        desc: "Specify which shell type to use (powershell, elevated, or cmd), which defaults to powershell (WinRM)."
       option :docker_url, type: :string,
-        desc: "Provides path to Docker API endpoint (Docker)"
+        desc: "Provides path to Docker API endpoint (Docker). Defaults to unix:///var/run/docker.sock on Unix systems and tcp://localhost:2375 on Windows."
       option :ssh_config_file, type: :array,
-        desc: "A list of paths to the ssh config file, e.g ~/.ssh/config or /etc/ssh/ssh_config"
+        desc: "A list of paths to the ssh config file, e.g ~/.ssh/config or /etc/ssh/ssh_config."
       option :podman_url, type: :string,
-        desc: "Provides path to Podman API endpoint"
+        desc: "Provides the path to the Podman API endpoint. Defaults to unix:///run/user/$UID/podman/podman.sock for rootless container, unix:///run/podman/podman.sock for rootful container (for this you need to execute inspec as root user)."
     end
 
     def self.profile_options
       option :profiles_path, type: :string,
         desc: "Folder which contains referenced profiles."
       option :vendor_cache, type: :string,
-        desc: "Use the given path for caching dependencies. (default: ~/.inspec/cache)"
+        desc: "Use the given path for caching dependencies, (default: ~/.inspec/cache)."
       option :auto_install_gems, type: :boolean, default: false,
         desc: "Auto installs gem dependencies of the profile or resource pack."
     end
@@ -176,7 +198,7 @@ module Inspec
       option :input, type: :array, banner: "name1=value1 name2=value2",
         desc: "Specify one or more inputs directly on the command line, as --input NAME=VALUE. Accepts single-quoted YAML and JSON structures."
       option :input_file, type: :array,
-        desc: "Load one or more input files, a YAML file with values for the profile to use"
+        desc: "Load one or more input files, a YAML file with values for the profile to use."
       option :waiver_file, type: :array,
         desc: "Load one or more waiver files."
       option :attrs, type: :array,
@@ -184,14 +206,14 @@ module Inspec
       option :create_lockfile, type: :boolean,
         desc: "Write out a lockfile based on this execution (unless one already exists)"
       option :backend_cache, type: :boolean,
-        desc: "Allow caching for backend command output. (default: true)"
+        desc: "Allow caching for backend command output. (default: true)."
       option :show_progress, type: :boolean,
         desc: "Show progress while executing tests."
       option :distinct_exit, type: :boolean, default: true,
         desc: "Exit with code 101 if any tests fail, and 100 if any are skipped (default).  If disabled, exit 0 on skips and 1 for failures."
       option :silence_deprecations, type: :array,
         banner: "[all]|[GROUP GROUP...]",
-        desc: "Suppress deprecation warnings. See install_dir/etc/deprecations.json for list of GROUPs or use 'all'."
+        desc: "Suppress deprecation warnings. See install_dir/etc/deprecations.json for a list of GROUPs or use 'all'."
       option :diff, type: :boolean, default: true,
         desc: "Use --no-diff to suppress 'diff' output of failed textual test results."
       option :sort_results_by, type: :string, default: "file", banner: "--sort-results-by=none|control|file|random",
@@ -199,7 +221,7 @@ module Inspec
       option :filter_empty_profiles, type: :boolean, default: false,
         desc: "Filter empty profiles (profiles without controls) from the report."
       option :filter_waived_controls, type: :boolean,
-        desc: "Do not execute waived controls in InSpec at all. Must use with --waiver-file. Ignores `run` setting of waiver file."
+        desc: "Do not execute waived controls in InSpec at all. Must use with --waiver-file. Ignores the `run` setting of the waiver file."
       option :retain_waiver_data, type: :boolean,
         desc: "EXPERIMENTAL: Only works in conjunction with --filter-waived-controls, retains waiver data about controls that were skipped"
       option :command_timeout, type: :numeric,
@@ -213,6 +235,30 @@ module Inspec
 
     def self.help(*args)
       super(*args)
+      if Inspec::Dist::EXEC_NAME == "inspec"
+        puts <<~CHEF_LICENSE_HELP
+          Chef Compliance has three tiers of licensing:
+
+          * Free-Tier
+            Users are limited to audit maximum of 10 targets
+            Entitled for personal or non-commercial use
+
+          * Trial
+            Entitled for unlimited number of targets
+            Entitled for 30 days only
+            Entitled for commercial use
+
+          * Commercial
+            Entitled for purchased number of targets
+            Entitled for period of subscription purchased
+            Entitled for commercial use
+
+          inspec license add: This command helps users to generate or add an additional license (not applicable to local licensing service)
+
+          For more information please visit:
+          www.chef.io/licensing/faqs
+        CHEF_LICENSE_HELP
+      end
       puts "\nAbout #{Inspec::Dist::PRODUCT_NAME}:"
       puts "  Patents: chef.io/patents\n\n"
     end

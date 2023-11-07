@@ -19,7 +19,7 @@ Train is the connectivity library for Chef InSpec, and is the most critical depe
 You can promote `train` by running, in #inspec-notify:
 
 ```
-/expeditor promote inspec/train:master 3.2.23
+/expeditor promote inspec/train:main 3.2.23
 ```
 
 Note that the version you give to Expeditor is the plain version (not the tag, which includes a `v` prefix).
@@ -33,7 +33,7 @@ These gems are the transports, or connectivity drivers, that have been fully plu
 You can promote each of these gems by running in #inspec-notify:
 
 ```
-/expeditor promote inspec/GEMNAME:master VERSION
+/expeditor promote inspec/GEMNAME:main VERSION
 ```
 
 ## Merging Chef InSpec PRs
@@ -50,11 +50,11 @@ Most, though not all, PRs should not have any Expeditor control labels. The patc
 
 Here are the Expeditor control labels, and the circumstances under which they should be used:
 
- * Expeditor: Bump Minor Version - Use when a significant new feature is being released.
- * Expeditor: Skip Changelog - Should only be used for dummy PRs.
- * Expeditor: Skip Version Bump - Use for non-code-change PRs, such as website or CI changes.
- * Expeditor: Skip Omnibus - Use for non-code-change PRs, such as website or CI changes.
- * Expeditor: Skip Habitat - Use for non-code-change PRs, such as website or CI changes.
+* Expeditor: Bump Minor Version - Use when a significant new feature is being released.
+* Expeditor: Skip Changelog - Should only be used for dummy PRs.
+* Expeditor: Skip Version Bump - Use for non-code-change PRs, such as website or CI changes.
+* Expeditor: Skip Omnibus - Use for non-code-change PRs, such as website or CI changes.
+* Expeditor: Skip Habitat - Use for non-code-change PRs, such as website or CI changes.
 
 ### Click Merge
 
@@ -82,9 +82,9 @@ When the hab build succeeds, the packages will be placed on the Hab builder in t
 
 ### Docker Image Built and Released
 
-We also release a Docker image (see [expeditor config](https://github.com/inspec/inspec/blob/44fe144732e1e0abb2594957a880c5f1821e7774/.expeditor/config.yml#L150)), which contains an Alpine system and Chef InSpec installed from a gem, with the ENTRYPOINT of the Docker image being `inspec` (see [Dockerfile](https://github.com/inspec/inspec/blob/main/Dockerfile)). It's a simple way to ship the dependencies of `inspec`.
+We also release a Docker image (see [expeditor config](https://github.com/inspec/inspec/blob/main/.expeditor/config.yml#L156)), which contains an Ubuntu 18.04 system and Chef InSpec installed from a gem, with the ENTRYPOINT of the Docker image being `inspec` (see [Dockerfile](https://github.com/inspec/inspec/blob/main/Dockerfile)). It's a simple way to ship the dependencies of `inspec`.
 
-When it succeeds, the Docker build is labeled as `current`.  Currently, there is nothing that promotes the Docker image to the `stable` label ([#4952](https://github.com/inspec/inspec/issues/4952)).
+A [dobi.yaml](https://github.com/inspec/inspec/blob/main/dobi.yaml) that defines the Docker images to build. For more information on how this file is used, please check out the [Chef Expeditor docs](https://expeditor.chef.io/docs/pipelines/docker/)
 
 ### Gems Built and Placed on Artifactory
 
@@ -92,19 +92,20 @@ The `inspec`, `inspec-bin`, `inspec-core`, and `inspec-core-bin` gems are all bu
 
 The difference between the gems is as follows:
 
- * `inspec` is a library gem, with full heavyweight dependencies, not encumbered by commercial licensing
- * `inspec-bin` contains an `inspec` executable and is encumbered by commercial licensing
- * `inspec-core` is a library gem, with lightweight dependencies and no compilation required at install time, and is not encumbered by commercial licensing
- * `inspec-core-bin` contains an `inspec` executable and is encumbered by commercial licensing
+* `inspec` is a library gem, with full heavyweight dependencies, not encumbered by commercial licensing
+* `inspec-bin` contains an `inspec` executable and is encumbered by commercial licensing
+* `inspec-core` is a library gem, with lightweight dependencies and no compilation required at install time, and is not encumbered by commercial licensing
+* `inspec-core-bin` contains an `inspec` executable and is encumbered by commercial licensing
 
 ### Update Pending Release Notes
 
 As you merge each pull request, update the [Pending Release Notes](https://github.com/inspec/inspec/wiki/Pending-Release-Notes). Some guidelines:
- * Do not include minor or non-customer visible changes, such as CI changes or test harness changes.
- * Do include bug fixes, features, and other things that impact the user.
- * Your words will be edited by the Docs team, but try help them along by keeping it human oriented; this isn't the technical-oriented CHANGELOG.
- * Add the PR number as a reference for the Docs team. They will typically remove them, but they may need to get more context by looking up the originating PR.
- * It's preferable to add notes as things merge, lest they be forgotten; sifting through a pile of merged PRs in a rush is a chore!
+
+* Do not include minor or non-customer visible changes, such as CI changes or test harness changes.
+* Do include bug fixes, features, and other things that impact the user.
+* Your words will be edited by the Docs team, but try help them along by keeping it human oriented; this isn't the technical-oriented CHANGELOG.
+* Add the PR number as a reference for the Docs team. They will typically remove them, but they may need to get more context by looking up the originating PR.
+* It's preferable to add notes as things merge, lest they be forgotten; sifting through a pile of merged PRs in a rush is a chore!
 
 ### Known Expeditor issues and resolutions
 
@@ -112,9 +113,9 @@ Generally, expeditor issues and failures that appear unrelated to the InSpec PR 
 
 During promotion (see below), the build process is not currently idempotent. That means if promotion fails, __do not simply press the `retry` button__. It is likely that you will need to get support from Releng or do some elements of the promotion manually. One example of this is currently `publish_rubygems`. If that step passes and a later step fails, all steps will fail on `publish_rubygems` as it is already published. This part of documentation will be updated once there is a supported `retry`.
 
-At the moment the best-known solution is to comment out the lines of the build that have passed (keeping an eye on their dependencies), merging that PR into master, waiting for the new build and version bump, and re-running the promotion command against the failed InSpec promotion version.
+At the moment the best-known solution is to comment out the lines of the build that have passed (keeping an eye on their dependencies), merging that PR into main, waiting for the new build and version bump, and re-running the promotion command against the failed InSpec promotion version.
 
-Occasionally there may be an unexplainable expeditor error. One thing to quickly check is the version of expeditor being run against the current "master" expeditor. In certain cases our expeditor will __not__ automatically update and the bugfix we require is on a future expeditor version. To fix this you need to manually restart the inspec:inspec-master agent here: https://expeditor.chef.io/dashboard/#/agents
+Occasionally there may be an unexplainable expeditor error. One thing to quickly check is the version of expeditor being run against the current "master" expeditor. In certain cases our expeditor will __not__ automatically update and the bugfix we require is on a future expeditor version. To fix this you need to manually restart the inspec:inspec-master agent.
 
 ## Promoting Chef InSpec
 
@@ -131,7 +132,7 @@ Wait until they let you know the release notes are ready.
 The promote command is:
 
 ```
-/expeditor promote inspec/inspec:master 4.18.100
+/expeditor promote inspec/inspec:main 5.21.29
 ```
 
 Note that the version you give to Expeditor is the plain version (not the tag, which includes a `v` prefix).
@@ -139,36 +140,36 @@ Note that the version you give to Expeditor is the plain version (not the tag, w
 A lot happens when you promote:
 
 ```
-inspec/inspec:master 4.18.100 was promoted to stable by cwolfe
-3:49
-inspec/inspec:master performed the following actions for inspec/inspec:master (4.18.100) (logs)
-• Promoted version 4.18.100 of inspec to stable.
-3:49
-inspec/inspec:master performed the following actions for inspec/inspec:master (4.18.100) (logs)
-• Promoted version 4.18.100 of inspec to stable.
-3:50
-:metal: :ice_cream: inspec 4.18.100 has been promoted to the stable channel!
+inspec/inspec:main 5.21.29 was promoted to stable by cwolfe
+8:54
+inspec/inspec:main performed the following actions for inspec/inspec:main (5.21.29) (logs)
+• Promoted version 5.21.29 of inspec to stable.
+8:54
+inspec/inspec:main performed the following actions for inspec/inspec:main (5.21.29) (logs)
+• Promoted version 5.21.29 of inspec to stable.
+8:56
+:metal: :ice_cream: inspec 5.21.29 has been promoted to the stable channel!
 The artifacts can be downloaded from:
   • stable channel of https://packages.chef.io
   • stable channel of https://omnitruck.chef.io
-  • https://downloads.chef.io/inspec/stable/4.18.100
-3:50
-inspec/inspec:master performed the following actions for inspec 4.18.100 (stable) (logs)
+  • https://downloads.chef.io/inspec/stable/5.21.29
+8:56
+inspec/inspec:main performed the following actions for inspec 5.21.29 (stable) (logs)
 • Executed .expeditor/update_dockerfile.sh
-• Updated CHANGELOG.md to reflect the promotion of 4.18.100
-• Published inspec-4.18.100, inspec-core-4.18.100, inspec-bin-4.18.100, and inspec-core-bin-4.18.100 to RubyGems.org
-• Created GitHub release Chef InSpec v4.18.100
-• Tagged chef/inspec:4.18.100 with 4, 4.18, and latest
-• Promoted chef/inspec/4.18.100/20200303200836 for x86_64-windows to the stable channel on the Habitat Depot
-• Promoted chef/inspec/4.18.100/20200303200418 for x86_64-linux to the stable channel on the Habitat Depot
-• Promoted chef/inspec/4.18.100/20200303200623 for x86_64-linux-kernel2 to the stable channel on the Habitat Depot
+• Updated CHANGELOG.md to reflect the promotion of 5.21.29
+• Published inspec-5.21.29, inspec-core-5.21.29, inspec-bin-5.21.29, and inspec-core-bin-5.21.29 to RubyGems.org
+• Created GitHub release Chef InSpec v5.21.29
+• Tagged chef/inspec:5.21.29 with stable, latest, 5, and 5.21
+• Promoted chef/inspec/5.21.29/20230124060109 for x86_64-windows to the stable channel on the Habitat Depot
+• Promoted chef/inspec/5.21.29/20230124055621 for x86_64-linux to the stable channel on the Habitat Depot
+• Promoted chef/inspec/5.21.29/20230124055622 for x86_64-linux-kernel2 to the stable channel on the Habitat Depot
 • Executed .expeditor/publish-release-notes.sh
-• Executed .expeditor/purge-cdn.sh
+• Purged the '/inspec/latest' key from packages.chef.io Fastly
 • Executed .expeditor/announce-release.sh
 • Notified Slack channels of the artifact_published event
 ```
 
-Among other things, this promotion automatically generates [release notes](https://github.com/inspec/inspec/blob/master/.expeditor/publish-release-notes.sh) and [publishes them](https://github.com/inspec/inspec/blob/main/.expeditor/announce-release.sh) to Discourse.
+Among other things, this promotion automatically generates [release notes](https://github.com/inspec/inspec/blob/main/.expeditor/publish-release-notes.sh) and [publishes them](https://github.com/inspec/inspec/blob/main/.expeditor/announce-release.sh) to Discourse.
 
 ### Update chef/homebrew-chef
 

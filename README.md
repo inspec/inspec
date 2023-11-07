@@ -55,7 +55,7 @@ inspec exec test.rb -t docker://container_id
 
 ## Installation
 
-Chef InSpec requires Ruby ( >= 2.7 ).
+Chef InSpec requires Ruby ( >= 3.1 ).
 
 All currently supported versions of Chef InSpec (4.0 and later) require accepting the EULA to use. Please visit the [license acceptance page](https://docs.chef.io/chef_license_accept.html) on the Chef docs site for more information.
 
@@ -133,6 +133,14 @@ $ inspec exec test.rb -t ssh://root@192.168.64.2:11022 -i vagrant
 Finished in 0.04321 seconds (files took 0.54917 seconds to load)
 2 examples, 0 failures
 ```
+
+To scan the docker containers running on the host using the containerized InSpec, we need to bind-mount the Unix socket `/var/run/docker.sock` from the host machine to the InSpec Container.
+
+```
+docker pull chef/inspec
+function inspec { docker run -it --rm -v $(pwd):/share -v /var/run/docker.sock:/var/run/docker.sock chef/inspec "$@"; }
+```
+`/var/run/docker.sock` is the Unix socket the Docker daemon listens on by default.
 
 
 ### Install it from source
@@ -306,9 +314,9 @@ Remote Targets
 | CentOS                       | 6, 7, 8                                          | i386, x86_64  |
 | Debian                       | 9, 10                                            | i386, x86_64  |
 | FreeBSD                      | 9, 10, 11                                        | i386, amd64   |
-| macOS                        | 10.14, 10.15, 11.0                               | x86_64        |
+| macOS                        | 11.0                                             | x86_64        |
 | Oracle Enterprise Linux      | 6, 7, 8                                          | i386, x86_64  |
-| Red Hat Enterprise Linux     | 6, 7, 8                                          | i386, x86_64  |
+| Red Hat Enterprise Linux     | 7, 8, 9                                          | i386, x86_64  |
 | Solaris                      | 10, 11                                           | sparc, x86    |
 | Windows\*                    | 8, 8.1, 10, 2012, 2012R2, 2016, 2019             | x86, x86_64   |
 | Ubuntu Linux                 |                                                  | x86, x86_64   |
@@ -328,11 +336,11 @@ In addition, runtime support is provided for:
 
 | Platform | Versions | Arch   |
 | -------- | -------- | ------ |
-| macOS    | 10.14+   | x86_64 |
-| Debian   | 9, 10    | x86_64 |
-| RHEL     | 6, 7, 8  | x86_64 |
-| Fedora   | 29+      | x86_64 |
-| Ubuntu   | 16.04+   | x86_64 |
+| macOS    | 11+      | x86_64, arm64 |
+| Debian   | 9, 10    | x86_64, aarch64 |
+| RHEL     | 7, 8, 9  | x86_64, aarch64 |
+| Fedora   | 29+      | x86_64, aarch64 |
+| Ubuntu   | 16.04+   | x86_64, aarch64 |
 | Windows  | 8+       | x86_64 |
 | Windows  | 2012+    | x86_64 |
 
@@ -449,12 +457,13 @@ KITCHEN_YAML=kitchen.dokken.yml bundle exec kitchen test -c 3
 | **Author:**    | Christoph Hartmann (<chartmann@chef.io>)       |
 | **Copyright:** | Copyright (c) 2015 Vulcano Security GmbH.      |
 | **Copyright:** | Copyright (c) 2017-2020 Chef Software Inc.     |
-| **Copyright:** | Copyright (c) 2020-2022 Progress Software Corp.|
+| **Copyright:** | Copyright (c) 2020-2023 Progress Software Corp.|
 | **License:**   | Apache License, Version 2.0                    |
 | **License:**   | Chef End User License Agreement                |
 
-Chef InSpec is distributed under the Apache License, Version 2.0.
-Permission to use the software is governed by the [Chef EULA](https://docs.chef.io/chef_license_accept.html).
+Packaged distributions of Progress® Chef® products obtained from any authorised Progress Chef distribution source are made available pursuant to the Progress Chef EULA at https://www.chef.io/end-user-license-agreement, unless there is an executed agreement in effect between you and Progress that covers the Progress Chef products ("Master Agreement"), in which case the Master Agreement shall govern.
+
+Source code obtained from the Chef GitHub repository is made available under Apache-2.0, a copy of which is included below.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

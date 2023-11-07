@@ -81,7 +81,7 @@ describe "inputs" do
     let(:common_options) do
       {
         profile: "#{inputs_profiles_path}/via-runner",
-        reporter: ["json"],
+        "reporter" => ["json"],
       }
     end
 
@@ -105,6 +105,7 @@ describe "inputs" do
            # require inspec
           require "inspec"
           require "inspec/runner"
+          require "inspec/utils/licensing_config"
 
           # inject pretty-printed runner opts
           runner_args = #{options.inspect}

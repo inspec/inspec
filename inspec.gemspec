@@ -8,9 +8,17 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Chef InSpec Team"]
   spec.email         = ["inspec@chef.io"]
   spec.summary       = "Infrastructure and compliance testing."
-  spec.description   = "InSpec provides a framework for creating end-to-end infrastructure tests. You can use it for integration or even compliance testing. Create fully portable test profiles and use them in your workflow to ensure stability and security. Integrate InSpec in your change lifecycle for local testing, CI/CD, and deployment verification."
+  spec.description   = <<-EOT
+InSpec provides a framework for creating end-to-end infrastructure tests. You can use it for integration or even compliance testing. Create fully portable test profiles and use them in your workflow to ensure stability and security. Integrate InSpec in your change lifecycle for local testing, CI/CD, and deployment verification.
+
+Packaged distributions of Progress® Chef® products obtained from RubyGems are made available pursuant to the Progress Chef EULA at https://www.chef.io/end-user-license-agreement, unless there is an executed agreement in effect between you and Progress that covers the Progress Chef products ("Master Agreement"), in which case the Master Agreement shall govern.
+
+Source code obtained from the Chef GitHub repository is made available under Apache-2.0, a copy of which is included.
+
+  EOT
+
   spec.homepage      = "https://github.com/inspec/inspec"
-  spec.license       = "Apache-2.0"
+  spec.license       = "LicenseRef-Chef-EULA"
   spec.require_paths = ["lib"]
 
   spec.required_ruby_version = ">= 2.7"
@@ -34,17 +42,15 @@ Gem::Specification.new do |spec|
   # progress bar streaming reporter plugin support
   spec.add_dependency "progress_bar", "~> 1.3.3"
 
-  # roo support for reading excel waiver files
-  spec.add_dependency "roo", "~> 2.9.0"
-  spec.add_dependency "roo-xls" # extension for roo to read xls files
-
   # Used for Azure profile until integrated into train
   spec.add_dependency "faraday_middleware", ">= 0.12.2", "< 1.1"
 
   # Train plugins we ship with InSpec
-  spec.add_dependency "train-habitat", "~> 0.1"
-  spec.add_dependency "train-aws",     "~> 0.2"
-  spec.add_dependency "train-winrm",   "~> 0.2"
+  spec.add_dependency "train-habitat",    "~> 0.1"
+  spec.add_dependency "train-aws",        "~> 0.2"
+  spec.add_dependency "train-winrm",      "~> 0.2"
+  spec.add_dependency "train-kubernetes", "~> 0.1"
+
   spec.add_dependency "mongo", "= 2.13.2" # 2.14 introduces a broken symlink in mongo-2.14.0/spec/support/ocsp
 
 end

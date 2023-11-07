@@ -1,0 +1,5 @@
+# This file tests reporter validation by testing an options
+# file that does not specify a reporter at all.
+-t local:// --reporter cli:myfile.out
+-t local:// --reporter cli:myfile.out
+-t local://

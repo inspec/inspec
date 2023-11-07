@@ -299,13 +299,13 @@ The `size` property tests if a file's size matches, is greater than, or is less 
 Greater than:
 
 ```ruby
-    its('size') { should > 64 }
+    its('size') { should be > 64 }
 ```
 
 Less than:
 
 ```ruby
-    its('size') { should < 10240 }
+    its('size') { should be < 10240 }
 ```
 
 ### type

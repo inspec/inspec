@@ -101,4 +101,9 @@ describe "SimpleConfig Default Parser" do
     cur = SimpleConfig.new("1:2:3", assignment_regex: /^(.*):(.*):(.*)$/, key_values: 4)
     _(cur.params).must_equal({ "1" => ["2", "3", nil, nil] })
   end
+
+  it "supports :mulitple values and returns array of values" do
+    cur = SimpleConfig.new("foo:  bar\nbiz:  baz boz bop\nbiz:  cdsdcs cdscs csc\nbiz:  ada\nfoz:  foo [!deny] bar", assignment_regex: /^\s*([^:]*?)\s*:\s*(.*?)\s*$/, multiple_values: true, multiple_value_regex: /\s+/)
+    _(cur.params).must_equal({ "foo" => ["bar"], "biz" => %w{baz boz bop cdsdcs cdscs csc ada}, "foz" => ["foo", "[!deny]", "bar"] })
+  end
 end

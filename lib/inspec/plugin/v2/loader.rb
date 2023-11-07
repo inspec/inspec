@@ -178,7 +178,19 @@ module Inspec::Plugin::V2
       # TODO: enforce first-level version pinning
       plugin_deps = [Gem::Dependency.new(plugin_gem_name.to_s, version_constraint)]
       managed_gem_set = Gem::Resolver::VendorSet.new
-      list_managed_gems.each { |spec| managed_gem_set.add_vendor_gem(spec.name, spec.gem_dir) }
+
+      list_managed_gems.each do |spec|
+        if Gem::Specification.load spec.gem_dir
+          managed_gem_set.add_vendor_gem(spec.name, spec.gem_dir)
+        else
+          # In case of invalid gemspec as mentioned in this PR https://github.com/brianmario/yajl-ruby/pull/223
+          # the add_vendor_gem breaks. So this is patch to fix the loading issue.
+          # Horribly, chdir to gemspec path to honor . in gemspec
+          Dir.chdir(spec.gem_dir) do |dir|
+            managed_gem_set.add_vendor_gem(spec.name, spec.gem_dir)
+          end
+        end
+      end
 
       # TODO: Next two lines merge our managed gems with the other gems available
       # in our "local universe" - which may be the system, or it could be in a Bundler microcosm,
@@ -278,19 +290,18 @@ module Inspec::Plugin::V2
         when :user_gem
           status.entry_point = status.name.to_s
           status.version = plugin_entry[:version]
-          status.description = fetch_plugin_specs(status.name.to_s)&.summary
+          # Fetch the summary of the gem from local gemspec file instead of remote call using Gem::SpecFetcher.fetcher.
+          unless plugin_entry[:version].nil? # safe check very rare case.
+            version_string = plugin_entry[:version].gsub(/[=,~,>,<]/, "").strip
+            plugin_name_with_version = "#{status.name}-#{version_string}"
+            status.description = fetch_gemspec(File.join(plugin_gem_path, "gems", plugin_name_with_version, "/", status.name.to_s + ".gemspec"))&.summary
+          end
         when :path
           status.entry_point = plugin_entry[:installation_path]
         end
 
         registry[status.name] = status
       end
-    end
-
-    def fetch_plugin_specs(plugin_name)
-      fetcher = Gem::SpecFetcher.fetcher
-      plugin_dependency = Gem::Dependency.new(plugin_name)
-      fetcher.spec_for_dependency(plugin_dependency).flatten.first
     end
 
     def fixup_train_plugin_status(status)

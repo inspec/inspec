@@ -63,6 +63,11 @@ module Inspec
           # Rubocop thinks we are raising an exception - we're actually calling RSpec's fail()
           its(location) { fail e.message } # rubocop: disable Style/SignalException
         end
+
+        # instance_eval evaluates the describe block and raise errors if at the resource level any execution is failed
+        # Waived controls expect not to raise any controls and get skipped if run is false so __apply_waivers needs to be called here too
+        # so that waived control are actually gets waived.
+        __apply_waivers
       end
     end
 

@@ -20,14 +20,25 @@ mount
 df /tmp
 echo ${TMPDIR:-unknown}
 
-if [ -n "${CI_ENABLE_COVERAGE:-}" ]; then
-  # Fetch token from vault ASAP so that long-running tests don't cause our vault token to expire
-  echo "--- installing vault"
-  export VAULT_VERSION=1.9.3
-  export VAULT_HOME=$HOME/vault
-  curl --create-dirs -sSLo $VAULT_HOME/vault.zip https://releases.hashicorp.com/vault/$VAULT_VERSION/vault_${VAULT_VERSION}_linux_amd64.zip
-  unzip -o $VAULT_HOME/vault.zip -d $VAULT_HOME
+# Fetch tokens from vault ASAP so that long-running tests don't cause our vault token to expire
+echo "--- installing vault"
+export VAULT_VERSION=1.13.0
+export VAULT_HOME=$HOME/vault
+curl --create-dirs -sSLo $VAULT_HOME/vault.zip https://releases.hashicorp.com/vault/$VAULT_VERSION/vault_${VAULT_VERSION}_linux_amd64.zip
+unzip -o $VAULT_HOME/vault.zip -d $VAULT_HOME
 
+echo "--- fetching License serverl url and keys from vault"
+export CHEF_LICENSE_SERVER=$($VAULT_HOME/vault kv get -field acceptance secret/inspec/licensing/server)
+export CHEF_LICENSE_KEY=$($VAULT_HOME/vault kv get -field acceptance secret/inspec/licensing/license-key)
+if [ -n "${CHEF_LICENSE_KEY:-}" ]; then
+  echo "  ++ License Key set successfully"
+else
+  echo "  !! License Key not set - exiting "
+  exit 1
+fi
+
+
+if [ -n "${CI_ENABLE_COVERAGE:-}" ]; then
   echo "--- fetching Sonar token from vault"
   export SONAR_TOKEN=$($VAULT_HOME/vault kv get -field token secret/inspec/sonar)
 fi
@@ -37,7 +48,7 @@ pull_bundle
 
 echo "--- bundle"
 bundle config --local path vendor/bundle
-bundle config set --local without tools maintenance deploy
+bundle config set --local without deploy kitchen
 bundle install --jobs=7 --retry=3
 
 echo "--- push bundle cache"
@@ -54,7 +65,7 @@ RAKE_EXIT=$?
 # If coverage is enabled, then we need to pick up the coverage/coverage.json file
 if [ -n "${CI_ENABLE_COVERAGE:-}" ]; then
   echo "--- installing sonarscanner"
-  export SONAR_SCANNER_VERSION=4.6.2.2472
+  export SONAR_SCANNER_VERSION=4.7.0.2747
   export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
   curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
   unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
@@ -71,7 +82,7 @@ if [ -n "${CI_ENABLE_COVERAGE:-}" ]; then
   echo "--- running sonarscanner"
   sonar-scanner \
   -Dsonar.sources=. \
-  -Dsonar.host.url=https://sonarcloud.io
+  -Dsonar.host.url=https://sonar.progress.com
 fi
 
 exit $RAKE_EXIT

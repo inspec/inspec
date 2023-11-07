@@ -323,7 +323,7 @@ class PluginLoaderTests < Minitest::Test
     skip "not valid in this env" unless using_bundler?
 
     with_empty_registry do
-      exp = %i{ train-aws train-habitat train-winrm }
+      exp = %i{ train-aws train-habitat train-kubernetes train-winrm }
       exp_err = ""
 
       assert_detect_system_plugins exp, exp_err do |loader|
@@ -332,5 +332,15 @@ class PluginLoaderTests < Minitest::Test
         end
       end
     end
+  end
+
+  def test_read_conf_file_into_registry
+    ENV["INSPEC_CONFIG_DIR"] = File.join(@config_dir_path, "train-test-fixture")
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true)
+    registry = loader.send(:read_conf_file_into_registry)
+    assert_includes registry, { :name => :"train-test-fixture", :version => ">= 0.1.0" }
+    reg = Inspec::Plugin::V2::Registry.instance
+    status = reg[registry.first[:name]]
+    assert_equal("Test train plugin. Not intended for use as an example.", status.description, "Reads the description of the plugin from local gemspec file.")
   end
 end

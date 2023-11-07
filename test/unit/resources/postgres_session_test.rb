@@ -39,7 +39,11 @@ describe "Inspec::Resources::PostgresSession" do
   end
   it "verify postgres_session create_psql_cmd in socket connection" do
     resource = load_resource("postgres_session", "myuser", "mypass", "127.0.0.1", 5432, "/var/run/postgresql")
-    _(resource.send(:create_psql_cmd, "SELECT * FROM STUDENTS;", ["testdb"])).must_equal "psql -d postgresql://myuser:mypass@/testdb?host=/var/run/postgresql -A -t -w -c SELECT\\ \\*\\ FROM\\ STUDENTS\\;"
+    _(resource.send(:create_psql_cmd, "SELECT * FROM STUDENTS;", ["testdb"])).must_equal "psql -d postgresql://myuser:mypass@/testdb?host=/var/run/postgresql -p 5432 -A -t -w -c SELECT\\ \\*\\ FROM\\ STUDENTS\\;"
+  end
+  it "verify postgres_session create_psql_cmd in socket connection" do
+    resource = load_resource("postgres_session", "myuser", "mypass", "127.0.0.1", 1234, "/var/run/postgresql")
+    _(resource.send(:create_psql_cmd, "SELECT * FROM STUDENTS;", ["testdb"])).must_equal "psql -d postgresql://myuser:mypass@/testdb?host=/var/run/postgresql -p 1234 -A -t -w -c SELECT\\ \\*\\ FROM\\ STUDENTS\\;"
   end
 
   it "fails when no connection established in linux" do

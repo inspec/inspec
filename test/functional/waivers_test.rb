@@ -72,8 +72,8 @@ describe "waivers" do
     assert_empty act
   end
 
-  def assert_skip_message(yea, nay)
-    msg = controls_by_id.dig("01_only_if", "results", 0, "skip_message")
+  def assert_skip_message(yea, nay, control_id = "01_only_if")
+    msg = controls_by_id.dig(control_id, "results", 0, "skip_message")
     assert_includes msg, yea
     refute_includes msg, nay
   end
@@ -144,58 +144,6 @@ describe "waivers" do
   describe "a fully pre-slugged control file with json format waiver file" do
     let(:profile_name) { "basic" }
     let(:waiver_file) { "waivers.json" }
-
-    # rubocop:disable Layout/AlignHash
-    {
-      "01_not_waivered_passes"                          => "passed",
-      "02_not_waivered_fails"                           => "failed",
-      "03_waivered_no_expiry_ran_passes"                => "passed",
-      "04_waivered_no_expiry_ran_fails"                 => "failed",
-      "05_waivered_no_expiry_not_ran"                   => "skipped",
-      "06_waivered_expiry_in_past_ran_passes"           => "passed",
-      "14_waivered_expiry_in_future_z_not_ran"          => "skipped",
-    }.each do |control_id, expected|
-      it "has all of the expected outcomes #{control_id}" do
-        assert_test_outcome expected, control_id
-
-        if control_id !~ /not_waivered/
-          assert_waiver_annotation control_id
-        else
-          refute_waiver_annotation control_id
-        end
-      end
-    end
-  end
-
-  describe "a fully pre-slugged control file with XLSX format waiver file" do
-    let(:profile_name) { "basic" }
-    let(:waiver_file) { "waivers.xlsx" }
-
-    # rubocop:disable Layout/AlignHash
-    {
-      "01_not_waivered_passes"                          => "passed",
-      "02_not_waivered_fails"                           => "failed",
-      "03_waivered_no_expiry_ran_passes"                => "passed",
-      "04_waivered_no_expiry_ran_fails"                 => "failed",
-      "05_waivered_no_expiry_not_ran"                   => "skipped",
-      "06_waivered_expiry_in_past_ran_passes"           => "passed",
-      "14_waivered_expiry_in_future_z_not_ran"          => "skipped",
-    }.each do |control_id, expected|
-      it "has all of the expected outcomes #{control_id}" do
-        assert_test_outcome expected, control_id
-
-        if control_id !~ /not_waivered/
-          assert_waiver_annotation control_id
-        else
-          refute_waiver_annotation control_id
-        end
-      end
-    end
-  end
-
-  describe "a fully pre-slugged control file with XLS format waiver file" do
-    let(:profile_name) { "basic" }
-    let(:waiver_file) { "waivers.xls" }
 
     # rubocop:disable Layout/AlignHash
     {
@@ -293,10 +241,25 @@ describe "waivers" do
   describe "waivers and only_if" do
     let(:profile_name) { "only_if" }
 
-    describe "when an only_if is used with no waiver" do
+    describe "when an only_if is used with empty waiver file" do
       let(:waiver_file) { "empty.yaml" }
-      it "skips the control with an only_if message" do
-        assert_skip_message "due to only_if", "waiver"
+
+      it "raise warning unable to parse empty.yaml file error" do
+        result = run_result
+        assert_includes result.stderr, "WARN: Unable to parse"
+        assert_includes result.stderr, "YAML file is empty."
+        if windows?
+          assert_equal 1, result.exit_status
+        else
+          assert_equal 102, result.exit_status
+        end
+      end
+    end
+
+    describe "when an only_if is used with waiver file which has waived control with past expiration date" do
+      let(:waiver_file) { "waiver.yaml" }
+      it "skips the control with a waiver message" do
+        assert_skip_message "test_message_from_dsl_02_only_if", "waiver", "02_only_if_when_waiver_is_expired"
       end
     end
 
@@ -323,48 +286,45 @@ describe "waivers" do
 
     describe "using csv file" do
       let(:waiver_file) { "wrong-headers.csv" }
-      it "raise warnings" do
+      it "raise errors" do
         result = run_result
-        assert_includes result.stderr, "Missing column headers: [\"control_id\", \"justification\"]"
-        assert_includes result.stderr, "Invalid column header: Column can't be nil"
-        assert_includes result.stderr, "Extra column headers: [\"control_id_random\", \"justification_random\", \"run_random\", \"expiration_date_random\", nil]"
-      end
-    end
-
-    describe "using xlsx file" do
-      let(:waiver_file) { "wrong-headers.xlsx" }
-      it "raise warnings" do
-        result = run_result
-        assert_includes result.stderr, "Missing column headers: [\"control_id\", \"justification\"]"
-        assert_includes result.stderr, "Extra column headers: [\"control_id_random\", \"justification_random\", \"run_random\", \"expiration_date_random\"]"
-      end
-    end
-
-    describe "using xls file" do
-      let(:waiver_file) { "wrong-headers.xls" }
-      it "raise warnings" do
-        result = run_result
-        assert_includes result.stderr, "Missing column headers: [\"control_id\", \"justification\"]"
-        assert_includes result.stderr, "Extra column headers: [\"control_id_random\", \"justification_random\", \"run_random\", \"expiration_date_random\"]"
+        assert_includes result.stderr, "ERROR: Error reading waivers file"
+        assert_includes result.stderr, "Missing required header/s [\"control_id\", \"justification\"]"
+        assert_includes result.stderr, "Fix headers in file to proceed."
       end
     end
 
     describe "using json file" do
       let(:waiver_file) { "wrong-headers.json" }
-      it "raise warnings" do
+      it "raise errors" do
         result = run_result
-        assert_includes result.stderr, "Missing column headers: [\"justification\"]"
-        assert_includes result.stderr, "Extra column headers: [\"justification_random\", \"run_random\", \"expiration_date_random\"]"
+        assert_includes result.stderr, "ERROR: Error reading waivers file"
+        assert_includes result.stderr, "ERROR: Control ID 04_waivered_no_expiry_ran_fails: missing required parameter/s [\"justification\"]"
+        assert_includes result.stderr, "Fix parameters in file to proceed."
+        assert_includes result.stderr, "WARN: Control ID 03_waivered_no_expiry_ran_passes: extra parameter/s [\"run_random\", \"expiration_date_random\"]"
       end
     end
 
     describe "using yaml file" do
       let(:waiver_file) { "wrong-headers.yaml" }
-      it "raise warnings" do
+      it "raise errors" do
         result = run_result
-        assert_includes result.stderr, "Missing column headers: [\"justification\"]"
-        assert_includes result.stderr, "Extra column headers: [\"justification_random\", \"run_random\", \"expiration_date_random\"]"
+        assert_includes result.stderr, "ERROR: Error reading waivers file"
+        assert_includes result.stderr, "ERROR: Control ID 04_waivered_no_expiry_ran_fails: missing required parameter/s [\"justification\"]"
+        assert_includes result.stderr, "Fix parameters in file to proceed."
+        assert_includes result.stderr, "WARN: Control ID 03_waivered_no_expiry_ran_passes: extra parameter/s [\"run_random\", \"expiration_date_random\"]"
       end
+    end
+  end
+
+  describe "with a waiver file with malformed data" do
+    let(:profile_name) { "basic" }
+    let(:waiver_file) { "malformed-waiver.yaml" }
+
+    it "raise error" do
+      result = run_result
+      assert_includes result.stderr, "ERROR:"
+      assert_includes result.stderr, "invalid YAML or contents is not a Hash"
     end
   end
 end
