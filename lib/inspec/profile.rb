@@ -516,7 +516,7 @@ module Inspec
     end
 
     # Return data like profile.info(params), but try to do so without evaluating the profile.
-    def info_from_parse
+    def info_from_parse(include_tests: false)
       return @info_from_parse unless @info_from_parse.nil?
 
       @info_from_parse = {
@@ -571,7 +571,8 @@ module Inspec
         source_location_ref = @source_reader.target.abs_path(control_filename)
 
         input_collector = Inspec::Profile::AstHelper::InputCollectorOutsideControlBlock.new(@info_from_parse)
-        ctl_id_collector = Inspec::Profile::AstHelper::ControlIDCollector.new(@info_from_parse, source_location_ref)
+        ctl_id_collector = Inspec::Profile::AstHelper::ControlIDCollector.new(@info_from_parse, source_location_ref,
+                                                                              include_tests: include_tests)
 
         # Collect all metadata defined in the control block and inputs defined inside the control block
         src.ast.each_node { |n|
