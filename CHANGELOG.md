@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.4.80 -->
+## [v6.4.80](https://github.com/inspec/inspec/tree/v6.4.80) (2023-11-07)
 
 #### Merged Pull Requests
+- CHEF-6437: Implement different version of `inspec export` [#6816](https://github.com/inspec/inspec/pull/6816) ([ahasunos](https://github.com/ahasunos))
 - CHEF-3745: Update supported platforms list to include RHEL 9 [#6846](https://github.com/inspec/inspec/pull/6846) ([ahasunos](https://github.com/ahasunos))
 - CHEF-7281: Remove references to MacOS 10.15 in docs [#6845](https://github.com/inspec/inspec/pull/6845) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
@@ -39,6 +40,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- CHEF-6437: Implement different version of `inspec export` [#6816](https://github.com/inspec/inspec/pull/6816) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.80 -->
 - CHEF-3745: Update supported platforms list to include RHEL 9 [#6846](https://github.com/inspec/inspec/pull/6846) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.79 -->
 - CHEF-7281: Remove references to MacOS 10.15 in docs [#6845](https://github.com/inspec/inspec/pull/6845) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.79 -->
 - Dev docs on profile evaluations and more [#6813](https://github.com/inspec/inspec/pull/6813) ([Nik08](https://github.com/Nik08)) <!-- 6.4.79 -->
