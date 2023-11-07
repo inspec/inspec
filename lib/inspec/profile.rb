@@ -818,6 +818,9 @@ module Inspec
         offenses: [],
       }
 
+      # memoize `info_from_parse` with tests
+      info_from_parse(include_tests: true)
+
       entry = lambda { |file, line, column, control, msg|
         {
           file: file,
