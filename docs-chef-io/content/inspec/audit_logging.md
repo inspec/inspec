@@ -23,7 +23,7 @@ Generally, Train is aware of three types of activities: Commands, File accesses,
 
 ### Limitations of Audit Logging in InSpec 6 Preview
 
-Audit Logging, currently in preview, as implemented in InSpec 6 and Train 4 has the following limitations:
+Audit Logging, currently in preview, as implemented in InSpec 6 and Train 3 has the following limitations:
 
  * No support for Test Kitchen or Chef Infra Compliance Phase
  * No support for API activity capture
