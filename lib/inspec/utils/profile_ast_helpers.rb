@@ -300,7 +300,7 @@ module Inspec
               impact: 0.5,
               refs: [],
               tags: {},
-              checks: []
+              checks: [],
             }
 
             # Scan the code block for per-control metadata
@@ -361,7 +361,7 @@ module Inspec
 
         def on_block(node)
           if RuboCop::AST::NodePattern.new("(block (send nil? :describe ...) ...)").match(node) ||
-            RuboCop::AST::NodePattern.new("(block (send nil? :expect ...) ...)").match(node)
+              RuboCop::AST::NodePattern.new("(block (send nil? :expect ...) ...)").match(node)
             memo[:checks] << node.source
           end
         end
