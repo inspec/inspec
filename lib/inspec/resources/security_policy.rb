@@ -169,9 +169,14 @@ module Inspec::Resources
       # special handling for string values with "
       elsif !(m = /^\"(.*)\"$/.match(val)).nil?
         m[1]
+      # We get some values of Registry Path as MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Setup\\RecoveryConsole\\SecurityLevel=4,0
+      # which we are not going to split as there are chances that it will break if anyone is using string comparison.
+      # In some cases privilege value which does not have corresponding SID it returns the values in comma seprated which breakes it for some of
+      # the privileges like SeServiceLogonRight as it returns array if previlege values are SID
+      elsif !key.include?("\\") && val.match(/,/)
+        val.split(",")
       else
-        # When there is Registry Values we are not spliting the value for backward compatibility
-        key.include?("\\") ? val : val.split(",")
+        val
       end
     end
 
