@@ -447,7 +447,7 @@ module Inspec
       end
       opts[:audit_log_app_name] = Inspec::Dist::EXEC_NAME
       unless err.empty?
-        raise Inspec::Error.new(err.join("\n"))
+        raise Inspec::Exceptions::InvalidAuditLogOption, err.join("\n")
       end
     end
   end
