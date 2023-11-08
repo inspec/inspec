@@ -392,6 +392,14 @@ This subcommand has the following additional options:
 `--attrs=one two three`
 : Legacy name for --input-file - deprecated.
 
+`--audit-log-location=AUDIT_LOG_LOCATION`
+: The directory that the audit log saves diagnostic log files to.
+  You must enable audit logging to use this feature. See the [Audit Log documentation](/inspec/audit_log/) for details.
+
+  Default: `~/.inspec/logs`.
+
+  InSpec creates log files in the set directory using the following format: `inspec-audit-TIMESTAMP-PID.log`.
+
 `--auto-install-gems`
 : Auto installs gem dependencies of the profile or resource pack.
 
@@ -579,9 +587,6 @@ This subcommand has the following additional options:
 
 `--enhanced-outcomes`
 : Includes enhanced outcome of controls in report data.
-
-`--audit-log-location=AUDIT_LOG_LOCATION`
-: Audit log location to send diagnostic log messages to (default: '~/.inspec/logs/inspec-audit.log').
 
 ## habitat
 
@@ -793,6 +798,14 @@ inspec shell
 
 This subcommand has the following additional options:
 
+`--audit-log-location=AUDIT_LOG_LOCATION`
+: The directory that the audit log saves diagnostic log files to.
+  You must enable audit logging to use this feature. See the [Audit Log documentation](/inspec/audit_log/) for details.
+
+  Default: `~/.inspec/logs`.
+
+  InSpec creates log files in the set directory using the following format: `inspec-audit-TIMESTAMP-PID.log`.
+
 `-b`
 `--backend=BACKEND`
 : Choose a backend: local, ssh, winrm, docker.
@@ -935,12 +948,6 @@ This subcommand has the following additional options:
 
 `--enhanced-outcomes`
 : Includes enhanced outcome of controls in report data.
-
-`--audit-log-location=AUDIT_LOG_LOCATION`
-: Audit log location to send diagnostic log messages to (default: '~/.inspec/logs/inspec-audit.log').
-
- **Note:**
-> With a version of Chef InSpec above **6.0.0** Audit logging feature for Chef InSpec exec and shell commands can be enabled as default behavior by setting a feature flag `CHEF_PREVIEW_AUDIT_LOGGING` in environment.
 
 ## supermarket
 
