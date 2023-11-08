@@ -168,10 +168,10 @@ module InspecPlugins
         end
 
         # read profile name from inspec.yml
-        profile_name = profile.params[:name]
+        profile_name = profile.name
 
         # read profile version from inspec.yml
-        profile_version = profile.params[:version]
+        profile_version = profile.version
 
         # check that the profile is not uploaded already,
         # confirm upload to the user (overwrite with --force)
