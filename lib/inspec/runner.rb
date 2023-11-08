@@ -70,6 +70,10 @@ module Inspec
         }
       end
 
+      Inspec.with_feature("inspec-audit-logging") {
+        configure_and_validate_audit_log_options(@conf)
+      }
+
       # About reading inputs:
       #   @conf gets passed around a lot, eventually to
       # Inspec::InputRegistry.register_external_inputs.
@@ -291,6 +295,26 @@ module Inspec
     end
 
     private
+
+    # This method is currenlty under feature preview flag and audit log will only be enabeld when CHEF_PREVIEW_AUDIT_LOGGING is set in the env variable
+    def configure_and_validate_audit_log_options(config)
+      err = []
+      config[:enable_audit_log] ||= true
+      if config[:audit_log_location].nil?
+        config[:audit_log_location] = "#{Inspec.log_dir}/inspec-audit-#{Time.now.strftime("%Y%m%dT%H%M%S")}-#{Process.pid}.log"
+      elsif File.directory?(File.dirname(config[:audit_log_location]))
+        file_path = config[:audit_log_location]
+        # suffix the timestamp and pid to the audit log file name if log location is set through cli option
+        filename = "#{File.basename(file_path, ".*")}-#{Time.now.strftime("%Y%m%dT%H%M%S")}-#{Process.pid}"
+        config[:audit_log_location] = File.join( File.dirname(file_path), "#{filename}#{File.extname(file_path)}" )
+      else
+        err << "Audit log location directory #{config[:audit_log_location]} does not exist."
+      end
+      config[:audit_log_app_name] = Inspec::Dist::EXEC_NAME
+      unless err.empty?
+        raise Inspec::Exceptions::InvalidAuditLogOption, err.join("\n")
+      end
+    end
 
     def block_source_info(block)
       return {} if block.nil? || !block.respond_to?(:source_location)
