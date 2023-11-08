@@ -1,7 +1,13 @@
 [System Access]
 MaximumPasswordAge = 42
+LockoutDuration = -1
+RequireLogonToChangePassword = 0
+NewAdministratorName = "Administrator"
+NewGuestName = "Guest"
 [Registry Values]
 MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Setup\RecoveryConsole\SecurityLevel=4,0
+MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\CachedLogonsCount=1,"10"
+MACHINE\System\CurrentControlSet\Control\Lsa\MSV1_0\NTLMMinServerSec=4,536870912
 [Privilege Rights]
 SeUndockPrivilege = *S-1-5-32-544
 SeRemoteInteractiveLogonRight = *S-1-5-32-544,*S-1-5-32-555
