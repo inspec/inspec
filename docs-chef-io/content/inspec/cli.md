@@ -15,10 +15,6 @@ gh_repo = "inspec"
 
 Use the InSpec Command Line Interface (CLI) to run tests and audits against targets using local, SSH, WinRM, or Docker connections.
 
-> **Note**
-
-> In versions of Chef InSpec above **6.0.0**, a feature known as **mandatory profile signing** may be enabled. In this mode, InSpec will require all profiles to be signed, or else will refuse to execute the profile. For more details, see [Signed InSpec Profiles](/inspec/signing/).
-
 ## archive
 
 Archive a profile to a tar file (default) or zip file.
@@ -292,19 +288,15 @@ exit codes:
   172  chef license not accepted
 ```
 
-Below are some examples of using `exec` with different test locations. If you are using the **mandatory profile signing** feature, you may need to pass an extra option for certain fetchers that do not support signed profiles yet.
+### Examples
+
+Below are some examples of using `exec` with different test locations.
 
 Chef Automate:
 
 ```ruby
 inspec automate login
 inspec exec compliance://username/linux-baselinem
-```
-
-With mandatory signed profile usage enabled:
-
-```ruby
-inspec exec compliance://username/linux-baselinem --allow-unsigned-profiles
 ```
 
 `inspec compliance` is a backwards compatible alias for `inspec automate` and works the same way:
@@ -319,13 +311,6 @@ Chef Supermarket:
 inspec exec supermarket://username/linux-baseline
 inspec exec supermarket://username/linux-baseline --supermarket_url="https://privatesupermarket.example.com"
 ```
-
-Or with mandatory signed profile usage enabled:
-
-```ruby
-inspec exec supermarket://username/linux-baseline --supermarket_url="https://privatesupermarket.example.com" --allow-unsigned-profiles
-```
-
 
 Local profile (executes all tests in `controls/`):
 
@@ -345,34 +330,16 @@ Git via SSH:
 inspec exec git@github.com:dev-sec/linux-baseline.git
 ```
 
-Or with mandatory signed profile usage enabled:
-
-```ruby
-inspec exec git@github.com:dev-sec/linux-baseline.git --allow-unsigned-profiles
-```
-
 Git via HTTPS (.git suffix is required):
 
 ```ruby
 inspec exec https://github.com/dev-sec/linux-baseline.git
 ```
 
-Or with mandatory signed profile usage enabled:
-
-```ruby
-inspec exec https://github.com/dev-sec/linux-baseline.git --allow-unsigned-profiles
-```
-
 Private Git via HTTPS (.git suffix is required):
 
 ```ruby
 inspec exec https://api_token@github.com/dev-sec/linux-baseline.git
-```
-
-Or with mandatory signed profile usage enabled:
-
-```ruby
-inspec exec https://api_token@github.com/dev-sec/linux-baseline.git --allow-unsigned-profiles
 ```
 
 Private Git via HTTPS and cached credentials (.git suffix is required):
@@ -383,24 +350,10 @@ git ls-remote https://github.com/dev-sec/linux-baseline.git
 inspec exec https://github.com/dev-sec/linux-baseline.git
 ```
 
-Or with mandatory signed profile usage enabled:
-
-```bash
-git config credential.helper cache
-git ls-remote https://github.com/dev-sec/linux-baseline.git
-inspec exec https://github.com/dev-sec/linux-baseline.git --allow-unsigned-profiles
-```
-
 Web-hosted file (also supports .zip):
 
 ```bash
 inspec exec https://webserver/linux-baseline.tar.gz
-```
-
-Or with mandatory signed profile usage enabled:
-
-```bash
-inspec exec https://webserver/linux-baseline.tar.gz --allow-unsigned-profiles
 ```
 
 Web-hosted file with basic authentication (supports .zip):
@@ -409,7 +362,7 @@ Web-hosted file with basic authentication (supports .zip):
 inspec exec https://username:password@webserver/linux-baseline.tar.gz
 ```
 
-Or with mandatory signed profile usage enabled (note no need for extra flag if you serve an IAF file):
+Web-hosted signed profile:
 
 ```bash
 inspec exec https://username:password@webserver/linux-baseline.iaf
@@ -426,6 +379,15 @@ inspec exec LOCATIONS
 ### Options
 
 This subcommand has the following additional options:
+
+`--allow-unsigned-profiles`
+: Allow InSpec to execute unsigned profiles if mandatory profile signing is enabled. Defaults to false.
+
+  **Chef InSpec 6** and greater has an optional setting that requires signed profiles.
+  If you try to execute an unsigned profile with this feature enabled, InSpec won't execute the profile and returns exit code 6.
+  Use `--allow-unsigned-profiles` to execute unsigned profiles if mandatory profile signing is enabled.
+
+  For more information, see [Signed InSpec Profiles](/inspec/signing/).
 
 `--attrs=one two three`
 : Legacy name for --input-file - deprecated.
@@ -618,9 +580,6 @@ This subcommand has the following additional options:
 `--enhanced-outcomes`
 : Includes enhanced outcome of controls in report data.
 
-`--allow-unsigned-profiles`
-: Flag to allow inspec run with unsigned profiles, defaults to false
-
 ## habitat
 
 Create a Chef Habitat package.
@@ -715,6 +674,15 @@ inspec json PATH
 
 This subcommand has the following additional options:
 
+`--allow-unsigned-profiles`
+: Allow InSpec to read unsigned profiles if [mandatory profile signing](/inspec/signing/) is enabled. Defaults to false.
+
+  **Chef InSpec 6** and greater has an optional setting that requires signed profiles.
+  If you try to read an unsigned profile with this feature enabled, InSpec won't read the profile and returns exit code 6.
+  Use `--allow-unsigned-profiles` to read unsigned profiles if mandatory profile signing is enabled.
+
+  For more information, see [Signed InSpec Profiles](/inspec/signing/).
+
 `--controls=one two three`
 : A list of controls to include. Ignore all other tests.
 
@@ -734,9 +702,6 @@ This subcommand has the following additional options:
 
 `--vendor-cache=VENDOR_CACHE`
 : Use the given path for caching dependencies. (default: `~/.inspec/cache`).
-
-`--allow-unsigned-profiles`
-: Flag to use inspec command with unsigned profile, defaults to false.
 
 ## license
 
