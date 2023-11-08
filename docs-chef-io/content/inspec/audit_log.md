@@ -1,11 +1,11 @@
 +++
-title = "Chef InSpec audit log"
+title = "Chef InSpec Audit Log"
 draft = false
 gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
-    title = "audit log"
+    title = "Audit Log"
     identifier = "inspec/reference/audit_logging.md InSpec audit log"
     parent = "inspec/reference"
     weight = 60
