@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.32 -->
-## [v5.22.32](https://github.com/inspec/inspec/tree/v5.22.32) (2023-11-08)
+<!-- latest_release 5.22.33 -->
+## [v5.22.33](https://github.com/inspec/inspec/tree/v5.22.33) (2023-11-08)
 
 #### Merged Pull Requests
-- Backport-6832: Usage changes of profile params in inspec compliance plugin (InSpec 5) [#6852](https://github.com/inspec/inspec/pull/6852) ([ahasunos](https://github.com/ahasunos))
-- Backports 6650 - Doc revert [#6848](https://github.com/inspec/inspec/pull/6848) ([ahasunos](https://github.com/ahasunos))
+- Backport #6838 - Fix security_policy resource returns array for non comma separated values [#6854](https://github.com/inspec/inspec/pull/6854) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.29 -->
 ### Changes since 5.22.29 release
 
 #### Merged Pull Requests
+- Backport #6838 - Fix security_policy resource returns array for non comma separated values [#6854](https://github.com/inspec/inspec/pull/6854) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.33 -->
 - Backport-6832: Usage changes of profile params in inspec compliance plugin (InSpec 5) [#6852](https://github.com/inspec/inspec/pull/6852) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.32 -->
 - Backports 6650 - Doc revert [#6848](https://github.com/inspec/inspec/pull/6848) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.31 -->
 - BACKPORT: Fixed `inspec json` ability to use cli options successfully [#6814](https://github.com/inspec/inspec/pull/6814) ([Nik08](https://github.com/Nik08)) <!-- 5.22.31 -->
