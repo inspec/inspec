@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.22.32 -->
+## [v5.22.32](https://github.com/inspec/inspec/tree/v5.22.32) (2023-11-08)
 
 #### Merged Pull Requests
+- Backport-6832: Usage changes of profile params in inspec compliance plugin (InSpec 5) [#6852](https://github.com/inspec/inspec/pull/6852) ([ahasunos](https://github.com/ahasunos))
 - Backports 6650 - Doc revert [#6848](https://github.com/inspec/inspec/pull/6848) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.22.29 release
 
 #### Merged Pull Requests
+- Backport-6832: Usage changes of profile params in inspec compliance plugin (InSpec 5) [#6852](https://github.com/inspec/inspec/pull/6852) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.32 -->
 - Backports 6650 - Doc revert [#6848](https://github.com/inspec/inspec/pull/6848) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.31 -->
 - BACKPORT: Fixed `inspec json` ability to use cli options successfully [#6814](https://github.com/inspec/inspec/pull/6814) ([Nik08](https://github.com/Nik08)) <!-- 5.22.31 -->
 - BACKPORT: Fix in HTML2 reporter [#6811](https://github.com/inspec/inspec/pull/6811) ([Nik08](https://github.com/Nik08)) <!-- 5.22.30 -->
