@@ -13,7 +13,7 @@ gh_repo = "inspec"
 
 ## Exit code 5
 
-You enabled mandatory profile signing and tried to execute a function with a signed profile, but the signature is either bad or InSpec couldn't find the validation key.
+You tried to execute a function with a signed profile, but the signature is either bad or InSpec couldn't find the validation key.
 For more information, see the [profile signing documentation](/inspec/signing/).
 
 ## Exit code 6
