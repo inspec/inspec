@@ -15,6 +15,7 @@ require "inspec/dependencies/dependency_set"
 require "inspec/utils/json_profile_summary"
 require "inspec/dependency_loader"
 require "inspec/dependency_installer"
+require "inspec/utils/profile_ast_helpers"
 
 module Inspec
   class Profile
@@ -514,6 +515,135 @@ module Inspec
       res
     end
 
+    # Return data like profile.info(params), but try to do so without evaluating the profile.
+    def info_from_parse(include_tests: false)
+      return @info_from_parse unless @info_from_parse.nil?
+
+      @info_from_parse = {
+        controls: [],
+        groups: [],
+      }
+
+      # TODO - look at the various source contents
+      # PASS 1: parse them using rubocop-ast
+      #   Look for controls, top-level metadata, and inputs
+      # PASS 2: Using the control IDs, deterimine the extents -
+      # line locations - of the coontrol IDs in each file, and
+      # then extract each source code block. Use this to populate the source code
+      # locations and 'code' properties.
+
+      # TODO: Verify that it doesn't do evaluation (ideally shouldn't because it is reading simply yaml file)
+      @info_from_parse = @info_from_parse.merge(metadata.params)
+
+      inputs_hash = {}
+      # Note: This only handles the case when inputs are defined in metadata file
+      if @profile_id.nil?
+        # identifying inputs using profile name
+        inputs_hash = Inspec::InputRegistry.list_inputs_for_profile(@info_from_parse[:name])
+      else
+        inputs_hash = Inspec::InputRegistry.list_inputs_for_profile(@profile_id)
+      end
+
+      # TODO: Verify if I need to do the below conversion for inputs to array
+      if inputs_hash.nil? || inputs_hash.empty?
+        # convert to array for backwards compatability
+        @info_from_parse[:inputs] = []
+      else
+        @info_from_parse[:inputs] = inputs_hash.values.map(&:to_hash)
+      end
+
+      @info_from_parse[:sha256] = sha256
+
+      # Populate :status and :status_message
+      if supports_platform?
+        @info_from_parse[:status_message] = @status_message || ""
+        @info_from_parse[:status] = failed? ? "failed" : "loaded"
+      else
+        @info_from_parse[:status] = "skipped"
+        msg = "Skipping profile: '#{name}' on unsupported platform: '#{backend.platform.name}/#{backend.platform.release}'."
+        @info_from_parse[:status_message] = msg
+      end
+
+      # @source_reader.tests contains a hash mapping control filenames to control file contents
+      @source_reader.tests.each do |control_filename, control_file_source|
+        # Parse the source code
+        src = RuboCop::AST::ProcessedSource.new(control_file_source, RUBY_VERSION.to_f)
+        source_location_ref = @source_reader.target.abs_path(control_filename)
+
+        input_collector = Inspec::Profile::AstHelper::InputCollectorOutsideControlBlock.new(@info_from_parse)
+        ctl_id_collector = Inspec::Profile::AstHelper::ControlIDCollector.new(@info_from_parse, source_location_ref,
+                                                                              include_tests: include_tests)
+
+        # Collect all metadata defined in the control block and inputs defined inside the control block
+        src.ast.each_node { |n|
+          ctl_id_collector.process(n)
+          input_collector.process(n)
+        }
+
+        # For each control ID
+        #  Look for per-control metadata
+        # Filter controls by --controls, list of controls to include is available in include_controls_list
+
+        # NOTE: This is a hack to duplicate refs.
+        # TODO: Fix this in the ref collector or the way we traverse the AST
+        @info_from_parse[:controls].each { |control| control[:refs].uniq! }
+
+        @info_from_parse[:controls] = filter_controls_by_id_and_tags(@info_from_parse[:controls])
+
+        # Update groups after filtering controls to handle --controls option
+        update_groups_from(control_filename, src)
+
+        # NOTE: This is a hack to duplicate inputs.
+        # TODO: Fix this in the input collector or the way we traverse the AST
+        @info_from_parse[:inputs] = @info_from_parse[:inputs].uniq
+      end
+      @info_from_parse
+    end
+
+    def filter_controls_by_id_and_tags(controls)
+      controls.select do |control|
+        tag_ids = get_all_tags_list(control[:tags])
+        (include_controls_list.empty? || include_controls_list.any? { |control_id| control_id.match?(control[:id]) }) &&
+          (include_tags_list.empty? || include_tags_list.any? { |tag_id| tag_ids.any? { |tag| tag_id.match?(tag) } })
+      end
+    end
+
+    def get_all_tags_list(control_tags)
+      all_tags = []
+      control_tags.each do |tags|
+        all_tags.push(tags)
+      end
+      all_tags.flatten.compact.uniq.map(&:to_s)
+    rescue
+      []
+    end
+
+    def include_group_data?(group_data)
+      unless include_controls_list.empty?
+        # {:id=>"controls/example-tmp.rb", :title=>"/ profile", :controls=>["tmp-1.0"]}
+        # Check if the group should be included based on the controls it contains
+        group_data[:controls].any? do |control_id|
+          include_controls_list.any? { |id| id.match?(control_id) }
+        end
+      else
+        true
+      end
+    end
+
+    def update_groups_from(control_filename, src)
+      group_data = {
+        id: control_filename,
+        title: nil,
+      }
+      source_location_ref = @source_reader.target.abs_path(control_filename)
+      Inspec::Profile::AstHelper::TitleCollector.new(group_data)
+        .process(src.ast.child_nodes.first) # Picking the title defined for the whole controls file
+      group_controls = @info_from_parse[:controls].select { |control| control[:source_location][:ref] == source_location_ref }
+      group_data[:controls] = group_controls.map { |control| control[:id] }
+
+      @info_from_parse[:groups].push(group_data) if include_group_data?(group_data)
+    end
+
     def cookstyle_linting_check
       msgs = []
       return msgs if Inspec.locally_windows? # See #5723
@@ -553,11 +683,7 @@ module Inspec
       end
     end
 
-    # Check if the profile is internally well-structured. The logger will be
-    # used to print information on errors and warnings which are found.
-    #
-    # @return [Boolean] true if no errors were found, false otherwise
-    def check # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
+    def legacy_check # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
       # initial values for response object
       result = {
         summary: {
@@ -636,7 +762,7 @@ module Inspec
       # extract profile name
       result[:summary][:profile] = metadata.params[:name]
 
-      count = controls_count
+      count = params[:controls].values.length
       result[:summary][:controls] = count
       if count == 0
         warn.call(nil, nil, nil, nil, "No controls or tests were defined.")
@@ -673,8 +799,198 @@ module Inspec
       result
     end
 
-    def controls_count
-      params[:controls].values.length
+    # Check if the profile is internally well-structured. The logger will be
+    # used to print information on errors and warnings which are found.
+    #
+    # @return [Boolean] true if no errors were found, false otherwise
+    def check # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
+      # initial values for response object
+      result = {
+        summary: {
+          valid: false,
+          timestamp: Time.now.iso8601,
+          location: @target,
+          profile: nil,
+          controls: 0,
+        },
+        errors: [],
+        warnings: [],
+        offenses: [],
+      }
+
+      # memoize `info_from_parse` with tests
+      info_from_parse(include_tests: true)
+
+      entry = lambda { |file, line, column, control, msg|
+        {
+          file: file,
+          line: line,
+          column: column,
+          control_id: control,
+          msg: msg,
+        }
+      }
+
+      warn = lambda { |file, line, column, control, msg|
+        @logger.warn(msg)
+        result[:warnings].push(entry.call(file, line, column, control, msg))
+      }
+
+      error = lambda { |file, line, column, control, msg|
+        @logger.error(msg)
+        result[:errors].push(entry.call(file, line, column, control, msg))
+      }
+
+      offense = lambda { |file, line, column, control, msg|
+        result[:offenses].push(entry.call(file, line, column, control, msg))
+      }
+
+      @logger.info "Checking profile in #{@target}"
+      meta_path = @source_reader.target.abs_path(@source_reader.metadata.ref)
+
+      # verify metadata
+      m_errors, m_warnings = validity_check
+      m_errors.each { |msg| error.call(meta_path, 0, 0, nil, msg) }
+      m_warnings.each { |msg| warn.call(meta_path, 0, 0, nil, msg) }
+      m_unsupported = metadata.unsupported
+      m_unsupported.each { |u| warn.call(meta_path, 0, 0, nil, "doesn't support: #{u}") }
+      @logger.info "Metadata OK." if m_errors.empty? && m_unsupported.empty?
+
+      # only run the vendor check if the legacy profile-path is not used as argument
+      if @legacy_profile_path == false
+        # verify that a lockfile is present if we have dependencies
+        unless metadata.dependencies.empty?
+          error.call(meta_path, 0, 0, nil, "Your profile needs to be vendored with `inspec vendor`.") unless lockfile_exists?
+        end
+
+        if lockfile_exists?
+          # verify if metadata and lockfile are out of sync
+          if lockfile.deps.size != metadata.dependencies.size
+            error.call(meta_path, 0, 0, nil, "inspec.yml and inspec.lock are out-of-sync. Please re-vendor with `inspec vendor`.")
+          end
+
+          # verify if metadata and lockfile have the same dependency names
+          metadata.dependencies.each do |dep|
+            # Skip if the dependency does not specify a name
+            next if dep[:name].nil?
+
+            # TODO: should we also verify that the soure is the same?
+            unless lockfile.deps.map { |x| x[:name] }.include? dep[:name]
+              error.call(meta_path, 0, 0, nil, "Cannot find #{dep[:name]} in lockfile. Please re-vendor with `inspec vendor`.")
+            end
+          end
+        end
+      end
+
+      # extract profile name
+      result[:summary][:profile] = info_from_parse[:name]
+
+      count = info_from_parse[:controls].count
+      result[:summary][:controls] = count
+      if count == 0
+        warn.call(nil, nil, nil, nil, "No controls or tests were defined.")
+      else
+        @logger.info("Found #{count} controls.")
+      end
+
+      # iterate over hash of groups
+      info_from_parse[:controls].each do |control|
+        sfile = control[:source_location][:ref]
+        sline = control[:source_location][:line]
+        id = control[:id]
+        error.call(sfile, sline, nil, id, "Avoid controls with empty IDs") if id.nil? || id.empty?
+        next if id.start_with? "(generated "
+
+        warn.call(sfile, sline, nil, id, "Control #{id} has no title") if control[:title].to_s.empty?
+        warn.call(sfile, sline, nil, id, "Control #{id} has no descriptions") if control[:descriptions][:default].to_s.empty?
+        warn.call(sfile, sline, nil, id, "Control #{id} has impact > 1.0") if control[:impact].to_f > 1.0
+        warn.call(sfile, sline, nil, id, "Control #{id} has impact < 0.0") if control[:impact].to_f < 0.0
+        warn.call(sfile, sline, nil, id, "Control #{id} has no tests defined") if control[:checks].nil? || control[:checks].empty?
+      end
+
+      # Running cookstyle to check for code offenses
+      if @check_cookstyle
+        cookstyle_linting_check.each do |lint_output|
+          data = lint_output.split(":")
+          msg = "#{data[-2]}:#{data[-1]}"
+          offense.call(data[0], data[1], data[2], nil, msg)
+        end
+      end
+      # profile is valid if we could not find any error & offenses
+      result[:summary][:valid] = result[:errors].empty? && result[:offenses].empty?
+
+      @logger.info "Control definitions OK." if result[:warnings].empty?
+      result
+    end
+
+    def validity_check # rubocop:disable Metrics/AbcSize
+      errors = []
+      warnings = []
+      info_from_parse.merge!(metadata.params)
+
+      %w{name version}.each do |field|
+        next unless info_from_parse[field.to_sym].nil?
+
+        errors.push("Missing profile #{field} in #{metadata.ref}")
+      end
+
+      if %r{[\/\\]} =~ info_from_parse[:name]
+        errors.push("The profile name (#{info_from_parse[:name]}) contains a slash" \
+                      " which is not permitted. Please remove all slashes from `inspec.yml`.")
+      end
+
+      # if version is set, ensure it is correct
+      if !info_from_parse[:version].nil? && !metadata.valid_version?(info_from_parse[:version])
+        errors.push("Version needs to be in SemVer format")
+      end
+
+      if info_from_parse[:entitlement_id] && info_from_parse[:entitlement_id].strip.empty?
+        errors.push("Entitlement ID should not be blank.")
+      end
+
+      unless metadata.supports_runtime?
+        warnings.push("The current inspec version #{Inspec::VERSION} cannot satisfy profile inspec_version constraint #{info_from_parse[:inspec_version]}")
+      end
+
+      %w{title summary maintainer copyright license}.each do |field|
+        next unless info_from_parse[field.to_sym].nil?
+
+        warnings.push("Missing profile #{field} in #{metadata.ref}")
+      end
+
+      # if license is set, ensure it is in SPDX format or marked as proprietary
+      if !info_from_parse[:license].nil? && !metadata.valid_license?(info_from_parse[:license])
+        warnings.push("License '#{info_from_parse[:license]}' needs to be in SPDX format or marked as 'Proprietary'. See https://spdx.org/licenses/.")
+      end
+
+      # If gem_dependencies is set, it must be an array of hashes with keys name and optional version
+      unless info_from_parse[:gem_dependencies].nil?
+        list = info_from_parse[:gem_dependencies]
+        if list.is_a?(Array) && list.all? { |e| e.is_a? Hash }
+          list.each do |entry|
+            errors.push("gem_dependencies entries must all have a 'name' field") unless entry.key?(:name)
+            if entry[:version]
+              orig = entry[:version]
+              begin
+                # Split on commas as we may have a complex dep
+                orig.split(",").map { |c| Gem::Requirement.parse(c) }
+              rescue Gem::Requirement::BadRequirementError
+                errors.push "Unparseable gem dependency '#{orig}' for #{entry[:name]}"
+              rescue Inspec::GemDependencyInstallError => e
+                errors.push e.message
+              end
+            end
+            extra = (entry.keys - %i{name version})
+            unless extra.empty?
+              warnings.push "Unknown gem_dependencies key(s) #{extra.join(",")} seen for entry '#{entry[:name]}'"
+            end
+          end
+        else
+          errors.push("gem_dependencies must be a List of Hashes")
+        end
+      end
+
+      [errors, warnings]
     end
 
     def set_status_message(msg)
@@ -698,9 +1014,11 @@ module Inspec
       # TODO ignore all .files, but add the files to debug output
 
       # Generate temporary inspec.json for archive
-      if opts[:export]
+      export_opt_enabled = opts[:export] || opts[:legacy_export]
+      if export_opt_enabled
+        info_for_profile_summary = opts[:legacy_export] ? info : info_from_parse
         Inspec::Utils::JsonProfileSummary.produce_json(
-          info: info, # TODO: conditionalize and call info_from_parse
+          info: info_for_profile_summary,
           write_path: "#{root_path}inspec.json",
           suppress_output: true
         )
@@ -709,9 +1027,9 @@ module Inspec
       # display all files that will be part of the archive
       @logger.debug "Add the following files to archive:"
       files.each { |f| @logger.debug "    " + f }
-      @logger.debug "    inspec.json" if opts[:export]
+      @logger.debug "    inspec.json" if export_opt_enabled
 
-      archive_files = opts[:export] ? files.push("inspec.json") : files
+      archive_files = export_opt_enabled ? files.push("inspec.json") : files
       if opts[:zip]
         # generate zip archive
         require "inspec/archive/zip"
@@ -725,7 +1043,7 @@ module Inspec
       end
 
       # Cleanup
-      FileUtils.rm_f("#{root_path}inspec.json") if opts[:export]
+      FileUtils.rm_f("#{root_path}inspec.json") if export_opt_enabled
 
       @logger.info "Finished archive generation."
       true
