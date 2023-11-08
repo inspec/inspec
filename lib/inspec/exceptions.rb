@@ -13,5 +13,6 @@ module Inspec
     class WaiversFileNotReadable < ArgumentError; end
     class WaiversFileDoesNotExist < ArgumentError; end
     class WaiversFileInvalidFormatting < ArgumentError; end
+    class InvalidAuditLogOption < ArgumentError; end
   end
 end
