@@ -1,13 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.4.80 -->
-## [v6.4.80](https://github.com/inspec/inspec/tree/v6.4.80) (2023-11-07)
+<!-- latest_release 6.4.81 -->
+## [v6.4.81](https://github.com/inspec/inspec/tree/v6.4.81) (2023-11-08)
 
 #### Merged Pull Requests
-- CHEF-6437: Implement different version of `inspec export` [#6816](https://github.com/inspec/inspec/pull/6816) ([ahasunos](https://github.com/ahasunos))
-- CHEF-3745: Update supported platforms list to include RHEL 9 [#6846](https://github.com/inspec/inspec/pull/6846) ([ahasunos](https://github.com/ahasunos))
-- CHEF-7281: Remove references to MacOS 10.15 in docs [#6845](https://github.com/inspec/inspec/pull/6845) ([ahasunos](https://github.com/ahasunos))
+- CHEF-7694 (CHEF-8271) : Fix security_policy resource returns array for non comma separated values [#6838](https://github.com/inspec/inspec/pull/6838) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -40,6 +38,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- CHEF-7694 (CHEF-8271) : Fix security_policy resource returns array for non comma separated values [#6838](https://github.com/inspec/inspec/pull/6838) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.4.81 -->
 - CHEF-6437: Implement different version of `inspec export` [#6816](https://github.com/inspec/inspec/pull/6816) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.80 -->
 - CHEF-3745: Update supported platforms list to include RHEL 9 [#6846](https://github.com/inspec/inspec/pull/6846) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.79 -->
 - CHEF-7281: Remove references to MacOS 10.15 in docs [#6845](https://github.com/inspec/inspec/pull/6845) ([ahasunos](https://github.com/ahasunos)) <!-- 6.4.79 -->
