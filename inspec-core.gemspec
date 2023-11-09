@@ -56,5 +56,5 @@ Source code obtained from the Chef GitHub repository is made available under Apa
   spec.add_dependency "multipart-post",           "~> 2.0"
 
   spec.add_dependency "train-core", "~> 3.10"
-  spec.add_dependency "chef-licensing", ">= 0.4.44"
+  spec.add_dependency "chef-licensing", ">= 0.7.5"
 end
