@@ -3,7 +3,7 @@ require "net/ssh" unless defined?(Net::SSH)
 
 # Change module if required
 module Inspec::Resources
-  class SshKey < Inspec.resource(1)
+  class SshKey < FileResource
     # Every resource requires an internal name.
     name "ssh_key"
 
@@ -16,10 +16,7 @@ module Inspec::Resources
 
     example <<~EXAMPLE
       describe ssh_key('~/.ssh/id_rsa') do
-        its("shoe_size") { should cmp 10 }
-      end
-      describe "ssh_key" do
-        it { should be_purple }
+        its("type") { should_be "rsa" }
       end
     EXAMPLE
 
@@ -30,6 +27,7 @@ module Inspec::Resources
       @key_path = keypath
       passphrase = passphrase
       @key = read_ssh_key(read_file_content(@key_path, allow_empty: true), passphrase)
+      super(keypath)
     end
 
     # So this will be called as:
