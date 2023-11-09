@@ -163,6 +163,16 @@ module Inspec
 
     def run(with = nil)
       ChefLicensing.check_software_entitlement! if Inspec::Dist::EXEC_NAME == "inspec"
+
+      # Validate if profiles are signed and verified
+      # Additional check is required to provide error message in case of inspec exec command (exec command can use multiple profiles as well)
+      # Only runs this block when preview flag CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING is set
+      Inspec.with_feature("inspec-mandatory-profile-signing") {
+        unless @conf.allow_unsigned_profiles?
+          verify_target_profiles_if_signed(@target_profiles)
+        end
+      }
+
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
       load
       run_tests(with)
@@ -172,6 +182,14 @@ module Inspec
     rescue ChefLicensing::Error => e
       Inspec::Log.error e.message
       Inspec::UI.new.exit(:usage_error)
+    end
+
+    def verify_target_profiles_if_signed(target_profiles)
+      unsigned_profiles = []
+      target_profiles.each do |profile|
+        unsigned_profiles << profile.name unless profile.verify_if_signed
+      end
+      raise Inspec::ProfileSignatureRequired, "Signature required for profile/s: #{unsigned_profiles.join(", ")}. Please provide a signed profile. Or set CHEF_ALLOW_UNSIGNED_PROFILES in the environment. Or use `--allow-unsigned-profiles` flag with InSpec CLI. " unless unsigned_profiles.empty?
     end
 
     def render_output(run_data)

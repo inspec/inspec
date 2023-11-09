@@ -86,3 +86,6 @@
       description: Use progress bar streaming reporter
     inspec-reporter-child-status:
       description: Child status reporter used in inspec parallel reporting.
+    inspec-mandatory-profile-signing:
+      description: Required to use a signed Inspec profile by default with inspec commands
+      env_preview: true

@@ -281,18 +281,22 @@ exit codes:
   1  usage or general error
   2  error in plugin system
   3  fatal deprecation encountered
+  5  invalid profile signature
+  6  mandatory profile signing mode enabled and no signature found
   100  normal exit, at least one test failed
   101  normal exit, at least one test skipped but none failed
   172  chef license not accepted
 ```
 
-Below are some examples of using `exec` with different test locations:
+### Examples
+
+Below are some examples of using `exec` with different test locations.
 
 Chef Automate:
 
 ```ruby
 inspec automate login
-inspec exec compliance://username/linux-baseline
+inspec exec compliance://username/linux-baselinem
 ```
 
 `inspec compliance` is a backwards compatible alias for `inspec automate` and works the same way:
@@ -358,6 +362,12 @@ Web-hosted file with basic authentication (supports .zip):
 inspec exec https://username:password@webserver/linux-baseline.tar.gz
 ```
 
+Web-hosted signed profile:
+
+```bash
+inspec exec https://username:password@webserver/linux-baseline.iaf
+```
+
 ### Syntax
 
 This subcommand has the following syntax:
@@ -369,6 +379,15 @@ inspec exec LOCATIONS
 ### Options
 
 This subcommand has the following additional options:
+
+`--allow-unsigned-profiles`
+: Allow InSpec to execute unsigned profiles if mandatory profile signing is enabled. Defaults to false.
+
+  **Chef InSpec 6** and greater has an optional setting that requires signed profiles.
+  If you try to execute an unsigned profile with this feature enabled, InSpec won't execute the profile and returns exit code 6.
+  Use `--allow-unsigned-profiles` to execute unsigned profiles if mandatory profile signing is enabled.
+
+  For more information, see [Signed InSpec Profiles](/inspec/signing/).
 
 `--attrs=one two three`
 : Legacy name for --input-file - deprecated.
@@ -654,6 +673,15 @@ inspec json PATH
 ### Options
 
 This subcommand has the following additional options:
+
+`--allow-unsigned-profiles`
+: Allow InSpec to read unsigned profiles if [mandatory profile signing](/inspec/signing/) is enabled. Defaults to false.
+
+  **Chef InSpec 6** and greater has an optional setting that requires signed profiles.
+  If you try to read an unsigned profile with this feature enabled, InSpec won't read the profile and returns exit code 6.
+  Use `--allow-unsigned-profiles` to read unsigned profiles if mandatory profile signing is enabled.
+
+  For more information, see [Signed InSpec Profiles](/inspec/signing/).
 
 `--controls=one two three`
 : A list of controls to include. Ignore all other tests.

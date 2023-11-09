@@ -11,13 +11,24 @@ gh_repo = "inspec"
     weight = 60
 +++
 
-This page documents the `inspec sign` command introduced in InSpec 5 and details some methods to work with signed profiles.
+This page documents the `inspec sign` command introduced in InSpec 5, the mandatory profile signing feature introduced in InSpec 6, and details some methods to work with signed profiles.
 
 ## Usage
 
 ### What is a Signed Profile?
 
 A signed profile, or `.iaf` file, is an InSpec profile with a digital signature that attests to its authenticity. Progress Chef authored profiles are available as signed profiles starting from 2022.
+
+IAF files are not human-readable, but may be viewed using `inspec export`. Support for IAF v2.0 was added to InSpec 5.
+
+### Mandatory profile signing
+
+**Chef InSpec 6** and above has an optional setting that requires that all profiles are signed.
+If mandatory profile signing is enabled, InSpec will not execute functions with an un-signed profile and exits with exit code 6.
+
+To enable mandatory profile signing, set the environment variable `CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING` to any non-empty value.
+
+If you need to bypass mandatory profile signing, use the `--allow-unsigned-profiles` CLI option or set the `CHEF_ALLOW_UNSIGNED_PROFILES` environment variable.
 
 ### How does Profile Signing Work?
 

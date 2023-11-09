@@ -171,6 +171,8 @@ module Inspec
         desc: "Use the given path for caching dependencies, (default: ~/.inspec/cache)."
       option :auto_install_gems, type: :boolean, default: false,
         desc: "Auto installs gem dependencies of the profile or resource pack."
+      option :allow_unsigned_profiles, type: :boolean, default: false,
+        desc: "Allow unsigned profiles to be used in InSpec command."
     end
 
     def self.supermarket_options
@@ -373,6 +375,9 @@ module Inspec
 
     def pretty_handle_exception(exception)
       case exception
+      when Inspec::ProfileSignatureRequired
+        $stderr.puts exception.message
+        Inspec::UI.new.exit(:signature_required)
       when Inspec::InvalidProfileSignature
         $stderr.puts exception.message
         Inspec::UI.new.exit(:bad_signature)

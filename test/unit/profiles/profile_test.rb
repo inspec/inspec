@@ -4,6 +4,7 @@ require "inspec/runner_mock"
 require "inspec/resource"
 require "inspec/resources/command"
 require "inspec/profile"
+require "inspec/feature"
 
 describe Inspec::Profile do
   let(:logger) { Minitest::Mock.new }

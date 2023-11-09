@@ -16,6 +16,7 @@ require "inspec/utils/json_profile_summary"
 require "inspec/dependency_loader"
 require "inspec/dependency_installer"
 require "inspec/utils/profile_ast_helpers"
+require "plugins/inspec-sign/lib/inspec-sign/base"
 
 module Inspec
   class Profile
@@ -82,7 +83,7 @@ module Inspec
     end
 
     attr_reader :source_reader, :backend, :runner_context, :check_mode
-    attr_accessor :parent_profile, :profile_id, :profile_name
+    attr_accessor :parent_profile, :profile_id, :profile_name, :target
     def_delegator :@source_reader, :tests
     def_delegator :@source_reader, :libraries
     def_delegator :@source_reader, :metadata
@@ -181,6 +182,26 @@ module Inspec
       @state == :failed
     end
 
+    def verify_if_signed
+      if signed?
+        verify_signed_profile
+        true
+      else
+        false
+      end
+    end
+
+    def signed?
+      # Signed profiles have .iaf extension
+      (@source_reader&.target&.parent&.class == Inspec::IafProvider)
+    end
+
+    def verify_signed_profile
+      # Kitchen inspec send target profile in Hash format in some scenarios. For example: While using local profile with kitchen, {:path => "path/to/kitchen/lcoal-profile"}
+      target_profile = target.is_a?(Hash) ? target.values[0] : target
+      InspecPlugins::Sign::Base.profile_verify(target_profile, true) if target_profile
+    end
+
     #
     # Is this profile is supported on the current platform of the
     # backend machine and the current inspec version.
@@ -215,8 +236,30 @@ module Inspec
       @params ||= load_params
     end
 
+    def virtual_profile?
+      # A virtual profile is for virtual profile evaluation
+      # Used by shell & inspec detect command.
+      (name == "inspec-shell") && (files&.length == 1) && (files[0] == "inspec.yml")
+    end
+
     def collect_tests
       unless @tests_collected || failed?
+
+        # This is that one common place in InSpec engine which is used to collect tests of InSpec profile
+        # One common place used by most of the CLI commands using profile, like exec, export etc
+        # Checking for profile signature in parent profile only
+        # Child profiles of a signed profile are extracted to cache dir
+        # Hence they are not in .iaf format
+        # Only runs this block when preview flag CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING is set
+        Inspec.with_feature("inspec-mandatory-profile-signing") {
+          if !parent_profile && !virtual_profile?
+            cfg = Inspec::Config.cached
+            if cfg.is_a?(Inspec::Config) && !cfg.allow_unsigned_profiles?
+              raise Inspec::ProfileSignatureRequired, "Signature required for profile: #{name}. Please provide a signed profile. Or set CHEF_ALLOW_UNSIGNED_PROFILES in the environment. Or use `--allow-unsigned-profiles` flag with InSpec CLI." unless verify_if_signed
+            end
+          end
+        }
+
         return unless supports_platform?
 
         locked_dependencies.each(&:collect_tests)

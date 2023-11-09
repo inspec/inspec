@@ -1,6 +1,7 @@
 require "helper"
 require "inspec/profile_context"
 require "inspec/runner_mock"
+require "inspec/feature"
 
 describe "resource exception" do
   let(:profile) do
