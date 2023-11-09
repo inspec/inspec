@@ -392,6 +392,14 @@ This subcommand has the following additional options:
 `--attrs=one two three`
 : Legacy name for --input-file - deprecated.
 
+`--audit-log-location=AUDIT_LOG_LOCATION`
+: The directory that the audit log saves diagnostic log files to.
+  You must enable audit logging to use this feature. See the [Audit Log documentation](/inspec/audit_log/) for details.
+
+  Default: `~/.inspec/logs`.
+
+  InSpec creates log files in the set directory using the following format: `inspec-audit-TIMESTAMP-PID.log`.
+
 `--auto-install-gems`
 : Auto installs gem dependencies of the profile or resource pack.
 
@@ -789,6 +797,14 @@ inspec shell
 ### Options
 
 This subcommand has the following additional options:
+
+`--audit-log-location=AUDIT_LOG_LOCATION`
+: The directory that the audit log saves diagnostic log files to.
+  You must enable audit logging to use this feature. See the [Audit Log documentation](/inspec/audit_log/) for details.
+
+  Default: `~/.inspec/logs`.
+
+  InSpec creates log files in the set directory using the following format: `inspec-audit-TIMESTAMP-PID.log`.
 
 `-b`
 `--backend=BACKEND`

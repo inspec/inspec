@@ -233,6 +233,11 @@ module Inspec
         desc: "Show enhanced outcomes in output"
     end
 
+    def self.audit_log_options
+      option :audit_log_location, type: :string,
+      desc: "Audit log location to send diagnostic log messages to. (default: '~/.inspec/logs/inspec-audit.log')"
+    end
+
     def self.help(*args)
       super(*args)
       if Inspec::Dist::EXEC_NAME == "inspec"
@@ -429,6 +434,26 @@ module Inspec
         o[:logger].formatter = Logger::JSONFormatter.new
       end
       o[:logger].level = get_log_level(o["log_level"])
+    end
+
+    # This method is currenlty under feature preview flag and audit log will only be enabeld when CHEF_PREVIEW_AUDIT_LOGGING is set in the env variable
+    def set_and_validate_audit_log_options(opts)
+      err = []
+      opts[:enable_audit_log] ||= true
+      if opts[:audit_log_location].nil?
+        opts[:audit_log_location] = "#{Inspec.log_dir}/inspec-audit-#{Time.now.strftime("%Y%m%dT%H%M%S")}-#{Process.pid}.log"
+      elsif File.directory?(File.dirname(opts[:audit_log_location]))
+        file_path = opts[:audit_log_location]
+        # suffix the timestamp and pid to the audit log file name if log location is set through cli option
+        filename  = "#{File.basename(file_path, ".*")}-#{Time.now.strftime("%Y%m%dT%H%M%S")}-#{Process.pid}"
+        opts[:audit_log_location] = File.join( File.dirname(file_path), "#{filename}#{File.extname(file_path)}" )
+      else
+        err << "Audit log location directory #{opts[:audit_log_location]} does not exist."
+      end
+      opts[:audit_log_app_name] = Inspec::Dist::EXEC_NAME
+      unless err.empty?
+        raise Inspec::Exceptions::InvalidAuditLogOption, err.join("\n")
+      end
     end
   end
 end
