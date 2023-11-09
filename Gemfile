@@ -56,5 +56,3 @@ end
 group :deploy do
   gem "inquirer"
 end
-
-gem "train", git: "https://github.com/inspec/train.git", branch: "vj/audit-log-implementation"
