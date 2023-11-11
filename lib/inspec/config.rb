@@ -508,28 +508,20 @@ module Inspec
       # Default to cli report for ad-hoc runners
       options["reporter_cli_opts"] = ["cli"] if (options["reporter"].nil? || options["reporter"].empty?) && options["reporter_cli_opts"].nil?
 
+      combined_reports = {}
       # Parse out reporter_cli_opts to proper report format
       if options["reporter_cli_opts"].is_a?(Array)
-        reports = {}
-        options["reporter_cli_opts"].each do |report|
-          reporter_name, destination = report.split(":", 2)
-          if destination.nil? || destination.strip == "-"
-            reports[reporter_name] = { "stdout" => true }
-          else
-            reports[reporter_name] = {
-              "file" => destination,
-              "stdout" => false,
-            }
-            reports[reporter_name]["target_id"] = options["target_id"] if options["target_id"]
-          end
-        end
-
-        if options["reporter"].nil? || options["reporter"].empty?
-          options["reporter"] = reports
-        else
-          options["reporter"].merge!(reports)
-        end
+        combined_reports.merge!(parse_array_reporter_to_hash(options["reporter_cli_opts"], options["target_id"]))
       end
+
+      # parse out cli to proper report format
+      if options["reporter"].is_a?(Array)
+        combined_reports.merge!(parse_array_reporter_to_hash(options["reporter"], options["target_id"]))
+      elsif options["reporter"].is_a?(Hash)
+        combined_reports.merge!(options["reporter"])
+      end
+
+      options["reporter"] = combined_reports
 
       # add in stdout if not specified
       if options["reporter"].is_a?(Hash)
@@ -546,6 +538,23 @@ module Inspec
       options.delete("reporter_cli_opts")
 
       options
+    end
+
+    def parse_array_reporter_to_hash(reporter, target_id = nil)
+      reports = {}
+      reporter.each do |report|
+        reporter_name, destination = report.split(":", 2)
+        if destination.nil? || destination.strip == "-"
+          reports[reporter_name] = { "stdout" => true }
+        else
+          reports[reporter_name] = {
+            "file" => destination,
+            "stdout" => false,
+          }
+          reports[reporter_name]["target_id"] = target_id if target_id
+        end
+      end
+      reports
     end
 
     def finalize_handle_sudo(options)
