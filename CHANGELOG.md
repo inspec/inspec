@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.34 -->
-## [v5.22.34](https://github.com/inspec/inspec/tree/v5.22.34) (2023-11-08)
+<!-- latest_release 5.22.35 -->
+## [v5.22.35](https://github.com/inspec/inspec/tree/v5.22.35) (2023-11-13)
 
 #### Merged Pull Requests
-- Backport: CHEF-6437: Implement different version of `inspec export` (#6816) (Inspec 5) [#6849](https://github.com/inspec/inspec/pull/6849) ([ahasunos](https://github.com/ahasunos))
+- Backport - PATCH: Fix for broken integration of reporters for compliance-mode [#6860](https://github.com/inspec/inspec/pull/6860) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.29 -->
 ### Changes since 5.22.29 release
 
 #### Merged Pull Requests
+- Backport - PATCH: Fix for broken integration of reporters for compliance-mode [#6860](https://github.com/inspec/inspec/pull/6860) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.35 -->
 - Backport: CHEF-6437: Implement different version of `inspec export` (#6816) (Inspec 5) [#6849](https://github.com/inspec/inspec/pull/6849) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.34 -->
 - Backport #6838 - Fix security_policy resource returns array for non comma separated values [#6854](https://github.com/inspec/inspec/pull/6854) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.33 -->
 - Backport-6832: Usage changes of profile params in inspec compliance plugin (InSpec 5) [#6852](https://github.com/inspec/inspec/pull/6852) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.32 -->
