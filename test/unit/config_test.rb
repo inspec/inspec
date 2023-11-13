@@ -604,6 +604,51 @@ describe "Inspec::Config" do
       end
     end
   end
+
+  # ========================================================================== #
+  #               Parsing, Validating & Merging Reporter Options
+  # ========================================================================== #
+
+  describe "when parsing reporters from different sources" do
+    let(:cfg_io) { StringIO.new(ConfigTestHelper.fixture(fixture_name)) }
+    let(:fixture_name) { "basic" }
+    let(:fixtures_dir) { File.join(File.dirname(__FILE__), "..", "fixtures") }
+    let(:cli_opts) { { "reporter" => ["cli"] } }
+    let(:cli_opts_2) { { :reporter => ["json-automate"] } } # Compliance mode is passes as an array
+    let(:seen_reporters) { cfg["reporter"] }
+
+    describe "when parsing reporters from CLI" do
+      let(:cfg) { Inspec::Config.new(cli_opts) }
+      it "should parse reporters from cli correctly" do
+        expected_value = { "cli" => { "stdout" => true } }
+        _(seen_reporters).must_equal expected_value
+      end
+    end
+
+    describe "when parsing reporters from an IO source (say json file)" do
+      let(:cfg) { Inspec::Config.new({}, cfg_io) }
+      it "should parse reporters from io correctly" do
+        expected_value = {"automate"=>{"url"=>"http://some.where", "token"=>"YOUR_A2_ADMIN_TOKEN"}}
+        _(seen_reporters).must_equal expected_value
+      end
+    end
+
+    describe "when parsing reporters from CLI and an IO source (say json file)" do
+      let(:cfg) { Inspec::Config.new(cli_opts, cfg_io) }
+      it "should parse reporters from both the sources correctly" do
+        expected_value = {"cli"=>{"stdout"=>true}, "automate"=>{"url"=>"http://some.where", "token"=>"YOUR_A2_ADMIN_TOKEN"}}
+        _(seen_reporters).must_equal expected_value
+      end
+    end
+
+    describe "when parsing reporters from compliance mode (in chef-client)" do
+      let(:cfg) { Inspec::Config.new(cli_opts_2) }
+      it "should parse reporters from cli correctly" do
+        expected_value = { "json-automate" => { "stdout" => true } }
+        _(seen_reporters).must_equal expected_value
+      end
+    end
+  end
 end
 
 # ========================================================================== #
