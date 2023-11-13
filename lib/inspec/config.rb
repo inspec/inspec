@@ -470,6 +470,15 @@ module Inspec
       # Reporter options may be defined top-level.
       options.merge!(config_file_reporter_options)
 
+      # when sent reporter from compliance-mode (via chef-client), the reporter is a symbol
+      if @cli_opts.key?(:reporter) && @cli_opts["reporter"].nil?
+        @cli_opts["reporter"] = @cli_opts[:reporter]
+        @cli_opts.delete(:reporter)
+      elsif @cli_opts.key?(:reporter) && @cli_opts.key?("reporter") && @cli_opts["reporter"].is_a?(Array)
+        # combine reporter and "reporter" options into "reporter" option
+        @cli_opts["reporter"] = @cli_opts[:reporter] + @cli_opts["reporter"]
+      end
+
       if @cli_opts["reporter"]
         # Add reporter_cli_opts in options to capture reporter cli opts separately
         options.merge!({ "reporter_cli_opts" => @cli_opts["reporter"] })
