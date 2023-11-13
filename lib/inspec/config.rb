@@ -508,19 +508,23 @@ module Inspec
       # Default to cli report for ad-hoc runners
       options["reporter_cli_opts"] = ["cli"] if (options["reporter"].nil? || options["reporter"].empty?) && options["reporter_cli_opts"].nil?
 
+      # Collect all reporters from cli, config file or from compliance mode (in chef-client) into combined_reports
       combined_reports = {}
-      # Parse out reporter_cli_opts to proper report format
+
       if options["reporter_cli_opts"].is_a?(Array)
+        # Collect all reporters from cli (using InSpec cli) into combined_reports
         combined_reports.merge!(parse_array_reporter_to_hash(options["reporter_cli_opts"], options["target_id"]))
       end
 
-      # parse out cli to proper report format
       if options["reporter"].is_a?(Array)
+        # Collect reporter from options["reporter"] when passed from compliance mode (using chef-client) into combined_reports
         combined_reports.merge!(parse_array_reporter_to_hash(options["reporter"], options["target_id"]))
       elsif options["reporter"].is_a?(Hash)
+        # Collect reporter from options["reporter"] when passed in config file (using InSpec cli) into combined_reports
         combined_reports.merge!(options["reporter"])
       end
 
+      # Override the options["reporter"] with combined_reports, handling reporters from all sources (like cli, config file, or compliance mode)
       options["reporter"] = combined_reports
 
       # add in stdout if not specified
