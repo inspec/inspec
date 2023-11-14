@@ -122,6 +122,8 @@ Use the `supports` setting in the `inspec.yml` file to specify one (or more) pla
 - Use `release` to restrict to a specific platform version, and use together with `platform-name`. `release` supports asterisk (`*`) wildcard use.
 - Use `platform` to restrict on either platform-name or platform-family.
 
+To get a list of all valid values for `platform-name` and `platform-family`, run `inspec schema platforms`, which returns the supported list in JSON format.
+
 For compatibility we support `os-name` and `os-family`. We recommend all users
 to change `os-name` to `platform-name` and `os-family` to `platform-family`.
 
