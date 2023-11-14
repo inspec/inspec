@@ -11,6 +11,10 @@ gem "inspec-bin", path: "./inspec-bin"
 
 gem "ffi", ">= 1.9.14", "!= 1.13.0", "!= 1.14.2"
 
+# We have a build issue 2023-11-13 with unf_ext 0.0.9 so we are pinning to 0.0.8.2
+# See https://github.com/knu/ruby-unf_ext/issues/74 https://buildkite.com/chef/inspec-inspec-inspec-5-omnibus-release/builds/22
+gem "unf_ext", "= 0.0.8.2"
+
 # inspec tests depend text output that changed in the 3.10 release
 # but our runtime dep is still 3.9+
 gem "rspec", ">= 3.10"
