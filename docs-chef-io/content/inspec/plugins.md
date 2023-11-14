@@ -8,7 +8,7 @@ gh_repo = "inspec"
     title = "Plugins"
     identifier = "inspec/Plugins"
     parent = "inspec"
-    weight = 80
+    weight = 90
 +++
 
 ## What are Chef InSpec plugins?

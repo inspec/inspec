@@ -8,7 +8,7 @@ gh_repo = "inspec"
     title = "Parallel"
     identifier = "inspec/parallel.md InSpec Parallel"
     parent = "inspec"
-    weight = 70
+    weight = 80
 +++
 
 Chef InSpec Parallel can automatically manage multiple profile executions in parallel on a system targeting several remote systems and environments.

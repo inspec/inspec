@@ -8,7 +8,7 @@ gh_repo = "inspec"
     title = "InSpec Shell"
     identifier = "inspec/Chef InSpec Shell"
     parent = "inspec"
-    weight = 60
+    weight = 70
 +++
 
 The Chef InSpec interactive shell is a pry-based REPL that can be used to

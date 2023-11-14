@@ -6,8 +6,8 @@ gh_repo = "inspec"
 [menu]
   [menu.inspec]
     title = "Audit Log"
-    identifier = "inspec/reference/audit_logging.md InSpec audit log"
-    parent = "inspec/reference"
+    identifier = "inspec/Audit Log"
+    parent = "inspec"
     weight = 60
 +++
 

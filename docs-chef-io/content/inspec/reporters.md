@@ -8,7 +8,7 @@ gh_repo = "inspec"
     title = "Reporters"
     identifier = "inspec/Reporters"
     parent = "inspec"
-    weight = 90
+    weight = 100
 +++
 
 A Chef InSpec reporter formats and delivers the results of a Chef InSpec audit run. You can output the results of your audits to more than one reporter.

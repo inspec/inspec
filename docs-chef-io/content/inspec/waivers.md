@@ -8,7 +8,7 @@ gh_repo = "inspec"
     title = "Waivers"
     identifier = "inspec/Waivers"
     parent = "inspec"
-    weight = 100
+    weight = 110
 +++
 
 Waivers allow you to waive controls and to dictate the running and/or reporting of those controls. A waiver file identifies:
