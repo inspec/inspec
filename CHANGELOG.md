@@ -1,29 +1,27 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.36 -->
-## [v5.22.36](https://github.com/inspec/inspec/tree/v5.22.36) (2023-11-14)
-
-#### Merged Pull Requests
-- Pin to unf_ext 0.0.8.2 in top-level Gemfile [#6861](https://github.com/inspec/inspec/pull/6861) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=5.22.29 -->
-### Changes since 5.22.29 release
-
-#### Merged Pull Requests
-- Pin to unf_ext 0.0.8.2 in top-level Gemfile [#6861](https://github.com/inspec/inspec/pull/6861) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.36 -->
-- Backport - PATCH: Fix for broken integration of reporters for compliance-mode [#6860](https://github.com/inspec/inspec/pull/6860) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.35 -->
-- Backport: CHEF-6437: Implement different version of `inspec export` (#6816) (Inspec 5) [#6849](https://github.com/inspec/inspec/pull/6849) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.34 -->
-- Backport #6838 - Fix security_policy resource returns array for non comma separated values [#6854](https://github.com/inspec/inspec/pull/6854) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.33 -->
-- Backport-6832: Usage changes of profile params in inspec compliance plugin (InSpec 5) [#6852](https://github.com/inspec/inspec/pull/6852) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.32 -->
-- Backports 6650 - Doc revert [#6848](https://github.com/inspec/inspec/pull/6848) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.31 -->
-- BACKPORT: Fixed `inspec json` ability to use cli options successfully [#6814](https://github.com/inspec/inspec/pull/6814) ([Nik08](https://github.com/Nik08)) <!-- 5.22.31 -->
-- BACKPORT: Fix in HTML2 reporter [#6811](https://github.com/inspec/inspec/pull/6811) ([Nik08](https://github.com/Nik08)) <!-- 5.22.30 -->
-- Pull release notes from v5 wiki page instead of main [#6840](https://github.com/inspec/inspec/pull/6840) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.29 -->
-- Fix trailing whitespace on omnibus overrides file [#6842](https://github.com/inspec/inspec/pull/6842) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.29 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v5.22.36](https://github.com/inspec/inspec/tree/v5.22.36) (2023-11-14)
+
+#### Merged Pull Requests
+- Fix trailing whitespace on omnibus overrides file [#6842](https://github.com/inspec/inspec/pull/6842) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Pull release notes from v5 wiki page instead of main [#6840](https://github.com/inspec/inspec/pull/6840) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- BACKPORT: Fix in HTML2 reporter [#6811](https://github.com/inspec/inspec/pull/6811) ([Nik08](https://github.com/Nik08))
+- BACKPORT: Fixed `inspec json` ability to use cli options successfully [#6814](https://github.com/inspec/inspec/pull/6814) ([Nik08](https://github.com/Nik08))
+- Backports 6650 - Doc revert [#6848](https://github.com/inspec/inspec/pull/6848) ([ahasunos](https://github.com/ahasunos))
+- Backport-6832: Usage changes of profile params in inspec compliance plugin (InSpec 5) [#6852](https://github.com/inspec/inspec/pull/6852) ([ahasunos](https://github.com/ahasunos))
+- Backport #6838 - Fix security_policy resource returns array for non comma separated values [#6854](https://github.com/inspec/inspec/pull/6854) ([Vasu1105](https://github.com/Vasu1105))
+- Backport: CHEF-6437: Implement different version of `inspec export` (#6816) (Inspec 5) [#6849](https://github.com/inspec/inspec/pull/6849) ([ahasunos](https://github.com/ahasunos))
+- Backport - PATCH: Fix for broken integration of reporters for compliance-mode [#6860](https://github.com/inspec/inspec/pull/6860) ([ahasunos](https://github.com/ahasunos))
+- Pin to unf_ext 0.0.8.2 in top-level Gemfile [#6861](https://github.com/inspec/inspec/pull/6861) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v5.22.29](https://github.com/inspec/inspec/tree/v5.22.29) (2023-10-31)
 
 #### Merged Pull Requests
@@ -81,7 +79,6 @@
 - Disable artifactory cache on inspec-5-omnibus-adhoc to fix ffi [#6819](https://github.com/inspec/inspec/pull/6819) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Explicitly pin openssl to 1.0.2zi to avoid a CVE - inspec-5 [#6824](https://github.com/inspec/inspec/pull/6824) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Update runtime platform list (#6826) [#6827](https://github.com/inspec/inspec/pull/6827) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v5.22.3](https://github.com/inspec/inspec/tree/v5.22.3) (2023-05-18)
 
