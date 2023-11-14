@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.6.1 -->
-## [v6.6.1](https://github.com/inspec/inspec/tree/v6.6.1) (2023-11-13)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- CHEF-8416: Patch for broken reporter integration for compliance phase [#6859](https://github.com/inspec/inspec/pull/6859) ([ahasunos](https://github.com/ahasunos))
+- Document where to look up the platform list [#6857](https://github.com/inspec/inspec/pull/6857) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 5.22.13 release
 
 #### Merged Pull Requests
+- Document where to look up the platform list [#6857](https://github.com/inspec/inspec/pull/6857) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.6.1 -->
 - CHEF-8416: Patch for broken reporter integration for compliance phase [#6859](https://github.com/inspec/inspec/pull/6859) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.1 -->
 - CHEF-6440: Integrates audit logging feature  [#6809](https://github.com/inspec/inspec/pull/6809) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.0 -->
 - Bump chef-licensing verison from &quot;&gt;= 0.4.44&quot; to &quot;&gt;=0.7.5&quot; [#6856](https://github.com/inspec/inspec/pull/6856) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.5.0 -->
