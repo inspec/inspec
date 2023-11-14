@@ -48,4 +48,4 @@ The following options are available inside `inspec exec` and `inspec shell` to c
 
 ## More information
 
-For details of the audit log format and implementation, refer to the (Train documentation)[https://github.com/inspec/train/blob/main/docs/audit_log.md].
+For details of the audit log format and implementation, refer to the [Train documentation](https://github.com/inspec/train/blob/main/docs/audit_log.md).
