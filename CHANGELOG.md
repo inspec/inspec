@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.35 -->
-## [v5.22.35](https://github.com/inspec/inspec/tree/v5.22.35) (2023-11-13)
+<!-- latest_release 5.22.36 -->
+## [v5.22.36](https://github.com/inspec/inspec/tree/v5.22.36) (2023-11-14)
 
 #### Merged Pull Requests
-- Backport - PATCH: Fix for broken integration of reporters for compliance-mode [#6860](https://github.com/inspec/inspec/pull/6860) ([ahasunos](https://github.com/ahasunos))
+- Pin to unf_ext 0.0.8.2 in top-level Gemfile [#6861](https://github.com/inspec/inspec/pull/6861) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.29 -->
 ### Changes since 5.22.29 release
 
 #### Merged Pull Requests
+- Pin to unf_ext 0.0.8.2 in top-level Gemfile [#6861](https://github.com/inspec/inspec/pull/6861) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 5.22.36 -->
 - Backport - PATCH: Fix for broken integration of reporters for compliance-mode [#6860](https://github.com/inspec/inspec/pull/6860) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.35 -->
 - Backport: CHEF-6437: Implement different version of `inspec export` (#6816) (Inspec 5) [#6849](https://github.com/inspec/inspec/pull/6849) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.34 -->
 - Backport #6838 - Fix security_policy resource returns array for non comma separated values [#6854](https://github.com/inspec/inspec/pull/6854) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.33 -->
