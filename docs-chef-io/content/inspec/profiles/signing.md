@@ -13,20 +13,12 @@ aliases = ['/inspec/signing/']
     weight = 100
 +++
 
-This page documents the `inspec sign` command introduced in Chef InSpec 5 and details some methods to work with signed profiles.
+This page documents how to make and use signed InSpec profiles.
 
-A signed profile, or `.iaf` file, is an InSpec profile with a digital signature that attests to its authenticity. Progress Chef authored profiles are available as signed profiles starting from 2022.
+A signed profile, or `.iaf` file, is an InSpec profile with a digital signature that attests to its authenticity.
+Progress Chef-authored profiles are available as signed profiles starting in 2022.
 
-IAF files are not human-readable, but may be viewed using `inspec export`. Support for IAF v2.0 was added to InSpec 5.
-
-### Mandatory profile signing
-
-**Chef InSpec 6** and above has an optional setting that requires that all profiles are signed.
-If mandatory profile signing is enabled, InSpec will not execute functions with an un-signed profile and exits with exit code 6.
-
-To enable mandatory profile signing, set the environment variable `CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING` to any non-empty value.
-
-If you need to bypass mandatory profile signing, use the `--allow-unsigned-profiles` CLI option or set the `CHEF_ALLOW_UNSIGNED_PROFILES` environment variable.
+IAF files are not human-readable, but you can view them using `inspec export`. Support for IAF v2.0 was added to InSpec 5.
 
 ## How does profile signing work?
 
@@ -58,9 +50,9 @@ Profile Summary: 1 successful control, 0 control failures, 0 controls skipped
 Test Summary: 2 successful, 0 failures, 0 skipped
 ```
 
-A signed profile is checked for validity before being executed, and if it cannot be verified, then InSpec exits with `code 5` (bad signature).
+A signed profile is checked for validity before it's executed. If the profile cannot be verified, then InSpec exits with `code 5` (bad signature).
 
-## How do I know which key is used to sign a profile?
+## Identify key used to sign profile
 
 The `inspec sign verify` command displays which key is used to sign a profile.
 
@@ -72,7 +64,7 @@ Attempting to verify using key 'cwolfe-03'
 Profile is valid.
 ```
 
-## How do I look inside a signed profile?
+## See contents of signed profile
 
 Use the `inspec export` command to examine a signed profile's contents. You must be able to verify the profile in order to export the contents. By default, the `export` command dumps a profile summary in a human-readable YAML format, including most of the metadata and the control IDs, control source code, inputs, and other profile information.
 
@@ -164,11 +156,21 @@ Use the `inspec export` command to examine a signed profile's contents. You must
     platform: os
   ```
 
+## Mandatory profile signing
+
+**Chef InSpec 6** and above has an optional setting that requires that all profiles are signed.
+If mandatory profile signing is enabled, InSpec will not execute functions with an un-signed profile and exits with exit code 6.
+
+To enable mandatory profile signing, set the environment variable `CHEF_PREVIEW_MANDATORY_PROFILE_SIGNING` to any non-empty value.
+
+If you need to bypass mandatory profile signing, use the `--allow-unsigned-profiles` CLI option or set the `CHEF_ALLOW_UNSIGNED_PROFILES` environment variable.
+
 ## Advanced Usage
 
-### How do I create keys?
+### Create a signing and validation keys
 
-Most users of signed profiles need not create keys of their own unless they wish to sign and distribute profiles themselves. To generate keys of your own, use the `inspec sign generate-keys` command:
+Most users of signed profiles need not create keys of their own unless they wish to sign and distribute profiles themselves.
+To generate keys of your own, use the `inspec sign generate-keys` command:
 
 ```bash
 $ inspec sign generate-keys --keyname test-03
@@ -179,7 +181,7 @@ Generating validation key in /Users/cwolfe/.inspec/keys/test-03.pem.pub
 
 Keep your signing key secret. You must devise a way of distributing the validation key to your profile users; they will be unable to use your signed IAF files unless they have the validation key.
 
-### How do I sign profiles?
+### Sign profile
 
 You will need a signing key to sign profiles. Specify the path of profile and the name of the key.
 
