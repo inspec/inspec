@@ -5,6 +5,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- InSpec docs reorganization [#6844](https://github.com/inspec/inspec/pull/6844) ([IanMadd](https://github.com/IanMadd))
 - Document where to look up the platform list [#6857](https://github.com/inspec/inspec/pull/6857) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- InSpec docs reorganization [#6844](https://github.com/inspec/inspec/pull/6844) ([IanMadd](https://github.com/IanMadd)) <!-- 6.6.1 -->
 - CHEF-8416: Patch for broken reporter integration for compliance phase [#6859](https://github.com/inspec/inspec/pull/6859) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.1 -->
 - Document where to look up the platform list [#6857](https://github.com/inspec/inspec/pull/6857) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.6.1 -->
 <!-- release_rollup -->
