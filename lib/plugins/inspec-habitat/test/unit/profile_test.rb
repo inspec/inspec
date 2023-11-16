@@ -3,6 +3,7 @@ require "fileutils" unless defined?(FileUtils)
 require "minitest/autorun"
 require "inspec/backend"
 require_relative "../../lib/inspec-habitat/profile"
+require "inspec/feature"
 
 class InspecPlugins::Habitat::ProfileTest < Minitest::Test
   def setup

@@ -22,8 +22,6 @@ Chef InSpec uses **matchers**, a testing framework based on [RSpec](https://rspe
 
 You can use any matcher provided by [RSpec::Expectations](https://relishapp.com/rspec/rspec-expectations/docs); however, these matchers are not [supported by InSpec](/inspec/inspec_and_friends/#rspec).
 
-See [Test Expectations with Chef InSpec](https://learn.chef.io/courses/course-v1:chef+Inspec101+Perpetual/about) on Learn Chef to learn more about Chef InSpec's built-in matchers.
-
 ## be
 
 Use the `be` matcher with comparison operators, and use numbers and not strings for these comparisons. For example:

@@ -23,4 +23,10 @@ module Inspec
     require "rbconfig" unless defined?(RbConfig)
     RbConfig::CONFIG["host_os"] =~ /mswin|mingw|cygwin/
   end
+
+  def self.log_dir
+    log_dir_path = "#{config_dir}/logs"
+    FileUtils.mkdir_p(log_dir_path) unless File.directory?(log_dir_path)
+    log_dir_path
+  end
 end

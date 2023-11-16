@@ -6,12 +6,12 @@ gh_repo = "inspec"
 [menu]
   [menu.inspec]
     title = "InSpec Shell"
-    identifier = "inspec/reference/shell.md Chef InSpec Shell"
-    parent = "inspec/reference"
-    weight = 110
+    identifier = "inspec/Chef InSpec Shell"
+    parent = "inspec"
+    weight = 70
 +++
 
-The Chef InSpec interactive shell is a pry based REPL that can be used to
+The Chef InSpec interactive shell is a pry-based REPL that can be used to
 quickly run Chef InSpec controls and tests without having to write it to a
 file. Its functionality is similar to [chef-shell](/chef_shell/) as it provides a way
 to exercise the Chef InSpec Language, its resources, tests, and plugins without
@@ -20,14 +20,13 @@ having to create a profile or write a test file. See
 do.
 
 See [Explore Chef InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/)
-on Learn Chef Rally for a hands-on example that uses Chef InSpec shell.
+on Learn Chef for a hands-on example that uses Chef InSpec shell.
 
-## Launching the shell
+## Launch the shell
 
 If you are using Chef InSpec from a platform-specific package (rpm, msi,
 etc.) or from a Chef prepared shell in Chef Workstation, you can directly launch
-Chef InSpec shell against your local machine using the following. See
-<https://docs.chef.io/install_dk.html#set-system-ruby> for details.
+Chef InSpec shell against your local machine using the `inspec shell` command.
 
 ```bash
 inspec shell
@@ -77,10 +76,10 @@ Once inside the shell your resource will be available:
 inspec> example_config
 ```
 
-## Using Ruby in Chef InSpec shell
+## Use Ruby
 
-Since Chef InSpec shell is pry based, you may treat the shell as an
-interactive Ruby session. You may write Ruby expressions and evaluate
+Since Chef InSpec shell is pry based, you can treat the shell as an
+interactive Ruby session. You can write Ruby expressions and evaluate
 them. Source high-lighting, automatic indentation and command history
 (using the up and down arrow keys) are available to make your experience
 more delightful. You can exit the shell using `exit`.
@@ -95,12 +94,12 @@ inspec> 1 + 2
 inspec> exit
 ```
 
-## Using Chef InSpec Language in Chef InSpec shell
+## Use InSpec DSL
 
-Chef InSpec shell will automatically evaluate the result of every command as
+The Chef InSpec shell automatically evaluates the result of every command as
 if it were a test file. If you type in a Ruby command that is not an
 Chef InSpec control or test, the shell will evaluate it as if it were a
-regular ruby command.
+regular Ruby command.
 
 Bare Chef InSpec resources are instantiated and their help text is presented.
 You may also access the resource contents or other matchers that they
@@ -167,10 +166,10 @@ inspec> end
   Summary: 0 successful, 1 failures, 0 skipped
 ```
 
-## Running a single Chef InSpec command
+## Run InSpec commands
 
-If you wish to run a single Chef InSpec command and fetch its results, you
-may use the `-c` flag. This is similar to using `bash -c`.
+You can run a single Chef InSpec command and fetch its results using the `-c` flag.
+This is similar to using `bash -c`.
 
 ```bash
 $ inspec shell -c 'describe file("/Users/username") do it { should exist } end'
@@ -232,15 +231,15 @@ $ inspec shell --format json -c 'describe file("/Users/test") do it { should exi
 }
 ```
 
-## Running Chef InSpec Shell With Inputs
+## Set inputs
 
-With InSpec [profiles that support inputs]({{< relref "inputs/#which-profiles-support-inputs" >}}),
-you can set inputs using the InSpec `shell` command. This allows you to work more consistently with
-InSpec profiles when switching between the `shell` and `exec` commands.
+With InSpec [profiles that support inputs]({{< relref "/inspec/profiles/inputs#profile-support" >}}),
+you can set inputs using the InSpec `shell` command.
+This allows you to work more consistently with InSpec profiles when switching between the `shell` and `exec` commands.
 
-For more details on inputs, see the [inputs reference](/inspec/inputs/).
+For more details on inputs, see the [inputs reference](/inspec/profiles/inputs/).
 
-### Set Inputs with Command-line Options
+### Set inputs with command-line options
 
 The `shell` command accepts one or more inputs in the command line as single-quoted YAML or JSON structures.
 
@@ -264,7 +263,7 @@ Test Summary: 1 successful, 0 failures, 0 skipped
 inspec> exit
 ```
 
-### Set Inputs with YAML File
+### Set inputs with YAML file
 
 You can also save inputs and values to one or more YAML files and pass them to `shell` in the command line.
 For example:

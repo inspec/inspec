@@ -74,6 +74,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "A list of controls to include. Ignore all other tests."
   option :tags, type: :array,
     desc: "A list of tags to filter controls and include only those. Ignore all other tests."
+  option :legacy_export, type: :boolean, default: false,
+    desc: "Run with legacy export."
   profile_options
   def json(target)
     Inspec.with_feature("inspec-cli-json") {
@@ -98,6 +100,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "For --what=profile, a list of controls to include. Ignore all other tests."
   option :tags, type: :array,
     desc: "For --what=profile, a list of tags to filter controls and include only those. Ignore all other tests."
+  option :legacy_export, type: :boolean, default: false,
+         desc: "Run with legacy export."
   profile_options
   def export(target, as_json = false)
     Inspec.with_feature("inspec-cli-export") {
@@ -135,16 +139,17 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
         case what
         when "profile"
+          profile_info = o[:legacy_export] ? profile.info : profile.info_from_parse
           if format == "json"
             require "json" unless defined?(JSON)
             # Write JSON
             Inspec::Utils::JsonProfileSummary.produce_json(
-              info: profile.info,
+              info: profile_info,
               write_path: dst
             )
           elsif format == "yaml"
             Inspec::Utils::YamlProfileSummary.produce_yaml(
-              info: profile.info,
+              info: profile_info,
               write_path: dst
             )
           end
@@ -168,6 +173,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "The output format to use. Valid values: `json` and `doc`. Default value: `doc`."
   option :with_cookstyle, type: :boolean,
     desc: "Enable or disable cookstyle checks.", default: false
+  option :legacy_check, type: :boolean, default: false,
+         desc: "Run with legacy check."
   profile_options
   def check(path) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     Inspec.with_feature("inspec-cli-check") {
@@ -184,7 +191,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
 
         # run check
         profile = Inspec::Profile.for_target(path, o)
-        result = profile.check
+        result = o[:legacy_check] ? profile.legacy_check : profile.check
 
         if o["format"] == "json"
           puts JSON.generate(result)
@@ -269,6 +276,8 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "Run profile check before archiving."
   option :export, type: :boolean, default: false,
     desc: "Export the profile to inspec.json and include in archive"
+  option :legacy_export, type: :boolean, default: false,
+    desc: "Export the profile in legacy mode to inspec.json and include in archive"
   def archive(path, log_level = nil)
     Inspec.with_feature("inspec-cli-archive") {
       begin
@@ -381,6 +390,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
       ```
   EOT
   exec_options
+  audit_log_options
   def exec(*targets)
     Inspec.with_feature("inspec-cli-exec") {
       begin
@@ -388,6 +398,11 @@ class Inspec::InspecCLI < Inspec::BaseCLI
         diagnose(o)
         deprecate_target_id(config)
         configure_logger(o)
+
+        # Only runs this block when preview flag CHEF_PREVIEW_AUDIT_LOGGING is set
+        Inspec.with_feature("inspec-audit-logging") {
+          set_and_validate_audit_log_options(o)
+        }
 
         runner = Inspec::Runner.new(o)
         targets.each { |target| runner.add_target(target) }
@@ -452,6 +467,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     desc: "Specify one or more inputs directly on the command line to the shell, as --input NAME=VALUE. Accepts single-quoted YAML and JSON structures."
   option :enhanced_outcomes, type: :boolean,
     desc: "Show enhanced outcomes in output"
+  audit_log_options
   def shell_func
     Inspec.with_feature("inspec-cli-shell") {
       begin
@@ -459,6 +475,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
         deprecate_target_id(config)
         diagnose(o)
         o[:debug_shell] = true
+        Inspec.with_feature("inspec-audit-logging") {
+          set_and_validate_audit_log_options(o)
+        }
 
         Inspec::Resource.toggle_inspect unless o[:inspect]
 

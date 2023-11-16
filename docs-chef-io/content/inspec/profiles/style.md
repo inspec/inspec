@@ -3,15 +3,69 @@ title = "Chef InSpec Profile Style Guide"
 draft = false
 gh_repo = "inspec"
 
+aliases = ['/inspec/style/']
+
 [menu]
   [menu.inspec]
     title = "Profile Style Guide"
-    identifier = "inspec/reference/style.md Profile Style Guide"
-    parent = "inspec/reference"
-    weight = 80
+    identifier = "inspec/profiles/style"
+    parent = "inspec/profiles"
+    weight = 100
 +++
 
 This is a set of recommended Chef InSpec rules you should use when writing controls.
+
+## "should" vs. "expect" syntax
+
+Users familiar with the RSpec testing framework may know that there are two ways
+to write test statements: `should` and `expect`. The RSpec community decided that
+`expect` is the preferred syntax. However, Chef InSpec recommends the `should`
+syntax as it tends to read more easily to those users who are not as technical.
+
+Chef InSpec will continue to support both methods of writing tests. Consider
+this `file` test:
+
+```Ruby
+describe file('/tmp/test.txt') do
+  it { should be_file }
+end
+```
+
+This can be re-written with `expect` syntax
+
+```Ruby
+describe file('/tmp/test.txt') do
+  it 'should be a file' do
+    expect(subject).to(be_file)
+  end
+end
+```
+
+The output of both of the above examples looks like this:
+
+```bash
+File /tmp/test.txt
+   ✔  should be a file
+```
+
+In addition, you can make use of the `subject` keyword to further control your
+output if you choose:
+
+```Ruby
+describe 'test file' do
+  subject { file('/tmp/test.txt') }
+  it 'should be a file' do
+    expect(subject).to(be_file)
+  end
+end
+```
+
+... which will render the following output:
+
+```bash
+test file
+  ✔  should be a file
+```
 
 ## Control Files
 

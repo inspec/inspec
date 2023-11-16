@@ -49,7 +49,8 @@ describe "example inheritance profile" do
   end
 
   it "read the profile json with --profiles-path" do
-    out = inspec("json " + path + " --profiles-path " + examples_path)
+    # TODO: the latest export cannot include the inherited controls
+    out = inspec("json " + path + " --profiles-path " + examples_path + " --legacy-export")
 
     _(out.stderr).must_equal ""
     s = out.stdout
@@ -60,7 +61,8 @@ describe "example inheritance profile" do
   end
 
   it "read the profile json without --profiles-path using inspec.yml" do
-    out = inspec("json " + path)
+    # TODO: the latest export cannot include the inherited controls
+    out = inspec("json " + path + " --legacy-export")
 
     _(out.stderr).must_equal ""
     s = out.stdout

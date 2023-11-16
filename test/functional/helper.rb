@@ -186,8 +186,9 @@ module FunctionalHelper
     prefix += opts[:prefix] || ""
     prefix += assemble_env_prefix(opts[:env])
     command_line += " --reporter json " if opts[:json] && command_line =~ /\bexec\b/
-    command_line += " --no-create-lockfile " if (!opts[:lock]) && command_line =~ /\bexec\b/
     command_line += " --enhanced_outcomes " if opts[:enhanced_outcomes] && command_line =~ /\bexec\b/
+    command_line += " --allow-unsigned-profiles #{opts[:allow_unsigned_profiles]}" if opts[:allow_unsigned_profiles]
+    command_line += " --no-create-lockfile" if (!opts[:lock]) && command_line =~ /\bexec\b/
 
     run_result = nil
     if opts[:tmpdir]
@@ -254,6 +255,11 @@ module FunctionalHelper
       bn = File.basename(profile_path)
       yield(File.join(tmpdir, bn, dir.to_s))
     end
+  end
+
+  def delete_signing_keys(unique_key_name)
+    File.delete("#{Inspec.config_dir}/keys/#{unique_key_name}.pem.key") if File.exist?("#{Inspec.config_dir}/keys/#{unique_key_name}.pem.key")
+    File.delete("#{Inspec.config_dir}/keys/#{unique_key_name}.pem.pub") if File.exist?("#{Inspec.config_dir}/keys/#{unique_key_name}.pem.pub")
   end
 
   private

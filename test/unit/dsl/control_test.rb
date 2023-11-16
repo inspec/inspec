@@ -3,6 +3,7 @@ require "inspec/config"
 require "inspec/profile"
 require "inspec/runner_mock"
 require "inspec/fetcher/mock"
+require "inspec/feature"
 
 describe "controls" do
   def load(content)
@@ -15,8 +16,7 @@ describe "controls" do
       backend: Inspec::Backend.create(Inspec::Config.mock),
     }
 
-    Inspec::Profile.for_target(data, opts)
-      .params[:controls]["1"]
+    Inspec::Profile.for_target(data, opts).params[:controls]["1"]
   end
 
   let(:rand_string) { rand.to_s }
