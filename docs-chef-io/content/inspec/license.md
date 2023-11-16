@@ -74,7 +74,7 @@ Replace `<value>` with one of the following options.
 
 ## License key
 
-Set a license key for Chef InSpec using one of three methods.
+You can add a license key to Chef InSpec using one of three methods:
 
 - [interactive license dialog](#interactive-license-dialog)
 - [command line option](#command-line-option-1)

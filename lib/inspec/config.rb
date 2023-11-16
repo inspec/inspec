@@ -7,6 +7,7 @@ require "forwardable" unless defined?(Forwardable)
 require "thor" unless defined?(Thor)
 require "base64" unless defined?(Base64)
 require "inspec/plugin/v2/filter"
+require "inspec/feature"
 
 module Inspec
   class Config
@@ -23,6 +24,12 @@ module Inspec
       shell
       shell_options
       shell_command
+    }.freeze
+
+    AUDIT_LOG_OPTIONS = %w{
+      audit_log_location
+      enable_audit_log
+      audit_log_app_name
     }.freeze
 
     KNOWN_VERSIONS = [
@@ -80,6 +87,10 @@ module Inspec
       puts
     end
 
+    def allow_unsigned_profiles?
+      self["allow_unsigned_profiles"] || ENV["CHEF_ALLOW_UNSIGNED_PROFILES"]
+    end
+
     # return all telemetry options from config
     # @return [Hash]
     def telemetry_options
@@ -109,11 +120,14 @@ module Inspec
     def unpack_train_credentials
       # Internally, use indifferent access while we build the creds
       credentials = Thor::CoreExt::HashWithIndifferentAccess.new({})
-
       # Helper methods prefixed with _utc_ (Unpack Train Credentials)
 
       credentials.merge!(_utc_generic_credentials)
 
+      # Only runs this block when preview flag CHEF_PREVIEW_AUDIT_LOGGING is set
+      Inspec.with_feature("inspec-audit-logging") {
+        credentials.merge!(_utc_merge_audit_log_options)
+      }
       _utc_determine_backend(credentials)
       transport_name = credentials[:backend].to_s
 
@@ -154,13 +168,21 @@ module Inspec
 
     private
 
+    def _utc_merge_audit_log_options
+      @final_options.select { |option, _value| AUDIT_LOG_OPTIONS.include?(option) }
+    end
+
     def _utc_merge_transport_options(credentials, transport_name)
       # Ask Train for the names of the transport options
       transport_options = Train.options(transport_name).keys.map(&:to_s)
 
       # If there are any options with those (unprefixed) names, merge them in.
+      # e.g., 'host'
       unprefixed_transport_options = final_options.select do |option_name, _value|
-        transport_options.include? option_name # e.g., 'host'
+        # We currently want this option only to be set if CHEF_PREVIEW_AUDIT_LOGGING is set
+        # and we already merging the audit_log_options within _utc_merge_audit_log_options method which only invoke if feature flag is on
+        # we don't want audit log option to get set from here again so this is a safe check and can be removed when we remove preview feature flag.
+        transport_options.include? option_name unless option_name.match?("enable_audit_log")
       end
       credentials.merge!(unprefixed_transport_options)
 
@@ -447,6 +469,15 @@ module Inspec
       options.merge!(config_file_cli_options)
       # Reporter options may be defined top-level.
       options.merge!(config_file_reporter_options)
+
+      # when sent reporter from compliance-mode (via chef-client), the reporter is a symbol
+      if @cli_opts.key?(:reporter) && @cli_opts["reporter"].nil?
+        @cli_opts["reporter"] = @cli_opts[:reporter]
+        @cli_opts.delete(:reporter)
+      elsif @cli_opts.key?(:reporter) && @cli_opts.key?("reporter") && @cli_opts["reporter"].is_a?(Array)
+        # combine reporter and "reporter" options into "reporter" option
+        @cli_opts["reporter"] = @cli_opts[:reporter] + @cli_opts["reporter"]
+      end
 
       if @cli_opts["reporter"]
         # Add reporter_cli_opts in options to capture reporter cli opts separately

@@ -5,10 +5,10 @@ gh_repo = "inspec"
 
 [menu]
   [menu.inspec]
-    title = "Chef InSpec and Friends"
-    identifier = "inspec/inspec_and_friends.md Chef InSpec and friends"
-    parent = "inspec"
-    weight = 40
+    title = "RSpec and Serverspec"
+    identifier = "inspec/friends/inspec_and_friends.md Chef InSpec and friends"
+    parent = "inspec/friends"
+    weight = 10
 +++
 
 This page looks at projects that are similar to Chef InSpec to explain how they

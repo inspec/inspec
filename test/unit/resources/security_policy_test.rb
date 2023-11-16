@@ -12,6 +12,12 @@ describe "Inspec::Resources::SecurityPolicy" do
     _(resource.SeUndockPrivilege).must_equal ["S-1-5-32-544"]
     _(resource.SeRemoteInteractiveLogonRight).must_equal ["S-1-5-32-544", "S-1-5-32-555"]
     _(resource.SeServiceLogonRight).must_equal %w{ DB2ADMNS db2admin }
+    _(resource.LockoutDuration).must_equal "-1"
+    _(resource.send('MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\CachedLogonsCount')).must_equal "1,\"10\""
+    _(resource.send('MACHINE\System\CurrentControlSet\Control\Lsa\MSV1_0\NTLMMinServerSec')).must_equal "4,536870912"
+    _(resource.NewAdministratorName).must_equal "Administrator"
+    _(resource.NewGuestName).must_equal "Guest"
+    _(resource.RequireLogonToChangePassword).must_equal 0
     _(resource.resource_id).must_equal "Security Policy"
   end
 

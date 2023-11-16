@@ -8,8 +8,24 @@ gh_repo = "inspec"
     title = "Troubleshooting"
     identifier = "inspec/Troubleshooting"
     parent = "inspec"
-    weight = 55
+    weight = 120
 +++
+
+## Exit code 5
+
+You tried to execute a function with a signed profile, but the signature is either bad or InSpec couldn't find the validation key.
+For more information, see the [profile signing documentation](/inspec/signing/).
+
+## Exit code 6
+
+You enabled mandatory profile signing and tried to execute a function with an unsigned profile.
+For more information, see the [profile signing documentation](/inspec/signing/).
+
+## Exit code 174
+
+Exit code 174 comes from running Chef InSpec 6 or greater without setting a Chef License key.
+See the [InSpec install documentation](/inspec/install/) for setting a Chef License key.
+See the [Chef License documentation](/licensing/) for more information about Chef licensing.
 
 ## Undefined Local Variable or Method Error for Cloud Resource
 
@@ -22,12 +38,6 @@ See the relevant resource pack readme for instructions:
 - [inspec-aws README](https://github.com/inspec/inspec-aws#use-the-resources)
 - [inspec-azure README](https://github.com/inspec/inspec-azure#use-the-resources)
 - [inspec-gcp README](https://github.com/inspec/inspec-gcp#use-the-resources)
-
-## Exit Code 174
-
-Exit code 174 comes from running Chef InSpec 6 or greater without setting a Chef License key.
-See the [InSpec install documentation](/inspec/install/) for setting a Chef License key.
-See the [Chef License documentation](/licensing/) for more information about Chef licensing.
 
 ## License is not entitled to use InSpec
 

@@ -84,8 +84,8 @@ class ParallelCli < Minitest::Test
   def test_parallel_dry_run_with_verbose_option
     out = run_inspec_process("parallel exec #{complete_profile} -o #{options_file_1} --dry-run --verbose")
     stdout = out.stdout
-    assert_includes stdout, "complete-profile -t ssh://vagrant@127.0.0.1:2201 --reporter child-status cli:myfile.out --no-create-lockfile --no-sudo --winrm-transport negotiate --insecure false --winrm-shell-type powershell --auto-install-gems false --distinct-exit true --diff true --sort-results-by file --filter-empty-profiles false --reporter-include-source false"
-    assert_includes stdout, "control-tags -t ssh://vagrant@127.0.0.1:2201 --reporter child-status cli:myfile.out --winrm-transport negotiate --insecure false --winrm-shell-type powershell --auto-install-gems false --distinct-exit true --diff true --sort-results-by file --filter-empty-profiles false --reporter-include-source false"
+    assert_includes stdout, "complete-profile -t ssh://vagrant@127.0.0.1:2201 --reporter child-status cli:myfile.out --no-create-lockfile --no-sudo --winrm-transport negotiate --insecure false --winrm-shell-type powershell --auto-install-gems false --allow-unsigned-profiles false --distinct-exit true --diff true --sort-results-by file --filter-empty-profiles false --reporter-include-source false"
+    assert_includes stdout, "control-tags -t ssh://vagrant@127.0.0.1:2201 --reporter child-status cli:myfile.out --winrm-transport negotiate --insecure false --winrm-shell-type powershell --auto-install-gems false --allow-unsigned-profiles false --distinct-exit true --diff true --sort-results-by file --filter-empty-profiles false --reporter-include-source false"
     assert_equal stdout.split("\n").count, 6
     assert_exit_code 0, out
   end

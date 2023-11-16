@@ -171,6 +171,8 @@ module Inspec
         desc: "Use the given path for caching dependencies, (default: ~/.inspec/cache)."
       option :auto_install_gems, type: :boolean, default: false,
         desc: "Auto installs gem dependencies of the profile or resource pack."
+      option :allow_unsigned_profiles, type: :boolean, default: false,
+        desc: "Allow unsigned profiles to be used in InSpec command."
     end
 
     def self.supermarket_options
@@ -231,6 +233,11 @@ module Inspec
         desc: "Include full source code of controls in the CLI report"
       option :enhanced_outcomes, type: :boolean,
         desc: "Show enhanced outcomes in output"
+    end
+
+    def self.audit_log_options
+      option :audit_log_location, type: :string,
+      desc: "Audit log location to send diagnostic log messages to. (default: '~/.inspec/logs/inspec-audit.log')"
     end
 
     def self.help(*args)
@@ -375,6 +382,9 @@ module Inspec
 
     def pretty_handle_exception(exception)
       case exception
+      when Inspec::ProfileSignatureRequired
+        $stderr.puts exception.message
+        Inspec::UI.new.exit(:signature_required)
       when Inspec::InvalidProfileSignature
         $stderr.puts exception.message
         Inspec::UI.new.exit(:bad_signature)
@@ -426,6 +436,26 @@ module Inspec
         o[:logger].formatter = Logger::JSONFormatter.new
       end
       o[:logger].level = get_log_level(o["log_level"])
+    end
+
+    # This method is currenlty under feature preview flag and audit log will only be enabeld when CHEF_PREVIEW_AUDIT_LOGGING is set in the env variable
+    def set_and_validate_audit_log_options(opts)
+      err = []
+      opts[:enable_audit_log] ||= true
+      if opts[:audit_log_location].nil?
+        opts[:audit_log_location] = "#{Inspec.log_dir}/inspec-audit-#{Time.now.strftime("%Y%m%dT%H%M%S")}-#{Process.pid}.log"
+      elsif File.directory?(File.dirname(opts[:audit_log_location]))
+        file_path = opts[:audit_log_location]
+        # suffix the timestamp and pid to the audit log file name if log location is set through cli option
+        filename  = "#{File.basename(file_path, ".*")}-#{Time.now.strftime("%Y%m%dT%H%M%S")}-#{Process.pid}"
+        opts[:audit_log_location] = File.join( File.dirname(file_path), "#{filename}#{File.extname(file_path)}" )
+      else
+        err << "Audit log location directory #{opts[:audit_log_location]} does not exist."
+      end
+      opts[:audit_log_app_name] = Inspec::Dist::EXEC_NAME
+      unless err.empty?
+        raise Inspec::Exceptions::InvalidAuditLogOption, err.join("\n")
+      end
     end
   end
 end
