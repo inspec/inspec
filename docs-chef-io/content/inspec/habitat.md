@@ -6,23 +6,22 @@ gh_repo = "inspec"
 [menu]
   [menu.inspec]
     title = "Chef Habitat Integration"
-    identifier = "inspec/reference/habitat.md Habitat Integration"
-    parent = "inspec/reference"
-    weight = 120
+    identifier = "inspec/chef/Habitat Integration"
+    parent = "inspec/chef"
+    weight = 20
 +++
 
 Chef InSpec provides an easy method to create an executable Chef Habitat package for a Chef InSpec profile. When run via the Chef Habitat Supervisor, the package will run Chef InSpec with your profile and write out its findings to the supervisor log. This provides the ability to ship your compliance controls alongside your Chef Habitat-packaged application and continuously run InSpec, providing you *Continuous Compliance.*
 
 ## What is Chef Habitat
 
-Chef Habitat by Chef Software is our new Application Automation tool that aims
+Chef Habitat by Chef Software is our new application automation tool that aims
 to make it easy, safe, and fast to build, deploy, and manage applications. From
 build dependencies, runtime dependencies, dynamic configuration, and service
 discovery (just to name a few), Chef Habitat packages the automation with the
 application instead of relying on an underlying platform.
 
-To learn more about Chef Habitat and try our demos and tutorials, visit
-[https://www.habitat.sh](https://www.habitat.sh).
+To learn more about Chef Habitat see the [Habitat documentation](/habitat/).
 
 ## Using the Chef Habitat Integration
 

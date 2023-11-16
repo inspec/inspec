@@ -6,27 +6,25 @@ gh_repo = "inspec"
 [menu]
   [menu.inspec]
     title = "Plugins"
-    identifier = "inspec/reference/plugins.md Plugins"
-    parent = "inspec/reference"
-    weight = 100
+    identifier = "inspec/Plugins"
+    parent = "inspec"
+    weight = 90
 +++
 
-## What are Chef InSpec Plugins?
+## What are Chef InSpec plugins?
 
-Chef InSpec Plugins are optional software components that extend the capabilities
-of InSpec. For example, [`inspec-iggy`](https://github.com/inspec/inspec-iggy)
-is a Plugin project that aims to generate Chef InSpec controls from
-infrastructure-as-code files. Plugins are distributed as RubyGems, and Chef InSpec
-manages their installation. Chef InSpec Plugins always begin with the prefix
-'inspec-'.
+Chef InSpec plugins are optional software components that extend the capabilities of InSpec.
+For example, [`inspec-iggy`](https://github.com/inspec/inspec-iggy) is a plugin project that aims to generate Chef InSpec controls from infrastructure-as-code files.
+Plugins are distributed as RubyGems, and Chef InSpec manages their installation.
+Chef InSpec plugins always begin with the prefix 'inspec-'.
 
-## What are Train Plugins?
+## What are Train plugins?
 
-Train Plugins allow Chef InSpec to speak to new kinds of targets (typically new
+Train plugins allow Chef InSpec to speak to new kinds of targets (typically new
 remote targets or APIs, but you could treat the local system in a new way if you
 wished to). For example, if you wanted to audit a Kubernetes cluster, you might
 want a transport that can talk to the supervisor API. You would develop a Train
-Plugin for that, and install it using the Chef InSpec command line. Train Plugins
+plugin for that, and install it using the Chef InSpec command line. Train plugins
 always begin with the prefix 'train-'.
 
 ## What can plugins do?
@@ -40,7 +38,7 @@ Currently, each plugin can offer one or more of these capabilities:
 - DSL extensions at the file, control, describe block, or test level
 - DSL extensions for custom resources
 
-## How do I find out which plugins are available?
+## Find available plugins
 
 The Chef InSpec CLI can tell you which plugins are available:
 
@@ -48,7 +46,7 @@ The Chef InSpec CLI can tell you which plugins are available:
 inspec plugin search inspec-
 ```
 
-## How do I install and manage plugins?
+## Install and manage plugins
 
 The Chef InSpec command line now offers a new subcommand just for managing plugins.
 
@@ -61,24 +59,20 @@ inspec plugin install train-some-plugin
 
 For more details on what the `plugin` command can do, run `inspec plugin help`.
 
-## How do I use a different Gem server?
+## Use a different Gem server
 
 You can specify an alternate source by passing the base of your Gem repository to
 the `--source` parameter:
 
 ```bash
-inspec plugin search --source https://my.private.server inspec-private
-inspec plugin install --source https://my.private.server inspec-private-plugin
+inspec plugin search --source https://private.example.com inspec-private
+inspec plugin install --source https:/private.example.com inspec-private-plugin
 ```
 
-## How do I write a plugin?
+## Write a plugin
 
-### Chef InSpec Plugins
+For details on creating a Chef InSpec plugin, see the
+[InSpec developer documentation](https://github.com/inspec/inspec/blob/main/dev-docs/plugins.md)
 
-For details on how to author a Chef InSpec Plugin, see the
-[developer documentation](https://github.com/inspec/inspec/blob/main/dev-docs/plugins.md)
-
-### Train Plugins
-
-For details on how to author a Train Plugin, see the
-[developer documentation](https://github.com/inspec/train/blob/main/docs/plugins.md)
+For details on creating a Train plugin, see the
+[Train developer documentation](https://github.com/inspec/train/blob/main/docs/plugins.md)
