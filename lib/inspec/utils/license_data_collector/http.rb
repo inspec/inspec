@@ -9,9 +9,7 @@ module Inspec
 
     class Http < Base
 
-      LDC_URL = "https://postman-echo.com/post".freeze # TODO: get real URL
-      # LDC_URL = "https://postman-echo.com/error/404".freeze # Not a real endpoint but does 404 :-)
-      # LDC_URL = "https://postman-echo.com/delay/5".freeze # Only works for GET
+      LDC_URL = ENV.fetch("CHEF_LICENSE_DATA_COLLECTOR_URL", "https://licensing-acceptance.chef.co/usage/v1/payload".freeze)
 
       def scan_finishing(opts)
         super(opts)
@@ -54,7 +52,8 @@ module Inspec
           case response
           when Net::HTTPSuccess, Net::HTTPRedirection
             # Remove old aggregate data, we've successfully sent it
-            file.truncate(0)
+            # file.truncate(0)
+            puts "Response Successfull"
           else
             # Something went wrong.
             error = {
