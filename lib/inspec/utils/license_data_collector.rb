@@ -6,6 +6,8 @@ require_relative "license_data_collector/http"
 require_relative "license_data_collector/offline"
 require_relative "telemetry/run_context_probe"
 require_relative "../globals"
+require "inspec/feature"
+require_relative "license_data_collector/payload"
 
 module Inspec
   class LicenseDataCollector
@@ -43,87 +45,37 @@ module Inspec
     end
 
     class Base
-      attr_accessor :payload
-      attr_accessor :headers
+
+      def initialize
+        # Populate header
+        # TBD Do we need it at all?
+        @headers = {}
+        @payload = Inspec::LicenseDataCollector::Payload.new
+      end
 
       def self.license_data_dir
         File.join(Inspec.config_dir, "license-data")
       end
 
       def scan_starting(opts)
-        start_time = Time.now.getutc.iso8601
-
-        # Populate header
-        # TBD Do we need it at all?
-        @headers = {}
-
-        # Initialize payload
-        @payload = {
-          customer: "",
-          license: fetch_license_key,
-          expiration: fetch_license_expiration,
-          name: fetch_license_name,
-          periods: [
-            version: "#{Inspec::VERSION}",
-            date: start_time,
-            period: {
-              start: start_time,
-            },
-            summary: {
-              nodes: { total: 0, active: 0 },
-              scans: { targets: 1, total: 1 },
-            },
-            evidence: {
-              nodes: [],
-              scans: [
-                {
-                  identifier: opts[:runner].backend.backend.platform.uuid,
-                  executions: 1, # TODO: Do they mean resource count here?
-                  # TODO: Add resource count. Aggregate by summing like executions
-                  version: "#{Inspec::VERSION}",
-                  activity: { start: start_time },
-                },
-              ],
-              content: [], # Populated dynamically below
-            },
-          ],
-        }
-
-        # Create one content evidence for each licensed profile to be scanned
+        @payload.period.scans.first.identifier = opts[:runner].backend.backend.platform.uuid
         opts[:runner].target_profiles.each do |profile|
-          next unless profile.licensed?
-
-          payload[:periods][0][:evidence][:content] << {
-            identifier: profile.metadata.params[:profile_content_id],
-            executions: 1,
-            version: profile.metadata.params[:version],
-            type: "Profile",
-            activity: { start: start_time },
-          }
+          # next unless profile.licensed? TODO: should it be only for licensed?
+          @payload.period.contents = Inspec::LicenseDataCollector::Payload::Content.build_from(profile)
         end
       end
 
       def scan_finishing(opts)
         end_time = Time.now.getutc.iso8601
-        payload[:periods][0][:period][:end] = end_time
-        payload[:periods][0][:evidence][:scans][0][:activity][:end] = end_time
-        payload[:periods][0][:evidence][:content].each { |c| c[:activity][:end] = end_time }
+        # currently content, scans and period has same end time
+        payload.period.end_time = end_time
+        payload.period.scans.first.end_time = end_time
+        payload.period.contents.each { |c| c.end_time = end_time }
       end
 
-      def fetch_license_key
-        # TODO: obtain license key
-        "TODO"
-      end
+      private
 
-      def fetch_license_expiration
-        # TODO: obtain license expiration
-        "TODO"
-      end
-
-      def fetch_license_name
-        # TODO: obtain license user name
-        "TODO"
-      end
+      attr_reader :payload, :headers
 
       # Merge two payloads
       def aggregate_ldc_payload(merged, newer)
@@ -203,7 +155,7 @@ module Inspec
         end
 
         # Merge in current payload and headers
-        aggregate_ldc_payload(merged, { headers: headers, payload: payload } )
+        aggregate_ldc_payload(merged, { headers: headers, payload: payload.as_serializable_hash } )
 
         # Write new aggregate file
         file.rewind
