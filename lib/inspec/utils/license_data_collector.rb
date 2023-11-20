@@ -6,7 +6,6 @@ require_relative "license_data_collector/http"
 require_relative "license_data_collector/offline"
 require_relative "telemetry/run_context_probe"
 require_relative "../globals"
-require "inspec/feature"
 require_relative "license_data_collector/payload"
 
 module Inspec
@@ -27,9 +26,6 @@ module Inspec
     end
 
     def self.determine_backend_class
-      # Don't perform license data collection unless feature flag enabled
-      return Inspec::LicenseDataCollector::Null unless ENV["CHEF_FEATURE_LDC_CLIENT"]
-
       # Don't perform license data collection if we are not the official Progress Chef InSpec distro
       return Inspec::LicenseDataCollector::Null if Inspec::Dist::EXEC_NAME != "inspec"
 
