@@ -110,10 +110,10 @@ module Inspec
 
       def as_serializable_hash
         {
-          license: license&.id,
+          license: license&.id, # TBD Do not get this info for license from /client API call
           customer: "", # we won't know the Customer ID
-          expiration: license&.expiry_date,
-          name: license&.name,
+          expiration: license&.expiration_date,
+          name: "", # TBD Do not get this info from license, hence sending blank
           periods: [
             period.as_serializable_hash,
           ],
