@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require "inspec/license_context"
 
 module Inspec
   class LicenseDataCollector
@@ -125,7 +126,7 @@ module Inspec
 
       # TODO: fetch the already cached license object
       def license
-        @license ||= nil
+        @license ||= Inspec::LicenseContext.cached
       end
 
     end
