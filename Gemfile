@@ -57,4 +57,4 @@ group :deploy do
   gem "inquirer"
 end
 
-gem "chef-licensing", git: "https://github.com/chef/chef-licensing", glob: "components/ruby/*.gemspec", branch: "nm/fetch_and_persist_api_changes"
+gem "chef-licensing", git: "https://github.com/chef/chef-licensing", glob: "components/ruby/*.gemspec", branch: "nm/license-context-changes"

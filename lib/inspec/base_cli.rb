@@ -6,7 +6,6 @@ require "inspec/config"
 require "inspec/dist"
 require "inspec/utils/deprecation/global_method"
 require "inspec/utils/licensing_config"
-require "inspec/license_context"
 
 # Allow end of options during array type parsing
 # https://github.com/erikhuda/thor/issues/631
@@ -45,12 +44,10 @@ module Inspec
       allowed_commands = ["-h", "--help", "help", "-v", "--version", "version", "license"]
       begin
         if (allowed_commands & ARGV.map(&:downcase)).empty? && !ARGV.empty?
-          licenses_context = ChefLicensing.fetch_and_persist
-          # cache license_context object
-          Inspec::LicenseContext.cached = licenses_context.first
+          license_keys = ChefLicensing.fetch_and_persist
 
           # Only if EULA acceptance or license key args are present. And licenses are successfully persisted, do clean exit.
-          if ARGV.select { |arg| !(arg.include? "--chef-license") }.empty? && !licenses_context.empty?
+          if ARGV.select { |arg| !(arg.include? "--chef-license") }.empty? && !license_keys.empty?
             Inspec::UI.new.exit
           end
         end

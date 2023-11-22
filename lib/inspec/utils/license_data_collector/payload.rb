@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require "inspec/license_context"
+require "chef-licensing"
 
 module Inspec
   class LicenseDataCollector
@@ -124,9 +124,9 @@ module Inspec
 
       private
 
-      # TODO: fetch the already cached license object
       def license
-        @license ||= Inspec::LicenseContext.cached
+        # TBD Need to confirm on this implementation from arch team
+        @license ||= ChefLicensing.license_context
       end
 
     end
