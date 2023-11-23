@@ -36,8 +36,8 @@ group :test do
   gem "concurrent-ruby"
   gem "json_schemer"
   gem "m"
-  gem "minitest-sprint"
-  gem "minitest"
+  gem "minitest-sprint", "~> 1.0"
+  gem "minitest", "5.15.0"
   gem "mocha"
   gem "nokogiri"
   gem "pry-byebug"
@@ -52,7 +52,6 @@ group :test do
     gem "html-proofer", "~> 3.19.4", platforms: :ruby # do not attempt to run proofer on windows. Pinned to 3.19.4 as test is breaking in updated versions.
   end
 end
-
 
 group :deploy do
   gem "inquirer"
