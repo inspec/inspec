@@ -1,6 +1,7 @@
 name: "Pull Request Labeler"
 on:
-  - pull_request_target
+  pull_request:
+    types: [opened, synchronize]
 
 permissions:
   contents: read
@@ -12,6 +13,32 @@ jobs:
       pull-requests: write  # for actions/labeler to add labels to PRs
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/labeler@main
+      - name: Use Git Actions labeler
+        uses: actions/labeler@main
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      # Current logic uses main branch to use label of inspec-6
+      # Will need to update this everytime on a new major version release
+      # Will need to update the elif condition to allow inspec-6 in case next major version is released
+      # TODO: Update logic to add label on main based on major version defined in VERSION file
+      - name: Fetch pull request base branch
+        id: pr_info
+        run: |
+          BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
+          if [ "$BASE_BRANCH" == "main" ]; then
+            echo "::set-output name=base_branch_name::inspec-6"
+          elif [ "$BASE_BRANCH" == "inspec-4" ] || [ "$BASE_BRANCH" == "inspec-5" ]; then
+            echo "::set-output name=base_branch_name::${BASE_BRANCH}"
+          else
+            echo "Unknown base branch for labelling : ${BASE_BRANCH}"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Use Git API to update labels based on base branch
+        if: startsWith(steps.pr_info.outputs.base_branch_name, 'inspec-')
+        run: |
+          curl -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -d '{"labels":["${{ steps.pr_info.outputs.base_branch_name }}"]}' "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/labels"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
