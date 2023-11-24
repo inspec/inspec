@@ -34,8 +34,10 @@ module Inspec
 
       # Switch between Offline and Http intelligently
       if Inspec::LicenseDataCollector::Offline.airgap_mode?
+        Inspec::Log.debug "Determined an airgap instance for LCD"
         Inspec::LicenseDataCollector::Offline
       else
+        Inspec::Log.debug "Determined HTTP instance for LCD"
         Inspec::LicenseDataCollector::Http
       end
     end

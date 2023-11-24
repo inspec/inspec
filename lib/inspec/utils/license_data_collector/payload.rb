@@ -110,7 +110,7 @@ module Inspec
       end
 
       def as_serializable_hash
-        {
+        final_data = {
           license: license&.id, # TBD Do not get this info for license from /client API call
           customer: "", # we won't know the Customer ID
           expiration: license&.expiration_date,
@@ -120,6 +120,8 @@ module Inspec
           ],
           source: SOURCE,
         }
+        Inspec::Log.debug "Data collected for LCD Client -> #{final_data}"
+        final_data
       end
 
       private

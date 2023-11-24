@@ -53,7 +53,8 @@ module Inspec
           when Net::HTTPSuccess, Net::HTTPRedirection
             # Remove old aggregate data, we've successfully sent it
             # file.truncate(0)
-            puts "Response Successfull"
+            puts "Response Successful"
+            Inspec::Log.debug "HTTP connection with LCD Client successful"
           else
             # Something went wrong.
             error = {
@@ -63,6 +64,7 @@ module Inspec
               url: url,
             }
             File.write(fail_file, JSON.generate(error))
+            Inspec::Log.debug "HTTP connection with LCD Client failed due to error -> #{error}"
           end
         rescue Net::OpenTimeout, Net::ReadTimeout => e
           error = {
@@ -72,6 +74,7 @@ module Inspec
             url: url,
           }
           File.write(fail_file, JSON.generate(error))
+          Inspec::Log.debug "HTTP connection with LCD Client failed due to net error -> #{error}"
         end
       end
     end

@@ -177,6 +177,7 @@ module Inspec
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
       # Perform license data collection when preview flag CHEF_PREVIEW_LDC_CLIENT is set
       Inspec.with_feature("inspec-ldc-client") {
+        Inspec::Log.debug "Initiating data collection for LCD Client"
         Inspec::LicenseDataCollector.scan_starting(runner: self)
       }
       load
@@ -228,6 +229,7 @@ module Inspec
       # Perform license data collection when preview flag CHEF_PREVIEW_LDC_CLIENT is set
       Inspec.with_feature("inspec-ldc-client") {
         th = Inspec::LicenseDataCollector.scan_finishing(run_data: @run_data)
+        Inspec::Log.debug "Finishing data collection for LCD Client"
         th.join if th.respond_to? :join
       }
       # dont output anything if we want a report
