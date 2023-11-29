@@ -29,20 +29,35 @@ module Inspec::Resources
 
     def initialize
       @auditctl_cmd_str = inspec.os.name.eql?("alpine") ? "/usr/sbin/auditctl" : "/sbin/auditctl"
+      @augenrules_cmd_str = inspec.os.name.eql?("aline") ? "/usr/sbin/augenrules" : "/sbin/augenrules"
+
       unless inspec.command(@auditctl_cmd_str).exist?
         raise Inspec::Exceptions::ResourceFailed,
               "Command `#{@auditctl_cmd_str}` does not exist"
       end
 
-      auditctl_cmd = "#{@auditctl_cmd_str} -l"
-      result = inspec.command(auditctl_cmd)
-
-      if result.exit_status != 0
+      unless inspec.command(@augenrules_cmd_str).exist?
         raise Inspec::Exceptions::ResourceFailed,
-              "Command `#{auditctl_cmd}` failed with error: #{result.stderr}"
+              "Command `#{@augenrules_cmd_str}` does not exist"
       end
 
-      @content = result.stdout
+      auditctl_cmd = "#{@auditctl_cmd_str} -l"
+      auditctl_result = inspec.command(auditctl_cmd)
+
+      @augenrules_cmd = "#{@augenrules_cmd_str} --check"
+      @augenrules_result = inspec.command(@augenrules_cmd)
+
+      if auditctl_result.exit_status != 0
+        raise Inspec::Exceptions::ResourceFailed,
+              "Command `#{auditctl_cmd}` failed with error: #{auditctl_result.stderr}"
+      end
+
+      if @augenrules_result.stdout.match?(/Rules have changed and should be updated/)
+        Inspec::Log.warn("#{@augenrules_cmd} reports their are unloaded rules, \nthe auditd system should be reloaded or this will cause runtime errors durning inspection.")
+        warn "WARN: #{@augenrules_cmd} reports their are unloaded rules, \nthe auditd system should be reloaded or this will cause runtime errors durning inspection."
+      end
+
+      @content = auditctl_result.stdout
       @params = []
 
       if @content =~ /^LIST_RULES:/
@@ -85,13 +100,15 @@ module Inspec::Resources
       @status_params
     end
 
+    def unloaded_rules?
+      inspec.command(@augenrules_cmd).stdout.match?(/Rules have changed and should be updated/)
+    end
+
     def parse_content
       @lines = @content.lines.map(&:chomp)
 
       lines.each do |line|
-        if is_file_syscall_syntax?(line)
-          file_syscall_syntax_rules_for(line)
-        end
+        file_syscall_syntax_rules_for(line) if is_file_syscall_syntax?(line)
 
         if is_syscall?(line)
           syscall_rules_for(line)
