@@ -169,3 +169,13 @@ describe Inspec::Resources::FileResource do
     _(ex.message).must_include "Unable to parse the given JSON file"
   end
 end
+
+# Test for contents of pg_hba.conf file
+describe Inspec::Resources::FileResource do
+  it "checks if the given file is immutable on ubuntu" do
+    resource = MockLoader.new(:ubuntu).load_resource("file", "/test/path/to/postgres/pg_hba.conf")
+    assert_match(/local\s+.*?all\s+.*?all\s+.*?md5/, resource.content)
+    assert_match(%r{host\s+.*?all\s+.*?all\s+.*?127.0.0.1\/32\s+.*?md5}, resource.content)
+    assert_match(%r{host\s+.*?all\s+.*?all\s+.*?::1\/128\s+.*?md5}, resource.content)
+  end
+end
