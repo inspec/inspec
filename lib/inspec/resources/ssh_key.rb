@@ -16,7 +16,9 @@ module Inspec::Resources
 
     example <<~EXAMPLE
       describe ssh_key('~/.ssh/id_rsa') do
-        its("type") { should_be "rsa" }
+        its('key_length') { should eq 4096 }
+        its('type') { should cmp /rsa/ }
+        it { should be_private }
       end
     EXAMPLE
 
@@ -25,7 +27,7 @@ module Inspec::Resources
     def initialize(keypath, passphrase = nil)
       skip_resource "The `ssh_key` resource is not yet available on your OS." unless inspec.os.unix? || inspec.os.windows?
       @key_path = keypath
-      passphrase = passphrase
+      @passphrase = passphrase
       @key = read_ssh_key(read_file_content(@key_path, allow_empty: true), passphrase)
       super(keypath)
     end
@@ -35,6 +37,8 @@ module Inspec::Resources
     #    it { should be_public }
     #  end
     def public?
+      return if @key.nil?
+
       @key[:public]
     end
 
@@ -43,6 +47,8 @@ module Inspec::Resources
     #    it { should be_private }
     #  end
     def private?
+      return if @key.nil?
+
       @key[:private]
     end
 
@@ -58,7 +64,7 @@ module Inspec::Resources
 
     # So this will be called as:
     #  describe "ssh_key" do
-    #    its('type') { should_be "RSA" }
+    #    its('type') { should cmp /rsa/ }
     #  end
     def type
       return if @key.nil?
@@ -82,7 +88,9 @@ module Inspec::Resources
     def read_ssh_key(filecontent, passphrase)
       key_data = {}
       key = nil
+
       if filecontent.split("\n")[0].include?("PRIVATE")
+        # Net::SSH::KeyFactory does not have support to load private key for DSA
         key =  Net::SSH::KeyFactory.load_private_key(@key_path, passphrase, false)
         unless key.nil?
           key_data[:private] = true
@@ -97,8 +105,14 @@ module Inspec::Resources
       end
 
       unless key.nil?
-        key_data[:type] = key.ssh_type.split("-")[1]
-        key_data[:key_length] = key.public_key.n.num_bits unless key_data[:type] == "ed25519" || key_data[:type] == "dss"
+        # The data send for ssh type is not in same format so it's good to match on the string
+        key_data[:type] = key.ssh_type
+        # for key type ed25519 and dss the key_length is not available
+        if key_data[:type].match?(/ed25519/) || key_data[:type].match?(/dss/) || key_data[:type].match?(/ecdsa/)
+          key_data[:key_length] = nil
+        else
+          key_data[:key_length] = key.public_key.n.num_bits
+        end
       end
 
       key_data
