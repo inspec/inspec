@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.6.2 -->
+## [v6.6.2](https://github.com/inspec/inspec/tree/v6.6.2) (2023-12-04)
 
 #### Merged Pull Requests
+- Bump omnibus-software from `4fef367` to `d357d5c` in /omnibus [#6897](https://github.com/inspec/inspec/pull/6897) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - InSpec docs reorganization [#6844](https://github.com/inspec/inspec/pull/6844) ([IanMadd](https://github.com/IanMadd))
 - Document where to look up the platform list [#6857](https://github.com/inspec/inspec/pull/6857) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
@@ -39,6 +40,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `4fef367` to `d357d5c` in /omnibus [#6897](https://github.com/inspec/inspec/pull/6897) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.2 -->
 - InSpec docs reorganization [#6844](https://github.com/inspec/inspec/pull/6844) ([IanMadd](https://github.com/IanMadd)) <!-- 6.6.1 -->
 - CHEF-8416: Patch for broken reporter integration for compliance phase [#6859](https://github.com/inspec/inspec/pull/6859) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.1 -->
 - Document where to look up the platform list [#6857](https://github.com/inspec/inspec/pull/6857) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.6.1 -->
