@@ -5,6 +5,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Upgrades openssl version to 3.0.11 [#6872](https://github.com/inspec/inspec/pull/6872) ([Vasu1105](https://github.com/Vasu1105))
 - CI: Increase timeout for buildkite [#6910](https://github.com/inspec/inspec/pull/6910) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Upgrades openssl version to 3.0.11 [#6872](https://github.com/inspec/inspec/pull/6872) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.4 -->
 - CI: Increase timeout for buildkite [#6910](https://github.com/inspec/inspec/pull/6910) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.4 -->
 - Upgrade declared minimum ruby version in gemspec from 2.4.0 to 3.0.3 [#6790](https://github.com/inspec/inspec/pull/6790) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.4 -->
 - Bump omnibus-software from `d357d5c` to `f50a2ad` in /omnibus [#6904](https://github.com/inspec/inspec/pull/6904) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.3 -->
