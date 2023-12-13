@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.6.4 -->
-## [v6.6.4](https://github.com/inspec/inspec/tree/v6.6.4) (2023-12-12)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Upgrade declared minimum ruby version in gemspec from 2.4.0 to 3.0.3 [#6790](https://github.com/inspec/inspec/pull/6790) ([Vasu1105](https://github.com/Vasu1105))
+- CI: Increase timeout for buildkite [#6910](https://github.com/inspec/inspec/pull/6910) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- CI: Increase timeout for buildkite [#6910](https://github.com/inspec/inspec/pull/6910) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.4 -->
 - Upgrade declared minimum ruby version in gemspec from 2.4.0 to 3.0.3 [#6790](https://github.com/inspec/inspec/pull/6790) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.4 -->
 - Bump omnibus-software from `d357d5c` to `f50a2ad` in /omnibus [#6904](https://github.com/inspec/inspec/pull/6904) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.3 -->
 - Bump omnibus-software from `4fef367` to `d357d5c` in /omnibus [#6897](https://github.com/inspec/inspec/pull/6897) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.2 -->
