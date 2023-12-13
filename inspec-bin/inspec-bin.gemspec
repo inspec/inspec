@@ -21,7 +21,9 @@ Source code obtained from the Chef GitHub repository is made available under Apa
   spec.license       = "LicenseRef-Chef-EULA"
 
   spec.require_paths = ["lib"]
-  spec.required_ruby_version = ">= 2.4"
+  # We want to support ruby 3.0 as Chef is using ruby to support AIX and we want to make sure InSpec works with it. (Ref: https://github.com/chef/chef/pull/13207)
+  # TODO: Once we have Chef working fully with ruby 3.1 we can drop ruby 3.0
+  spec.required_ruby_version = ">= 3.0.3"
 
   spec.add_dependency "inspec", "= #{InspecBin::VERSION}"
   spec.add_development_dependency "rake"
