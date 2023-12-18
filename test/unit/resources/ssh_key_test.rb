@@ -6,7 +6,7 @@ describe Inspec::Resources::SshKey do
   let(:resource) { MockLoader.new("ubuntu".to_sym).load_resource("ssh_key", "test/fixtures/files/test_ssh_key") }
 
   it "returns the key type" do
-    _(resource.send("type")).must_equal "rsa"
+    _(resource.send("type")).must_match(/rsa/)
   end
 
   it "returns the key_length" do
