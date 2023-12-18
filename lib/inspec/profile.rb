@@ -245,7 +245,7 @@ module Inspec
       ## Find the waivers file
       # - TODO: cli_opts and instance_variable_get could be exposed
       waiver_paths = cfg.instance_variable_get(:@cli_opts)["waiver_file"]
-      if waiver_paths.blank?
+      if waiver_paths.nil? || waiver_paths.empty?
         Inspec::Log.error "Must use --waiver-file with --filter-waived-controls"
         Inspec::UI.new.exit(:usage_error)
       end
@@ -273,7 +273,7 @@ module Inspec
         # be processed and rendered
         tests.each do |control_filename, source_code|
           cleared_tests = source_code.scan(/control\s+['"].+?['"].+?(?=(?:control\s+['"].+?['"])|\z)/m).collect do |element|
-            next if element.blank?
+            next if element.nil? || element.empty?
 
             if element&.match?(waived_control_id_regex)
               splitlines = element.split("\n")
