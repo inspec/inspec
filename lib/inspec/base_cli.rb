@@ -47,7 +47,7 @@ module Inspec
           license_keys = ChefLicensing.fetch_and_persist
 
           # Only if EULA acceptance or license key args are present. And licenses are successfully persisted, do clean exit.
-          if ARGV.select { |arg| !(arg.include? "--chef-license") }.empty? && !license_keys.blank?
+          if ARGV.select { |arg| !(arg.include? "--chef-license") }.empty? && !(license_keys.nil? || license_keys.empty?)
             Inspec::UI.new.exit
           end
         end
