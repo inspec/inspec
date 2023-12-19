@@ -28,7 +28,7 @@ module Inspec::Resources
       skip_resource "The `ssh_key` resource is not yet available on your OS." unless inspec.os.unix? || inspec.os.windows?
       @key_path = keypath
       @passphrase = passphrase
-      @key = read_ssh_key(read_file_content(@key_path, allow_empty: true), passphrase)
+      @key = read_ssh_key(read_file_content(@key_path), passphrase)
       super(keypath)
     end
 
@@ -88,6 +88,7 @@ module Inspec::Resources
     def read_ssh_key(filecontent, passphrase)
       key_data = {}
       key = nil
+      raise Inspec::Exceptions::ResourceSkipped, "File is empty: #{@key_path}" if filecontent.split("\n").empty?
 
       if filecontent.split("\n")[0].include?("PRIVATE")
         # Net::SSH::KeyFactory does not have support to load private key for DSA
