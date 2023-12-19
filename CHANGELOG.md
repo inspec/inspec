@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.6.6 -->
-## [v6.6.6](https://github.com/inspec/inspec/tree/v6.6.6) (2023-12-19)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Fix CI test for windows  [#6913](https://github.com/inspec/inspec/pull/6913) ([Nik08](https://github.com/Nik08))
+- Set GitHub labeler action version [#6911](https://github.com/inspec/inspec/pull/6911) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Set GitHub labeler action version [#6911](https://github.com/inspec/inspec/pull/6911) ([IanMadd](https://github.com/IanMadd)) <!-- 6.6.6 -->
 - Fix CI test for windows  [#6913](https://github.com/inspec/inspec/pull/6913) ([Nik08](https://github.com/Nik08)) <!-- 6.6.6 -->
 - Reduce version pinning [#6873](https://github.com/inspec/inspec/pull/6873) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.5 -->
 - Upgrades openssl version to 3.0.11 [#6872](https://github.com/inspec/inspec/pull/6872) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.4 -->
