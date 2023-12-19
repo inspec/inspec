@@ -1,13 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.6.5 -->
-## [v6.6.5](https://github.com/inspec/inspec/tree/v6.6.5) (2023-12-13)
+<!-- latest_release 6.6.6 -->
+## [v6.6.6](https://github.com/inspec/inspec/tree/v6.6.6) (2023-12-19)
 
 #### Merged Pull Requests
-- Reduce version pinning [#6873](https://github.com/inspec/inspec/pull/6873) ([Vasu1105](https://github.com/Vasu1105))
-- Upgrades openssl version to 3.0.11 [#6872](https://github.com/inspec/inspec/pull/6872) ([Vasu1105](https://github.com/Vasu1105))
-- CI: Increase timeout for buildkite [#6910](https://github.com/inspec/inspec/pull/6910) ([ahasunos](https://github.com/ahasunos))
+- Fix CI test for windows  [#6913](https://github.com/inspec/inspec/pull/6913) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -40,6 +38,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Fix CI test for windows  [#6913](https://github.com/inspec/inspec/pull/6913) ([Nik08](https://github.com/Nik08)) <!-- 6.6.6 -->
 - Reduce version pinning [#6873](https://github.com/inspec/inspec/pull/6873) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.5 -->
 - Upgrades openssl version to 3.0.11 [#6872](https://github.com/inspec/inspec/pull/6872) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.4 -->
 - CI: Increase timeout for buildkite [#6910](https://github.com/inspec/inspec/pull/6910) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.4 -->
