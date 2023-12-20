@@ -16,9 +16,9 @@ Make sure you are using the IBM Db2 database instance user credentials to run th
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ## Syntax
 

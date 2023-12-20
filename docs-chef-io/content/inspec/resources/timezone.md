@@ -15,9 +15,9 @@ Use the `timezone` Chef InSpec audit resource to test timezone configurations of
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ## Syntax
 

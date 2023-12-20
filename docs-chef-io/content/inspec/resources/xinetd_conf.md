@@ -15,9 +15,9 @@ Use the `xinetd_conf` Chef InSpec audit resource to test services under `/etc/xi
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

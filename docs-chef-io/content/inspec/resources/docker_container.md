@@ -15,7 +15,7 @@ Use the `docker_container` Chef InSpec audit resource to test a Docker container
 
 ## Availability
 
-### Installation
+### Install
 
 This resource is distributed with Chef InSpec.
 

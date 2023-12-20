@@ -15,9 +15,9 @@ Use the `port` Chef InSpec audit resource to test basic port properties, such as
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

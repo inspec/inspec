@@ -31,7 +31,7 @@ please open an issue or submit a pull request using the updated version.
 
 ## Availability
 
-### Installation
+### Install
 
 This resource is available in the `inspec-azure` [resource
 pack](/inspec/glossary/#resource-pack). To use it, add the

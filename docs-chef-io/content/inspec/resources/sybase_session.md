@@ -15,9 +15,9 @@ Use the `sybase_session` Chef InSpec audit resource to test the SQL commands run
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Requirements
 

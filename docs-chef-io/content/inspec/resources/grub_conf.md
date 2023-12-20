@@ -15,9 +15,9 @@ Grub is a boot loader on the Linux platform used to load and then transfer contr
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

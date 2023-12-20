@@ -15,9 +15,9 @@ Use the `yum` Chef InSpec audit resource to test packages in the Yum repository.
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

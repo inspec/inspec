@@ -15,9 +15,9 @@ Use the `mongodb_conf` Chef InSpec audit resource to test the contents of the co
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ## Syntax
 

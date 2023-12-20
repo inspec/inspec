@@ -15,9 +15,9 @@ Use the `mount` Chef InSpec audit resource to test the mount points on FreeBSD a
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

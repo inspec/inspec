@@ -15,9 +15,9 @@ Use the `parse_config` Chef InSpec audit resource to test arbitrary configuratio
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

@@ -15,9 +15,9 @@ Use the `dh_params` Chef InSpec audit resource to test Diffie-Hellman (DH) param
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

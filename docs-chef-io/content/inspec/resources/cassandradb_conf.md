@@ -15,7 +15,7 @@ Use the `cassandradb_conf` Chef InSpec audit resource to test the configuration 
 
 ## Installation
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ## Requirements
 

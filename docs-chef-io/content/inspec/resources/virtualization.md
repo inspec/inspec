@@ -15,9 +15,9 @@ Use the `virtualization` Chef InSpec audit resource to test the virtualization p
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

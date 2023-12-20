@@ -27,9 +27,9 @@ These entries are defined as a colon-delimited row in the file, one row per user
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

@@ -15,9 +15,9 @@ Use the `mongodb_session` Chef InSpec audit resource to run MongoDB command agai
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ## Syntax
 

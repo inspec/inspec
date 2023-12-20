@@ -19,9 +19,9 @@ Use the `interface` Chef InSpec audit resource to test basic network adapter pro
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

@@ -15,9 +15,9 @@ Use the `ssh_config` Chef InSpec audit resource to test OpenSSH client configura
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

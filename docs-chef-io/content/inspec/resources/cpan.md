@@ -15,9 +15,9 @@ Use the `cpan` Chef InSpec audit resource to test Perl modules that are installe
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

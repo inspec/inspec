@@ -15,9 +15,9 @@ Use the `os` Chef InSpec audit resource to test the platform on which the system
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

@@ -15,9 +15,9 @@ Use the `pip` Chef InSpec audit resource to test packages that are installed usi
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

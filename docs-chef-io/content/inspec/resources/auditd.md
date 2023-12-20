@@ -15,9 +15,9 @@ Use the `auditd` Chef InSpec audit resource to test the rules for logging that e
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

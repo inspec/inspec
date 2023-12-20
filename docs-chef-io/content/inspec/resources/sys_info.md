@@ -15,9 +15,9 @@ Use the `sys_info` Chef InSpec audit resource to test for operating system prope
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

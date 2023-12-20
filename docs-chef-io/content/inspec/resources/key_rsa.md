@@ -17,9 +17,9 @@ This resource is mainly useful when used in conjunction with the x509_certificat
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

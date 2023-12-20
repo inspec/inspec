@@ -15,9 +15,9 @@ Use the `upstart_service` Chef InSpec audit resource to test a service using Ups
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

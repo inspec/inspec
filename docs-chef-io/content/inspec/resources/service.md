@@ -17,7 +17,7 @@ It may be necessary to specify the service manager by using one of the following
 
 ## Availability
 
-### Installation
+### Install
 
 The Chef InSpec distributes this resource.
 

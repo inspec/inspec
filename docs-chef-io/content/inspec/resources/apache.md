@@ -21,7 +21,7 @@ Use the `apache` Chef InSpec audit resource to test the state of the Apache serv
 
 ## Availability
 
-### Installation
+### Install
 
 This resource was distributed along with Chef InSpec itself.
 

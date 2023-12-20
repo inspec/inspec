@@ -15,9 +15,9 @@ Use the `audit_policy` Chef InSpec audit resource to test auditing policies on t
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

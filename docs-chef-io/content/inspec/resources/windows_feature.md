@@ -15,9 +15,9 @@ Use the `windows_feature` Chef InSpec audit resource to test features on Windows
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

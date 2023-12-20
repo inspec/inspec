@@ -15,9 +15,9 @@ Use the `users` Chef InSpec audit resource to look up all local users available 
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

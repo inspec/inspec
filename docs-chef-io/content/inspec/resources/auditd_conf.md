@@ -15,9 +15,9 @@ Use the `auditd_conf` Chef InSpec audit resource to test the configuration setti
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

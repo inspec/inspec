@@ -15,7 +15,7 @@ Use the `host` Chef InSpec audit resource to test the specific host name and its
 
 ## Availability
 
-### Installation
+### Install
 
 The Chef InSpec distributes this resource.
 

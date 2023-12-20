@@ -15,9 +15,9 @@ Use the `etc_hosts` Chef InSpec audit resource to test rules set to match IP add
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

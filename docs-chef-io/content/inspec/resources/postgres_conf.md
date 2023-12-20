@@ -15,9 +15,9 @@ Use the `postgres_conf` Chef InSpec audit resource to test the contents of the c
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

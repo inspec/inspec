@@ -15,7 +15,7 @@ Use the `oracledb_conf` Chef InSpec audit resource to test the Oracle system par
 
 ## Installation
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ## Requirements
 

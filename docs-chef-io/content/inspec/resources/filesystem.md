@@ -15,9 +15,9 @@ Use the `filesystem` Chef InSpec resource to audit filesystem disk space usage.
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

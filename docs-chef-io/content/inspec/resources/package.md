@@ -15,9 +15,9 @@ Use the `package` Chef InSpec audit resource to test if the named package and/or
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

@@ -15,9 +15,9 @@ Use the `ipnat` Chef InSpec audit resource to test rules that are defined for `I
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ## Syntax
 

@@ -15,9 +15,9 @@ Use the `apt` Chef InSpec audit resource to verify Apt repositories on the Debia
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

@@ -15,9 +15,9 @@ Use the `xml` Chef InSpec audit resource to test data in an XML file.
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

@@ -15,7 +15,7 @@ Use the `podman_image` Chef InSpec audit resource to test the properties of a co
 
 ## Availability
 
-### Installation
+### Install
 
 This resource is distributed with Chef InSpec and is automatically available for use.
 

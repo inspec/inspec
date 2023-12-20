@@ -15,7 +15,7 @@ Use the `podman_container` Chef InSpec audit resource to test the configuration 
 
 ## Availability
 
-### Installation
+### Install
 
 This resource is distributed with Chef InSpec and is automatically available for use.
 

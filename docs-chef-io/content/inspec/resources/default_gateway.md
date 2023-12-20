@@ -15,7 +15,7 @@ Use the **default_gateway** Chef InSpec audit resource to test the assigned IP a
 
 ## Availability
 
-### Installation
+### Install
 
 This resource is distributed with Chef InSpec.
 

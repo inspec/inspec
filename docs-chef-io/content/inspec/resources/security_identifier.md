@@ -15,9 +15,9 @@ Use the `security_identifier` Chef InSpec resource to test the [Security Identif
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ## Resource Parameters
 

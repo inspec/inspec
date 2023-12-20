@@ -15,7 +15,7 @@ Use the `podman_pod` Chef InSpec audit resource to test the properties of a pod 
 
 ## Availability
 
-### Installation
+### Install
 
 This resource is distributed with Chef InSpec and is automatically available for use.
 

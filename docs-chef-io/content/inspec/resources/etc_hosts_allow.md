@@ -15,9 +15,9 @@ Use the `etc_hosts_allow` Chef InSpec audit resource to test rules defined for a
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

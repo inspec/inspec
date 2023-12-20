@@ -15,7 +15,7 @@ Use the `docker_image` Chef InSpec audit resource to verify a Docker image. A Do
 
 ## Availability
 
-### Installation
+### Install
 
 This resource is distributed with Chef InSpec.
 

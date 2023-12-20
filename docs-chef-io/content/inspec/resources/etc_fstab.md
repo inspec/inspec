@@ -15,9 +15,9 @@ Use the `etc_fstab` Chef InSpec audit resource to test information about all par
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

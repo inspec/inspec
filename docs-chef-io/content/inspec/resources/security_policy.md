@@ -15,9 +15,9 @@ Use the `security_policy` Chef InSpec audit resource to test security policies o
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

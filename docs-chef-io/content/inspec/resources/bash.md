@@ -15,9 +15,9 @@ Use the `bash` Chef InSpec audit resource to test an arbitrary command that is r
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

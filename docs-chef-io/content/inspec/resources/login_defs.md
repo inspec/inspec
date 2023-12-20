@@ -15,9 +15,9 @@ Use the `login_defs` Chef InSpec audit resource to test configuration settings i
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

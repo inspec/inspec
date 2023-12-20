@@ -15,9 +15,9 @@ Use the `etc_hosts_deny` Chef InSpec audit resource to test rules for rejecting 
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

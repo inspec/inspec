@@ -15,9 +15,9 @@ Use the `windows_firewall` Chef InSpec audit resource to test if a firewall prof
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ## Syntax
 

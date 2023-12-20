@@ -15,7 +15,7 @@ Use the `oracledb_listener_conf` Chef InSpec audit resource to test the listener
 
 ## Installation
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ## Requirements
 

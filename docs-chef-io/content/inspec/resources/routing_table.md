@@ -15,7 +15,7 @@ Use the `routing_table` Chef InSpec audit resource to test the routing informati
 
 ## Availability
 
-### Installation
+### Install
 
 This resource is distributed with Chef InSpec.
 

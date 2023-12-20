@@ -15,9 +15,9 @@ Use the `yaml` Chef InSpec audit resource to test configuration data in a Yaml f
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

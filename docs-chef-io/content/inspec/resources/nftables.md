@@ -15,9 +15,9 @@ Use the `nftables` Chef InSpec audit resource to test rules and sets that are de
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

@@ -17,9 +17,9 @@ A firewalld has a number of zones that can be configured to allow and deny acces
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

@@ -15,9 +15,9 @@ Use the `os_env` Chef InSpec audit resource to test the environment variables fo
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

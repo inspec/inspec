@@ -15,7 +15,7 @@ Use the `file` Chef InSpec audit resource to test system file types, including d
 
 ## Availability
 
-### Installation
+### Install
 
 The Chef InSpec resource distributes this resource.
 

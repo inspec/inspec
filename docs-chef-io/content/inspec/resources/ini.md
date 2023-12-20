@@ -15,9 +15,9 @@ Use the `ini` Chef InSpec audit resource to test settings in an INI file.
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

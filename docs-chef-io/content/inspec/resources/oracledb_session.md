@@ -15,9 +15,9 @@ Use the `oracledb_session` Chef InSpec audit resource to test SQL commands run a
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

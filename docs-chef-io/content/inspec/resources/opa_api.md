@@ -15,9 +15,9 @@ Use the `opa_api` Chef InSpec audit resource to query Open Policy Agent (OPA) us
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ## Syntax
 

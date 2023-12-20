@@ -15,9 +15,9 @@ Use the `vbscript` Chef InSpec audit resource to test a VBScript on the Windows 
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

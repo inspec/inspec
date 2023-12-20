@@ -15,7 +15,7 @@ Use the `mssql_sys_conf` Chef InSpec audit resource to test the configuration of
 
 ## Installation
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ## Requirements
 

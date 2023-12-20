@@ -21,7 +21,7 @@ The `group` resource uses the following system groups:
 
 ## Availability
 
-### Installation
+### Install
 
 The Chef InSpec resource distributes this resource.
 

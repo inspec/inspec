@@ -17,9 +17,9 @@ Use the `nginx_conf` Chef InSpec resource to test configuration data for the NGI
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

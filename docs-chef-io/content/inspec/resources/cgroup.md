@@ -15,7 +15,7 @@ Use the `cgroup` Chef InSpec audit resource to test the different parameters val
 
 ## Availability
 
-### Installation
+### Install
 
 This resource is distributed with Chef InSpec.
 

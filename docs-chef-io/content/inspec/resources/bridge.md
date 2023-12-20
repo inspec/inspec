@@ -15,9 +15,9 @@ Use the `bridge` Chef InSpec audit resource to test basic network bridge propert
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

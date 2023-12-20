@@ -16,9 +16,9 @@ Microsoft and application vendors use scheduled tasks to perform a variety of sy
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

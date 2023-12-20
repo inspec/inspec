@@ -15,9 +15,9 @@ Use the `postgres_hba_conf` Chef InSpec audit resource to test the client authen
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

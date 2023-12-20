@@ -15,9 +15,9 @@ Use the `windows_hotfix` Chef InSpec audit resource to test if the hotfix has be
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

@@ -15,9 +15,9 @@ Use the `npm` Chef InSpec audit resource to test if a global NPM package is inst
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 
