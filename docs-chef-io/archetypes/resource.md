@@ -13,9 +13,9 @@ platform = "<PLATFORM>"
 {{/* Run `hugo new -k resource inspec/resources/RESOURCE_NAME.md` to generate a new resource page. */}}
 Use the `{{ .Name }}` Chef InSpec audit resource to test the configuration of...
 
-## Installation
+## Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 This resource first became available in Chef InSpec vX.Y.Z.
 
@@ -63,9 +63,11 @@ end
 
 ## Matchers
 
-{{% inspec/inspec_matchers_link %}}
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}
 
-**MATCHER_NAME**
+This resource has the following special matchers.
+
+### MATCHER_NAME
 
 The `MATCHER_NAME` matcher tests the value of...
 
