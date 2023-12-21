@@ -64,7 +64,9 @@ The following examples show how to use this Chef InSpec resource.
 
 ## Matchers
 
-This Chef InSpec audit resource has the following special matchers. For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+This Chef InSpec audit resource has the following special matchers. {{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}
+
+This resource has the following special matchers.
 
 ### exist
 

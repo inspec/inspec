@@ -117,7 +117,9 @@ The tags property provides a list of all the Resource Group tags.
 
 ## Matchers
 
-{{% inspec/inspec_matchers_link %}}
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}
+
+This resource has the following special matchers.
 
 ### exists
 

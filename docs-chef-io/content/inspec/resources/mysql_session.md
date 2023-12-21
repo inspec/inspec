@@ -81,4 +81,4 @@ The following examples show how to use this Chef InSpec audit resource.
 
 ## Matchers
 
-This Chef InSpec audit resource builds a [command](/inspec/resources/command) object and returns the the result object. For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+This Chef InSpec audit resource builds a [command](/inspec/resources/command) object and returns the the result object. {{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}

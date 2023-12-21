@@ -83,4 +83,4 @@ where `unix_socket_group` is set to the PostgreSQL default setting (the group to
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}

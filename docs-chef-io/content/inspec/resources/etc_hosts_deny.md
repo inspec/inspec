@@ -75,4 +75,4 @@ The `options` property returns a 2d string array where each entry contains any o
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}

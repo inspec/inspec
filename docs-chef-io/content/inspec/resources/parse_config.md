@@ -132,4 +132,4 @@ This resource is based on the `parse_config_file` resource. See the [`parse_conf
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}

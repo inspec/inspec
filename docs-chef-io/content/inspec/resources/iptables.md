@@ -72,7 +72,9 @@ Note that the rule specification must exactly match what's in the output of `ipt
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}
+
+This resource has the following special matchers.
 
 ### have_rule
 

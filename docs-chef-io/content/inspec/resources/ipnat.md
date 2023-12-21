@@ -55,7 +55,9 @@ The rule specification must match the output of `ipnat -l` that depends on how y
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}
+
+This resource has the following special matchers.
 
 ### have_rule
 

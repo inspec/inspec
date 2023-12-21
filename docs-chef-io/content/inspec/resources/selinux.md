@@ -98,7 +98,9 @@ The following examples show how to use this Chef InSpec selinux resource.
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}
+
+This resource has the following special matchers.
 
 ### be_installed
 

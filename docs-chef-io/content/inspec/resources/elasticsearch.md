@@ -220,4 +220,4 @@ The `version` property returns the version of Elasticsearch running on each node
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}
