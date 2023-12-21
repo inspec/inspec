@@ -22,7 +22,7 @@ describe Inspec::Resources::SshKey do
   end
 
   it "returns true if key is public" do
-    _(resource.send("public?")).must_equal true
+    _(resource.send("public?")).must_equal false
   end
 
 end

@@ -11,7 +11,7 @@ platform = "os"
     parent = "inspec/resources/os"
 +++
 
-Use the `ssh_key` Chef InSpec audit resource to test ssh key generated using OpenSSH format. Supported key types RSA, DSA(Limited support. Not verifies private key) , ECDSA, Ed25519
+Use the `ssh_key` Chef InSpec audit resource to test ssh keys. Supported key types RSA, DSA(Limited support. Not verifies private key) , ECDSA, Ed25519
 
 ## Availability
 
@@ -25,13 +25,14 @@ This resource first became available in v1.18.0 of InSpec.
 
 ## Syntax
 
-An `ssh_key` resource block declares a path to `key file` to be tested.
+An `ssh_key` resource block declares a path to `key file` to be tested. User either can provide path to key file or can provide only key file name, if key file name provided it will check for the keys on default path  `~/.ssh/`
 
     describe ssh_key('~/.ssh/id_rsa') do
       it { should be_private }
       it { should be_public }
       its('type') { should cmp /rsa/ }
       its('key_length') { should eq 2048 }
+      its('mode') { should cmp '0400' }
     end
 
 You can use an optional passphrase with `ssh_key`
@@ -56,6 +57,16 @@ This property verifies the type of key. (RSA, ECDSA, ED25519, DSA)
 
     describe ssh_key('~/.ssh/id_ecdsa') do
       its('type') { should cmp /ecdsa/ }
+    end
+
+### mode
+
+Note: The other [file resource](inspec/resources/file/) properties also can be used with the ssh_key resouce for example `mode`.
+
+The `mode` property tests if the mode assigned to the file matches the specified value.
+
+    describe ssh_key('~/.ssh/id_rsa') do
+      its('mode') { should cmp '0400' }
     end
 
 ## Matchers
