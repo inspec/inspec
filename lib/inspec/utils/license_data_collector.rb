@@ -7,6 +7,7 @@ require_relative "license_data_collector/offline"
 require_relative "telemetry/run_context_probe"
 require_relative "../globals"
 require_relative "license_data_collector/payload"
+require "chef-licensing"
 
 module Inspec
   class LicenseDataCollector
@@ -26,6 +27,9 @@ module Inspec
     end
 
     def self.determine_backend_class
+      # Don't perform license data collection if license is not a free license
+      return Inspec::LicenseDataCollector::Null unless license.license_type == "free"
+
       # Don't perform license data collection if we are not the official Progress Chef InSpec distro
       return Inspec::LicenseDataCollector::Null if Inspec::Dist::EXEC_NAME != "inspec"
 
@@ -38,6 +42,10 @@ module Inspec
       else
         Inspec::LicenseDataCollector::Http
       end
+    end
+
+    def self.license
+      @license ||= ChefLicensing.license_context
     end
 
     class Base
