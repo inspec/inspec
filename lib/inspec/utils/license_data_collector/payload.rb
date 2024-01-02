@@ -111,7 +111,7 @@ module Inspec
 
       def as_serializable_hash
         {
-          license: license&.id, # TBD Do not get this info for license from /client API call
+          licenseIds: license_ids, # TODO to be made part of /jobs API -> might need to place in different library on restructuring of code
           customer: "", # we won't know the Customer ID
           expiration: license&.expiration_date,
           name: "", # TBD Do not get this info from license, hence sending blank
@@ -125,8 +125,12 @@ module Inspec
       private
 
       def license
-        # TBD Need to confirm on this implementation from arch team
+        # TODO remove this if it is not required in /jobs API.
         @license ||= ChefLicensing.license_context
+      end
+
+      def license_ids
+        @license_keys ||= ChefLicensing.license_keys
       end
 
     end
