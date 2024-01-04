@@ -19,7 +19,7 @@ module Waivers
         row_hash.delete("control_id")
         row_hash.delete_if { |k, v| k.nil? || v.nil? }
 
-        waiver_data_hash[control_id] = row_hash if control_id && !row_hash.blank?
+        waiver_data_hash[control_id] = row_hash if control_id && !(row_hash.nil? || row_hash.empty?)
       end
 
       waiver_data_hash
