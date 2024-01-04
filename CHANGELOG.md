@@ -5,6 +5,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- CHEF-7276: Update package download URL to use https [#6922](https://github.com/inspec/inspec/pull/6922) ([Vasu1105](https://github.com/Vasu1105))
 - Set GitHub labeler action version [#6911](https://github.com/inspec/inspec/pull/6911) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- CHEF-7276: Update package download URL to use https [#6922](https://github.com/inspec/inspec/pull/6922) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.6 -->
 - Set GitHub labeler action version [#6911](https://github.com/inspec/inspec/pull/6911) ([IanMadd](https://github.com/IanMadd)) <!-- 6.6.6 -->
 - Fix CI test for windows  [#6913](https://github.com/inspec/inspec/pull/6913) ([Nik08](https://github.com/Nik08)) <!-- 6.6.6 -->
 - Reduce version pinning [#6873](https://github.com/inspec/inspec/pull/6873) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.5 -->
