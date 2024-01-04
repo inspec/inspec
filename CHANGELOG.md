@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.6.7 -->
+## [v6.6.7](https://github.com/inspec/inspec/tree/v6.6.7) (2024-01-04)
 
 #### Merged Pull Requests
+- CHEF-8990 Remove dependency on active-support function `blank?` [#6914](https://github.com/inspec/inspec/pull/6914) ([Nik08](https://github.com/Nik08))
 - CHEF-7276: Update package download URL to use https [#6922](https://github.com/inspec/inspec/pull/6922) ([Vasu1105](https://github.com/Vasu1105))
 - Set GitHub labeler action version [#6911](https://github.com/inspec/inspec/pull/6911) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
@@ -39,6 +40,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- CHEF-8990 Remove dependency on active-support function `blank?` [#6914](https://github.com/inspec/inspec/pull/6914) ([Nik08](https://github.com/Nik08)) <!-- 6.6.7 -->
 - CHEF-7276: Update package download URL to use https [#6922](https://github.com/inspec/inspec/pull/6922) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.6 -->
 - Set GitHub labeler action version [#6911](https://github.com/inspec/inspec/pull/6911) ([IanMadd](https://github.com/IanMadd)) <!-- 6.6.6 -->
 - Fix CI test for windows  [#6913](https://github.com/inspec/inspec/pull/6913) ([Nik08](https://github.com/Nik08)) <!-- 6.6.6 -->
