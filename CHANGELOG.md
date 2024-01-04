@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 5.22.37 -->
+## [v5.22.37](https://github.com/inspec/inspec/tree/v5.22.37) (2024-01-04)
+
+#### Merged Pull Requests
+- Backport 6914 - CHEF-8990 Remove dependency on active-support function blank? [#6916](https://github.com/inspec/inspec/pull/6916) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=5.22.36 -->
+### Changes since 5.22.36 release
+
+#### Merged Pull Requests
+- Backport 6914 - CHEF-8990 Remove dependency on active-support function blank? [#6916](https://github.com/inspec/inspec/pull/6916) ([Nik08](https://github.com/Nik08)) <!-- 5.22.37 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
