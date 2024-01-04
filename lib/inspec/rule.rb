@@ -379,12 +379,7 @@ module Inspec
       control_id = @__rule_id # TODO: control ID slugging
 
       waiver_files = Inspec::Config.cached.final_options["waiver_file"] if Inspec::Config.cached.respond_to?(:final_options)
-      unless waiver_files.nil? || waiver_files.empty?
-        waiver_data_by_profile = Inspec::WaiverFileReader.fetch_waivers_by_profile(__profile_id, waiver_files)
-        return unless waiver_data_by_profile && waiver_data_by_profile[control_id] && waiver_data_by_profile[control_id].is_a?(Hash)
-
-        @__waiver_data = waiver_data_by_profile[control_id]
-      else
+      if waiver_files.nil? || waiver_files.empty?
         # Support for input registry is provided for backward compatibilty with compliance phase of chef-client
         # Chef-client sends waiver information in inputs hash
         input_registry = Inspec::InputRegistry.instance
@@ -392,6 +387,11 @@ module Inspec
         return unless waiver_data_via_input && waiver_data_via_input.has_value? && waiver_data_via_input.value.is_a?(Hash)
 
         @__waiver_data = waiver_data_via_input.value
+      else
+        waiver_data_by_profile = Inspec::WaiverFileReader.fetch_waivers_by_profile(__profile_id, waiver_files)
+        return unless waiver_data_by_profile && waiver_data_by_profile[control_id] && waiver_data_by_profile[control_id].is_a?(Hash)
+
+        @__waiver_data = waiver_data_by_profile[control_id]
       end
 
       __waiver_data["skipped_due_to_waiver"] = false
