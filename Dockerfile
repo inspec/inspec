@@ -22,7 +22,7 @@ RUN mkdir -p /share
 
 RUN apt-get update && \
     apt-get install -y wget rpm2cpio cpio && \
-    wget "http://packages.chef.io/files/${CHANNEL}/inspec/${VERSION}/el/7/inspec-${VERSION}-1.el7.x86_64.rpm" -O /tmp/inspec.rpm && \
+    wget "https://packages.chef.io/files/${CHANNEL}/inspec/${VERSION}/el/7/inspec-${VERSION}-1.el7.x86_64.rpm" -O /tmp/inspec.rpm && \
     rpm2cpio /tmp/inspec.rpm | cpio -idmv && \
     rm -rf /tmp/inspec.rpm
 
