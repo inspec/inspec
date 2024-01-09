@@ -27,11 +27,11 @@ module Inspec
     end
 
     def self.determine_backend_class
-      # Don't perform license data collection if license is not a free license
-      return Inspec::LicenseDataCollector::Null unless license.license_type == "free"
-
       # Don't perform license data collection if we are not the official Progress Chef InSpec distro
       return Inspec::LicenseDataCollector::Null if Inspec::Dist::EXEC_NAME != "inspec"
+
+      # Don't perform license data collection if license is not a free license
+      return Inspec::LicenseDataCollector::Null unless license&.license_type == "free"
 
       # Don't perform LDC if running under Automate - assume Automate does LDC tracking for us
       return Inspec::LicenseDataCollector::Null if Inspec::Telemetry::RunContextProbe.under_automate?
