@@ -175,7 +175,10 @@ module Inspec
       }
 
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
-      Inspec::LicenseDataCollector.scan_starting(runner: self)
+      # Perform license data collection when preview flag CHEF_PREVIEW_LDC_CLIENT is set
+      Inspec.with_feature("inspec-ldc-client") {
+        Inspec::LicenseDataCollector.scan_starting(runner: self)
+      }
       load
       run_tests(with)
     rescue ChefLicensing::SoftwareNotEntitled
@@ -222,10 +225,13 @@ module Inspec
 
     def run_tests(with = nil)
       @run_data = @test_collector.run(with)
+      # Perform license data collection when preview flag CHEF_PREVIEW_LDC_CLIENT is set
+      Inspec.with_feature("inspec-ldc-client") {
+        th = Inspec::LicenseDataCollector.scan_finishing(run_data: @run_data)
+        th.join if th.respond_to? :join
+      }
       # dont output anything if we want a report
-      th = Inspec::LicenseDataCollector.scan_finishing(run_data: @run_data)
       render_output(@run_data) unless @conf["report"]
-      th.join if th.respond_to? :join
       @test_collector.exit_code
     end
 

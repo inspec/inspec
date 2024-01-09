@@ -6,6 +6,8 @@ require_relative "license_data_collector/http"
 require_relative "license_data_collector/offline"
 require_relative "telemetry/run_context_probe"
 require_relative "../globals"
+require_relative "license_data_collector/payload"
+require "chef-licensing"
 
 module Inspec
   class LicenseDataCollector
@@ -25,11 +27,11 @@ module Inspec
     end
 
     def self.determine_backend_class
-      # Don't perform license data collection unless feature flag enabled
-      return Inspec::LicenseDataCollector::Null unless ENV["CHEF_FEATURE_LDC_CLIENT"]
-
       # Don't perform license data collection if we are not the official Progress Chef InSpec distro
       return Inspec::LicenseDataCollector::Null if Inspec::Dist::EXEC_NAME != "inspec"
+
+      # Don't perform license data collection if license is not a free license
+      return Inspec::LicenseDataCollector::Null unless license&.license_type == "free"
 
       # Don't perform LDC if running under Automate - assume Automate does LDC tracking for us
       return Inspec::LicenseDataCollector::Null if Inspec::Telemetry::RunContextProbe.under_automate?
@@ -42,83 +44,42 @@ module Inspec
       end
     end
 
+    def self.license
+      @license ||= ChefLicensing.license_context
+    end
+
     class Base
-      attr_accessor :payload
-      attr_accessor :headers
+
+      def initialize
+        # Populate header
+        # TBD Do we need it at all?
+        @headers = {}
+        @payload = Inspec::LicenseDataCollector::Payload.new
+      end
 
       def self.license_data_dir
         File.join(Inspec.config_dir, "license-data")
       end
 
       def scan_starting(opts)
-        start_time = Time.now.getutc.iso8601
-
-        # Populate header
-        @headers = {
-          Principal: "#{Inspec::Dist::EXEC_NAME}:#{Inspec::VERSION}",
-          Customer: fetch_customer_id,
-        }
-
-        # Initialize payload
-        @payload = {
-          Periods: [
-            Version: "#{Inspec::VERSION}",
-            Date: start_time,
-            Period: {
-              Start: start_time,
-            },
-            Summary: {
-              Nodes: { Total: 0, Active: 0 },
-              Scans: { Targets: 1, Total: 1 },
-            },
-            Evidence: {
-              Nodes: [],
-              Scans: [
-                {
-                  Identifier: opts[:runner].backend.backend.platform.uuid,
-                  Transport: opts[:runner].backend.backend.backend_type,
-                  Executions: 1, # TODO: Do they mean resource count here?
-                  # TODO: Add resource count. Aggregate by summing like executions
-                  Version: "#{Inspec::VERSION}",
-                  Activity: { Start: start_time },
-                },
-              ],
-              Content: [], # Populated dynamically below
-            },
-          ],
-        }
-
-        # Create one content evidence for each licensed profile to be scanned
+        @payload.period.scans.first.identifier = opts[:runner].backend.backend.platform.uuid
         opts[:runner].target_profiles.each do |profile|
-          next unless profile.licensed?
-
-          payload[:Periods][0][:Evidence][:Content] << {
-            Identifier: profile.metadata.params[:profile_content_id],
-            Executions: 1,
-            # Version: "#{Inspec::VERSION}",
-            Version: profile.metadata.params[:version],
-            Type: "Profile",
-            Activity: { Start: start_time },
-          }
+          # next unless profile.licensed? TODO: should it be only for licensed?
+          @payload.period.contents = Inspec::LicenseDataCollector::Payload::Content.build_from(profile)
         end
       end
 
       def scan_finishing(opts)
         end_time = Time.now.getutc.iso8601
-        payload[:Periods][0][:Period][:End] = end_time
-        payload[:Periods][0][:Evidence][:Scans][0][:Activity][:End] = end_time
-        payload[:Periods][0][:Evidence][:Scans][0][:ResourceCount] =
-          opts[:run_data][:profiles].map { |p| p[:controls] }
-            .flatten
-            .map { |c| c[:results]&.length || 0 }
-            .sum
-        payload[:Periods][0][:Evidence][:Content].each { |c| c[:Activity][:End] = end_time }
+        # currently content, scans and period has same end time
+        payload.period.end_time = end_time
+        payload.period.scans.first.end_time = end_time
+        payload.period.contents.each { |c| c.end_time = end_time }
       end
 
-      def fetch_customer_id
-        # TODO: obtain customer ID from some mechanism
-        "TODOTODOTODOTODOTO"
-      end
+      private
+
+      attr_reader :payload, :headers
 
       # Merge two payloads
       def aggregate_ldc_payload(merged, newer)
@@ -133,59 +94,57 @@ module Inspec
         merged[:headers] = newer[:headers]
 
         # Merge payloads
-        mp0 = merged[:payload][:Periods][0]
-        np0 = newer[:payload][:Periods][0]
+        mp0 = merged[:payload][:periods][0]
+        np0 = newer[:payload][:periods][0]
 
-        mp0[:Version] = np0[:Version] # Take newer version
+        mp0[:version] = np0[:version] # Take newer version
         # Use original Date
-        # Use earlier of Period:Start
-        mp0[:Period][:Start] = np0[:Period][:Start] < mp0[:Period][:Start] ? np0[:Period][:Start] : mp0[:Period][:Start]
-        # Use later of Period:End
-        mp0[:Period][:End] = np0[:Period][:End] > mp0[:Period][:End] ? np0[:Period][:End] : mp0[:Period][:End]
+        # Use earlier of period:start
+        mp0[:period][:start] = np0[:period][:start] < mp0[:period][:start] ? np0[:period][:start] : mp0[:period][:start]
+        # Use later of period:End
+        mp0[:period][:end] = np0[:period][:end] > mp0[:period][:end] ? np0[:period][:end] : mp0[:period][:end]
         # Use original Summary:Nodes
         # Calculate Summary:Scans later
 
         # Determine if a new scan has occured
-        new_target_id = np0[:Evidence][:Scans][0][:Identifier]
-        existing_scan_record = mp0[:Evidence][:Scans].detect { |s| s[:Identifier] == new_target_id }
+        new_target_id = np0[:evidence][:scans][0][:identifier]
+        existing_scan_record = mp0[:evidence][:scans].detect { |s| s[:identifier] == new_target_id }
         if existing_scan_record
-          # Keep existing Identifier (we matched on that)
-          # Keep existing Transport - unlikely they would mismatch without the Identifier changing too
+          # Keep existing identifier (we matched on that)
+          # Keep existing Transport - unlikely they would mismatch without the identifier changing too
           # Increment Executions
-          existing_scan_record[:Executions] += 1
-          # Sum ResourceCounts
-          existing_scan_record[:ResourceCount] += np0[:Evidence][:Scans][0][:ResourceCount]
+          existing_scan_record[:executions] += 1
           # Use greater of the two versions
-          existing_scan_record[:Version] = Gem::Version.new(np0[:Evidence][:Scans][0][:Version]) > Gem::Version.new(existing_scan_record[:Version]) ? np0[:Evidence][:Scans][0][:Version] : existing_scan_record[:Version]
+          existing_scan_record[:version] = Gem::Version.new(np0[:evidence][:scans][0][:version]) > Gem::Version.new(existing_scan_record[:version]) ? np0[:evidence][:scans][0][:version] : existing_scan_record[:version]
           # Use earlier of the two start records
-          existing_scan_record[:Activity][:Start] = np0[:Evidence][:Scans][0][:Activity][:Start] < existing_scan_record[:Activity][:Start] ? np0[:Evidence][:Scans][0][:Activity][:Start] : existing_scan_record[:Activity][:Start]
+          existing_scan_record[:activity][:start] = np0[:evidence][:scans][0][:activity][:start] < existing_scan_record[:activity][:start] ? np0[:evidence][:scans][0][:activity][:start] : existing_scan_record[:activity][:start]
           # Use later of the two end records
-          existing_scan_record[:Activity][:End] = np0[:Evidence][:Scans][0][:Activity][:End] > existing_scan_record[:Activity][:End] ? np0[:Evidence][:Scans][0][:Activity][:End] : existing_scan_record[:Activity][:End]
+          existing_scan_record[:activity][:end] = np0[:evidence][:scans][0][:activity][:end] > existing_scan_record[:activity][:end] ? np0[:evidence][:scans][0][:activity][:end] : existing_scan_record[:activity][:end]
         else
           # Simply append the new Scan record
-          mp0[:Evidence][:Scans] << np0[:Evidence][:Scans][0]
+          mp0[:evidence][:scans] << np0[:evidence][:scans][0]
         end
 
         # Now we can calculate new Summary:Scan numbers
-        mp0[:Summary][:Scans][:Targets] = mp0[:Evidence][:Scans].length
-        mp0[:Summary][:Scans][:Total] = mp0[:Evidence][:Scans].map { |s| s[:Executions] }.sum
+        mp0[:summary][:scans][:targets] = mp0[:evidence][:scans].length
+        mp0[:summary][:scans][:total] = mp0[:evidence][:scans].map { |s| s[:executions] }.sum
 
         # Determine if a new content record is needed
         # This section is optional
-        unless np0[:Evidence][:Content].empty?
-          new_audit_id = np0[:Evidence][:Content][0][:Identifier]
-          new_audit_version = np0[:Evidence][:Content][0][:Version]
-          existing_content = mp0[:Evidence][:Content].detect { |c| c[:Identifier] == new_audit_id && c[:Version] == new_audit_version }
+        unless np0[:evidence][:content].empty?
+          new_audit_id = np0[:evidence][:content][0][:identifier]
+          new_audit_version = np0[:evidence][:content][0][:version]
+          existing_content = mp0[:evidence][:content].detect { |c| c[:identifier] == new_audit_id && c[:version] == new_audit_version }
           if existing_content
-            existing_content[:Executions] += 1
-            # Keep existing Identifier and Version (we matched on those)
+            existing_content[:executions] += 1
+            # Keep existing identifier and Version (we matched on those)
             # Use earlier of the two start records
-            existing_content[:Activity][:Start] = np0[:Evidence][:Content][0][:Activity][:Start] < existing_content[:Activity][:Start] ? np0[:Evidence][:Content][0][:Activity][:Start] : existing_content[:Activity][:Start]
+            existing_content[:activity][:start] = np0[:evidence][:content][0][:activity][:start] < existing_content[:activity][:start] ? np0[:evidence][:content][0][:activity][:start] : existing_content[:activity][:start]
             # Use later of the two end records
-            existing_content[:Activity][:End] = np0[:Evidence][:Content][0][:Activity][:End] > existing_content[:Activity][:End] ? np0[:Evidence][:Content][0][:Activity][:End] : existing_content[:Activity][:End]
+            existing_content[:activity][:end] = np0[:evidence][:content][0][:activity][:end] > existing_content[:activity][:end] ? np0[:evidence][:content][0][:activity][:end] : existing_content[:activity][:end]
           else
             # Simply append the new Content record
-            mp0[:Evidence][:Content] << np0[:Evidence][:Content][0]
+            mp0[:evidence][:content] << np0[:evidence][:content][0]
           end
         end
       end
@@ -200,7 +159,7 @@ module Inspec
         end
 
         # Merge in current payload and headers
-        aggregate_ldc_payload(merged, { headers: headers, payload: payload } )
+        aggregate_ldc_payload(merged, { headers: headers, payload: payload.as_serializable_hash } )
 
         # Write new aggregate file
         file.rewind

@@ -92,3 +92,6 @@
     inspec-audit-logging:
       description: Use audit logging.
       env_preview: true
+    inspec-ldc-client:
+      description: Peform license data collection
+      env_preview: true
