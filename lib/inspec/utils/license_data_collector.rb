@@ -33,15 +33,18 @@ module Inspec
       @@config
     end
 
+    def self.telemetry_disabled?
+      !config.telemetry_options["enable_telemetry"]
+    end
+
     def self.determine_backend_class
-      if Inspec::Dist::EXEC_NAME == "inspec" && !config.telemetry_options["enable_telemetry"]
-        # Issue a warning if a user is explicitly trying to opt out of telemetry using cli option
+      if Inspec::Dist::EXEC_NAME == "inspec" && telemetry_disabled?
+        # Issue a warning if an InSpec user is explicitly trying to opt out of telemetry using cli option
         Inspec::Log.warn "Telemetry opt-out is not permissible."
       end
 
-      # TBD Should this condition be modified now, since we want to allow opt-in and opt-in for non-inspec distros?
-      # Don't perform license data collection if we are not the official Progress Chef InSpec distro
-      return Inspec::LicenseDataCollector::Null if Inspec::Dist::EXEC_NAME != "inspec"
+      # Telemetry opt-in/out enabled for other Inspec distros
+      return Inspec::LicenseDataCollector::Null if Inspec::Dist::EXEC_NAME != "inspec" && telemetry_disabled?
 
       # Don't perform license data collection if license is not a free license
       return Inspec::LicenseDataCollector::Null unless license&.license_type == "free"
