@@ -13,12 +13,15 @@ module Inspec
   class LicenseDataCollector
 
     @@instance = nil
+    @@config = nil
 
     def self.scan_starting(opts)
+      @@config ||= opts[:conf]
       instance.scan_starting(opts)
     end
 
     def self.scan_finishing(opts)
+      @@config ||= opts[:conf]
       instance.scan_finishing(opts)
     end
 
@@ -26,7 +29,17 @@ module Inspec
       @@instance ||= determine_backend_class.new
     end
 
+    def self.config
+      @@config
+    end
+
     def self.determine_backend_class
+      if Inspec::Dist::EXEC_NAME == "inspec" && !config.telemetry_options["enable_telemetry"]
+        # Issue a warning if a user is explicitly trying to opt out of telemetry using cli option
+        Inspec::Log.warn "Telemetry opt-out is not permissible."
+      end
+
+      # TBD Should this condition be modified now, since we want to allow opt-in and opt-in for non-inspec distros?
       # Don't perform license data collection if we are not the official Progress Chef InSpec distro
       return Inspec::LicenseDataCollector::Null if Inspec::Dist::EXEC_NAME != "inspec"
 
