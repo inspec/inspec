@@ -15,76 +15,100 @@ Use the `ssh_key` Chef InSpec audit resource to test ssh keys. Supported key typ
 
 ## Availability
 
-### Installation
+### Install
 
 {{% inspec/inspec_installation %}}
 
 ### Version
 
-This resource first became available in v1.18.0 of InSpec.
+This resource first became available in v1.18.0 of Chef InSpec.
 
 ## Syntax
 
-An `ssh_key` resource block declares a path to `key file` to be tested. User either can provide path to key file or can provide only key file name, if key file name provided it will check for the keys on default path  `~/.ssh/`
+The `ssh_key` resource tests the properties of an SSH key file. Provide the path to a key file or a key filename. If you pass in a filename, this resource checks for keys on default path  `~/.ssh/`.
 
-    describe ssh_key('~/.ssh/id_rsa') do
-      it { should be_private }
-      it { should be_public }
-      its('type') { should cmp /rsa/ }
-      its('key_length') { should eq 2048 }
-      its('mode') { should cmp '0400' }
-    end
+```rb
+describe ssh_key('~/.ssh/id_rsa') do
+  it { should be_private }
+  it { should be_public }
+  its('type') { should cmp /rsa/ }
+  its('key_length') { should eq 2048 }
+  its('mode') { should cmp '0400' }
+end
+```
 
-You can use an optional passphrase with `ssh_key`
+You can use an optional passphrase with `ssh_key`:
 
-    describe ssh_key('~/.ssh/id_rsa', 'passphrase') do
-      it { should be_private }
-    end
+```rb
+describe ssh_key('~/.ssh/id_rsa', '<PASSPHRASE>') do
+  it { should be_private }
+end
+```
+
+Replace `<PASSPHRASE>` with the private key passphrase.
 
 ## Properties
 
 ### key_length
 
-The `key_length` property allows testing the number of bits in the key pair. (Works only with RSA type key)
+The `key_length` property tests the number of bits in the key pair. This only works with RSA keys.
 
-    describe ssh_key('~/.ssh/id_rsa') do
-      its('key_length') { should eq 4096 }
-    end
+```rb
+describe ssh_key('~/.ssh/id_rsa') do
+  its('key_length') { should eq 4096 }
+end
+```
 
 ### type
 
-This property verifies the type of key. (RSA, ECDSA, ED25519, DSA)
+The `type` property verifies the key type.
 
-    describe ssh_key('~/.ssh/id_ecdsa') do
-      its('type') { should cmp /ecdsa/ }
-    end
+```rb
+describe ssh_key('~/.ssh/id_ecdsa') do
+  its('type') { should cmp /ecdsa/ }
+end
+```
 
-### mode
+Allowed values:
 
-Note: The other [file resource](inspec/resources/file/) properties also can be used with the ssh_key resouce for example `mode`.
+- `rsa`
+- `ecdsa`
+- `ed25519`
+- `dsa`
 
-The `mode` property tests if the mode assigned to the file matches the specified value.
+### file properties
 
-    describe ssh_key('~/.ssh/id_rsa') do
-      its('mode') { should cmp '0400' }
-    end
+The ssh_key resource also tests the same properties that the [file resource](/inspec/resources/file#properties) tests.
+For example, you can use the `mode` property to test if the mode assigned to the SSH key matches the specified value.
+
+```rb
+describe ssh_key('~/.ssh/id_rsa') do
+  its('mode') { should cmp '0400' }
+end
+```
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+For a full list of available matchers, see the [matchers page](/inspec/matchers/).
 
-### public?
+### be_public
 
-To verify if a key is public use the following:
+Use `be_public` to verify that a key is public key:
 
-    describe ssh_key('~/.ssh/id_ed25519.pub', 'passphrase') do
-      it { should be_public }
-    end
+```rb
+describe ssh_key('~/.ssh/id_ed25519.pub') do
+  it { should be_public }
+end
+```
 
-### private?
+### be_private
 
-This property verifies that the key includes a private key:
+Use `be_private` to verify that a key is a private key:
 
-    describe ssh_key('~/.ssh/id_ecdsa') do
-      it { should be_private }
-    end
+```rb
+describe ssh_key('~/.ssh/id_ecdsa', '<PASSPHRASE>') do
+  it { should be_private }
+end
+```
+
+Replace `<PASSPHRASE>` with the private key passphrase.
