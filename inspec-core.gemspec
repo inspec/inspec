@@ -56,6 +56,7 @@ Source code obtained from the Chef GitHub repository is made available under Apa
   spec.add_dependency "parslet",                  ">= 1.5", "< 2.0" # Pinned < 2.0, see #5389
   spec.add_dependency "semverse",                 "~> 3.0"
   spec.add_dependency "multipart-post",           "~> 2.0"
+  spec.add_dependency "rubocop-ast",              "~> 1.21"
 
   spec.add_dependency "train-core", ">= 3.11.0"
   spec.add_dependency "chef-licensing", ">= 0.7.5"
