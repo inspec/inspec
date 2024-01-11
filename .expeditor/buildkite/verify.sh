@@ -10,7 +10,7 @@ useradd -m -U --uid 2000 normal
 echo "normal ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/normal
 
 echo "--- updating rubygems"
-gem update -N --system 3.3.3 --force
+gem update -N --system 3.5.4 --force
 
 echo "--- system details"
 uname -a
@@ -43,16 +43,16 @@ if [ -n "${CI_ENABLE_COVERAGE:-}" ]; then
   export SONAR_TOKEN=$($VAULT_HOME/vault kv get -field token secret/inspec/sonar)
 fi
 
-echo "--- pull bundle cache"
-pull_bundle
+# echo "--- pull bundle cache"
+# pull_bundle
 
 echo "--- bundle"
 bundle config --local path vendor/bundle
 bundle config set --local without deploy kitchen
 bundle install --jobs=7 --retry=3
 
-echo "--- push bundle cache"
-push_bundle
+# echo "--- push bundle cache"
+# push_bundle
 
 echo "+++ bundle exec rake ${RAKE_TASK:-}"
 # TODO: run this as non-root:
