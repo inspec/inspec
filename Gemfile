@@ -6,6 +6,7 @@
 #     gem "chef-licensing"
 #   end
 # end
+gem "chef-licensing", source: "#{ENV["ARTIFACTORY_BASE_URL"]}/artifactory/api/gems/omnibus-gems-local/"
 
 source "https://rubygems.org"
 
