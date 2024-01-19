@@ -151,6 +151,7 @@ class MockLoader
       "test_certificate.rsa.crt.pem" => mockfile.call("test_certificate.rsa.crt.pem"),
       "test_certificate.rsa.key.pem" => mockfile.call("test_certificate.rsa.key.pem"),
       "test_ca_public.key.pem" => mockfile.call("test_ca_public.key.pem"),
+      "test/fixtures/files/test_rsa_key" => mockfile.call("test_rsa_key"),
       # Test DH parameters, 2048 bit long safe prime, generator 2 for dh_params in PEM format
       "dh_params.dh_pem" => mockfile.call("dh_params.dh_pem"),
       "default.toml" => mockfile.call("default.toml"),
