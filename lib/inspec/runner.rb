@@ -142,7 +142,7 @@ module Inspec
             get_check_example(m, a, b)
           end.compact
 
-          examples.map { |example| total_checks += example.examples.count }
+          examples.map { |example| total_checks += example.descendant_filtered_examples.count }
 
           unless control_describe_checks.empty?
             # controls with empty tests are avoided
