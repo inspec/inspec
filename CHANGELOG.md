@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Bump omnibus-software from `4fef367` to `86649fa` in /omnibus [#6941](https://github.com/inspec/inspec/pull/6941) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Backport 6911 - Set GitHub labeler action version [#6937](https://github.com/inspec/inspec/pull/6937) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.22.36 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `4fef367` to `86649fa` in /omnibus [#6941](https://github.com/inspec/inspec/pull/6941) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.40 -->
 - Backport 6911 - Set GitHub labeler action version [#6937](https://github.com/inspec/inspec/pull/6937) ([Nik08](https://github.com/Nik08)) <!-- 5.22.40 -->
 - Bump omnibus from `82dae89` to `16e27f6` in /omnibus [#6932](https://github.com/inspec/inspec/pull/6932) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.40 -->
 - Backport-6912 CHEF-4442 Streaming reporter fix to capture progress correctly [#6936](https://github.com/inspec/inspec/pull/6936) ([Nik08](https://github.com/Nik08)) <!-- 5.22.39 -->
