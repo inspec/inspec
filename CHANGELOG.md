@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.39 -->
-## [v5.22.39](https://github.com/inspec/inspec/tree/v5.22.39) (2024-01-19)
+<!-- latest_release 5.22.40 -->
+## [v5.22.40](https://github.com/inspec/inspec/tree/v5.22.40) (2024-01-19)
 
 #### Merged Pull Requests
-- Backport-6912 CHEF-4442 Streaming reporter fix to capture progress correctly [#6936](https://github.com/inspec/inspec/pull/6936) ([Nik08](https://github.com/Nik08))
+- Bump omnibus from `82dae89` to `16e27f6` in /omnibus [#6932](https://github.com/inspec/inspec/pull/6932) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.36 -->
 ### Changes since 5.22.36 release
 
 #### Merged Pull Requests
+- Bump omnibus from `82dae89` to `16e27f6` in /omnibus [#6932](https://github.com/inspec/inspec/pull/6932) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.40 -->
 - Backport-6912 CHEF-4442 Streaming reporter fix to capture progress correctly [#6936](https://github.com/inspec/inspec/pull/6936) ([Nik08](https://github.com/Nik08)) <!-- 5.22.39 -->
 - Backport 6919 - CHEF-4191 Waivers backward compatibility support with Chef Client [#6920](https://github.com/inspec/inspec/pull/6920) ([Nik08](https://github.com/Nik08)) <!-- 5.22.38 -->
 - Backport 6914 - CHEF-8990 Remove dependency on active-support function blank? [#6916](https://github.com/inspec/inspec/pull/6916) ([Nik08](https://github.com/Nik08)) <!-- 5.22.37 -->
