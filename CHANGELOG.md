@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.38 -->
-## [v5.22.38](https://github.com/inspec/inspec/tree/v5.22.38) (2024-01-19)
+<!-- latest_release 5.22.39 -->
+## [v5.22.39](https://github.com/inspec/inspec/tree/v5.22.39) (2024-01-19)
 
 #### Merged Pull Requests
-- Backport 6919 - CHEF-4191 Waivers backward compatibility support with Chef Client [#6920](https://github.com/inspec/inspec/pull/6920) ([Nik08](https://github.com/Nik08))
+- Backport-6912 CHEF-4442 Streaming reporter fix to capture progress correctly [#6936](https://github.com/inspec/inspec/pull/6936) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.36 -->
 ### Changes since 5.22.36 release
 
 #### Merged Pull Requests
+- Backport-6912 CHEF-4442 Streaming reporter fix to capture progress correctly [#6936](https://github.com/inspec/inspec/pull/6936) ([Nik08](https://github.com/Nik08)) <!-- 5.22.39 -->
 - Backport 6919 - CHEF-4191 Waivers backward compatibility support with Chef Client [#6920](https://github.com/inspec/inspec/pull/6920) ([Nik08](https://github.com/Nik08)) <!-- 5.22.38 -->
 - Backport 6914 - CHEF-8990 Remove dependency on active-support function blank? [#6916](https://github.com/inspec/inspec/pull/6916) ([Nik08](https://github.com/Nik08)) <!-- 5.22.37 -->
 <!-- release_rollup -->
