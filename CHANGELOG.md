@@ -1,12 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.6.8 -->
-## [v6.6.8](https://github.com/inspec/inspec/tree/v6.6.8) (2024-01-19)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- CHEF-3962: Adds ability to verify ssh keys [#6656](https://github.com/inspec/inspec/pull/6656) ([Vasu1105](https://github.com/Vasu1105))
-- Temporary turn off pulling of chef-licensing gem from artifactory. [#6945](https://github.com/inspec/inspec/pull/6945) ([Vasu1105](https://github.com/Vasu1105))
+- Turns off dependabot for inspec-4 branch [#6944](https://github.com/inspec/inspec/pull/6944) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -39,6 +38,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Turns off dependabot for inspec-4 branch [#6944](https://github.com/inspec/inspec/pull/6944) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.8 -->
 - CHEF-3962: Adds ability to verify ssh keys [#6656](https://github.com/inspec/inspec/pull/6656) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.8 -->
 - Temporary turn off pulling of chef-licensing gem from artifactory. [#6945](https://github.com/inspec/inspec/pull/6945) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.7 -->
 - CHEF-8990 Remove dependency on active-support function `blank?` [#6914](https://github.com/inspec/inspec/pull/6914) ([Nik08](https://github.com/Nik08)) <!-- 6.6.7 -->
