@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.22.41 -->
+## [v5.22.41](https://github.com/inspec/inspec/tree/v5.22.41) (2024-01-23)
 
 #### Merged Pull Requests
+- Backport 6947 - Fix for virutalization resource undefined method file_read [#6949](https://github.com/inspec/inspec/pull/6949) ([Vasu1105](https://github.com/Vasu1105))
 - Backport 6933 - CHEF-3166 Unit tests added for IAF file [#6934](https://github.com/inspec/inspec/pull/6934) ([Nik08](https://github.com/Nik08))
 - Backport 6924 CHEF-3164 Unit tests for enhanced outcomes [#6935](https://github.com/inspec/inspec/pull/6935) ([Nik08](https://github.com/Nik08))
 - Bump omnibus-software from `4fef367` to `86649fa` in /omnibus [#6941](https://github.com/inspec/inspec/pull/6941) ([dependabot[bot]](https://github.com/dependabot[bot]))
@@ -14,6 +15,7 @@
 ### Changes since 5.22.36 release
 
 #### Merged Pull Requests
+- Backport 6947 - Fix for virutalization resource undefined method file_read [#6949](https://github.com/inspec/inspec/pull/6949) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.41 -->
 - Backport 6933 - CHEF-3166 Unit tests added for IAF file [#6934](https://github.com/inspec/inspec/pull/6934) ([Nik08](https://github.com/Nik08)) <!-- 5.22.40 -->
 - Backport 6924 CHEF-3164 Unit tests for enhanced outcomes [#6935](https://github.com/inspec/inspec/pull/6935) ([Nik08](https://github.com/Nik08)) <!-- 5.22.40 -->
 - Bump omnibus-software from `4fef367` to `86649fa` in /omnibus [#6941](https://github.com/inspec/inspec/pull/6941) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.40 -->
