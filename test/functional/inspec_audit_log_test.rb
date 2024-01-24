@@ -14,7 +14,8 @@ describe "inspec audit log feature" do
   end
 
   describe "When audit logging off" do
-    it "should not create create audit log file in the default location when inpsec exec run" do
+    it "should not create create audit log file in the default location when inspec exec is run" do
+      skip_windows!
       cli_args = "--audit-log-location #{Inspec.log_dir}/inspec-test-audit.log"
       run_result = run_inspec_process("exec " + File.join(profile_path, "basic_profile") + " " + cli_args)
       _(run_result.exit_status).must_equal 0
@@ -23,7 +24,8 @@ describe "inspec audit log feature" do
   end
 
   describe "When audit logging on" do
-    it "should create audit log file in the default location when inpsec exec run" do
+    it "should create audit log file in the default location when inspec exec is run" do
+      skip_windows!
       cli_args = "--audit-log-location #{Inspec.log_dir}/inspec-test-audit.log"
       run_result = run_inspec_process("exec " + File.join(profile_path, "basic_profile") + " " + cli_args, env: { CHEF_PREVIEW_AUDIT_LOGGING: "1" })
       _(run_result.exit_status).must_equal 0
@@ -31,7 +33,8 @@ describe "inspec audit log feature" do
       _(File.basename(Dir.glob("#{Inspec.log_dir}/*")[0])).must_match(/inspec-test-audit-\d{4}\d{2}\d{2}T\d{2}\d{2}\d{2}-\b\d+\b.log/)
     end
 
-    it "should create inspec-audit.log file in the default location when inpsec exec run" do
+    it "should create audit log file in the default location when inspec shell is run" do
+      skip_windows!
       cli_args = " --audit-log-location #{Inspec.log_dir}/inspec-test-audit.log"
       run_result = run_inspec_process("shell " + " " + cli_args, env: { CHEF_PREVIEW_AUDIT_LOGGING: "1" })
       _(run_result.exit_status).must_equal 0
