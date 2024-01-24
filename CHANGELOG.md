@@ -11,22 +11,27 @@
 - Backport 6911 - Set GitHub labeler action version [#6937](https://github.com/inspec/inspec/pull/6937) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
-<!-- release_rollup since=5.22.36 -->
-### Changes since 5.22.36 release
+<!-- release_rollup since=5.22.40 -->
+### Changes since 5.22.40 release
 
 #### Merged Pull Requests
 - Backport 6947 - Fix for virutalization resource undefined method file_read [#6949](https://github.com/inspec/inspec/pull/6949) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.41 -->
-- Backport 6933 - CHEF-3166 Unit tests added for IAF file [#6934](https://github.com/inspec/inspec/pull/6934) ([Nik08](https://github.com/Nik08)) <!-- 5.22.40 -->
-- Backport 6924 CHEF-3164 Unit tests for enhanced outcomes [#6935](https://github.com/inspec/inspec/pull/6935) ([Nik08](https://github.com/Nik08)) <!-- 5.22.40 -->
-- Bump omnibus-software from `4fef367` to `86649fa` in /omnibus [#6941](https://github.com/inspec/inspec/pull/6941) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.40 -->
-- Backport 6911 - Set GitHub labeler action version [#6937](https://github.com/inspec/inspec/pull/6937) ([Nik08](https://github.com/Nik08)) <!-- 5.22.40 -->
-- Bump omnibus from `82dae89` to `16e27f6` in /omnibus [#6932](https://github.com/inspec/inspec/pull/6932) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.40 -->
-- Backport-6912 CHEF-4442 Streaming reporter fix to capture progress correctly [#6936](https://github.com/inspec/inspec/pull/6936) ([Nik08](https://github.com/Nik08)) <!-- 5.22.39 -->
-- Backport 6919 - CHEF-4191 Waivers backward compatibility support with Chef Client [#6920](https://github.com/inspec/inspec/pull/6920) ([Nik08](https://github.com/Nik08)) <!-- 5.22.38 -->
-- Backport 6914 - CHEF-8990 Remove dependency on active-support function blank? [#6916](https://github.com/inspec/inspec/pull/6916) ([Nik08](https://github.com/Nik08)) <!-- 5.22.37 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v5.22.40](https://github.com/inspec/inspec/tree/v5.22.40) (2024-01-24)
+
+#### Merged Pull Requests
+- Backport 6914 - CHEF-8990 Remove dependency on active-support function blank? [#6916](https://github.com/inspec/inspec/pull/6916) ([Nik08](https://github.com/Nik08))
+- Backport 6919 - CHEF-4191 Waivers backward compatibility support with Chef Client [#6920](https://github.com/inspec/inspec/pull/6920) ([Nik08](https://github.com/Nik08))
+- Backport-6912 CHEF-4442 Streaming reporter fix to capture progress correctly [#6936](https://github.com/inspec/inspec/pull/6936) ([Nik08](https://github.com/Nik08))
+- Bump omnibus from `82dae89` to `16e27f6` in /omnibus [#6932](https://github.com/inspec/inspec/pull/6932) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Backport 6911 - Set GitHub labeler action version [#6937](https://github.com/inspec/inspec/pull/6937) ([Nik08](https://github.com/Nik08))
+- Bump omnibus-software from `4fef367` to `86649fa` in /omnibus [#6941](https://github.com/inspec/inspec/pull/6941) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Backport 6924 CHEF-3164 Unit tests for enhanced outcomes [#6935](https://github.com/inspec/inspec/pull/6935) ([Nik08](https://github.com/Nik08))
+- Backport 6933 - CHEF-3166 Unit tests added for IAF file [#6934](https://github.com/inspec/inspec/pull/6934) ([Nik08](https://github.com/Nik08))
+<!-- latest_stable_release -->
+
 ## [v5.22.36](https://github.com/inspec/inspec/tree/v5.22.36) (2023-11-14)
 
 #### Merged Pull Requests
@@ -40,7 +45,6 @@
 - Backport: CHEF-6437: Implement different version of `inspec export` (#6816) (Inspec 5) [#6849](https://github.com/inspec/inspec/pull/6849) ([ahasunos](https://github.com/ahasunos))
 - Backport - PATCH: Fix for broken integration of reporters for compliance-mode [#6860](https://github.com/inspec/inspec/pull/6860) ([ahasunos](https://github.com/ahasunos))
 - Pin to unf_ext 0.0.8.2 in top-level Gemfile [#6861](https://github.com/inspec/inspec/pull/6861) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v5.22.29](https://github.com/inspec/inspec/tree/v5.22.29) (2023-10-31)
 
