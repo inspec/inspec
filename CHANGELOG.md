@@ -1,15 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.6.9 -->
-## [v6.6.9](https://github.com/inspec/inspec/tree/v6.6.9) (2024-01-24)
+<!-- latest_release 6.6.10 -->
+## [v6.6.10](https://github.com/inspec/inspec/tree/v6.6.10) (2024-01-24)
 
 #### Merged Pull Requests
-- CHEF-4191 Waivers backward compatibility support with Chef Client [#6919](https://github.com/inspec/inspec/pull/6919) ([Nik08](https://github.com/Nik08))
-- CHEF-3166 Unit tests added for IAF file [#6933](https://github.com/inspec/inspec/pull/6933) ([Nik08](https://github.com/Nik08))
-- Reorganize reusable text files [#6918](https://github.com/inspec/inspec/pull/6918) ([IanMadd](https://github.com/IanMadd))
-- Fix failing ssh_key test on Windows [#6948](https://github.com/inspec/inspec/pull/6948) ([Vasu1105](https://github.com/Vasu1105))
-- Turns off dependabot for inspec-4 branch [#6944](https://github.com/inspec/inspec/pull/6944) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-4442 Streaming reporter fix to capture progress correctly [#6912](https://github.com/inspec/inspec/pull/6912) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -42,6 +38,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- CHEF-4442 Streaming reporter fix to capture progress correctly [#6912](https://github.com/inspec/inspec/pull/6912) ([Nik08](https://github.com/Nik08)) <!-- 6.6.10 -->
 - CHEF-4191 Waivers backward compatibility support with Chef Client [#6919](https://github.com/inspec/inspec/pull/6919) ([Nik08](https://github.com/Nik08)) <!-- 6.6.9 -->
 - CHEF-3166 Unit tests added for IAF file [#6933](https://github.com/inspec/inspec/pull/6933) ([Nik08](https://github.com/Nik08)) <!-- 6.6.8 -->
 - Reorganize reusable text files [#6918](https://github.com/inspec/inspec/pull/6918) ([IanMadd](https://github.com/IanMadd)) <!-- 6.6.8 -->
