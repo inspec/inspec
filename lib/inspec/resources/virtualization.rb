@@ -223,7 +223,7 @@ module Inspec::Resources
       elsif cgroup_content =~ %r{^\d+:[^:]+:/(kubepods)/.+$}
         @virtualization_data[:system] = $1
         @virtualization_data[:role] = "guest"
-      elsif /container=podman/.match?(file_read("/proc/1/environ"))
+      elsif /container=podman/.match?(inspec.file("/proc/1/environ").content)
         @virtualization_data[:system] = "podman"
         @virtualization_data[:role] = "guest"
       elsif lxc_version_exists? && cgroup_content =~ %r{\d:[^:]+:/$}
