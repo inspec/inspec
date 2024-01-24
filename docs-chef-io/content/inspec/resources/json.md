@@ -15,9 +15,9 @@ Use the `json` Chef InSpec audit resource to test data in a JSON file.
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 
@@ -102,4 +102,4 @@ Example test:
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}

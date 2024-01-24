@@ -15,7 +15,7 @@ Use the `mail_alias` Chef InSpec audit resource to test the mail alias present i
 
 ## Availability
 
-### Installation
+### Install
 
 This resource is distributed along with Chef InSpec.
 

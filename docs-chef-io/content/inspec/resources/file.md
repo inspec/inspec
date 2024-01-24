@@ -15,7 +15,7 @@ Use the `file` Chef InSpec audit resource to test system file types, including d
 
 ## Availability
 
-### Installation
+### Install
 
 The Chef InSpec resource distributes this resource.
 
@@ -552,7 +552,9 @@ You can write controls for both the link and the target.
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}
+
+This resource has the following special matchers.
 
 ### be_allowed
 

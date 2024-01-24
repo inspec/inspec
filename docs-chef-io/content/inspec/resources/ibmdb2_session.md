@@ -16,9 +16,9 @@ Make sure you are using the IBM Db2 database instance user credentials to run th
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ## Syntax
 
@@ -61,4 +61,4 @@ The following examples show how to use this Chef InSpec audit resource.
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}

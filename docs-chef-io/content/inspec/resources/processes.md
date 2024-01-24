@@ -15,7 +15,7 @@ Use the `processes` Chef InSpec audit resource to test the properties of system 
 
 ## Availability
 
-### Installation
+### Install
 
 The Chef InSpec distributes this resource.
 

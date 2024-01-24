@@ -15,7 +15,7 @@ Use the `user` Chef InSpec audit resource to test user profiles of a single, kno
 
 ## Availability
 
-### Installation
+### Install
 
 This resource is distributed with Chef InSpec.
 
@@ -247,7 +247,9 @@ The `nginx` user is typical `www-data`, but it's `nginx` on CentOS. The followin
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}
+
+This resource has the following special matchers.
 
 ### exist
 

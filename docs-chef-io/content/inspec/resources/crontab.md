@@ -15,9 +15,9 @@ Use the `crontab` Chef InSpec audit resource to test the crontab entries for a p
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 
@@ -111,4 +111,4 @@ Chef InSpec will automatically interpret crontab-supported special time strings.
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}

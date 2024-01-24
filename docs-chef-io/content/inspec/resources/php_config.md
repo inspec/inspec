@@ -15,7 +15,7 @@ Use the `php_config` Chef InSpec audit resource to test the PHP configuration pa
 
 ## Availability
 
-### Installation
+### Install
 
 The Chef InSpec distributes This resource.
 

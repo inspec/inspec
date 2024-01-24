@@ -15,7 +15,7 @@ Use the `docker_container` Chef InSpec audit resource to test a Docker container
 
 ## Availability
 
-### Installation
+### Install
 
 This resource is distributed with Chef InSpec.
 
@@ -107,7 +107,8 @@ The `command` property tests the value of the container run command.
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/). The specific matchers of this resource are: `exist`, `be_running`, `have_volume?`.
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}
+ The specific matchers of this resource are: `exist`, `be_running`, `have_volume?`.
 
 ### exist
 

@@ -21,7 +21,7 @@ Use the `apache` Chef InSpec audit resource to test the state of the Apache serv
 
 ## Availability
 
-### Installation
+### Install
 
 This resource was distributed along with Chef InSpec itself.
 
@@ -76,4 +76,4 @@ The following examples show how to use this Chef InSpec audit resource.
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}

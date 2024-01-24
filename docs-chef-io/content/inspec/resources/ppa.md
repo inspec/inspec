@@ -21,7 +21,7 @@ The following ppa formats are supported:
 
 ## Availability
 
-### Installation
+### Install
 
 This resource is distributed with Chef InSpec.
 

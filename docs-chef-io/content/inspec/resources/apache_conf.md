@@ -15,9 +15,9 @@ Use the `apache_conf` Chef InSpec audit resource to test the configuration setti
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Requirements
 
@@ -65,7 +65,8 @@ The following examples show how to use this Chef InSpec audit resource.
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}
+
 This Chef InSpec audit resource matches any service that is listed in the Apache configuration file:
 
     its('PidFile') { should_not eq '/var/run/httpd.pid' }

@@ -15,9 +15,9 @@ Use the `registry_key` Chef InSpec audit resource to test key values in the Wind
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 
@@ -107,7 +107,9 @@ The `user_permissions` property returns a hash containing a list of users or gro
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}
+
+This resource has the following special matchers.
 
 ### children
 

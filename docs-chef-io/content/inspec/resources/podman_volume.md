@@ -15,7 +15,7 @@ Use the `podman_volume` Chef InSpec audit resource to test the properties of a v
 
 ## Availability
 
-### Installation
+### Install
 
 This resource is distributed with Chef InSpec and is automatically available for use.
 
@@ -124,7 +124,9 @@ its("needs_chown") { should eq true }
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}
+
+This resource has the following special matchers.
 
 ### exist
 

@@ -15,7 +15,7 @@ Use the `podman` Chef InSpec audit resource to test the configuration of Podman 
 
 ## Availability
 
-### Installation
+### Install
 
 This resource is distributed with Chef InSpec and is automatically available for use.
 
@@ -215,4 +215,4 @@ end
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}

@@ -15,9 +15,9 @@ Use the `etc_fstab` Chef InSpec audit resource to test information about all par
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 
@@ -123,4 +123,4 @@ The `file_system_options` property returns an integer array of each partitions f
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}

@@ -32,9 +32,9 @@ The `shadow` resource understands this format, allows you to search on the field
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 

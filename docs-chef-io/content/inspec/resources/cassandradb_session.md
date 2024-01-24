@@ -15,9 +15,9 @@ Use the `cassandradb_session` Chef InSpec audit resource to test Cassandra Query
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ## Syntax
 
@@ -73,4 +73,4 @@ end
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}

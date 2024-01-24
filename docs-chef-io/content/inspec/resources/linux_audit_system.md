@@ -15,7 +15,7 @@ Use the `linux_audit_system` Chef InSpec audit resource to test the configuratio
 
 ## Availability
 
-### Installation
+### Install
 
 The Chef InSpec distributes this resource.
 

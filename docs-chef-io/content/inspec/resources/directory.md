@@ -15,9 +15,9 @@ Use the `directory` Chef InSpec audit resource to test if the file type is a dir
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 
@@ -37,4 +37,4 @@ All of the properties available to [`file`](/inspec/resources/file/) may be used
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}

@@ -15,9 +15,9 @@ Use the `opa_cli` Chef InSpec audit resource to query Open Policy Agent (OPA) us
 
 ## Availability
 
-### Installation
+### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ## Syntax
 
@@ -82,4 +82,4 @@ The above example shows how the `allow` value can be fetched in two ways.
 
 ## Matchers
 
-For a full list of available matchers, please visit our [matchers page](/inspec/matchers/).
+{{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}
