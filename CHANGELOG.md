@@ -5,6 +5,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Reorganize reusable text files [#6918](https://github.com/inspec/inspec/pull/6918) ([IanMadd](https://github.com/IanMadd))
 - Fix failing ssh_key test on Windows [#6948](https://github.com/inspec/inspec/pull/6948) ([Vasu1105](https://github.com/Vasu1105))
 - Turns off dependabot for inspec-4 branch [#6944](https://github.com/inspec/inspec/pull/6944) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
@@ -39,6 +40,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Reorganize reusable text files [#6918](https://github.com/inspec/inspec/pull/6918) ([IanMadd](https://github.com/IanMadd)) <!-- 6.6.8 -->
 - Fix failing ssh_key test on Windows [#6948](https://github.com/inspec/inspec/pull/6948) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.8 -->
 - Turns off dependabot for inspec-4 branch [#6944](https://github.com/inspec/inspec/pull/6944) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.8 -->
 - CHEF-3962: Adds ability to verify ssh keys [#6656](https://github.com/inspec/inspec/pull/6656) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.8 -->
