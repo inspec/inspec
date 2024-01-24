@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.6.9 -->
+## [v6.6.9](https://github.com/inspec/inspec/tree/v6.6.9) (2024-01-24)
 
 #### Merged Pull Requests
+- CHEF-4191 Waivers backward compatibility support with Chef Client [#6919](https://github.com/inspec/inspec/pull/6919) ([Nik08](https://github.com/Nik08))
 - CHEF-3166 Unit tests added for IAF file [#6933](https://github.com/inspec/inspec/pull/6933) ([Nik08](https://github.com/Nik08))
 - Reorganize reusable text files [#6918](https://github.com/inspec/inspec/pull/6918) ([IanMadd](https://github.com/IanMadd))
 - Fix failing ssh_key test on Windows [#6948](https://github.com/inspec/inspec/pull/6948) ([Vasu1105](https://github.com/Vasu1105))
@@ -41,6 +42,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- CHEF-4191 Waivers backward compatibility support with Chef Client [#6919](https://github.com/inspec/inspec/pull/6919) ([Nik08](https://github.com/Nik08)) <!-- 6.6.9 -->
 - CHEF-3166 Unit tests added for IAF file [#6933](https://github.com/inspec/inspec/pull/6933) ([Nik08](https://github.com/Nik08)) <!-- 6.6.8 -->
 - Reorganize reusable text files [#6918](https://github.com/inspec/inspec/pull/6918) ([IanMadd](https://github.com/IanMadd)) <!-- 6.6.8 -->
 - Fix failing ssh_key test on Windows [#6948](https://github.com/inspec/inspec/pull/6948) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.8 -->
