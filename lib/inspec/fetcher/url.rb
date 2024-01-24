@@ -93,7 +93,7 @@ module Inspec::Fetcher
                            end
 
       if transformed_target
-        Inspec::Log.warn("URL target #{target} transformed to #{transformed_target}. Consider using the git fetcher")
+        Inspec::Log.debug("URL target #{target} transformed to #{transformed_target}. Consider using the git fetcher")
         transformed_target
       else
         target
