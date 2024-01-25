@@ -27,25 +27,20 @@ group :omnibus do
 end
 
 group :test do
-  gem "chefstyle", "~> 2.2.2"
-  gem "concurrent-ruby", "~> 1.0"
-  gem "json_schemer", ">= 0.2.1", "< 2.0.1"
+  gem "chefstyle"
+  gem "concurrent-ruby"
+  gem "json_schemer"
   gem "m"
   gem "minitest-sprint", "~> 1.0"
   gem "minitest", "5.15.0"
-  gem "mocha", "~> 2.1"
-  gem "nokogiri", "~> 1.9"
+  gem "mocha"
+  gem "nokogiri"
   gem "pry-byebug"
-  gem "pry", "~> 0.10"
-  gem "rake", ">= 10"
-  gem "simplecov", "~> 0.21"
+  gem "pry"
+  gem "rake"
+  gem "simplecov"
   gem "simplecov_json_formatter"
-  gem "webmock", "~> 3.0"
-
-  if Gem.ruby_version >= Gem::Version.new("3.0.0")
-    # html-proofer has a dep on io-event, which is ruby-3 only
-    gem "html-proofer", "~> 3.19.4", platforms: :ruby # do not attempt to run proofer on windows. Pinned to 3.19.4 as test is breaking in updated versions.
-  end
+  gem "webmock"
 end
 
 group :deploy do
