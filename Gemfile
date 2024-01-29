@@ -54,4 +54,4 @@ group :deploy do
   gem "inquirer"
 end
 
-gem 'train-kubernetes', git: 'https://github.com/inspec/train-kubernetes.git', branch: 'nm/k8s-ruby-upgrade'
+gem "train-kubernetes", git: "https://github.com/inspec/train-kubernetes.git", branch: "nm/k8s-ruby-upgrade"
