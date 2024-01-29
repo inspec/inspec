@@ -17,7 +17,7 @@ Use the `ssh_key` Chef InSpec audit resource to test ssh keys. Supported key typ
 
 ### Install
 
-{{% inspec/inspec_installation %}}
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
 ### Version
 
