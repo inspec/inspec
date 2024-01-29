@@ -34,8 +34,9 @@ module Inspec
       raise Inspec::Exceptions::ProfileValidationKeyNotFound.new("Validation key #{keyname} not found")
     end
 
-    def self.find_signing_key(keyname)
-      [".", File.join(Inspec.config_dir, "keys")].each do |path|
+    def self.find_signing_key(keyname, config_dir = nil)
+      config_dir ||= Inspec.config_dir
+      [".", File.join(config_dir, "keys")].each do |path|
         filename = File.join(path, "#{keyname}.pem.key")
         return filename if File.exist?(filename)
       end
