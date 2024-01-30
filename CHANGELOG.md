@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.42 -->
-## [v5.22.42](https://github.com/inspec/inspec/tree/v5.22.42) (2024-01-25)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- CHEF-4571: Silence warning about transforming into git fetcher (#6946) [#6956](https://github.com/inspec/inspec/pull/6956) ([ahasunos](https://github.com/ahasunos))
-- CHEF-8609: Backport-6873 Reduce version pinning [#6952](https://github.com/inspec/inspec/pull/6952) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-3160: Improve code coverage % on inspec-5 branch [#6957](https://github.com/inspec/inspec/pull/6957) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.40 -->
 ### Changes since 5.22.40 release
 
 #### Merged Pull Requests
+- CHEF-3160: Improve code coverage % on inspec-5 branch [#6957](https://github.com/inspec/inspec/pull/6957) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.42 -->
 - CHEF-4571: Silence warning about transforming into git fetcher (#6946) [#6956](https://github.com/inspec/inspec/pull/6956) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.42 -->
 - CHEF-8609: Backport-6873 Reduce version pinning [#6952](https://github.com/inspec/inspec/pull/6952) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.41 -->
 - Backport 6947 - Fix for virutalization resource undefined method file_read [#6949](https://github.com/inspec/inspec/pull/6949) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.41 -->
