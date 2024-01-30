@@ -31,4 +31,26 @@ describe InspecPlugins::Sign::Base do
       end
     end
   end
+
+  let(:profile_path) { File.join(fixture_dir, "profiles", "basic_profile") }
+  let(:base) { InspecPlugins::Sign::Base.new }
+  describe "read_profile_metadata" do
+    it "should read the metadata of the given profile and return content" do
+      _(base.read_profile_metadata(profile_path)).must_be_kind_of Hash
+      _(base.read_profile_metadata(profile_path)).must_include "name"
+    end
+  end
+
+  describe "write_profile_content_id" do
+    it "should write the content id to the inspec.yml" do
+      Dir.mktmpdir do |dir|
+        tmp_profile_path = File.join(dir, "basic_profile")
+        FileUtils.cp_r profile_path, tmp_profile_path
+
+        base.write_profile_content_id(tmp_profile_path, "test-content-id")
+        _(base.read_profile_metadata(tmp_profile_path)["profile_content_id"]).must_equal "test-content-id"
+      end
+    end
+  end
+
 end
