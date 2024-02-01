@@ -40,15 +40,10 @@ module Inspec
 
     class Base
       attr_accessor :scratch
-      attr_reader :session_id
 
-      def fetch_customer_id
-        # TODO: obtain customer ID from some mechanism
-        "unknown"
-      end
-
-      def fetch_session_id
-        @session_id ||= SecureRandom.uuid
+      def fetch_license_ids
+        # TODO
+        []
       end
 
       def create_wrapper(payload_type)
@@ -56,11 +51,9 @@ module Inspec
           version: "2.0",
           createdTimeUTC: Time.now.getutc.iso8601, # like 3339 but always uses T
           environment: "CLI", # TODO: Consider replacing this with run context probe
-          # licenseId # We will never have this
-          customerId: fetch_customer_id,
+          licenseIds: fetch_license_ids,
           source: "#{Inspec::Dist::EXEC_NAME}:#{Inspec::VERSION}",
           type: payload_type,
-          correlationId: fetch_session_id,
         }
       end
 
@@ -107,16 +100,21 @@ module Inspec
             version: profile[:version],
             sha256: profile[:sha256],
             maintainer: profile[:maintainer],
-            parentProfile: obscure(profile[:parent_profile]) || "",
+            type: "profile",
+            id: "" # TODO determine profile ID
             # TODO: add profileContentId
+            # parentProfile: obscure(profile[:parent_profile]) || "",
           }
 
           profile[:controls].each do |control|
             payload[:jobs][0][:steps] << {
               id: obscure(control[:id]),
               name: "inspec-control",
+              description: "", # TODO
+              target: {}, #TODO
               resources: [],
               features: [],
+              tags: [], # TODO Determine control tags?
             }
 
             control[:results]&.each do |resource_block|
@@ -174,8 +172,8 @@ module Inspec
 
     class Debug < Base
       def run_ending(opts)
-        # payload = super(opts)
-        # require "byebug"; byebug
+        payload = super(opts)
+        require "byebug"; byebug
         # 1
       end
     end
