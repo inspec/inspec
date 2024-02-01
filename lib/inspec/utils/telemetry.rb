@@ -13,9 +13,6 @@ module Inspec
     end
 
     def self.determine_backend_class
-      # Don't perform telemetry unless feature flag is enabled
-      return Inspec::Telemetry::Null unless ENV["CHEF_FEATURE_TELEMETRY"]
-
       # TODO: ask chef-telemetry gem if we should be enabled or not
 
       # TODO: implement online telemetry collection using chef-telemtry gem
