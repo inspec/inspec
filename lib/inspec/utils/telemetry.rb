@@ -2,6 +2,7 @@ require "time" unless defined?(Time.zone_offset)
 require_relative "../dist"
 require "securerandom" unless defined?(SecureRandom)
 require "digest" unless defined?(Digest)
+require "chef-licensing"
 
 module Inspec
   class Telemetry
@@ -39,8 +40,7 @@ module Inspec
       attr_accessor :scratch
 
       def fetch_license_ids
-        # TODO
-        []
+        @license_keys ||= ChefLicensing.license_keys
       end
 
       def create_wrapper(payload_type)
