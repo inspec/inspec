@@ -32,7 +32,10 @@ module InspecPlugins
       def self.keygen(options)
         key = KEY_ALG.new KEY_BITS
 
-        path = File.join(Inspec.config_dir, "keys")
+        # config_dir is the directory where the keys will be stored.
+        # options["config_dir"] is passed explicitly only for testing purposes.
+        config_dir = options["config_dir"] || Inspec.config_dir
+        path = File.join(config_dir, "keys")
         FileUtils.mkdir_p(path)
 
         puts "Generating signing key in #{path}/#{options["keyname"]}.pem.key"
@@ -54,7 +57,7 @@ module InspecPlugins
         end
 
         puts "Signing #{profile_path} with key #{options["keyname"]}"
-        keypath = Inspec::IafFile.find_signing_key(options["keyname"])
+        keypath = Inspec::IafFile.find_signing_key(options["keyname"], options["config_dir"])
 
         # Read name and version from metadata and use them to form the filename
         profile_md = artifact.read_profile_metadata(profile_path)
