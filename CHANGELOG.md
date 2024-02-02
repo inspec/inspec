@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.6.12 -->
+## [v6.6.12](https://github.com/inspec/inspec/tree/v6.6.12) (2024-02-02)
 
 #### Merged Pull Requests
+- CHEF-3162: Implement unit test for inspec-sign plugin [#6959](https://github.com/inspec/inspec/pull/6959) ([ahasunos](https://github.com/ahasunos))
 - CHEF-3160 Improve code coverage percentage - Exclude test files from code coverage [#6953](https://github.com/inspec/inspec/pull/6953) ([Vasu1105](https://github.com/Vasu1105))
 - Minor docs fix CHEF-4267 [#6958](https://github.com/inspec/inspec/pull/6958) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
@@ -39,6 +40,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- CHEF-3162: Implement unit test for inspec-sign plugin [#6959](https://github.com/inspec/inspec/pull/6959) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.12 -->
 - CHEF-3160 Improve code coverage percentage - Exclude test files from code coverage [#6953](https://github.com/inspec/inspec/pull/6953) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.11 -->
 - Minor docs fix CHEF-4267 [#6958](https://github.com/inspec/inspec/pull/6958) ([IanMadd](https://github.com/IanMadd)) <!-- 6.6.11 -->
 - CHEF-6412: Fix for virutalization resource undefined method file_read [#6947](https://github.com/inspec/inspec/pull/6947) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.11 -->
