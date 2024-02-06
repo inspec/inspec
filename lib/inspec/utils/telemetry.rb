@@ -15,13 +15,9 @@ module Inspec
 
     def self.determine_backend_class
       # Don't perform telemetry call if license is not a free license
-      return Inspec::Telemetry::Null unless license&.license_type == "free"
-
-      # TODO: ask chef-telemetry gem if we should be enabled or not
-
-      # TODO: implement online telemetry collection using chef-telemtry gem
-
-      Inspec::Telemetry::Debug
+      # return Inspec::Telemetry::Null unless license&.license_type == "free"
+      # Inspec::Telemetry::Debug
+      Inspec::Telemetry::HTTP
     end
 
     def self.license
