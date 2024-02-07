@@ -3,6 +3,7 @@ require "chef-licensing"
 require_relative "telemetry/debug"
 require_relative "telemetry/null"
 require_relative "telemetry/http"
+require_relative "telemetry/run_context_probe"
 
 module Inspec
   class Telemetry
@@ -15,7 +16,11 @@ module Inspec
 
     def self.determine_backend_class
       # Don't perform telemetry call if license is not a free license
-      # return Inspec::Telemetry::Null unless license&.license_type == "free"
+      return Inspec::Telemetry::Null unless license&.license_type == "free"
+
+      # Don't perform telemetry action if running under Automate - Automate does LDC tracking for us
+      return Inspec::Telemetry::Null if Inspec::Telemetry::RunContextProbe.under_automate?
+
       # Inspec::Telemetry::Debug
       Inspec::Telemetry::HTTP
     end

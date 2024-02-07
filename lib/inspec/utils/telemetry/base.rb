@@ -80,7 +80,7 @@ module Inspec
               target: {}, # TODO
               resources: [],
               features: [],
-              tags: format_tags(control[:tags])
+              tags: format_tags(control[:tags]),
             }
 
             control[:results]&.each do |resource_block|
