@@ -53,3 +53,6 @@ end
 group :deploy do
   gem "inquirer"
 end
+
+# TODO Change after this change is released in chef-licensing
+gem "chef-licensing", git: "https://github.com/chef/chef-licensing", glob: "components/ruby/*.gemspec", branch: "nm/license-context-changes"
