@@ -76,11 +76,11 @@ module Inspec
             payload[:jobs][0][:steps] << {
               id: obscure(control[:id]),
               name: "inspec-control",
-              description: "", # TODO
+              description: control[:desc] || "",
               target: {}, # TODO
               resources: [],
               features: [],
-              tags: [], # TODO Determine control tags?
+              tags: format_tags(control[:tags])
             }
 
             control[:results]&.each do |resource_block|
@@ -99,6 +99,14 @@ module Inspec
 
         # Return payload object for testing
         payload
+      end
+
+      def format_tags(tags)
+        tags_list = []
+        tags.each do |key, value|
+          tags_list << { name: key, value: value }
+        end
+        tags_list
       end
 
       # Hash text if non-nil
