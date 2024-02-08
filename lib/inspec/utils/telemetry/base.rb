@@ -16,7 +16,7 @@ module Inspec
         {
           version: "2.0",
           createdTimeUTC: Time.now.getutc.iso8601,
-          environment: "CLI", # TODO: Consider replacing this with run context probe
+          environment: Inspec::Telemetry::RunContextProbe.guess_run_context,
           licenseIds: fetch_license_ids,
           source: "#{Inspec::Dist::EXEC_NAME}:#{Inspec::VERSION}",
           type: payload_type,
