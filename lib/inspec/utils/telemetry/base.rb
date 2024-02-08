@@ -32,7 +32,7 @@ module Inspec
       def run_starting(_opts = {})
         @scratch ||= {}
         @scratch[:features] ||= []
-        @scratch[:run_start_time] = Time.current
+        @scratch[:run_start_time] = Time.now.getutc.iso8601
       end
 
       def run_ending(opts)
@@ -57,7 +57,7 @@ module Inspec
                             runtime: Inspec::VERSION,
                             content: [],  # one content == one profile
                             steps: [],    # one step == one control
-                            features: scratch[:features].dup, # TODO: proposed new field (promoted up from steps)
+                            features: scratch[:features].dup,
                           }]
 
         opts[:run_data][:profiles].each do |profile|
@@ -120,7 +120,6 @@ module Inspec
       def note_per_run_features(opts)
         note_reporters
         note_gem_dependency_usage(opts)
-        # TODO: what other features should be observed?
       end
 
       def note_reporters
