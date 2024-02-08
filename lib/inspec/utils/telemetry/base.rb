@@ -77,7 +77,10 @@ module Inspec
               id: obscure(control[:id]),
               name: "inspec-control",
               description: control[:desc] || "",
-              target: {}, # TODO
+              target: {
+                mode: opts[:runner].backend.backend.backend_type,
+                id: opts[:runner].backend.backend.platform.uuid,
+              },
               resources: [],
               features: [],
               tags: format_tags(control[:tags]),
