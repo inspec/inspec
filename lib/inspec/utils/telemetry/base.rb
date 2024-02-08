@@ -67,9 +67,6 @@ module Inspec
             sha256: profile[:sha256],
             maintainer: profile[:maintainer],
             type: "profile",
-            id: "", # TODO determine profile ID
-            # TODO: add profileContentId
-            # parentProfile: obscure(profile[:parent_profile]) || "",
           }
 
           profile[:controls].each do |control|
