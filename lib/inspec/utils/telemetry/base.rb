@@ -12,14 +12,14 @@ module Inspec
         @license_keys ||= ChefLicensing.license_keys
       end
 
-      def create_wrapper(payload_type)
+      def create_wrapper
         {
           version: "2.0",
           createdTimeUTC: Time.now.getutc.iso8601,
           environment: Inspec::Telemetry::RunContextProbe.guess_run_context,
           licenseIds: fetch_license_ids,
           source: "#{Inspec::Dist::EXEC_NAME}:#{Inspec::VERSION}",
-          type: payload_type,
+          type: "job",
         }
       end
 
@@ -38,7 +38,7 @@ module Inspec
       def run_ending(opts)
         note_per_run_features(opts)
 
-        payload = create_wrapper("job")
+        payload = create_wrapper
 
         train_platform = opts[:runner].backend.backend.platform
 
