@@ -38,6 +38,7 @@ class PluginLoaderTests < Minitest::Test
      inspec-habitat
      inspec-init
      inspec-reporter-html2
+     inspec-streaming-reporter-progress-bar
     }
     @system_plugins = [
       "train-habitat",
