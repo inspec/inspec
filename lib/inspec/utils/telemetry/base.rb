@@ -65,7 +65,7 @@ module Inspec
             name: obscure(profile[:name]),
             version: profile[:version],
             sha256: profile[:sha256],
-            maintainer: profile[:maintainer],
+            maintainer: profile[:maintainer] || "",
             type: "profile",
           }
 
@@ -79,7 +79,6 @@ module Inspec
                 id: opts[:runner].backend.backend.platform.uuid,
               },
               resources: [],
-              features: [],
               tags: format_tags(control[:tags]),
             }
 
@@ -104,7 +103,7 @@ module Inspec
       def format_tags(tags)
         tags_list = []
         tags.each do |key, value|
-          tags_list << { name: key, value: value }
+          tags_list << { name: key, value: (value || "") }
         end
         tags_list
       end

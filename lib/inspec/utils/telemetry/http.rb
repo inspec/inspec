@@ -4,7 +4,7 @@ require "faraday" unless defined?(Faraday)
 module Inspec
   class Telemetry
     class HTTP < Base
-      TELEMETRY_JOBS_PATH = "/jobs"
+      TELEMETRY_JOBS_PATH = "v1/job"
       def run_ending(opts)
         payload = super
         response = connection.post(TELEMETRY_JOBS_PATH) do |req|
