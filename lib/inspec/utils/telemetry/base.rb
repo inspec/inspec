@@ -103,7 +103,7 @@ module Inspec
       def format_tags(tags)
         tags_list = []
         tags.each do |key, value|
-          tags_list << { name: key, value: (value || "") }
+          tags_list << { name: key.to_s, value: (value || "").to_s }
         end
         tags_list
       end
