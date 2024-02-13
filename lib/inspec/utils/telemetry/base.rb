@@ -45,6 +45,7 @@ module Inspec
         payload = create_wrapper
 
         train_platform = opts[:runner].backend.backend.platform
+        payload[:platform] = train_platform.name
 
         payload[:jobs] = [{
                             type: JOB_TYPE,
