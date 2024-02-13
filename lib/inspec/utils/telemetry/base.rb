@@ -6,6 +6,10 @@ require_relative "../../dist"
 module Inspec
   class Telemetry
     class Base
+      VERSION = 2.0
+      TYPE = "job".freeze
+      JOB_TYPE = "InSpec".freeze
+
       attr_accessor :scratch
 
       def fetch_license_ids
@@ -14,12 +18,12 @@ module Inspec
 
       def create_wrapper
         {
-          version: "2.0",
+          version: VERSION,
           createdTimeUTC: Time.now.getutc.iso8601,
           environment: Inspec::Telemetry::RunContextProbe.guess_run_context,
           licenseIds: fetch_license_ids,
           source: "#{Inspec::Dist::EXEC_NAME}:#{Inspec::VERSION}",
-          type: "job",
+          type: TYPE,
         }
       end
 
@@ -43,7 +47,7 @@ module Inspec
         train_platform = opts[:runner].backend.backend.platform
 
         payload[:jobs] = [{
-                            type: "InSpec",
+                            type: JOB_TYPE,
 
                             # Target platform info
                             environment: {
