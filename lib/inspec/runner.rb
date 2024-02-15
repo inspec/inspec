@@ -177,6 +177,7 @@ module Inspec
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
       # Perform telemetry when preview flag CHEF_PREVIEW_TELEMETRY_CLIENT is set
       Inspec.with_feature("inspec-telemetry-client") {
+        Inspec::Log.debug "Initiating telemetry for InSpec"
         Inspec::Telemetry.run_starting(runner: self)
       }
       load
@@ -230,6 +231,7 @@ module Inspec
       # Perform telemetry when preview flag CHEF_PREVIEW_TELEMETRY_CLIENT is set
       Inspec.with_feature("inspec-telemetry-client") {
         Inspec::Telemetry.run_ending(runner: self, run_data: @run_data)
+        Inspec::Log.debug "Finishing telemetry for InSpec"
       }
       @test_collector.exit_code
     end

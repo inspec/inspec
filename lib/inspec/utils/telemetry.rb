@@ -21,11 +21,13 @@ module Inspec
       # Don't perform telemetry action if running under Automate - Automate does LDC tracking for us
       return Inspec::Telemetry::Null if Inspec::Telemetry::RunContextProbe.under_automate?
 
+      Inspec::Log.debug "Determined HTTP instance for telemetry"
       # Inspec::Telemetry::Debug
       Inspec::Telemetry::HTTP
     end
 
     def self.license
+      Inspec::Log.debug "Fetching license context for telemetry"
       @license ||= ChefLicensing.license_context
     end
 

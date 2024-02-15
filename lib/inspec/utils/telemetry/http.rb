@@ -10,7 +10,13 @@ module Inspec
         response = connection.post(TELEMETRY_JOBS_PATH) do |req|
           req.body = payload.to_json
         end
-        response.success?
+        if response.success?
+          Inspec::Log.debug "HTTP connection with Telemetry Client successful"
+          Inspec::Log.debug "HTTP response from Telemetry Client -> #{response.to_hash}"
+          true
+        else
+          false
+        end
       end
 
       def connection

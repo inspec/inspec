@@ -7,16 +7,18 @@ module Inspec
   class Telemetry
     class Base
       VERSION = 2.0
-      TYPE = "job".freeze
-      JOB_TYPE = "InSpec".freeze
+      TYPE = "job"
+      JOB_TYPE = "InSpec"
 
       attr_accessor :scratch
 
       def fetch_license_ids
+        Inspec::Log.debug "Fetching license IDs for telemetry"
         @license_keys ||= ChefLicensing.license_keys
       end
 
       def create_wrapper
+        Inspec::Log.debug "Initialising wrapper for telemetry"
         {
           version: VERSION,
           createdTimeUTC: Time.now.getutc.iso8601,
@@ -85,7 +87,7 @@ module Inspec
               },
               resources: [],
               tags: format_control_tags(control[:tags]),
-              results: format_control_results(control[:results].first)
+              results: format_control_results(control[:results].first),
             }
 
             control[:results]&.each do |resource_block|
@@ -102,6 +104,7 @@ module Inspec
           end
         end
 
+        Inspec::Log.debug "Final data for telemetry upload -> #{payload}"
         # Return payload object for testing
         payload
       end
@@ -112,7 +115,7 @@ module Inspec
         {
           succeeded: (run_result[:status] != "failed"),
           message: run_result[:message] || "",
-          code: control_status_code(run_result[:status])
+          code: control_status_code(run_result[:status]),
         }
       end
 
