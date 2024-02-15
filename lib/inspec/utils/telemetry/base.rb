@@ -84,7 +84,8 @@ module Inspec
                 id: opts[:runner].backend.backend.platform.uuid,
               },
               resources: [],
-              tags: format_tags(control[:tags]),
+              tags: format_control_tags(control[:tags]),
+              results: format_control_results(control[:results].first)
             }
 
             control[:results]&.each do |resource_block|
@@ -105,7 +106,22 @@ module Inspec
         payload
       end
 
-      def format_tags(tags)
+      def format_control_results(run_result)
+        return {} unless run_result
+
+        {
+          succeeded: (run_result[:status] != "failed"),
+          message: run_result[:message] || "",
+          code: control_status_code(run_result[:status])
+        }
+      end
+
+      def control_status_code(control_status)
+        # Status code 1 in case of failure. Ref: runner_rspec.rb (def exit_code)
+        control_status == "failed" ? 1 : 0
+      end
+
+      def format_control_tags(tags)
         tags_list = []
         tags.each do |key, value|
           tags_list << { name: key.to_s, value: (value || "").to_s }
