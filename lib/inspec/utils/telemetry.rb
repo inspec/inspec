@@ -1,6 +1,5 @@
 require "time" unless defined?(Time.zone_offset)
 require "chef-licensing"
-require_relative "telemetry/debug"
 require_relative "telemetry/null"
 require_relative "telemetry/http"
 require_relative "telemetry/run_context_probe"
@@ -22,7 +21,7 @@ module Inspec
       return Inspec::Telemetry::Null if Inspec::Telemetry::RunContextProbe.under_automate?
 
       Inspec::Log.debug "Determined HTTP instance for telemetry"
-      # Inspec::Telemetry::Debug
+
       Inspec::Telemetry::HTTP
     end
 
