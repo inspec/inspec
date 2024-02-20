@@ -299,9 +299,9 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
     end
   end
 
-  def format_actual(actual)
+  def format_actual(actual, negate = false)
     actual = "0%o" % actual if octal?(@expected) && !actual.nil?
-    "\n%s\n     got: %s\n\n(compared using `cmp` matcher)\n" % [format_expectation(false), actual]
+    "\n%s\n     got: %s\n\n(compared using `cmp` matcher)\n" % [format_expectation(negate), actual]
   end
 
   def format_expectation(negate)
@@ -316,7 +316,7 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
   end
 
   failure_message_when_negated do |actual|
-    format_actual actual
+    format_actual actual, true
   end
 
   description do
