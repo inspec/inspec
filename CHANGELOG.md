@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.6.13 -->
+## [v6.6.13](https://github.com/inspec/inspec/tree/v6.6.13) (2024-02-20)
 
 #### Merged Pull Requests
+- Allow the negate formating for cmp [#6862](https://github.com/inspec/inspec/pull/6862) ([Taknok](https://github.com/Taknok))
 - CHEF-3163 Adds unit test for progress bar streaming reporter [#6970](https://github.com/inspec/inspec/pull/6970) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Allow the negate formating for cmp [#6862](https://github.com/inspec/inspec/pull/6862) ([Taknok](https://github.com/Taknok)) <!-- 6.6.13 -->
 - CHEF-3163 Adds unit test for progress bar streaming reporter [#6970](https://github.com/inspec/inspec/pull/6970) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.12 -->
 - CHEF-3162: Implement unit test for inspec-sign plugin [#6959](https://github.com/inspec/inspec/pull/6959) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.12 -->
 - CHEF-3160 Improve code coverage percentage - Exclude test files from code coverage [#6953](https://github.com/inspec/inspec/pull/6953) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.11 -->
