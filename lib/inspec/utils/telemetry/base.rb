@@ -64,7 +64,6 @@ module Inspec
                             runtime: Inspec::VERSION,
                             content: [],  # one content == one profile
                             steps: [],    # one step == one control
-                            features: scratch[:features].dup,
                           }]
 
         opts[:run_data][:profiles].each do |profile|
@@ -86,6 +85,7 @@ module Inspec
                 id: opts[:runner].backend.backend.platform.uuid,
               },
               resources: [],
+              features: [],
               tags: format_control_tags(control[:tags]),
               results: format_control_results(control[:results].first),
             }
@@ -99,6 +99,7 @@ module Inspec
             end
 
             # Per-control features.
+            payload[:jobs][0][:steps].last[:features] = scratch[:features].dup
             # Waivers
             payload[:jobs][0][:steps].last[:features] << "waivers" unless control[:waiver_data].nil? || control[:waiver_data].empty?
           end
