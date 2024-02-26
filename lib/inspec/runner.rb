@@ -12,6 +12,7 @@ require "inspec/dist"
 require "inspec/reporters"
 require "inspec/runner_rspec"
 require "chef-licensing"
+require "inspec/utils/telemetry"
 # spec requirements
 
 module Inspec
@@ -219,9 +220,11 @@ module Inspec
     end
 
     def run_tests(with = nil)
+      Inspec::Telemetry.run_starting(runner: self)
       @run_data = @test_collector.run(with)
       # dont output anything if we want a report
       render_output(@run_data) unless @conf["report"]
+      Inspec::Telemetry.run_ending(runner: self, run_data: @run_data)
       @test_collector.exit_code
     end
 
