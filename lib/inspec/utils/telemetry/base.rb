@@ -100,8 +100,6 @@ module Inspec
 
             # Per-control features.
             payload[:jobs][0][:steps].last[:features] = scratch[:features].dup
-            # Waivers
-            payload[:jobs][0][:steps].last[:features] << "waivers" unless control[:waiver_data].nil? || control[:waiver_data].empty?
           end
         end
 
@@ -142,14 +140,14 @@ module Inspec
       end
 
       def note_per_run_features(opts)
-        note_reporters
+        note_all_invoked_features
         note_gem_dependency_usage(opts)
       end
 
-      def note_reporters
-        Inspec::Config.cached[:reporter]
-          .keys
-          .each { |name| Inspec::Telemetry.note_feature_usage("reporter:#{name}") }
+      def note_all_invoked_features
+        Inspec::Feature.list_all_invoked_features.each do |feature|
+          Inspec::Telemetry.note_feature_usage(feature.to_s)
+        end
       end
 
       def note_gem_dependency_usage(opts)
@@ -157,7 +155,7 @@ module Inspec
           tp.metadata.gem_dependencies + \
               tp.locked_dependencies.list.map { |_k, v| v.profile.metadata.gem_dependencies }.flatten
         end.flatten.empty?
-          Inspec::Telemetry.note_feature_usage("gem-deps-in-profiles")
+          Inspec::Telemetry.note_feature_usage("inspec-gem-deps-in-profiles")
         end
       end
     end
