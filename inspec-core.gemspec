@@ -40,7 +40,7 @@ Source code obtained from the Chef GitHub repository is made available under Apa
   spec.add_dependency "thor",                     ">= 0.20", "< 1.3.0"
   spec.add_dependency "method_source",            ">= 0.8", "< 2.0"
   spec.add_dependency "rubyzip",                  ">= 1.2.2", "< 3.0"
-  spec.add_dependency "rspec",                    ">= 3.9", "<= 3.12"
+  spec.add_dependency "rspec",                    ">= 3.9", "<= 3.14"
   spec.add_dependency "rspec-its",                "~> 1.2"
   spec.add_dependency "pry",                      "~> 0.13"
   spec.add_dependency "hashie",                   ">= 3.4", "< 6.0"
