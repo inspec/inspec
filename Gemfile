@@ -39,7 +39,7 @@ group :test do
   gem "json_schemer"
   gem "m"
   gem "minitest-sprint", "~> 1.0"
-  gem "minitest", "5.15.0"
+  gem "minitest", "5.21.2"
   gem "mocha"
   gem "nokogiri"
   gem "pry-byebug"
