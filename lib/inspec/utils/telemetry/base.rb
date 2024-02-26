@@ -87,7 +87,7 @@ module Inspec
               resources: [],
               features: [],
               tags: format_control_tags(control[:tags]),
-              results: format_control_results(control[:results].first),
+              results: format_control_results(control[:results]&.first),
             }
 
             control[:results]&.each do |resource_block|

@@ -23,7 +23,24 @@ describe "Telemetry" do
   let(:runner) { Inspec::Runner.new({ command_runner: :generic, reporter: [] }) }
   let(:repo_path) { File.expand_path("../../..", __dir__) }
   let(:mock_path) { File.join(repo_path, "test", "fixtures") }
+  let(:valid_list_licenses_api_response) { File.read("#{repo_path}/test/fixtures/valid_list_licenses_api_response.json") }
+  let(:valid_client_api_data) { File.read("#{repo_path}/test/fixtures/valid_client_api_data.json") }
   let(:profile_path) { File.join(mock_path, "profiles") }
+
+  before do
+    stub_request(:get, "#{ChefLicensing::Config.license_server_url}/v1/listLicenses")
+      .to_return(
+        body: valid_list_licenses_api_response,
+        headers: { content_type: "application/json" }
+      )
+
+    stub_request(:get, "#{ChefLicensing::Config.license_server_url}/v1/client")
+      .with(query: { licenseId: "free-42727540-ddc8-4d4b-0000-80662e03cd73-0000", entitlementId: ChefLicensing::Config.chef_entitlement_id })
+      .to_return(
+        body: valid_client_api_data ,
+        headers: { content_type: "application/json" }
+      )
+  end
 
   describe "when it runs with a nested profile" do
     let(:profile) { File.join(profile_path, "dependencies", "profile_a") }
@@ -36,10 +53,9 @@ describe "Telemetry" do
       _(tm.run_ending_payload).wont_be_empty
       _(tm.run_ending_payload).must_be_kind_of Hash
       _(tm.run_ending_payload[:source]).must_match(/^inspec:\d+\.\d+\.\d+$/)
-      _(tm.run_ending_payload[:customerId]).must_match(/^\S+$/) # TODO - Validate customer ID
-      _(tm.run_ending_payload[:correlationId]).must_match(REGEX[:uuid])
+      _(tm.run_ending_payload[:licenseIds]).wont_be_empty
       _(tm.run_ending_payload[:createdTimeUTC]).must_match(REGEX[:datetime])
-      _(tm.run_ending_payload[:type]).must_match(/^job|event$/)
+      _(tm.run_ending_payload[:type]).must_match(/^job$/)
     end
 
     it "sets the job fields" do
@@ -72,6 +88,8 @@ describe "Telemetry" do
         _(s[:name]).must_equal "inspec-control"
         _(s[:id]).must_match(REGEX[:sha256])
         _(s[:resources]).must_be_kind_of Array
+        _(s[:features]).wont_be_empty
+        _(s[:tags]).wont_be_empty
         s[:resources].each do |r|
           _(r[:type]).must_equal "inspec-resource"
           _(r[:name]).wont_be_empty
