@@ -15,7 +15,7 @@ module Inspec
 
     def self.determine_backend_class
       # Don't perform telemetry call if license is not a free license
-      return Inspec::Telemetry::Null unless license&.license_type == "free"
+      return Inspec::Telemetry::Null unless license&.license_type.downcase == "free"
 
       # Don't perform telemetry action if running under Automate - Automate does LDC tracking for us
       return Inspec::Telemetry::Null if Inspec::Telemetry::RunContextProbe.under_automate?
