@@ -25,7 +25,6 @@ module Inspec
 
       # Telemetry opt-in/out enabled for other Inspec distros
       return Inspec::Telemetry::Null if Inspec::Dist::EXEC_NAME != "inspec" && telemetry_disabled?
-      # TODO: ask chef-telemetry gem if we should be enabled or not
 
       # Don't perform telemetry action if running under Automate - Automate does LDC tracking for us
       return Inspec::Telemetry::Null if Inspec::Telemetry::RunContextProbe.under_automate?
