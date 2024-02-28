@@ -1,9 +1,21 @@
 module Inspec
-  module Telemetry
+  class Telemetry
     # Guesses the run context of InSpec - how were we invoked?
     # All stack values here are determined experimentally
 
     class RunContextProbe
+      # Guess if we are running under Automate
+      def self.under_automate?
+        # Currently assume we are under automate if we have an automate-based reporter
+        Inspec::Config.cached[:reporter]
+          .keys
+          .map(&:to_s)
+          .any? { |n| n =~ /automate/ }
+      end
+
+      # Guess, using stack introspection, if we were called under
+      # test-kitchen, cli, audit-cookbook, or otherwise.
+      # TODO add compliance-phase of chef-infra
       def self.guess_run_context(stack = nil)
         stack ||= caller_locations
         return "test-kitchen" if kitchen?(stack)

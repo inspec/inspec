@@ -8,11 +8,15 @@ module Inspec
 
   class Feature
     attr_reader :name, :description, :env_preview
+
+    @@features_invoked = []
+
     def initialize(feature_name, feature_yaml_opts)
       @name = feature_name
       feature_yaml_opts ||= {}
       @description = feature_yaml_opts["description"]
       @env_preview = feature_yaml_opts["env_preview"]
+      @@features_invoked << feature_name
     end
 
     def previewable?
@@ -29,6 +33,10 @@ module Inspec
       # ENV used for this feature preview would be CHEF_PREVIEW_TEST_FEATURE
       env_preview_feature_name = name.to_s.split("inspec-")[-1]
       ENV["CHEF_PREVIEW_#{env_preview_feature_name.gsub("-", "_").upcase}"]
+    end
+
+    def self.list_all_invoked_features
+      @@features_invoked.uniq
     end
   end
 end
