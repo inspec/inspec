@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.22.43 -->
+## [v5.22.43](https://github.com/inspec/inspec/tree/v5.22.43) (2024-03-13)
 
 #### Merged Pull Requests
+- Backport #6862 Allow the negate formating for cmp [#6986](https://github.com/inspec/inspec/pull/6986) ([Vasu1105](https://github.com/Vasu1105))
 - CHEF-3160: Improve code coverage % on inspec-5 branch [#6957](https://github.com/inspec/inspec/pull/6957) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.22.40 release
 
 #### Merged Pull Requests
+- Backport #6862 Allow the negate formating for cmp [#6986](https://github.com/inspec/inspec/pull/6986) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.43 -->
 - CHEF-3160: Improve code coverage % on inspec-5 branch [#6957](https://github.com/inspec/inspec/pull/6957) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.42 -->
 - CHEF-4571: Silence warning about transforming into git fetcher (#6946) [#6956](https://github.com/inspec/inspec/pull/6956) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.42 -->
 - CHEF-8609: Backport-6873 Reduce version pinning [#6952](https://github.com/inspec/inspec/pull/6952) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.41 -->
