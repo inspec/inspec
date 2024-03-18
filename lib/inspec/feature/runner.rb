@@ -10,7 +10,8 @@ module Inspec
 
         # Validate that the feature is recognized
         feature = config[feature_name]
-        unless feature
+
+        if !feature && !feature_name.match('inspec-reporter-')
           logger.warn "Unrecognized feature name '#{feature_name}'"
         end
 
