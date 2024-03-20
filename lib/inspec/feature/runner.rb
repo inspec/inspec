@@ -11,7 +11,10 @@ module Inspec
         # Validate that the feature is recognized
         feature = config[feature_name]
         unless feature
-          logger.warn "Unrecognized feature name '#{feature_name}'"
+          # Avoid warning for custom plugins
+          user_plugins = Inspec::Plugin::V2::Registry.instance.plugin_statuses.select { |status| status.installation_type == :user_gem }
+          user_plugin_names = user_plugins.collect { |a| a.name.to_s }
+          logger.warn "Unrecognized feature name '#{feature_name}'" unless user_plugin_names.include?(feature_name)
         end
 
         # If the feature is not recognized
