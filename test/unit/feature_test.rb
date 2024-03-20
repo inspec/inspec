@@ -9,6 +9,12 @@ require "stringio"
 
 require "inspec/feature"
 
+require "inspec/plugin/v2"
+
+class Inspec::Plugin::V2::Loader
+  public :detect_system_plugins
+end
+
 describe "Inspec::Feature" do
   let(:fixtures_path) { "test/fixtures" }
   it "should be a class" do
@@ -61,6 +67,17 @@ describe "Inspec::Feature" do
       end
       _(logger_io.string).must_match(/WARN/)
       _(logger_io.string).must_match(/test-feature-nonesuch/)
+    end
+
+    it "should not give warnings for inspec custom plugins" do
+      @config_dir_path = File.expand_path "test/fixtures/config_dirs"
+      ENV["INSPEC_CONFIG_DIR"] = File.join(@config_dir_path, "train-test-fixture")
+      loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true)
+      loader.send(:read_conf_file_into_registry)
+      Inspec::Plugin::V2::Registry.instance
+      Inspec.with_feature("inspec-reporter-custom-plugin", config: cfg, logger: logger) do
+      end
+      _(logger_io.string).wont_match(/WARN/)
     end
   end
 

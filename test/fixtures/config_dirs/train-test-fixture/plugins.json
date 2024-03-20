@@ -4,6 +4,10 @@
     {
       "name": "train-test-fixture",
       "version": ">= 0.1.0"
+    },
+    {
+      "name": "inspec-reporter-custom-plugin",
+      "version": "= 0.5.0"
     }
   ]
 }
