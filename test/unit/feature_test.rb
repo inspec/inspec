@@ -16,6 +16,17 @@ class Inspec::Plugin::V2::Loader
 end
 
 describe "Inspec::Feature" do
+  after do
+    ENV["HOME"] = Dir.home
+    ENV["INSPEC_CONFIG_DIR"] = nil
+    Inspec::Plugin::V2::Registry.instance.__reset
+    if defined?(::InspecPlugins::TestFixture)
+      InspecPlugins.send :remove_const, :TestFixture
+    end
+    # forget all test fixture files
+    $".reject! { |path| path =~ %r{test/fixtures} }
+  end
+
   let(:fixtures_path) { "test/fixtures" }
   it "should be a class" do
     _(Inspec::Feature).must_be_kind_of Class
@@ -75,7 +86,7 @@ describe "Inspec::Feature" do
       loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true)
       loader.send(:read_conf_file_into_registry)
       Inspec::Plugin::V2::Registry.instance
-      Inspec.with_feature("inspec-reporter-custom-plugin", config: cfg, logger: logger) do
+      Inspec.with_feature("train-test-fixture", config: cfg, logger: logger) do
       end
       _(logger_io.string).wont_match(/WARN/)
     end
