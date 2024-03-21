@@ -1,8 +1,8 @@
 # THIS IS NOW HAND MANAGED, JUST EDIT THE THING
 
 # grab the current train release from rubygems.org
-train_stable = /^train \((.*)\)/.match(`gem list ^train$ --remote`)[1]
-override "train", version: "v#{train_stable}"
+#train_stable = /^train \((.*)\)/.match(`gem list ^train$ --remote`)[1]
+override "train", version: "3.11.1"
 override "ruby", version: "3.1.2"
 
 override :openssl, version: "3.0.11"
