@@ -24,6 +24,7 @@ group :omnibus do
   gem "appbundler"
   gem "ed25519" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
   gem "bcrypt_pbkdf" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
+  gem "x25519" # curve25519-sha256 ssh key support done here as its a native gem we can't put in the gemspec
 end
 
 group :test do
