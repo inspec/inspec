@@ -1,12 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.6.13 -->
-## [v6.6.13](https://github.com/inspec/inspec/tree/v6.6.13) (2024-02-20)
+<!-- latest_release 6.6.14 -->
+## [v6.6.14](https://github.com/inspec/inspec/tree/v6.6.14) (2024-03-27)
 
 #### Merged Pull Requests
-- Allow the negate formating for cmp [#6862](https://github.com/inspec/inspec/pull/6862) ([Taknok](https://github.com/Taknok))
-- CHEF-3163 Adds unit test for progress bar streaming reporter [#6970](https://github.com/inspec/inspec/pull/6970) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-9848 - Exclude Warning &quot;Unrecognized feature name&quot;  for Custom InSpec plugins. [#6988](https://github.com/inspec/inspec/pull/6988) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -39,6 +38,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- CHEF-9848 - Exclude Warning &quot;Unrecognized feature name&quot;  for Custom InSpec plugins. [#6988](https://github.com/inspec/inspec/pull/6988) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.14 -->
 - Allow the negate formating for cmp [#6862](https://github.com/inspec/inspec/pull/6862) ([Taknok](https://github.com/Taknok)) <!-- 6.6.13 -->
 - CHEF-3163 Adds unit test for progress bar streaming reporter [#6970](https://github.com/inspec/inspec/pull/6970) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.12 -->
 - CHEF-3162: Implement unit test for inspec-sign plugin [#6959](https://github.com/inspec/inspec/pull/6959) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.12 -->
