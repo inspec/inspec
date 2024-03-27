@@ -16,7 +16,7 @@ steps:
       secrets: true
       executor:
         docker:
-          image: ruby:3.0
+          image: ruby:3.0-bullseye
 
   - label: run-tests-ruby-3.0
     command:
@@ -25,7 +25,7 @@ steps:
       secrets: true
       executor:
         docker:
-          image: ruby:3.0
+          image: ruby:3.0-bullseye
 
   - label: run-tests-ruby-3.1
     command:
@@ -34,7 +34,7 @@ steps:
       secrets: true
       executor:
         docker:
-          image: ruby:3.1
+          image: ruby:3.1-bullseye
 
   - label: isolated-tests-ruby-3.0
     command:
@@ -43,7 +43,7 @@ steps:
       secrets: true
       executor:
         docker:
-          image: ruby:3.0
+          image: ruby:3.0-bullseye
 
   - label: isolated-tests-ruby-3.1
     command:
@@ -52,7 +52,7 @@ steps:
       secrets: true
       executor:
         docker:
-          image: ruby:3.1
+          image: ruby:3.1-bullseye
 
   - label: run-tests-ruby-3.1-windows
     command:
