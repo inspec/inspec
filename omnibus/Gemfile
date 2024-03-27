@@ -9,7 +9,7 @@ gem "ffi", ">= 1.9.14", "!= 1.13.0"
 # Pinning to 2.4.0 as 2.6.0 version breaks the Windows build
 # Ref: https://buildkite.com/chef/inspec-inspec-main-omnibus-release/builds/815#018a1db4-2971-4e77-8bca-32d058fe8c12/173-340
 # We can try reverting this change once it gets fixed in the omnibus-toolchain as per slack conversation
-gem "ffi-yajl", "= 2.4.0"
+gem "ffi-yajl", "2.6.0"
 
 # This development group is installed by default when you run `bundle install`,
 # but if you are using Omnibus in a CI-based infrastructure, you do not need
