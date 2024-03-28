@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.22.44 -->
+## [v5.22.44](https://github.com/inspec/inspec/tree/v5.22.44) (2024-03-28)
 
 #### Merged Pull Requests
+- Backport - CI: update ruby docker image to ruby bullseye base image (#6998) [#7001](https://github.com/inspec/inspec/pull/7001) ([Vasu1105](https://github.com/Vasu1105))
 - Bump artifactory from 3.0.15 to 3.0.17 in /omnibus [#6982](https://github.com/inspec/inspec/pull/6982) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.22.40 release
 
 #### Merged Pull Requests
+- Backport - CI: update ruby docker image to ruby bullseye base image (#6998) [#7001](https://github.com/inspec/inspec/pull/7001) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.44 -->
 - Bump artifactory from 3.0.15 to 3.0.17 in /omnibus [#6982](https://github.com/inspec/inspec/pull/6982) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.43 -->
 - Backport #6862 Allow the negate formating for cmp [#6986](https://github.com/inspec/inspec/pull/6986) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.43 -->
 - CHEF-3160: Improve code coverage % on inspec-5 branch [#6957](https://github.com/inspec/inspec/pull/6957) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.42 -->
