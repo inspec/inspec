@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.6.14 -->
-## [v6.6.14](https://github.com/inspec/inspec/tree/v6.6.14) (2024-03-27)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- CHEF-9848 - Exclude Warning &quot;Unrecognized feature name&quot;  for Custom InSpec plugins. [#6988](https://github.com/inspec/inspec/pull/6988) ([Vasu1105](https://github.com/Vasu1105))
+- Fix: Update ruby base image to bullseye in CI tests [#6998](https://github.com/inspec/inspec/pull/6998) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Fix: Update ruby base image to bullseye in CI tests [#6998](https://github.com/inspec/inspec/pull/6998) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.14 -->
 - CHEF-9848 - Exclude Warning &quot;Unrecognized feature name&quot;  for Custom InSpec plugins. [#6988](https://github.com/inspec/inspec/pull/6988) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.14 -->
 - Allow the negate formating for cmp [#6862](https://github.com/inspec/inspec/pull/6862) ([Taknok](https://github.com/Taknok)) <!-- 6.6.13 -->
 - CHEF-3163 Adds unit test for progress bar streaming reporter [#6970](https://github.com/inspec/inspec/pull/6970) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.12 -->
