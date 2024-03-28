@@ -5,6 +5,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Update Netlify docs deployment [#6994](https://github.com/inspec/inspec/pull/6994) ([IanMadd](https://github.com/IanMadd))
 - Fix: Update ruby base image to bullseye in CI tests [#6998](https://github.com/inspec/inspec/pull/6998) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Update Netlify docs deployment [#6994](https://github.com/inspec/inspec/pull/6994) ([IanMadd](https://github.com/IanMadd)) <!-- 6.6.14 -->
 - Fix: Update ruby base image to bullseye in CI tests [#6998](https://github.com/inspec/inspec/pull/6998) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.14 -->
 - CHEF-9848 - Exclude Warning &quot;Unrecognized feature name&quot;  for Custom InSpec plugins. [#6988](https://github.com/inspec/inspec/pull/6988) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.14 -->
 - Allow the negate formating for cmp [#6862](https://github.com/inspec/inspec/pull/6862) ([Taknok](https://github.com/Taknok)) <!-- 6.6.13 -->
