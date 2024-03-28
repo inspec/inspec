@@ -232,6 +232,11 @@ module Inspec
       @supports_runtime
     end
 
+    def licensed?
+      # TODO - several unmentionable things here
+      !metadata.params[:profile_content_id].nil?
+    end
+
     def params
       @params ||= load_params
     end

@@ -11,6 +11,7 @@ require "inspec/dependencies/cache"
 require "inspec/dist"
 require "inspec/reporters"
 require "inspec/runner_rspec"
+require_relative "utils/license_data_collector"
 require "chef-licensing"
 # spec requirements
 
@@ -174,6 +175,7 @@ module Inspec
       }
 
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
+      Inspec::LicenseDataCollector.scan_starting(runner: self)
       load
       run_tests(with)
     rescue ChefLicensing::SoftwareNotEntitled
@@ -221,7 +223,9 @@ module Inspec
     def run_tests(with = nil)
       @run_data = @test_collector.run(with)
       # dont output anything if we want a report
+      th = Inspec::LicenseDataCollector.scan_finishing(run_data: @run_data)
       render_output(@run_data) unless @conf["report"]
+      th.join if th.respond_to? :join
       @test_collector.exit_code
     end
 
