@@ -15,7 +15,7 @@ steps:
     expeditor:
       executor:
         docker:
-          image: ruby:3.1
+          image: ruby:3.1-bullseye
 
   - label: run-tests-ruby-3.1
     command:
