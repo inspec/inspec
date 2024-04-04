@@ -15,7 +15,7 @@ $pkg_maintainer="The Chef Maintainers <humans@chef.io>"
 $pkg_license=('Apache-2.0')
 
 $pkg_deps=@(
-  "chef/ruby31-plus-devkit"
+  "chef/ruby33-plus-devkit"
   "core/git"
 )
 $pkg_bin_dirs=@("bin"
