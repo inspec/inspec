@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "inspec-core", "= #{Inspec::VERSION}"
 
-  spec.add_dependency "train", "~> 3.10"
+  spec.add_dependency "train", ">= 3.11.0", "< 3.12" # It is a temporary fix until we can fix 3.12
 
   # cookstyle support for inspec check
   # Added here not because they are compiled, but to keep chef-client lightweight
