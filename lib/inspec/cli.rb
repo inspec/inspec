@@ -407,6 +407,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
         runner = Inspec::Runner.new(o)
         targets.each { |target| runner.add_target(target) }
 
+        ChefLicensing.warn_if_non_commercial_license if o[:reporter].include?("cli")
         ui.exit runner.run
       rescue ArgumentError, RuntimeError, Train::UserError => e
         $stderr.puts e.message
