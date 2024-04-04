@@ -3,7 +3,7 @@
 # grab the current train release from rubygems.org
 train_stable = /^train \((.*)\)/.match(`gem list ^train$ --remote`)[1]
 override "train", version: "v#{train_stable}"
-override "ruby", version: "3.1.2"
+override "ruby", version: "3.3.0"
 
 # Mac Apple Silicon requires 1.1.1 series instead of 1.0.2 series
 if mac_os_x?
@@ -15,4 +15,4 @@ else
   override "openssl", version: "1.0.2zi"
 end
 
-override "ruby-msys2-devkit", version: "3.1.2-1"
+override "ruby-msys2-devkit", version: "3.3.0-1"
