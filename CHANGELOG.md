@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.44 -->
-## [v5.22.44](https://github.com/inspec/inspec/tree/v5.22.44) (2024-03-28)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Backport - CI: update ruby docker image to ruby bullseye base image (#6998) [#7001](https://github.com/inspec/inspec/pull/7001) ([Vasu1105](https://github.com/Vasu1105))
-- Bump artifactory from 3.0.15 to 3.0.17 in /omnibus [#6982](https://github.com/inspec/inspec/pull/6982) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump omnibus-software from `86649fa` to `4ea194c` in /omnibus [#6999](https://github.com/inspec/inspec/pull/6999) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.40 -->
 ### Changes since 5.22.40 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `86649fa` to `4ea194c` in /omnibus [#6999](https://github.com/inspec/inspec/pull/6999) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.44 -->
 - Backport - CI: update ruby docker image to ruby bullseye base image (#6998) [#7001](https://github.com/inspec/inspec/pull/7001) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.44 -->
 - Bump artifactory from 3.0.15 to 3.0.17 in /omnibus [#6982](https://github.com/inspec/inspec/pull/6982) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.43 -->
 - Backport #6862 Allow the negate formating for cmp [#6986](https://github.com/inspec/inspec/pull/6986) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.43 -->
