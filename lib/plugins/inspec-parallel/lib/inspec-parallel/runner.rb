@@ -23,9 +23,9 @@ module InspecPlugins
       def run
         initiate_background_run if run_in_background # running a process as daemon changes parent process pid
         until invocations.empty? && @child_tracker.empty?
+          # Changing output to STDERR to avoid the output interruption between runs
+          ChefLicensing::Config.output = STDERR
           while should_start_more_jobs?
-            # Changing output to STDERR to avoid the output interruption between runs
-            ChefLicensing::Config.output = STDERR
             if Inspec.locally_windows?
               spawn_another_process
             else
