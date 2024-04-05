@@ -8,6 +8,7 @@ module Inspec
   class Telemetry
 
     @@instance = nil
+    @@config = nil
 
     def self.instance
       @@instance ||= determine_backend_class.new
@@ -16,6 +17,14 @@ module Inspec
     def self.determine_backend_class
       # Don't perform telemetry call if license is not a free license
       return Inspec::Telemetry::Null unless license&.license_type&.downcase == "free"
+
+      if Inspec::Dist::EXEC_NAME == "inspec" && telemetry_disabled?
+        # Issue a warning if an InSpec user is explicitly trying to opt out of telemetry using cli option
+        Inspec::Log.warn "Telemetry opt-out is not permissible."
+      end
+
+      # Telemetry opt-in/out enabled for other Inspec distros
+      return Inspec::Telemetry::Null if Inspec::Dist::EXEC_NAME != "inspec" && telemetry_disabled?
 
       # Don't perform telemetry action if running under Automate - Automate does LDC tracking for us
       return Inspec::Telemetry::Null if Inspec::Telemetry::RunContextProbe.under_automate?
@@ -34,15 +43,25 @@ module Inspec
     # These class methods make it convenient to call from anywhere within the InSpec codebase.
     ######
     def self.run_starting(opts)
+      @@config ||= opts[:conf]
       instance.run_starting(opts)
     end
 
     def self.run_ending(opts)
+      @@config ||= opts[:conf]
       instance.run_ending(opts)
     end
 
     def self.note_feature_usage(feature_name)
       instance.note_feature_usage(feature_name)
+    end
+
+    def self.config
+      @@config
+    end
+
+    def self.telemetry_disabled?
+      !config.telemetry_options["enable_telemetry"]
     end
   end
 end

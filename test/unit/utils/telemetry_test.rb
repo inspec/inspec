@@ -98,4 +98,21 @@ describe "Telemetry" do
       end
     end
   end
+
+  describe "when telemetry is run for Inspec" do
+    let(:profile) { File.join(profile_path, "dependencies", "profile_a") }
+    let(:tm) { Inspec::Telemetry::Mock.new }
+    let(:conf) { Inspec::Config.new({ "enable_telemetry" => false }) }
+    let(:runner) { Inspec::Runner.new({ command_runner: :generic, reporter: [], conf: conf }) }
+
+    it "Inspec user can not disable telemetry using --no-enable-telemetry option" do
+      Inspec::Telemetry.expects(:instance).returns(tm).at_least_once
+      runner.add_target(profile)
+      runner.run
+      # Inspec user attempted to disable telemetry
+      _(Inspec::Telemetry.telemetry_disabled?).must_equal true
+      # Returns HTTP backend meaning the telemetry call is not disabled and will make an API call
+      _(Inspec::Telemetry.determine_backend_class).must_equal Inspec::Telemetry::HTTP
+    end
+  end
 end

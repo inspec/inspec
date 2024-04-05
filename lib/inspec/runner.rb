@@ -178,7 +178,7 @@ module Inspec
       # Perform telemetry when preview flag CHEF_PREVIEW_TELEMETRY_CLIENT is set
       Inspec.with_feature("inspec-telemetry-client") {
         Inspec::Log.debug "Initiating telemetry for InSpec"
-        Inspec::Telemetry.run_starting(runner: self)
+        Inspec::Telemetry.run_starting(runner: self, conf: @conf)
       }
       load
       run_tests(with)
@@ -230,7 +230,7 @@ module Inspec
       render_output(@run_data) unless @conf["report"]
       # Perform telemetry when preview flag CHEF_PREVIEW_TELEMETRY_CLIENT is set
       Inspec.with_feature("inspec-telemetry-client") {
-        Inspec::Telemetry.run_ending(runner: self, run_data: @run_data)
+        Inspec::Telemetry.run_ending(runner: self, run_data: @run_data, conf: @conf)
         Inspec::Log.debug "Finishing telemetry for InSpec"
       }
       @test_collector.exit_code
