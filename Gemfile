@@ -53,3 +53,6 @@ end
 group :deploy do
   gem "inquirer"
 end
+
+gem "train", git: "https://github.com/inspec/train.git", branch: "ss/pin-down-googleauth"
+gem "train-core", git: "https://github.com/inspec/train.git", branch: "ss/pin-down-googleauth"

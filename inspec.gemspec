@@ -34,7 +34,7 @@ Source code obtained from the Chef GitHub repository is made available under Apa
 
   spec.add_dependency "inspec-core", "= #{Inspec::VERSION}"
 
-  spec.add_dependency "train", "~> 3.10"
+  # spec.add_dependency "train", "~> 3.10"
 
   # cookstyle support for inspec check
   # Added here not because they are compiled, but to keep chef-client lightweight

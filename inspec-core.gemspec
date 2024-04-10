@@ -57,6 +57,6 @@ Source code obtained from the Chef GitHub repository is made available under Apa
   spec.add_dependency "semverse",                 "~> 3.0"
   spec.add_dependency "multipart-post",           "~> 2.0"
 
-  spec.add_dependency "train-core", ">= 3.11.0"
+  # spec.add_dependency "train-core", ">= 3.11.0"
   spec.add_dependency "chef-licensing", ">= 0.7.5"
 end
