@@ -92,3 +92,6 @@
     inspec-audit-logging:
       description: Use audit logging.
       env_preview: true
+    inspec-telemetry-client:
+      description: Peform telemetry.
+      env_preview: true
