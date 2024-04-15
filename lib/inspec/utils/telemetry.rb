@@ -15,8 +15,8 @@ module Inspec
     end
 
     def self.determine_backend_class
-      # Don't perform telemetry call if license is not a free license
-      return Inspec::Telemetry::Null unless license&.license_type&.downcase == "free"
+      # Don't perform telemetry call if license is a commercial license
+      return Inspec::Telemetry::Null if license&.license_type&.downcase == "commercial"
 
       if Inspec::Dist::EXEC_NAME == "inspec" && telemetry_disabled?
         # Issue a warning if an InSpec user is explicitly trying to opt out of telemetry using cli option
