@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.6.15 -->
+## [v6.6.15](https://github.com/inspec/inspec/tree/v6.6.15) (2024-04-16)
 
 #### Merged Pull Requests
+- Update test with updated failure message for GCP authentication [#7010](https://github.com/inspec/inspec/pull/7010) ([ahasunos](https://github.com/ahasunos))
 - Update Netlify docs deployment [#6994](https://github.com/inspec/inspec/pull/6994) ([IanMadd](https://github.com/IanMadd))
 - Fix: Update ruby base image to bullseye in CI tests [#6998](https://github.com/inspec/inspec/pull/6998) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
@@ -39,6 +40,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Update test with updated failure message for GCP authentication [#7010](https://github.com/inspec/inspec/pull/7010) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.15 -->
 - Update Netlify docs deployment [#6994](https://github.com/inspec/inspec/pull/6994) ([IanMadd](https://github.com/IanMadd)) <!-- 6.6.14 -->
 - Fix: Update ruby base image to bullseye in CI tests [#6998](https://github.com/inspec/inspec/pull/6998) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.14 -->
 - CHEF-9848 - Exclude Warning &quot;Unrecognized feature name&quot;  for Custom InSpec plugins. [#6988](https://github.com/inspec/inspec/pull/6988) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.14 -->
