@@ -219,5 +219,18 @@ describe "Inspec::Feature" do
         _(test_feature_04.no_preview?).must_equal true
       end
     end
+
+    describe "Collecting invoked features" do
+      let(:feature_config_file) { File.join(fixtures_path, "features-02.yaml") }
+      let(:cfg) { Inspec::Feature::Config.new(feature_config_file) }
+      it "returns list of invoked feature names" do
+        # Invoked features 1 & 2
+        Inspec.with_feature("inspec-test-feature-01", config: cfg) {}
+        Inspec.with_feature("inspec-test-feature-02", config: cfg) {}
+        invoked_features = Inspec::Feature.list_all_invoked_features
+        _(invoked_features).must_include :"inspec-test-feature-01"
+        _(invoked_features).must_include :"inspec-test-feature-02"
+      end
+    end
   end
 end
