@@ -59,4 +59,5 @@ Source code obtained from the Chef GitHub repository is made available under Apa
 
   spec.add_dependency "train-core", ">= 3.11.0"
   spec.add_dependency "chef-licensing", ">= 0.7.5"
+  spec.add_dependency "git", "~> 1.0"
 end

@@ -2,6 +2,7 @@ require "uri" unless defined?(URI)
 require "openssl" unless defined?(OpenSSL)
 require "tempfile" unless defined?(Tempfile)
 require "open-uri" unless defined?(OpenURI)
+require "git" unless defined?(Git)
 
 module Inspec::Fetcher
   class Url < Inspec.fetcher(1)
@@ -133,17 +134,12 @@ module Inspec::Fetcher
     class << self
       def default_ref(match_data, repo_url)
         remote_url = "#{repo_url}/#{match_data[:user]}/#{match_data[:repo]}.git"
-        command_string = "git remote show #{remote_url}"
-        cmd = shellout(command_string)
-        unless cmd.exitstatus == 0
-          raise(Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{remote_url} - error running '#{command_string}': #{cmd.stderr}")
-        else
-          ref = cmd.stdout.lines.detect { |l| l.include? "HEAD branch:" }&.split(":")&.last&.strip
-          unless ref
-            raise(Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{remote_url} - error running '#{command_string}': NULL reference")
-          end
-
+        begin
+          repo = ::Git.ls_remote(remote_url)
+          ref = repo["head"][:sha]
           ref
+        rescue ::Git::GitExecuteError => e
+          raise Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{remote_url} - error running 'git remote show #{remote_url}': #{e.message}"
         end
       end
 
