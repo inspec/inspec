@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.46 -->
-## [v5.22.46](https://github.com/inspec/inspec/tree/v5.22.46) (2024-04-16)
+<!-- latest_release 5.22.47 -->
+## [v5.22.47](https://github.com/inspec/inspec/tree/v5.22.47) (2024-04-17)
 
 #### Merged Pull Requests
-- Backport-7010: Update test with updated failure message for GCP authentication [#7020](https://github.com/inspec/inspec/pull/7020) ([ahasunos](https://github.com/ahasunos))
+- Revert &quot;Backport 6989: Add support for curve25519 key exchange&quot; [#7022](https://github.com/inspec/inspec/pull/7022) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.40 -->
 ### Changes since 5.22.40 release
 
 #### Merged Pull Requests
+- Revert &quot;Backport 6989: Add support for curve25519 key exchange&quot; [#7022](https://github.com/inspec/inspec/pull/7022) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.47 -->
 - Backport-7010: Update test with updated failure message for GCP authentication [#7020](https://github.com/inspec/inspec/pull/7020) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.46 -->
 - Backport 6989: Add support for curve25519 key exchange [#6990](https://github.com/inspec/inspec/pull/6990) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.45 -->
 - Bump omnibus-software from `86649fa` to `4ea194c` in /omnibus [#6999](https://github.com/inspec/inspec/pull/6999) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.44 -->
