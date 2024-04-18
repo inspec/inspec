@@ -20,12 +20,16 @@ REGEX = {
 }.freeze
 
 describe "Telemetry" do
-  let(:runner) { Inspec::Runner.new({ command_runner: :generic, reporter: [] }) }
+  let(:conf) { Inspec::Config.new({ "enable_telemetry" => false }) }
+  let(:runner) { Inspec::Runner.new({ command_runner: :generic, reporter: [], conf: conf }) }
+  let(:run_data) { JSON.parse(File.read("test/fixtures/reporters/run_data_test_profile_a.json"), symbolize_names: true) }
   let(:repo_path) { File.expand_path("../../..", __dir__) }
   let(:mock_path) { File.join(repo_path, "test", "fixtures") }
   let(:valid_list_licenses_api_response) { File.read("#{repo_path}/test/fixtures/valid_list_licenses_api_response.json") }
   let(:valid_client_api_data) { File.read("#{repo_path}/test/fixtures/valid_client_api_data.json") }
   let(:profile_path) { File.join(mock_path, "profiles") }
+  let(:profile) { File.join(profile_path, "dependencies", "profile_a") }
+  let(:tm) { Inspec::Telemetry::Mock.new }
 
   before do
     stub_request(:get, "#{ChefLicensing::Config.license_server_url}/v1/listLicenses")
@@ -43,11 +47,9 @@ describe "Telemetry" do
   end
 
   describe "when it runs with a nested profile" do
-    let(:profile) { File.join(profile_path, "dependencies", "profile_a") }
-    let(:tm) { Inspec::Telemetry::Mock.new }
-
     it "sets the wrapper fields" do
       Inspec::Telemetry.expects(:instance).returns(tm).at_least_once
+      Inspec::Telemetry.run_ending(runner: runner, run_data: run_data, conf: conf)
       runner.add_target(profile)
       runner.run
       _(tm.run_ending_payload).wont_be_empty
@@ -60,6 +62,7 @@ describe "Telemetry" do
 
     it "sets the job fields" do
       Inspec::Telemetry.expects(:instance).returns(tm).at_least_once
+      Inspec::Telemetry.run_ending(runner: runner, run_data: run_data, conf: conf)
       runner.add_target(profile)
       runner.run
       j = tm.run_ending_payload[:jobs][0]
@@ -100,13 +103,9 @@ describe "Telemetry" do
   end
 
   describe "when telemetry is run for Inspec" do
-    let(:profile) { File.join(profile_path, "dependencies", "profile_a") }
-    let(:tm) { Inspec::Telemetry::Mock.new }
-    let(:conf) { Inspec::Config.new({ "enable_telemetry" => false }) }
-    let(:runner) { Inspec::Runner.new({ command_runner: :generic, reporter: [], conf: conf }) }
-
     it "Inspec user can not disable telemetry using --no-enable-telemetry option" do
       Inspec::Telemetry.expects(:instance).returns(tm).at_least_once
+      Inspec::Telemetry.run_ending(runner: runner, run_data: run_data, conf: conf)
       runner.add_target(profile)
       runner.run
       # Inspec user attempted to disable telemetry
