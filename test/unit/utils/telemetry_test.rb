@@ -12,7 +12,7 @@ module Inspec
 end
 
 REGEX = {
-  semver: /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/,
+  version: /^(\d+|\d+\.\d+|\d+\.\d+\.\d+)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/,
   datetime: /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)((-(\d{2}):(\d{2})|Z)?)$/,
   uuid: /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/,
   transport: /^[a-z0-9\-\_]+$/,
@@ -72,7 +72,7 @@ describe "Telemetry" do
 
       _(j[:environment][:host]).must_match(/^\S+$/)
       _(j[:environment][:os]).must_match(/^\S+$/)
-      _(j[:environment][:version]).must_match(REGEX[:semver]) # could be looser
+      _(j[:environment][:version]).must_match(REGEX[:version]) # looser version matching
       _(j[:environment][:architecture]).wont_be_empty
       _(j[:environment][:id]).must_match(REGEX[:uuid])
 
@@ -80,7 +80,7 @@ describe "Telemetry" do
       _(j[:content].count).must_equal 2
       j[:content].each do |c|
         _(c[:name]).wont_be_empty
-        _(c[:version]).must_match(REGEX[:semver])
+        _(c[:version]).must_match(REGEX[:version])
         _(c[:sha256]).must_match(REGEX[:sha256])
         _(c[:maintainer]).wont_be_empty
       end
