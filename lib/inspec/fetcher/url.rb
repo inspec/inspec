@@ -142,20 +142,6 @@ module Inspec::Fetcher
           raise Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{remote_url} - error running 'git remote show #{remote_url}': #{e.message}"
         end
       end
-
-      def shellout(cmd, opts = {})
-        Inspec::Log.debug("Running external command: #{cmd} (#{opts})")
-        cmd = Mixlib::ShellOut.new(cmd, opts)
-        cmd.run_command
-        Inspec::Log.debug("External command: completed with exit status: #{cmd.exitstatus}")
-        Inspec::Log.debug("External command: STDOUT BEGIN")
-        Inspec::Log.debug(cmd.stdout)
-        Inspec::Log.debug("External command: STDOUT END")
-        Inspec::Log.debug("External command: STDERR BEGIN")
-        Inspec::Log.debug(cmd.stderr)
-        Inspec::Log.debug("External command: STDERR END")
-        cmd
-      end
     end
 
     def parse_uri(target)
