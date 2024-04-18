@@ -25,21 +25,25 @@ describe "Telemetry" do
   let(:run_data) { JSON.parse(File.read("test/fixtures/reporters/run_data_test_profile_a.json"), symbolize_names: true) }
   let(:repo_path) { File.expand_path("../../..", __dir__) }
   let(:mock_path) { File.join(repo_path, "test", "fixtures") }
-  let(:valid_list_licenses_api_response) { File.read("#{repo_path}/test/fixtures/valid_list_licenses_api_response.json") }
   let(:valid_client_api_data) { File.read("#{repo_path}/test/fixtures/valid_client_api_data.json") }
   let(:profile_path) { File.join(mock_path, "profiles") }
   let(:profile) { File.join(profile_path, "dependencies", "profile_a") }
   let(:tm) { Inspec::Telemetry::Mock.new }
+  let(:chef_license_key) { ENV["CHEF_LICENSE_KEY"] || "free-42727540-ddc8-4d4b-0000-80662e03cd73-0000" }
 
   before do
     stub_request(:get, "#{ChefLicensing::Config.license_server_url}/v1/listLicenses")
       .to_return(
-        body: valid_list_licenses_api_response,
+        body: {
+          "data": [chef_license_key],
+          "message": "",
+          "status_code": 200,
+        }.to_json,
         headers: { content_type: "application/json" }
       )
 
     stub_request(:get, "#{ChefLicensing::Config.license_server_url}/v1/client")
-      .with(query: { licenseId: "free-42727540-ddc8-4d4b-0000-80662e03cd73-0000", entitlementId: ChefLicensing::Config.chef_entitlement_id })
+      .with(query: { licenseId: chef_license_key, entitlementId: ChefLicensing::Config.chef_entitlement_id })
       .to_return(
         body: valid_client_api_data ,
         headers: { content_type: "application/json" }
