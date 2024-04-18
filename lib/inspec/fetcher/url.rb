@@ -139,7 +139,21 @@ module Inspec::Fetcher
           ref = repo["head"][:sha]
           ref
         rescue ::Git::GitExecuteError => e
-          raise Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{remote_url} - error running 'git remote show #{remote_url}': #{e.message}"
+
+          # The error message 'e.message' is not very user-friendly, hence we extract the output message from the error message.
+          # For example, an error message might look like this:
+          # "git '-c' 'core.quotePath=true' '-c' 'color.ui=false' 'ls-remote' 'https://github.com/example/sample-inspec-profile.git'  2>&1\n
+          # status: pid 53916 exit 128\n
+          # output: \"ssh: connect to host github.com port 22: Undefined error: 0\\r\\nfatal: Could not read from remote repository.\\n\\n
+          # Please make sure you have the correct access rights\\nand the repository exists.\\n\""
+          # We aim to provide a more readable and clear error message to the user.
+
+          # Extract the output message from the error message
+          output_message = e.message[/output:\s+"(.+?)"/, 1]
+
+          # Replace literal "\r" and "\n" with actual newline characters and strip whitespace
+          output_message = output_message.gsub(/\\r|\\n/, "\n").strip
+          raise Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{remote_url} - error running 'git remote show #{remote_url}': #{output_message}"
         end
       end
     end
