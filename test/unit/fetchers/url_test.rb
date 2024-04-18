@@ -18,20 +18,6 @@ describe Inspec::Fetcher::Url do
       m
     end
 
-    let(:git_remote_head_main) do
-      out = mock
-      out.stubs(:stdout).returns("HEAD branch: main\n")
-      out.stubs(:exitstatus).returns(0)
-      out.stubs(:stderr).returns("")
-      out.stubs(:error!).returns(false)
-      out.stubs(:run_command).returns(true)
-      out
-    end
-
-    def expect_git_remote_head_main(remote_url)
-      Mixlib::ShellOut.expects(:new).returns(git_remote_head_main)
-    end
-
     it "handles a http url" do
       url = "http://chef.io/some.tar.gz"
       res = Inspec::Fetcher::Url.resolve(url)
