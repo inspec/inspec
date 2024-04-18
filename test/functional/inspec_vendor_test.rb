@@ -108,9 +108,11 @@ describe "example inheritance profile" do
       # TODO: split
       out = inspec("exec " + dir + " -l debug --no-create-lockfile")
 
-      _(out.stdout).must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/ssh-baseline/archive/master.tar.gz"'
-      _(out.stdout).must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/ssl-baseline/archive/master.tar.gz"'
-      _(out.stdout).must_include 'Using cached dependency for {:url=>"https://github.com/chris-rock/windows-patch-benchmark/archive/master.tar.gz"'
+      # Update: Caching is now performed using the SHA of the head commit of the main/master branch, followed by .tar.gz
+      _(out.stdout).must_match %r{Using cached dependency for \{:url=>"https://github\.com/dev-sec/ssh-baseline/archive/[0-9a-f]{40}\.tar\.gz}
+      _(out.stdout).must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/ssl-baseline/archive/'
+      _(out.stdout).must_match(%r{Using cached dependency for \{:url=>"https://github\.com/chris-rock/windows-patch-benchmark/archive/[0-9a-f]{40}\.tar\.gz})
+      _(out.stdout).must_include 'Using cached dependency for {:url=>"https://github.com/chris-rock/windows-patch-benchmark/archive/'
       _(out.stdout).wont_include "Fetching URL:"
       _(out.stdout).wont_include "Fetched archive moved to:"
 
