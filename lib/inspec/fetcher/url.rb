@@ -153,7 +153,7 @@ module Inspec::Fetcher
 
           # Replace literal "\r" and "\n" with actual newline characters and strip whitespace
           output_message = output_message.gsub(/\\r|\\n/, "\n").strip
-          raise Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{remote_url} - error running 'git remote show #{remote_url}': #{output_message}"
+          raise Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{remote_url} - error running '::Git.ls_remote(#{remote_url}'): #{output_message}"
         end
       end
     end
