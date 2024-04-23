@@ -2,7 +2,6 @@ require "uri" unless defined?(URI)
 require "openssl" unless defined?(OpenSSL)
 require "tempfile" unless defined?(Tempfile)
 require "open-uri" unless defined?(OpenURI)
-require "git" unless defined?(Git)
 
 module Inspec::Fetcher
   class Url < Inspec.fetcher(1)
@@ -134,27 +133,34 @@ module Inspec::Fetcher
     class << self
       def default_ref(match_data, repo_url)
         remote_url = "#{repo_url}/#{match_data[:user]}/#{match_data[:repo]}.git"
-        begin
-          repo = ::Git.ls_remote(remote_url)
-          ref = repo["head"][:sha]
+        command_string = "git ls-remote #{remote_url}"
+        cmd = shellout(command_string)
+        unless cmd.exitstatus == 0
+          raise(Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{remote_url} - error running '#{command_string}': #{cmd.stderr}")
+        else
+          # cmd.stdout is something like:
+          # "457d14843ab7c1c3740169eb47cf129a6f417964\tHEAD\n457d14843ab7c1c3740169eb47cf129a6f417964\trefs/heads/main\n457d14843ab7c1c3740169eb47cf129a6f417964\trefs/heads/test\n"
+          ref = cmd.stdout.lines.detect { |l| l.include? "HEAD" }&.split("\t")&.first&.strip
+          unless ref
+            raise(Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{remote_url} - error running '#{command_string}': NULL reference")
+          end
+
           ref
-        rescue ::Git::GitExecuteError => e
-
-          # The error message 'e.message' is not very user-friendly, hence we extract the output message from the error message.
-          # For example, an error message might look like this:
-          # "git '-c' 'core.quotePath=true' '-c' 'color.ui=false' 'ls-remote' 'https://github.com/example/sample-inspec-profile.git'  2>&1\n
-          # status: pid 53916 exit 128\n
-          # output: \"ssh: connect to host github.com port 22: Undefined error: 0\\r\\nfatal: Could not read from remote repository.\\n\\n
-          # Please make sure you have the correct access rights\\nand the repository exists.\\n\""
-          # We aim to provide a more readable and clear error message to the user.
-
-          # Extract the output message from the error message
-          output_message = e.message[/output:\s+"(.+?)"/, 1]
-
-          # Replace literal "\r" and "\n" with actual newline characters and strip whitespace
-          output_message = output_message.gsub(/\\r|\\n/, "\n").strip
-          raise Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{remote_url} - error running '::Git.ls_remote(#{remote_url}'): #{output_message}"
         end
+      end
+
+      def shellout(cmd, opts = {})
+        Inspec::Log.debug("Running external command: #{cmd} (#{opts})")
+        cmd = Mixlib::ShellOut.new(cmd, opts)
+        cmd.run_command
+        Inspec::Log.debug("External command: completed with exit status: #{cmd.exitstatus}")
+        Inspec::Log.debug("External command: STDOUT BEGIN")
+        Inspec::Log.debug(cmd.stdout)
+        Inspec::Log.debug("External command: STDOUT END")
+        Inspec::Log.debug("External command: STDERR BEGIN")
+        Inspec::Log.debug(cmd.stderr)
+        Inspec::Log.debug("External command: STDERR END")
+        cmd
       end
     end
 
