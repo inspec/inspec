@@ -20,7 +20,7 @@ describe Inspec::Fetcher::Url do
 
     let(:git_remote_head_main) do
       out = mock
-      out.stubs(:stdout).returns("HEAD branch: main\n")
+      out.stubs(:stdout).returns("ref: refs/heads/main\tHEAD\n")
       out.stubs(:exitstatus).returns(0)
       out.stubs(:stderr).returns("")
       out.stubs(:error!).returns(false)
