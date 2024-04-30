@@ -25,10 +25,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "inspec-core", "= #{Inspec::VERSION}"
 
   spec.add_dependency "train", "~> 3.10"
-
-  # cookstyle support for inspec check
-  # Added here not because they are compiled, but to keep chef-client lightweight
-  spec.add_dependency "cookstyle"
   spec.add_dependency "rake"
 
   # progress bar streaming reporter plugin support
