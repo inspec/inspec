@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.6.17 -->
-## [v6.6.17](https://github.com/inspec/inspec/tree/v6.6.17) (2024-04-24)
+<!-- latest_release 6.6.18 -->
+## [v6.6.18](https://github.com/inspec/inspec/tree/v6.6.18) (2024-04-30)
 
 #### Merged Pull Requests
-- Revert &quot;CHEF-8598: Add support for curve25519 key exchange&quot; [#7026](https://github.com/inspec/inspec/pull/7026) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-6000: Fix URL fetcher failure to work when current directory is not a Git repository [#7023](https://github.com/inspec/inspec/pull/7023) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- CHEF-6000: Fix URL fetcher failure to work when current directory is not a Git repository [#7023](https://github.com/inspec/inspec/pull/7023) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.18 -->
 - Revert &quot;CHEF-8598: Add support for curve25519 key exchange&quot; [#7026](https://github.com/inspec/inspec/pull/7026) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.17 -->
 - CHEF-8598: Add support for curve25519 key exchange [#6989](https://github.com/inspec/inspec/pull/6989) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.16 -->
 - Update test with updated failure message for GCP authentication [#7010](https://github.com/inspec/inspec/pull/7010) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.15 -->
