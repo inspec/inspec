@@ -47,7 +47,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "semverse",                 "~> 3.0"
   spec.add_dependency "multipart-post",           "~> 2.0"
 
-
   # cookstyle support for inspec check
   # This was initially included in 'inspec.gemspec' to keep 'chef-client' lightweight.
   # However, it has been moved to 'inspec-core.gemspec' due to a dependency on the 'ast' gem,
