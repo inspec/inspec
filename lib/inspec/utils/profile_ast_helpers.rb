@@ -3,8 +3,7 @@ require "rubocop-ast"
 module Inspec
   class Profile
     class AstHelper
-      class CollectorBase
-        include Parser::AST::Processor::Mixin
+      class CollectorBase < Parser::AST::Processor
         include RuboCop::AST::Traversal
 
         attr_reader :memo
