@@ -57,7 +57,7 @@ do_install() {
 
   # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
   # for omnibus we also install this as part of the package
-  gem install ed25519 bcrypt_pbkdf x25519 --no-document
+  gem install ed25519 bcrypt_pbkdf --no-document
 
   # Certain gems (timeliness) are getting installed with world writable files
   # This is removing write bits for group and other.
