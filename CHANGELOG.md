@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.48 -->
-## [v5.22.48](https://github.com/inspec/inspec/tree/v5.22.48) (2024-05-02)
+<!-- latest_release 5.22.49 -->
+## [v5.22.49](https://github.com/inspec/inspec/tree/v5.22.49) (2024-05-06)
 
 #### Merged Pull Requests
-- Backport-7030: Fix uninitialized constant Parser::AST::Processor::Mixin (#7030) [#7036](https://github.com/inspec/inspec/pull/7036) ([ahasunos](https://github.com/ahasunos))
+- Backport-7034: Add cookstyle as a dependency for inspec-core.gemspec [#7035](https://github.com/inspec/inspec/pull/7035) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.40 -->
 ### Changes since 5.22.40 release
 
 #### Merged Pull Requests
+- Backport-7034: Add cookstyle as a dependency for inspec-core.gemspec [#7035](https://github.com/inspec/inspec/pull/7035) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.49 -->
 - Backport-7030: Fix uninitialized constant Parser::AST::Processor::Mixin (#7030) [#7036](https://github.com/inspec/inspec/pull/7036) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.48 -->
 - Revert &quot;Backport 6989: Add support for curve25519 key exchange&quot; [#7022](https://github.com/inspec/inspec/pull/7022) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.47 -->
 - Backport-7010: Update test with updated failure message for GCP authentication [#7020](https://github.com/inspec/inspec/pull/7020) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.46 -->
