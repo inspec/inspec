@@ -44,6 +44,7 @@ module InspecPlugins::Parallelism
         status_by_pid[pid][:last_control] = title
         status_by_pid[pid][:last_status] = status
 
+        sleep 0.5
         paint
       end
 
