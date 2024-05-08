@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.6.19 -->
-## [v6.6.19](https://github.com/inspec/inspec/tree/v6.6.19) (2024-05-02)
+<!-- latest_release 6.6.20 -->
+## [v6.6.20](https://github.com/inspec/inspec/tree/v6.6.20) (2024-05-08)
 
 #### Merged Pull Requests
-- Fix uninitialized constant Parser::AST::Processor::Mixin [#7030](https://github.com/inspec/inspec/pull/7030) ([stanhu](https://github.com/stanhu))
+- CHEF-3833 Added delay for InSpec parallel status reporter [#6993](https://github.com/inspec/inspec/pull/6993) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- CHEF-3833 Added delay for InSpec parallel status reporter [#6993](https://github.com/inspec/inspec/pull/6993) ([Nik08](https://github.com/Nik08)) <!-- 6.6.20 -->
 - Fix uninitialized constant Parser::AST::Processor::Mixin [#7030](https://github.com/inspec/inspec/pull/7030) ([stanhu](https://github.com/stanhu)) <!-- 6.6.19 -->
 - CHEF-6000: Fix URL fetcher failure to work when current directory is not a Git repository [#7023](https://github.com/inspec/inspec/pull/7023) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.18 -->
 - Revert &quot;CHEF-8598: Add support for curve25519 key exchange&quot; [#7026](https://github.com/inspec/inspec/pull/7026) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.17 -->
