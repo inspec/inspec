@@ -16,6 +16,8 @@ module Inspec
           Inspec::Log.debug "HTTP response from Telemetry Client -> #{response.to_hash}"
           true
         else
+          Inspec::Log.debug "HTTP connection with Telemetry Client faced an error."
+          Inspec::Log.debug "HTTP error -> #{response.to_hash[:body]["error"]}" if response.to_hash[:body] && response.to_hash[:body]["error"]
           false
         end
       rescue Faraday::ConnectionFailed
