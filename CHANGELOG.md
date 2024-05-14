@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.49 -->
-## [v5.22.49](https://github.com/inspec/inspec/tree/v5.22.49) (2024-05-06)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Backport-7034: Add cookstyle as a dependency for inspec-core.gemspec [#7035](https://github.com/inspec/inspec/pull/7035) ([ahasunos](https://github.com/ahasunos))
+- Bump omnibus-software from `4ea194c` to `8233b42` in /omnibus [#7031](https://github.com/inspec/inspec/pull/7031) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.40 -->
 ### Changes since 5.22.40 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `4ea194c` to `8233b42` in /omnibus [#7031](https://github.com/inspec/inspec/pull/7031) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.49 -->
 - Backport-7034: Add cookstyle as a dependency for inspec-core.gemspec [#7035](https://github.com/inspec/inspec/pull/7035) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.49 -->
 - Backport-7030: Fix uninitialized constant Parser::AST::Processor::Mixin (#7030) [#7036](https://github.com/inspec/inspec/pull/7036) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.48 -->
 - Revert &quot;Backport 6989: Add support for curve25519 key exchange&quot; [#7022](https://github.com/inspec/inspec/pull/7022) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.47 -->
