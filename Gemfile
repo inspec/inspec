@@ -53,6 +53,3 @@ end
 group :deploy do
   gem "inquirer"
 end
-
-# Temporarily referencing the chef-licensing gem from the chef-licensing repo to test the changes in the gem
-gem "chef-licensing", git: "https://github.com/chef/chef-licensing.git", branch: "ss/warn-message-non-commercial-users", glob: "components/ruby/*.gemspec"
