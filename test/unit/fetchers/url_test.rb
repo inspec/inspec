@@ -20,7 +20,7 @@ describe Inspec::Fetcher::Url do
 
     let(:git_remote_head_main) do
       out = mock
-      out.stubs(:stdout).returns("ref: refs/heads/main\tHEAD\n")
+      out.stubs(:stdout).returns("main\tHEAD\n")
       out.stubs(:exitstatus).returns(0)
       out.stubs(:stderr).returns("")
       out.stubs(:error!).returns(false)
@@ -71,6 +71,7 @@ describe Inspec::Fetcher::Url do
        http://github.com/chef/inspec.git
        http://www.github.com/chef/inspec.git}.each do |github|
          it "resolves a github url #{github}" do
+           expect_git_remote_head_main(github)
            res = Inspec::Fetcher::Url.resolve(github)
            res.expects(:open).returns(mock_open)
            _(res).wont_be_nil
@@ -80,10 +81,11 @@ describe Inspec::Fetcher::Url do
 
     it "resolves a github url with dot" do
       github = "https://github.com/mitre/aws-rds-oracle-mysql-ee-5.7-cis-baseline"
+      expect_git_remote_head_main(github)
       res = Inspec::Fetcher::Url.resolve(github)
       res.expects(:open).returns(mock_open)
       _(res).wont_be_nil
-      _(res.resolved_source).must_equal({ url: "https://github.com/mitre/aws-rds-oracle-mysql-ee-5.7-cis-baseline/archive/master.tar.gz", sha256: expected_shasum })
+      _(res.resolved_source).must_equal({ url: "https://github.com/mitre/aws-rds-oracle-mysql-ee-5.7-cis-baseline/archive/main.tar.gz", sha256: expected_shasum })
     end
 
     it "resolves a github branch url" do
