@@ -108,9 +108,11 @@ describe "example inheritance profile" do
       # TODO: split
       out = inspec("exec " + dir + " -l debug --no-create-lockfile")
 
-      _(out.stdout).must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/ssh-baseline/archive/master.tar.gz"'
-      _(out.stdout).must_include 'Using cached dependency for {:url=>"https://github.com/dev-sec/ssl-baseline/archive/master.tar.gz"'
-      _(out.stdout).must_include 'Using cached dependency for {:url=>"https://github.com/chris-rock/windows-patch-benchmark/archive/master.tar.gz"'
+      # rubocop:disable Style/RegexpLiteral
+      _(out.stdout).must_match(/Using cached dependency for {:url=>"https:\/\/github\.com\/dev-sec\/ssl-baseline\/archive\/([0-9a-fA-F]{40})\.tar\.gz"/)
+      _(out.stdout).must_match(/Using cached dependency for {:url=>"https:\/\/github\.com\/chris-rock\/windows-patch-benchmark\/archive\/([0-9a-fA-F]{40})\.tar\.gz"/)
+      # rubocop:enable Style/RegexpLiteral
+
       _(out.stdout).wont_include "Fetching URL:"
       _(out.stdout).wont_include "Fetched archive moved to:"
 
