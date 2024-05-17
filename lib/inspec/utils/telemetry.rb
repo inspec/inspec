@@ -45,11 +45,15 @@ module Inspec
     def self.run_starting(opts)
       @@config ||= opts[:conf]
       instance.run_starting(opts)
+    rescue StandardError => e
+      Inspec::Log.debug "Encountered error in Telemetry start run call -> #{e.message}"
     end
 
     def self.run_ending(opts)
       @@config ||= opts[:conf]
       instance.run_ending(opts)
+    rescue StandardError => e
+      Inspec::Log.debug "Encountered error in Telemetry end run call -> #{e.message}"
     end
 
     def self.note_feature_usage(feature_name)
