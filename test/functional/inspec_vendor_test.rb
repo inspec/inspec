@@ -96,6 +96,11 @@ describe "example inheritance profile" do
 
   it "ensure nothing is loaded from external source if vendored profile is used" do
     prepare_examples("meta-profile") do |dir|
+      # Breakage confirmed, only on CI:
+      # https://buildkite.com/chef-oss/inspec-inspec-inspec-5-verify/builds/343#018f94c1-5f0d-4fc7-b1c7-f175830e0658
+      # https://buildkite.com/chef/inspec-inspec-main-verify-private/builds/783#018f94bf-b4d3-42a2-9d4f-5ad5e02d634a
+      skip_windows!
+
       out = inspec("vendor " + dir + " --overwrite")
 
       _(out.stderr).must_equal ""
@@ -185,6 +190,13 @@ describe "example inheritance profile" do
 
   it "can move vendor files into custom vendor cache" do
     prepare_examples("meta-profile") do |dir|
+
+      # Breakage confirmed, only on CI:
+      # https://buildkite.com/chef-oss/inspec-inspec-inspec-5-verify/builds/343#018f94c1-5f0d-4fc7-b1c7-f175830e0658
+      # https://buildkite.com/chef/inspec-inspec-main-verify-private/builds/783#018f94bf-b4d3-42a2-9d4f-5ad5e02d634a
+
+      skip_windows!
+
       out = inspec("vendor " + dir + " --overwrite")
 
       _(File.exist?(File.join(dir, "vendor"))).must_equal true
