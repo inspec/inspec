@@ -23,7 +23,7 @@ It includes a collection of resources that help you write auditing controls quic
 
 ## How does Chef InSpec work?
 
-Chef InSpec uses profiles to audit infrastructure. An [InSpec profile](/inspec/profile/) organizes multiple controls into a reusable artifact.
+Chef InSpec uses profiles to audit infrastructure. An [InSpec profile](/inspec/profiles/) organizes multiple controls into a reusable artifact.
 You can describe your profiles with metadata, version them, pin them to specific versions of InSpec, define specific platforms that a profile can test, and define profile dependencies.
 
 A control defines a regulatory recommendation or requirement for the state of a system. Each profile can have many controls and each control audits different aspects of a system.
