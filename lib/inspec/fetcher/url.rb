@@ -133,14 +133,14 @@ module Inspec::Fetcher
     class << self
       def default_ref(match_data, repo_url)
         remote_url = "#{repo_url}/#{match_data[:user]}/#{match_data[:repo]}.git"
-        command_string = "git ls-remote --symref #{remote_url}"
+        command_string = "git ls-remote #{remote_url} HEAD"
         cmd = shellout(command_string)
         unless cmd.exitstatus == 0
           raise(Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{remote_url} - error running '#{command_string}': #{cmd.stderr}")
         else
-          # cmd.stdout looks like this:
-          # "ref: refs/heads/main\tHEAD\n457d14843ab7c1c3740169eb47cf129a6f417964\tHEAD\n457d14843ab7c1c3740169eb47cf129a6f417964\trefs/heads/main\n457d14843ab7c1c3740169eb47cf129a6f417964\trefs/heads/test\n"
-          ref = cmd.stdout[%r{refs/heads/(.+?)\tHEAD}, 1]
+          # cmd.stdout of "git ls-remote #{remote_url} HEAD" looks like this:
+          # "457d14843ab7c1c3740169eb47cf129a6f417964\tHEAD\n"
+          ref = cmd.stdout.split("\t").first
           unless ref
             raise(Inspec::FetcherFailure, "Profile git dependency failed with default reference - #{remote_url} - error running '#{command_string}': NULL reference")
           end
