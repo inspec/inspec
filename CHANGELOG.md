@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.22.50 -->
+## [v5.22.50](https://github.com/inspec/inspec/tree/v5.22.50) (2024-05-21)
 
 #### Merged Pull Requests
+- Modify url fetcher to remove `--symref` flag in `git ls-remote` command [#7042](https://github.com/inspec/inspec/pull/7042) ([ahasunos](https://github.com/ahasunos))
 - Bump omnibus-software from `4ea194c` to `8233b42` in /omnibus [#7031](https://github.com/inspec/inspec/pull/7031) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.22.40 release
 
 #### Merged Pull Requests
+- Modify url fetcher to remove `--symref` flag in `git ls-remote` command [#7042](https://github.com/inspec/inspec/pull/7042) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.50 -->
 - Bump omnibus-software from `4ea194c` to `8233b42` in /omnibus [#7031](https://github.com/inspec/inspec/pull/7031) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.49 -->
 - Backport-7034: Add cookstyle as a dependency for inspec-core.gemspec [#7035](https://github.com/inspec/inspec/pull/7035) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.49 -->
 - Backport-7030: Fix uninitialized constant Parser::AST::Processor::Mixin (#7030) [#7036](https://github.com/inspec/inspec/pull/7036) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.48 -->
