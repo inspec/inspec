@@ -1,35 +1,32 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.50 -->
-## [v5.22.50](https://github.com/inspec/inspec/tree/v5.22.50) (2024-05-21)
-
-#### Merged Pull Requests
-- Modify url fetcher to remove `--symref` flag in `git ls-remote` command [#7042](https://github.com/inspec/inspec/pull/7042) ([ahasunos](https://github.com/ahasunos))
-- Bump omnibus-software from `4ea194c` to `8233b42` in /omnibus [#7031](https://github.com/inspec/inspec/pull/7031) ([dependabot[bot]](https://github.com/dependabot[bot]))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=5.22.40 -->
-### Changes since 5.22.40 release
-
-#### Merged Pull Requests
-- Modify url fetcher to remove `--symref` flag in `git ls-remote` command [#7042](https://github.com/inspec/inspec/pull/7042) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.50 -->
-- Bump omnibus-software from `4ea194c` to `8233b42` in /omnibus [#7031](https://github.com/inspec/inspec/pull/7031) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.49 -->
-- Backport-7034: Add cookstyle as a dependency for inspec-core.gemspec [#7035](https://github.com/inspec/inspec/pull/7035) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.49 -->
-- Backport-7030: Fix uninitialized constant Parser::AST::Processor::Mixin (#7030) [#7036](https://github.com/inspec/inspec/pull/7036) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.48 -->
-- Revert &quot;Backport 6989: Add support for curve25519 key exchange&quot; [#7022](https://github.com/inspec/inspec/pull/7022) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.47 -->
-- Backport-7010: Update test with updated failure message for GCP authentication [#7020](https://github.com/inspec/inspec/pull/7020) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.46 -->
-- Backport 6989: Add support for curve25519 key exchange [#6990](https://github.com/inspec/inspec/pull/6990) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.45 -->
-- Bump omnibus-software from `86649fa` to `4ea194c` in /omnibus [#6999](https://github.com/inspec/inspec/pull/6999) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.44 -->
-- Backport - CI: update ruby docker image to ruby bullseye base image (#6998) [#7001](https://github.com/inspec/inspec/pull/7001) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.44 -->
-- Bump artifactory from 3.0.15 to 3.0.17 in /omnibus [#6982](https://github.com/inspec/inspec/pull/6982) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.43 -->
-- Backport #6862 Allow the negate formating for cmp [#6986](https://github.com/inspec/inspec/pull/6986) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.43 -->
-- CHEF-3160: Improve code coverage % on inspec-5 branch [#6957](https://github.com/inspec/inspec/pull/6957) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.42 -->
-- CHEF-4571: Silence warning about transforming into git fetcher (#6946) [#6956](https://github.com/inspec/inspec/pull/6956) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.42 -->
-- CHEF-8609: Backport-6873 Reduce version pinning [#6952](https://github.com/inspec/inspec/pull/6952) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.41 -->
-- Backport 6947 - Fix for virutalization resource undefined method file_read [#6949](https://github.com/inspec/inspec/pull/6949) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.41 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v5.22.50](https://github.com/inspec/inspec/tree/v5.22.50) (2024-05-22)
+
+#### Merged Pull Requests
+- Backport 6947 - Fix for virutalization resource undefined method file_read [#6949](https://github.com/inspec/inspec/pull/6949) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-8609: Backport-6873 Reduce version pinning [#6952](https://github.com/inspec/inspec/pull/6952) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-4571: Silence warning about transforming into git fetcher (#6946) [#6956](https://github.com/inspec/inspec/pull/6956) ([ahasunos](https://github.com/ahasunos))
+- CHEF-3160: Improve code coverage % on inspec-5 branch [#6957](https://github.com/inspec/inspec/pull/6957) ([Vasu1105](https://github.com/Vasu1105))
+- Backport #6862 Allow the negate formating for cmp [#6986](https://github.com/inspec/inspec/pull/6986) ([Vasu1105](https://github.com/Vasu1105))
+- Bump artifactory from 3.0.15 to 3.0.17 in /omnibus [#6982](https://github.com/inspec/inspec/pull/6982) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Backport - CI: update ruby docker image to ruby bullseye base image (#6998) [#7001](https://github.com/inspec/inspec/pull/7001) ([Vasu1105](https://github.com/Vasu1105))
+- Bump omnibus-software from `86649fa` to `4ea194c` in /omnibus [#6999](https://github.com/inspec/inspec/pull/6999) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Backport 6989: Add support for curve25519 key exchange [#6990](https://github.com/inspec/inspec/pull/6990) ([ahasunos](https://github.com/ahasunos))
+- Backport-7010: Update test with updated failure message for GCP authentication [#7020](https://github.com/inspec/inspec/pull/7020) ([ahasunos](https://github.com/ahasunos))
+- Revert &quot;Backport 6989: Add support for curve25519 key exchange&quot; [#7022](https://github.com/inspec/inspec/pull/7022) ([Vasu1105](https://github.com/Vasu1105))
+- Backport-7030: Fix uninitialized constant Parser::AST::Processor::Mixin (#7030) [#7036](https://github.com/inspec/inspec/pull/7036) ([ahasunos](https://github.com/ahasunos))
+- Backport-7034: Add cookstyle as a dependency for inspec-core.gemspec [#7035](https://github.com/inspec/inspec/pull/7035) ([ahasunos](https://github.com/ahasunos))
+- Bump omnibus-software from `4ea194c` to `8233b42` in /omnibus [#7031](https://github.com/inspec/inspec/pull/7031) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Modify url fetcher to remove `--symref` flag in `git ls-remote` command [#7042](https://github.com/inspec/inspec/pull/7042) ([ahasunos](https://github.com/ahasunos))
+<!-- latest_stable_release -->
+
 ## [v5.22.40](https://github.com/inspec/inspec/tree/v5.22.40) (2024-01-24)
 
 #### Merged Pull Requests
@@ -41,7 +38,6 @@
 - Bump omnibus-software from `4fef367` to `86649fa` in /omnibus [#6941](https://github.com/inspec/inspec/pull/6941) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Backport 6924 CHEF-3164 Unit tests for enhanced outcomes [#6935](https://github.com/inspec/inspec/pull/6935) ([Nik08](https://github.com/Nik08))
 - Backport 6933 - CHEF-3166 Unit tests added for IAF file [#6934](https://github.com/inspec/inspec/pull/6934) ([Nik08](https://github.com/Nik08))
-<!-- latest_stable_release -->
 
 ## [v5.22.36](https://github.com/inspec/inspec/tree/v5.22.36) (2023-11-14)
 
