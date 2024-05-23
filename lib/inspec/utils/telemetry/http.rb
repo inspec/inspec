@@ -1,11 +1,16 @@
 # frozen_string_literal: true
 require_relative "base"
 require "faraday" unless defined?(Faraday)
+require "inspec/utils/licensing_config"
 module Inspec
   class Telemetry
     class HTTP < Base
       TELEMETRY_JOBS_PATH = "v1/job"
-      TELEMETRY_URL = ENV["TELEMETRY_URL"] # TODO Set to production telemetry URL before release
+      TELEMETRY_URL = if ChefLicensing::Config.license_server_url&.match?("acceptance")
+                        ENV["TELEMETRY_URL"]
+                      else
+                        "https://services.chef.io/telemetry/v1/"
+                      end
       def run_ending(opts)
         payload = super
         response = connection.post(TELEMETRY_JOBS_PATH) do |req|
