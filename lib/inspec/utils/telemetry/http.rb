@@ -9,7 +9,7 @@ module Inspec
       TELEMETRY_URL = if ChefLicensing::Config.license_server_url&.match?("acceptance")
                         ENV["TELEMETRY_URL"]
                       else
-                        "https://services.chef.io/telemetry/v1/"
+                        "https://services.chef.io/telemetry/"
                       end
       def run_ending(opts)
         payload = super
