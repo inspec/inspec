@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.6.21 -->
-## [v6.6.21](https://github.com/inspec/inspec/tree/v6.6.21) (2024-05-20)
+<!-- latest_release 6.6.22 -->
+## [v6.6.22](https://github.com/inspec/inspec/tree/v6.6.22) (2024-05-27)
 
 #### Merged Pull Requests
-- Fix broken link for InSpec Profiles documentation page [#7040](https://github.com/inspec/inspec/pull/7040) ([williamtheaker](https://github.com/williamtheaker))
+- Bump omnibus-software from `f50a2ad` to `88516f3` in /omnibus [#7037](https://github.com/inspec/inspec/pull/7037) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `f50a2ad` to `88516f3` in /omnibus [#7037](https://github.com/inspec/inspec/pull/7037) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.22 -->
 - Fix broken link for InSpec Profiles documentation page [#7040](https://github.com/inspec/inspec/pull/7040) ([williamtheaker](https://github.com/williamtheaker)) <!-- 6.6.21 -->
 - CHEF-3833 Added delay for InSpec parallel status reporter [#6993](https://github.com/inspec/inspec/pull/6993) ([Nik08](https://github.com/Nik08)) <!-- 6.6.20 -->
 - Fix uninitialized constant Parser::AST::Processor::Mixin [#7030](https://github.com/inspec/inspec/pull/7030) ([stanhu](https://github.com/stanhu)) <!-- 6.6.19 -->

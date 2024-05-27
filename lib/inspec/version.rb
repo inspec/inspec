@@ -1,3 +1,3 @@
 module Inspec
-  VERSION = "6.6.21".freeze
+  VERSION = "6.6.22".freeze
 end
