@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.6.22 -->
-## [v6.6.22](https://github.com/inspec/inspec/tree/v6.6.22) (2024-05-27)
+<!-- latest_release 6.6.23 -->
+## [v6.6.23](https://github.com/inspec/inspec/tree/v6.6.23) (2024-05-28)
 
 #### Merged Pull Requests
-- Bump omnibus-software from `f50a2ad` to `88516f3` in /omnibus [#7037](https://github.com/inspec/inspec/pull/7037) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update rspec requirement from &gt;= 3.9, &lt;= 3.12 to &gt;= 3.9, &lt;= 3.14 [#6967](https://github.com/inspec/inspec/pull/6967) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Update rspec requirement from &gt;= 3.9, &lt;= 3.12 to &gt;= 3.9, &lt;= 3.14 [#6967](https://github.com/inspec/inspec/pull/6967) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.23 -->
 - Bump omnibus-software from `f50a2ad` to `88516f3` in /omnibus [#7037](https://github.com/inspec/inspec/pull/7037) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.22 -->
 - Fix broken link for InSpec Profiles documentation page [#7040](https://github.com/inspec/inspec/pull/7040) ([williamtheaker](https://github.com/williamtheaker)) <!-- 6.6.21 -->
 - CHEF-3833 Added delay for InSpec parallel status reporter [#6993](https://github.com/inspec/inspec/pull/6993) ([Nik08](https://github.com/Nik08)) <!-- 6.6.20 -->
