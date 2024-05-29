@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release unreleased -->
+## Unreleased
+
+#### Merged Pull Requests
+- Bump ffi-yajl from 2.4.0 to 2.6.0 in /omnibus [#6756](https://github.com/inspec/inspec/pull/6756) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=5.22.50 -->
+### Changes since 5.22.50 release
+
+#### Merged Pull Requests
+- Bump ffi-yajl from 2.4.0 to 2.6.0 in /omnibus [#6756](https://github.com/inspec/inspec/pull/6756) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.50 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
