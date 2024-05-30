@@ -7,7 +7,7 @@ module Inspec
     class HTTP < Base
       TELEMETRY_JOBS_PATH = "v1/job"
       TELEMETRY_URL = if ChefLicensing::Config.license_server_url&.match?("acceptance")
-                        ENV["TELEMETRY_URL"]
+                        ENV["CHEF_TELEMETRY_URL"]
                       else
                         "https://services.chef.io/telemetry/"
                       end
