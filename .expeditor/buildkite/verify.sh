@@ -29,7 +29,7 @@ unzip -o $VAULT_HOME/vault.zip -d $VAULT_HOME
 
 echo "--- fetching License serverl url and keys from vault"
 export CHEF_LICENSE_SERVER=$($VAULT_HOME/vault kv get -field acceptance secret/inspec/licensing/server)
-export CHEF_LICENSE_KEY=$($VAULT_HOME/vault kv get -field acceptance secret/inspec/licensing/license-key)
+export CHEF_LICENSE_KEY=$($VAULT_HOME/vault kv get -field commercial secret/inspec/licensing/license-key)
 if [ -n "${CHEF_LICENSE_KEY:-}" ]; then
   echo "  ++ License Key set successfully"
 else

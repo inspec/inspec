@@ -35,7 +35,7 @@ vault version
 
 echo "--- fetching License serverl url and keys from vault"
 $Env:CHEF_LICENSE_SERVER=vault kv get -field acceptance secret/inspec/licensing/server
-$Env:CHEF_LICENSE_KEY=vault kv get -field acceptance secret/inspec/licensing/license-key
+$Env:CHEF_LICENSE_KEY=vault kv get -field commercial secret/inspec/licensing/license-key
 
 echo "--- verifying if environment variables are set"
 
