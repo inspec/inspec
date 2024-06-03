@@ -8,6 +8,7 @@ pkg_upstream_url=https://www.inspec.io/
 pkg_maintainer="The Habitat Maintainers <humans@habitat.sh>"
 pkg_license=('Apache-2.0')
 pkg_deps=(
+  core/openssl
   core/coreutils
   core/git
   core/ruby3_3
