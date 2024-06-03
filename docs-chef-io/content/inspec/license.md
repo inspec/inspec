@@ -211,3 +211,18 @@ inspec exec <PROFILE_NAME>
 ```
 
 This capability is basic and you must synchronize the license servers, otherwise you may get inconsistent results.
+
+
+## Licensing Telemetry
+
+<!-- TODO Write intro on Chef telemetry -->
+
+
+### Environment variable
+
+Use the `CHEF_PREVIEW_TELEMETRY_CLIENT` environment variable to opt-in for Chef Telemetry.
+
+```bash
+export CHEF_PREVIEW_TELEMETRY_CLIENT=1
+inspec exec <PROFILE_NAME>
+```
