@@ -219,7 +219,7 @@ This capability is basic and you must synchronize the license servers, otherwise
 
 Chef Licensing Telemetry helps track the usage of Trial and Free licenses, providing insights into license usage to better serve users. InSpec uploads telemetry data to the telemetry server with each scan.
 
-Chef Telemetry is opt-in and can be enabled using an environment variable only.
+Chef Telemetry is opt-out by default and can be opted in using an environment variable only.
 
 ### Environment variable
 
