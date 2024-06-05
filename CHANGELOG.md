@@ -5,6 +5,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Fix for failing verify pipeline due to ffi version update [#7050](https://github.com/inspec/inspec/pull/7050) ([Vasu1105](https://github.com/Vasu1105))
 - CI: Update configuration to pick commercial license to be used during the buildkite test [#7007](https://github.com/inspec/inspec/pull/7007) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Fix for failing verify pipeline due to ffi version update [#7050](https://github.com/inspec/inspec/pull/7050) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.23 -->
 - CI: Update configuration to pick commercial license to be used during the buildkite test [#7007](https://github.com/inspec/inspec/pull/7007) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.23 -->
 - Update rspec requirement from &gt;= 3.9, &lt;= 3.12 to &gt;= 3.9, &lt;= 3.14 [#6967](https://github.com/inspec/inspec/pull/6967) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.23 -->
 - Bump omnibus-software from `f50a2ad` to `88516f3` in /omnibus [#7037](https://github.com/inspec/inspec/pull/7037) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.22 -->
