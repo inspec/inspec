@@ -69,7 +69,7 @@ describe "Inspec::Resources::DockerContainer" do
     it "checks exception when no volume has been mounted for the docker resource and the container doesnt'e exist" do
       resource = load_resource("docker_container", "non_existing_container")
       ex = _ { resource.has_volume?("/app", "/var/lib/docker/volumes/myvol2/_data") }.must_raise(NoMethodError)
-      _(ex.message).must_include "undefined method `[]' for nil:NilClass"
+      _(ex.message).must_include "undefined method `[]' for nil"
     end
   end
 end
