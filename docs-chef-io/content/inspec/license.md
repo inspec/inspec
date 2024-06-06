@@ -213,19 +213,17 @@ inspec exec <PROFILE_NAME>
 This capability is basic and you must synchronize the license servers, otherwise you may get inconsistent results.
 
 
-## Licensing Telemetry
+## Chef's licensing telemetry
 
 <!-- TODO EDIT needed -->
 
-Chef Licensing Telemetry helps track the usage of Trial and Free licenses, providing insights into license usage to better serve users. InSpec uploads telemetry data to the telemetry server with each scan.
+Chef's licensing telemetry feature tracks the usage of InSpec by trial and free license users.
+This feature collects product usage data to help Chef better serve its users.
 
-Chef Telemetry is opt-out by default and can be opted in using an environment variable only.
+Key Points:
 
-### Environment variable
+- **Data Collection**:
+  The telemetry feature collects usage data with each InSpec scan.
 
-Use the `CHEF_PREVIEW_TELEMETRY_CLIENT` environment variable to opt-in for Chef Telemetry.
-
-```bash
-export CHEF_PREVIEW_TELEMETRY_CLIENT=1
-inspec exec <PROFILE_NAME>
-```
+- **Opted-In by Default**:
+  This feature is enabled by default, and users cannot opt out of it.
