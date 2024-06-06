@@ -20,7 +20,10 @@ gem "inspec", path: "."
 # in it in order to package the executable. Hence the odd backwards dependency.
 gem "inspec-bin", path: "./inspec-bin"
 
-gem "ffi", ">= 1.9.14", "!= 1.13.0", "!= 1.14.2"
+# ffi version v1.17.0 is breaking verify pipeline as it requires
+# rubygems version to be upgraded to >= 3.3.22 Ref:https://buildkite.com/chef/inspec-inspec-main-verify-private/builds/812#018fe177-2ccb-45ed-a25e-213c8a6453df/698-707
+
+gem "ffi", ">= 1.15.5", "< 1.17.0"
 
 # inspec tests depend text output that changed in the 3.10 release
 # but our runtime dep is still 3.9+
