@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.6.24 -->
+## [v6.6.24](https://github.com/inspec/inspec/tree/v6.6.24) (2024-06-06)
 
 #### Merged Pull Requests
+- Pin the ffi version &lt; 1.17.0 [#7053](https://github.com/inspec/inspec/pull/7053) ([Vasu1105](https://github.com/Vasu1105))
 - Fix for failing verify pipeline due to ffi version update [#7050](https://github.com/inspec/inspec/pull/7050) ([Vasu1105](https://github.com/Vasu1105))
 - CI: Update configuration to pick commercial license to be used during the buildkite test [#7007](https://github.com/inspec/inspec/pull/7007) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
@@ -39,6 +40,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Pin the ffi version &lt; 1.17.0 [#7053](https://github.com/inspec/inspec/pull/7053) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.24 -->
 - Fix for failing verify pipeline due to ffi version update [#7050](https://github.com/inspec/inspec/pull/7050) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.23 -->
 - CI: Update configuration to pick commercial license to be used during the buildkite test [#7007](https://github.com/inspec/inspec/pull/7007) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.23 -->
 - Update rspec requirement from &gt;= 3.9, &lt;= 3.12 to &gt;= 3.9, &lt;= 3.14 [#6967](https://github.com/inspec/inspec/pull/6967) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.23 -->
