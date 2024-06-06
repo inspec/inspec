@@ -67,7 +67,7 @@ module Inspec
     end
 
     def self.telemetry_disabled?
-      !config.telemetry_options["enable_telemetry"]
+      config.telemetry_options["enable_telemetry"].nil? ? false : !config.telemetry_options["enable_telemetry"]
     end
   end
 end
