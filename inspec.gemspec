@@ -21,7 +21,7 @@ Source code obtained from the Chef GitHub repository is made available under Apa
   spec.license       = "LicenseRef-Chef-EULA"
   spec.require_paths = ["lib"]
 
-  spec.required_ruby_version = ">= 3.1.3"
+  spec.required_ruby_version = ">= 3.1.0"
 
   # ONLY the aws/azure/gcp files. The rest will come in from inspec-core
   # the gemspec is necessary for appbundler so don't remove it

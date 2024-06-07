@@ -25,7 +25,7 @@ Source code obtained from the Chef GitHub repository is made available under Apa
 
   spec.require_paths = ["lib"]
 
-  spec.required_ruby_version = ">= 3.1.3"
+  spec.required_ruby_version = ">= 3.1.0"
 
   spec.add_dependency "inspec-core", "= #{InspecBin::VERSION}"
   spec.add_development_dependency "rake"
