@@ -32,8 +32,9 @@ module Inspec
   class Runner
     extend Forwardable
 
-    attr_reader :backend, :rules
+    attr_reader :rules
     attr_accessor :target_profiles
+    attr_accessor :backend
 
     attr_accessor :test_collector
 
