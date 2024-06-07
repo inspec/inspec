@@ -32,9 +32,8 @@ module Inspec
   class Runner
     extend Forwardable
 
-    attr_reader :rules
+    attr_reader :backend, :rules
     attr_accessor :target_profiles
-    attr_accessor :backend
 
     attr_accessor :test_collector
 
@@ -90,7 +89,12 @@ module Inspec
     end
 
     def configure_transport
-      @backend = Inspec::Backend.create(@conf)
+      backend = Inspec::Backend.create(@conf)
+      set_backend(backend)
+    end
+
+    def set_backend(new_backend)
+      @backend = new_backend
       @test_collector.backend = @backend
     end
 
