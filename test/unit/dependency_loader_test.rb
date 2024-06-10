@@ -11,7 +11,7 @@ describe "dependency_loader" do
 
   before(:each) do
     reset_globals
-    ENV["HOME"] = File.join(config_dir_path, "test-fixture-1-float/gems/2.7.0")
+    ENV["HOME"] = File.join(config_dir_path, "test-fixture-1-float/gems/3.1.0")
   end
 
   after(:each) do
