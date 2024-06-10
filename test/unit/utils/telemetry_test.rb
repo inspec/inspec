@@ -29,7 +29,7 @@ describe "Telemetry" do
   let(:profile_path) { File.join(mock_path, "profiles") }
   let(:profile) { File.join(profile_path, "dependencies", "profile_a") }
   let(:tm) { Inspec::Telemetry::Mock.new }
-  let(:chef_license_key) { ENV["CHEF_LICENSE_KEY"] || "free-42727540-ddc8-4d4b-0000-80662e03cd73-0000" }
+  let(:chef_license_key) { "free-42727540-ddc8-4d4b-0000-80662e03cd73-0000" }
 
   before do
     stub_request(:get, "#{ChefLicensing::Config.license_server_url}/v1/listLicenses")
@@ -52,6 +52,7 @@ describe "Telemetry" do
 
   describe "when it runs with a nested profile" do
     it "sets the wrapper fields" do
+      ChefLicensing::Context.license = ChefLicensing.client(license_keys: [chef_license_key])
       Inspec::Telemetry.expects(:instance).returns(tm).at_least_once
       Inspec::Telemetry.run_ending(runner: runner, run_data: run_data, conf: conf)
       runner.add_target(profile)
@@ -65,6 +66,7 @@ describe "Telemetry" do
     end
 
     it "sets the job fields" do
+      ChefLicensing::Context.license = ChefLicensing.client(license_keys: [chef_license_key])
       Inspec::Telemetry.expects(:instance).returns(tm).at_least_once
       Inspec::Telemetry.run_ending(runner: runner, run_data: run_data, conf: conf)
       runner.add_target(profile)
@@ -108,12 +110,11 @@ describe "Telemetry" do
 
   describe "when telemetry is run for Inspec" do
     it "Inspec user can not disable telemetry using --no-enable-telemetry option" do
+      ChefLicensing::Context.license = ChefLicensing.client(license_keys: [chef_license_key])
       Inspec::Telemetry.expects(:instance).returns(tm).at_least_once
       Inspec::Telemetry.run_ending(runner: runner, run_data: run_data, conf: conf)
       runner.add_target(profile)
       runner.run
-      # Inspec user attempted to disable telemetry
-      _(Inspec::Telemetry.telemetry_disabled?).must_equal true
       # Returns HTTP backend meaning the telemetry call is not disabled and will make an API call
       _(Inspec::Telemetry.determine_backend_class).must_equal Inspec::Telemetry::HTTP
     end

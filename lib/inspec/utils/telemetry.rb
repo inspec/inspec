@@ -36,7 +36,7 @@ module Inspec
 
     def self.license
       Inspec::Log.debug "Fetching license context for telemetry"
-      @license ||= ChefLicensing.license_context
+      @license = ChefLicensing.license_context
     end
 
     ######
