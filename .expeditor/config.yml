@@ -37,6 +37,14 @@ pipelines:
       - NO_AWS: 1
       - MT_CPU: 5
       - ARTIFACTORY_BASE_URL: https://artifactory-internal.ps.chef.co
+ - artifact/habitat:
+      description: Execute tests against the habitat artifact
+      definition: .expeditor/artifact.habitat.yml
+      env:
+      - HAB_NONINTERACTIVE: "true"
+      - HAB_NOCOLORING: "true"
+      - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+      trigger: pull_request
  - omnibus/release:
     env:
      # The git cache is corrupt more often than not. This always purges the cache.
