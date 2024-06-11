@@ -1,13 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.6.24 -->
-## [v6.6.24](https://github.com/inspec/inspec/tree/v6.6.24) (2024-06-06)
+<!-- latest_release 6.6.25 -->
+## [v6.6.25](https://github.com/inspec/inspec/tree/v6.6.25) (2024-06-11)
 
 #### Merged Pull Requests
-- Pin the ffi version &lt; 1.17.0 [#7053](https://github.com/inspec/inspec/pull/7053) ([Vasu1105](https://github.com/Vasu1105))
-- Fix for failing verify pipeline due to ffi version update [#7050](https://github.com/inspec/inspec/pull/7050) ([Vasu1105](https://github.com/Vasu1105))
-- CI: Update configuration to pick commercial license to be used during the buildkite test [#7007](https://github.com/inspec/inspec/pull/7007) ([ahasunos](https://github.com/ahasunos))
+- Remove Ruby 3.0 support [#7057](https://github.com/inspec/inspec/pull/7057) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -40,6 +38,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Remove Ruby 3.0 support [#7057](https://github.com/inspec/inspec/pull/7057) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.25 -->
 - Pin the ffi version &lt; 1.17.0 [#7053](https://github.com/inspec/inspec/pull/7053) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.24 -->
 - Fix for failing verify pipeline due to ffi version update [#7050](https://github.com/inspec/inspec/pull/7050) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.23 -->
 - CI: Update configuration to pick commercial license to be used during the buildkite test [#7007](https://github.com/inspec/inspec/pull/7007) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.23 -->
