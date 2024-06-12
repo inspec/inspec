@@ -36,13 +36,14 @@ module Inspec
 
     def self.license
       Inspec::Log.debug "Fetching license context for telemetry"
-      @license ||= ChefLicensing.license_context
+      @license = ChefLicensing.license_context
     end
 
     ######
     # These class methods make it convenient to call from anywhere within the InSpec codebase.
     ######
     def self.run_starting(opts)
+      Inspec::Log.debug "Initiating telemetry for InSpec"
       @@config ||= opts[:conf]
       instance.run_starting(opts)
     rescue StandardError => e
@@ -52,6 +53,7 @@ module Inspec
     def self.run_ending(opts)
       @@config ||= opts[:conf]
       instance.run_ending(opts)
+      Inspec::Log.debug "Finishing telemetry for InSpec"
     rescue StandardError => e
       Inspec::Log.debug "Encountered error in Telemetry end run call -> #{e.message}"
     end
@@ -65,7 +67,7 @@ module Inspec
     end
 
     def self.telemetry_disabled?
-      !config.telemetry_options["enable_telemetry"]
+      config.telemetry_options["enable_telemetry"].nil? ? false : !config.telemetry_options["enable_telemetry"]
     end
   end
 end
