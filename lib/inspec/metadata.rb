@@ -41,7 +41,7 @@ module Inspec
       description
       version
       inspec_version
-      entitlement_id
+      profile_content_id
     }.each do |name|
       define_method name.to_sym do |arg|
         params[name.to_sym] = arg
