@@ -48,6 +48,20 @@ describe "Telemetry" do
         body: valid_client_api_data ,
         headers: { content_type: "application/json" }
       )
+
+    stub_request(:get, "#{ChefLicensing::Config.license_server_url}/v1/client")
+      .with(query: { licenseId: [chef_license_key, ENV["CHEF_LICENSE_KEY"]].join(","), entitlementId: ChefLicensing::Config.chef_entitlement_id })
+      .to_return(
+        body: valid_client_api_data ,
+        headers: { content_type: "application/json" }
+      )
+
+    stub_request(:get, "#{ChefLicensing::Config.license_server_url}/v1/client")
+      .with(query: { licenseId: [ENV["CHEF_LICENSE_KEY"], chef_license_key].join(","), entitlementId: ChefLicensing::Config.chef_entitlement_id })
+      .to_return(
+        body: valid_client_api_data ,
+        headers: { content_type: "application/json" }
+      )
   end
 
   describe "when it runs with a nested profile" do
