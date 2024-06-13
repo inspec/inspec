@@ -215,10 +215,10 @@ This capability is basic and you must synchronize the license servers, otherwise
 
 ## Chef's licensing telemetry
 
-Chef Licensing telemetry service gathers product activation, usage and/or environment information, identify trends and/or bugs, collect usage statistics, and/or track other data related to your use of product.
+The Chef Licensing telemetry service gathers product activation, usage and/or environment information, identify trends and/or bugs, collect usage statistics, and/or track other data related to the use of the product.
 
 Currently this feature is enabled for free and trial tiers only. This feature collects product usage data to help Chef better serve its users.
 
 Key Points:
-- **Data Collection**:  The telemetry feature gathers is as described in current version of privacy policy available at  https://www.progress.com/legal/privacy-policy.
-- **Opted-In by Default**:  This feature is enabled by default for free  and trial tier users and not enabled for commercial users.
+- **Data Collection**: The telemetry feature gathers data as described in the current version of [Progress Privacy Policy](https://www.progress.com/legal/privacy-policy).
+- **Opted-In by Default**:  This feature is enabled by default for free and trial tier users and not enabled for commercial users.
