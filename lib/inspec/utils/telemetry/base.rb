@@ -87,7 +87,6 @@ module Inspec
               resources: [],
               features: [],
               tags: format_control_tags(control[:tags]),
-              results: format_control_results(control[:results]&.first),
             }
 
             control[:results]&.each do |resource_block|
@@ -106,21 +105,6 @@ module Inspec
         Inspec::Log.debug "Final data for telemetry upload -> #{payload}"
         # Return payload object for testing
         payload
-      end
-
-      def format_control_results(run_result)
-        return {} unless run_result
-
-        {
-          succeeded: (run_result[:status] != "failed"),
-          message: run_result[:message] || "",
-          code: control_status_code(run_result[:status]),
-        }
-      end
-
-      def control_status_code(control_status)
-        # Status code 1 in case of failure. Ref: runner_rspec.rb (def exit_code)
-        control_status == "failed" ? 1 : 0
       end
 
       def format_control_tags(tags)
