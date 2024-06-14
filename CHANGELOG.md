@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.6.25 -->
-## [v6.6.25](https://github.com/inspec/inspec/tree/v6.6.25) (2024-06-11)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Remove Ruby 3.0 support [#7057](https://github.com/inspec/inspec/pull/7057) ([Vasu1105](https://github.com/Vasu1105))
+- Bump omnibus-software from `88516f3` to `a32e7ee` in /omnibus [#7062](https://github.com/inspec/inspec/pull/7062) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `88516f3` to `a32e7ee` in /omnibus [#7062](https://github.com/inspec/inspec/pull/7062) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.25 -->
 - Remove Ruby 3.0 support [#7057](https://github.com/inspec/inspec/pull/7057) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.25 -->
 - Pin the ffi version &lt; 1.17.0 [#7053](https://github.com/inspec/inspec/pull/7053) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.24 -->
 - Fix for failing verify pipeline due to ffi version update [#7050](https://github.com/inspec/inspec/pull/7050) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.23 -->
