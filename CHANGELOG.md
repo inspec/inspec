@@ -5,6 +5,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Bump omnibus-software from `a32e7ee` to `28c9c9f` in /omnibus [#7063](https://github.com/inspec/inspec/pull/7063) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Bump ffi-yajl from 2.4.0 to 2.6.0 in /omnibus [#6648](https://github.com/inspec/inspec/pull/6648) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Bump omnibus-software from `88516f3` to `a32e7ee` in /omnibus [#7062](https://github.com/inspec/inspec/pull/7062) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
@@ -39,6 +40,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `a32e7ee` to `28c9c9f` in /omnibus [#7063](https://github.com/inspec/inspec/pull/7063) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.25 -->
 - Bump ffi-yajl from 2.4.0 to 2.6.0 in /omnibus [#6648](https://github.com/inspec/inspec/pull/6648) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.25 -->
 - Bump omnibus-software from `88516f3` to `a32e7ee` in /omnibus [#7062](https://github.com/inspec/inspec/pull/7062) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.25 -->
 - Remove Ruby 3.0 support [#7057](https://github.com/inspec/inspec/pull/7057) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.25 -->
