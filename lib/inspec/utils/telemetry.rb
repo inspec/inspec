@@ -15,19 +15,21 @@ module Inspec
     end
 
     def self.determine_backend_class
-      # Don't perform telemetry call if license is a commercial license
-      return Inspec::Telemetry::Null if license&.license_type&.downcase == "commercial"
+      # Don't perform telemetry action for other InSpec distros
+      # Don't perform telemetry action if running under Automate - Automate does LDC tracking for us
+      # Don't perform telemetry action if license is a commercial license
+
+      if Inspec::Dist::EXEC_NAME != "inspec" ||
+        Inspec::Telemetry::RunContextProbe.under_automate? ||
+        license&.license_type&.downcase == "commercial"
+
+        return Inspec::Telemetry::Null
+      end
 
       if Inspec::Dist::EXEC_NAME == "inspec" && telemetry_disabled?
         # Issue a warning if an InSpec user is explicitly trying to opt out of telemetry using cli option
         Inspec::Log.warn "Telemetry opt-out is not permissible."
       end
-
-      # Telemetry opt-in/out enabled for other Inspec distros
-      return Inspec::Telemetry::Null if Inspec::Dist::EXEC_NAME != "inspec" && telemetry_disabled?
-
-      # Don't perform telemetry action if running under Automate - Automate does LDC tracking for us
-      return Inspec::Telemetry::Null if Inspec::Telemetry::RunContextProbe.under_automate?
 
       Inspec::Log.debug "Determined HTTP instance for telemetry"
 
