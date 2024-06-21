@@ -112,6 +112,7 @@ describe Inspec::Runner do
 
   describe "when backend gets switched" do
     it "replaces the existing backend with the given one" do
+      opts = { command_runner: :generic, backend_cache: false }
       runner = Inspec::Runner.new(opts)
 
       new_backend_config = Inspec::Config.new(backend_cache: true)
