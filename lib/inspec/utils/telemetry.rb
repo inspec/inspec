@@ -20,8 +20,8 @@ module Inspec
       # Don't perform telemetry action if license is a commercial license
 
       if Inspec::Dist::EXEC_NAME != "inspec" ||
-        Inspec::Telemetry::RunContextProbe.under_automate? ||
-        license&.license_type&.downcase == "commercial"
+          Inspec::Telemetry::RunContextProbe.under_automate? ||
+          license&.license_type&.downcase == "commercial"
 
         return Inspec::Telemetry::Null
       end
