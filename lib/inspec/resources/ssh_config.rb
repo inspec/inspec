@@ -121,4 +121,84 @@ module Inspec::Resources
       "/etc/ssh/#{type}"
     end
   end
+
+  class SshdActiveConfig < SshdConfig
+    name "sshd_active_config"
+    supports platform: "unix"
+    supports platform: "windows"
+    desc "Use the sshd_active_config InSpec audit resource to test configuration data for the Open SSH daemon located at /etc/ssh/sshd_config on Linux and UNIX platforms. sshd---the Open SSH daemon---listens on dedicated ports, starts a daemon for each incoming connection, and then handles encryption, authentication, key exchanges, command execution, and data exchanges."
+    example <<~EXAMPLE
+      describe sshd_active_config do
+        its('Protocol') { should eq '2' }
+      end
+    EXAMPLE
+
+    attr_reader :active_path
+
+    def initialize
+      @active_path = dynamic_sshd_config_path
+      super(@active_path)
+    end
+
+    def to_s
+      "SSHD Active Configuration (active path: #{@active_path})"
+    end
+
+    private
+
+    def ssh_config_file(type)
+      if inspec.os.windows?
+        programdata = inspec.os_env("programdata").content
+        return "#{programdata}\\ssh\\#{type}"
+      end
+
+      "/etc/ssh/#{type}"
+    end
+
+    def dynamic_sshd_config_path
+      if inspec.os.windows?
+        # PowerShell script block to find the path of sshd.exe
+        script = <<-EOH
+          $sshdPath = (Get-Command sshd.exe).Source
+          if ($sshdPath -ne $null) {
+            Write-Output $sshdPath
+          } else {
+            Write-Error "sshd.exe not found"
+          }
+        EOH
+        # Execute the PowerShell script block using InSpec's powershell resource
+        sshd_path_result = inspec.powershell(script).stdout.strip
+        sshd_path = "\"#{sshd_path_result}\""
+        if !sshd_path_result.empty? && sshd_path_result != "sshd.exe not found"
+          command_output = inspec.command("#{sshd_path} -T").stdout
+          # sshd -T prints the configuration settings directly to stdout
+          # sshd -dd 2>&1 prints 'filename __PROGRAMDATA__\\ssh/sshd_config' instead of 'filename /etc/ssh/sshd_config' like it does on unix
+          # so that private method for windows is probably correct
+          #active_path = command_output.lines.find { |line| line.include?("config file") }&.split("config file")&.last&.strip
+        else
+          Inspec::Log.error("sshd.exe not found using PowerShell script block.")
+          return nil
+        end
+      else
+        if inspec.os.unix?
+          sshd_path = "/usr/sbin/sshd"
+          command_output = inspec.command("sudo #{sshd_path} -dd 2>&1").stdout
+          active_path = command_output.lines.find { |line| line.include?("filename") }&.split("filename")&.last&.strip
+        else
+          Inspec::Log.error(
+            "Unable to determine sshd configuration path on Windows using -T flag."
+          )
+          return nil
+        end
+      end
+
+      if active_path.nil? || active_path.empty?
+        Inspec::Log.warn(
+          "No active SSHD configuration found. Using default configuration."
+        )
+        return ssh_config_file("sshd_config") # Assuming ssh_config_file is a method that returns a default path
+      end
+      active_path
+    end
+  end
 end
