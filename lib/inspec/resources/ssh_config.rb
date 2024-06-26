@@ -181,7 +181,6 @@ module Inspec::Resources
           if env_var_name?
             active_path = active_path.gsub(/__#{env_var_name}__/, inspec.os_env(env_var_name).content)
           end
-
         else
           Inspec::Log.error("sshd.exe not found using PowerShell script block.")
           return nil
@@ -208,5 +207,4 @@ module Inspec::Resources
       active_path
     end
   end
-end
 end
