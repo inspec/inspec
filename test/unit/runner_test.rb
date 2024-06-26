@@ -120,7 +120,7 @@ describe Inspec::Runner do
       runner.set_backend(new_backend)
 
       active_backend = runner.instance_variable_get(:@backend)
-      _(active_backend.backend).must_be_same_as(new_backend)
+      _(active_backend.backend).must_be_same_as(new_backend.backend)
     end
   end
 end
