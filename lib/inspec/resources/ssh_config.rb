@@ -170,11 +170,18 @@ module Inspec::Resources
         sshd_path_result = inspec.powershell(script).stdout.strip
         sshd_path = "\"#{sshd_path_result}\""
         if !sshd_path_result.empty? && sshd_path_result != "sshd.exe not found"
-          command_output = inspec.command("#{sshd_path} -T").stdout
-          # sshd -T prints the configuration settings directly to stdout
+          # sshd -T prints the active configuration settings directly to stdout. Can we just use this?          
+          # command_output = inspec.command("#{sshd_path} -T").stdout
           # sshd -dd 2>&1 prints 'filename __PROGRAMDATA__\\ssh/sshd_config' instead of 'filename /etc/ssh/sshd_config' like it does on unix
-          # so that private method for windows is probably correct
-          #active_path = command_output.lines.find { |line| line.include?("config file") }&.split("config file")&.last&.strip
+          command_output = inspec.command("sudo #{sshd_path} -dd 2>&1").stdout
+          
+          active_path = command_output.lines.find { |line| line.include?("filename") }&.split("filename")&.last&.strip
+          # retrieve env variable from active path to generate full path if needed
+          env_var_name = active_path.match(/__(.*?)__/)[1]
+          if env_var_name?
+            active_path = active_path.gsub(/__#{env_var_name}__/, inspec.os_env(env_var_name).content)
+          end
+
         else
           Inspec::Log.error("sshd.exe not found using PowerShell script block.")
           return nil
@@ -201,4 +208,5 @@ module Inspec::Resources
       active_path
     end
   end
+end
 end
