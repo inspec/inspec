@@ -38,16 +38,13 @@ module Inspec::Resources
 
     def convert_hash(hash)
       new_hash = {}
-      hash.each do |k, v|
-        new_hash[k.downcase] ||= v
-      end
+      hash.each { |k, v| new_hash[k.downcase] ||= v }
       new_hash
     end
 
     def method_missing(name)
       param = read_params[name.to_s.downcase]
       return nil if param.nil?
-      # extract first value if we have only one value in array
       return param[0] if param.length == 1
 
       param
@@ -73,11 +70,12 @@ module Inspec::Resources
       return @params if defined?(@params)
       return @params = {} if read_content.nil?
 
-      conf = SimpleConfig.new(
-        read_content,
-        assignment_regex: /^\s*(\S+?)\s+(.*?)\s*$/,
-        multiple_values: true
-      )
+      conf =
+        SimpleConfig.new(
+          read_content,
+          assignment_regex: /^\s*(\S+?)\s+(.*?)\s*$/,
+          multiple_values: true
+        )
       @params = convert_hash(conf.params)
     end
 
@@ -157,7 +155,6 @@ module Inspec::Resources
 
     def dynamic_sshd_config_path
       if inspec.os.windows?
-        # PowerShell script block to find the path of sshd.exe
         script = <<-EOH
           $sshdPath = (Get-Command sshd.exe).Source
           if ($sshdPath -ne $null) {
@@ -166,20 +163,24 @@ module Inspec::Resources
             Write-Error "sshd.exe not found"
           }
         EOH
-        # Execute the PowerShell script block using InSpec's powershell resource
         sshd_path_result = inspec.powershell(script).stdout.strip
         sshd_path = "\"#{sshd_path_result}\""
         if !sshd_path_result.empty? && sshd_path_result != "sshd.exe not found"
-          # sshd -T prints the active configuration settings directly to stdout. Can we just use this?          
-          # command_output = inspec.command("#{sshd_path} -T").stdout
-          # sshd -dd 2>&1 prints 'filename __PROGRAMDATA__\\ssh/sshd_config' instead of 'filename /etc/ssh/sshd_config' like it does on unix
           command_output = inspec.command("sudo #{sshd_path} -dd 2>&1").stdout
-          
-          active_path = command_output.lines.find { |line| line.include?("filename") }&.split("filename")&.last&.strip
-          # retrieve env variable from active path to generate full path if needed
+          active_path =
+            command_output
+              .lines
+              .find { |line| line.include?("filename") }
+              &.split("filename")
+              &.last
+              &.strip
           env_var_name = active_path.match(/__(.*?)__/)[1]
           if env_var_name?
-            active_path = active_path.gsub(/__#{env_var_name}__/, inspec.os_env(env_var_name).content)
+            active_path =
+              active_path.gsub(
+                /__#{env_var_name}__/,
+                inspec.os_env(env_var_name).content
+              )
           end
         else
           Inspec::Log.error("sshd.exe not found using PowerShell script block.")
@@ -189,7 +190,13 @@ module Inspec::Resources
         if inspec.os.unix?
           sshd_path = "/usr/sbin/sshd"
           command_output = inspec.command("sudo #{sshd_path} -dd 2>&1").stdout
-          active_path = command_output.lines.find { |line| line.include?("filename") }&.split("filename")&.last&.strip
+          active_path =
+            command_output
+              .lines
+              .find { |line| line.include?("filename") }
+              &.split("filename")
+              &.last
+              &.strip
         else
           Inspec::Log.error(
             "Unable to determine sshd configuration path on Windows using -T flag."
@@ -202,7 +209,7 @@ module Inspec::Resources
         Inspec::Log.warn(
           "No active SSHD configuration found. Using default configuration."
         )
-        return ssh_config_file("sshd_config") # Assuming ssh_config_file is a method that returns a default path
+        return ssh_config_file("sshd_config")
       end
       active_path
     end
