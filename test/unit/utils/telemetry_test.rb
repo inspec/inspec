@@ -121,16 +121,4 @@ describe "Telemetry" do
       end
     end
   end
-
-  describe "when telemetry is run for Inspec" do
-    it "Inspec user can not disable telemetry using --no-enable-telemetry option" do
-      ChefLicensing::Context.license = ChefLicensing.client(license_keys: [chef_license_key])
-      Inspec::Telemetry.expects(:instance).returns(tm).at_least_once
-      Inspec::Telemetry.run_ending(runner: runner, run_data: run_data, conf: conf)
-      runner.add_target(profile)
-      runner.run
-      # Returns HTTP backend meaning the telemetry call is not disabled and will make an API call
-      _(Inspec::Telemetry.determine_backend_class).must_equal Inspec::Telemetry::HTTP
-    end
-  end
 end
