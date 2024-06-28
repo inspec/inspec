@@ -44,6 +44,7 @@ module Inspec::Resources
       # try to get a temp path
       sql_file_path = upload_sql_file(sql)
 
+      # TODO: Find if there is better way to get the current shell
       current_shell = inspec.command("echo $SHELL")
 
       res = current_shell.exit_status
