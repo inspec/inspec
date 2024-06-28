@@ -89,7 +89,12 @@ module Inspec
     end
 
     def configure_transport
-      @backend = Inspec::Backend.create(@conf)
+      backend = Inspec::Backend.create(@conf)
+      set_backend(backend)
+    end
+
+    def set_backend(new_backend)
+      @backend = new_backend
       @test_collector.backend = @backend
     end
 
