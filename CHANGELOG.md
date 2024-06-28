@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.6.26 -->
+## [v6.6.26](https://github.com/inspec/inspec/tree/v6.6.26) (2024-06-28)
 
 #### Merged Pull Requests
+- Configurable backend for Chef Infra in Target Mode [#7058](https://github.com/inspec/inspec/pull/7058) ([thheinen](https://github.com/thheinen))
 - Bump omnibus-software from `a32e7ee` to `28c9c9f` in /omnibus [#7063](https://github.com/inspec/inspec/pull/7063) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Bump ffi-yajl from 2.4.0 to 2.6.0 in /omnibus [#6648](https://github.com/inspec/inspec/pull/6648) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Bump omnibus-software from `88516f3` to `a32e7ee` in /omnibus [#7062](https://github.com/inspec/inspec/pull/7062) ([dependabot[bot]](https://github.com/dependabot[bot]))
@@ -40,6 +41,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Configurable backend for Chef Infra in Target Mode [#7058](https://github.com/inspec/inspec/pull/7058) ([thheinen](https://github.com/thheinen)) <!-- 6.6.26 -->
 - Bump omnibus-software from `a32e7ee` to `28c9c9f` in /omnibus [#7063](https://github.com/inspec/inspec/pull/7063) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.25 -->
 - Bump ffi-yajl from 2.4.0 to 2.6.0 in /omnibus [#6648](https://github.com/inspec/inspec/pull/6648) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.25 -->
 - Bump omnibus-software from `88516f3` to `a32e7ee` in /omnibus [#7062](https://github.com/inspec/inspec/pull/7062) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.25 -->
