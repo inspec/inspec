@@ -44,10 +44,19 @@ module Inspec::Resources
       # try to get a temp path
       sql_file_path = upload_sql_file(sql)
 
-      # isql reuires that we have a matching locale set, but does not support C.UTF-8. en_US.UTF-8 is the least evil.
-      command = "LANG=en_US.UTF-8 SYBASE=#{sybase_home} #{bin} -s\"#{col_sep}\" -w80000 -S #{server} -U #{username} -D #{database} -P \"#{password}\" < #{sql_file_path}"
-      isql_cmd = inspec.command(command)
+      # TODO: Find if there is better way to get the current shell
+      current_shell = inspec.command("echo $SHELL")
 
+      res = current_shell.exit_status
+
+      # isql reuires that we have a matching locale set, but does not support C.UTF-8. en_US.UTF-8 is the least evil.
+      if res == 0 && ( current_shell.stdout&.include?("/csh") || current_shell.stdout&.include?("/tcsh") )
+        command = "source #{sybase_home}/SYBASE.csh; setenv LANG en_US.UTF-8; #{bin} -s\"#{col_sep}\" -w80000 -S #{server} -U #{username} -D #{database} -P \"#{password}\" < #{sql_file_path}"
+      else
+        command = "LANG=en_US.UTF-8 SYBASE=#{sybase_home} #{bin} -s\"#{col_sep}\" -w80000 -S #{server} -U #{username} -D #{database} -P \"#{password}\" < #{sql_file_path}"
+      end
+
+      isql_cmd = inspec.command(command)
       # Check for isql errors
       res = isql_cmd.exit_status
       raise Inspec::Exceptions::ResourceFailed.new("isql exited with code #{res} and stderr '#{isql_cmd.stderr}', stdout '#{isql_cmd.stdout}'") unless res == 0
