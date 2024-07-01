@@ -65,9 +65,9 @@ RAKE_EXIT=$?
 # If coverage is enabled, then we need to pick up the coverage/coverage.json file
 if [ -n "${CI_ENABLE_COVERAGE:-}" ]; then
   echo "--- installing sonarscanner"
-  export SONAR_SCANNER_VERSION=4.7.0.2747
-  export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
-  curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
+  export SONAR_SCANNER_VERSION=6.1.0.4477
+  export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux-x64
+  curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux-x64.zip
   unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
   export PATH=$SONAR_SCANNER_HOME/bin:$PATH
   export SONAR_SCANNER_OPTS="-server"
