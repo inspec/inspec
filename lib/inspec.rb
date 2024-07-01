@@ -19,7 +19,6 @@ require "inspec/rspec_extensions"
 require "inspec/globals"
 require "inspec/impact"
 require "inspec/utils/telemetry"
-require "inspec/utils/telemetry/global_methods"
 
 require "inspec/plugin/v2"
 require "inspec/plugin/v1"
