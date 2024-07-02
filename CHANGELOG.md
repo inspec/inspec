@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.22.51 -->
+## [v5.22.51](https://github.com/inspec/inspec/tree/v5.22.51) (2024-07-02)
 
 #### Merged Pull Requests
+- Backport-#7053 Pin the ffi version &lt; 1.17.0 [#7074](https://github.com/inspec/inspec/pull/7074) ([Vasu1105](https://github.com/Vasu1105))
 - Bump ffi-yajl from 2.4.0 to 2.6.0 in /omnibus [#6756](https://github.com/inspec/inspec/pull/6756) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.22.50 release
 
 #### Merged Pull Requests
+- Backport-#7053 Pin the ffi version &lt; 1.17.0 [#7074](https://github.com/inspec/inspec/pull/7074) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.51 -->
 - Bump ffi-yajl from 2.4.0 to 2.6.0 in /omnibus [#6756](https://github.com/inspec/inspec/pull/6756) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.50 -->
 <!-- release_rollup -->
 
