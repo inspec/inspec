@@ -189,7 +189,11 @@ module Inspec
     def parse_cli_input_value(input_name, given_value)
       value = given_value.chomp(",") # Trim trailing comma if any
       case value
-      when /^true|false$/i
+      # Changed regex to use \A and \z instead of ^ and $ for stricter start and end of string matching.
+      # This prevents potential bypass issues with multi-line input and ensures the entire string
+      # is exactly "true" or "false", enhancing security when dealing with untrusted input.
+      # Issue detected here: https://github.com/inspec/inspec/security/code-scanning/41
+      when /\A(true|false)\z/i
         value = !!(value =~ /true/i)
       when /^-?\d+$/
         value = value.to_i
