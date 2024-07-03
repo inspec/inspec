@@ -138,7 +138,9 @@ module Inspec::Resources
       output = stdout.split("oracle_query_string")[-1]
       # comma_query_sub replaces the csv delimiter "," in the output.
       # Handles CSV parsing of data like this (DROP,3) etc
-      output = output.sub(/\r/, "").strip.gsub(",", "comma_query_sub")
+      # Replace all occurrences of the target pattern using gsub instead of sub
+      # Issue detected: https://github.com/inspec/inspec/security/code-scanning/9
+      output = output.gsub(/\r/, "").strip.gsub(",", "comma_query_sub")
       converter = ->(header) { header.downcase }
       CSV.parse(output, headers: true, header_converters: converter).map do |row|
         next if row.entries.flatten.empty?
