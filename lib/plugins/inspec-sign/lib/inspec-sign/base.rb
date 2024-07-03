@@ -164,7 +164,7 @@ module InspecPlugins
           ui.exit(:usage_error)
         end
 
-        lines = IO.readlines(p)
+        lines = File.readlines(p)
         lines << "\nprofile_content_id: #{profile_content_id}\n"
 
         File.open("#{p}", "w" ) do |f|
