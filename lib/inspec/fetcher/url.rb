@@ -262,7 +262,7 @@ module Inspec::Fetcher
         raise ArgumentError, "Invalid target: #{target}. Must be a valid URI or a local file path."
       end
     rescue StandardError => e
-      raise Inspec::FetcherFailure, "Profile could not be fetched: #{e.message}"
+      raise Inspec::FetcherFailure, "Profile URL dependency #{target} could not be fetched: #{e.message}"
     end
 
     # Checks if the given `target` string is a valid URI by attempting to parse it.
