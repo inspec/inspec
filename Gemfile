@@ -31,7 +31,7 @@ end
 
 # inspec tests depend text output that changed in the 3.10 release
 # but our runtime dep is still 3.9+
-gem "rspec", ">= 3.11"
+# gem "rspec", ">= 3.11"
 
 group :omnibus do
   gem "rb-readline"

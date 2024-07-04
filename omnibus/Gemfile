@@ -10,7 +10,7 @@ else
   gem "ffi", ">= 1.17.0"
 end
 
-gem "rspec", ">= 3.11"
+#gem "rspec", ">= 3.11"
 gem "ffi-yajl", "2.6.0"
 
 # This development group is installed by default when you run `bundle install`,
