@@ -4,7 +4,7 @@ gem "omnibus", github: ENV.fetch("OMNIBUS_GITHUB_REPO", "chef/omnibus"), branch:
 gem "omnibus-software", github: ENV.fetch("OMNIBUS_SOFTWARE_GITHUB_REPO", "chef/omnibus-software"), branch: ENV.fetch("OMNIBUS_SOFTWARE_GITHUB_BRANCH", "main")
 gem "artifactory"
 
-if Gem::Version.new(RUBY_VERSION) <= Gem::Version.new('3.1.0')
+if Gem::Version.new(RUBY_VERSION) <= Gem::Version.new("3.1.0")
   gem "ffi", ">= 1.15.5", "< 1.17.0"
 else
   gem "ffi", ">= 1.17.0"
