@@ -229,7 +229,7 @@ GEM
       parallel (~> 1.9)
       parslet (>= 1.5, < 2.0)
       pry (~> 0.13)
-      rspec (>= 3.9, <= 3.11)
+      rspec (>= 3.11)
       rspec-its (~> 1.2)
       rubyzip (>= 1.2.2, < 3.0)
       semverse (~> 3.0)
