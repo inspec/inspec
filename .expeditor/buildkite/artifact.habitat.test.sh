@@ -6,6 +6,8 @@ export HAB_ORIGIN='ci'
 export PLAN='inspec'
 export CHEF_LICENSE="accept-no-persist"
 export HAB_LICENSE="accept-no-persist"
+export HAB_BLDR_CHANNEL="curl8"
+export HAB_STUDIO_SECRET_HAB_FALLBACK_CHANNEL="stable"
 
 echo "--- checking if git is installed"
 if ! command -v git &> /dev/null; then

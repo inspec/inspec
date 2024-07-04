@@ -16,8 +16,6 @@ pipelines:
     env:
      - HAB_NONINTERACTIVE: "true"
      - HAB_NOCOLORING: "true"
-     - HAB_BLDR_CHANNEL: "curl8"
-     - HAB_STUDIO_SECRET_HAB_FALLBACK_CHANNEL: "stable"
      - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
  - docker/build
  - omnibus/release:
