@@ -255,9 +255,9 @@ module Inspec::Fetcher
     # Logs or handles exceptions gracefully using `pretty_handle_exception`.
     def open(target, opts)
       if valid_uri?(target)
-        URI(target).open(opts)  # Open URI if it's a valid HTTP, HTTPS, or FTP URI
+        URI(target).open(opts) # Open URI if it's a valid HTTP, HTTPS, or FTP URI
       elsif File.file?(target)
-        File.open(target, opts)  # Open local file if it exists
+        File.open(target, opts) # Open local file if it exists
       else
         raise ArgumentError, "Invalid target: #{target}. Must be a valid URI or a local file path."
       end
