@@ -1,10 +1,10 @@
 GIT
   remote: https://github.com/chef/omnibus-software.git
-  revision: 28c9c9f8419094cef59ca37802084db716166ace
-  branch: main
+  revision: a1aada125b21b82b74c9f0abfd7f3188d56639d4
+  branch: test/ruby3.3/muthuja
   specs:
     omnibus-software (24.6.323)
-      ffi (< 1.17.0)
+      ffi (> 1.17.0)
       omnibus (>= 9.0.0)
 
 GIT
