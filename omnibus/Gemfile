@@ -5,6 +5,7 @@ gem "omnibus-software", github: ENV.fetch("OMNIBUS_SOFTWARE_GITHUB_REPO", "chef/
 gem "artifactory"
 
 gem "ffi", ">= 1.17"
+gem "rspec", ">= 3.10"
 
 gem "ffi-yajl", "2.6.0"
 
