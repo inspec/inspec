@@ -24,6 +24,7 @@ gem "inspec-bin", path: "./inspec-bin"
 # rubygems version to be upgraded to >= 3.3.22 Ref:https://buildkite.com/chef/inspec-inspec-main-verify-private/builds/812#018fe177-2ccb-45ed-a25e-213c8a6453df/698-707
 
 gem "ffi", ">= 1.15.5", "< 1.17.0"
+
 # inspec tests depend text output that changed in the 3.10 release
 # but our runtime dep is still 3.9+
 gem "rspec", ">= 3.10"
