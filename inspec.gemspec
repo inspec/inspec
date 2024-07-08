@@ -34,6 +34,7 @@ Source code obtained from the Chef GitHub repository is made available under Apa
 
   spec.add_dependency "train", "~> 3.10"
   spec.add_dependency "rake"
+  spec.add_dependency "rspec", "~> 3.11"
 
   # progress bar streaming reporter plugin support
   spec.add_dependency "progress_bar", "~> 1.3.3"
