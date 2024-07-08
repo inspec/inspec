@@ -5,6 +5,7 @@ GIT
   specs:
     omnibus-software (24.6.323)
       ffi (> 1.17.0)
+      rspec (>= 3.11.0)
       omnibus (>= 9.0.0)
 
 GIT
