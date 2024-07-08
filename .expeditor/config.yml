@@ -63,6 +63,12 @@ pipelines:
      - HAB_NOCOLORING: "true"
      - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
     trigger: pull_request
+artifact_channels:
+  - curl8
+  - dev
+  - acceptance
+  - current
+  - stable
 
 slack:
  notify_channel: inspec-notify
