@@ -180,3 +180,6 @@ subscriptions:
         only_if_team_member:
          - inspec/owners
          - inspec/inspec-core-team
+  - workload: buildkite_hab_build_group_published:{{agent_id}}:*
+    actions:
+      - built_in:promote_habitat_packages
