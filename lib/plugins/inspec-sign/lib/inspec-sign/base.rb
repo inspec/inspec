@@ -36,11 +36,15 @@ module InspecPlugins
         FileUtils.mkdir_p(path)
 
         puts "Generating signing key in #{path}/#{options["keyname"]}.pem.key"
-        open "#{path}/#{options["keyname"]}.pem.key", "w" do |io|
+        # https://github.com/inspec/inspec/security/code-scanning/1
+        # https://github.com/inspec/inspec/security/code-scanning/2
+        # The following line was flagged by GitHub code scanning as a security vulnerability.
+        # Update the code to eliminate the vulnerability.
+        File.open("#{path}/#{options["keyname"]}.pem.key", "w") do |io|
           io.write key.to_pem
         end
         puts "Generating validation key in #{path}/#{options["keyname"]}.pem.pub"
-        open "#{path}/#{options["keyname"]}.pem.pub", "w" do |io|
+        File.open("#{path}/#{options["keyname"]}.pem.pub", "w") do |io|
           io.write key.public_key.to_pem
         end
       end
@@ -67,7 +71,8 @@ module InspecPlugins
         # Generating tar.gz file using archive method of Inspec Cli
         Inspec::InspecCLI.new.archive(profile_path, "error")
         tarfile = "#{filename}.tar.gz"
-        tar_content = IO.binread(tarfile)
+        # Update IO.binread with File.binread because of https://github.com/inspec/inspec/security/code-scanning/3
+        tar_content = File.binread(tarfile)
         FileUtils.rm(tarfile)
 
         # Generate the signature
@@ -152,7 +157,7 @@ module InspecPlugins
           ui.exit(:usage_error)
         end
 
-        lines = IO.readlines(p)
+        lines = File.readlines(p)
         lines << "\nprofile_content_id: #{profile_content_id}\n"
 
         File.open("#{p}", "w" ) do |f|
