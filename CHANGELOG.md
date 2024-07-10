@@ -1,14 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.6.26 -->
-## [v6.6.26](https://github.com/inspec/inspec/tree/v6.6.26) (2024-06-28)
+<!-- latest_release 6.6.27 -->
+## [v6.6.27](https://github.com/inspec/inspec/tree/v6.6.27) (2024-07-10)
 
 #### Merged Pull Requests
-- Configurable backend for Chef Infra in Target Mode [#7058](https://github.com/inspec/inspec/pull/7058) ([thheinen](https://github.com/thheinen))
-- Bump omnibus-software from `a32e7ee` to `28c9c9f` in /omnibus [#7063](https://github.com/inspec/inspec/pull/7063) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- Bump ffi-yajl from 2.4.0 to 2.6.0 in /omnibus [#6648](https://github.com/inspec/inspec/pull/6648) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- Bump omnibus-software from `88516f3` to `a32e7ee` in /omnibus [#7062](https://github.com/inspec/inspec/pull/7062) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- CHEF-12175: Remove use of `Kernel.open` or `IO.read` or similar sinks with a non-constant value [#7079](https://github.com/inspec/inspec/pull/7079) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -41,6 +38,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- CHEF-12175: Remove use of `Kernel.open` or `IO.read` or similar sinks with a non-constant value [#7079](https://github.com/inspec/inspec/pull/7079) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.27 -->
 - Configurable backend for Chef Infra in Target Mode [#7058](https://github.com/inspec/inspec/pull/7058) ([thheinen](https://github.com/thheinen)) <!-- 6.6.26 -->
 - Bump omnibus-software from `a32e7ee` to `28c9c9f` in /omnibus [#7063](https://github.com/inspec/inspec/pull/7063) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.25 -->
 - Bump ffi-yajl from 2.4.0 to 2.6.0 in /omnibus [#6648](https://github.com/inspec/inspec/pull/6648) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.25 -->
