@@ -136,7 +136,7 @@ module Inspec::Resources
     def escape_query(query)
       # https://github.com/inspec/inspec/security/code-scanning/7
       # https://github.com/inspec/inspec/security/code-scanning/8
-      escaped_query = query.gsub(/["\\]/) { |match| match == '"' ? '\\"' : '\\\\' } # Escape backslashes and double quotes
+      escaped_query = query.gsub(/["\\]/) { |match| match == '"' ? '\\"' : "\\\\" } # Escape backslashes and double quotes
       escaped_query.gsub!("$", '\\$') unless escaped_query.include? "\\$" # Escape dollar signs, but only if not already escaped
       escaped_query
     end
