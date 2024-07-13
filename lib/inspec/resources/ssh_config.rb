@@ -1,14 +1,14 @@
 # copyright: 2015, Vulcano Security GmbH
 
-require "inspec/utils/simpleconfig"
-require "inspec/utils/file_reader"
+require 'inspec/utils/simpleconfig'
+require 'inspec/utils/file_reader'
 
 module Inspec::Resources
   class SshConfig < Inspec.resource(1)
-    name "ssh_config"
-    supports platform: "unix"
-    supports platform: "windows"
-    desc "Use the `ssh_config` InSpec audit resource to test OpenSSH client configuration data located at `/etc/ssh/ssh_config` on Linux and Unix platforms."
+    name 'ssh_config'
+    supports platform: 'unix'
+    supports platform: 'windows'
+    desc 'Use the `ssh_config` InSpec audit resource to test OpenSSH client configuration data located at `/etc/ssh/ssh_config` on Linux and Unix platforms.'
     example <<~EXAMPLE
       describe ssh_config do
         its('cipher') { should contain '3des' }
@@ -20,8 +20,8 @@ module Inspec::Resources
     include FileReader
 
     def initialize(conf_path = nil, type = nil)
-      @conf_path = conf_path || ssh_config_file("ssh_config")
-      typename = (@conf_path.include?("sshd") ? "Server" : "Client")
+      @conf_path = conf_path || ssh_config_file('ssh_config')
+      typename = (@conf_path.include?('sshd') ? 'Server' : 'Client')
       @type = type || "SSH #{typename} configuration #{conf_path}"
       read_content
     end
@@ -51,11 +51,11 @@ module Inspec::Resources
     end
 
     def to_s
-      "SSH Configuration"
+      'SSH Configuration'
     end
 
     def resource_id
-      @conf_path || "SSH Configuration"
+      @conf_path || 'SSH Configuration'
     end
 
     private
@@ -81,7 +81,7 @@ module Inspec::Resources
 
     def ssh_config_file(type)
       if inspec.os.windows?
-        programdata = inspec.os_env("programdata").content
+        programdata = inspec.os_env('programdata').content
         return "#{programdata}\\ssh\\#{type}"
       end
 
@@ -90,10 +90,10 @@ module Inspec::Resources
   end
 
   class SshdConfig < SshConfig
-    name "sshd_config"
-    supports platform: "unix"
-    supports platform: "windows"
-    desc "Use the sshd_config InSpec audit resource to test configuration data for the Open SSH daemon located at /etc/ssh/sshd_config on Linux and UNIX platforms. sshd---the Open SSH daemon---listens on dedicated ports, starts a daemon for each incoming connection, and then handles encryption, authentication, key exchanges, command execution, and data exchanges."
+    name 'sshd_config'
+    supports platform: 'unix'
+    supports platform: 'windows'
+    desc 'Use the sshd_config InSpec audit resource to test configuration data for the Open SSH daemon located at /etc/ssh/sshd_config on Linux and UNIX platforms. sshd---the Open SSH daemon---listens on dedicated ports, starts a daemon for each incoming connection, and then handles encryption, authentication, key exchanges, command execution, and data exchanges.'
     example <<~EXAMPLE
       describe sshd_config do
         its('Protocol') { should eq '2' }
@@ -101,18 +101,18 @@ module Inspec::Resources
     EXAMPLE
 
     def initialize(path = nil)
-      super(path || ssh_config_file("sshd_config"))
+      super(path || ssh_config_file('sshd_config'))
     end
 
     def to_s
-      "SSHD Configuration"
+      'SSHD Configuration'
     end
 
     private
 
     def ssh_config_file(type)
       if inspec.os.windows?
-        programdata = inspec.os_env("programdata").content
+        programdata = inspec.os_env('programdata').content
         return "#{programdata}\\ssh\\#{type}"
       end
 
@@ -121,10 +121,10 @@ module Inspec::Resources
   end
 
   class SshdActiveConfig < SshdConfig
-    name "sshd_active_config"
-    supports platform: "unix"
-    supports platform: "windows"
-    desc "Use the sshd_active_config InSpec audit resource to test configuration data for the Open SSH daemon located at /etc/ssh/sshd_config on Linux and UNIX platforms. sshd---the Open SSH daemon---listens on dedicated ports, starts a daemon for each incoming connection, and then handles encryption, authentication, key exchanges, command execution, and data exchanges."
+    name 'sshd_active_config'
+    supports platform: 'unix'
+    supports platform: 'windows'
+    desc 'Use the sshd_active_config InSpec audit resource to test configuration data for the Open SSH daemon located at /etc/ssh/sshd_config on Linux and UNIX platforms. sshd---the Open SSH daemon---listens on dedicated ports, starts a daemon for each incoming connection, and then handles encryption, authentication, key exchanges, command execution, and data exchanges.'
     example <<~EXAMPLE
       describe sshd_active_config do
         its('Protocol') { should eq '2' }
@@ -146,7 +146,7 @@ module Inspec::Resources
 
     def ssh_config_file(type)
       if inspec.os.windows?
-        programdata = inspec.os_env("programdata").content
+        programdata = inspec.os_env('programdata').content
         return "#{programdata}\\ssh\\#{type}"
       end
 
@@ -165,13 +165,13 @@ module Inspec::Resources
         EOH
         sshd_path_result = inspec.powershell(script).stdout.strip
         sshd_path = "\"#{sshd_path_result}\""
-        if !sshd_path_result.empty? && sshd_path_result != "sshd.exe not found"
+        if !sshd_path_result.empty? && sshd_path_result != 'sshd.exe not found'
           command_output = inspec.command("sudo #{sshd_path} -dd 2>&1").stdout
           active_path =
             command_output
-              .lines
-              .find { |line| line.include?("filename") }
-              &.split("filename")
+            .lines
+            .find { |line| line.include?('filename') }
+              &.split('filename')
               &.last
               &.strip
           env_var_name = active_path.match(/__(.*?)__/)[1]
@@ -183,33 +183,31 @@ module Inspec::Resources
               )
           end
         else
-          Inspec::Log.error("sshd.exe not found using PowerShell script block.")
+          Inspec::Log.error('sshd.exe not found using PowerShell script block.')
           return nil
         end
+      elsif inspec.os.unix?
+        sshd_path = '/usr/sbin/sshd'
+        command_output = inspec.command("sudo #{sshd_path} -dd 2>&1").stdout
+        active_path =
+          command_output
+          .lines
+          .find { |line| line.include?('filename') }
+            &.split('filename')
+            &.last
+            &.strip
       else
-        if inspec.os.unix?
-          sshd_path = "/usr/sbin/sshd"
-          command_output = inspec.command("sudo #{sshd_path} -dd 2>&1").stdout
-          active_path =
-            command_output
-              .lines
-              .find { |line| line.include?("filename") }
-              &.split("filename")
-              &.last
-              &.strip
-        else
-          Inspec::Log.error(
-            "Unable to determine sshd configuration path on Windows using -T flag."
-          )
-          return nil
-        end
+        Inspec::Log.error(
+          'Unable to determine sshd configuration path on Windows using -T flag.'
+        )
+        return nil
       end
 
       if active_path.nil? || active_path.empty?
         Inspec::Log.warn(
-          "No active SSHD configuration found. Using default configuration."
+          'No active SSHD configuration found. Using default configuration.'
         )
-        return ssh_config_file("sshd_config")
+        return ssh_config_file('sshd_config')
       end
       active_path
     end
