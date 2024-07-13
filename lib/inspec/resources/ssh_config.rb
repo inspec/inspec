@@ -139,7 +139,7 @@ module Inspec::Resources
     end
 
     def to_s
-      "SSHD Active Configuration (active path: #{@active_path})"
+      "SSHD Active Configuration (active path: #{@conf_path})"
     end
 
     private
@@ -167,17 +167,17 @@ module Inspec::Resources
         sshd_path = "\"#{sshd_path_result}\""
         if !sshd_path_result.empty? && sshd_path_result != 'sshd.exe not found'
           command_output = inspec.command("sudo #{sshd_path} -dd 2>&1").stdout
-          active_path =
+          dynamic_path =
             command_output
             .lines
             .find { |line| line.include?('filename') }
               &.split('filename')
               &.last
               &.strip
-          env_var_name = active_path.match(/__(.*?)__/)[1]
+          env_var_name = dynamic_path.match(/__(.*?)__/)[1]
           if env_var_name?
-            active_path =
-              active_path.gsub(
+            dynamic_path =
+              dynamic_path.gsub(
                 /__#{env_var_name}__/,
                 inspec.os_env(env_var_name).content
               )
@@ -189,7 +189,7 @@ module Inspec::Resources
       elsif inspec.os.unix?
         sshd_path = '/usr/sbin/sshd'
         command_output = inspec.command("sudo #{sshd_path} -dd 2>&1").stdout
-        active_path =
+        dynamic_path =
           command_output
           .lines
           .find { |line| line.include?('filename') }
@@ -203,13 +203,13 @@ module Inspec::Resources
         return nil
       end
 
-      if active_path.nil? || active_path.empty?
+      if dynamic_path.nil? || dynamic_path.empty?
         Inspec::Log.warn(
           'No active SSHD configuration found. Using default configuration.'
         )
         return ssh_config_file('sshd_config')
       end
-      active_path
+      dynamic_path
     end
   end
 end
