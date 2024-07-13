@@ -48,4 +48,18 @@ describe "Inspec::Resources::SshConfig" do
       _(resource.resource_exception_message).must_equal "File is empty: /etc/ssh/sshd_config_empty"
     end
   end
+
+  describe "sshd_active_config" do
+    it "check protocol version" do
+      resource = load_resource("sshd_active_config")
+      _(resource.Port).must_equal "22"
+      _(resource.UsePAM).must_equal "yes"
+      _(resource.ListenAddress).must_be_nil
+      _(resource.HostKey).must_equal [
+        "/etc/ssh/ssh_host_rsa_key",
+        "/etc/ssh/ssh_host_dsa_key",
+        "/etc/ssh/ssh_host_ecdsa_key",
+      ]
+    end
+  end
 end
