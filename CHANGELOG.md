@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.6.29 -->
-## [v6.6.29](https://github.com/inspec/inspec/tree/v6.6.29) (2024-07-12)
+<!-- latest_release 6.6.30 -->
+## [v6.6.30](https://github.com/inspec/inspec/tree/v6.6.30) (2024-07-15)
 
 #### Merged Pull Requests
-- CHEF-12172: Incomplete string escaping or encoding [#7078](https://github.com/inspec/inspec/pull/7078) ([ahasunos](https://github.com/ahasunos))
+- CHEF-12024 Adds C Shell support to sybase_session resource [#7069](https://github.com/inspec/inspec/pull/7069) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- CHEF-12024 Adds C Shell support to sybase_session resource [#7069](https://github.com/inspec/inspec/pull/7069) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.30 -->
 - CHEF-12172: Incomplete string escaping or encoding [#7078](https://github.com/inspec/inspec/pull/7078) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.29 -->
 - Fix gitignore file in docs dir [#7082](https://github.com/inspec/inspec/pull/7082) ([IanMadd](https://github.com/IanMadd)) <!-- 6.6.28 -->
 - CHEF-12175: Remove use of `Kernel.open` or `IO.read` or similar sinks with a non-constant value [#7079](https://github.com/inspec/inspec/pull/7079) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.27 -->
