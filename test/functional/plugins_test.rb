@@ -201,6 +201,27 @@ describe "Streaming-reporter plugin type support" do
 end
 
 #=========================================================================================#
+#                           Resource Pack Plugin Support
+#=========================================================================================#
+
+describe "Resource Pack Plugin support" do
+  include PluginFunctionalHelper
+
+  let(:resource_pack_plugin_path) { File.join(mock_path, "plugins", "inspec-test-resources", "lib", "inspec-test-resources.rb") }
+
+  describe "just loading the plugin" do
+    let(:fixture_path) { File.join(profile_path, "basic_profile") }
+    let(:run_result) { run_inspec_with_plugin("exec #{fixture_path}", plugin_path: resource_pack_plugin_path) }
+
+    it "runs the resource pack plugin type successfully" do
+      _(run_result.stderr).must_be_empty
+      _(run_result.exit_status).must_equal 0
+    end
+  end
+
+end
+
+#=========================================================================================#
 #                           DSL Plugin Support
 #=========================================================================================#
 
