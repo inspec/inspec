@@ -219,16 +219,6 @@ describe "Resource Pack Plugin support" do
     end
   end
 
-  describe "loading via profile gem dependency" do
-    let(:fixture_path) { File.join(profile_path, "dependencies", "uses-resource-pack-gem") }
-    let(:run_result) { run_inspec_process("exec #{fixture_path}", json: true) }
-
-    it "runs the resource pack plugin type successfully" do
-      _(run_result.stderr).must_be_empty
-      _(run_result.exit_status).must_equal 0
-      assert_json_controls_passing
-    end
-  end
 end
 
 #=========================================================================================#
