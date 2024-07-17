@@ -2,7 +2,7 @@ module Inspec::Plugin::V2::PluginType
   class ResourcePack < Inspec::Plugin::V2::PluginBase
     register_plugin_type(:resource_pack)
 
-    # TODO: Any DSL definitions would go here
+    # Any DSL definitions would go here
 
   end
 end
