@@ -1,3 +1,5 @@
+require "inspec/plugin/v2/installer"
+
 module Inspec::Fetcher
   class Gem < Inspec.fetcher(1)
     name "gem"
@@ -14,19 +16,41 @@ module Inspec::Fetcher
     def self.resolve_from_hash(target)
       return unless target.key?(:gem)
 
-      # TODO: implement version
-      # TODO: implement source
       new(target)
     end
 
     def initialize(target, opts = {})
       @target = target
+      @gem_name = target[:gem]
+      @version = target[:version] # optional
+      @source = target[:source] # optional
       @backend = opts[:backend]
       @archive_shasum = nil
     end
 
     def fetch(path)
-      # TODO Logic to perform the installation
+
+      plugin_installer = Inspec::Plugin::V2::Installer.instance
+
+      # Determine if gem is installed
+      have_plugin = false
+      Inspec::Log.debug("GemFetcher fetching #{@gem_name} v" + (@version ? @version : "ANY"))
+
+      if @version
+        have_plugin = plugin_installer.plugin_version_installed?(@gem_name, @version)
+      else
+        have_plugin = plugin_installer.plugin_installed?(@gem_name)
+      end
+
+      unless have_plugin
+        # Install
+        # TODO - error handling?
+        Inspec::Log.debug("GemFetcher - install request for #{@gem_name}")
+        plugin_installer.install(@gem_name, version: @version, source: @source)
+      end
+
+      # Should the plugin activate? No, it should only be "fetched" (installed)
+      # Activation would load resource libararies and would effectively execute the profile
 
       @target
     end
@@ -66,7 +90,7 @@ module Inspec::Fetcher
     # end
 
     def resolved_source
-      h = { path: @target }
+      h = { gem: @gem_name, version: @version }
       h[:sha256] = sha256 if sha256
       h
     end
