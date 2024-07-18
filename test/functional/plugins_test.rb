@@ -219,6 +219,15 @@ describe "Resource Pack Plugin support" do
     end
   end
 
+  describe "loading via profile gem dependency" do
+    let(:fixture_path) { File.join(profile_path, "dependencies", "uses-resource-pack-gem") }
+    let(:run_result) { run_inspec_with_plugin("exec #{fixture_path}", plugin_path: resource_pack_plugin_path, do_install: false) }
+
+    it "runs the resource pack plugin type successfully" do
+      _(run_result.stderr).must_be_empty
+      _(run_result.exit_status).must_equal 0
+    end
+  end
 end
 
 #=========================================================================================#
