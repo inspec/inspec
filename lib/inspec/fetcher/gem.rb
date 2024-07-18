@@ -27,12 +27,6 @@ module Inspec::Fetcher
 
     def fetch(path)
       # TODO Logic to perform the installation
-      # If `inspec exec` is used then we should not vendor/fetch. This makes
-      # local development easier and more predictable.
-      return @target if Inspec::BaseCLI.inspec_cli_command == :exec
-
-      # Skip vendoring if @backend is not set (example: ad hoc runners)
-      return @target unless @backend
 
       @target
     end
@@ -52,21 +46,24 @@ module Inspec::Fetcher
     end
 
     def sha256
-      if !@archive_shasum.nil?
-        @archive_shasum
-      elsif File.directory?(@target)
-        nil
-      else
-        perform_shasum(@target)
-      end
+      # TODO - calculate the sha of the installed rubygem
+      cache_key # WRONG
+      # Left as an exercise
+      # if !@archive_shasum.nil?
+      #   @archive_shasum
+      # elsif File.directory?(@target)
+      #   nil
+      # else
+      #   perform_shasum(@target)
+      # end
     end
 
-    def perform_shasum(target)
-      return @archive_shasum if @archive_shasum
-      raise(Inspec::FetcherFailure, "Profile dependency local path '#{target}' does not exist") unless File.exist?(target)
+    # def perform_shasum(target)
+    #   return @archive_shasum if @archive_shasum
+    #   raise(Inspec::FetcherFailure, "Profile dependency local path '#{target}' does not exist") unless File.exist?(target)
 
-      @archive_shasum = OpenSSL::Digest.digest("SHA256", File.read(target)).unpack("H*")[0]
-    end
+    #   @archive_shasum = OpenSSL::Digest.digest("SHA256", File.read(target)).unpack("H*")[0]
+    # end
 
     def resolved_source
       h = { path: @target }
