@@ -1,117 +1,100 @@
-require "inspec/plugin/v2/installer"
-
 module Inspec::Fetcher
   class Gem < Inspec.fetcher(1)
     name "gem"
-    priority 0.5 # TODO: verify value
+    priority 100 # TODO: verify value
     # Priority is used for setting precedence of fetchers. And registry plugin(v1) decides which fetcher to use for loading profiles by using this priority
-    # Gem fetcher's priority should be lowest because gem profiles are only executables via inspec metadata
 
     def self.resolve(target)
-      resolve_from_hash(target) if target.is_a?(Hash) && target.key?(:gem)
+      if target.is_a?(Hash) && if target.key?(:gem)
+        resolve_from_hash(target)
+      end
     end
 
     def self.resolve_from_hash(target)
       return unless target.key?(:gem)
 
+      # TODO: implement version
+      # TODO: implement source
+      require "byebug"; byebug
       new(target)
     end
 
     def initialize(target, opts = {})
       @target = target
-      @gem_name = target[:gem]
-      @version = target[:version] # optional
-      @source = target[:source] # optional
-      @gem_path = target[:path] # optional, sets local path installation mode
       @backend = opts[:backend]
       @archive_shasum = nil
     end
 
-    def fetch(path)
-      plugin_installer = Inspec::Plugin::V2::Installer.instance
+  #   def fetch(path)
+  #     # If `inspec exec` is used then we should not vendor/fetch. This makes
+  #     # local development easier and more predictable.
+  #     return @target if Inspec::BaseCLI.inspec_cli_command == :exec
 
-      Inspec::Log.debug("GemFetcher fetching #{@gem_name} v" + (@version || "ANY"))
+  #     # Skip vendoring if @backend is not set (example: ad hoc runners)
+  #     return @target unless @backend
 
-      have_plugin = if @version
-                      plugin_installer.plugin_version_installed?(@gem_name, @version)
-                    else
-                      plugin_installer.plugin_installed?(@gem_name)
-                    end
+  #     if File.directory?(@target)
+  #       # Create an archive, checksum, and move to the vendor directory
+  #       Dir.mktmpdir do |tmpdir|
+  #         temp_archive = File.join(tmpdir, "#{File.basename(@target)}.tar.gz")
+  #         opts = {
+  #           backend: @backend,
+  #           output: temp_archive,
+  #         }
 
-      unless have_plugin
-        # Install
-        # TODO - error handling?
-        Inspec::Log.debug("GemFetcher - install request for #{@gem_name}")
-        if @gem_path
-          # No version permitted
-          plugin_installer.install(@gem_name, gem: @gem_name, path: @gem_path)
-        else
-          # Passing an extra gem argument to enable detecting gem based plugins
-          plugin_installer.install(@gem_name, version: @version, source: @source, gem: @gem_name)
-        end
-      end
+  #         # Create a temporary archive at `opts[:output]`
+  #         Inspec::Profile.for_target(@target, opts).archive(opts)
 
-      # Usually this `path` is cache path
-      # We want to copy installed gem to cache path so it can be vendored
-      # and read again as a cache
-      if path
-        loader = Inspec::Plugin::V2::Loader.new
-        gem_dir_path = loader.find_gem_directory(@gem_name, @version)
-        if gem_dir_path
-          # Cache the gem file
-          FileUtils.mkdir_p(path)
-          FileUtils.cp_r(gem_dir_path, path)
-          @archive_path = path
-        else
-          @archive_path = @target
-        end
-      end
+  #         checksum = perform_shasum(temp_archive)
+  #         final_path = File.join(path, checksum)
+  #         FileUtils.mkdir_p(final_path)
+  #         Inspec::FileProvider.for_path(temp_archive).extract(final_path)
+  #       end
+  #     else
+  #       # Verify profile (archive) is valid and extract to vendor directory
+  #       opts = { backend: @backend }
+  #       Inspec::Profile.for_target(@target, opts).check
+  #       Inspec::FileProvider.for_path(@target).extract(path)
+  #     end
 
-      # Should the plugin activate? No, it should only be "fetched" (installed)
-      # Activation would load resource libararies and would effectively execute the profile
+  #     @target
+  #   end
 
-      @target
-    end
+  #   def archive_path
+  #     @target
+  #   end
 
-    attr_reader :archive_path
-
-    def writable?
-      # Gem based profile is not writable because it is not cached in lockfile
-      false
-    end
+  #   def writable?
+  #     File.directory?(@target)
+  #   end
 
     def cache_key
-      # This special value is interpreted by Inspec::Cache.exists?
-      # SHA256 on gem:gemname:version
-      # SHA256 on gem_path:/filesystem/path/entrypoint.rb
-      @cache_key ||= begin
-        key = if @gem_path
-                "gem_path:#{@gem_path}"
-              else
-                "gem:#{@gem_name}:#{gem_version}"
-              end
-        OpenSSL::Digest.hexdigest("SHA256", key)
-      end
+      # Want this to be any unstable value - always changing for now
+      rand()
     end
 
-    # The intent here is to provide a signature that would change with the content of the profile.
-    # In the case of gems, for released gems,  "name-version" should suffice.
-    # For development gems specified by path, the're ever-changing anyway, so just give the path.
-    # In eith case, that string is in fact just the cache key.
-    def sha256
-      cache_key
-    end
+    # def sha256
+    #   if !@archive_shasum.nil?
+    #     @archive_shasum
+    #   elsif File.directory?(@target)
+    #     nil
+    #   else
+    #     perform_shasum(@target)
+    #   end
+    # end
 
-    def resolved_source
-      h = { gem: @gem_name, version: gem_version, gem_path: @gem_path }
-      h[:sha256] = sha256
-      h
-    end
+  #   def perform_shasum(target)
+  #     return @archive_shasum if @archive_shasum
+  #     raise(Inspec::FetcherFailure, "Profile dependency local path '#{target}' does not exist") unless File.exist?(target)
 
-    private
+  #     @archive_shasum = OpenSSL::Digest.digest("SHA256", File.read(target)).unpack("H*")[0]
+  #   end
 
-    def gem_version
-      @version || Inspec::Plugin::V2::Loader.find_gemspec_of(@gem_name)&.version&.to_s
+  #   def resolved_source
+  #     h = { path: @target }
+  #     h[:sha256] = sha256 if sha256
+  #     h
+  #   end
     end
   end
 end
