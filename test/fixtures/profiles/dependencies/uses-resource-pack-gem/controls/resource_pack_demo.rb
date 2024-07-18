@@ -1,5 +1,5 @@
 control "demo-control" do
   describe demo_resource do
-    its("awesomeness") { should cmp "extreme" }
+    it { should deliver_value_and_delight_customers }
   end
 end
