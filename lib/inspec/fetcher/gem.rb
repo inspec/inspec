@@ -71,8 +71,15 @@ module Inspec::Fetcher
     end
 
     def cache_key
-      # Want this to be any unstable value - always changing for now
-      rand().to_s
+      # This special value is interpreted by Inspec::Cache.exists?
+      # gem:gemname:version
+      # gem_path:/filesystem/path/entrypoint.rb
+
+      if @gem_path
+        "gem_path:#{@gem_path}"
+      else
+        "gem:#{@gem_name}:#{@version}"
+      end
     end
 
     def sha256
