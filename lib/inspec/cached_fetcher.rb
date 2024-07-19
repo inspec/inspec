@@ -61,6 +61,7 @@ module Inspec
         rescue SystemExit => e
           exit_code = e.status || 1
           Inspec::Log.error "Error while creating cache for dependency ... #{e.message}"
+          # TODO: in the case of gem profile/resource pack dependency installs gone awry, this is the wrong thing to do!
           FileUtils.rm_rf(cache.base_path_for(fetcher.cache_key))
           exit(exit_code)
         ensure
@@ -72,6 +73,8 @@ module Inspec
     end
 
     def assert_cache_sanity!
+      # TODO: update this to handle gem resource pack dependencies
+      # which are known by a special prefix on their cache key or by having the :gem key
       return unless target.respond_to?(:key?) && target.key?(:sha256)
 
       exception_message = <<~EOF
