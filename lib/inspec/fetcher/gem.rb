@@ -24,6 +24,7 @@ module Inspec::Fetcher
       @gem_name = target[:gem]
       @version = target[:version] # optional
       @source = target[:source] # optional
+      @gem_path = target[:path] # optional, sets local path installation mode 
       @backend = opts[:backend]
       @archive_shasum = nil
     end
@@ -46,7 +47,12 @@ module Inspec::Fetcher
         # Install
         # TODO - error handling?
         Inspec::Log.debug("GemFetcher - install request for #{@gem_name}")
-        plugin_installer.install(@gem_name, version: @version, source: @source)
+        if @gem_path
+          # No version permitted
+          plugin_installer.install(@gem_name, path: @gem_path)
+        else
+          plugin_installer.install(@gem_name, version: @version, source: @source )
+        end
       end
 
       # Should the plugin activate? No, it should only be "fetched" (installed)

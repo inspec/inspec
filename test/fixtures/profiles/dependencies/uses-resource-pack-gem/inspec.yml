@@ -11,3 +11,5 @@ supports:
 depends:
  - name: inspec-test-resources
    gem: inspec-test-resources
+   # Note that path makes this a local install, bypassing source
+   path: test/fixtures/plugins/inspec-test-resources/lib/inspec-test-resources.rb
