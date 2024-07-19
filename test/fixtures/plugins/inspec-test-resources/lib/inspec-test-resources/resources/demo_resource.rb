@@ -11,7 +11,7 @@ class DemoResourcePackResource < Inspec.resource(1)
 
   example "
     describe demo_resource do
-      its should { deliver_value_and_delight_customers }
+      its('awesomeness') { should cmp 'extreme' }}
     end
   "
 
@@ -19,8 +19,7 @@ class DemoResourcePackResource < Inspec.resource(1)
     # nothing to do
   end
 
-  # Example method called by 'it { should deliver_value_and_delight_customers }'
-  def deliver_value_and_delight_customers?
-    true
+  def awesomeness
+    "extreme"
   end
 end
