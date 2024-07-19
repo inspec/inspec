@@ -121,6 +121,7 @@ module Inspec
       @control_subcontexts << context
     end
 
+    # Expects arrays of arrays of [[content, path, line]]
     def load_libraries(libs)
       lib_prefix = "libraries" + File::SEPARATOR
       autoloads = []
@@ -130,11 +131,20 @@ module Inspec
         next unless source.end_with?(".rb")
 
         path = source
+        # Create a list of files (presumably resources) to autoload by stripping the prefixes
+        # InSpec < 6: libraries/*.rb
+        # In InSpec 7, libraries can be installed under (for example)
+        # lib/inspec-test-resources/resources/demo_resource.rb
+
         if source.start_with?(lib_prefix)
           path = source.sub(lib_prefix, "")
           no_subdir = File.dirname(path) == "."
 
           autoloads.push(path) if no_subdir
+        elsif source.match(/^lib\/.+\/resources\/.*\.rb/)
+          # Gem Resource Pack
+          path = source.sub(/^lib\//, "")
+          autoloads.push(path)
         end
 
         @require_loader.add(path, content, source, line)
