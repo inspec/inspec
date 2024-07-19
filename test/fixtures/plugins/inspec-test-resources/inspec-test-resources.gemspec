@@ -4,7 +4,7 @@
 
 # It is traditional in a gemspec to dynamically load the current version
 # from a file in the source tree.  The next three lines make that happen.
-lib = File.expand_path("lib", __dir__)
+lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "inspec-test-resources/version"
 
@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   # It just filters what will actually be packaged in the gem (leaving
   # out tests, etc)
   spec.files = %w{
-    README.md inspec-test-resources.gemspec Gemfile inspec.yml
+    README.md inspec-test-resources.gemspec Gemfile
   } + Dir.glob(
     "lib/**/*", File::FNM_DOTMATCH
   ).reject { |f| File.directory?(f) }
@@ -38,5 +38,5 @@ Gem::Specification.new do |spec|
   # want to ensure you have `aws-sdk` in a certain version.
 
   # This plugin uses InSpec 7 Resource Pack Plugins
-  spec.add_dependency "inspec-core", ">= 7.0"
+  spec.add_dependency "inspec", ">= 7.0"
 end
