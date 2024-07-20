@@ -46,9 +46,9 @@ module Inspec
     # profile exists in the Cache.
     #
     # InSpec 7+ Special Magic for Gem-Based Resource Pack Profiles:
-    #   These "profiles" are installed as gems, and so are "cached" 
+    #   These "profiles" are installed as gems, and so are "cached"
     #   by being installed as gems.
-    #     The magic is triggered by a special prefix of 
+    #     The magic is triggered by a special prefix of
     #   the cache_key: gem: or gem_path:
     #
     # @param [String] name
@@ -60,7 +60,7 @@ module Inspec
 
       if key.start_with?("gem:")
         # A gem installation
-        (dummy, gem_name, version) = key.split(":")
+        (_, gem_name, version) = key.split(":")
         loader = Inspec::Plugin::V2::Loader.new
         !loader.find_gem_directory(gem_name, version).nil?
 
@@ -89,18 +89,18 @@ module Inspec
     def base_path_for(key)
       if key.start_with?("gem:")
         # A gem installation
-        (dummy, gem_name, version) = key.split(":")
+        (_, gem_name, version) = key.split(":")
         loader = Inspec::Plugin::V2::Loader.new
         loader.find_gem_directory(gem_name, version)
 
       elsif key.start_with?("gem_path:")
         # Gem installed as explicit path reference, as in testing / development
         entry_point_path = key.sub(/^gem_path:/, "")
-        # We were given an explicit path like 
+        # We were given an explicit path like
         # inspec-test-resources/lib/inspec-test-resources.rb
         # go two directories up
         parts = Pathname(entry_point_path).each_filename.to_a
-        File.join(parts.slice(0,parts.length-2))
+        File.join(parts.slice(0, parts.length - 2))
       else
         # Standard cache entry
         File.join(@path, key)

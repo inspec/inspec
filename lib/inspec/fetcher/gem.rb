@@ -24,18 +24,17 @@ module Inspec::Fetcher
       @gem_name = target[:gem]
       @version = target[:version] # optional
       @source = target[:source] # optional
-      @gem_path = target[:path] # optional, sets local path installation mode 
+      @gem_path = target[:path] # optional, sets local path installation mode
       @backend = opts[:backend]
       @archive_shasum = nil
     end
 
     def fetch(path)
-
       plugin_installer = Inspec::Plugin::V2::Installer.instance
 
       # Determine if gem is installed
       have_plugin = false
-      Inspec::Log.debug("GemFetcher fetching #{@gem_name} v" + (@version ? @version : "ANY"))
+      Inspec::Log.debug("GemFetcher fetching #{@gem_name} v" + (@version || "ANY"))
 
       if @version
         have_plugin = plugin_installer.plugin_version_installed?(@gem_name, @version)
