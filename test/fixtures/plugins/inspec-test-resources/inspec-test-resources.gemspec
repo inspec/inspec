@@ -38,5 +38,5 @@ Gem::Specification.new do |spec|
   # want to ensure you have `aws-sdk` in a certain version.
 
   # This plugin uses InSpec 7 Resource Pack Plugins
-  spec.add_dependency "inspec", ">= 7.0"
+  spec.add_dependency "inspec-core", ">= 7.0"
 end
