@@ -53,7 +53,7 @@ module SourceReaders
         .to_h
     end
 
-    def load_libs      
+    def load_libs
       # Legacy resource packs (inspec-gcp, inspec-aws, etc) have resources in old locations
       load_all(%r{^libraries/.*\.rb$})
       # New resource packs have them here

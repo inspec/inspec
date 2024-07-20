@@ -158,11 +158,11 @@ module Inspec::Plugin::V2
     end
 
     def self.find_gem_directory(gem_name, version = nil)
-      matching_gem_versions = list_managed_gems.filter { |g| g.name == gem_name}.sort(&:version)
+      matching_gem_versions = list_managed_gems.filter { |g| g.name == gem_name }.sort(&:version)
       selected_gemspec = nil
       if version
         selected_gemspec = matching_gem_versions.find { |g| g.version == version }
-      else 
+      else
         # Use latest
         selected_gemspec = matching_gem_versions.last
       end
