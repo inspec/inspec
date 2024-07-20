@@ -141,9 +141,9 @@ module Inspec
           no_subdir = File.dirname(path) == "."
 
           autoloads.push(path) if no_subdir
-        elsif source.match(/^lib\/.+\/resources\/.*\.rb/)
+        elsif source.match(%r{^lib/.+/resources/.*\.rb})
           # Gem Resource Pack
-          path = source.sub(/^lib\//, "")
+          path = source.sub(%r{^lib/}, "")
           autoloads.push(path)
         end
 
