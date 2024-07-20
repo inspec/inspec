@@ -28,7 +28,6 @@ module InspecPlugins
       # Internal machine name of the plugin. InSpec will use this in errors, etc.
       plugin_name :"inspec-test-resources"
 
-      
       # Define a new Resource Pack.
       resource_pack :"inspec-test-resources" do
         # This file will load the resources implicitly via the superclass

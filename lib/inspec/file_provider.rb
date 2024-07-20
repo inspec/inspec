@@ -110,10 +110,10 @@ module Inspec
       if bootstrap_file
         # We were given an explicit path - go two directories up
         parts = Pathname(gem_info[:path]).each_filename.to_a
-        @gem_lib_root = File.join(parts.slice(0,parts.length-2))
+        @gem_lib_root = File.join(parts.slice(0, parts.length - 2))
       else
         # Look up where the gem is installed, respecting version
-        raise NotImplementedError, "TODO: Gem FileProvider when gem is not a local reference"
+        raise NotImplementedError, "TODO: Gem FileProvider when gem #{gem_name} is not a local reference"
       end
 
       @files = Dir[File.join(Shellwords.shellescape(@gem_lib_root), "**", "*")]
@@ -133,7 +133,6 @@ module Inspec
       File.binread(file)
     end
   end # class GemProvider
-
 
   class ZipProvider < FileProvider
     attr_reader :files
