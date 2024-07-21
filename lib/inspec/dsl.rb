@@ -40,14 +40,45 @@ module Inspec::DSL
     begin
       require "inspec/resources/#{id}"
     rescue LoadError => e
-      include DeprecatedCloudResourcesList
-      cloud_resource = id.start_with?("aws_") ? "aws" : "azure"
 
-      # Deprecated AWS and Azure resources in InSpec 5.
-      if CLOUD_RESOURCES_DEPRECATED.include? id
-        Inspec.deprecate(:"#{cloud_resource}_resources_in_resource_pack", "Resource '#{id}'")
+      # InSpec 7+ Fallback Support for Resource Packs
+      # Use Deprecator to lookup the matching gem
+      # if a gem matches, try to load the resource from the gem
+      gem_name = Inspec::Deprecation::Deprecator.new.match_gem_for_fallback_resource_name(id.to_s)
+      if gem_name
+        # Install if needed
+        cfg = Inspec::Config.cached
+        unless cfg.final_options[:auto_install_gems]
+          raise Inspec::Plugin::V2::InstallRequiredError, "resource pack gem '#{gem_name}' is required for resource '#{id}' support (consider --auto-install-gems)"
+        end
+        Inspec::Plugin::V2::Installer.instance.ensure_installed gem_name
+
+        # Load the gem, add  gemspecs to the path, load any deps, load resource libraries into registry
+        # This is plugin API orthodoxy but is impossible to program
+        # Inspec::Plugin::V2::Registry.instance.find_activator(gem_name).activate
+        loader = Inspec::Plugin::V2::Loader.new
+
+        # 1. Activate gem and deps.
+        loader.activate_managed_gems_for_plugin(gem_name)
+
+        # 2. Load all libraries from the gem path
+        resources_path = File.join(loader.find_gem_directory(gem_name), "lib", gem_name, "resources")
+        Dir.glob("#{resources_path}/*.rb").each do |resource_lib|
+          require resource_lib
+        end
+        # Resources now available in Inspec::Resource.registry
       else
-        raise LoadError, "#{e.message}"
+        # TODO: InSpec 7: Replace with Fallbacks for inspec-aws-resources and inspec-azure-resources
+        include DeprecatedCloudResourcesList
+        cloud_resource = id.start_with?("aws_") ? "aws" : "azure"
+
+        # Deprecated AWS and Azure resources in InSpec 5.
+        if CLOUD_RESOURCES_DEPRECATED.include? id
+          Inspec.deprecate(:"#{cloud_resource}_resources_in_resource_pack", "Resource '#{id}'")
+        else
+          # OK, give up entirely
+          raise LoadError, "#{e.message}"
+        end
       end
     end
 
