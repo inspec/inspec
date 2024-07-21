@@ -81,29 +81,17 @@ module Inspec::Fetcher
       end
     end
 
+    # The intent here is to provide a signature that would change with the content of the profile.
+    # In the case of gems, for released gems,  "name-version" should suffice.
+    # For development gems specified by path, the're ever-changing anyway, so just give the path.
+    # In eith case, that string is in fact just the cache key.
     def sha256
-      # TODO - calculate the sha of the installed rubygem
-      cache_key # WRONG
-      # Left as an exercise
-      # if !@archive_shasum.nil?
-      #   @archive_shasum
-      # elsif File.directory?(@target)
-      #   nil
-      # else
-      #   perform_shasum(@target)
-      # end
+      cache_key
     end
 
-    # def perform_shasum(target)
-    #   return @archive_shasum if @archive_shasum
-    #   raise(Inspec::FetcherFailure, "Profile dependency local path '#{target}' does not exist") unless File.exist?(target)
-
-    #   @archive_shasum = OpenSSL::Digest.digest("SHA256", File.read(target)).unpack("H*")[0]
-    # end
-
     def resolved_source
-      h = { gem: @gem_name, version: @version }
-      h[:sha256] = sha256 if sha256
+      h = { gem: @gem_name, version: @version, gem_path: @gem_path }
+      h[:sha256] = sha256
       h
     end
   end
