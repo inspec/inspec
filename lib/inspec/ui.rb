@@ -61,6 +61,16 @@ module Inspec
     #                   Low-level formatting methods
     #=========================================================================#
 
+    def ellipsify(source_str, max_length)
+      return "" unless source_str
+
+      if source_str.length + 3 > max_length
+        source_str.slice(0, max_length - 3) + "..."
+      else
+        source_str
+      end
+    end
+
     def plain(str, opts = { print: true })
       print_or_return(str.to_s, opts[:print])
     end

@@ -49,6 +49,12 @@ describe "Inspec::UI low-level Formatting" do
     end
   end
 
+  describe "ellipsify" do
+    it "ellipsifies" do
+      _(ui.ellipsify("1234567890", 4)).must_equal "1..."
+    end
+  end
+
   describe "when color is enabled" do
     let(:ui) { Inspec::UI.new(color: true, io: fixture_io) }
 
