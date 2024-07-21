@@ -204,6 +204,12 @@ describe "The Deprecator object" do
       it "should report two fallbacks" do
         _(dpcr.fallback_resource_packs.count).must_equal 2
       end
+      it "should suggest the stuff gem for somepat resources" do
+        _(dpcr.match_gem_for_fallback_resource_name("somepat_resource")).must_equal "inspec-stuff-resources"
+      end
+      it "should suggest nil for things it does not know about" do
+        _(dpcr.match_gem_for_fallback_resource_name("unknown_resource")).must_be_nil
+      end
     end
   end
 
