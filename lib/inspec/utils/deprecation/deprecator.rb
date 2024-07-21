@@ -4,11 +4,12 @@ require "inspec/log"
 module Inspec
   module Deprecation
     class Deprecator
-      attr_reader :config, :groups
+      attr_reader :config, :fallback_resource_packs, :groups
 
       def initialize(opts = {})
         @config = Inspec::Deprecation::ConfigFile.new(opts[:config_io])
         @groups = @config.groups
+        @fallback_resource_packs = @config.fallback_resource_packs
       end
 
       def handle_deprecation(group_name, message, opts = {})

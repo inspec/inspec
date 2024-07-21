@@ -46,7 +46,7 @@ describe "The deprecation config file object" do
       it "should throw an InvalidConfigFileError" do
         ex = assert_raises(Inspec::Deprecation::InvalidConfigFileError) { config_file }
         _(ex.message).must_include "Unrecognized file_version" # message
-        _(ex.message).must_include "1.0.0" # version that IS supported
+        _(ex.message).must_include "2.0.0" # version that IS supported
         _(ex.message).must_include "99.99.99" # version that was seen
       end
     end
@@ -94,6 +94,54 @@ describe "The deprecation config file object" do
       end
     end
 
+    #---- "fallback_resource_packs" field
+    # field is required
+    describe "when correct fallback options are presented" do
+      let(:cfg_fixture) { :basic }
+      it "should see 2 fallback patterns" do
+        _(config_file.fallback_resource_packs.count).must_equal 2
+        # TODO examine structure
+      end
+    end
+
+    # should be hash
+    describe "when the fallback entry is not a hash" do
+      let(:cfg_fixture) { :fallback_not_hash }
+      it "should throw an InvalidConfigFileError" do
+        ex = assert_raises(Inspec::Deprecation::InvalidConfigFileError) { config_file }
+        _(ex.message).must_include "fallback_resource_packs field must be a Hash" # message
+      end
+    end
+
+    # values should be valid regex
+    describe "when the fallback entry is not a valid regexp" do
+      let(:cfg_fixture) { :fallback_bad_regex }
+      it "should throw an InvalidConfigFileError" do
+        ex = assert_raises(Inspec::Deprecation::InvalidConfigFileError) { config_file }
+        _(ex.message).must_include "Invalid regular expression" # message
+        _(ex.message).must_include "'somepat{('" # offending regexp
+      end
+    end
+
+    # should have gem key
+    describe "when the fallback entry is missing gem key" do
+      let(:cfg_fixture) { :fallback_missing_gem }
+      it "should throw an InvalidConfigFileError" do
+        ex = assert_raises(Inspec::Deprecation::InvalidConfigFileError) { config_file }
+        _(ex.message).must_include "fallback_resource_packs missing gem name" # message
+        _(ex.message).must_include "'somepat.+'" # offending pattern
+      end
+    end
+
+    # should have message key
+    describe "when the fallback entry is missing message key" do
+      let(:cfg_fixture) { :fallback_missing_message }
+      it "should throw an InvalidConfigFileError" do
+        ex = assert_raises(Inspec::Deprecation::InvalidConfigFileError) { config_file }
+        _(ex.message).must_include "fallback_resource_packs missing message" # message
+        _(ex.message).must_include "'somepat.+'" # offending pattern
+      end
+    end
   end
 end
 
@@ -141,6 +189,24 @@ describe "The Deprecator object" do
     end
   end
 
+  describe "when listing fallback resource packs" do
+    let(:dpcr) { Inspec::Deprecation::Deprecator.new(config_io: cfg_io) }
+
+    describe "when there are no fallbacks" do
+      let(:cfg_fixture) { :empty }
+      it "should report empty fallbacks" do
+        _(dpcr.fallback_resource_packs.count).must_equal 0
+      end
+    end
+
+    describe "when there are two fallbacks" do
+      let(:cfg_fixture) { :basic }
+      it "should report two fallbacks" do
+        _(dpcr.fallback_resource_packs.count).must_equal 2
+      end
+    end
+  end
+
   # TODO: stack analysis
   #  in_control?
   # TODO: anything else here?
@@ -151,21 +217,68 @@ module DeprecationTestHelper
     FIXTURES = {
       basic: <<~EOC0,
         {
-          "file_version": "1.0.0", "unknown_group_action": "ignore",
+          "file_version": "2.0.0", "unknown_group_action": "ignore",
           "groups": {
             "a_group_that_will_warn" : { "action": "warn", "suffix": "Did you know chickens are dinosaurs?" },
             "a_group_that_will_exit" : { "action": "exit", "exit_status": 8, "prefix": "No thanks!" },
             "an_ignored_group" : { "action": "ignore" },
             "a_group_that_will_fail" : { "action": "fail_control" }
+          },
+          "fallback_resource_packs": {
+            "somepat.+": {
+              "gem":"inspec-stuff-resources",
+              "message":"Our Stuff"
+            },
+            "anotherpat.+": {
+              "gem":"inspec-more-resources",
+              "message":"Other Peoples Stuff"
+            }
           }
         }
       EOC0
-      missing_file_version: '{ "unknown_group_action": "ignore", "groups": {} }',
-      bad_file_version: '{ "file_version": "99.99.99", "unknown_group_action": "ignore", "groups": {} }',
-      groups_not_hash: '{ "file_version": "1.0.0", "groups": [] }',
-      empty: '{ "file_version": "1.0.0", "groups": {} }',
-      bad_group_action: '{ "file_version": "1.0.0", "groups": { "methane_pockets" : { "action": "explode" } } }',
-      bad_group_field: '{ "file_version": "1.0.0", "groups": { "pansporia" : { "martian": "yes" } } }',
+      v1: '{ "file_version": "1.0.0", "unknown_group_action": "ignore", "groups": {} }',
+      missing_file_version: '{ "unknown_group_action": "ignore", "groups": {}, "fallback_resource_packs": {} }',
+      bad_file_version: '{ "file_version": "99.99.99", "unknown_group_action": "ignore", "groups": {}, "fallback_resource_packs": {} }',
+      groups_not_hash: '{ "file_version": "2.0.0", "groups": [], "fallback_resource_packs": {} }',
+      empty: '{ "file_version": "2.0.0", "groups": {}, "fallback_resource_packs": {} }',
+      bad_group_action: '{ "file_version": "2.0.0", "groups": { "methane_pockets" : { "action": "explode" } }, "fallback_resource_packs": {} }',
+      bad_group_field: '{ "file_version": "2.0.0", "groups": { "pansporia" : { "martian": "yes" } }, "fallback_resource_packs":{}}',
+      fallback_not_hash: '{ "file_version": "2.0.0", "groups": {}, "fallback_resource_packs": [] }',
+      fallback_value_not_hash: '{ "file_version": "2.0.0", "groups": {}, "fallback_resource_packs": { "somepat.+":"" } }',
+      fallback_bad_regex: <<~EOC1,
+        {
+          "file_version": "2.0.0",
+          "groups": {},
+          "fallback_resource_packs": {
+            "somepat{(": {
+              "gem": "inspec-stuff-resources",#{" "}
+              "message": "Words"
+            }
+          }
+        }
+      EOC1
+      fallback_missing_gem: <<~EOC2,
+        {
+          "file_version": "2.0.0",
+          "groups": {},
+          "fallback_resource_packs": {
+            "somepat.+": {
+              "message": "Words"
+            }
+          }
+        }
+      EOC2
+      fallback_missing_message: <<~EOC3,
+        {
+          "file_version": "2.0.0",
+          "groups": {},
+          "fallback_resource_packs": {
+            "somepat.+": {
+              "gem": "inspec-stuff-resources"
+            }
+          }
+        }
+      EOC3
     }.freeze
 
     def self.get_io_for_fixture(fixture)
