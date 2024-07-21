@@ -22,6 +22,13 @@ module Inspec
         send(action_method, group_name.to_sym, assembled_message, group)
       end
 
+      # Given a resource name, suggest a gem nam to load and or install
+      def match_gem_for_fallback_resource_name(resource_name)
+        fallback = fallback_resource_packs.find { |fb| fb.resource_name_regex.match(resource_name) }
+        # We have a message here but can't pass it back?
+        fallback&.gem_name
+      end
+
       private
 
       def create_group_entry_for_unknown_group(group_name)
