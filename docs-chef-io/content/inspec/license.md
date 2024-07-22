@@ -211,3 +211,11 @@ inspec exec <PROFILE_NAME>
 ```
 
 This capability is basic and you must synchronize the license servers, otherwise you may get inconsistent results.
+
+## Licensing Telemetry service
+
+The Chef Licensing Telemetry service gathers product activation, product usage trends and statistics, environment information, bugs, and other data related to the use of Chef InSpec.
+
+This feature is enabled for free and trial tiers only and isn't enabled for commercial users.
+
+For more information on the data gathered by the Licensing Telemetry service, see the [Progress Privacy Policy](https://www.progress.com/legal/privacy-policy).
