@@ -7,7 +7,6 @@ gem "artifactory"
 gem "ffi", ">= 1.9.14", "!= 1.13.0"
 
 gem "ffi-yajl", "2.6.0"
-gem "syslog", "~> 0.1"
 
 # This development group is installed by default when you run `bundle install`,
 # but if you are using Omnibus in a CI-based infrastructure, you do not need
