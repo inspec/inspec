@@ -8,7 +8,7 @@ class PluginManagerCliList < Minitest::Test
   LIST_CASES = [
     { arg: "-c", name: "inspec-plugin-manager-cli", type: "core", description: "CLI plugin for InSpec" },
     { arg: "-c", name: "inspec-supermarket", type: "core", description: "" },
-    { arg: "-s", name: "train-aws", type: "gem (system)", description: "AWS API Transport for Train" },
+    { arg: "-s", name: "train-aws", type: "gem-sys", description: "AWS API Transport for Train" },
   ].freeze
 
   def test_list_all_when_no_user_plugins_installed
@@ -58,7 +58,7 @@ class PluginManagerCliList < Minitest::Test
 
     fixture = plugins_seen.detect { |p| p[:name] == "inspec-test-fixture" }
     refute_nil fixture
-    assert_equal "gem (user)", fixture[:type]
+    assert_equal "gem-user", fixture[:type]
     assert_equal "0.1.0", fixture[:version]
     assert_match(/A simple test plugin gem/, fixture[:description])
 
@@ -84,7 +84,7 @@ class PluginManagerCliList < Minitest::Test
     #  1 plugin(s) total
     train_plugin = plugins_seen.detect { |p| p[:name] == "train-test-fixture" }
     refute_nil train_plugin
-    assert_equal "gem (user)", train_plugin[:type]
+    assert_equal "gem-user", train_plugin[:type]
     assert_equal "train-1", train_plugin[:generation]
     assert_equal "0.1.0", train_plugin[:version]
     assert_match(/Test train plugin/, train_plugin[:description])

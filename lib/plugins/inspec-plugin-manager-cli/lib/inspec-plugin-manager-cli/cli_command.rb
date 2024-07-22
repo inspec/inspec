@@ -10,8 +10,8 @@ module InspecPlugins
         bundle: "core", # Calling this core, too - not much of a distinction
         core: "core",
         path: "path",
-        user_gem: "gem (user)",
-        system_gem: "gem (system)",
+        user_gem: "gem-user",
+        system_gem: "gem-sys",
       }.freeze
 
       include Inspec::Dist
@@ -41,14 +41,14 @@ module InspecPlugins
 
         unless plugin_statuses.empty?
           ui.table do |t|
-            t.header = ["Plugin Name", "Version", "Via", "ApiVer", "Description"]
+            t.header = %w{Name Ver Type Desc}
             plugin_statuses.sort_by { |s| s.name.to_s }.each do |status|
               t << [
                 status.name,
                 make_pretty_version(status),
                 make_pretty_install_type(status),
-                status.api_generation,
                 status.description,
+                # ui.ellipsify(status.description, 40),
               ]
             end
           end
@@ -500,7 +500,7 @@ module InspecPlugins
           Inspec::VERSION
         when :user_gem, :system_gem
           if status.version.nil?
-            "(unknown)"
+            "(unk)"
           elsif status.version =~ /^\d+\.\d+\.\d+$/
             status.version
           else

@@ -182,7 +182,7 @@ module Inspec
     def table(opts = { print: true })
       require "inspec/ui_table_helper"
 
-      the_table = TableHelper.new
+      the_table = TableHelper.new(resize: true)
       yield(the_table)
 
       colorizer = proc do |data, row, _col|

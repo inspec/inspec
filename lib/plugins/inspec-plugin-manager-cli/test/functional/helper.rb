@@ -43,22 +43,22 @@ module PluginManagerHelpers
     stdout.force_encoding("UTF-8").lines.each do |line|
       next if line.strip.empty?
       next if line.include? "─────" # This is some unicode glyphiness
-      next if line.include? "Plugin Name"
+      next if line.include? "Name"
       next if line.include? "plugin(s) total"
 
       parts = line.split(/│/u).map(&:strip!).compact
       if stderr.match(/vertical orientation/)
         # logic to parse data from vertical view if the ui breaks in existing width
-        if line.match(/Plugin/)
+        if line.match(/Name/)
           plugin_data = {} # reset this again when one row in vertical view is parsed
           plugin_data[:name] = line.split(" ")[-2]
-        elsif line.match(/Version/)
+        elsif line.match(/Ver/)
           plugin_data[:version] = parts[1]
         elsif line.match(/Via/)
           plugin_data[:type] = parts[1]
-        elsif line.match(/ApiVer/)
+        elsif line.match(/Api/)
           plugin_data[:generation] = parts[1]
-        elsif line.match(/Descrip/)
+        elsif line.match(/Desc/)
           plugin_data[:description] = parts[1]
           plugins << plugin_data # assuming this will be end of row
         end
