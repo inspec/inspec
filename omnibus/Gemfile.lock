@@ -398,6 +398,7 @@ GEM
     strscan (3.1.0)
     structured_warnings (0.4.0)
     syslog-logger (1.6.8)
+    syslog (~> 0.1.0)
     test-kitchen (3.5.0)
       bcrypt_pbkdf (~> 1.0)
       chef-utils (>= 16.4.35)
