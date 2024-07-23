@@ -135,7 +135,20 @@ module Inspec::Resources
       cmd = inspec.command(nftables_cmd)
       return [] if cmd.exit_status.to_i != 0
 
-      @nftables_cache[idx] = cmd.stdout.gsub("\t", "").split("\n").reject { |line| line =~ /^(table|set|type|size|flags|typeof|auto-merge)/ || line =~ /^}$/ }.map { |line| line.sub("elements = {", "").sub("}", "").split(",") }.flatten.map(&:strip)
+      # https://github.com/inspec/inspec/security/code-scanning/10
+      # Update @nftables_cache with sanitized command output
+      @nftables_cache[idx] = cmd.stdout.gsub("\t", "").split("\n")
+        .reject { |line| line =~ /^(table|set|type|size|flags|typeof|auto-merge)/ || line =~ /^}$/ } # Reject lines that match certain patterns
+        .map { |line| line.gsub("elements = {", "").gsub("}", "").split(",") } # Use gsub to replace all occurrences of specified strings
+        .flatten # Flatten the array of arrays into a single array
+        .map(&:strip) # Remove leading and trailing whitespace from each element
+        .map { |element| sanitize_input(element) } # Sanitize each element to prevent injection attacks
+    end
+
+    # Method to sanitize input
+    def sanitize_input(input)
+      # Replace potentially dangerous characters with their escaped counterparts
+      input.gsub(/([\\'";])/, '\\\\\1')
     end
 
     def retrieve_chain_rules

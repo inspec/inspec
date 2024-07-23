@@ -18,7 +18,7 @@ Use the `sshd_active_config` Chef InSpec audit resource to find and test configu
 
 ### Version
 
-This resource first became available in v1.0.0 of InSpec.
+This resource first became available in v6.8.0 of InSpec.
 
 ## Syntax
 
