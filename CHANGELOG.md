@@ -1,12 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.7.0 -->
-## [v6.7.0](https://github.com/inspec/inspec/tree/v6.7.0) (2024-07-22)
+<!-- latest_release 6.7.1 -->
+## [v6.7.1](https://github.com/inspec/inspec/tree/v6.7.1) (2024-07-23)
 
 #### Merged Pull Requests
-- Usage Telemetry v3 [#6012](https://github.com/inspec/inspec/pull/6012) ([clintoncwolfe](https://github.com/clintoncwolfe))
-- ci: change license server to point to local licensing server [#7083](https://github.com/inspec/inspec/pull/7083) ([ahasunos](https://github.com/ahasunos))
+- Bump omnibus-software from `28c9c9f` to `02fa677` in /omnibus [#7099](https://github.com/inspec/inspec/pull/7099) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -39,6 +38,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `28c9c9f` to `02fa677` in /omnibus [#7099](https://github.com/inspec/inspec/pull/7099) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.7.1 -->
 - Usage Telemetry v3 [#6012](https://github.com/inspec/inspec/pull/6012) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.7.0 -->
 - ci: change license server to point to local licensing server [#7083](https://github.com/inspec/inspec/pull/7083) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.30 -->
 - CHEF-12024 Adds C Shell support to sybase_session resource [#7069](https://github.com/inspec/inspec/pull/7069) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.30 -->
