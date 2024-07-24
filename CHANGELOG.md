@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.7.3 -->
-## [v6.7.3](https://github.com/inspec/inspec/tree/v6.7.3) (2024-07-24)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Update chef-licensing version pinning [#7102](https://github.com/inspec/inspec/pull/7102) ([Vasu1105](https://github.com/Vasu1105))
+- Increase buildkite verify pipeline timeout [#7103](https://github.com/inspec/inspec/pull/7103) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Increase buildkite verify pipeline timeout [#7103](https://github.com/inspec/inspec/pull/7103) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.7.3 -->
 - Update chef-licensing version pinning [#7102](https://github.com/inspec/inspec/pull/7102) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.7.3 -->
 - Bump omnibus from `82dae89` to `41d5c3b` in /omnibus [#7089](https://github.com/inspec/inspec/pull/7089) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.7.2 -->
 - Bump omnibus-software from `28c9c9f` to `02fa677` in /omnibus [#7099](https://github.com/inspec/inspec/pull/7099) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.7.1 -->
