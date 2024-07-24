@@ -21,7 +21,7 @@ Use the `ssh_config` Chef InSpec audit resource to test OpenSSH client configura
 
 ### Version
 
-This resource first became available in v1.0.0 of InSpec.
+This resource first became available in v6.8.0 of InSpec.
 
 ## Syntax
 
