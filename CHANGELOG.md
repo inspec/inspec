@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.8.0 -->
+## [v6.8.0](https://github.com/inspec/inspec/tree/v6.8.0) (2024-07-24)
 
 #### Merged Pull Requests
+- Update ssh_config resource to support returning the current sshd_config file in use. [#7070](https://github.com/inspec/inspec/pull/7070) ([aaronlippold](https://github.com/aaronlippold))
 - Increase buildkite verify pipeline timeout [#7103](https://github.com/inspec/inspec/pull/7103) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Update ssh_config resource to support returning the current sshd_config file in use. [#7070](https://github.com/inspec/inspec/pull/7070) ([aaronlippold](https://github.com/aaronlippold)) <!-- 6.8.0 -->
 - Increase buildkite verify pipeline timeout [#7103](https://github.com/inspec/inspec/pull/7103) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.7.3 -->
 - Update chef-licensing version pinning [#7102](https://github.com/inspec/inspec/pull/7102) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.7.3 -->
 - Bump omnibus from `82dae89` to `41d5c3b` in /omnibus [#7089](https://github.com/inspec/inspec/pull/7089) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.7.2 -->
