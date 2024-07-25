@@ -23,6 +23,7 @@ module Inspec
           Inspec::Telemetry::RunContextProbe.under_automate? ||
           license&.license_type&.downcase == "commercial"
 
+        Inspec::Log.debug "Determined telemetry operation is not applicable and hence aborting it."
         return Inspec::Telemetry::Null
       end
 
@@ -37,7 +38,7 @@ module Inspec
     end
 
     def self.license
-      Inspec::Log.debug "Fetching license context for telemetry"
+      Inspec::Log.debug "Fetching license context for telemetry check"
       @license = ChefLicensing.license_context
     end
 
@@ -45,7 +46,6 @@ module Inspec
     # These class methods make it convenient to call from anywhere within the InSpec codebase.
     ######
     def self.run_starting(opts)
-      Inspec::Log.debug "Initiating telemetry for InSpec"
       @@config ||= opts[:conf]
       instance.run_starting(opts)
     rescue StandardError => e
@@ -55,7 +55,6 @@ module Inspec
     def self.run_ending(opts)
       @@config ||= opts[:conf]
       instance.run_ending(opts)
-      Inspec::Log.debug "Finishing telemetry for InSpec"
     rescue StandardError => e
       Inspec::Log.debug "Encountered error in Telemetry end run call -> #{e.message}"
     end
