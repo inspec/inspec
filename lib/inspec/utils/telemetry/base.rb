@@ -36,6 +36,7 @@ module Inspec
       end
 
       def run_starting(_opts = {})
+        Inspec::Log.debug "Initiating telemetry for InSpec"
         @scratch ||= {}
         @scratch[:features] ||= []
         @scratch[:run_start_time] = Time.now.getutc.iso8601
@@ -103,6 +104,7 @@ module Inspec
         end
 
         Inspec::Log.debug "Final data for telemetry upload -> #{payload}"
+        Inspec::Log.debug "Finishing telemetry for InSpec"
         # Return payload object for testing
         payload
       end
