@@ -5,6 +5,6 @@ control "fallback-control" do
   # and should be dynamically installed by the fallback mechanism
 
   describe internal_fallback_test_resource do
-    its('custom_method') { should 'be_available' }
+    its('custom_method') { should cmp 'be_available' }
   end
 end
