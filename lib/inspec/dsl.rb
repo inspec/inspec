@@ -62,8 +62,10 @@ module Inspec::DSL
         loader.activate_managed_gems_for_plugin(gem_name)
 
         # 2. Load all libraries from the gem path
-        resources_path = File.join(loader.find_gem_directory(gem_name), "lib", gem_name, "resources")
-        Dir.glob("#{resources_path}/*.rb").each do |resource_lib|
+        gem_path = loader.find_gem_directory(gem_name)
+        resources_path = File.join(gem_path, "lib", gem_name, "resources", "*.rb")
+        legacy_library_path = File.join(gem_path, "libraries", "*.rb")
+        Dir.glob([resources_path,legacy_library_path]).each do |resource_lib|
           require resource_lib
         end
         # Resources now available in Inspec::Resource.registry
