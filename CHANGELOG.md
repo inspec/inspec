@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.8.1 -->
-## [v6.8.1](https://github.com/inspec/inspec/tree/v6.8.1) (2024-07-25)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Telemetry log messages improved for clarity [#7104](https://github.com/inspec/inspec/pull/7104) ([Nik08](https://github.com/Nik08))
+- Bump omnibus-software from `02fa677` to `b73b772` in /omnibus [#7105](https://github.com/inspec/inspec/pull/7105) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `02fa677` to `b73b772` in /omnibus [#7105](https://github.com/inspec/inspec/pull/7105) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.8.1 -->
 - Telemetry log messages improved for clarity [#7104](https://github.com/inspec/inspec/pull/7104) ([Nik08](https://github.com/Nik08)) <!-- 6.8.1 -->
 - Update ssh_config resource to support returning the current sshd_config file in use. [#7070](https://github.com/inspec/inspec/pull/7070) ([aaronlippold](https://github.com/aaronlippold)) <!-- 6.8.0 -->
 - Increase buildkite verify pipeline timeout [#7103](https://github.com/inspec/inspec/pull/7103) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.7.3 -->
