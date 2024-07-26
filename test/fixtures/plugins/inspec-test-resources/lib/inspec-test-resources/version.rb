@@ -3,6 +3,6 @@
 # to learn the current version.
 module InspecPlugins
   module TestResources
-    VERSION = "0.2.0".freeze
+    VERSION = "0.2.1".freeze
   end
 end
