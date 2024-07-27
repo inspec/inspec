@@ -118,6 +118,7 @@ module Inspec
 
         write_lockfile(profile) if @create_lockfile
         # TODO: InSpec 8: Replace with Profile OnLoad event handling
+        profile.activate_plugin_if_gem_based
         profile.locked_dependencies # Only need to do this once, this recurses down
         profile.load_gem_dependencies
         profile_context = profile.load_libraries
@@ -129,6 +130,7 @@ module Inspec
             next
           end
           # TODO: InSpec 8: Replace with Profile OnLoad event handling
+          requirement.profile.activate_plugin_if_gem_based
           requirement.profile.load_gem_dependencies
           requirement.profile.load_libraries
           @test_collector.add_profile(requirement.profile)
