@@ -45,6 +45,12 @@ module Inspec
     # For a given name and source_url, return true if the
     # profile exists in the Cache.
     #
+    # InSpec 7+ Special Magic for Gem-Based Resource Pack Profiles:
+    #   These "profiles" are installed as gems, and so are "cached"
+    #   by being installed as gems.
+    #     The magic is triggered by a special prefix of
+    #   the cache_key: gem: or gem_path:
+    #
     # @param [String] name
     # @param [String] source_url
     # @return [Boolean]
@@ -52,8 +58,21 @@ module Inspec
     def exists?(key)
       return false if key.nil? || key.empty?
 
-      path = base_path_for(key)
-      File.directory?(path) || File.exist?("#{path}.tar.gz") || File.exist?("#{path}.zip")
+      if key.start_with?("gem:")
+        # A gem installation
+        (_, gem_name, version) = key.split(":")
+        loader = Inspec::Plugin::V2::Loader.new
+        !loader.find_gem_directory(gem_name, version).nil?
+
+      elsif key.start_with?("gem_path:")
+        # Gem installed as explicit path reference, as in testing / development
+        entry_point_path = key.sub(/^gem_path:/, "")
+        File.exist?(entry_point_path)
+      else
+        # Standard cache entry
+        path = base_path_for(key)
+        File.directory?(path) || File.exist?("#{path}.tar.gz") || File.exist?("#{path}.zip")
+      end
     end
 
     #
@@ -67,8 +86,25 @@ module Inspec
     # @param [String] source_url
     # @return [String]
     #
-    def base_path_for(cache_key)
-      File.join(@path, cache_key)
+    def base_path_for(key)
+      if key.start_with?("gem:")
+        # A gem installation
+        (_, gem_name, version) = key.split(":")
+        loader = Inspec::Plugin::V2::Loader.new
+        loader.find_gem_directory(gem_name, version)
+
+      elsif key.start_with?("gem_path:")
+        # Gem installed as explicit path reference, as in testing / development
+        entry_point_path = key.sub(/^gem_path:/, "")
+        # We were given an explicit path like
+        # inspec-test-resources/lib/inspec-test-resources.rb
+        # go two directories up
+        parts = Pathname(entry_point_path).each_filename.to_a
+        File.join(parts.slice(0, parts.length - 2))
+      else
+        # Standard cache entry
+        File.join(@path, key)
+      end
     end
 
     #

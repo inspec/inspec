@@ -391,6 +391,16 @@ module Inspec
       included_tags
     end
 
+    # InSpec 7 introduced gem-based resource packs, so some "profiles" are now gem-based
+    # In this case, they are backed by a gem that contains an inspec.yml and a lib/PATH/plugin.rb
+    # which contains activator code which needs to be fired.
+    def activate_plugin_if_gem_based
+      return unless source_reader.is_a?(SourceReaders::GemReader)
+
+      reg = Inspec::Plugin::V2::Registry.instance
+      reg.find_activator(plugin_name: name.to_sym).activate!
+    end
+
     def load_libraries
       return @runner_context if @libraries_loaded
 
