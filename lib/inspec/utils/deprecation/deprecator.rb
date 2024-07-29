@@ -4,11 +4,12 @@ require "inspec/log"
 module Inspec
   module Deprecation
     class Deprecator
-      attr_reader :config, :groups
+      attr_reader :config, :fallback_resource_packs, :groups
 
       def initialize(opts = {})
         @config = Inspec::Deprecation::ConfigFile.new(opts[:config_io])
         @groups = @config.groups
+        @fallback_resource_packs = @config.fallback_resource_packs
       end
 
       def handle_deprecation(group_name, message, opts = {})
@@ -19,6 +20,13 @@ module Inspec
         action = group[:action] || :warn
         action_method = ("handle_" + action.to_s + "_action").to_sym
         send(action_method, group_name.to_sym, assembled_message, group)
+      end
+
+      # Given a resource name, suggest a gem nam to load and or install
+      def match_gem_for_fallback_resource_name(resource_name)
+        fallback = fallback_resource_packs.find { |fb| fb.resource_name_regex.match(resource_name) }
+        # We have a message here but can't pass it back?
+        fallback&.gem_name
       end
 
       private

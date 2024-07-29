@@ -7,6 +7,7 @@ module Inspec
   module Deprecation
     class ConfigFile
       GroupEntry = Struct.new(:name, :action, :prefix, :suffix, :exit_status)
+      FallbackEntry = Struct.new(:resource_name_regex, :gem_name, :message)
 
       # What actions may you specify to be taken when a deprecation is encountered?
       VALID_ACTIONS = [
@@ -20,7 +21,7 @@ module Inspec
       # and pass validation.
       VALID_GROUP_FIELDS = %w{action suffix prefix exit_status comment}.freeze
 
-      attr_reader :groups, :unknown_group_action
+      attr_reader :fallback_resource_packs, :groups, :unknown_group_action
 
       def initialize(io = nil)
         io ||= open_default_config_io
@@ -31,6 +32,7 @@ module Inspec
         end
 
         @groups = {}
+        @fallback_resource_packs = []
         @unknown_group_action = :warn
         validate!
         silence_deprecations_from_cli
@@ -83,14 +85,25 @@ module Inspec
         @raw_data["groups"].each do |group_name, group_info|
           validate_group_entry(group_name, group_info)
         end
+
+        unless @raw_data.key?("fallback_resource_packs")
+          raise Inspec::Deprecation::InvalidConfigFileError, "Missing fallback_resource_packs field"
+        end
+        unless @raw_data["fallback_resource_packs"].is_a?(Hash)
+          raise Inspec::Deprecation::InvalidConfigFileError, "fallback_resource_packs field must be a Hash"
+        end
+
+        @raw_data["fallback_resource_packs"].each do |fallback_pat, fallback_info|
+          validate_fallback(fallback_pat, fallback_info)
+        end
       end
 
       def validate_file_version
         unless @raw_data.key?("file_version")
           raise Inspec::Deprecation::InvalidConfigFileError, "Missing file_version field"
         end
-        unless @raw_data["file_version"] == "1.0.0"
-          raise Inspec::Deprecation::InvalidConfigFileError, "Unrecognized file_version '#{@raw_data["file_version"]}' - supported versions: 1.0.0"
+        unless @raw_data["file_version"] == "2.0.0"
+          raise Inspec::Deprecation::InvalidConfigFileError, "Unrecognized file_version '#{@raw_data["file_version"]}' - supported versions: 2.0.0"
         end
       end
 
@@ -124,6 +137,29 @@ module Inspec
         entry.exit_status = opts["exit_status"]
 
         groups[name.to_sym] = entry
+      end
+
+      def validate_fallback(pattern, raw_info)
+        fallback = FallbackEntry.new
+        begin
+          fallback.resource_name_regex = Regexp.new(pattern)
+        rescue RegexpError
+          raise Inspec::Deprecation::InvalidConfigFileError, "Invalid regular expression in resource pack fallback definition '#{pattern}'"
+        end
+
+        unless raw_info["gem"]
+          raise Inspec::Deprecation::InvalidConfigFileError, "fallback_resource_packs missing gem name for pattern '#{pattern}'"
+        end
+
+        fallback.gem_name = raw_info["gem"]
+
+        unless raw_info["message"]
+          raise Inspec::Deprecation::InvalidConfigFileError, "fallback_resource_packs missing message for pattern '#{pattern}'"
+        end
+
+        fallback.message = raw_info["message"]
+
+        fallback_resource_packs.push fallback
       end
     end
   end

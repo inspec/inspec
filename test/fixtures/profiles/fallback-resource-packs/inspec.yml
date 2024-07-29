@@ -1,0 +1,10 @@
+name: fallback-resource-packs
+title: InSpec Fallback Test Profile
+maintainer: InSpec Core Maintainers
+copyright: Progress Software Corportation
+copyright_email: inspec@progress.com
+license: Apache-2.0
+summary: A profile that uses an apparently non-existant resource that will trigger fallback resource pack loading in the functional tests.
+version: 0.1.0
+supports:
+  platform: os

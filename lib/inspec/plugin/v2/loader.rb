@@ -186,8 +186,6 @@ module Inspec::Plugin::V2
       self.class.list_managed_gems
     end
 
-    private
-
     # 'Activating' a gem adds it to the load path, so 'require "gemname"' will work.
     # Given a gem name, this activates the gem and all of its dependencies, respecting
     # version pinning needs.
@@ -231,6 +229,8 @@ module Inspec::Plugin::V2
         # TODO: If we are under Bundler, inform it that we loaded a gem
       end
     end
+
+    private
 
     def annotate_status_after_loading(plugin_name)
       status = registry[plugin_name]
