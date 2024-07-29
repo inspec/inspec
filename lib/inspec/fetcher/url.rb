@@ -248,10 +248,30 @@ module Inspec::Fetcher
       @temp_archive_path = archive.path
     end
 
-    def open(target, opts) # overridden so we can control who we're talking to
-      URI.open(target, opts)
-    rescue NoMethodError   # TODO: remove when we drop ruby 2.4
-      super(target, opts)  # Kernel#open
+    # Opens a URI or local file specified by `target` with options `opts`.
+    # If `target` is a valid URI (http://, https://, ftp://), opens it using URI.open.
+    # If `target` is a local file path, opens it using File.open.
+    # Raises ArgumentError for invalid `target` that is neither a valid URI nor a local file path.
+    # Logs or handles exceptions gracefully using `pretty_handle_exception`.
+    def open(target, opts)
+      if valid_uri?(target)
+        URI(target).open(opts) # Open URI if it's a valid HTTP, HTTPS, or FTP URI
+      elsif File.file?(target)
+        File.open(target, opts) # Open local file if it exists
+      else
+        raise ArgumentError, "Invalid target: #{target}. Must be a valid URI or a local file path."
+      end
+    rescue StandardError => e
+      raise Inspec::FetcherFailure, "Profile URL dependency #{target} could not be fetched: #{e.message}"
+    end
+
+    # Checks if the given `target` string is a valid URI by attempting to parse it.
+    # Returns true if `target` is a valid HTTP, HTTPS, or FTP URI; false otherwise.
+    def valid_uri?(target)
+      uri = URI.parse(target)
+      uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS) || uri.is_a?(URI::FTP)
+    rescue URI::InvalidURIError
+      false
     end
 
     def open_via_uri(target)
