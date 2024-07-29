@@ -5,6 +5,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Bump omnibus from `41d5c3b` to `3efa84c` in /omnibus [#7106](https://github.com/inspec/inspec/pull/7106) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Attempt to fix the random failure of depedency_loader unit test [#7101](https://github.com/inspec/inspec/pull/7101) ([Vasu1105](https://github.com/Vasu1105))
 - Bump omnibus-software from `02fa677` to `b73b772` in /omnibus [#7105](https://github.com/inspec/inspec/pull/7105) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
@@ -39,6 +40,7 @@
 ### Changes since 6.6.0 release
 
 #### Merged Pull Requests
+- Bump omnibus from `41d5c3b` to `3efa84c` in /omnibus [#7106](https://github.com/inspec/inspec/pull/7106) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.8.1 -->
 - Attempt to fix the random failure of depedency_loader unit test [#7101](https://github.com/inspec/inspec/pull/7101) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.8.1 -->
 - Bump omnibus-software from `02fa677` to `b73b772` in /omnibus [#7105](https://github.com/inspec/inspec/pull/7105) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.8.1 -->
 - Telemetry log messages improved for clarity [#7104](https://github.com/inspec/inspec/pull/7104) ([Nik08](https://github.com/Nik08)) <!-- 6.8.1 -->
