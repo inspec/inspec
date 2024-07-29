@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.53 -->
-## [v5.22.53](https://github.com/inspec/inspec/tree/v5.22.53) (2024-07-29)
+<!-- latest_release 5.22.54 -->
+## [v5.22.54](https://github.com/inspec/inspec/tree/v5.22.54) (2024-07-29)
 
 #### Merged Pull Requests
-- Update ffi requirement from &gt;= 1.15.5, &lt; 1.17.0 to &gt;= 1.15.5, &lt; 1.18.0 [#7076](https://github.com/inspec/inspec/pull/7076) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- BACKPORT: (fix) Missing regular expression anchor (#7077) [#7110](https://github.com/inspec/inspec/pull/7110) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.50 -->
 ### Changes since 5.22.50 release
 
 #### Merged Pull Requests
+- BACKPORT: (fix) Missing regular expression anchor (#7077) [#7110](https://github.com/inspec/inspec/pull/7110) ([Nik08](https://github.com/Nik08)) <!-- 5.22.54 -->
 - Update ffi requirement from &gt;= 1.15.5, &lt; 1.17.0 to &gt;= 1.15.5, &lt; 1.18.0 [#7076](https://github.com/inspec/inspec/pull/7076) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.53 -->
 - Backport-7069: CHER-12024 C-shell support for sybase_session resource  [#7075](https://github.com/inspec/inspec/pull/7075) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.52 -->
 - Backport-#7053 Pin the ffi version &lt; 1.17.0 [#7074](https://github.com/inspec/inspec/pull/7074) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.51 -->
