@@ -316,6 +316,35 @@ module Inspec::Plugin::V2
       end
     end
 
+
+    def install_from_remote_gems(plugin_name, opts)
+      require 'bundler'
+      gemfile_path = ::Bundler.default_gemfile
+
+      File.open(gemfile_path, 'a') do |file|
+        file.puts <<-GEM
+          source 'http://4d7c88175115126e2264b3cc6b709a9a@localhost:9292/private' do
+            gem '#{plugin_name}'
+          end
+        GEM
+      end
+
+      # Bundler.with_unbundled_env do
+      #   require 'bundler/rubygems_gem_installer'
+      #   installer = Bundler::RubyGemsGemInstaller.at(gemfile_path)
+      #   installer.install(plugin_name)
+      # end
+
+      ::Bundler.with_unbundled_env do
+        ::Bundler::CLI.start(['install'])
+      end
+
+      plugin_spec = ::Bundler.load.specs.find { |spec| spec.name == plugin_name }
+      require 'byebug'; byebug
+      raise "Plugin #{plugin_name} installation failed!" unless plugin_spec
+      plugin_spec.version
+    end
+
     def install_gem_to_plugins_dir(new_plugin_dependency, # rubocop: disable Metrics/AbcSize
       extra_request_sets = [],
       update_mode = false)
