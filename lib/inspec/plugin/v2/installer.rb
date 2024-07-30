@@ -296,7 +296,7 @@ module Inspec::Plugin::V2
       install_gem_to_plugins_dir(plugin_dependency, [requested_local_gem_set])
     end
 
-    def install_from_remote_gems(requested_plugin_name, opts)
+    def install_from_remote_gems_v1(requested_plugin_name, opts)
       plugin_dependency = Gem::Dependency.new(requested_plugin_name, opts[:version] || "> 0")
 
       # BestSet is rubygems.org API + indexing, APISet is for custom sources
