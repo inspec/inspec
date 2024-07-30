@@ -168,6 +168,9 @@ module Inspec
     end
 
     def run(with = nil)
+      # Always set `chef_entitlement_id` to InSpec's entitlement ID to ensure license is entitled to InSpec, regardless of the runtime context (InSpec, Compliance, etc.).
+      # However, keep the current `chef_entitlement_id` unchanged when using test-kitchen; TODO: use an `unless` condition to handle this.
+      ChefLicensing::Config.chef_entitlement_id = "3ff52c37-e41f-4f6c-ad4d-365192205968"
       ChefLicensing.check_software_entitlement! if Inspec::Dist::EXEC_NAME == "inspec"
 
       # Validate if profiles are signed and verified
