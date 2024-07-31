@@ -36,75 +36,78 @@
 #### Merged Pull Requests
 - Bump omnibus-software from `4b08f0b` to `3268356` in /omnibus [#6587](https://github.com/inspec/inspec/pull/6587) ([dependabot[bot]](https://github.com/dependabot[bot]))
 
-<!-- release_rollup since=6.6.0 -->
-### Changes since 6.6.0 release
-
-#### Merged Pull Requests
-- Bump omnibus from `41d5c3b` to `3efa84c` in /omnibus [#7106](https://github.com/inspec/inspec/pull/7106) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.8.1 -->
-- Attempt to fix the random failure of depedency_loader unit test [#7101](https://github.com/inspec/inspec/pull/7101) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.8.1 -->
-- Bump omnibus-software from `02fa677` to `b73b772` in /omnibus [#7105](https://github.com/inspec/inspec/pull/7105) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.8.1 -->
-- Telemetry log messages improved for clarity [#7104](https://github.com/inspec/inspec/pull/7104) ([Nik08](https://github.com/Nik08)) <!-- 6.8.1 -->
-- Update ssh_config resource to support returning the current sshd_config file in use. [#7070](https://github.com/inspec/inspec/pull/7070) ([aaronlippold](https://github.com/aaronlippold)) <!-- 6.8.0 -->
-- Increase buildkite verify pipeline timeout [#7103](https://github.com/inspec/inspec/pull/7103) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.7.3 -->
-- Update chef-licensing version pinning [#7102](https://github.com/inspec/inspec/pull/7102) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.7.3 -->
-- Bump omnibus from `82dae89` to `41d5c3b` in /omnibus [#7089](https://github.com/inspec/inspec/pull/7089) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.7.2 -->
-- Bump omnibus-software from `28c9c9f` to `02fa677` in /omnibus [#7099](https://github.com/inspec/inspec/pull/7099) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.7.1 -->
-- Usage Telemetry v3 [#6012](https://github.com/inspec/inspec/pull/6012) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.7.0 -->
-- ci: change license server to point to local licensing server [#7083](https://github.com/inspec/inspec/pull/7083) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.30 -->
-- CHEF-12024 Adds C Shell support to sybase_session resource [#7069](https://github.com/inspec/inspec/pull/7069) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.30 -->
-- CHEF-12172: Incomplete string escaping or encoding [#7078](https://github.com/inspec/inspec/pull/7078) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.29 -->
-- Fix gitignore file in docs dir [#7082](https://github.com/inspec/inspec/pull/7082) ([IanMadd](https://github.com/IanMadd)) <!-- 6.6.28 -->
-- CHEF-12175: Remove use of `Kernel.open` or `IO.read` or similar sinks with a non-constant value [#7079](https://github.com/inspec/inspec/pull/7079) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.27 -->
-- Configurable backend for Chef Infra in Target Mode [#7058](https://github.com/inspec/inspec/pull/7058) ([thheinen](https://github.com/thheinen)) <!-- 6.6.26 -->
-- Bump omnibus-software from `a32e7ee` to `28c9c9f` in /omnibus [#7063](https://github.com/inspec/inspec/pull/7063) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.25 -->
-- Bump ffi-yajl from 2.4.0 to 2.6.0 in /omnibus [#6648](https://github.com/inspec/inspec/pull/6648) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.25 -->
-- Bump omnibus-software from `88516f3` to `a32e7ee` in /omnibus [#7062](https://github.com/inspec/inspec/pull/7062) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.25 -->
-- Remove Ruby 3.0 support [#7057](https://github.com/inspec/inspec/pull/7057) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.25 -->
-- Pin the ffi version &lt; 1.17.0 [#7053](https://github.com/inspec/inspec/pull/7053) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.24 -->
-- Fix for failing verify pipeline due to ffi version update [#7050](https://github.com/inspec/inspec/pull/7050) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.23 -->
-- CI: Update configuration to pick commercial license to be used during the buildkite test [#7007](https://github.com/inspec/inspec/pull/7007) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.23 -->
-- Update rspec requirement from &gt;= 3.9, &lt;= 3.12 to &gt;= 3.9, &lt;= 3.14 [#6967](https://github.com/inspec/inspec/pull/6967) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.23 -->
-- Bump omnibus-software from `f50a2ad` to `88516f3` in /omnibus [#7037](https://github.com/inspec/inspec/pull/7037) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.22 -->
-- Fix broken link for InSpec Profiles documentation page [#7040](https://github.com/inspec/inspec/pull/7040) ([williamtheaker](https://github.com/williamtheaker)) <!-- 6.6.21 -->
-- CHEF-3833 Added delay for InSpec parallel status reporter [#6993](https://github.com/inspec/inspec/pull/6993) ([Nik08](https://github.com/Nik08)) <!-- 6.6.20 -->
-- Fix uninitialized constant Parser::AST::Processor::Mixin [#7030](https://github.com/inspec/inspec/pull/7030) ([stanhu](https://github.com/stanhu)) <!-- 6.6.19 -->
-- CHEF-6000: Fix URL fetcher failure to work when current directory is not a Git repository [#7023](https://github.com/inspec/inspec/pull/7023) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.18 -->
-- Revert &quot;CHEF-8598: Add support for curve25519 key exchange&quot; [#7026](https://github.com/inspec/inspec/pull/7026) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.17 -->
-- CHEF-8598: Add support for curve25519 key exchange [#6989](https://github.com/inspec/inspec/pull/6989) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.16 -->
-- Update test with updated failure message for GCP authentication [#7010](https://github.com/inspec/inspec/pull/7010) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.15 -->
-- Update Netlify docs deployment [#6994](https://github.com/inspec/inspec/pull/6994) ([IanMadd](https://github.com/IanMadd)) <!-- 6.6.14 -->
-- Fix: Update ruby base image to bullseye in CI tests [#6998](https://github.com/inspec/inspec/pull/6998) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.14 -->
-- CHEF-9848 - Exclude Warning &quot;Unrecognized feature name&quot;  for Custom InSpec plugins. [#6988](https://github.com/inspec/inspec/pull/6988) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.14 -->
-- Allow the negate formating for cmp [#6862](https://github.com/inspec/inspec/pull/6862) ([Taknok](https://github.com/Taknok)) <!-- 6.6.13 -->
-- CHEF-3163 Adds unit test for progress bar streaming reporter [#6970](https://github.com/inspec/inspec/pull/6970) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.12 -->
-- CHEF-3162: Implement unit test for inspec-sign plugin [#6959](https://github.com/inspec/inspec/pull/6959) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.12 -->
-- CHEF-3160 Improve code coverage percentage - Exclude test files from code coverage [#6953](https://github.com/inspec/inspec/pull/6953) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.11 -->
-- Minor docs fix CHEF-4267 [#6958](https://github.com/inspec/inspec/pull/6958) ([IanMadd](https://github.com/IanMadd)) <!-- 6.6.11 -->
-- CHEF-6412: Fix for virutalization resource undefined method file_read [#6947](https://github.com/inspec/inspec/pull/6947) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.11 -->
-- CHEF-4442 Streaming reporter fix to capture progress correctly [#6912](https://github.com/inspec/inspec/pull/6912) ([Nik08](https://github.com/Nik08)) <!-- 6.6.10 -->
-- CHEF-4191 Waivers backward compatibility support with Chef Client [#6919](https://github.com/inspec/inspec/pull/6919) ([Nik08](https://github.com/Nik08)) <!-- 6.6.9 -->
-- CHEF-3166 Unit tests added for IAF file [#6933](https://github.com/inspec/inspec/pull/6933) ([Nik08](https://github.com/Nik08)) <!-- 6.6.8 -->
-- Reorganize reusable text files [#6918](https://github.com/inspec/inspec/pull/6918) ([IanMadd](https://github.com/IanMadd)) <!-- 6.6.8 -->
-- Fix failing ssh_key test on Windows [#6948](https://github.com/inspec/inspec/pull/6948) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.8 -->
-- Turns off dependabot for inspec-4 branch [#6944](https://github.com/inspec/inspec/pull/6944) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.8 -->
-- CHEF-3962: Adds ability to verify ssh keys [#6656](https://github.com/inspec/inspec/pull/6656) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.8 -->
-- Temporary turn off pulling of chef-licensing gem from artifactory. [#6945](https://github.com/inspec/inspec/pull/6945) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.7 -->
-- CHEF-8990 Remove dependency on active-support function `blank?` [#6914](https://github.com/inspec/inspec/pull/6914) ([Nik08](https://github.com/Nik08)) <!-- 6.6.7 -->
-- CHEF-7276: Update package download URL to use https [#6922](https://github.com/inspec/inspec/pull/6922) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.6 -->
-- Set GitHub labeler action version [#6911](https://github.com/inspec/inspec/pull/6911) ([IanMadd](https://github.com/IanMadd)) <!-- 6.6.6 -->
-- Fix CI test for windows  [#6913](https://github.com/inspec/inspec/pull/6913) ([Nik08](https://github.com/Nik08)) <!-- 6.6.6 -->
-- Reduce version pinning [#6873](https://github.com/inspec/inspec/pull/6873) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.5 -->
-- Upgrades openssl version to 3.0.11 [#6872](https://github.com/inspec/inspec/pull/6872) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.4 -->
-- CI: Increase timeout for buildkite [#6910](https://github.com/inspec/inspec/pull/6910) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.4 -->
-- Upgrade declared minimum ruby version in gemspec from 2.4.0 to 3.0.3 [#6790](https://github.com/inspec/inspec/pull/6790) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.6.4 -->
-- Bump omnibus-software from `d357d5c` to `f50a2ad` in /omnibus [#6904](https://github.com/inspec/inspec/pull/6904) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.3 -->
-- Bump omnibus-software from `4fef367` to `d357d5c` in /omnibus [#6897](https://github.com/inspec/inspec/pull/6897) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.6.2 -->
-- InSpec docs reorganization [#6844](https://github.com/inspec/inspec/pull/6844) ([IanMadd](https://github.com/IanMadd)) <!-- 6.6.1 -->
-- CHEF-8416: Patch for broken reporter integration for compliance phase [#6859](https://github.com/inspec/inspec/pull/6859) ([ahasunos](https://github.com/ahasunos)) <!-- 6.6.1 -->
-- Document where to look up the platform list [#6857](https://github.com/inspec/inspec/pull/6857) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 6.6.1 -->
+<!-- release_rollup since=6.8.1 -->
+### Changes since 6.8.1 release
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v6.8.1](https://github.com/inspec/inspec/tree/v6.8.1) (2024-07-31)
+
+#### Merged Pull Requests
+- Document where to look up the platform list [#6857](https://github.com/inspec/inspec/pull/6857) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- CHEF-8416: Patch for broken reporter integration for compliance phase [#6859](https://github.com/inspec/inspec/pull/6859) ([ahasunos](https://github.com/ahasunos))
+- InSpec docs reorganization [#6844](https://github.com/inspec/inspec/pull/6844) ([IanMadd](https://github.com/IanMadd))
+- Bump omnibus-software from `4fef367` to `d357d5c` in /omnibus [#6897](https://github.com/inspec/inspec/pull/6897) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump omnibus-software from `d357d5c` to `f50a2ad` in /omnibus [#6904](https://github.com/inspec/inspec/pull/6904) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Upgrade declared minimum ruby version in gemspec from 2.4.0 to 3.0.3 [#6790](https://github.com/inspec/inspec/pull/6790) ([Vasu1105](https://github.com/Vasu1105))
+- CI: Increase timeout for buildkite [#6910](https://github.com/inspec/inspec/pull/6910) ([ahasunos](https://github.com/ahasunos))
+- Upgrades openssl version to 3.0.11 [#6872](https://github.com/inspec/inspec/pull/6872) ([Vasu1105](https://github.com/Vasu1105))
+- Reduce version pinning [#6873](https://github.com/inspec/inspec/pull/6873) ([Vasu1105](https://github.com/Vasu1105))
+- Fix CI test for windows  [#6913](https://github.com/inspec/inspec/pull/6913) ([Nik08](https://github.com/Nik08))
+- Set GitHub labeler action version [#6911](https://github.com/inspec/inspec/pull/6911) ([IanMadd](https://github.com/IanMadd))
+- CHEF-7276: Update package download URL to use https [#6922](https://github.com/inspec/inspec/pull/6922) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-8990 Remove dependency on active-support function `blank?` [#6914](https://github.com/inspec/inspec/pull/6914) ([Nik08](https://github.com/Nik08))
+- Temporary turn off pulling of chef-licensing gem from artifactory. [#6945](https://github.com/inspec/inspec/pull/6945) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-3962: Adds ability to verify ssh keys [#6656](https://github.com/inspec/inspec/pull/6656) ([Vasu1105](https://github.com/Vasu1105))
+- Turns off dependabot for inspec-4 branch [#6944](https://github.com/inspec/inspec/pull/6944) ([Vasu1105](https://github.com/Vasu1105))
+- Fix failing ssh_key test on Windows [#6948](https://github.com/inspec/inspec/pull/6948) ([Vasu1105](https://github.com/Vasu1105))
+- Reorganize reusable text files [#6918](https://github.com/inspec/inspec/pull/6918) ([IanMadd](https://github.com/IanMadd))
+- CHEF-3166 Unit tests added for IAF file [#6933](https://github.com/inspec/inspec/pull/6933) ([Nik08](https://github.com/Nik08))
+- CHEF-4191 Waivers backward compatibility support with Chef Client [#6919](https://github.com/inspec/inspec/pull/6919) ([Nik08](https://github.com/Nik08))
+- CHEF-4442 Streaming reporter fix to capture progress correctly [#6912](https://github.com/inspec/inspec/pull/6912) ([Nik08](https://github.com/Nik08))
+- CHEF-6412: Fix for virutalization resource undefined method file_read [#6947](https://github.com/inspec/inspec/pull/6947) ([Vasu1105](https://github.com/Vasu1105))
+- Minor docs fix CHEF-4267 [#6958](https://github.com/inspec/inspec/pull/6958) ([IanMadd](https://github.com/IanMadd))
+- CHEF-3160 Improve code coverage percentage - Exclude test files from code coverage [#6953](https://github.com/inspec/inspec/pull/6953) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-3162: Implement unit test for inspec-sign plugin [#6959](https://github.com/inspec/inspec/pull/6959) ([ahasunos](https://github.com/ahasunos))
+- CHEF-3163 Adds unit test for progress bar streaming reporter [#6970](https://github.com/inspec/inspec/pull/6970) ([Vasu1105](https://github.com/Vasu1105))
+- Allow the negate formating for cmp [#6862](https://github.com/inspec/inspec/pull/6862) ([Taknok](https://github.com/Taknok))
+- CHEF-9848 - Exclude Warning &quot;Unrecognized feature name&quot;  for Custom InSpec plugins. [#6988](https://github.com/inspec/inspec/pull/6988) ([Vasu1105](https://github.com/Vasu1105))
+- Fix: Update ruby base image to bullseye in CI tests [#6998](https://github.com/inspec/inspec/pull/6998) ([ahasunos](https://github.com/ahasunos))
+- Update Netlify docs deployment [#6994](https://github.com/inspec/inspec/pull/6994) ([IanMadd](https://github.com/IanMadd))
+- Update test with updated failure message for GCP authentication [#7010](https://github.com/inspec/inspec/pull/7010) ([ahasunos](https://github.com/ahasunos))
+- CHEF-8598: Add support for curve25519 key exchange [#6989](https://github.com/inspec/inspec/pull/6989) ([ahasunos](https://github.com/ahasunos))
+- Revert &quot;CHEF-8598: Add support for curve25519 key exchange&quot; [#7026](https://github.com/inspec/inspec/pull/7026) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-6000: Fix URL fetcher failure to work when current directory is not a Git repository [#7023](https://github.com/inspec/inspec/pull/7023) ([ahasunos](https://github.com/ahasunos))
+- Fix uninitialized constant Parser::AST::Processor::Mixin [#7030](https://github.com/inspec/inspec/pull/7030) ([stanhu](https://github.com/stanhu))
+- CHEF-3833 Added delay for InSpec parallel status reporter [#6993](https://github.com/inspec/inspec/pull/6993) ([Nik08](https://github.com/Nik08))
+- Fix broken link for InSpec Profiles documentation page [#7040](https://github.com/inspec/inspec/pull/7040) ([williamtheaker](https://github.com/williamtheaker))
+- Bump omnibus-software from `f50a2ad` to `88516f3` in /omnibus [#7037](https://github.com/inspec/inspec/pull/7037) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update rspec requirement from &gt;= 3.9, &lt;= 3.12 to &gt;= 3.9, &lt;= 3.14 [#6967](https://github.com/inspec/inspec/pull/6967) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- CI: Update configuration to pick commercial license to be used during the buildkite test [#7007](https://github.com/inspec/inspec/pull/7007) ([ahasunos](https://github.com/ahasunos))
+- Fix for failing verify pipeline due to ffi version update [#7050](https://github.com/inspec/inspec/pull/7050) ([Vasu1105](https://github.com/Vasu1105))
+- Pin the ffi version &lt; 1.17.0 [#7053](https://github.com/inspec/inspec/pull/7053) ([Vasu1105](https://github.com/Vasu1105))
+- Remove Ruby 3.0 support [#7057](https://github.com/inspec/inspec/pull/7057) ([Vasu1105](https://github.com/Vasu1105))
+- Bump omnibus-software from `88516f3` to `a32e7ee` in /omnibus [#7062](https://github.com/inspec/inspec/pull/7062) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump ffi-yajl from 2.4.0 to 2.6.0 in /omnibus [#6648](https://github.com/inspec/inspec/pull/6648) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump omnibus-software from `a32e7ee` to `28c9c9f` in /omnibus [#7063](https://github.com/inspec/inspec/pull/7063) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Configurable backend for Chef Infra in Target Mode [#7058](https://github.com/inspec/inspec/pull/7058) ([thheinen](https://github.com/thheinen))
+- CHEF-12175: Remove use of `Kernel.open` or `IO.read` or similar sinks with a non-constant value [#7079](https://github.com/inspec/inspec/pull/7079) ([ahasunos](https://github.com/ahasunos))
+- Fix gitignore file in docs dir [#7082](https://github.com/inspec/inspec/pull/7082) ([IanMadd](https://github.com/IanMadd))
+- CHEF-12172: Incomplete string escaping or encoding [#7078](https://github.com/inspec/inspec/pull/7078) ([ahasunos](https://github.com/ahasunos))
+- CHEF-12024 Adds C Shell support to sybase_session resource [#7069](https://github.com/inspec/inspec/pull/7069) ([Vasu1105](https://github.com/Vasu1105))
+- ci: change license server to point to local licensing server [#7083](https://github.com/inspec/inspec/pull/7083) ([ahasunos](https://github.com/ahasunos))
+- Usage Telemetry v3 [#6012](https://github.com/inspec/inspec/pull/6012) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Bump omnibus-software from `28c9c9f` to `02fa677` in /omnibus [#7099](https://github.com/inspec/inspec/pull/7099) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump omnibus from `82dae89` to `41d5c3b` in /omnibus [#7089](https://github.com/inspec/inspec/pull/7089) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update chef-licensing version pinning [#7102](https://github.com/inspec/inspec/pull/7102) ([Vasu1105](https://github.com/Vasu1105))
+- Increase buildkite verify pipeline timeout [#7103](https://github.com/inspec/inspec/pull/7103) ([Vasu1105](https://github.com/Vasu1105))
+- Update ssh_config resource to support returning the current sshd_config file in use. [#7070](https://github.com/inspec/inspec/pull/7070) ([aaronlippold](https://github.com/aaronlippold))
+- Telemetry log messages improved for clarity [#7104](https://github.com/inspec/inspec/pull/7104) ([Nik08](https://github.com/Nik08))
+- Bump omnibus-software from `02fa677` to `b73b772` in /omnibus [#7105](https://github.com/inspec/inspec/pull/7105) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Attempt to fix the random failure of depedency_loader unit test [#7101](https://github.com/inspec/inspec/pull/7101) ([Vasu1105](https://github.com/Vasu1105))
+- Bump omnibus from `41d5c3b` to `3efa84c` in /omnibus [#7106](https://github.com/inspec/inspec/pull/7106) ([dependabot[bot]](https://github.com/dependabot[bot]))
+<!-- latest_stable_release -->
+
 ## [v6.6.0](https://github.com/inspec/inspec/tree/v6.6.0) (2023-11-14)
 
 #### Merged Pull Requests
@@ -261,7 +264,6 @@
 - CHEF-6439 Mandatory Profile Signing (Preview) [#6705](https://github.com/inspec/inspec/pull/6705) ([Nik08](https://github.com/Nik08))
 - Bump chef-licensing verison from &quot;&gt;= 0.4.44&quot; to &quot;&gt;=0.7.5&quot; [#6856](https://github.com/inspec/inspec/pull/6856) ([Vasu1105](https://github.com/Vasu1105))
 - CHEF-6440: Integrates audit logging feature  [#6809](https://github.com/inspec/inspec/pull/6809) ([Vasu1105](https://github.com/Vasu1105))
-<!-- latest_stable_release -->
 
 ## [v5.22.13](https://github.com/inspec/inspec/tree/v5.22.13) (2023-08-16)
 
