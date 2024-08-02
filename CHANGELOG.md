@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.8.2 -->
+## [v6.8.2](https://github.com/inspec/inspec/tree/v6.8.2) (2024-08-02)
 
 #### Merged Pull Requests
+- Bump rexml from 3.3.2 to 3.3.3 in /omnibus [#7116](https://github.com/inspec/inspec/pull/7116) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Bump omnibus from `41d5c3b` to `3efa84c` in /omnibus [#7106](https://github.com/inspec/inspec/pull/7106) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Attempt to fix the random failure of depedency_loader unit test [#7101](https://github.com/inspec/inspec/pull/7101) ([Vasu1105](https://github.com/Vasu1105))
 - Bump omnibus-software from `02fa677` to `b73b772` in /omnibus [#7105](https://github.com/inspec/inspec/pull/7105) ([dependabot[bot]](https://github.com/dependabot[bot]))
@@ -38,6 +39,9 @@
 
 <!-- release_rollup since=6.8.1 -->
 ### Changes since 6.8.1 release
+
+#### Merged Pull Requests
+- Bump rexml from 3.3.2 to 3.3.3 in /omnibus [#7116](https://github.com/inspec/inspec/pull/7116) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.8.2 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
