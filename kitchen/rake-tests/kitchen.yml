@@ -7,7 +7,7 @@ platforms:
     image: ubuntu:18.04
     platform: ubuntu
     provision_command:
-      - curl -L https://chefdownload-commericial.chef.io/install.sh?license_id=<YOUR LICENSE ID> | sudo bash -s -- -P inspec
+      - curl -L https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
       - apt-get -y install build-essential
     require_chef_omnibus: false
     volume: <%= File.expand_path("../..", File.dirname(__FILE__)) %>:/inspec
