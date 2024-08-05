@@ -1,14 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.8.2 -->
-## [v6.8.2](https://github.com/inspec/inspec/tree/v6.8.2) (2024-08-02)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Bump rexml from 3.3.2 to 3.3.3 in /omnibus [#7116](https://github.com/inspec/inspec/pull/7116) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- Bump omnibus from `41d5c3b` to `3efa84c` in /omnibus [#7106](https://github.com/inspec/inspec/pull/7106) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- Attempt to fix the random failure of depedency_loader unit test [#7101](https://github.com/inspec/inspec/pull/7101) ([Vasu1105](https://github.com/Vasu1105))
-- Bump omnibus-software from `02fa677` to `b73b772` in /omnibus [#7105](https://github.com/inspec/inspec/pull/7105) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- ci: resume habitat pipeline  [#7109](https://github.com/inspec/inspec/pull/7109) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -41,6 +38,7 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- ci: resume habitat pipeline  [#7109](https://github.com/inspec/inspec/pull/7109) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.2 -->
 - Bump rexml from 3.3.2 to 3.3.3 in /omnibus [#7116](https://github.com/inspec/inspec/pull/7116) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.8.2 -->
 <!-- release_rollup -->
 
