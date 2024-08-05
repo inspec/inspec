@@ -12,7 +12,25 @@ rubygems:
     gemspec_path: ./inspec-bin/
 
 pipelines:
+ - habitat/build:
+      env:
+       - HAB_NONINTERACTIVE: "true"
+       - HAB_NOCOLORING: "true"
+       - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+#  - docker/build
+ - artifact/habitat:
+      description: Execute tests against the habitat artifact
+      definition: .expeditor/artifact.habitat.yml
+      env:
+       - HAB_NONINTERACTIVE: "true"
+       - HAB_NOCOLORING: "true"
+       - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+      # trigger: pull_request
  - verify:
+      definition: .expeditor/verify_public_dummy.pipeline.yml
+      description: Keeping the verify pipeline alive to preserve the history
+      public: true
+ - verify_temp:
       definition: .expeditor/verify_public_dummy.pipeline.yml
       description: Keeping the verify pipeline alive to preserve the history
       public: true
@@ -117,9 +135,28 @@ subscriptions:
         ignore_labels:
          - "Expeditor: Skip Omnibus"
          - "Expeditor: Skip All"
+     - trigger_pipeline:artifact/habitat:
+      #   only_if: built_in:bump_version
+        ignore_labels:
+         - "Expeditor: Skip Habitat"
+         - "Expeditor: Skip All"
+     - trigger_pipeline:habitat/build:
+      #   only_if: built_in:bump_version
+        ignore_labels:
+         - "Expeditor: Skip Habitat"
+         - "Expeditor: Skip All"
      - built_in:build_gem:
         only_if:
          - built_in:bump_version
+#   - workload: artifact_published:unstable:inspec:{{version_constraint}}
+#     actions:
+#      - trigger_pipeline:docker/build
+#      - bash:.expeditor/buildkite/wwwrelease.sh:
+#         post_commit: true
+#   - workload: artifact_published:current:inspec:{{version_constraint}}
+#     actions:
+#      - built_in:promote_docker_images
+#      - built_in:promote_habitat_packages
   - workload: project_promoted:{{agent_id}}:*
     actions:
       - built_in:promote_artifactory_artifact
@@ -128,6 +165,7 @@ subscriptions:
      - built_in:rollover_changelog
      - built_in:publish_rubygems
      - built_in:create_github_release
+     - built_in:promote_habitat_packages
      - bash:.expeditor/publish-release-notes.sh:
         post_commit: true
      - purge_packages_chef_io_fastly:{{target_channel}}/inspec/latest:
