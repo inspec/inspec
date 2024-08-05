@@ -1,25 +1,23 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.55 -->
-## [v5.22.55](https://github.com/inspec/inspec/tree/v5.22.55) (2024-07-29)
-
-#### Merged Pull Requests
-- BACKPORT: CHEF-12172: Incomplete string escaping or encoding (#7078) [#7111](https://github.com/inspec/inspec/pull/7111) ([Nik08](https://github.com/Nik08))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=5.22.50 -->
-### Changes since 5.22.50 release
-
-#### Merged Pull Requests
-- BACKPORT: CHEF-12172: Incomplete string escaping or encoding (#7078) [#7111](https://github.com/inspec/inspec/pull/7111) ([Nik08](https://github.com/Nik08)) <!-- 5.22.55 -->
-- BACKPORT: (fix) Missing regular expression anchor (#7077) [#7110](https://github.com/inspec/inspec/pull/7110) ([Nik08](https://github.com/Nik08)) <!-- 5.22.54 -->
-- Update ffi requirement from &gt;= 1.15.5, &lt; 1.17.0 to &gt;= 1.15.5, &lt; 1.18.0 [#7076](https://github.com/inspec/inspec/pull/7076) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.53 -->
-- Backport-7069: CHER-12024 C-shell support for sybase_session resource  [#7075](https://github.com/inspec/inspec/pull/7075) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.52 -->
-- Backport-#7053 Pin the ffi version &lt; 1.17.0 [#7074](https://github.com/inspec/inspec/pull/7074) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.51 -->
-- Bump ffi-yajl from 2.4.0 to 2.6.0 in /omnibus [#6756](https://github.com/inspec/inspec/pull/6756) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.50 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v5.22.55](https://github.com/inspec/inspec/tree/v5.22.55) (2024-08-05)
+
+#### Merged Pull Requests
+- Bump ffi-yajl from 2.4.0 to 2.6.0 in /omnibus [#6756](https://github.com/inspec/inspec/pull/6756) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Backport-#7053 Pin the ffi version &lt; 1.17.0 [#7074](https://github.com/inspec/inspec/pull/7074) ([Vasu1105](https://github.com/Vasu1105))
+- Backport-7069: CHER-12024 C-shell support for sybase_session resource  [#7075](https://github.com/inspec/inspec/pull/7075) ([Vasu1105](https://github.com/Vasu1105))
+- Update ffi requirement from &gt;= 1.15.5, &lt; 1.17.0 to &gt;= 1.15.5, &lt; 1.18.0 [#7076](https://github.com/inspec/inspec/pull/7076) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- BACKPORT: (fix) Missing regular expression anchor (#7077) [#7110](https://github.com/inspec/inspec/pull/7110) ([Nik08](https://github.com/Nik08))
+- BACKPORT: CHEF-12172: Incomplete string escaping or encoding (#7078) [#7111](https://github.com/inspec/inspec/pull/7111) ([Nik08](https://github.com/Nik08))
+<!-- latest_stable_release -->
+
 ## [v5.22.50](https://github.com/inspec/inspec/tree/v5.22.50) (2024-05-22)
 
 #### Merged Pull Requests
@@ -38,7 +36,6 @@
 - Backport-7034: Add cookstyle as a dependency for inspec-core.gemspec [#7035](https://github.com/inspec/inspec/pull/7035) ([ahasunos](https://github.com/ahasunos))
 - Bump omnibus-software from `4ea194c` to `8233b42` in /omnibus [#7031](https://github.com/inspec/inspec/pull/7031) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Modify url fetcher to remove `--symref` flag in `git ls-remote` command [#7042](https://github.com/inspec/inspec/pull/7042) ([ahasunos](https://github.com/ahasunos))
-<!-- latest_stable_release -->
 
 ## [v5.22.40](https://github.com/inspec/inspec/tree/v5.22.40) (2024-01-24)
 
