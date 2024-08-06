@@ -30,6 +30,8 @@ unzip -o $VAULT_HOME/vault.zip -d $VAULT_HOME
 echo "--- fetching License serverl url and keys from vault"
 # Note: Currently, the value for the local license server is a static IP address. Please update this to a DNS name when available.
 export CHEF_LICENSE_SERVER=$($VAULT_HOME/vault kv get -field ci secret/inspec/licensing/server)
+# Note: Currently, this returns blank response
+export CHEF_TELEMETRY_URL=$($VAULT_HOME/vault kv get -field ci secret/inspec/telemetry/server)
 
 if [ -n "${CI_ENABLE_COVERAGE:-}" ]; then
   echo "--- fetching Sonar token from vault"
