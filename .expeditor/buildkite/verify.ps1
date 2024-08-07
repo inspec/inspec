@@ -36,6 +36,8 @@ vault version
 echo "--- fetching License serverl url and keys from vault"
 # Note: Currently, the value for the local license server is a static IP address. Please update this to a DNS name when available.
 $Env:CHEF_LICENSE_SERVER=vault kv get -field ci secret/inspec/licensing/server
+# Note: Currently, this returns blank response
+$Env:CHEF_TELEMETRY_URL=vault kv get -field ci secret/inspec/telemetry/server
 
 echo "--- verifying if environment variables are set"
 

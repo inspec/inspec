@@ -6,11 +6,8 @@ module Inspec
   class Telemetry
     class HTTP < Base
       TELEMETRY_JOBS_PATH = "v1/job"
-      TELEMETRY_URL = if ChefLicensing::Config.license_server_url&.match?("acceptance")
-                        ENV["CHEF_TELEMETRY_URL"]
-                      else
-                        "https://services.chef.io/telemetry/"
-                      end
+      # Allow dev/CI to override the telemetry URL to a staging service
+      TELEMETRY_URL = ENV["CHEF_TELEMETRY_URL"] || "https://services.chef.io/telemetry/"
       def run_ending(opts)
         payload = super
         response = connection.post(TELEMETRY_JOBS_PATH) do |req|
