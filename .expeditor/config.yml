@@ -25,7 +25,7 @@ pipelines:
        - HAB_NONINTERACTIVE: "true"
        - HAB_NOCOLORING: "true"
        - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
-      # trigger: pull_request
+      trigger: pull_request
  - verify:
       definition: .expeditor/verify_public_dummy.pipeline.yml
       description: Keeping the verify pipeline alive to preserve the history
