@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.8.4 -->
+## [v6.8.4](https://github.com/inspec/inspec/tree/v6.8.4) (2024-08-09)
 
 #### Merged Pull Requests
+- added docs changes [#7118](https://github.com/inspec/inspec/pull/7118) ([vviveksharma](https://github.com/vviveksharma))
 - ci: use latest local license server [#7123](https://github.com/inspec/inspec/pull/7123) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- added docs changes [#7118](https://github.com/inspec/inspec/pull/7118) ([vviveksharma](https://github.com/vviveksharma)) <!-- 6.8.4 -->
 - ci: use latest local license server [#7123](https://github.com/inspec/inspec/pull/7123) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.3 -->
 - enhance: improve fetch and persist to catch entitlement exception [#7121](https://github.com/inspec/inspec/pull/7121) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.3 -->
 - ci: resume habitat pipeline  [#7109](https://github.com/inspec/inspec/pull/7109) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.2 -->
