@@ -47,6 +47,7 @@ end
 # a clue that something was up--windows is just NOT THAT FAST).
 
 require "minitest/autorun"
+require "ostruct" unless defined?(OpenStruct)
 
 require "rspec/core/dsl"
 module RSpec::Core::DSL

@@ -1194,7 +1194,7 @@ Test Summary: 2 successful, 0 failures, 0 skipped\n"
       let(:args) { "-t gcp:// --input gcp_project_id=fakeproject" }
       let(:env) { { GOOGLE_AUTH_SUPPRESS_CREDENTIALS_WARNINGS: 1 } }
       it "should fail to connect to gcp due to lack of creds but not stacktrace" do
-        _(run_result.stderr).must_include "Could not load the default credentials."
+        _(run_result.stderr).must_include "Your credentials were not found."
       end
     end
 
