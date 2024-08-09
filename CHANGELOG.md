@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 4.56.60 -->
-## [v4.56.60](https://github.com/inspec/inspec/tree/v4.56.60) (2023-11-08)
+<!-- latest_release 4.56.61 -->
+## [v4.56.61](https://github.com/inspec/inspec/tree/v4.56.61) (2024-08-09)
 
 #### Merged Pull Requests
-- Backport-6832: Usage changes of profile params in inspec compliance plugin (InSpec 4) [#6853](https://github.com/inspec/inspec/pull/6853) ([ahasunos](https://github.com/ahasunos))
+- CHEF-8990 Remove dependency on active-support function `blank?` [#7122](https://github.com/inspec/inspec/pull/7122) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
 <!-- release_rollup since=4.56.58 -->
 ### Changes since 4.56.58 release
 
 #### Merged Pull Requests
+- CHEF-8990 Remove dependency on active-support function `blank?` [#7122](https://github.com/inspec/inspec/pull/7122) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 4.56.61 -->
 - Backport-6832: Usage changes of profile params in inspec compliance plugin (InSpec 4) [#6853](https://github.com/inspec/inspec/pull/6853) ([ahasunos](https://github.com/ahasunos)) <!-- 4.56.60 -->
 - BACKPORT: Fix in HTML2 reporter [#6812](https://github.com/inspec/inspec/pull/6812) ([Nik08](https://github.com/Nik08)) <!-- 4.56.59 -->
 - Pull release notes from v4 wiki page [#6839](https://github.com/inspec/inspec/pull/6839) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 4.56.58 -->
