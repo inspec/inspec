@@ -57,21 +57,23 @@ inspec exec test.rb -t docker://container_id
 
 Chef InSpec requires Ruby ( >= 3.0.3 ).
 
-All currently supported versions of Chef InSpec (4.0 and later) require accepting the EULA to use. Please visit the [license acceptance page](https://docs.chef.io/chef_license_accept.html) on the Chef docs site for more information.
+All currently supported versions of Chef InSpec (4.0 and later) require accepting the EULA to use. Please visit the [license acceptance page](https://docs.chef.io/licensing/accept/) on the Chef docs site for more information.
 
 ### Install as package
 
 The Chef InSpec package is available for MacOS, RedHat, Ubuntu and Windows. Download the latest package at [Chef InSpec Downloads](https://www.chef.io/downloads/tools/inspec) or install Chef InSpec via script:
 
-{{< note >}}Please follow steps mentioned in this document [Chef Software Install Script](/install_omnibus/). Please replace `<YOUR LICENSE ID>` with your licenseId.{{< /note >}}
-
-```
+```text
 # RedHat, Ubuntu, and macOS
-curl https://chefdownload-commerical.chef.io/install.sh?license_id=<YOUR LICENSE ID> | sudo bash -s -- -P inspec
+curl https://chefdownload-commerical.chef.io/install.sh?license_id=<LICENSE_ID> | sudo bash -s -- -P inspec
 
 # Windows
-. { iwr -useb https://chefdownload-commerical.chef.io/install.ps1?license_id=<YOUR LICENSE ID> } | iex; install -project inspec
+. { iwr -useb https://chefdownload-commerical.chef.io/install.ps1?license_id=<LICENSE_ID> } | iex; install -project inspec
 ```
+
+Replace `<LICENSE_ID>` with your license ID.
+
+For more information about the install scripts, see the [Chef Install Script documentation](/chef_install_script/).
 
 ### Install it via rubygems.org
 
@@ -102,7 +104,6 @@ You may also use `inspec` as a library, with no executable. This does not requir
 ```bash
 gem install inspec
 ```
-
 
 ### Usage via Docker
 
