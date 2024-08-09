@@ -63,12 +63,14 @@ All currently supported versions of Chef InSpec (4.0 and later) require acceptin
 
 The Chef InSpec package is available for MacOS, RedHat, Ubuntu and Windows. Download the latest package at [Chef InSpec Downloads](https://www.chef.io/downloads/tools/inspec) or install Chef InSpec via script:
 
+{{< note >}}Please follow steps mentioned in this document [Chef Software Install Script](/install_omnibus/). Please replace `<YOUR LICENSE ID>` with your licenseId.{{< /note >}}
+
 ```
 # RedHat, Ubuntu, and macOS
-curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
+curl https://chefdownload-commerical.chef.io/install.sh?license_id=<YOUR LICENSE ID> | sudo bash -s -- -P inspec
 
 # Windows
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project inspec
+. { iwr -useb https://chefdownload-commerical.chef.io/install.ps1?license_id=<YOUR LICENSE ID> } | iex; install -project inspec
 ```
 
 ### Install it via rubygems.org
