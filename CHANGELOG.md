@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.8.5 -->
-## [v6.8.5](https://github.com/inspec/inspec/tree/v6.8.5) (2024-08-09)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Editing for install script docs [#7129](https://github.com/inspec/inspec/pull/7129) ([IanMadd](https://github.com/IanMadd))
+- CHEF-14881: Fix habitat pipeline for InSpec 6 [#7127](https://github.com/inspec/inspec/pull/7127) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- CHEF-14881: Fix habitat pipeline for InSpec 6 [#7127](https://github.com/inspec/inspec/pull/7127) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.5 -->
 - Editing for install script docs [#7129](https://github.com/inspec/inspec/pull/7129) ([IanMadd](https://github.com/IanMadd)) <!-- 6.8.5 -->
 - added docs changes [#7118](https://github.com/inspec/inspec/pull/7118) ([vviveksharma](https://github.com/vviveksharma)) <!-- 6.8.4 -->
 - ci: use latest local license server [#7123](https://github.com/inspec/inspec/pull/7123) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.3 -->
