@@ -78,7 +78,6 @@ module Inspec::Plugin::V2
       end
 
       update_plugin_config_file(plugin_name, opts.merge({ action: :install }))
-      register_plugin
     end
 
     # Updates a plugin. Most options same as install, but will not handle path installs.
