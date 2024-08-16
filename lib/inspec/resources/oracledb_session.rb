@@ -57,7 +57,7 @@ module Inspec::Resources
       inspec_cmd = inspec.command(command)
       out = inspec_cmd.stdout + "\n" + inspec_cmd.stderr
 
-      if inspec_cmd.exit_status != 0 || !inspec_cmd.stderr.empty? || out.downcase =~ /^error.*/
+      if inspec_cmd.exit_status != 0 || out.downcase =~ /^error.*/
         raise Inspec::Exceptions::ResourceFailed, "Oracle query with errors: #{out}"
       else
         begin
@@ -96,7 +96,8 @@ module Inspec::Resources
       if @db_role.nil? || @su_user.nil?
         verified_query = verify_query(query)
       else
-        escaped_query = escape_query(query)
+        escaped_query = query.gsub(/\\\\/, "\\").gsub(/"/, '\\"')
+        escaped_query = escaped_query.gsub("$", '\\$') unless escaped_query.include? "\\$"
         verified_query = verify_query(escaped_query)
       end
 
@@ -133,21 +134,12 @@ module Inspec::Resources
       query
     end
 
-    def escape_query(query)
-      # https://github.com/inspec/inspec/security/code-scanning/7
-      # https://github.com/inspec/inspec/security/code-scanning/8
-      escaped_query = query.gsub(/["\\]/) { |match| match == '"' ? '\\"' : "\\\\" } # Escape backslashes and double quotes
-      escaped_query.gsub!("$", '\\$') unless escaped_query.include? "\\$" # Escape dollar signs, but only if not already escaped
-      escaped_query
-    end
-
     def parse_csv_result(stdout)
       output = stdout.split("oracle_query_string")[-1]
       # comma_query_sub replaces the csv delimiter "," in the output.
       # Handles CSV parsing of data like this (DROP,3) etc
-      # Replace all occurrences of the target pattern using gsub instead of sub
-      # Issue detected: https://github.com/inspec/inspec/security/code-scanning/9
-      output = output.gsub(/\r/, "").strip.gsub(",", "comma_query_sub")
+
+      output = output.sub(/\r/, "").strip.gsub(",", "comma_query_sub")
       converter = ->(header) { header.downcase }
       CSV.parse(output, headers: true, header_converters: converter).map do |row|
         next if row.entries.flatten.empty?
