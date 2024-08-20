@@ -12,6 +12,7 @@ require "inspec/dist"
 require "inspec/reporters"
 require "inspec/runner_rspec"
 require "chef-licensing"
+require "inspec/utils/telemetry"
 # spec requirements
 
 module Inspec
@@ -179,6 +180,7 @@ module Inspec
       }
 
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
+      Inspec::Telemetry.run_starting(runner: self, conf: @conf)
       load
       run_tests(with)
     rescue ChefLicensing::SoftwareNotEntitled
@@ -227,6 +229,7 @@ module Inspec
       @run_data = @test_collector.run(with)
       # dont output anything if we want a report
       render_output(@run_data) unless @conf["report"]
+      Inspec::Telemetry.run_ending(runner: self, run_data: @run_data, conf: @conf)
       @test_collector.exit_code
     end
 
