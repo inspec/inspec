@@ -81,6 +81,7 @@ github:
 release_branches:
   - main:
      version_constraint: 6.*
+  # Attempt to create an agent for inspec-7 release branch modifying the .expeditor/config.yml file
   - inspec-7:
      version_constraint: 7.*
   - inspec-5:
