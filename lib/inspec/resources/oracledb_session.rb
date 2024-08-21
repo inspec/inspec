@@ -96,8 +96,7 @@ module Inspec::Resources
       if @db_role.nil? || @su_user.nil?
         verified_query = verify_query(query)
       else
-        escaped_query = query.gsub(/\\\\/, "\\").gsub(/"/, '\\"')
-        escaped_query = escaped_query.gsub("$", '\\$') unless escaped_query.include? "\\$"
+        escaped_query = escape_query(query)
         verified_query = verify_query(escaped_query)
       end
 
@@ -132,6 +131,12 @@ module Inspec::Resources
     def verify_query(query)
       query += ";" unless query.strip.end_with?(";")
       query
+    end
+
+    def escape_query(query)
+      escaped_query = query.gsub(/\\\\/, "\\").gsub(/"/, '\\"')
+      escaped_query = escaped_query.gsub("$", '\\$') unless escaped_query.include? "\\$"
+      escaped_query
     end
 
     def parse_csv_result(stdout)
