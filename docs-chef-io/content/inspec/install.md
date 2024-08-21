@@ -21,11 +21,13 @@ To see which platforms and platform versions Chef InSpec is supported on, see th
 
 You can install Chef InSpec using a curl script.
 
-{{< note >}}Please follow steps mentioned in this document [Chef Software Install Script](/install_omnibus/). Please replace `<LICENSE_ID>` with your licenseId.{{< /note >}}
-
 ```bash
 curl -L https://chefdownload-commerical.chef.io/install.sh?license_id=<LICENSE_ID> | sudo bash -s -- -P inspec
 ```
+
+Replace `<LICENSE_ID>` with your license ID.
+
+For more information about the install script, see the [Chef Install Script documentation](/chef_install_script/).
 
 ## Windows
 
