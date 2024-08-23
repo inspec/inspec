@@ -182,3 +182,4 @@ subscriptions:
         only_if_team_member:
          - inspec/owners
          - inspec/inspec-core-team
+     - trigger_pipeline:habitat/build
