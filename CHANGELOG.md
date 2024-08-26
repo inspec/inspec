@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.56 -->
-## [v5.22.56](https://github.com/inspec/inspec/tree/v5.22.56) (2024-08-22)
+<!-- latest_release 5.22.57 -->
+## [v5.22.57](https://github.com/inspec/inspec/tree/v5.22.57) (2024-08-26)
 
 #### Merged Pull Requests
-- BACKPORT: Oracle db session resource fixes [#7137](https://github.com/inspec/inspec/pull/7137) ([Nik08](https://github.com/Nik08))
+- BACKPORT-6790 Upgrade declared minimum ruby version in gemspec from 2.4.0 to 3.0.3 [#7151](https://github.com/inspec/inspec/pull/7151) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.55 -->
 ### Changes since 5.22.55 release
 
 #### Merged Pull Requests
+- BACKPORT-6790 Upgrade declared minimum ruby version in gemspec from 2.4.0 to 3.0.3 [#7151](https://github.com/inspec/inspec/pull/7151) ([Nik08](https://github.com/Nik08)) <!-- 5.22.57 -->
 - BACKPORT: Oracle db session resource fixes [#7137](https://github.com/inspec/inspec/pull/7137) ([Nik08](https://github.com/Nik08)) <!-- 5.22.56 -->
 <!-- release_rollup -->
 
