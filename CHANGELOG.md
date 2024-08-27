@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.22.58 -->
+## [v5.22.58](https://github.com/inspec/inspec/tree/v5.22.58) (2024-08-27)
 
 #### Merged Pull Requests
+- BACKPORT: Handled postgres_session resource password authentication error when fatal (#7154) [#7155](https://github.com/inspec/inspec/pull/7155) ([Nik08](https://github.com/Nik08))
 - Bump berkshelf from 8.0.7 to 8.0.9 in /omnibus [#6708](https://github.com/inspec/inspec/pull/6708) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Bump omnibus from `3efa84c` to `0633d00` in /omnibus [#7147](https://github.com/inspec/inspec/pull/7147) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Bump omnibus-software from `8233b42` to `f9e2df6` in /omnibus [#7148](https://github.com/inspec/inspec/pull/7148) ([dependabot[bot]](https://github.com/dependabot[bot]))
@@ -14,6 +15,7 @@
 ### Changes since 5.22.55 release
 
 #### Merged Pull Requests
+- BACKPORT: Handled postgres_session resource password authentication error when fatal (#7154) [#7155](https://github.com/inspec/inspec/pull/7155) ([Nik08](https://github.com/Nik08)) <!-- 5.22.58 -->
 - Bump berkshelf from 8.0.7 to 8.0.9 in /omnibus [#6708](https://github.com/inspec/inspec/pull/6708) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.57 -->
 - Bump omnibus from `3efa84c` to `0633d00` in /omnibus [#7147](https://github.com/inspec/inspec/pull/7147) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.57 -->
 - Bump omnibus-software from `8233b42` to `f9e2df6` in /omnibus [#7148](https://github.com/inspec/inspec/pull/7148) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.57 -->
