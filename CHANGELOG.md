@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Bump omnibus from `3efa84c` to `0633d00` in /omnibus [#7147](https://github.com/inspec/inspec/pull/7147) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Bump omnibus-software from `8233b42` to `f9e2df6` in /omnibus [#7148](https://github.com/inspec/inspec/pull/7148) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - CHEF-15318 ci: fix the pipeline for windows&#39; habitat build. [#7152](https://github.com/inspec/inspec/pull/7152) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
@@ -12,6 +13,7 @@
 ### Changes since 5.22.55 release
 
 #### Merged Pull Requests
+- Bump omnibus from `3efa84c` to `0633d00` in /omnibus [#7147](https://github.com/inspec/inspec/pull/7147) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.57 -->
 - Bump omnibus-software from `8233b42` to `f9e2df6` in /omnibus [#7148](https://github.com/inspec/inspec/pull/7148) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.57 -->
 - CHEF-15318 ci: fix the pipeline for windows&#39; habitat build. [#7152](https://github.com/inspec/inspec/pull/7152) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.57 -->
 - BACKPORT-6790 Upgrade declared minimum ruby version in gemspec from 2.4.0 to 3.0.3 [#7151](https://github.com/inspec/inspec/pull/7151) ([Nik08](https://github.com/Nik08)) <!-- 5.22.57 -->
