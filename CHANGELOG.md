@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Bump berkshelf from 8.0.7 to 8.0.9 in /omnibus [#6708](https://github.com/inspec/inspec/pull/6708) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Bump omnibus from `3efa84c` to `0633d00` in /omnibus [#7147](https://github.com/inspec/inspec/pull/7147) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Bump omnibus-software from `8233b42` to `f9e2df6` in /omnibus [#7148](https://github.com/inspec/inspec/pull/7148) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - CHEF-15318 ci: fix the pipeline for windows&#39; habitat build. [#7152](https://github.com/inspec/inspec/pull/7152) ([ahasunos](https://github.com/ahasunos))
@@ -13,6 +14,7 @@
 ### Changes since 5.22.55 release
 
 #### Merged Pull Requests
+- Bump berkshelf from 8.0.7 to 8.0.9 in /omnibus [#6708](https://github.com/inspec/inspec/pull/6708) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.57 -->
 - Bump omnibus from `3efa84c` to `0633d00` in /omnibus [#7147](https://github.com/inspec/inspec/pull/7147) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.57 -->
 - Bump omnibus-software from `8233b42` to `f9e2df6` in /omnibus [#7148](https://github.com/inspec/inspec/pull/7148) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.57 -->
 - CHEF-15318 ci: fix the pipeline for windows&#39; habitat build. [#7152](https://github.com/inspec/inspec/pull/7152) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.57 -->
