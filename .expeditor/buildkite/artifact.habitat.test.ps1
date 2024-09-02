@@ -8,6 +8,7 @@ $ErrorActionPreference = 'Stop'
 $env:HAB_ORIGIN = 'ci'
 $env:CHEF_LICENSE = 'accept-no-persist'
 $env:HAB_LICENSE = 'accept-no-persist'
+$env:HAB_BLDR_CHANNEL = 'LTS-2024'
 $Plan = 'inspec'
 
 Write-Host "--- system details"
