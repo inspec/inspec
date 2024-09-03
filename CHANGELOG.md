@@ -1,30 +1,24 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.58 -->
-## [v5.22.58](https://github.com/inspec/inspec/tree/v5.22.58) (2024-08-27)
-
-#### Merged Pull Requests
-- BACKPORT: Handled postgres_session resource password authentication error when fatal (#7154) [#7155](https://github.com/inspec/inspec/pull/7155) ([Nik08](https://github.com/Nik08))
-- Bump berkshelf from 8.0.7 to 8.0.9 in /omnibus [#6708](https://github.com/inspec/inspec/pull/6708) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- Bump omnibus from `3efa84c` to `0633d00` in /omnibus [#7147](https://github.com/inspec/inspec/pull/7147) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- Bump omnibus-software from `8233b42` to `f9e2df6` in /omnibus [#7148](https://github.com/inspec/inspec/pull/7148) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- CHEF-15318 ci: fix the pipeline for windows&#39; habitat build. [#7152](https://github.com/inspec/inspec/pull/7152) ([ahasunos](https://github.com/ahasunos))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=5.22.55 -->
-### Changes since 5.22.55 release
-
-#### Merged Pull Requests
-- BACKPORT: Handled postgres_session resource password authentication error when fatal (#7154) [#7155](https://github.com/inspec/inspec/pull/7155) ([Nik08](https://github.com/Nik08)) <!-- 5.22.58 -->
-- Bump berkshelf from 8.0.7 to 8.0.9 in /omnibus [#6708](https://github.com/inspec/inspec/pull/6708) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.57 -->
-- Bump omnibus from `3efa84c` to `0633d00` in /omnibus [#7147](https://github.com/inspec/inspec/pull/7147) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.57 -->
-- Bump omnibus-software from `8233b42` to `f9e2df6` in /omnibus [#7148](https://github.com/inspec/inspec/pull/7148) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.57 -->
-- CHEF-15318 ci: fix the pipeline for windows&#39; habitat build. [#7152](https://github.com/inspec/inspec/pull/7152) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.57 -->
-- BACKPORT-6790 Upgrade declared minimum ruby version in gemspec from 2.4.0 to 3.0.3 [#7151](https://github.com/inspec/inspec/pull/7151) ([Nik08](https://github.com/Nik08)) <!-- 5.22.57 -->
-- BACKPORT: Oracle db session resource fixes [#7137](https://github.com/inspec/inspec/pull/7137) ([Nik08](https://github.com/Nik08)) <!-- 5.22.56 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v5.22.58](https://github.com/inspec/inspec/tree/v5.22.58) (2024-09-03)
+
+#### Merged Pull Requests
+- BACKPORT: Oracle db session resource fixes [#7137](https://github.com/inspec/inspec/pull/7137) ([Nik08](https://github.com/Nik08))
+- BACKPORT-6790 Upgrade declared minimum ruby version in gemspec from 2.4.0 to 3.0.3 [#7151](https://github.com/inspec/inspec/pull/7151) ([Nik08](https://github.com/Nik08))
+- CHEF-15318 ci: fix the pipeline for windows&#39; habitat build. [#7152](https://github.com/inspec/inspec/pull/7152) ([ahasunos](https://github.com/ahasunos))
+- Bump omnibus-software from `8233b42` to `f9e2df6` in /omnibus [#7148](https://github.com/inspec/inspec/pull/7148) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump omnibus from `3efa84c` to `0633d00` in /omnibus [#7147](https://github.com/inspec/inspec/pull/7147) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump berkshelf from 8.0.7 to 8.0.9 in /omnibus [#6708](https://github.com/inspec/inspec/pull/6708) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- BACKPORT: Handled postgres_session resource password authentication error when fatal (#7154) [#7155](https://github.com/inspec/inspec/pull/7155) ([Nik08](https://github.com/Nik08))
+<!-- latest_stable_release -->
+
 ## [v5.22.55](https://github.com/inspec/inspec/tree/v5.22.55) (2024-08-05)
 
 #### Merged Pull Requests
@@ -34,7 +28,6 @@
 - Update ffi requirement from &gt;= 1.15.5, &lt; 1.17.0 to &gt;= 1.15.5, &lt; 1.18.0 [#7076](https://github.com/inspec/inspec/pull/7076) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - BACKPORT: (fix) Missing regular expression anchor (#7077) [#7110](https://github.com/inspec/inspec/pull/7110) ([Nik08](https://github.com/Nik08))
 - BACKPORT: CHEF-12172: Incomplete string escaping or encoding (#7078) [#7111](https://github.com/inspec/inspec/pull/7111) ([Nik08](https://github.com/Nik08))
-<!-- latest_stable_release -->
 
 ## [v5.22.50](https://github.com/inspec/inspec/tree/v5.22.50) (2024-05-22)
 
