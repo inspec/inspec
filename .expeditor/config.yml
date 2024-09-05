@@ -174,6 +174,7 @@ subscriptions:
      - built_in:notify_chefio_slack_channels
   - workload: pull_request_opened:{{github_repo}}:{{release_branch}}:*
     actions:
+     - trigger_pipeline:habitat/build
      - post_github_comment:.expeditor/templates/pull_request.mustache:
         ignore_team_members:
          - inspec/owners
@@ -182,4 +183,3 @@ subscriptions:
         only_if_team_member:
          - inspec/owners
          - inspec/inspec-core-team
-     - trigger_pipeline:habitat/build
