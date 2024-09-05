@@ -1,0 +1,25 @@
+---
+slack:
+  notify_channel:
+    - inspec-notify
+
+github:
+  delete_branch_on_merge: true
+  minor_bump_labels:
+    - "Expeditor: Bump Minor Version"
+  major_bump_labels:
+    - "Expeditor: Bump Major Version"
+
+subscriptions:
+  - workload: pull_request_merged:{{github_repo}}:{{release_branch}}:*
+    actions:
+    - built_in:bump_version:
+        ignore_labels:
+          - "Expeditor: Skip Version Bump"
+          - "Expeditor: Skip All"
+    - bash:.expeditor/update_version.sh:
+        only_if: built_in:bump_version
+    - built_in:update_changelog:
+        ignore_labels:
+          - "Expeditor: Skip All"
+          - "Expeditor: Skip Changelog"

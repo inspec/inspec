@@ -1,0 +1,10 @@
+name: inspec-docker-resources
+title: InSpec Docker Resources 
+maintainer: InSpec Core Maintainers
+copyright: Progress Software Corporation
+copyright_email: inspec@progress.com
+license: Apache-2.0
+summary: Docker InSpec Resources in a Gem
+version: 0.3.1
+supports:
+  platform: os

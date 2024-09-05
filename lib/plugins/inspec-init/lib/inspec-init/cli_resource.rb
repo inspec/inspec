@@ -69,6 +69,14 @@ module InspecPlugins
             File.join("docs", "resource-doc.erb") => File.join("docs-chef-io", "content", "inspec", "resources", vars[:resource_name] + ".md"),
             File.join("test", "unit", "inspec-resource-test-template.erb") => File.join("test", "unit", "resources", vars[:resource_name] + "_test.rb"),
           }
+        elsif vars["layout"] == "resource-pack-project"
+          {
+            File.join("lib", "inspec-resource-template.erb") => File.join("lib", vars[:resource_name], "resources", vars[:resource_name] + ".rb"),
+            File.join("lib", "plugin.erb") => File.join("lib", vars[:resource_name], "plugin.rb"),
+            File.join("gemspec.erb") => File.join(vars[:resource_name] + ".gemspec"),
+            File.join("ci", "config.erb") => File.join(".expeditor", "config.yml"),
+            File.join("ci", "update_version.erb") => File.join(".expeditor", "update_version.sh"),
+          }
         else
           ui.error("Unrecognized value for 'layout' - please enter either 'resource-pack' or 'core'")
           ui.exit(:usage_error)
@@ -95,6 +103,7 @@ module InspecPlugins
             choices: [
               { name: "Resource Pack", value: "resource-pack", default: true },
               { name: "InSpec Core", value: "core" },
+              { name: "Resource Pack Project", value: "resource-pack-project" },
             ],
           },
           template: {
@@ -102,6 +111,7 @@ module InspecPlugins
             choices: [
               { name: "Basic", value: "basic", default: true },
               { name: "Plural", value: "plural" },
+              { name: "Project", value: "project" },
             ],
           },
           supports_platform: {},
