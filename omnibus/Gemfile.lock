@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/chef/omnibus-software.git
-  revision: f9e2df62cdc17bf2efd58492a547437866f3bc77
+  revision: 2f804e8f4802790036322fbbde59cc9fe8e875a7
   branch: main
   specs:
     omnibus-software (24.6.323)
@@ -35,14 +35,14 @@ GEM
     artifactory (3.0.17)
     awesome_print (1.9.2)
     aws-eventstream (1.3.0)
-    aws-partitions (1.968.0)
-    aws-sdk-core (3.201.5)
+    aws-partitions (1.971.0)
+    aws-sdk-core (3.203.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.9)
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-kms (1.88.0)
-      aws-sdk-core (~> 3, >= 3.201.0)
+    aws-sdk-kms (1.89.0)
+      aws-sdk-core (~> 3, >= 3.203.0)
       aws-sigv4 (~> 1.5)
     aws-sdk-s3 (1.116.0)
       aws-sdk-core (~> 3, >= 3.127.0)
@@ -363,8 +363,7 @@ GEM
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
     retryable (3.0.5)
-    rexml (3.3.6)
-      strscan
+    rexml (3.3.7)
     rspec (3.11.0)
       rspec-core (~> 3.11.0)
       rspec-expectations (~> 3.11.0)
@@ -398,7 +397,6 @@ GEM
       unicode-display_width (>= 1.5, < 3.0)
       unicode_utils (~> 1.4)
     strings-ansi (0.2.0)
-    strscan (3.1.0)
     structured_warnings (0.4.0)
     syslog-logger (1.6.8)
     test-kitchen (3.5.0)
@@ -415,7 +413,7 @@ GEM
       winrm (~> 2.0)
       winrm-elevated (~> 1.0)
       winrm-fs (~> 1.1)
-    thor (1.3.1)
+    thor (1.3.2)
     time (0.3.0)
       date
     timeout (0.4.1)
