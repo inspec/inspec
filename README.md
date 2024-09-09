@@ -65,10 +65,10 @@ The Chef InSpec package is available for MacOS, RedHat, Ubuntu and Windows. Down
 
 ```text
 # RedHat, Ubuntu, and macOS
-curl https://chefdownload-commerical.chef.io/install.sh?license_id=<LICENSE_ID> | sudo bash -s -- -P inspec
+curl https://chefdownload-commercial.chef.io/install.sh?license_id=<LICENSE_ID> | sudo bash -s -- -P inspec
 
 # Windows
-. { iwr -useb https://chefdownload-commerical.chef.io/install.ps1?license_id=<LICENSE_ID> } | iex; install -project inspec
+. { iwr -useb https://chefdownload-commercial.chef.io/install.ps1?license_id=<LICENSE_ID> } | iex; install -project inspec
 ```
 
 Replace `<LICENSE_ID>` with your license ID.
