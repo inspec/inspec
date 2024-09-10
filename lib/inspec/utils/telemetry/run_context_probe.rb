@@ -29,8 +29,8 @@ module Inspec
         # Handled in both ways to fix label differences for Ruby 3.4 and other versions of Ruby
         (stack_match(stack: stack, path: "thor/command", label: "Thor::Command#run") &&
           stack_match(stack: stack, path: "thor/invocation", label: "Thor::Invocation#invoke_command")) ||
-        (stack_match(stack: stack, path: "thor/command", label: "run") &&
-          stack_match(stack: stack, path: "thor/invocation", label: "invoke_command"))
+          (stack_match(stack: stack, path: "thor/command", label: "run") &&
+            stack_match(stack: stack, path: "thor/invocation", label: "invoke_command"))
       end
 
       def self.kitchen?(stack)
