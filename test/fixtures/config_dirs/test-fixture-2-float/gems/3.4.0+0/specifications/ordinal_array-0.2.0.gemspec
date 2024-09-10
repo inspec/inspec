@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   s.description = "You can access to the first element of an array by the 'first' method. Now you can access to the second element by 'second' and that until the 999th elements".freeze
   s.email = ["kevin.disneur@gmail.com".freeze]
   s.homepage = "https://github.com/kdisneur/ordinal_array".freeze
-  s.rubygems_version = "3.1.6".freeze
+  s.rubygems_version = "3.4.0-preview1".freeze
   s.summary = "You can access to the first element of an array by the 'first' method. Now you can access to the second element by 'second' and that until the 999th elements".freeze
 
-  s.installed_by_version = "3.1.6" if s.respond_to? :installed_by_version
+  s.installed_by_version = "3.4.0-preview1" if s.respond_to? :installed_by_version
 end

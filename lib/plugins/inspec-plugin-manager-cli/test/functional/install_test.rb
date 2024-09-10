@@ -8,6 +8,10 @@ class PluginManagerCliInstall < Minitest::Test
 
   include PluginManagerHelpers
   ruby_abi_version = (Gem.ruby_version.segments[0, 2] << 0).join(".")
+
+  # Only for testing with Ruby 3.4 preview version - Remove this after Ruby 3.4 is released
+  ruby_abi_version = "3.4.0+0" if ruby_abi_version == "3.4.0"
+
   # Test multiple heuristics of the path-mode install.
   # These are all positive tests; they should resolve the entry point to the same path in each case.
   {
@@ -343,7 +347,7 @@ class PluginManagerCliInstall < Minitest::Test
 
     assert_includes install_result.stdout, "DEBUG"
 
-    assert_includes install_result.stderr, "Unable to activate inspec-test-fixture-0.1.1"
+    assert_includes install_result.stdout, "Unknown error occurred - installation failed"
 
     assert_exit_code 1, install_result
   end

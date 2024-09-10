@@ -11,10 +11,10 @@ Gem::Specification.new do |s|
   s.description = "This gem is used to test the gem search and install capabilities of InSpec's plugin V2 system.  It is not a good example or starting point for plugin development.".freeze
   s.email = ["hello@chef.io".freeze]
   s.homepage = "https://github.com/inspec/inspec".freeze
-  s.rubygems_version = "3.1.6".freeze
+  s.rubygems_version = "3.4.0-preview1".freeze
   s.summary = "A simple test plugin gem for InSpec".freeze
 
-  s.installed_by_version = "3.1.6" if s.respond_to? :installed_by_version
+  s.installed_by_version = "3.4.0-preview1" if s.respond_to? :installed_by_version
 
   if s.respond_to? :specification_version
     s.specification_version = 4
