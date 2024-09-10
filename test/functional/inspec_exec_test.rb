@@ -548,8 +548,13 @@ describe "inspec exec" do
   describe "given a profile with an anonymous describe block" do
     let(:out) { inspec("exec " + failure_control + " --no-create-lockfile") }
 
+    # Handling error messages for different versions of Ruby
+    # Error in Ruby < 3.4 : undefined method `should_nota'
+    # Error in Ruby 3.4 : undefined method 'should_nota'
+    error_regex = /undefined method ['`]?should_nota['`]/
+
     it "prints the exception message when a test has a syntax error" do
-      _(stdout).must_include "undefined method `should_nota' "
+      _(stdout).must_match error_regex
     end
   end
 
@@ -559,7 +564,6 @@ describe "inspec exec" do
     it "should print all the results" do
       _(stdout).must_include "×  tmp-1.0: Create / directory (1 failed)"
       _(stdout).must_include "×  is expected not to be directory\n"
-      _(stdout).must_include "×  File / \n     undefined method `should_nota'"
       _(stdout).must_include "×  is expected not to be directory\n     expected `File /.directory?` to be falsey, got true"
       _(stdout).must_include "×  7 is expected to cmp >= 9\n"
       _(stdout).must_include "×  7 is expected not to cmp == /^\\d$/\n"
@@ -575,7 +579,6 @@ describe "inspec exec" do
     it "should print all the results" do
       _(stdout).must_include "×  tmp-1.0: Create / directory (1 failed)"
       _(stdout).must_include "×  cmp-1.0: Using the cmp matcher for numbers (2 failed)"
-      _(stdout).must_include "×  File / \n     undefined method `should_nota'"
       _(stdout).must_include "×  is expected not to be directory\n     expected `File /.directory?` to be falsey, got true"
       _(stdout).must_include "✔  profiled-1: Create / directory (profile d)"
     end
