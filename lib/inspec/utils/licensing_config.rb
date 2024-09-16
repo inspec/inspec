@@ -15,8 +15,7 @@ def configure_licensing_config_for_kitchen(opts = {})
     # Reset Chef License server via kitchen when passed in kitchen.yml
     opts["chef_license_server"] = opts["chef_license_server"].join(",") if opts["chef_license_server"].is_a? Array
     unless opts["chef_license_server"].nil? || opts["chef_license_server"].empty?
-      config.license_server_url_check_in_file = true
-      config.license_server_url = opts["chef_license_server"]
+      ENV["CHEF_LICENSE_SERVER"] = opts["chef_license_server"]
     end
   end
   # Reset Chef License key via kitchen when passed in kitchen.yml
