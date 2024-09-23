@@ -18,6 +18,7 @@ pkg_build_deps=(
   core/make
   core/readline
   core/sed
+  core/openssl
 )
 pkg_bin_dirs=(bin)
 
