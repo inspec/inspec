@@ -12,14 +12,13 @@ pkg_deps=(
   core/git
   core/ruby3_4
   core/bash
+  core/cacerts
 )
 pkg_build_deps=(
   core/gcc
   core/make
   core/readline
   core/sed
-  # core/openssl
-  core/cacerts
 )
 pkg_bin_dirs=(bin)
 
