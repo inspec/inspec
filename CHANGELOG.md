@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 7.0.1 -->
+## [v7.0.1](https://github.com/inspec/inspec/tree/v7.0.1) (2024-09-26)
 
 #### Merged Pull Requests
-- Pipeline for non-default branch github action runs [#7797](https://github.com/inspec/inspec/pull/7797) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- CHEF-14242 Support for Gem-Based Resource Packs [#7096](https://github.com/inspec/inspec/pull/7096) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,35 +38,17 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
-- Pipeline for non-default branch github action runs [#7797](https://github.com/inspec/inspec/pull/7797) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 6.8.47 -->
-- Remove release notes Expeditor actions [#7724](https://github.com/inspec/inspec/pull/7724) ([IanMadd](https://github.com/IanMadd)) <!-- 6.8.47 -->
-- Bump rexml from 3.3.9 to 3.4.2 in /omnibus [#7534](https://github.com/inspec/inspec/pull/7534) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.8.46 -->
-- BACKPORT: CHEF-26189 Telemetry fix: Handling of train platform data fetching safely [#7612](https://github.com/inspec/inspec/pull/7612) ([Nik08](https://github.com/Nik08)) <!-- 6.8.45 -->
-- BACKPORT: Fix inspec habitat tests (#7558) [#7614](https://github.com/inspec/inspec/pull/7614) ([Nik08](https://github.com/Nik08)) <!-- 6.8.44 -->
-- CHEF-27163-Default pipeline to create InSpec 7 Github Release Pipeline [#7604](https://github.com/inspec/inspec/pull/7604) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 6.8.43 -->
-- CHEF-26507 Adds copilot instructions file  - InSpec 6 [#7506](https://github.com/inspec/inspec/pull/7506) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.8.43 -->
-- CHEF-26497 Added dependabot config for inspec 7 branch [#7547](https://github.com/inspec/inspec/pull/7547) ([Nik08](https://github.com/Nik08)) <!-- 6.8.43 -->
-- CHEF-25277 foreport socks5h docs to main [#7530](https://github.com/inspec/inspec/pull/7530) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.8.43 -->
-- Revert &quot;feat: Add GitHub Copilot instructions file&quot; [#7523](https://github.com/inspec/inspec/pull/7523) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.8.42 -->
-- CHEF-23919 - Update Windows platform support list [#7420](https://github.com/inspec/inspec/pull/7420) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.8.42 -->
-- CHEF-21404 Enable CI for trufflelog scanning [#7399](https://github.com/inspec/inspec/pull/7399) ([Nik08](https://github.com/Nik08)) <!-- 6.8.41 -->
-- forport #7424 [#7425](https://github.com/inspec/inspec/pull/7425) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.8.41 -->
-- FOREPORT: Fixes for ci/hab package not found error [#7415](https://github.com/inspec/inspec/pull/7415) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 6.8.40 -->
-- Revert &quot;CHEF-21375 Disable licensing and telemetry from InSpec 6&quot; [#7409](https://github.com/inspec/inspec/pull/7409) ([Nik08](https://github.com/Nik08)) <!-- 6.8.39 -->
-- Chef 22339 backport inspec 7 test changes to main [#7379](https://github.com/inspec/inspec/pull/7379) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.8.38 -->
-- Foreport to InSpec 6: Waivers error handling fix  [#7343](https://github.com/inspec/inspec/pull/7343) ([Nik08](https://github.com/Nik08)) <!-- 6.8.37 -->
-- Issue with reading/writing signed and tar profiles [#7349](https://github.com/inspec/inspec/pull/7349) ([Nik08](https://github.com/Nik08)) <!-- 6.8.36 -->
-- Fix dead links to Learn Chef in docs [#7346](https://github.com/inspec/inspec/pull/7346) ([IanMadd](https://github.com/IanMadd)) <!-- 6.8.35 -->
-- Updating train-winrm support [#7296](https://github.com/inspec/inspec/pull/7296) ([johnmccrae](https://github.com/johnmccrae)) <!-- 6.8.34 -->
-- CHEF-15789 - Improve error handling for `audit_policy` resource [#7319](https://github.com/inspec/inspec/pull/7319) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.33 -->
-- CHEF-20111: Fix `inspec check` for a profile with only comments or empty file [#7332](https://github.com/inspec/inspec/pull/7332) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.32 -->
-- remove mac11 as its EOL and upadte 12 as builder [#7330](https://github.com/inspec/inspec/pull/7330) ([muthuja](https://github.com/muthuja)) <!-- 6.8.31 -->
-- CHEF-19664 update inspec main for updating deprecation [#7308](https://github.com/inspec/inspec/pull/7308) ([sa-progress](https://github.com/sa-progress)) <!-- 6.8.30 -->
-- Fix main pipeline issue on JSON gem update [#7301](https://github.com/inspec/inspec/pull/7301) ([Nik08](https://github.com/Nik08)) <!-- 6.8.29 -->
-- Update azure.md [#7298](https://github.com/inspec/inspec/pull/7298) ([IanMadd](https://github.com/IanMadd)) <!-- 6.8.28 -->
-- Main branch coverage pipeline fix [#7295](https://github.com/inspec/inspec/pull/7295) ([Nik08](https://github.com/Nik08)) <!-- 6.8.27 -->
-- CHEF-15083: Update groups resource to use `getent` utility to fetch groups info [#7284](https://github.com/inspec/inspec/pull/7284) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.26 -->
-- Fix bad links in docs [#7287](https://github.com/inspec/inspec/pull/7287) ([IanMadd](https://github.com/IanMadd)) <!-- 6.8.25 -->
+- CHEF-14242 Support for Gem-Based Resource Packs [#7096](https://github.com/inspec/inspec/pull/7096) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 7.0.1 -->
+- CHEF-14805 Oracle db session resource fixes [#7136](https://github.com/inspec/inspec/pull/7136) ([Nik08](https://github.com/Nik08)) <!-- 6.8.7 -->
+- Update install doc [#7144](https://github.com/inspec/inspec/pull/7144) ([IanMadd](https://github.com/IanMadd)) <!-- 6.8.6 -->
+- ci: introduce inspec-7 as part of release branches [#7135](https://github.com/inspec/inspec/pull/7135) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.5 -->
+- CHEF-14881: Fix habitat pipeline for InSpec 6 [#7127](https://github.com/inspec/inspec/pull/7127) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.5 -->
+- Editing for install script docs [#7129](https://github.com/inspec/inspec/pull/7129) ([IanMadd](https://github.com/IanMadd)) <!-- 6.8.5 -->
+- added docs changes [#7118](https://github.com/inspec/inspec/pull/7118) ([vviveksharma](https://github.com/vviveksharma)) <!-- 6.8.4 -->
+- ci: use latest local license server [#7123](https://github.com/inspec/inspec/pull/7123) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.3 -->
+- enhance: improve fetch and persist to catch entitlement exception [#7121](https://github.com/inspec/inspec/pull/7121) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.3 -->
+- ci: resume habitat pipeline  [#7109](https://github.com/inspec/inspec/pull/7109) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.2 -->
+- Bump rexml from 3.3.2 to 3.3.3 in /omnibus [#7116](https://github.com/inspec/inspec/pull/7116) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.8.2 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
