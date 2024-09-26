@@ -45,6 +45,10 @@ module Inspec::Plugin::V2
       list_installed_plugin_gems.detect { |spec| spec.name == name && spec.version == Gem::Version.new(version) }
     end
 
+    def ensure_installed(name)
+      plugin_installed?(name) || install(name)
+    end
+
     # Installs a plugin. Defaults to assuming the plugin provided is a gem, and will try to install
     # from whatever gemsources `rubygems` thinks it should use.
     # If it's a gem, installs it and its dependencies to the `gem_path`. The gem is not activated.

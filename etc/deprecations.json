@@ -1,5 +1,5 @@
 {
-  "file_version": "1.0.0",
+  "file_version": "2.0.0",
   "unknown_group_action": "ignore",
   "groups": {
     "attrs_value_replaces_default": {
@@ -125,6 +125,12 @@
     "renamed_to_inspec_export":{
       "action": "ignore",
       "prefix": "The `inspec json` command is deprecated in InSpec 5 and replaced with `inspec export` command."
+    }
+  },
+  "fallback_resource_packs":{
+    "internal_fallback_test.+":{
+      "gem":"inspec-test-resources",
+      "message":"The internal_fallback_test resource is a test resource used to exercise InSpec's ability to fallback on gem resource packs."
     }
   }
 }
