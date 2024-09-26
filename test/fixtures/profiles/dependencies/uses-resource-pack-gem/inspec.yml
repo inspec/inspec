@@ -1,0 +1,17 @@
+name: uses-resource-pack-gem
+title: InSpec Profile
+maintainer: The Authors
+copyright: The Authors
+copyright_email: you@example.com
+license: Apache-2.0
+summary: An InSpec Profile that uses a Gem Dependency
+version: 0.1.0
+supports:
+  platform: os
+depends:
+ - name: inspec-test-resources
+   gem: inspec-test-resources
+   # Note that path makes this a local install, bypassing source
+   # To test with actual gem install, comment out this next line.
+   # (You'll also need to make the inspec-test-resources gem available via your gem sources)
+   path: test/fixtures/plugins/inspec-test-resources/lib/inspec-test-resources.rb
