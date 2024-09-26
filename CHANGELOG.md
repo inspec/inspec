@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.1.2 -->
-## [v7.1.2](https://github.com/inspec/inspec/tree/v7.1.2) (2026-04-28)
+<!-- latest_release 7.0.1 -->
+## [v7.0.1](https://github.com/inspec/inspec/tree/v7.0.1) (2024-09-26)
 
 #### Merged Pull Requests
-- fix: CHEF-32686 - Pre-check waivers before control block evaluation [#7870](https://github.com/inspec/inspec/pull/7870) ([chandra-progress](https://github.com/chandra-progress))
+- CHEF-14242 Support for Gem-Based Resource Packs [#7096](https://github.com/inspec/inspec/pull/7096) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,17 +38,17 @@
 ### Changes since 7.0.107 release
 
 #### Merged Pull Requests
-- fix: CHEF-32686 - Pre-check waivers before control block evaluation [#7870](https://github.com/inspec/inspec/pull/7870) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.1.2 -->
-- Ugraded faraday gem to 1.10.5 [#7887](https://github.com/inspec/inspec/pull/7887) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.1.1 -->
-- Updated gemfile.lock with new train json gem release [#7871](https://github.com/inspec/inspec/pull/7871) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.1.0 -->
-- FOREPORT: CHEF-31763 inspec check AST parser fixes [#7873](https://github.com/inspec/inspec/pull/7873) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.0.112 -->
-- Ch/min hab version check [#7883](https://github.com/inspec/inspec/pull/7883) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.0.111 -->
-- Inspec 7 changes to merge in main [#7857](https://github.com/inspec/inspec/pull/7857) ([Nik08](https://github.com/Nik08)) <!-- 7.0.110 -->
-- refactor: CHEF-29885 - Remove all Omnibus references from InSpec 7 [#7854](https://github.com/inspec/inspec/pull/7854) ([Nik08](https://github.com/Nik08)) <!-- 7.0.110 -->
-- upgrade adderessable gem to 2.9.0 [#7833](https://github.com/inspec/inspec/pull/7833) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.0.109 -->
-- CHEF-20799 FOREPORT Fixes in json reporter (#7799) [#7810](https://github.com/inspec/inspec/pull/7810) ([Nik08](https://github.com/Nik08)) <!-- 7.0.108 -->
-- Update common github actions to use main [#7807](https://github.com/inspec/inspec/pull/7807) ([Nik08](https://github.com/Nik08)) <!-- 7.0.107 -->
-- CHEF-31158 Setup common config to block PR merges if trufflehog fails [#7803](https://github.com/inspec/inspec/pull/7803) ([Nik08](https://github.com/Nik08)) <!-- 7.0.107 -->
+- CHEF-14242 Support for Gem-Based Resource Packs [#7096](https://github.com/inspec/inspec/pull/7096) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 7.0.1 -->
+- CHEF-14805 Oracle db session resource fixes [#7136](https://github.com/inspec/inspec/pull/7136) ([Nik08](https://github.com/Nik08)) <!-- 6.8.7 -->
+- Update install doc [#7144](https://github.com/inspec/inspec/pull/7144) ([IanMadd](https://github.com/IanMadd)) <!-- 6.8.6 -->
+- ci: introduce inspec-7 as part of release branches [#7135](https://github.com/inspec/inspec/pull/7135) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.5 -->
+- CHEF-14881: Fix habitat pipeline for InSpec 6 [#7127](https://github.com/inspec/inspec/pull/7127) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.5 -->
+- Editing for install script docs [#7129](https://github.com/inspec/inspec/pull/7129) ([IanMadd](https://github.com/IanMadd)) <!-- 6.8.5 -->
+- added docs changes [#7118](https://github.com/inspec/inspec/pull/7118) ([vviveksharma](https://github.com/vviveksharma)) <!-- 6.8.4 -->
+- ci: use latest local license server [#7123](https://github.com/inspec/inspec/pull/7123) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.3 -->
+- enhance: improve fetch and persist to catch entitlement exception [#7121](https://github.com/inspec/inspec/pull/7121) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.3 -->
+- ci: resume habitat pipeline  [#7109](https://github.com/inspec/inspec/pull/7109) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.2 -->
+- Bump rexml from 3.3.2 to 3.3.3 in /omnibus [#7116](https://github.com/inspec/inspec/pull/7116) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.8.2 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
