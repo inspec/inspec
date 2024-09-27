@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.1 -->
-## [v7.0.1](https://github.com/inspec/inspec/tree/v7.0.1) (2024-09-26)
+<!-- latest_release 7.0.2 -->
+## [v7.0.2](https://github.com/inspec/inspec/tree/v7.0.2) (2024-09-27)
 
 #### Merged Pull Requests
-- CHEF-14242 Support for Gem-Based Resource Packs [#7096](https://github.com/inspec/inspec/pull/7096) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Attempt1 - To fix verify pipeline [#7175](https://github.com/inspec/inspec/pull/7175) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- Attempt1 - To fix verify pipeline [#7175](https://github.com/inspec/inspec/pull/7175) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.2 -->
 - CHEF-14242 Support for Gem-Based Resource Packs [#7096](https://github.com/inspec/inspec/pull/7096) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 7.0.1 -->
 - CHEF-14805 Oracle db session resource fixes [#7136](https://github.com/inspec/inspec/pull/7136) ([Nik08](https://github.com/Nik08)) <!-- 6.8.7 -->
 - Update install doc [#7144](https://github.com/inspec/inspec/pull/7144) ([IanMadd](https://github.com/IanMadd)) <!-- 6.8.6 -->
