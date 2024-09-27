@@ -19,9 +19,9 @@ pipelines:
       description: Execute tests against the habitat artifact
       definition: .expeditor/artifact.habitat.yml
       env:
-       - HAB_NONINTERACTIVE: "true"
-       - HAB_NOCOLORING: "true"
-       - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+        - HAB_NONINTERACTIVE: "true"
+        - HAB_NOCOLORING: "true"
+        - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
       trigger: pull_request
  - verify/private:
       definition: .expeditor/verify_private.pipeline.yml
@@ -29,22 +29,36 @@ pipelines:
       description: Pull Request validation tests
       trigger: pull_request
       env:
-      - LANG: "C.UTF-8"
-      - SLOW: 1
-      - NO_AWS: 1
-      - MT_CPU: 5
-      - ARTIFACTORY_BASE_URL: https://artifactory-internal.ps.chef.co
+       - LANG: "C.UTF-8"
+       - SLOW: 1
+       - NO_AWS: 1
+       - MT_CPU: 5
+       - ARTIFACTORY_BASE_URL: https://artifactory-internal.ps.chef.co
  - coverage:
       description: Unit test coverage
       public: false
       # Private due to use of tokens
       trigger: pull_request
       env:
-      - LANG: "C.UTF-8"
-      - SLOW: 1
-      - NO_AWS: 1
-      - MT_CPU: 5
-      - ARTIFACTORY_BASE_URL: https://artifactory-internal.ps.chef.co
+       - LANG: "C.UTF-8"
+       - SLOW: 1
+       - NO_AWS: 1
+       - MT_CPU: 5
+       - ARTIFACTORY_BASE_URL: https://artifactory-internal.ps.chef.co
+ - omnibus/release:
+    env:
+     # The git cache is corrupt more often than not. This always purges the cache.
+     # https://chefio.atlassian.net/wiki/spaces/RELENGKB/pages/2204336129/Resolving+git+cache+build+errors+in+Omnibus
+     - EXPIRE_CACHE: 1
+     - IGNORE_ARTIFACTORY_RUBY_PROXY: true # Artifactory is throwing 500's when downloading some gems like ffi.
+     - ARTIFACTORY_BASE_URL: https://artifactory-internal.ps.chef.co
+ - omnibus/adhoc:
+    definition: .expeditor/release.omnibus.yml
+    env:
+     - ADHOC: true
+     - EXPIRE_CACHE: 1
+     - IGNORE_ARTIFACTORY_RUBY_PROXY: true # Artifactory is throwing 500's when downloading some gems like ffi.
+     - ARTIFACTORY_BASE_URL: https://artifactory-internal.ps.chef.co
 
 slack:
  notify_channel: inspec-notify
@@ -61,7 +75,6 @@ github:
 release_branches:
   - main:
      version_constraint: 6.*
-  # Attempt to create an agent for inspec-7 release branch modifying the .expeditor/config.yml file
   - inspec-7:
      version_constraint: 7.*
   - inspec-6:
