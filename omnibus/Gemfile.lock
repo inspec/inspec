@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/chef/omnibus-software.git
-  revision: a659c889077927ae239e6f2d82a989214ba1c4bb
+  revision: c6459cfbab09f574b46341bcad64f45609b64bcd
   branch: ss/ruby-3.1.6-1-windows-patch
   specs:
     omnibus-software (24.6.323)
