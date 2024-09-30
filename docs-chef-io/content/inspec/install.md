@@ -22,8 +22,12 @@ To see which platforms and platform versions Chef InSpec is supported on, see th
 You can install Chef InSpec using a curl script.
 
 ```bash
-curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
+curl -L https://chefdownload-commerical.chef.io/install.sh?license_id=<LICENSE_ID> | sudo bash -s -- -P inspec
 ```
+
+Replace `<LICENSE_ID>` with your license ID.
+
+For more information about the install script, see the [Chef Install Script documentation](/chef_install_script/).
 
 ## Windows
 
@@ -37,8 +41,12 @@ then double-click on the `.msi` file to launch the installer and follow the prom
 You can install Chef InSpec using the following Powershell script.
 
 ```powershell
-. { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project inspec
+. { iwr -useb https://chefdownload-commerical.chef.io/install.ps1?license_id=<LICENSE_ID> } | iex; install -project inspec
 ```
+
+Replace `<LICENSE_ID>` with your license ID.
+
+For more information about the install script, see the [Chef Install Script documentation](/chef_install_script/).
 
 Once you have installed Chef InSpec, run `inspec version` to verify that the installation
 was successful.
@@ -50,8 +58,12 @@ was successful.
 The following curl script will install Chef InSpec for Ubuntu and Red Hat Enterprise Linux:
 
 ```bash
-curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec
+curl https://chefdownload-commerical.chef.io/install.sh?license_id=<LICENSE_ID> | sudo bash -s -- -P inspec
 ```
+
+Replace `<LICENSE_ID>` with your license ID.
+
+For more information about the install script, see the [Chef Install Script documentation](/chef_install_script/).
 
 If you prefer, you can use a package manager to install Chef InSpec.
 Once you downloaded the latest [Chef InSpec package](https://www.chef.io/downloads)

@@ -3,7 +3,6 @@ require "inspec/resource"
 require "inspec/resources/ssh_config"
 
 describe "Inspec::Resources::SshConfig" do
-
   describe "ssh_config" do
     it "check ssh config parsing" do
       resource = load_resource("ssh_config")
@@ -46,6 +45,20 @@ describe "Inspec::Resources::SshConfig" do
     it "check cannot read" do
       resource = load_resource("sshd_config", "/etc/ssh/sshd_config_empty")
       _(resource.resource_exception_message).must_equal "File is empty: /etc/ssh/sshd_config_empty"
+    end
+  end
+
+  describe "sshd_active_config" do
+    it "check protocol version" do
+      resource = load_resource("sshd_active_config")
+      _(resource.Port).must_equal "22"
+      _(resource.UsePAM).must_equal "yes"
+      _(resource.ListenAddress).must_be_nil
+      _(resource.HostKey).must_equal [
+        "/etc/ssh/ssh_host_rsa_key",
+        "/etc/ssh/ssh_host_dsa_key",
+        "/etc/ssh/ssh_host_ecdsa_key",
+      ]
     end
   end
 end
