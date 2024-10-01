@@ -168,8 +168,10 @@ module Inspec
     end
 
     def run(with = nil)
+      product_dist_name = Inspec::Dist::PRODUCT_NAME
       if Inspec::Dist::EXEC_NAME == "inspec"
         if Inspec::Telemetry::RunContextProbe.guess_run_context == "test-kitchen"
+          product_dist_name = "Chef Workstation"
           configure_licensing_config_for_kitchen(@conf)
           # Persist the license key in file when passed via test-kitchen
           ChefLicensing.fetch_and_persist if @conf[:chef_license_key]
@@ -191,10 +193,10 @@ module Inspec
       load
       run_tests(with)
     rescue ChefLicensing::LicenseKeyFetcher::LicenseKeyNotFetchedError
-      Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without valid licenses."
+      Inspec::Log.error "#{product_dist_name} cannot execute without valid licenses."
       Inspec::UI.new.exit(:license_not_set)
     rescue ChefLicensing::SoftwareNotEntitled
-      Inspec::Log.error "License is not entitled to use InSpec."
+      Inspec::Log.error "License is not entitled to use #{product_dist_name}."
       Inspec::UI.new.exit(:license_not_entitled)
     rescue ChefLicensing::Error => e
       Inspec::Log.error e.message
