@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.3 -->
-## [v7.0.3](https://github.com/inspec/inspec/tree/v7.0.3) (2024-10-01)
+<!-- latest_release 7.0.4 -->
+## [v7.0.4](https://github.com/inspec/inspec/tree/v7.0.4) (2024-10-01)
 
 #### Merged Pull Requests
-- CHEF-15329: Cleanup MongoDB resources and documentation from InSpec [#7169](https://github.com/inspec/inspec/pull/7169) ([ahasunos](https://github.com/ahasunos))
+- CHEF-15331 Removes the sybase resources from core  [#7171](https://github.com/inspec/inspec/pull/7171) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- CHEF-15331 Removes the sybase resources from core  [#7171](https://github.com/inspec/inspec/pull/7171) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.4 -->
 - CHEF-15329: Cleanup MongoDB resources and documentation from InSpec [#7169](https://github.com/inspec/inspec/pull/7169) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.3 -->
 - Another attempt to fix the verify pipeline [#7177](https://github.com/inspec/inspec/pull/7177) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.3 -->
 - Attempt1 - To fix verify pipeline [#7175](https://github.com/inspec/inspec/pull/7175) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.2 -->
