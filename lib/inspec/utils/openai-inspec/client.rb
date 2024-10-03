@@ -22,7 +22,7 @@ module Inspec
     end
 
     # Method to get a completion response
-    def get_completion(prompt, model: "gpt-4-turbo", max_tokens: 100)
+    def get_completion(prompt, model: 'gpt-4o', max_tokens: 100)
       response = @client.completions(
         parameters: {
           model: model,
@@ -36,7 +36,7 @@ module Inspec
     end
 
     # Method to get a chat completion response
-    def get_chat_completion(messages, model: "gpt-4-turbo", max_tokens: 100)
+    def get_chat_completion(messages, model: 'gpt-4o', max_tokens: 100)
       response = @client.chat(
         parameters: {
           model: model,
