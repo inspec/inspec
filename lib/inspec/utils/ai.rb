@@ -2,7 +2,7 @@ require "openai"
 
 module Inspec
   class AI
-    PROMPT_TEMPLATE_CHAT = " For this requested question, Pretend as a professional Compliance and Chef Inspec Expert and respond only with Chef Inspec and Compliance related answers. Make sure the question is related to Chef Inspec or Compliance and politely refuse to respond when it is an unrelated question.".freeze
+    PROMPT_TEMPLATE_CHAT = "Pretend as a professional Compliance and Chef Inspec Expert. Respond only to Chef Inspec and Compliance related queries. Politely refuse to respond when it is an unrelated question.".freeze
     PROMPT_TEMPLATE_SUMMARY = " For this requested question, Pretend as a professional Compliance and Chef Inspec Expert and analyse this InSpec profile control result.".freeze
     PROMPT_TEMPLATE_REMEDIATE = " For this requested question, Pretend as a professional Compliance and Chef Inspec Expert provide remeditation strategies based on InSpec profile control result.".freeze
 
