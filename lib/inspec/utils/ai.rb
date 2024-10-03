@@ -49,11 +49,26 @@ module Inspec
       puts "Failed to #{task_type} control: #{e.message}"
     end
 
-    def self.get_latest_file_path(directory)
-      latest_file = Dir.entries(directory)
-        .select { |file| File.file?(File.join(directory, file)) }
-        .max_by { |file| File.ctime(File.join(directory, file)) }
-      File.join(directory, latest_file)
+      def get_latest_file_path(directory)
+        latest_file = Dir.entries(directory)
+          .select { |file| File.file?(File.join(directory, file)) }
+          .max_by { |file| File.ctime(File.join(directory, file)) }
+        File.join(directory, latest_file)
+      end
+
+      private
+
+      def capture_ai_response(response)
+        { role: "assistant", content: response }
+      end
+
+      def collect_user_input(user_input)
+        { role: "user", content: user_input }
+      end
+
+      def set_prompt_context_for(prompt_template)
+        { role: "system", content: prompt_template }
+      end
     end
   end
 
