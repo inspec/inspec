@@ -75,7 +75,11 @@ module Inspec
           max_tokens: max_tokens,
         }
       )
-      response.dig("choices", 0, "message", "content")&.strip
+      if response["choices"] && response["choices"].any?
+        response["choices"].map { |choice| choice["message"]["content"].strip }.join("\n")
+      else
+        raise StandardError, "Error: Incomplete response or empty response from OpenAI"
+      end
     rescue StandardError => e
       raise "Error fetching chat completion: #{e.message}"
     end
