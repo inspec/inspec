@@ -74,7 +74,6 @@ module Inspec
 
   class OpenAIClient
     DEFAULT_MODEL = "gpt-4".freeze
-    DEFAULT_MAX_TOKENS = 500
     API_VERSION = "2023-05-15".freeze
 
     def initialize
@@ -82,12 +81,11 @@ module Inspec
       @client = OpenAI::Client.new(log_errors: true)
     end
 
-    def get_chat_completion(messages, model: DEFAULT_MODEL, max_tokens: DEFAULT_MAX_TOKENS)
+    def get_chat_completion(messages, model: DEFAULT_MODEL)
       response = @client.chat(
         parameters: {
           model: model,
           messages: messages,
-          max_tokens: max_tokens,
         }
       )
       if response["choices"] && response["choices"].any?
