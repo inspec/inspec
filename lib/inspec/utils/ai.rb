@@ -25,8 +25,7 @@ module Inspec
           end
           print "\n"
 
-          conversation_history << capture_ai_response(response)
-          puts "\nInspecAI: #{response}\n"
+          conversation_history << capture_ai_response(response.join)
         end
       rescue StandardError => e
         puts "Failed to get response from OpenAI: #{e.message}"
