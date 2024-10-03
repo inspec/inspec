@@ -1,39 +1,64 @@
 require "openai"
 
-# Integration goes here
 module Inspec
   class AI
+    PROMPT_TEMPLATE_CHAT = " For this requested question, Pretend as a professional Compliance and Chef Inspec Expert and respond only with Chef Inspec and Compliance related answers. Make sure the question is related to Chef Inspec or Compliance and politely refuse to respond when it is an unrelated question.".freeze
+    PROMPT_TEMPLATE_SUMMARY = " For this requested question, Pretend as a professional Compliance and Chef Inspec Expert and analyse this InSpec profile control result.".freeze
+    PROMPT_TEMPLATE_REMEDIATE = " For this requested question, Pretend as a professional Compliance and Chef Inspec Expert provide remeditation strategies based on InSpec profile control result.".freeze
+
     def self.start
-      client = Inspec::OpenAIClient.new
-      # TODO: Add some user docs
-      puts "InspecAI  - type 'exit' to end the conversation"
+      client = OpenAIClient.new
+      puts "InspecAI - type 'exit' to end the conversation"
       conversation_history = []
-      prompt_template_chat = ' For this requested question, Pretend as a professional Compliance and Chef Inspec Expert and respond only with Chef Inspec and Complaince related answers. Make sure if the question is only related to Chef Inspec or Compliance and refuse politely to respond when it is an unrelated question'
 
       loop do
-        print 'You: '
+        print "You: "
         user_input = $stdin.gets.chomp
 
-        # simple way to exit
-        # TODO: catch CTL+C
-        exit if user_input.downcase == 'exit'
+        # Exit on 'exit' command
+        break if user_input.downcase == "exit"
 
-        # TODO: Find a way to send prompts
-        conversation_history << { role: 'user', content: user_input + prompt_template_chat }
+        conversation_history << { role: "user", content: "#{user_input}#{PROMPT_TEMPLATE_CHAT}" }
         response = client.get_chat_completion(conversation_history)
 
-        conversation_history << { role: 'assistant', content: response }
-
-        puts "\n"
-        puts "InspecAI: #{response}"
+        conversation_history << { role: "assistant", content: response }
+        puts "\nInspecAI: #{response}\n"
       end
     rescue StandardError => e
       puts "Failed to get response from OpenAI: #{e.message}"
     end
+
+    def self.summarise_control
+      handle_control_task("summarize", PROMPT_TEMPLATE_SUMMARY)
+    end
+
+    def self.remediation_suggestions
+      handle_control_task("remediate", PROMPT_TEMPLATE_REMEDIATE)
+    end
+
+    def self.handle_control_task(task_type, prompt_template)
+      client = OpenAIClient.new
+      latest_file_path = get_latest_file_path("inspec-ai-control-logs")
+      control_results = File.read(latest_file_path)
+
+      conversation_history = [{ role: "user", content: "#{control_results} #{prompt_template}" }]
+      response = client.get_chat_completion(conversation_history)
+
+      puts "\nInspecAI (#{task_type}): #{response}\n"
+    rescue StandardError => e
+      puts "Failed to #{task_type} control: #{e.message}"
+    end
+
+    def self.get_latest_file_path(directory)
+      latest_file = Dir.entries(directory)
+        .select { |file| File.file?(File.join(directory, file)) }
+        .max_by { |file| File.ctime(File.join(directory, file)) }
+      File.join(directory, latest_file)
+    end
   end
 
   class OpenAIClient
-    DEFAULT_MODEL = 'gpt-4'.freeze
+    DEFAULT_MODEL = "gpt-4".freeze
     DEFAULT_MAX_TOKENS = 100
 
     def initialize
@@ -41,16 +66,15 @@ module Inspec
       @client = OpenAI::Client.new(log_errors: true)
     end
 
-    # Method to get a chat completion response
     def get_chat_completion(messages, model: DEFAULT_MODEL, max_tokens: DEFAULT_MAX_TOKENS)
       response = @client.chat(
         parameters: {
-          model:,
-          messages:,
-          max_tokens:
+          model: model,
+          messages: messages,
+          max_tokens: max_tokens,
         }
       )
-      response.dig('choices', 0, 'message', 'content')&.strip
+      response.dig("choices", 0, "message", "content")&.strip
     rescue StandardError => e
       raise "Error fetching chat completion: #{e.message}"
     end
@@ -59,10 +83,10 @@ module Inspec
 
     def configure_openai_client
       OpenAI.configure do |config|
-        config.access_token = ENV.fetch('OPENAI_API_KEY')
-        config.uri_base = ENV.fetch('OPENAI_BASE_URL')
+        config.access_token = ENV.fetch("OPENAI_API_KEY")
+        config.uri_base = ENV.fetch("OPENAI_BASE_URL")
         config.api_type = :azure
-        config.api_version = '2023-05-15'
+        config.api_version = "2023-05-15"
       end
     end
   end
