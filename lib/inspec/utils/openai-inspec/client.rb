@@ -7,17 +7,7 @@ module Inspec
       # Initialize the OpenAI client with logging
       @client = OpenAI::Client.new(
         log_errors: true # The version of the API
-        # connection_options: {
-        #   faraday_options: {
-        #     request: { timeout: 120 },  # Set any additional request options here
-        #     response: { logger: Logger.new(STDOUT), log_level: :info }  # Enable logging with debug level
-        #   }
-        # }
       )
-    end
-
-    def get_models
-      @client.models
     end
 
     # Method to get a completion response
