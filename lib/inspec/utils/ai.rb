@@ -18,15 +18,15 @@ module Inspec
         # Exit on 'exit' command
         break if user_input.downcase == "exit"
 
-        conversation_history << { role: "user", content: "#{user_input}#{PROMPT_TEMPLATE_CHAT}" }
-        response = client.get_chat_completion(conversation_history)
+          conversation_history << collect_user_input(user_input)
+          response = client.get_chat_completion(conversation_history)
 
-        conversation_history << { role: "assistant", content: response }
-        puts "\nInspecAI: #{response}\n"
+          conversation_history << capture_ai_response(response)
+          puts "\nInspecAI: #{response}\n"
+        end
+      rescue StandardError => e
+        puts "Failed to get response from OpenAI: #{e.message}"
       end
-    rescue StandardError => e
-      puts "Failed to get response from OpenAI: #{e.message}"
-    end
 
     def self.summarise_control
       handle_control_task("summarize", PROMPT_TEMPLATE_SUMMARY)
