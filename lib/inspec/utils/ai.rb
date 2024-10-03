@@ -2,9 +2,10 @@ require "openai"
 
 module Inspec
   class AI
-    PROMPT_TEMPLATE_CHAT = "Pretend as a professional Compliance and Chef Inspec Expert. Respond only to Chef Inspec and Compliance related queries. Politely refuse to respond when it is an unrelated question.".freeze
-    PROMPT_TEMPLATE_SUMMARY = " For this requested question, Pretend as a professional Compliance and Chef Inspec Expert and analyse this InSpec profile control result.".freeze
-    PROMPT_TEMPLATE_REMEDIATE = " For this requested question, Pretend as a professional Compliance and Chef Inspec Expert provide remeditation strategies based on InSpec profile control result.".freeze
+    GENERIC_PROMPT = "Pretend as a professional Compliance and Chef Inspec Expert.".freeze
+    PROMPT_TEMPLATE_CHAT = "#{GENERIC_PROMPT} Respond only to Chef Inspec and Compliance related queries. Politely refuse to respond when it is an unrelated question.".freeze
+    PROMPT_TEMPLATE_SUMMARY = "#{GENERIC_PROMPT} Analyse this InSpec profile control result. Respond politely with details".freeze
+    PROMPT_TEMPLATE_REMEDIATE = "#{GENERIC_PROMPT} Provide remediation strategies based on InSpec profile control result. Respond politely with details".freeze
 
     class << self
       def start
