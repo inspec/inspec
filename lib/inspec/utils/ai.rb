@@ -13,12 +13,10 @@ module Inspec
         # sets the prompt to system
         conversation_history = [set_prompt_context_for(PROMPT_TEMPLATE_CHAT)]
 
-      loop do
-        print "You: "
-        user_input = $stdin.gets.chomp
-
-        # Exit on 'exit' command
-        break if user_input.downcase == "exit"
+        loop do
+          print "You: "
+          user_input = $stdin.gets.chomp
+          break if user_input.downcase == "exit"
 
           conversation_history << collect_user_input(user_input)
           response = client.get_chat_completion(conversation_history)
