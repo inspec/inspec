@@ -16,7 +16,7 @@ module InspecPlugins::AI
 
     desc "remediation", "InSpec AI helping in providing remeditation suggetion on control results"
     def remediation
-      # Implement control remediation help
+      Inspec::AI.remediation_suggestions
     end
   end
 end
