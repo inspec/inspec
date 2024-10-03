@@ -3,9 +3,7 @@ require "logger"
 module Inspec
   class OpenAIClient
     def initialize
-      access_token = ENV['OPENAI_API_KEY']
-      base_url = ENV['OPENAI_BASE_URL']
-
+      configure
       # Initialize the OpenAI client with logging
       @client = OpenAI::Client.new(
         access_token: access_token,
@@ -52,6 +50,16 @@ module Inspec
     rescue StandardError => e
       puts "Error: #{e.message}"
     end
+
+    private
+
+    def configure
+      OpenAI.configure do |config|
+        config.access_token = ENV['OPENAI_API_KEY']
+        config.uri_base = ENV['OPENAI_BASE_URL']
+        config.api_type = :azure
+        config.api_version = '2023-05-15' # use only this version
+      end
+    end
   end
 end
-
