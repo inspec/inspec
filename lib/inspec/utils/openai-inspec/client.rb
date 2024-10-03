@@ -10,20 +10,6 @@ module Inspec
       )
     end
 
-    # Method to get a completion response
-    def get_completion(prompt, model: 'gpt-4o', max_tokens: 100)
-      response = @client.completions(
-        parameters: {
-          model:,
-          prompt:,
-          max_tokens:
-        }
-      )
-      response['choices'].first['text'].strip
-    rescue StandardError => e
-      puts "Error: #{e.message}"
-    end
-
     # Method to get a chat completion response
     def get_chat_completion(messages, model: 'gpt-4o', max_tokens: 100)
       response = @client.chat(
