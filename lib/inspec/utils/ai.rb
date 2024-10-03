@@ -49,14 +49,18 @@ module Inspec
         puts "Failed to #{task_type} control: #{e.message}"
       end
 
+      private
+
+      def client
+        @client ||= OpenAIClient.new
+      end
+
       def get_latest_file_path(directory)
         latest_file = Dir.entries(directory)
           .select { |file| File.file?(File.join(directory, file)) }
           .max_by { |file| File.ctime(File.join(directory, file)) }
         File.join(directory, latest_file)
       end
-
-      private
 
       def capture_ai_response(response)
         { role: "assistant", content: response }
