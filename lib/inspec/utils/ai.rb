@@ -16,7 +16,7 @@ module Inspec
         loop do
           print "You: "
           user_input = $stdin.gets.chomp
-          break if user_input.downcase == "exit"
+          break if user_input.downcase.strip == "exit"
 
           conversation_history << collect_user_input(user_input)
           response = client.get_chat_completion(conversation_history)
