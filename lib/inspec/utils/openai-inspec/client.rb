@@ -6,9 +6,7 @@ module Inspec
       configure
       # Initialize the OpenAI client with logging
       @client = OpenAI::Client.new(
-        access_token: access_token,
-        base_url: base_url,
-        api_version: '2024-03-01-preview',  # The version of the API
+        log_errors: true # The version of the API
         # connection_options: {
         #   faraday_options: {
         #     request: { timeout: 120 },  # Set any additional request options here
