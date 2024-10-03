@@ -59,7 +59,8 @@ module Inspec
 
   class OpenAIClient
     DEFAULT_MODEL = "gpt-4".freeze
-    DEFAULT_MAX_TOKENS = 100
+    DEFAULT_MAX_TOKENS = 500
+    API_VERSION = "2023-05-15".freeze
 
     def initialize
       configure_openai_client
@@ -86,7 +87,7 @@ module Inspec
         config.access_token = ENV.fetch("OPENAI_API_KEY")
         config.uri_base = ENV.fetch("OPENAI_BASE_URL")
         config.api_type = :azure
-        config.api_version = "2023-05-15"
+        config.api_version = API_VERSION
       end
     end
   end
