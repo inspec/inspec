@@ -513,6 +513,12 @@ class Inspec::InspecCLI < Inspec::BaseCLI
     }
   end
 
+  desc "ai", "InSpec AI for help"
+  def ai
+    require "inspec/utils/ai.rb"
+    Inspec::AI.start
+  end
+
   desc "env", "Outputs shell-appropriate completion configuration."
   def env(shell = nil)
     Inspec.with_feature("inspec-cli-env") {

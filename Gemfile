@@ -56,3 +56,6 @@ end
 group :deploy do
   gem "inquirer"
 end
+
+# Only for hackathon
+gem "ruby-openai"
