@@ -19,7 +19,11 @@ module Inspec
           break if user_input.downcase.strip == "exit"
 
           conversation_history << collect_user_input(user_input)
-          response = client.get_chat_completion(conversation_history)
+          puts "\nInspecAI:"
+          response = client.get_streamed_chat_completion(conversation_history) do |chunk|
+            print chunk
+          end
+          print "\n"
 
           conversation_history << capture_ai_response(response)
           puts "\nInspecAI: #{response}\n"
