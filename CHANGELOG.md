@@ -1,12 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.8.8 -->
-## [v6.8.8](https://github.com/inspec/inspec/tree/v6.8.8) (2024-08-27)
+<!-- latest_release 6.8.9 -->
+## [v6.8.9](https://github.com/inspec/inspec/tree/v6.8.9) (2024-09-11)
 
 #### Merged Pull Requests
-- Added fatal message check for postgres_session:query method [#7154](https://github.com/inspec/inspec/pull/7154) ([gokulks97](https://github.com/gokulks97))
-- ci: improve hab pipeline for windows [#7153](https://github.com/inspec/inspec/pull/7153) ([ahasunos](https://github.com/ahasunos))
+- added the correct prod Url spellings [#7166](https://github.com/inspec/inspec/pull/7166) ([vviveksharma](https://github.com/vviveksharma))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -39,6 +38,7 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- added the correct prod Url spellings [#7166](https://github.com/inspec/inspec/pull/7166) ([vviveksharma](https://github.com/vviveksharma)) <!-- 6.8.9 -->
 - Added fatal message check for postgres_session:query method [#7154](https://github.com/inspec/inspec/pull/7154) ([gokulks97](https://github.com/gokulks97)) <!-- 6.8.8 -->
 - ci: improve hab pipeline for windows [#7153](https://github.com/inspec/inspec/pull/7153) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.7 -->
 - CHEF-14805 Oracle db session resource fixes [#7136](https://github.com/inspec/inspec/pull/7136) ([Nik08](https://github.com/Nik08)) <!-- 6.8.7 -->
