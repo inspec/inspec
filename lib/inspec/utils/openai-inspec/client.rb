@@ -16,7 +16,6 @@ module Inspec
       )
     end
 
-
     def get_models
       @client.models
     end
@@ -25,9 +24,9 @@ module Inspec
     def get_completion(prompt, model: 'gpt-4o', max_tokens: 100)
       response = @client.completions(
         parameters: {
-          model: model,
-          prompt: prompt,
-          max_tokens: max_tokens
+          model:,
+          prompt:,
+          max_tokens:
         }
       )
       response['choices'].first['text'].strip
@@ -39,9 +38,9 @@ module Inspec
     def get_chat_completion(messages, model: 'gpt-4o', max_tokens: 100)
       response = @client.chat(
         parameters: {
-          model: model,
-          messages: messages,
-          max_tokens: max_tokens
+          model:,
+          messages:,
+          max_tokens:
         }
       )
       response['choices'].first['message']['content'].strip
