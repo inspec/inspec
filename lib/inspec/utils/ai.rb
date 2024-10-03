@@ -8,7 +8,6 @@ module Inspec
 
     class << self
       def start
-        client = OpenAIClient.new
         puts "InspecAI - type 'exit' to end the conversation"
         # sets the prompt to system
         conversation_history = [set_prompt_context_for(PROMPT_TEMPLATE_CHAT)]
@@ -37,12 +36,12 @@ module Inspec
       end
 
       def handle_control_task(task_type, prompt_template)
-        client = OpenAIClient.new
         latest_file_path = get_latest_file_path("inspec-ai-control-logs")
         control_results = File.read(latest_file_path)
 
-        conversation_history = [{ role: "user", content: "#{control_results} #{prompt_template}" }]
+        conversation_history = [set_prompt_context_for(prompt_template), collect_user_input(control_results)]
         response = client.get_chat_completion(conversation_history)
+        conversation_history << capture_ai_response(response) # conversation_history is not really used here
 
         puts "\nInspecAI (#{task_type}): #{response}\n"
       rescue StandardError => e
