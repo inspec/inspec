@@ -85,6 +85,26 @@ module Inspec
       @client = OpenAI::Client.new(log_errors: true)
     end
 
+    def get_streamed_chat_completion(messages, model: DEFAULT_MODEL)
+      stream = []
+
+      @client.chat(
+        parameters: {
+          model: model,
+          messages: messages,
+          stream: proc do |chunk, _bytesize|
+            streaming_content = chunk.dig("choices", 0, "delta", "content")
+            stream << streaming_content
+            yield streaming_content if block_given?
+          end,
+        }
+      )
+
+      stream
+    rescue StandardError => e
+      raise "Error fetching chat completion: #{e.message}"
+    end
+
     def get_chat_completion(messages, model: DEFAULT_MODEL)
       response = @client.chat(
         parameters: {
