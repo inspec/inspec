@@ -85,7 +85,7 @@ module Inspec
 
       def display_warning_chat
         <<~WARNING
-          ⚠ **Warning: GPT-Generated Content**
+          ⚠ **Warning: AI-Generated Content**
 
           The responses generated during this chat may contain inaccuracies or incorrect operations. Please use caution and verify any critical information independently.
 
