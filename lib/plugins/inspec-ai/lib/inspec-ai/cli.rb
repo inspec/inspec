@@ -11,11 +11,13 @@ module InspecPlugins::AI
 
     desc "summarise", "InSpec AI helping in providing summarisation to control results"
     def summarise
+      Inspec::AI.display_warning
       Inspec::AI.summarise_control
     end
 
     desc "remediate", "InSpec AI helping in providing remeditation suggestion on control results"
     def remediate
+      Inspec::AI.display_warning
       Inspec::AI.remediation_suggestions
     end
   end
