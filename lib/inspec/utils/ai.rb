@@ -1,25 +1,28 @@
 require "openai"
+require "tty-markdown"
 
 module Inspec
   class AI
     GENERIC_PROMPT = "Pretend as a professional Compliance and Chef InSpec Expert.".freeze
     PROMPT_TEMPLATE_CHAT = "#{GENERIC_PROMPT} Respond only to Chef InSpec and Compliance related queries. Politely refuse to respond when it is an unrelated question.".freeze
     PROMPT_TEMPLATE_SUMMARY = "#{GENERIC_PROMPT} Analyse this InSpec profile control result. Respond politely with details".freeze
-    PROMPT_TEMPLATE_REMEDIATE = "#{GENERIC_PROMPT} Provide remediation strategies based on InSpec profile control result. Respond politely with details".freeze
+    PROMPT_TEMPLATE_REMEDIATE = "#{GENERIC_PROMPT} Provide remediation strategies based on the compliance recommendations along with example remediation cookbook per failed control result based on the provided InSpec profile control result. Respond politely with details".freeze
 
     class << self
       def start
-        puts "InSpec AI - type 'exit' to end the conversation"
+        tty_print("# InSpec AI - type 'exit' to end the conversation")
         # sets the prompt to system
         conversation_history = [set_prompt_context_for(PROMPT_TEMPLATE_CHAT)]
 
         loop do
-          print "You: "
+          tty_print "**You:**"
           user_input = $stdin.gets.chomp
           break if user_input.downcase.strip == "exit"
 
+          # TODO: allow to collect multi line input
           conversation_history << collect_user_input(user_input)
-          puts "\nInSpec AI:"
+          puts "\n"
+          tty_print("**InSpec AI:**")
           response = client.get_streamed_chat_completion(conversation_history) do |chunk|
             print chunk
           end
@@ -28,11 +31,11 @@ module Inspec
           conversation_history << capture_ai_response(response.join)
         end
       rescue StandardError => e
-        puts "Failed to get response from OpenAI: #{e.message}"
+        tty_print("Failed to get response from OpenAI: #{e.message}")
       end
 
       def summarise_control
-        handle_control_task("summarize", PROMPT_TEMPLATE_SUMMARY)
+        handle_control_task("summarise", PROMPT_TEMPLATE_SUMMARY)
       end
 
       def remediation_suggestions
@@ -47,9 +50,14 @@ module Inspec
         response = client.get_chat_completion(conversation_history)
         conversation_history << capture_ai_response(response) # conversation_history is not really used here
 
-        puts "\nInSpec AI (#{task_type}): #{response}\n"
+        puts("\n")
+        tty_print("**InSpec AI (#{task_type}):** #{response}")
       rescue StandardError => e
         puts "Failed to #{task_type} control: #{e.message}"
+      end
+
+      def tty_print(string)
+        print TTY::Markdown.parse(string)
       end
 
       private
