@@ -2,14 +2,14 @@ require "openai"
 
 module Inspec
   class AI
-    GENERIC_PROMPT = "Pretend as a professional Compliance and Chef Inspec Expert.".freeze
-    PROMPT_TEMPLATE_CHAT = "#{GENERIC_PROMPT} Respond only to Chef Inspec and Compliance related queries. Politely refuse to respond when it is an unrelated question.".freeze
+    GENERIC_PROMPT = "Pretend as a professional Compliance and Chef InSpec Expert.".freeze
+    PROMPT_TEMPLATE_CHAT = "#{GENERIC_PROMPT} Respond only to Chef InSpec and Compliance related queries. Politely refuse to respond when it is an unrelated question.".freeze
     PROMPT_TEMPLATE_SUMMARY = "#{GENERIC_PROMPT} Analyse this InSpec profile control result. Respond politely with details".freeze
     PROMPT_TEMPLATE_REMEDIATE = "#{GENERIC_PROMPT} Provide remediation strategies based on InSpec profile control result. Respond politely with details".freeze
 
     class << self
       def start
-        puts "InspecAI - type 'exit' to end the conversation"
+        puts "InSpec AI - type 'exit' to end the conversation"
         # sets the prompt to system
         conversation_history = [set_prompt_context_for(PROMPT_TEMPLATE_CHAT)]
 
@@ -19,7 +19,7 @@ module Inspec
           break if user_input.downcase.strip == "exit"
 
           conversation_history << collect_user_input(user_input)
-          puts "\nInspecAI:"
+          puts "\nInSpec AI:"
           response = client.get_streamed_chat_completion(conversation_history) do |chunk|
             print chunk
           end
@@ -47,7 +47,7 @@ module Inspec
         response = client.get_chat_completion(conversation_history)
         conversation_history << capture_ai_response(response) # conversation_history is not really used here
 
-        puts "\nInspecAI (#{task_type}): #{response}\n"
+        puts "\nInSpec AI (#{task_type}): #{response}\n"
       rescue StandardError => e
         puts "Failed to #{task_type} control: #{e.message}"
       end
@@ -127,9 +127,20 @@ module Inspec
     private
 
     def configure_openai_client
+      openai_key = ENV["OPENAI_API_KEY"]
+      openai_base_url = ENV["OPENAI_BASE_URL"]
+
+      if openai_key.nil? || openai_key.strip.empty?
+        raise "Missing environment variable: OPENAI_API_KEY. Please set your OpenAI API key."
+      end
+
+      if openai_base_url.nil? || openai_base_url.strip.empty?
+        raise "Missing environment variable: OPENAI_BASE_URL. Please set the OpenAI Base URL."
+      end
+
       OpenAI.configure do |config|
-        config.access_token = ENV.fetch("OPENAI_API_KEY")
-        config.uri_base = ENV.fetch("OPENAI_BASE_URL")
+        config.access_token = openai_key
+        config.uri_base = openai_base_url
         config.api_type = :azure
         config.api_version = API_VERSION
       end
