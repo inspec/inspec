@@ -1,7 +1,7 @@
-require "inspec/utils/ai.rb"
+require "inspec/utils/ai"
 module InspecPlugins::AI
   class Cli < Inspec.plugin(2, :cli_command)
-    
+
     subcommand_desc "ai SUBCOMMAND [options]", "InSpec AI"
 
     desc "assistant", "InSpec AI for help"
@@ -14,8 +14,8 @@ module InspecPlugins::AI
       Inspec::AI.summarise_control
     end
 
-    desc "remediation", "InSpec AI helping in providing remeditation suggetion on control results"
-    def remediation
+    desc "remediate", "InSpec AI helping in providing remeditation suggestion on control results"
+    def remediate
       Inspec::AI.remediation_suggestions
     end
   end
