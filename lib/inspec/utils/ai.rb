@@ -127,9 +127,20 @@ module Inspec
     private
 
     def configure_openai_client
+      openai_key = ENV["OPENAI_API_KEY"]
+      openai_base_url = ENV["OPENAI_BASE_URL"]
+
+      if openai_key.nil? || openai_key.strip.empty?
+        raise "Missing environment variable: OPENAI_API_KEY. Please set your OpenAI API key."
+      end
+
+      if openai_base_url.nil? || openai_base_url.strip.empty?
+        raise "Missing environment variable: OPENAI_BASE_URL. Please set the OpenAI Base URL."
+      end
+
       OpenAI.configure do |config|
-        config.access_token = ENV.fetch("OPENAI_API_KEY")
-        config.uri_base = ENV.fetch("OPENAI_BASE_URL")
+        config.access_token = openai_key
+        config.uri_base = openai_base_url
         config.api_type = :azure
         config.api_version = API_VERSION
       end
