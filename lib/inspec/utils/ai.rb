@@ -13,14 +13,11 @@ module Inspec
         tty_print(display_warning_chat)
         puts "\n"
         tty_print("# InSpec AI - type 'exit' to end the conversation")
+        puts "\n"
+        tty_print(frequently_asked_questions)
+
         # sets the prompt to system
         conversation_history = [set_prompt_context_for(PROMPT_TEMPLATE_CHAT)]
-
-        frequently_asked_questions = [set_prompt_context_for(PROMPT_TEMPLATE_CHAT)]
-        frequently_asked_questions << collect_user_input("Please provide two meaningful questions for each of the five different sections related to Chef InSpec and Compliance. Start the answer with 'You can ask a wide range of questions related to Chef InSpec and compliance' and then mention the questions.")
-
-        response = client.get_chat_completion(frequently_asked_questions)
-        tty_print(response)
 
         loop do
           tty_print "**You:**"
@@ -96,6 +93,33 @@ module Inspec
       def client
         @client ||= OpenAIClient.new
       end
+
+      def frequently_asked_questions
+        <<~MARKDOWN
+          You can ask a wide range of questions related to Chef InSpec and compliance:
+
+          ### Installation and Setup
+          1. How do you install Chef InSpec on a Linux system?
+          2. What are the prerequisites for setting up Chef InSpec on a Windows environment?
+
+          ### Writing InSpec Profiles
+          1. How can you create a custom InSpec profile to assess security compliance?
+          2. What is the recommended structure for organizing controls within an InSpec profile?
+
+          ### InSpec Resources and Controls
+          1. What are some commonly used InSpec resources for auditing file permissions?
+          2. How do you write a control to check the configuration of a Linux service using InSpec?
+
+          ### Integrations and Automation
+          1. How can you integrate Chef InSpec with CI/CD pipelines for automated compliance checks?
+          2. What are the best practices for executing InSpec tests using Chef Automate?
+
+          ### Reporting and Monitoring
+          1. What are the different formats available for InSpec report output, and how can they be utilized?
+          2. How do you interpret and act upon the results of an InSpec compliance report in a production environment?
+        MARKDOWN
+      end
+
 
       def get_latest_file_path(directory)
         latest_file = Dir.entries(directory)
