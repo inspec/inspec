@@ -1,7 +1,23 @@
 # Stop script execution when a non-terminating error occurs
 $ErrorActionPreference = "Stop"
 
-# reload Env:PATH to ensure it gets any changes that the install made (e.g. C:\opscode\inspec\bin\ )
+# Function to check if OpenSSL is installed
+function Test-OpenSSL {
+    $openssl = Get-Command "openssl" -ErrorAction SilentlyContinue
+
+    if ($openssl) {
+        Write-Host "+++ OpenSSL is installed."
+        $openssl_version = openssl version
+        Write-Host "+++ OpenSSL Version: $openssl_version"
+    } else {
+        Write-Host "!!! OpenSSL is not installed or not found in the system PATH."
+        Throw "Error: OpenSSL is required but was not found in the system PATH. Please install OpenSSL or add it to the PATH."
+    }
+}
+
+# Run the OpenSSL check
+Test-OpenSSL
+
 $Env:PATH = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
 
 $Env:Path = "C:\opscode\inspec\bin;C:\opscode\inspec\embedded\bin;$Env:PATH"
