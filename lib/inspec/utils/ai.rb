@@ -116,7 +116,7 @@ module Inspec
 
           ### Reporting and Monitoring
           1. What are the different formats available for InSpec report output, and how can they be utilized?
-          2. How do you interpret and act upon the results of an InSpec compliance report in a production environment?
+          2. How do you interpret and act upon the results of an InSpec compliance report in a prod environment?
         MARKDOWN
       end
 
