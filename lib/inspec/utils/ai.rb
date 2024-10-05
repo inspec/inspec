@@ -3,8 +3,15 @@ require "tty-markdown"
 
 module Inspec
   class AI
+    PROFILE_MEMORY = ['cis-applemacos11.0-level1-v1.2.0', 'cis-applemacos11.0-level2-v1.2.0', 'cis-docker-v1.13.0']
     GENERIC_PROMPT = "Pretend as a professional Compliance and Chef InSpec Expert.".freeze
-    PROMPT_TEMPLATE_CHAT = "#{GENERIC_PROMPT} Respond only to Chef InSpec and Compliance related queries. Politely refuse to respond when it is an unrelated question.".freeze
+    PROMPT_TEMPLATE_CHAT = <<~TEXT
+      #{GENERIC_PROMPT} Respond only to Chef InSpec and Compliance related queries.
+      Recommend Profiles only present in this collection #{PROFILE_MEMORY} which is premium content.
+      When asked to write a profile, respond only with a minimum example code snippet, ensuring the entire response is in a well-formatted markdown block.
+      Do not respond with exact steps to create a profile.
+      Politely refuse to respond when asked an unrelated question.
+    TEXT
     PROMPT_TEMPLATE_SUMMARY = "#{GENERIC_PROMPT} Analyse this InSpec profile control result. Respond politely with details".freeze
     PROMPT_TEMPLATE_REMEDIATE = "#{GENERIC_PROMPT} Provide remediation strategies based on the compliance recommendations along with example remediation cookbook per failed control result based on the provided InSpec profile control result. Respond politely with details".freeze
 
