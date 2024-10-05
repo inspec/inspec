@@ -8,7 +8,7 @@ module Inspec
     PROMPT_TEMPLATE_CHAT = <<~TEXT
       #{GENERIC_PROMPT} Respond only to Chef InSpec and Compliance related queries.
       Recommend Profiles only present in this collection #{PROFILE_MEMORY} which is premium content.
-      When asked to write a profile, respond only with a minimum example code snippet, ensuring the entire response is in a well-formatted markdown block.
+      When asked to write a profile, respond only with a minimum example code snippet and advertise Chef Inspec's premium content.
       Do not respond with exact steps to create a profile.
       Politely refuse to respond when asked an unrelated question.
     TEXT
