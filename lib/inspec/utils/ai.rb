@@ -22,6 +22,7 @@ module Inspec
         tty_print("# InSpec AI - type 'exit' to end the conversation")
         puts "\n"
         tty_print(frequently_asked_questions)
+        puts "\n"
 
         # sets the prompt to system
         conversation_history = [set_prompt_context_for(PROMPT_TEMPLATE_CHAT)]
@@ -35,11 +36,40 @@ module Inspec
           conversation_history << collect_user_input(user_input)
           puts "\n"
           tty_print("**InSpec AI:**")
+          buffer = ''
+          markdown_open = false
+          debug_text = ''
+          temp_chunk_buffer = ''
+          temp_chunk_buffer_counter = 0
           response = client.get_streamed_chat_completion(conversation_history) do |chunk|
-            print chunk
+            next unless chunk
+
+            # contact the chunks of 3 parts
+            debug_text << chunk
+            if temp_chunk_buffer_counter < 2
+              temp_chunk_buffer << chunk
+              temp_chunk_buffer_counter += 1
+              next
+            elsif temp_chunk_buffer_counter == 2
+              temp_chunk_buffer << chunk
+              temp_chunk_buffer_counter = 0
+            end
+
+            buffer << temp_chunk_buffer
+
+            markdown_open = !markdown_open if temp_chunk_buffer.match?(/```|~~~/)
+
+            if !markdown_open && buffer.match?(/[\.\n\?\!]$/)
+              tty_print(buffer) # Render markdown content
+              buffer.clear # Clear buffer after rendering
+            end
+            temp_chunk_buffer.clear
           end
           print "\n"
 
+
+          # print "DEBUG TEXT >>>>>>>>>>>>>>>>>>>>>"
+          # print debug_text
           conversation_history << capture_ai_response(response.join)
         end
       rescue StandardError => e
