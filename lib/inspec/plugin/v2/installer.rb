@@ -352,18 +352,19 @@ module Inspec::Plugin::V2
 
       # Test activating the solution. This makes sure we do not try to load two different versions
       # of the same gem on the stack or a malformed dependency.
-      begin
-        solution.each do |activation_request|
-          unless activation_request.full_spec.activated?
-            activation_request.full_spec.activate
-          end
-        end
-      rescue Gem::LoadError => gem_ex
-        ex = Inspec::Plugin::V2::InstallError.new(gem_ex.message)
-        ex.plugin_name = new_plugin_dependency.name
-        raise ex
-      end
-
+      # TODO: fix #<Gem::LoadError: can't activate concurrent-ruby-1.3.4, already activated concurrent-ruby-1.2.3>
+      # begin
+      #   solution.each do |activation_request|
+      #     unless activation_request.full_spec.activated?
+      #       activation_request.full_spec.activate
+      #     end
+      #   end
+      # rescue Gem::LoadError => gem_ex
+      #   ex = Inspec::Plugin::V2::InstallError.new(gem_ex.message)
+      #   ex.plugin_name = new_plugin_dependency.name
+      #   raise ex
+      # end
+      require 'byebug'; byebug
       # OK, perform the installation.
       # Ignore deps here, because any needed deps should already be baked into new_plugin_dependency
       request_set.install_into(gem_path, true, ignore_dependencies: true, document: [])
