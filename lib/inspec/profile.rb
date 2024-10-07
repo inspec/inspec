@@ -399,6 +399,10 @@ module Inspec
 
       reg = Inspec::Plugin::V2::Registry.instance
       reg.find_activator(plugin_name: name.to_sym).activate!
+
+    rescue Inspec::Plugin::V2::LoadError
+      Inspec::Plugin::V2::PluginBase.plugin_name(name.to_sym)
+      reg.find_activator(plugin_name: name.to_sym).activate!
     end
 
     def load_libraries
