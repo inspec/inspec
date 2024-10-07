@@ -65,9 +65,12 @@ module Inspec
         !loader.find_gem_directory(gem_name, version).nil?
 
       elsif key.start_with?("gem_path:")
+        # require 'byebug'; byebug
         # Gem installed as explicit path reference, as in testing / development
-        entry_point_path = key.sub(/^gem_path:/, "")
-        File.exist?(entry_point_path)
+        # entry_point_path = key.sub(/^gem_path:/, "")
+        # File.exist?(entry_point_path)
+        # TODO: Check if gem is already installed
+        false
       else
         # Standard cache entry
         path = base_path_for(key)
