@@ -106,7 +106,7 @@ module Inspec
     def initialize(gem_info)
       # Determine a path to the gem installation directory
       gem_name = gem_info[:gem]
-      bootstrap_file = gem_info[:path]
+      bootstrap_file = gem_info[:gem_path]
       if bootstrap_file
         # We were given an explicit path - go two directories up
         parts = Pathname(gem_info[:path]).each_filename.to_a
