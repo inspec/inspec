@@ -108,9 +108,9 @@ module Inspec
       gem_name = gem_info[:gem]
       bootstrap_file = gem_info[:gem_path]
       if bootstrap_file
-        # We were given an explicit path - go two directories up
-        parts = Pathname(gem_info[:path]).each_filename.to_a
-        @gem_lib_root = File.join(parts.slice(0, parts.length - 2))
+        # We were given an explicit path - go 1 directories up
+        parts = Pathname(gem_info[:gem_path]).each_filename.to_a
+        @gem_lib_root = File.join(parts.slice(0, parts.length - 1))
       else
         # Look up where the gem is installed, respecting version
         raise NotImplementedError, "TODO: Gem FileProvider when gem #{gem_name} is not a local reference"
