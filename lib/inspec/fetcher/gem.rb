@@ -24,7 +24,7 @@ module Inspec::Fetcher
       @gem_name = target[:gem]
       @version = target[:version] # optional
       @source = target[:source] # optional
-      @gem_path = target[:path] # optional, sets local path installation mode
+      @gem_path = target[:path] || target[:gem_path] # optional, sets local path installation mode
       @backend = opts[:backend]
       @archive_shasum = nil
     end
