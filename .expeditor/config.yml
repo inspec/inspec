@@ -30,7 +30,7 @@ pipelines:
       definition: .expeditor/verify_private.pipeline.yml
       public: false
       description: Pull Request validation tests
-      trigger: pull_request
+      trigger: default
       env:
       - LANG: "C.UTF-8"
       - SLOW: 1
