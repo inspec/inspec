@@ -10,7 +10,7 @@ pkg_license=('Apache-2.0')
 pkg_deps=(
   core/coreutils
   core/git
-  core/ruby3_1
+  core/ruby3_1/3.1.3/20240510233007
   core/bash
   core/cacerts
 )
@@ -84,7 +84,7 @@ export PATH="/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH
 export GEM_HOME="$GEM_HOME"
 export GEM_PATH="$GEM_PATH"
 
-exec $(pkg_path_for core/ruby3_1)/bin/ruby $real_bin \$@
+exec $(pkg_path_for core/ruby3_1/3.1.3/20240510233007)/bin/ruby $real_bin \$@
 EOF
   chmod -v 755 "$bin"
 }
