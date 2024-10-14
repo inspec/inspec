@@ -31,6 +31,7 @@ do_setup_environment() {
 
   build_line "Setting SSL_CA_CERT_FILE path=$(pkg_path_for cacerts)/ssl/cert.pem"
   export SSL_CERT_FILE="$(pkg_path_for cacerts)/ssl/cert.pem"
+  export DEFAULT_CERT_FILE="$(pkg_path_for cacerts)/ssl/cert.pem"
 }
 
 do_unpack() {
@@ -84,7 +85,7 @@ export PATH="/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH
 export GEM_HOME="$GEM_HOME"
 export GEM_PATH="$GEM_PATH"
 
-exec $(pkg_path_for core/ruby3_1/3.1.3/20240510233007)/bin/ruby $real_bin \$@
+exec $(pkg_path_for core/ruby3_1/3.1.3/20240510233007)/bin/ruby $real_bin -ropenssl -e 'puts OpenSSL::X509::DEFAULT_CERT_FILE' \$@
 EOF
   chmod -v 755 "$bin"
 }
