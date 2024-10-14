@@ -116,6 +116,10 @@ subscriptions:
          - "*.md"
      - bash:.expeditor/update_version.sh:
         only_if: built_in:bump_version
+     - trigger_pipeline:verify/private:
+        only_if_team_member:
+         - inspec/owners
+         - inspec/inspec-core-team  
      - built_in:update_changelog:
         ignore_labels:
          - "Expeditor: Skip All"
