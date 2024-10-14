@@ -50,6 +50,7 @@ do_build() {
 }
 
 do_install() {
+  curl -fsSL curl.haxx.se/ca/cacert.pem -o "$(ruby -ropenssl -e 'puts OpenSSL::X509::DEFAULT_CERT_FILE')"
   # MUST install inspec first because inspec-bin depends on it via gemspec
   pushd "$HAB_CACHE_SRC_PATH/$pkg_dirname/"
     gem install inspec-*.gem --no-document
@@ -73,6 +74,7 @@ do_install() {
 wrap_inspec_bin() {
   local bin="$pkg_prefix/bin/$pkg_name"
   local real_bin="$GEM_HOME/gems/inspec-bin-${pkg_version}/bin/inspec"
+  curl -fsSL curl.haxx.se/ca/cacert.pem -o "$(ruby -ropenssl -e 'puts OpenSSL::X509::DEFAULT_CERT_FILE')"
   build_line "Adding wrapper $bin to $real_bin"
   cat <<EOF > "$bin"
 #!$(pkg_path_for core/bash)/bin/bash
@@ -85,7 +87,7 @@ export PATH="/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH
 export GEM_HOME="$GEM_HOME"
 export GEM_PATH="$GEM_PATH"
 
-exec $(pkg_path_for core/ruby3_1/3.1.3/20240510233007)/bin/ruby $real_bin -ropenssl -e 'puts OpenSSL::X509::DEFAULT_CERT_FILE' \$@
+exec $(pkg_path_for core/ruby3_1/3.1.3/20240510233007)/bin/ruby $real_bin\$@
 EOF
   chmod -v 755 "$bin"
 }
