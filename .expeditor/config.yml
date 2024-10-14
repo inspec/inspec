@@ -129,10 +129,6 @@ subscriptions:
         ignore_labels:
          - "Expeditor: Skip Omnibus"
          - "Expeditor: Skip All"
-     - trigger_pipeline:verify/private:
-        ignore_labels:
-         - "Expeditor: Skip All"
-         - "Expeditor: Skip Changelog"    
      - trigger_pipeline:omnibus/release:
         only_if: built_in:bump_version
         ignore_labels:
@@ -185,4 +181,4 @@ subscriptions:
      - built_in:github_auto_assign_author:
         only_if_team_member:
          - inspec/owners
-         - inspec/inspec-core-team    
+         - inspec/inspec-core-team
