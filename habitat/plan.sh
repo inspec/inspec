@@ -29,6 +29,10 @@ do_setup_environment() {
   build_line "Setting GEM_PATH=$GEM_HOME"
   export GEM_PATH="$GEM_HOME"
 
+  cert_file=$(pkg_path_for ruby3_1)/bin/ruby -ropenssl -e 'puts OpenSSL::X509::DEFAULT_CERT_FILE'
+  # Echo the value
+  echo "Default certificate file: $cert_file"
+
   build_line "Setting SSL_CA_CERT_FILE path=$(pkg_path_for cacerts)/ssl/cert.pem"
   export SSL_CERT_FILE="$(pkg_path_for cacerts)/ssl/cert.pem"
   export DEFAULT_CERT_FILE="$(pkg_path_for cacerts)/ssl/cert.pem"
