@@ -12,6 +12,7 @@ pkg_deps=(
   core/git
   core/ruby3_1
   core/bash
+  core/cacerts
 )
 pkg_build_deps=(
   core/gcc
@@ -27,6 +28,9 @@ do_setup_environment() {
 
   build_line "Setting GEM_PATH=$GEM_HOME"
   export GEM_PATH="$GEM_HOME"
+
+  build_line "Setting SSL_CA_CERT_FILE path=$(pkg_path_for cacerts)/ssl/cert.pem"
+  export SSL_CERT_FILE="$(pkg_path_for cacerts)/ssl/cert.pem"
 }
 
 do_unpack() {
