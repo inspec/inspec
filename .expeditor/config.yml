@@ -30,7 +30,7 @@ pipelines:
       definition: .expeditor/verify_private.pipeline.yml
       public: false
       description: Pull Request validation tests
-      trigger: default
+      trigger: pull_request
       env:
       - LANG: "C.UTF-8"
       - SLOW: 1
@@ -178,3 +178,7 @@ subscriptions:
         only_if_team_member:
          - inspec/owners
          - inspec/inspec-core-team
+     - trigger_pipeline:verify/private:
+        only_if_team_member:
+         - inspec/owners
+         - inspec/inspec-core-team    
