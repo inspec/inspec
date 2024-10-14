@@ -95,6 +95,10 @@ changelog:
 subscriptions:
   - workload: pull_request_merged:{{github_repo}}:{{release_branch}}:*
     actions:
+     - trigger_pipeline:verify/private:
+        ignore_labels:
+         - "Expeditor: Skip All"
+         - "Expeditor: Skip Changelog"
      - built_in:bump_version:
         ignore_labels:
          - "Expeditor: Skip All"
@@ -181,8 +185,4 @@ subscriptions:
      - built_in:github_auto_assign_author:
         only_if_team_member:
          - inspec/owners
-         - inspec/inspec-core-team
-     - trigger_pipeline:verify/private:
-        ignore_labels:
-         - "Expeditor: Skip All"
-         - "Expeditor: Skip Changelog"    
+         - inspec/inspec-core-team    
