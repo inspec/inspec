@@ -28,7 +28,7 @@ pipelines:
       trigger: pull_request
  - verify/private:
       definition: .expeditor/verify_private.pipeline.yml
-      public: false
+      public: true
       description: Pull Request validation tests
       trigger: pull_request
       env:
