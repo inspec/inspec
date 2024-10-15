@@ -28,7 +28,7 @@ pipelines:
       trigger: pull_request
  - verify/private:
       definition: .expeditor/verify_private.pipeline.yml
-      public: true
+      public: false
       description: Pull Request validation tests
       trigger: pull_request
       env:
@@ -96,6 +96,7 @@ subscriptions:
   - workload: pull_request_merged:{{github_repo}}:{{release_branch}}:*
     actions:
      - trigger_pipeline:verify/private:
+        only_if: built_in:bump_version
         ignore_labels:
          - "Expeditor: Skip All"
          - "Expeditor: Skip Changelog"
@@ -175,6 +176,7 @@ subscriptions:
   - workload: pull_request_opened:{{github_repo}}:{{release_branch}}:*
     actions:
      - trigger_pipeline:verify/private:
+        only_if: built_in:bump_version
         ignore_labels:
          - "Expeditor: Skip All"
          - "Expeditor: Skip Changelog"
