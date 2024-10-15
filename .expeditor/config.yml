@@ -172,7 +172,7 @@ subscriptions:
     actions:
      - trigger_pipeline:verify/private:
         only_if: built_in:bump_version
-       trigger: pull_request
+       trigger: default
      - post_github_comment:.expeditor/templates/pull_request.mustache:
         ignore_team_members:
          - inspec/owners
