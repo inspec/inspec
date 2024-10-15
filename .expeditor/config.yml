@@ -95,11 +95,6 @@ changelog:
 subscriptions:
   - workload: pull_request_merged:{{github_repo}}:{{release_branch}}:*
     actions:
-     - trigger_pipeline:verify/private:
-        only_if: built_in:bump_version
-        ignore_labels:
-         - "Expeditor: Skip All"
-         - "Expeditor: Skip Changelog"
      - built_in:bump_version:
         ignore_labels:
          - "Expeditor: Skip All"
@@ -120,7 +115,7 @@ subscriptions:
          - "*.gemspec"
          - "*.md"
      - bash:.expeditor/update_version.sh:
-        only_if: built_in:bump_version  
+        only_if: built_in:bump_version
      - built_in:update_changelog:
         ignore_labels:
          - "Expeditor: Skip All"
@@ -177,9 +172,6 @@ subscriptions:
     actions:
      - trigger_pipeline:verify/private:
         only_if: built_in:bump_version
-        ignore_labels:
-         - "Expeditor: Skip All"
-         - "Expeditor: Skip Changelog"
        trigger: pull_request
      - post_github_comment:.expeditor/templates/pull_request.mustache:
         ignore_team_members:
