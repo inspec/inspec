@@ -12,7 +12,6 @@ pkg_deps=(
   core/git
   core/ruby3_1/3.1.6/20241015083258
   core/bash
-  core/cacerts
   core/openssl/3.0.9/20241014150933
   core/openssh/9.8p1/20241014152908
   core/curl/8.7.1/20241014153318
@@ -32,9 +31,6 @@ do_setup_environment() {
 
   build_line "Setting GEM_PATH=$GEM_HOME"
   export GEM_PATH="$GEM_HOME"
-
-  build_line "Setting SSL_CA_CERT_FILE path=$(pkg_path_for cacerts)/ssl/cert.pem"
-  export SSL_CERT_FILE="$(pkg_path_for cacerts)/ssl/cert.pem"
 }
 
 do_unpack() {
@@ -53,7 +49,6 @@ do_build() {
 }
 
 do_install() {
-  ruby -ropenssl -e 'puts OpenSSL::X509::DEFAULT_CERT_FILE'
   # MUST install inspec first because inspec-bin depends on it via gemspec
   pushd "$HAB_CACHE_SRC_PATH/$pkg_dirname/"
     gem install inspec-*.gem --no-document
