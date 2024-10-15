@@ -174,6 +174,10 @@ subscriptions:
      - built_in:notify_chefio_slack_channels
   - workload: pull_request_opened:{{github_repo}}:{{release_branch}}:*
     actions:
+     - trigger_pipeline:verify/private:
+        ignore_labels:
+         - "Expeditor: Skip All"
+         - "Expeditor: Skip Changelog"
      - post_github_comment:.expeditor/templates/pull_request.mustache:
         ignore_team_members:
          - inspec/owners
