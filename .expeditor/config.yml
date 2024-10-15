@@ -178,6 +178,7 @@ subscriptions:
         ignore_labels:
          - "Expeditor: Skip All"
          - "Expeditor: Skip Changelog"
+       trigger: pull_request
      - post_github_comment:.expeditor/templates/pull_request.mustache:
         ignore_team_members:
          - inspec/owners
