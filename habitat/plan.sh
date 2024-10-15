@@ -9,7 +9,6 @@ pkg_maintainer="The Habitat Maintainers <humans@habitat.sh>"
 pkg_license=('Apache-2.0')
 pkg_deps=(
   core/coreutils
-  core/git
   core/ruby3_1/3.1.6/20241015083258
   core/bash
   core/openssl/3.0.9/20241014150933
