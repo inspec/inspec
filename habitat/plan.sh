@@ -11,9 +11,6 @@ pkg_deps=(
   core/coreutils
   core/ruby3_1/3.1.6/20241015083258
   core/bash
-  core/openssl/3.0.9/20241014150933
-  core/openssh/9.8p1/20241014152908
-  core/curl/8.7.1/20241014153318
   core/git/2.39.1/20241014153525
 )
 pkg_build_deps=(
