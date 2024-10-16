@@ -31,6 +31,7 @@ echo "The value for project_root is: $project_root"
 export HAB_NONINTERACTIVE=true
 export HAB_NOCOLORING=true
 export HAB_STUDIO_SECRET_HAB_NONINTERACTIVE=true
+export HAB_BLDR_CHANNEL='LTS-2024'
 
 echo "--- system details"
 uname -a
