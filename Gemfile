@@ -34,6 +34,10 @@ group :omnibus do
   gem "appbundler"
   gem "ed25519" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
   gem "bcrypt_pbkdf" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
+  # Install openssl only for Windows
+  platform :mswin, :mingw, :x64_mingw do
+    gem "openssl"
+  end
 end
 
 group :test do
