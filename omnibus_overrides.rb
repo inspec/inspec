@@ -5,6 +5,7 @@ train_stable = /^train \((.*)\)/.match(`gem list ^train$ --remote`)[1]
 override "train", version: "v#{train_stable}"
 override "ruby", version: "3.1.6"
 
-override :openssl, version: "3.0.11"
+openssl_version_default = windows? ? "1.1.1w" : "3.0.11"
+override "openssl", version: openssl_version_default
 
 override "ruby-msys2-devkit", version: "3.1.6-1"
