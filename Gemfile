@@ -25,6 +25,11 @@ gem "inspec-bin", path: "./inspec-bin"
 
 gem "ffi", ">= 1.15.5", "< 1.17.0"
 
+# required for FIPS or bundler will pick up default openss
+install_if -> { RUBY_PLATFORM !~ /darwin/ } do
+  gem "openssl", "= 3.2.0"
+end
+
 # inspec tests depend text output that changed in the 3.10 release
 # but our runtime dep is still 3.9+
 gem "rspec", ">= 3.10"
