@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/chef/omnibus-software.git
-  revision: bfa5386338ed36e1f69c6176065ef30e2aff3988
-  branch: main
+  revision: 86967523a61f2eabdc97a0274ec32260dd214d28
+  branch: ss/ruby-msys2-devkit-and-openssl
   specs:
     omnibus-software (24.6.323)
       ffi (>= 1.17.0)
