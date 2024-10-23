@@ -85,3 +85,5 @@ Release:   aws-sdk-v2.10.125
 ## AWS resources
 
 {{< inspec/inspec_resources platform="aws" >}}
+#
+#
