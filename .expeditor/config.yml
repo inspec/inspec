@@ -171,7 +171,6 @@ subscriptions:
   - workload: pull_request_opened:{{github_repo}}:{{release_branch}}:*
     actions:
      - trigger_pipeline:verify/private:
-       trigger: pull_request
      - post_github_comment:.expeditor/templates/pull_request.mustache:
         ignore_team_members:
          - inspec/owners
