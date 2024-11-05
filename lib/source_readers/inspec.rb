@@ -66,7 +66,7 @@ module SourceReaders
     end
 
     def load_readme
-      load_all(/README.md/)
+      load_all(/README(\.md)?$/)
     end
   end
 end
