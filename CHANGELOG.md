@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.8.11 -->
+## [v6.8.11](https://github.com/inspec/inspec/tree/v6.8.11) (2024-11-05)
 
 #### Merged Pull Requests
+- CHEF-12879 Test kitchen integration with InSpec 6 [#7168](https://github.com/inspec/inspec/pull/7168) ([Nik08](https://github.com/Nik08))
 - chore: disable habitat package promotion in config [#7197](https://github.com/inspec/inspec/pull/7197) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- CHEF-12879 Test kitchen integration with InSpec 6 [#7168](https://github.com/inspec/inspec/pull/7168) ([Nik08](https://github.com/Nik08)) <!-- 6.8.11 -->
 - chore: disable habitat package promotion in config [#7197](https://github.com/inspec/inspec/pull/7197) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.10 -->
 - Improved regex to load readme from inspec profiles [#7198](https://github.com/inspec/inspec/pull/7198) ([Nik08](https://github.com/Nik08)) <!-- 6.8.10 -->
 - added the correct prod Url spellings [#7166](https://github.com/inspec/inspec/pull/7166) ([vviveksharma](https://github.com/vviveksharma)) <!-- 6.8.9 -->
