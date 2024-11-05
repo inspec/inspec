@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.8.9 -->
-## [v6.8.9](https://github.com/inspec/inspec/tree/v6.8.9) (2024-09-11)
+<!-- latest_release 6.8.10 -->
+## [v6.8.10](https://github.com/inspec/inspec/tree/v6.8.10) (2024-11-05)
 
 #### Merged Pull Requests
-- added the correct prod Url spellings [#7166](https://github.com/inspec/inspec/pull/7166) ([vviveksharma](https://github.com/vviveksharma))
+- Improved regex to load readme from inspec profiles [#7198](https://github.com/inspec/inspec/pull/7198) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- Improved regex to load readme from inspec profiles [#7198](https://github.com/inspec/inspec/pull/7198) ([Nik08](https://github.com/Nik08)) <!-- 6.8.10 -->
 - added the correct prod Url spellings [#7166](https://github.com/inspec/inspec/pull/7166) ([vviveksharma](https://github.com/vviveksharma)) <!-- 6.8.9 -->
 - Added fatal message check for postgres_session:query method [#7154](https://github.com/inspec/inspec/pull/7154) ([gokulks97](https://github.com/gokulks97)) <!-- 6.8.8 -->
 - ci: improve hab pipeline for windows [#7153](https://github.com/inspec/inspec/pull/7153) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.7 -->
