@@ -1,12 +1,7 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.8.11 -->
-## [v6.8.11](https://github.com/inspec/inspec/tree/v6.8.11) (2024-11-05)
-
-#### Merged Pull Requests
-- CHEF-12879 Test kitchen integration with InSpec 6 [#7168](https://github.com/inspec/inspec/pull/7168) ([Nik08](https://github.com/Nik08))
-- chore: disable habitat package promotion in config [#7197](https://github.com/inspec/inspec/pull/7197) ([ahasunos](https://github.com/ahasunos))
+<!-- latest_release -->
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -35,29 +30,31 @@
 #### Merged Pull Requests
 - Bump omnibus-software from `4b08f0b` to `3268356` in /omnibus [#6587](https://github.com/inspec/inspec/pull/6587) ([dependabot[bot]](https://github.com/dependabot[bot]))
 
-<!-- release_rollup since=6.8.1 -->
-### Changes since 6.8.1 release
-
-#### Merged Pull Requests
-- CHEF-12879 Test kitchen integration with InSpec 6 [#7168](https://github.com/inspec/inspec/pull/7168) ([Nik08](https://github.com/Nik08)) <!-- 6.8.11 -->
-- chore: disable habitat package promotion in config [#7197](https://github.com/inspec/inspec/pull/7197) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.10 -->
-- Improved regex to load readme from inspec profiles [#7198](https://github.com/inspec/inspec/pull/7198) ([Nik08](https://github.com/Nik08)) <!-- 6.8.10 -->
-- added the correct prod Url spellings [#7166](https://github.com/inspec/inspec/pull/7166) ([vviveksharma](https://github.com/vviveksharma)) <!-- 6.8.9 -->
-- Added fatal message check for postgres_session:query method [#7154](https://github.com/inspec/inspec/pull/7154) ([gokulks97](https://github.com/gokulks97)) <!-- 6.8.8 -->
-- ci: improve hab pipeline for windows [#7153](https://github.com/inspec/inspec/pull/7153) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.7 -->
-- CHEF-14805 Oracle db session resource fixes [#7136](https://github.com/inspec/inspec/pull/7136) ([Nik08](https://github.com/Nik08)) <!-- 6.8.7 -->
-- Update install doc [#7144](https://github.com/inspec/inspec/pull/7144) ([IanMadd](https://github.com/IanMadd)) <!-- 6.8.6 -->
-- ci: introduce inspec-7 as part of release branches [#7135](https://github.com/inspec/inspec/pull/7135) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.5 -->
-- CHEF-14881: Fix habitat pipeline for InSpec 6 [#7127](https://github.com/inspec/inspec/pull/7127) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.5 -->
-- Editing for install script docs [#7129](https://github.com/inspec/inspec/pull/7129) ([IanMadd](https://github.com/IanMadd)) <!-- 6.8.5 -->
-- added docs changes [#7118](https://github.com/inspec/inspec/pull/7118) ([vviveksharma](https://github.com/vviveksharma)) <!-- 6.8.4 -->
-- ci: use latest local license server [#7123](https://github.com/inspec/inspec/pull/7123) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.3 -->
-- enhance: improve fetch and persist to catch entitlement exception [#7121](https://github.com/inspec/inspec/pull/7121) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.3 -->
-- ci: resume habitat pipeline  [#7109](https://github.com/inspec/inspec/pull/7109) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.2 -->
-- Bump rexml from 3.3.2 to 3.3.3 in /omnibus [#7116](https://github.com/inspec/inspec/pull/7116) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.8.2 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v6.8.11](https://github.com/inspec/inspec/tree/v6.8.11) (2024-11-06)
+
+#### Merged Pull Requests
+- Bump rexml from 3.3.2 to 3.3.3 in /omnibus [#7116](https://github.com/inspec/inspec/pull/7116) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- ci: resume habitat pipeline  [#7109](https://github.com/inspec/inspec/pull/7109) ([ahasunos](https://github.com/ahasunos))
+- enhance: improve fetch and persist to catch entitlement exception [#7121](https://github.com/inspec/inspec/pull/7121) ([ahasunos](https://github.com/ahasunos))
+- ci: use latest local license server [#7123](https://github.com/inspec/inspec/pull/7123) ([ahasunos](https://github.com/ahasunos))
+- added docs changes [#7118](https://github.com/inspec/inspec/pull/7118) ([vviveksharma](https://github.com/vviveksharma))
+- Editing for install script docs [#7129](https://github.com/inspec/inspec/pull/7129) ([IanMadd](https://github.com/IanMadd))
+- CHEF-14881: Fix habitat pipeline for InSpec 6 [#7127](https://github.com/inspec/inspec/pull/7127) ([ahasunos](https://github.com/ahasunos))
+- ci: introduce inspec-7 as part of release branches [#7135](https://github.com/inspec/inspec/pull/7135) ([ahasunos](https://github.com/ahasunos))
+- Update install doc [#7144](https://github.com/inspec/inspec/pull/7144) ([IanMadd](https://github.com/IanMadd))
+- CHEF-14805 Oracle db session resource fixes [#7136](https://github.com/inspec/inspec/pull/7136) ([Nik08](https://github.com/Nik08))
+- ci: improve hab pipeline for windows [#7153](https://github.com/inspec/inspec/pull/7153) ([ahasunos](https://github.com/ahasunos))
+- Added fatal message check for postgres_session:query method [#7154](https://github.com/inspec/inspec/pull/7154) ([gokulks97](https://github.com/gokulks97))
+- added the correct prod Url spellings [#7166](https://github.com/inspec/inspec/pull/7166) ([vviveksharma](https://github.com/vviveksharma))
+- Improved regex to load readme from inspec profiles [#7198](https://github.com/inspec/inspec/pull/7198) ([Nik08](https://github.com/Nik08))
+- chore: disable habitat package promotion in config [#7197](https://github.com/inspec/inspec/pull/7197) ([ahasunos](https://github.com/ahasunos))
+- CHEF-12879 Test kitchen integration with InSpec 6 [#7168](https://github.com/inspec/inspec/pull/7168) ([Nik08](https://github.com/Nik08))
+<!-- latest_stable_release -->
+
 ## [v6.8.1](https://github.com/inspec/inspec/tree/v6.8.1) (2024-07-31)
 
 #### Merged Pull Requests
@@ -123,7 +120,6 @@
 - Bump omnibus-software from `02fa677` to `b73b772` in /omnibus [#7105](https://github.com/inspec/inspec/pull/7105) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Attempt to fix the random failure of depedency_loader unit test [#7101](https://github.com/inspec/inspec/pull/7101) ([Vasu1105](https://github.com/Vasu1105))
 - Bump omnibus from `41d5c3b` to `3efa84c` in /omnibus [#7106](https://github.com/inspec/inspec/pull/7106) ([dependabot[bot]](https://github.com/dependabot[bot]))
-<!-- latest_stable_release -->
 
 ## [v6.6.0](https://github.com/inspec/inspec/tree/v6.6.0) (2023-11-14)
 
