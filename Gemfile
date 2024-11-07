@@ -36,6 +36,8 @@ group :omnibus do
   gem "bcrypt_pbkdf" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
 end
 
+gem "openssl", "= 3.2.0"
+
 group :test do
   gem "chefstyle"
   gem "concurrent-ruby"
