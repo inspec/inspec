@@ -31,9 +31,13 @@ function Install-OpenSSL {
 
     Write-Host "+++ Downloading OpenSSL version 3..."
 
-    # Download OpenSSL installer from the official source with certificate validation skipped
+    # Set to allow insecure SSL connections (bypass certificate check)
+    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12 -bor [System.Net.SecurityProtocolType]::Tls11 -bor [System.Net.SecurityProtocolType]::Ssl3
+    [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
+
+    # Download OpenSSL installer from the official source
     $installer_path = "$env:TEMP\Win64OpenSSL-3.0.0.exe"
-    Invoke-WebRequest -Uri $openssl_url -OutFile $installer_path -SkipCertificateCheck
+    Invoke-WebRequest -Uri $openssl_url -OutFile $installer_path
 
     # Run the installer (silent install)
     Write-Host "+++ Installing OpenSSL..."
