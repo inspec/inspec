@@ -31,9 +31,9 @@ function Install-OpenSSL {
 
     Write-Host "+++ Downloading OpenSSL version 3..."
 
-    # Download OpenSSL installer from the official source
+    # Download OpenSSL installer from the official source with certificate validation skipped
     $installer_path = "$env:TEMP\Win64OpenSSL-3.0.0.exe"
-    Invoke-WebRequest -Uri $openssl_url -OutFile $installer_path
+    Invoke-WebRequest -Uri $openssl_url -OutFile $installer_path -SkipCertificateCheck
 
     # Run the installer (silent install)
     Write-Host "+++ Installing OpenSSL..."
