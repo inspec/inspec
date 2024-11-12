@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.5 -->
-## [v7.0.5](https://github.com/inspec/inspec/tree/v7.0.5) (2024-11-12)
+<!-- latest_release 7.0.6 -->
+## [v7.0.6](https://github.com/inspec/inspec/tree/v7.0.6) (2024-11-12)
 
 #### Merged Pull Requests
-- CHEF-15332: Cleanup RabbitMQ resources and documentation from InSpec [#7183](https://github.com/inspec/inspec/pull/7183) ([ahasunos](https://github.com/ahasunos))
+- CHEF-15330 Cleanup ibmdb2 resources from Inspec repo [#7190](https://github.com/inspec/inspec/pull/7190) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- CHEF-15330 Cleanup ibmdb2 resources from Inspec repo [#7190](https://github.com/inspec/inspec/pull/7190) ([Nik08](https://github.com/Nik08)) <!-- 7.0.6 -->
 - CHEF-15332: Cleanup RabbitMQ resources and documentation from InSpec [#7183](https://github.com/inspec/inspec/pull/7183) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.5 -->
 - CHEF-15331 Removes the sybase resources from core  [#7171](https://github.com/inspec/inspec/pull/7171) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.4 -->
 - CHEF-15329: Cleanup MongoDB resources and documentation from InSpec [#7169](https://github.com/inspec/inspec/pull/7169) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.3 -->
