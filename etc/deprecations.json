@@ -135,6 +135,10 @@
     "elasticsearch.*": {
       "gem":"inspec-elasticsearch-resources",
       "message":"The `inspec-elasticsearch-resources` allows testing of elasticsearch using Inspec."
+    },
+    "docker.+":{
+      "gem": "inspec-docker-resources",
+      "message": "The Inspec docker resources are moved out of InSpec core and will be installed as gem"
     }
   }
 }
