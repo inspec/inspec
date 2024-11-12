@@ -116,7 +116,6 @@ class MockLoader
       "C:\\app\\Administrator\\product\\18.0.0\\dbhomeXE\\network\\admin\\listener.ora" => mockfile.call("listener.ora"),
       "/etc/cassandra/cassandra.yaml" => mockfile.call("cassandra.yaml"),
       "C:\\Program Files\\apache-cassandra-3.11.4-bin\\apache-cassandra-3.11.4\\conf\\cassandra.yaml" => mockfile.call("cassandra.yaml"),
-      "/etc/rabbitmq/rabbitmq.config" => mockfile.call("rabbitmq.config"),
       "kitchen.yml" => mockfile.call("kitchen.yml"),
       "example.csv" => mockfile.call("example.csv"),
       "policyfile.lock.json" => mockfile.call("policyfile.lock.json"),
