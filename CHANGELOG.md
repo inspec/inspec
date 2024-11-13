@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 5.22.59 -->
+## [v5.22.59](https://github.com/inspec/inspec/tree/v5.22.59) (2024-11-13)
+
+#### Merged Pull Requests
+- Pin zeitwerk gem to ~&gt; 2.6 to avoid Ruby &gt;= 3.2 requirement [#7207](https://github.com/inspec/inspec/pull/7207) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=5.22.58 -->
+### Changes since 5.22.58 release
+
+#### Merged Pull Requests
+- Pin zeitwerk gem to ~&gt; 2.6 to avoid Ruby &gt;= 3.2 requirement [#7207](https://github.com/inspec/inspec/pull/7207) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.59 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
