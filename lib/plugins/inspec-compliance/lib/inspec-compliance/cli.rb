@@ -123,6 +123,8 @@ module InspecPlugins
         desc: "Overwrite existing profile on Server."
       option :owner, type: :string, required: false,
         desc: "Owner that should own the profile"
+      option :legacy, type: :boolean, default: false,
+        desc: "Enable legacy functionality, activating both legacy export and legacy check."
       def upload(path) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
         config = InspecPlugins::Compliance::Configuration.new
         return unless loggedin(config)
@@ -155,7 +157,7 @@ module InspecPlugins
           puts msg
         }
 
-        result = profile.check
+        result = options["legacy"] ? profile.legacy_check : profile.check
         unless result[:summary][:valid]
           error.call("Profile check failed. Please fix the profile before upload.")
         else
@@ -191,7 +193,7 @@ module InspecPlugins
           generated = true
           archive_path = Dir::Tmpname.create([profile_name, ".tar.gz"]) {}
           puts "Generate temporary profile archive at #{archive_path}"
-          profile.archive({ output: archive_path, ignore_errors: false, overwrite: true })
+          profile.archive({ output: archive_path, ignore_errors: false, overwrite: true, legacy_export: options["legacy"] })
         else
           archive_path = path
         end
