@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/chef/omnibus-software.git
-  revision: dd171125b10e9a457090cc20165ee4ecf2e0d51d
-  branch: main
+  revision: 9ef9c8e94e7a7f7432c48207ba427c3b7c1c6ce6
+  branch: ss/add-openssl-3.0.15
   specs:
     omnibus-software (24.6.323)
       omnibus (>= 9.0.0)

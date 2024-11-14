@@ -56,3 +56,5 @@ end
 group :deploy do
   gem "inquirer"
 end
+
+gem "openssl", ">= 3.2.0"
