@@ -10,7 +10,7 @@ Write-Host "+++ Testing $Plan"
 # *********Debugging ***************
 Write-Host ":ruby: Validating Ruby can run"
 & $embedded_bin_dir\ruby --version
-If ($lastexitcode -ne 0) { Throw $lastexit
+If ($lastexitcode -ne 0) { Throw $lastexit }
 
 Write-Host ":bundler: Validating Bundler can run"
 & $embedded_bin_dir\bundle.bat --version
