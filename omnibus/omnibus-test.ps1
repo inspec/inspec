@@ -7,6 +7,20 @@ $Env:PATH = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";
 $Env:Path = "C:\opscode\inspec\bin;C:\opscode\inspec\embedded\bin;$Env:PATH"
 Write-Host "+++ Testing $Plan"
 
+# *********Debugging ***************
+Write-Host ":ruby: Validating Ruby can run"
+& $embedded_bin_dir\ruby --version
+If ($lastexitcode -ne 0) { Throw $lastexit
+
+Write-Host ":bundler: Validating Bundler can run"
+& $embedded_bin_dir\bundle.bat --version
+If ($lastexitcode -ne 0) { Throw $lastexitcode }
+
+Write-Host ":lock: Validating OpenSSL can run"
+$version=(&"$embedded_bin_dir\openssl.exe" version)
+If ($lastexitcode -ne 0) { Throw $lastexitcode }
+
+
 Set-Location test/artifact
 rake
 If ($lastexitcode -ne 0) { Throw $lastexitcode }
