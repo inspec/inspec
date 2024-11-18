@@ -7,4 +7,4 @@ override "ruby", version: "3.1.6"
 
 override :openssl, version: "3.0.11"
 
-override "ruby-msys2-devkit", version: "3.3.1-1"
+override :ruby-msys2-devkit, version: windows? ? "3.1.4-1" : "3.1.6-1"
