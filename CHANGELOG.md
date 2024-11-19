@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.8 -->
-## [v7.0.8](https://github.com/inspec/inspec/tree/v7.0.8) (2024-11-12)
+<!-- latest_release 7.0.9 -->
+## [v7.0.9](https://github.com/inspec/inspec/tree/v7.0.9) (2024-11-19)
 
 #### Merged Pull Requests
-- CHEF-14729 Habitat LTS channel support  [#7191](https://github.com/inspec/inspec/pull/7191) ([Nik08](https://github.com/Nik08))
+- CHEF-17239: Fix tests to restore green verify pipeline [#7208](https://github.com/inspec/inspec/pull/7208) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- CHEF-17239: Fix tests to restore green verify pipeline [#7208](https://github.com/inspec/inspec/pull/7208) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.9 -->
 - CHEF-14729 Habitat LTS channel support  [#7191](https://github.com/inspec/inspec/pull/7191) ([Nik08](https://github.com/Nik08)) <!-- 7.0.8 -->
 - CHEF-15119 - Removes docker resources from core [#7170](https://github.com/inspec/inspec/pull/7170) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.7 -->
 - CHEF-15330 Cleanup ibmdb2 resources from Inspec repo [#7190](https://github.com/inspec/inspec/pull/7190) ([Nik08](https://github.com/Nik08)) <!-- 7.0.6 -->
