@@ -8,16 +8,19 @@ $Env:Path = "C:\opscode\inspec\bin;C:\opscode\inspec\embedded\bin;$Env:PATH"
 Write-Host "+++ Testing $Plan"
 
 # *********Debugging ***************
+$embedded_bin_dir = "C:\opscode\inspec\embedded\bin"
+Write-Host "The value of embedded_bin_dir is: $embedded_bin_dir"
+
 Write-Host ":ruby: Validating Ruby can run"
-& $embedded_bin_dir\ruby.exe --version
+& "$embedded_bin_dir\ruby.exe" --version
 if ($LASTEXITCODE -ne 0) { Throw "Ruby validation failed with exit code $LASTEXITCODE" }
 
 Write-Host ":bundler: Validating Bundler can run"
-& $embedded_bin_dir\bundle.bat --version
+& "$embedded_bin_dir\bundle.bat" --version
 if ($LASTEXITCODE -ne 0) { Throw "Bundler validation failed with exit code $LASTEXITCODE" }
 
 Write-Host ":lock: Validating OpenSSL can run"
-$version = (&"$embedded_bin_dir\openssl.exe" version)
+& "$embedded_bin_dir\openssl.exe" version
 if ($LASTEXITCODE -ne 0) { Throw "OpenSSL validation failed with exit code $LASTEXITCODE" }
 
 # Check if directory exists before changing location
