@@ -5,14 +5,20 @@ class DeprecationTester < Inspec.resource(1)
 
   DEPRECATION_CFG = <<~EOC
     {
-      "file_version": "1.0.0",
+      "file_version": "2.0.0",
       "unknown_group_action": "warn",
       "groups": {
         "a_group_that_will_warn": { "action": "warn" },
-        "a_group_that_will_exit": { "action": "exit"  },
+        "a_group_that_will_exit": { "action": "exit" },
         "a_group_that_will_exit_with_a_code": { "action": "exit", "exit_status": 8 },
         "an_ignored_group": { "action": "ignore" },
         "a_group_that_will_fail": { "action": "fail_control" }
+      },
+      "fallback_resource_packs": {
+        "somepath.+": {
+          "gem": "inspec-stuff-resources",
+          "message": "Words"
+        }
       }
     }
   EOC
