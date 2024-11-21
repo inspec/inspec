@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/chef/omnibus-software.git
-  revision: dd171125b10e9a457090cc20165ee4ecf2e0d51d
-  branch: main
+  revision: c86267c15a7634ec7e22527e261a3e5959f9964f
+  branch: tp/ruby-3.1.6-devkit-fix-and-upgrade
   specs:
     omnibus-software (24.6.323)
       ffi (>= 1.17.0)
