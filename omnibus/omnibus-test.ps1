@@ -7,7 +7,7 @@ $Env:PATH = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";
 $Env:Path = "C:\opscode\inspec\bin;C:\opscode\inspec\embedded\bin;$Env:PATH"
 Write-Host "+++ Testing $Plan"
 
-# *********Debugging ***************
+# ********* Verifying Tools/Applications ***************
 $embedded_bin_dir = "C:\opscode\inspec\embedded\bin"
 Write-Host "The value of embedded_bin_dir is: $embedded_bin_dir"
 
