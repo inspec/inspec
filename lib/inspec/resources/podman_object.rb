@@ -1,8 +1,4 @@
-#
-# Copyright 2017, Christoph Hartmann
-#
-
-module Inspec::Resources::DockerObject
+module Inspec::Resources::PodmanObject
   def exist?
     object_info.exists?
   end

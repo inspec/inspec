@@ -1,10 +1,10 @@
 require "inspec/resources/command"
-require_relative "docker_object"
+require_relative "podman_object"
 require "inspec/utils/podman"
 
 module Inspec::Resources
   class PodmanImage < Inspec.resource(1)
-    include Inspec::Resources::DockerObject
+    include Inspec::Resources::PodmanObject
     include Inspec::Utils::Podman
 
     name "podman_image"

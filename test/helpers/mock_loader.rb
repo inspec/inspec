@@ -116,7 +116,6 @@ class MockLoader
       "C:\\app\\Administrator\\product\\18.0.0\\dbhomeXE\\network\\admin\\listener.ora" => mockfile.call("listener.ora"),
       "/etc/cassandra/cassandra.yaml" => mockfile.call("cassandra.yaml"),
       "C:\\Program Files\\apache-cassandra-3.11.4-bin\\apache-cassandra-3.11.4\\conf\\cassandra.yaml" => mockfile.call("cassandra.yaml"),
-      "/etc/rabbitmq/rabbitmq.config" => mockfile.call("rabbitmq.config"),
       "kitchen.yml" => mockfile.call("kitchen.yml"),
       "example.csv" => mockfile.call("example.csv"),
       "policyfile.lock.json" => mockfile.call("policyfile.lock.json"),
@@ -532,21 +531,6 @@ class MockLoader
       "which zfs" => cmd.call("zfs-which"),
       # which zpool
       "which zpool" => cmd.call("zpool-which"),
-      # docker
-      "4f8e24022ea8b7d3b117041ec32e55d9bf08f11f4065c700e7c1dc606c84fd17" => cmd.call("docker-ps-a"),
-      "b40ed61c006b54f155b28a85dc944dc0352b30222087b47c6279568ec0e59d05" => cmd.call("df-PT"),
-      "docker version --format '{{ json . }}'" => cmd.call("docker-version"),
-      "docker info --format '{{ json . }}'" => cmd.call("docker-info"),
-      "docker inspect 71b5df59442b" => cmd.call("docker-inspec"),
-      "docker inspect trusting_williams" => cmd.call("docker-inspect"), # inspect container to check for mounted volumes
-      "docker inspect fried_water" => cmd.call("docker-inspect-e"), # inspect container to check for mounted volumes
-      # docker images
-      "83c36bfade9375ae1feb91023cd1f7409b786fd992ad4013bf0f2259d33d6406" => cmd.call("docker-images"),
-      "docker inspect ubuntu:latest" => cmd.call("docker-inspect-image"),
-      # docker services
-      %{docker service ls --format '{"ID": {{json .ID}}, "Name": {{json .Name}}, "Mode": {{json .Mode}}, "Replicas": {{json .Replicas}}, "Image": {{json .Image}}, "Ports": {{json .Ports}}}'} => cmd.call("docker-service-ls"),
-      # docker plugins
-      %{docker plugin ls --format '{"id": {{json .ID}}, "name": "{{ with split .Name ":"}}{{index . 0}}{{end}}", "version": "{{ with split .Name ":"}}{{index . 1}}{{end}}", "enabled": {{json .Enabled}} }'} => cmd.call("docker-plugin-ls"),
       # modprobe for kernel_module
       "modprobe --showconfig" => cmd.call("modprobe-config"),
       # get-process cmdlet for processes resource
@@ -691,12 +675,6 @@ class MockLoader
       "opa eval -i 'input.json' -d 'example.rego' 'data.example.voilation'" => cmd.call("opa-empty-result"),
       "curl -X POST localhost:8181/v1/data/example/violation -d @v1-data-input.json -H 'Content-Type: application/json'" => cmd.call("opa-api-result"),
       "curl -X POST localhost:8181/v1/data/example/violation -d @v1-data-input1.json -H 'Content-Type: application/json'" => cmd.call("opa-api-empty-result"),
-
-      # ibmdb2
-      "/opt/ibm/db2/V11.5/bin/db2 attach to db2inst1; /opt/ibm/db2/V11.5/bin/db2 get database manager configuration" => cmd.call("ibmdb2_conf_output"),
-      "/opt/ibm/db2/V11.5/bin/db2 attach to db2inst1; /opt/ibm/db2/V11.5/bin/db2 connect to sample; /opt/ibm/db2/V11.5/bin/db2 select rolename from syscat.roleauth;" => cmd.call("ibmdb2_query_output"),
-      "set-item -path env:DB2CLP -value \"**$$**\"; db2 get database manager configuration" => cmd.call("ibmdb2_conf_output"),
-      "set-item -path env:DB2CLP -value \"**$$**\"; db2 connect to sample; db2 \"select rolename from syscat.roleauth\";" => cmd.call("ibmdb2_query_output"),
 
       # file resource windows inherit
       "(Get-Acl 'C:/ExamlpeFolder').access| Where-Object {$_.IsInherited -eq $true} | measure | % { $_.Count }" => cmd.call("windows_file_inherit_output"),
