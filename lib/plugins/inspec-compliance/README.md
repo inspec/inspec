@@ -14,8 +14,18 @@ To use the CLI, this InSpec add-on adds the following commands:
  * `$ inspec automate profiles` - list all available Compliance profiles
  * `$ inspec exec compliance://profile` - runs a Compliance profile
  * `$ inspec automate upload path/to/local/profile` - uploads a local profile to Chef Automate/Chef Compliance
+ * `$ inspec automate upload path/to/local/profile --legacy` - uploads a local profile to Chef Automate/Chef Compliance using legacy functionalities of inspec check and inspec export
+
+    *Options*:
+    ```
+      [--overwrite], [--no-overwrite]  # Overwrite existing profile on Server.
+      [--owner=OWNER]                  # Owner that should own the profile
+      [--legacy], [--no-legacy]        # Enable legacy functionality, activating both legacy export and legacy check.
+
+    uploads a local profile to Chef Automate
+    ```
  * `$ inspec automate logout` - logout of Chef Automate/Chef Compliance
- 
+
  Similar to these CLI commands are:
 
  * `$ inspec compliance login` - authentication of the API token against Chef Automate/Chef Compliance

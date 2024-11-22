@@ -1,7 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release -->
+<!-- latest_release 6.8.13 -->
+## [v6.8.13](https://github.com/inspec/inspec/tree/v6.8.13) (2024-11-11)
+
+#### Merged Pull Requests
+- CHEF-15651: Introduce `--legacy` flag for compatibility in `inspec automate upload` with legacy checks and export options [#7200](https://github.com/inspec/inspec/pull/7200) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -30,7 +34,12 @@
 #### Merged Pull Requests
 - Bump omnibus-software from `4b08f0b` to `3268356` in /omnibus [#6587](https://github.com/inspec/inspec/pull/6587) ([dependabot[bot]](https://github.com/dependabot[bot]))
 
-<!-- release_rollup -->
+<!-- release_rollup since=6.8.11 -->
+### Changes since 6.8.11 release
+
+#### Merged Pull Requests
+- CHEF-15651: Introduce `--legacy` flag for compatibility in `inspec automate upload` with legacy checks and export options [#7200](https://github.com/inspec/inspec/pull/7200) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.13 -->
+- Fix license server URL override issue by prioritizing environment-set value [#7203](https://github.com/inspec/inspec/pull/7203) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.12 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
