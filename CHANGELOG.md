@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.60 -->
-## [v5.22.60](https://github.com/inspec/inspec/tree/v5.22.60) (2024-11-13)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- [Backport] - Introduce `--legacy` flag for compatibility in `inspec automate upload` with legacy checks and export options [#7204](https://github.com/inspec/inspec/pull/7204) ([ahasunos](https://github.com/ahasunos))
+- ci: update digi cert token for windows platforms [#7218](https://github.com/inspec/inspec/pull/7218) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.58 -->
 ### Changes since 5.22.58 release
 
 #### Merged Pull Requests
+- ci: update digi cert token for windows platforms [#7218](https://github.com/inspec/inspec/pull/7218) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.60 -->
 - [Backport] - Introduce `--legacy` flag for compatibility in `inspec automate upload` with legacy checks and export options [#7204](https://github.com/inspec/inspec/pull/7204) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.60 -->
 - Pin zeitwerk gem to ~&gt; 2.6 to avoid Ruby &gt;= 3.2 requirement [#7207](https://github.com/inspec/inspec/pull/7207) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.59 -->
 <!-- release_rollup -->
