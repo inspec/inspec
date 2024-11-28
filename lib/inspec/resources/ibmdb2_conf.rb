@@ -16,6 +16,7 @@ module Inspec::Resources
     attr_reader :output
 
     def initialize(opts = {})
+      Inspec.deprecate(:core_resource_moved_to_rp, "The ibmdb2_conf resource will be deprecated in InSpec 7.")
       if inspec.os.platform?("unix")
         @db2_executable_file_path = opts[:db2_executable_file_path]
         @db_instance = opts[:db_instance]
