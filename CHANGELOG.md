@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.22.61 -->
+## [v5.22.61](https://github.com/inspec/inspec/tree/v5.22.61) (2024-11-28)
 
 #### Merged Pull Requests
+- [Backport] CHEF-11226: Upgrade Ruby and Ruby Dev Kit to 3.1.6 due to outdated em… [#7215](https://github.com/inspec/inspec/pull/7215) ([ahasunos](https://github.com/ahasunos))
 - ci: update digi cert token for windows platforms [#7218](https://github.com/inspec/inspec/pull/7218) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.22.58 release
 
 #### Merged Pull Requests
+- [Backport] CHEF-11226: Upgrade Ruby and Ruby Dev Kit to 3.1.6 due to outdated em… [#7215](https://github.com/inspec/inspec/pull/7215) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.61 -->
 - ci: update digi cert token for windows platforms [#7218](https://github.com/inspec/inspec/pull/7218) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.60 -->
 - [Backport] - Introduce `--legacy` flag for compatibility in `inspec automate upload` with legacy checks and export options [#7204](https://github.com/inspec/inspec/pull/7204) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.60 -->
 - Pin zeitwerk gem to ~&gt; 2.6 to avoid Ruby &gt;= 3.2 requirement [#7207](https://github.com/inspec/inspec/pull/7207) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.59 -->
