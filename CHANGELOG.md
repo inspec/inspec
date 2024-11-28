@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.61 -->
-## [v5.22.61](https://github.com/inspec/inspec/tree/v5.22.61) (2024-11-28)
+<!-- latest_release 5.22.62 -->
+## [v5.22.62](https://github.com/inspec/inspec/tree/v5.22.62) (2024-11-28)
 
 #### Merged Pull Requests
-- [Backport] CHEF-11226: Upgrade Ruby and Ruby Dev Kit to 3.1.6 due to outdated em… [#7215](https://github.com/inspec/inspec/pull/7215) ([ahasunos](https://github.com/ahasunos))
-- ci: update digi cert token for windows platforms [#7218](https://github.com/inspec/inspec/pull/7218) ([ahasunos](https://github.com/ahasunos))
+- BACKPORT-7198 Improved regex to load readme from inspec profiles [#7221](https://github.com/inspec/inspec/pull/7221) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.58 -->
 ### Changes since 5.22.58 release
 
 #### Merged Pull Requests
+- BACKPORT-7198 Improved regex to load readme from inspec profiles [#7221](https://github.com/inspec/inspec/pull/7221) ([Nik08](https://github.com/Nik08)) <!-- 5.22.62 -->
 - [Backport] CHEF-11226: Upgrade Ruby and Ruby Dev Kit to 3.1.6 due to outdated em… [#7215](https://github.com/inspec/inspec/pull/7215) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.61 -->
 - ci: update digi cert token for windows platforms [#7218](https://github.com/inspec/inspec/pull/7218) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.60 -->
 - [Backport] - Introduce `--legacy` flag for compatibility in `inspec automate upload` with legacy checks and export options [#7204](https://github.com/inspec/inspec/pull/7204) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.60 -->
