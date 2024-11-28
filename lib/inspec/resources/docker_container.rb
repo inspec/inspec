@@ -32,6 +32,7 @@ module Inspec::Resources
 
     def initialize(opts = {})
       # if a string is provided, we expect it is the name
+      Inspec.deprecate(:core_resource_moved_to_rp, "The docker_container resource will be deprecated in InSpec 7.")
       if opts.is_a?(String)
         @opts = { name: opts }
       else
