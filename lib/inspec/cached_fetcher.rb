@@ -52,7 +52,12 @@ module Inspec
         fetch
       elsif cache.exists?(cache_key) && !cache.locked?(cache_key)
         Inspec::Log.debug "Using cached dependency for #{target}"
-        [cache.prefered_entry_for(cache_key), false]
+        cache_value = cache.prefered_entry_for(cache_key)
+        if cache_value
+          [cache_value, false]
+        else
+          Inspec::Log.debug "Dependency does not exist in the cache for target #{target}"
+        end
       else
         begin
           Inspec::Log.debug "Dependency does not exist in the cache #{target}"

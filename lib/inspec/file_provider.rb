@@ -7,27 +7,31 @@ require "inspec/iaf_file"
 module Inspec
   class FileProvider
     def self.for_path(path)
-      if path.is_a?(Hash) && !path.key?(:gem)
-        MockProvider.new(path)
-      elsif path.is_a?(Hash) && path.key?(:gem)
-        GemProvider.new(path)
-      elsif File.directory?(path)
-        DirProvider.new(path)
-      elsif File.exist?(path) && path.end_with?(".tar.gz", "tgz")
-        TarProvider.new(path)
-      elsif File.exist?(path) && path.end_with?(".zip")
-        ZipProvider.new(path)
-      elsif File.exist?(path) && path.end_with?(".iaf")
-        iaf_file = IafFile.new(path)
-        if iaf_file.valid?
-          IafProvider.new(path)
+      if path
+        if path.is_a?(Hash) && !path.key?(:gem)
+          MockProvider.new(path)
+        elsif path.is_a?(Hash) && path.key?(:gem)
+          GemProvider.new(path)
+        elsif File.directory?(path)
+          DirProvider.new(path)
+        elsif File.exist?(path) && path.end_with?(".tar.gz", "tgz")
+          TarProvider.new(path)
+        elsif File.exist?(path) && path.end_with?(".zip")
+          ZipProvider.new(path)
+        elsif File.exist?(path) && path.end_with?(".iaf")
+          iaf_file = IafFile.new(path)
+          if iaf_file.valid?
+            IafProvider.new(path)
+          else
+            raise Inspec::InvalidProfileSignature, "Profile signature is invalid."
+          end
+        elsif File.exist?(path)
+          DirProvider.new(path)
         else
-          raise Inspec::InvalidProfileSignature, "Profile signature is invalid."
+          raise "No file provider for the provided path: #{path}"
         end
-      elsif File.exist?(path)
-        DirProvider.new(path)
       else
-        raise "No file provider for the provided path: #{path}"
+        raise "Profile or dependency path not resolved."
       end
     end
 
