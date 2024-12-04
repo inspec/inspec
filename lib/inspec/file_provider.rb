@@ -111,16 +111,24 @@ module Inspec
       # Determine a path to the gem installation directory
       gem_name = gem_info[:gem]
       bootstrap_file = gem_info[:path]
+      gem_version = gem_info[:version]
       if bootstrap_file
         # We were given an explicit path - go two directories up
         parts = Pathname(gem_info[:path]).each_filename.to_a
         @gem_lib_root = File.join(parts.slice(0, parts.length - 2))
+        @files = Dir[File.join(Shellwords.shellescape(@gem_lib_root), "**", "*")]
       else
         # Look up where the gem is installed, respecting version
-        raise NotImplementedError, "TODO: Gem FileProvider when gem #{gem_name} is not a local reference"
+        loader = Inspec::Plugin::V2::Loader.new
+        gem_path = loader.find_gem_directory(gem_name, gem_version)
+        if File.exist?(gem_path)
+          gem = DirProvider.new(gem_path)
+          @files = gem.files
+          gem
+        else
+          raise "Dependency does not exist #{gem_name}"
+        end
       end
-
-      @files = Dir[File.join(Shellwords.shellescape(@gem_lib_root), "**", "*")]
     end
 
     def read(file)
