@@ -11,7 +11,7 @@ $pkg_description="InSpec is an open-source testing framework for infrastructure
   with a human- and machine-readable language for specifying compliance,
   security and policy requirements."
 $pkg_upstream_url="https://www.inspec.io/"
-$pkg_maintainer="The Habitat Maintainers <humans@habitat.sh>"
+$pkg_maintainer="The Chef Maintainers <humans@chef.io>"
 $pkg_license=('Apache-2.0')
 
 $pkg_deps=@(
