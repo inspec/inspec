@@ -12,7 +12,6 @@ pkg_deps=(
   core/git
   core/ruby30
   core/bash
-  core/git
 )
 pkg_build_deps=(
   core/gcc
