@@ -121,7 +121,7 @@ module Inspec::Resources
     # extracts the shortname from a repo id
     # e.g. extras/7/x86_64 -> extras
     def shortname(id)
-      val = %r{^\s*([^/]*?)/(.*?)\s*$}.match(id)
+      val = %r{^([^/]+)/.*$}.match(id)
       val.nil? ? nil : val[1]
     end
 
