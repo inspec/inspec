@@ -8,6 +8,7 @@ module Inspec
   class FileProvider
     def self.for_path(path)
       raise "Profile or dependency path not resolved." if path.nil?
+
       if path.is_a?(Hash) && !path.key?(:gem)
         MockProvider.new(path)
       elsif path.is_a?(Hash) && path.key?(:gem)
