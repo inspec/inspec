@@ -121,8 +121,16 @@ module Inspec
 
       # Device-/Sharename or Mountpoint includes whitespaces?
       def includes_whitespaces?(mount_line)
-        ws = mount_line.match(/^(.+)\son\s(.+)\stype\s.*$/)
-        ws.captures[0].include?(" ") || ws.captures[1].include?(" ")
+        # Split the mount_line by " on "
+        parts = mount_line.split(" on ")
+
+        # Check if the first part (device/share) or the second part (path) contains " type "
+        return false if parts.length != 2
+
+        fs_part, path_part = parts
+
+        # Check if either part contains spaces
+        fs_part.include?(" ") || path_part.include?(" ")
       end
     end
 
