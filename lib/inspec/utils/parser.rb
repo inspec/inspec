@@ -72,15 +72,27 @@ module Inspec
         if includes_whitespaces?(mount_line)
           # Device-/Sharenames and Mountpoints including whitespaces require special treatment:
           # We use the keyword ' type ' to split up and rebuild the desired array of fields
+          # Split the mount line by the keyword ' type '
           type_split = mount_line.split(" type ")
           fs_path = type_split[0]
           other_opts = type_split[1]
-          fs, path = fs_path.match(%r{^(.+?)\son\s(/.+?)$}).captures
+
+          # Manually split fs_path into the filesystem and path parts
+          parts = fs_path.split(" on ")
+          fs = parts[0]
+          path = parts[1]
+
+          # Start building the mount array
           mount = [fs, "on", path, "type"]
-          mount.concat(other_opts.scan(/\S+/))
+
+          # Split the remaining options by spaces
+          other_opts = other_opts.split(/\s+/)
+
+          # Concatenate the options to the mount array
+          mount.concat(other_opts)
         else
-          # ... otherwise we just split the fields by whitespaces
-          mount = mount_line.scan(/\S+/)
+          # If no whitespace, simply split by spaces
+          mount = mount_line.split(/\s+/)
         end
 
         # parse device and type
