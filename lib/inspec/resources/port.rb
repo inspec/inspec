@@ -488,7 +488,7 @@ module Inspec::Resources
       # 1 - Proto, 2 - Recv-Q, 3 - Send-Q, 4 - Local Address, 5 - Foreign Address, 6 - State, 7 - User, 8 - Inode, 9 - PID/Program name
       # * UDP lines have an empty State column and the Busybox variant lacks
       # the User and Inode columns.
-      reg = /^(?<proto>\S+)\s+(\S+)\s+(\S+)\s+(?<local_addr>\S+)\s+(?<foreign_addr>\S+)\s+(\S+)?\s+((\S+)\s+(\S+)\s+)?(?<pid_prog>\S+)/
+      reg = /^(?<proto>\S+)\s+(\S+)\s+(\S+)\s+(?<local_addr>\S+)\s+(?<foreign_addr>\S+)\s+(?:\S+\s+){0,2}(?<pid_prog>\S+)$/
       parsed = reg.match(line)
 
       return {} if parsed.nil? || line.match(/^proto/i)
