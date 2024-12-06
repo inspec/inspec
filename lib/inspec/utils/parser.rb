@@ -73,14 +73,10 @@ module Inspec
           # Device-/Sharenames and Mountpoints including whitespaces require special treatment:
           # We use the keyword ' type ' to split up and rebuild the desired array of fields
           # Split the mount line by the keyword ' type '
-          type_split = mount_line.split(" type ")
-          fs_path = type_split[0]
-          other_opts = type_split[1]
+          fs_path, other_opts = mount_line.split(" type ", 2)
 
           # Manually split fs_path into the filesystem and path parts
-          parts = fs_path.split(" on ")
-          fs = parts[0]
-          path = parts[1]
+          fs, path = fs_path.split(" on ", 2)
 
           # Start building the mount array
           mount = [fs, "on", path, "type"]
@@ -123,14 +119,10 @@ module Inspec
       def includes_whitespaces?(mount_line)
         # Split the mount_line by " on "
         parts = mount_line.split(" on ")
-
-        # Check if the first part (device/share) or the second part (path) contains " type "
         return false if parts.length != 2
 
-        fs_part, path_part = parts
-
         # Check if either part contains spaces
-        fs_part.include?(" ") || path_part.include?(" ")
+        parts.any? { |part| part.include?(" ") }
       end
     end
 
