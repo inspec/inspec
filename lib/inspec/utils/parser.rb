@@ -119,8 +119,6 @@ module Inspec
       def includes_whitespaces?(mount_line)
         # Split the mount_line by " on "
         parts = mount_line.split(" on ")
-        return false if parts.length != 2
-
         # Check if either part contains spaces
         parts.any? { |part| part.include?(" ") }
       end
