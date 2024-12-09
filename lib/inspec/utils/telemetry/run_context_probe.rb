@@ -10,7 +10,7 @@ module Inspec
         Inspec::Config.cached[:reporter]
           .keys
           .map(&:to_s)
-          .any? { |n| n =~ /automate/ }
+          .any? { |n| n =~ /automate/ } && (guess_run_context != "audit-cookbook")
       end
 
       # Guess, using stack introspection, if we were called under
@@ -19,8 +19,8 @@ module Inspec
       def self.guess_run_context(stack = nil)
         stack ||= caller_locations
         return "test-kitchen" if kitchen?(stack)
-        return "cli" if run_by_thor?(stack)
         return "audit-cookbook" if audit_cookbook?(stack)
+        return "cli" if run_by_thor?(stack)
 
         "unknown"
       end
@@ -36,8 +36,8 @@ module Inspec
       end
 
       def self.audit_cookbook?(stack)
-        stack_match(stack: stack, path: "chef/handler", label: "run_report_handlers") &&
-          stack_match(stack: stack, path: "handler/audit_report", label: "report")
+        stack_match(stack: stack, path: "chef/compliance/runner", label: "generate_report") &&
+          stack_match(stack: stack, path: "chef/compliance/runner", label: "report")
       end
 
       def self.stack_match(stack: [], label: nil, path: nil)
