@@ -7,6 +7,7 @@ module Inspec
     class ProfileLoadFailed < StandardError; end
     class ResourceFailed < StandardError; end
     class ResourceSkipped < StandardError; end
+    class GemDependencyNotFound < StandardError; end
     class SecretsBackendNotFound < ArgumentError; end
     class ProfileValidationKeyNotFound < ArgumentError; end
     class ProfileSigningKeyNotFound < ArgumentError; end

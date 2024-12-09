@@ -39,6 +39,7 @@ module Inspec
     EXIT_FAILED_TESTS = 100
     EXIT_SKIPPED_TESTS = 101
     EXIT_TERMINATED_BY_CTL_C = 130
+    EXIT_GEM_DEPENDENCY_NOT_FOUND = 201
 
     attr_reader :io
 
