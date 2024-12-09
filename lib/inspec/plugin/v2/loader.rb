@@ -172,9 +172,9 @@ module Inspec::Plugin::V2
 
     def self.find_gemspec_directory(gem_name, version = nil)
       selected_gemspec = list_managed_gems
-                          .select { |g| g.name == gem_name }
-                          .sort_by(&:version)
-                          .yield_self { |gems| version ? gems.find { |g| g.version == version } : gems.last }
+        .select { |g| g.name == gem_name }
+        .sort_by(&:version)
+        .yield_self { |gems| version ? gems.find { |g| g.version == version } : gems.last }
       selected_gemspec&.loaded_from
     end
 

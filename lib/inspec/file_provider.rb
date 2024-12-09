@@ -119,12 +119,12 @@ module Inspec
         # Look up where the gem is installed, respecting version
         loader = Inspec::Plugin::V2::Loader.new
         gem_path = loader.find_gem_directory(gem_name, gem_version)
-        if File.exist?(gem_path)
+        if gem_path && File.exist?(gem_path)
           gem = DirProvider.new(gem_path)
           @files = gem.files
           gem
         else
-          raise "Dependency does not exist #{gem_name}"
+          raise Inspec::Exceptions::GemDependencyNotFound, "Dependency does not exist #{gem_name}"
         end
       end
     end
