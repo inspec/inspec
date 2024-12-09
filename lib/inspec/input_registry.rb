@@ -173,7 +173,7 @@ module Inspec
             raise ArgumentError, "ERROR: An '=' is required when using --input. Usage: --input input_name1=input_value1 input2=value2"
           end
         end
-        pair = pair.match(/(.*?)=(.*)/)
+        pair = pair.match(/^([^=]+)=(.*)$/)
         input_name, input_value = pair[1], pair[2]
         input_value = parse_cli_input_value(input_name, input_value)
         evt = Inspec::Input::Event.new(
