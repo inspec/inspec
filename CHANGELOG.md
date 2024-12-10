@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.63 -->
-## [v5.22.63](https://github.com/inspec/inspec/tree/v5.22.63) (2024-12-05)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- gemfile: pin securerandom to use below 0.4.0 for ruby 3.1 and below [#7226](https://github.com/inspec/inspec/pull/7226) ([ahasunos](https://github.com/ahasunos))
+- empty commit [#7233](https://github.com/inspec/inspec/pull/7233) ([sean-simmons-progress](https://github.com/sean-simmons-progress))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.58 -->
 ### Changes since 5.22.58 release
 
 #### Merged Pull Requests
+- empty commit [#7233](https://github.com/inspec/inspec/pull/7233) ([sean-simmons-progress](https://github.com/sean-simmons-progress)) <!-- 5.22.63 -->
 - gemfile: pin securerandom to use below 0.4.0 for ruby 3.1 and below [#7226](https://github.com/inspec/inspec/pull/7226) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.63 -->
 - BACKPORT-7198 Improved regex to load readme from inspec profiles [#7221](https://github.com/inspec/inspec/pull/7221) ([Nik08](https://github.com/Nik08)) <!-- 5.22.62 -->
 - [Backport] CHEF-11226: Upgrade Ruby and Ruby Dev Kit to 3.1.6 due to outdated em… [#7215](https://github.com/inspec/inspec/pull/7215) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.61 -->
