@@ -1,0 +1,21 @@
+# Overridden on CLI
+working_directory: lib/plugins/inspec-suggest/test/fixtures/tmp
+
+sets:
+  test-fixture:
+    fetch:
+      - repo: https://github.com/inspec/inspec-test-profile-basic.git
+    paths:
+      - "*"
+  non-existing-fixture:
+    fetch:
+      - repo: https://github.com/inspec/inspec-non-existing-fixture.git
+    paths:
+      - "*"
+  bad-fixture-branch:
+    fetch:
+      - repo: https://github.com/inspec/inspec-test-profile-basic.git
+        ref: ss/profiles-for-build
+    paths:
+      - "bad-fixture-branch/inspec-test-profile-basic/*"
+
