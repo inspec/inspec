@@ -20,6 +20,7 @@ describe Inspec::Resources::PpaRepository do
 
   it "checks on mint as name/ppa" do
     resource = MockLoader.new(:mint18).load_resource("ppa", "ubuntu-wine/ppa")
+    _(resource.resource_id).must_equal "http://ppa.launchpad.net/ubuntu-wine/ppa/ubuntu"
     _(resource.exists?).must_equal true
     _(resource.enabled?).must_equal true
   end
