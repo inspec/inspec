@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.22.64 -->
+## [v5.22.64](https://github.com/inspec/inspec/tree/v5.22.64) (2024-12-10)
 
 #### Merged Pull Requests
+- force update [#7234](https://github.com/inspec/inspec/pull/7234) ([sean-simmons-progress](https://github.com/sean-simmons-progress))
 - empty commit [#7233](https://github.com/inspec/inspec/pull/7233) ([sean-simmons-progress](https://github.com/sean-simmons-progress))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.22.58 release
 
 #### Merged Pull Requests
+- force update [#7234](https://github.com/inspec/inspec/pull/7234) ([sean-simmons-progress](https://github.com/sean-simmons-progress)) <!-- 5.22.64 -->
 - empty commit [#7233](https://github.com/inspec/inspec/pull/7233) ([sean-simmons-progress](https://github.com/sean-simmons-progress)) <!-- 5.22.63 -->
 - gemfile: pin securerandom to use below 0.4.0 for ruby 3.1 and below [#7226](https://github.com/inspec/inspec/pull/7226) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.63 -->
 - BACKPORT-7198 Improved regex to load readme from inspec profiles [#7221](https://github.com/inspec/inspec/pull/7221) ([Nik08](https://github.com/Nik08)) <!-- 5.22.62 -->
