@@ -5,34 +5,42 @@ require "inspec/resources/docker_image"
 describe "Inspec::Resources::DockerImage" do
   describe "docker_image" do
     it "check docker image parsing" do
-      resource = load_resource("docker_image", "alpine")
-      _(resource.id).must_equal "sha256:4a415e3663882fbc554ee830889c68a33b3585503892cc718a4698e91ef2a526"
-      _(resource.tag).must_equal "latest"
-      _(resource.image).must_equal "alpine:latest"
-      _(resource.repo).must_equal "alpine"
-      _(resource.resource_id).must_equal "sha256:4a415e3663882fbc554ee830889c68a33b3585503892cc718a4698e91ef2a526"
+      expect_deprecation(:core_resource_moved_to_rp) do
+        resource = load_resource("docker_image", "alpine")
+        _(resource.id).must_equal "sha256:4a415e3663882fbc554ee830889c68a33b3585503892cc718a4698e91ef2a526"
+        _(resource.tag).must_equal "latest"
+        _(resource.image).must_equal "alpine:latest"
+        _(resource.repo).must_equal "alpine"
+        _(resource.resource_id).must_equal "sha256:4a415e3663882fbc554ee830889c68a33b3585503892cc718a4698e91ef2a526"
+      end
     end
 
     # Test case for inspect image information handled by inspection and method_missing
     it "check attributes returned by docker inspect [docker_image]" do
-      resource = load_resource("docker_image", "ubuntu:latest")
-      _(resource["Architecture"]).must_equal "arm64"
-      _(resource["Config.Cmd"]).must_include "bash"
-      _(resource.inspection).must_include "Architecture"
-      _(resource.inspection.Architecture).must_equal "arm64"
-      _(resource.resource_id).must_equal "ubuntu:latest"
+      expect_deprecation(:core_resource_moved_to_rp) do
+        resource = load_resource("docker_image", "ubuntu:latest")
+        _(resource["Architecture"]).must_equal "arm64"
+        _(resource["Config.Cmd"]).must_include "bash"
+        _(resource.inspection).must_include "Architecture"
+        _(resource.inspection.Architecture).must_equal "arm64"
+        _(resource.resource_id).must_equal "ubuntu:latest"
+      end
     end
 
     # Test case for inspect image information with invalid keys
     it "checks exception when key is invalid or doesn't exist as part of the inspect information" do
-      resource = load_resource("docker_image", "ubuntu:latest")
-      ex = _ { resource["Garbage.Key"] }.must_raise(Inspec::Exceptions::ResourceFailed)
-      _(ex.message).must_include "Garbage.Key is not a valid key for your image or has nil value."
+      expect_deprecation(:core_resource_moved_to_rp) do
+        resource = load_resource("docker_image", "ubuntu:latest")
+        ex = _ { resource["Garbage.Key"] }.must_raise(Inspec::Exceptions::ResourceFailed)
+        _(ex.message).must_include "Garbage.Key is not a valid key for your image or has nil value."
+      end
     end
 
     it "prints as a docker_image resource" do
-      resource = load_resource("docker_image", "alpine")
-      _(resource.to_s).must_equal "Docker Image alpine:latest"
+      expect_deprecation(:core_resource_moved_to_rp) do
+        resource = load_resource("docker_image", "alpine")
+        _(resource.to_s).must_equal "Docker Image alpine:latest"
+      end
     end
   end
 
