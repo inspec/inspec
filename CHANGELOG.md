@@ -1,11 +1,12 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.8 -->
-## [v7.0.8](https://github.com/inspec/inspec/tree/v7.0.8) (2024-11-12)
+<!-- latest_release 7.0.11 -->
+## [v7.0.11](https://github.com/inspec/inspec/tree/v7.0.11) (2024-11-26)
 
 #### Merged Pull Requests
-- CHEF-14729 Habitat LTS channel support  [#7191](https://github.com/inspec/inspec/pull/7191) ([Nik08](https://github.com/Nik08))
+- [Foreport] - Introduce `--legacy` flag for compatibility in `inspec automate upload` with legacy checks and export options [#7205](https://github.com/inspec/inspec/pull/7205) ([ahasunos](https://github.com/ahasunos))
+- ci: update digi cert token for windows platforms [#7217](https://github.com/inspec/inspec/pull/7217) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +39,10 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- [Foreport] - Introduce `--legacy` flag for compatibility in `inspec automate upload` with legacy checks and export options [#7205](https://github.com/inspec/inspec/pull/7205) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.11 -->
+- ci: update digi cert token for windows platforms [#7217](https://github.com/inspec/inspec/pull/7217) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.10 -->
+- CHEF-16514 remove redundant plugin activation [#7192](https://github.com/inspec/inspec/pull/7192) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.10 -->
+- CHEF-17239: Fix tests to restore green verify pipeline [#7208](https://github.com/inspec/inspec/pull/7208) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.9 -->
 - CHEF-14729 Habitat LTS channel support  [#7191](https://github.com/inspec/inspec/pull/7191) ([Nik08](https://github.com/Nik08)) <!-- 7.0.8 -->
 - CHEF-15119 - Removes docker resources from core [#7170](https://github.com/inspec/inspec/pull/7170) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.7 -->
 - CHEF-15330 Cleanup ibmdb2 resources from Inspec repo [#7190](https://github.com/inspec/inspec/pull/7190) ([Nik08](https://github.com/Nik08)) <!-- 7.0.6 -->

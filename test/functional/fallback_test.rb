@@ -35,7 +35,7 @@ describe "profiles with missing resources" do
 
   it "installs the gem dependencies and load them if --auto-install-gems is provided." do
     # TODO - this work if you have a private rubygems server and upload inspec-test-resources to it
-    skip 
+    skip
     out = inspec_with_env("exec #{fallback_profile_path} --no-create-lockfile --auto-install-gems")
 
     _(out.stderr).must_equal ""

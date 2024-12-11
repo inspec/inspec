@@ -51,6 +51,7 @@ module Inspec::DSL
         unless cfg.final_options[:auto_install_gems]
           raise Inspec::Plugin::V2::InstallRequiredError, "resource pack gem '#{gem_name}' is required for resource '#{id}' support (consider --auto-install-gems)"
         end
+
         Inspec::Plugin::V2::Installer.instance.ensure_installed gem_name
 
         # Load the gem, add  gemspecs to the path, load any deps, load resource libraries into registry
@@ -65,7 +66,7 @@ module Inspec::DSL
         gem_path = loader.find_gem_directory(gem_name)
         resources_path = File.join(gem_path, "lib", gem_name, "resources", "*.rb")
         legacy_library_path = File.join(gem_path, "libraries", "*.rb")
-        Dir.glob([resources_path,legacy_library_path]).each do |resource_lib|
+        Dir.glob([resources_path, legacy_library_path]).each do |resource_lib|
           require resource_lib
         end
         # Resources now available in Inspec::Resource.registry
