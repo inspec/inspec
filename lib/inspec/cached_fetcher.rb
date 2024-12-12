@@ -52,7 +52,19 @@ module Inspec
         fetch
       elsif cache.exists?(cache_key) && !cache.locked?(cache_key)
         Inspec::Log.debug "Using cached dependency for #{target}"
-        [cache.prefered_entry_for(cache_key), false]
+        cache_value = cache.prefered_entry_for(cache_key)
+        if cache_value
+          [cache_value, false]
+        else
+          Inspec::Log.debug "Dependency does not exist in the cache for target #{target}"
+          cache_key_name = cache_key
+          if cache_key_name.start_with?("gem:")
+            # When cache for gem - meaning gemspec exists but gem does not exists then clearing up gemspec is required
+            # This logic enables the gem fetcher logic to work step by step again
+            Inspec::Log.debug "Clearing cached gemspec to fix dependency issue and enable fresh download."
+            FileUtils.rm_rf(cache.gemspec_path_for(cache_key))
+          end
+        end
       else
         begin
           Inspec::Log.debug "Dependency does not exist in the cache #{target}"
