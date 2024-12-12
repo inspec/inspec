@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.64 -->
-## [v5.22.64](https://github.com/inspec/inspec/tree/v5.22.64) (2024-12-10)
+<!-- latest_release 5.22.65 -->
+## [v5.22.65](https://github.com/inspec/inspec/tree/v5.22.65) (2024-12-12)
 
 #### Merged Pull Requests
-- force update [#7234](https://github.com/inspec/inspec/pull/7234) ([sean-simmons-progress](https://github.com/sean-simmons-progress))
-- empty commit [#7233](https://github.com/inspec/inspec/pull/7233) ([sean-simmons-progress](https://github.com/sean-simmons-progress))
+- Bump webrick from 1.8.1 to 1.9.1 in /omnibus [#7236](https://github.com/inspec/inspec/pull/7236) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.58 -->
 ### Changes since 5.22.58 release
 
 #### Merged Pull Requests
+- Bump webrick from 1.8.1 to 1.9.1 in /omnibus [#7236](https://github.com/inspec/inspec/pull/7236) ([Nik08](https://github.com/Nik08)) <!-- 5.22.65 -->
 - force update [#7234](https://github.com/inspec/inspec/pull/7234) ([sean-simmons-progress](https://github.com/sean-simmons-progress)) <!-- 5.22.64 -->
 - empty commit [#7233](https://github.com/inspec/inspec/pull/7233) ([sean-simmons-progress](https://github.com/sean-simmons-progress)) <!-- 5.22.63 -->
 - gemfile: pin securerandom to use below 0.4.0 for ruby 3.1 and below [#7226](https://github.com/inspec/inspec/pull/7226) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.63 -->
