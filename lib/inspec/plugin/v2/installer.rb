@@ -305,8 +305,13 @@ module Inspec::Plugin::V2
 
       # BestSet is rubygems.org API + indexing, APISet is for custom sources
       sources = if opts[:source]
-                  Gem::Resolver::APISet.new(URI.join(opts[:source] + "/api/v1/dependencies"))
+                  begin
+                    Gem::Resolver::APISet.new(URI.join(opts[:source], "api/v1/dependencies"))
+                  rescue URI::InvalidURIError
+                    raise Inspec::Plugin::V2::InstallError.new("Invalid source URL provided: #{opts[:source]}")
+                  end
                 else
+                  # RubyGems.org
                   Gem::Resolver::BestSet.new
                 end
 
