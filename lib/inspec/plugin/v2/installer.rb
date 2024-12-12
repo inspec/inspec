@@ -369,9 +369,11 @@ module Inspec::Plugin::V2
         raise ex
       end
 
-      # OK, perform the installation.
-      # Ignore deps here, because any needed deps should already be baked into new_plugin_dependency
-      request_set.install_into(gem_path, true, ignore_dependencies: true, document: [])
+    def fetch_gem(spec)
+      fetcher = Gem::RemoteFetcher.fetcher
+      cache_dir = Gem.dir
+      gem_file_name = "#{spec.name}-#{spec.version}.gem"
+      remote_uri = spec.cache_dir
 
       # Painful aspect of rubygems: the VendorSet request set type needs to be able to find a gemspec
       # file within the source of the gem (and not all gems include it in their source tree; they are
