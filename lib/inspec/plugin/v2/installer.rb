@@ -314,14 +314,14 @@ module Inspec::Plugin::V2
                   # RubyGems.org
                   Gem::Resolver::BestSet.new
                 end
-
       begin
         install_gem_to_plugins_dir(plugin_dependency, [sources], opts[:update_mode])
-      rescue Gem::RemoteFetcher::FetchError => gem_ex
-        # TODO: Give a hint if the host was not resolvable or a 404 occured
-        ex = Inspec::Plugin::V2::InstallError.new(gem_ex.message)
-        ex.plugin_name = requested_plugin_name
-        raise ex
+      rescue Gem::RemoteFetcher::FetchError => fetch_error
+        handle_fetch_error(fetch_error, requested_plugin_name)
+      rescue Inspec::Plugin::V2::InstallError => install_error
+        raise install_error
+      rescue StandardError => e
+        raise Inspec::Plugin::V2::InstallError.new("Unexpected error during plugin installation: #{e.message}")
       end
     end
 
