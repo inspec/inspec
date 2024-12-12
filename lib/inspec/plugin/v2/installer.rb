@@ -325,29 +325,10 @@ module Inspec::Plugin::V2
       end
     end
 
-    def install_gem_to_plugins_dir(new_plugin_dependency, # rubocop: disable Metrics/AbcSize
-      extra_request_sets = [],
-      update_mode = false)
-
-      # Get a list of all the gems available to us.
-      gem_to_force_update = update_mode ? new_plugin_dependency.name : nil
-      set_available_for_resolution = build_gem_request_universe(extra_request_sets, gem_to_force_update)
-
-      # Solve the dependency (that is, find a way to install the new plugin and anything it needs)
-      request_set = Gem::RequestSet.new(new_plugin_dependency)
-
-      begin
-        solution = request_set.resolve(set_available_for_resolution)
-      rescue Gem::UnsatisfiableDependencyError => gem_ex
-        # TODO: use search facility to determine if the requested gem exists at all, vs if the constraints are impossible
-        ex = Inspec::Plugin::V2::InstallError.new(gem_ex.message)
-        ex.plugin_name = new_plugin_dependency.name
-        raise ex
-      end
-
-      # Activate all current plugins before trying to activate the new one
-      loader.list_managed_gems.each do |spec|
-        next if spec.name == new_plugin_dependency.name && update_mode
+    def install_gem_to_plugins_dir(new_plugin_dependency, extra_sources, update_mode)
+      resolver = Gem::Resolver.new(Array(new_plugin_dependency), extra_sources)
+      require "byebug"; byebug
+      solution = resolver.resolve
 
       solution.each do |activation_request|
         spec = activation_request.full_spec
