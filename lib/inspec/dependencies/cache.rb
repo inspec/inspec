@@ -107,6 +107,14 @@ module Inspec
       end
     end
 
+    def gemspec_path_for(key)
+      if key.start_with?("gem:")
+        (_, gem_name, version) = key.split(":")
+        loader = Inspec::Plugin::V2::Loader.new
+        loader.find_gemspec_directory(gem_name, version)
+      end
+    end
+
     #
     # For given cache key, return true if the
     # cache path is locked
