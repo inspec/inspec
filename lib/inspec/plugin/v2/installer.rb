@@ -349,25 +349,19 @@ module Inspec::Plugin::V2
       loader.list_managed_gems.each do |spec|
         next if spec.name == new_plugin_dependency.name && update_mode
 
-        spec.activate
-      end
+      solution.each do |activation_request|
+        spec = activation_request.full_spec
 
-      # Make sure we remove any previously loaded gem on update
-      Gem.loaded_specs.delete(new_plugin_dependency.name) if update_mode
+        next if Gem.loaded_specs[spec.name] && !update_mode
 
-      # Test activating the solution. This makes sure we do not try to load two different versions
-      # of the same gem on the stack or a malformed dependency.
-      begin
-        solution.each do |activation_request|
-          unless activation_request.full_spec.activated?
-            activation_request.full_spec.activate
-          end
-        end
-      rescue Gem::LoadError => gem_ex
-        ex = Inspec::Plugin::V2::InstallError.new(gem_ex.message)
-        ex.plugin_name = new_plugin_dependency.name
-        raise ex
+        gem_file_path = fetch_gem(spec)
+
+        installer = Gem::Installer.new(gem_file_path)
+        installer.install
+
+        Gem.loaded_specs[spec.name] = spec
       end
+    end
 
     def fetch_gem(spec)
       fetcher = Gem::RemoteFetcher.fetcher
