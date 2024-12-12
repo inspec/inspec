@@ -375,20 +375,24 @@ module Inspec::Plugin::V2
       gem_file_name = "#{spec.name}-#{spec.version}.gem"
       remote_uri = spec.cache_dir
 
-      # Painful aspect of rubygems: the VendorSet request set type needs to be able to find a gemspec
-      # file within the source of the gem (and not all gems include it in their source tree; they are
-      # not obliged to during packaging.)
-      # So, after each install, run a scan for all gem(specs) we manage, and copy in their gemspec file
-      # into the exploded gem source area if absent.
-      loader.list_managed_gems.each do |spec|
-        path_inside_source = File.join(spec.gem_dir, "#{spec.name}.gemspec")
-        unless File.exist?(path_inside_source)
-          File.write(path_inside_source, spec.to_ruby)
-        end
-      end
+      fetcher.download(remote_uri, File.join(cache_dir, gem_file_name))
+    end
 
-      # Locate the GemVersion for the new dependency and return it
-      solution.detect { |g| g.name == new_plugin_dependency.name }.version
+    def handle_fetch_error(fetch_error, plugin_name)
+      error_message = case fetch_error.message
+                      when /404/
+                        "Plugin '#{plugin_name}' not found at the specified source."
+                      when /timed out/
+                        "Network issue while fetching plugin '#{plugin_name}'. Please check your connection."
+                      when /Name or service not known/
+                        "Could not resolve the source for plugin '#{plugin_name}'. Please verify the source URL."
+                      else
+                        fetch_error.message
+                      end
+
+      raise Inspec::Plugin::V2::InstallError.new(error_message).tap do |ex|
+        ex.plugin_name = plugin_name
+      end
     end
 
     #===================================================================#
