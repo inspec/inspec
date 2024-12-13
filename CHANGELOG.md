@@ -1,28 +1,26 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.65 -->
-## [v5.22.65](https://github.com/inspec/inspec/tree/v5.22.65) (2024-12-12)
-
-#### Merged Pull Requests
-- Bump webrick from 1.8.1 to 1.9.1 in /omnibus [#7236](https://github.com/inspec/inspec/pull/7236) ([Nik08](https://github.com/Nik08))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=5.22.58 -->
-### Changes since 5.22.58 release
-
-#### Merged Pull Requests
-- Bump webrick from 1.8.1 to 1.9.1 in /omnibus [#7236](https://github.com/inspec/inspec/pull/7236) ([Nik08](https://github.com/Nik08)) <!-- 5.22.65 -->
-- force update [#7234](https://github.com/inspec/inspec/pull/7234) ([sean-simmons-progress](https://github.com/sean-simmons-progress)) <!-- 5.22.64 -->
-- empty commit [#7233](https://github.com/inspec/inspec/pull/7233) ([sean-simmons-progress](https://github.com/sean-simmons-progress)) <!-- 5.22.63 -->
-- gemfile: pin securerandom to use below 0.4.0 for ruby 3.1 and below [#7226](https://github.com/inspec/inspec/pull/7226) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.63 -->
-- BACKPORT-7198 Improved regex to load readme from inspec profiles [#7221](https://github.com/inspec/inspec/pull/7221) ([Nik08](https://github.com/Nik08)) <!-- 5.22.62 -->
-- [Backport] CHEF-11226: Upgrade Ruby and Ruby Dev Kit to 3.1.6 due to outdated em… [#7215](https://github.com/inspec/inspec/pull/7215) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.61 -->
-- ci: update digi cert token for windows platforms [#7218](https://github.com/inspec/inspec/pull/7218) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.60 -->
-- [Backport] - Introduce `--legacy` flag for compatibility in `inspec automate upload` with legacy checks and export options [#7204](https://github.com/inspec/inspec/pull/7204) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.60 -->
-- Pin zeitwerk gem to ~&gt; 2.6 to avoid Ruby &gt;= 3.2 requirement [#7207](https://github.com/inspec/inspec/pull/7207) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.59 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v5.22.65](https://github.com/inspec/inspec/tree/v5.22.65) (2024-12-13)
+
+#### Merged Pull Requests
+- Pin zeitwerk gem to ~&gt; 2.6 to avoid Ruby &gt;= 3.2 requirement [#7207](https://github.com/inspec/inspec/pull/7207) ([ahasunos](https://github.com/ahasunos))
+- [Backport] - Introduce `--legacy` flag for compatibility in `inspec automate upload` with legacy checks and export options [#7204](https://github.com/inspec/inspec/pull/7204) ([ahasunos](https://github.com/ahasunos))
+- ci: update digi cert token for windows platforms [#7218](https://github.com/inspec/inspec/pull/7218) ([ahasunos](https://github.com/ahasunos))
+- [Backport] CHEF-11226: Upgrade Ruby and Ruby Dev Kit to 3.1.6 due to outdated em… [#7215](https://github.com/inspec/inspec/pull/7215) ([ahasunos](https://github.com/ahasunos))
+- BACKPORT-7198 Improved regex to load readme from inspec profiles [#7221](https://github.com/inspec/inspec/pull/7221) ([Nik08](https://github.com/Nik08))
+- gemfile: pin securerandom to use below 0.4.0 for ruby 3.1 and below [#7226](https://github.com/inspec/inspec/pull/7226) ([ahasunos](https://github.com/ahasunos))
+- empty commit [#7233](https://github.com/inspec/inspec/pull/7233) ([sean-simmons-progress](https://github.com/sean-simmons-progress))
+- force update [#7234](https://github.com/inspec/inspec/pull/7234) ([sean-simmons-progress](https://github.com/sean-simmons-progress))
+- Bump webrick from 1.8.1 to 1.9.1 in /omnibus [#7236](https://github.com/inspec/inspec/pull/7236) ([Nik08](https://github.com/Nik08))
+<!-- latest_stable_release -->
+
 ## [v5.22.58](https://github.com/inspec/inspec/tree/v5.22.58) (2024-09-03)
 
 #### Merged Pull Requests
@@ -33,7 +31,6 @@
 - Bump omnibus from `3efa84c` to `0633d00` in /omnibus [#7147](https://github.com/inspec/inspec/pull/7147) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Bump berkshelf from 8.0.7 to 8.0.9 in /omnibus [#6708](https://github.com/inspec/inspec/pull/6708) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - BACKPORT: Handled postgres_session resource password authentication error when fatal (#7154) [#7155](https://github.com/inspec/inspec/pull/7155) ([Nik08](https://github.com/Nik08))
-<!-- latest_stable_release -->
 
 ## [v5.22.55](https://github.com/inspec/inspec/tree/v5.22.55) (2024-08-05)
 
