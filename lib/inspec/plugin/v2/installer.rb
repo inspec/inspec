@@ -218,7 +218,7 @@ module Inspec::Plugin::V2
           raise InstallError, "#{plugin_name} version #{opts[:version]} is already installed."
         else
           # Do not redirect to plugin update when using resource packs plugin
-          unless plugin_name =~ /^(inspec)-/ && plugin_name =~ /-resources/
+          unless is_resource_pack_gem?(plugin_name)
             raise InstallError, "#{plugin_name} is already installed. Use 'inspec plugin update' to change version."
           end
         end
@@ -343,13 +343,11 @@ module Inspec::Plugin::V2
         raise ex
       end
 
-      it_is_resource_pack_gem = new_plugin_dependency.name =~ /^(inspec)-/ && new_plugin_dependency.name =~ /-resources/
-
       # Activate all current plugins before trying to activate the new one
       loader.list_managed_gems.each do |spec|
         # Skip in case of update mode
         # Skip in case using a resource pack plugin
-        next if spec.name == new_plugin_dependency.name && (update_mode || it_is_resource_pack_gem)
+        next if spec.name == new_plugin_dependency.name && (update_mode || is_resource_pack_gem?(new_plugin_dependency.name))
 
         spec.activate
       end
@@ -357,7 +355,7 @@ module Inspec::Plugin::V2
       # Make sure we remove any previously loaded gem on update
       # Make sure we remove any previously loaded gem when trying to use resource pack gem
       # Resource pack gems when updated need to deactivate older version of gem
-      Gem.loaded_specs.delete(new_plugin_dependency.name) if update_mode || it_is_resource_pack_gem
+      Gem.loaded_specs.delete(new_plugin_dependency.name) if update_mode || is_resource_pack_gem?(new_plugin_dependency.name)
 
       # Test activating the solution. This makes sure we do not try to load two different versions
       # of the same gem on the stack or a malformed dependency.
@@ -548,6 +546,10 @@ module Inspec::Plugin::V2
       conf_file.save
 
       conf_file
+    end
+
+    def is_resource_pack_gem?(plugin_name)
+      plugin_name =~ /^(inspec)-/ && plugin_name =~ /-resources/
     end
   end
 end
