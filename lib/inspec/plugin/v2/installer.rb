@@ -350,8 +350,6 @@ module Inspec::Plugin::V2
         raise ex
       end
 
-      it_is_resource_pack_gem = new_plugin_dependency.name =~ /^(inspec)-/ && new_plugin_dependency.name =~ /-resources/
-
       # Activate all current plugins before trying to activate the new one
       loader.list_managed_gems.each do |spec|
         # Skip in case of update mode
