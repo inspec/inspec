@@ -304,11 +304,14 @@ module Inspec::Plugin::V2
       plugin_dependency = Gem::Dependency.new(requested_plugin_name, opts[:version] || "> 0")
 
       # BestSet is rubygems.org API + indexing, APISet is for custom sources
-      sources = if opts[:source]
-                  Gem::Resolver::APISet.new(URI.join(opts[:source] + "/api/v1/dependencies"))
-                else
-                  Gem::Resolver::BestSet.new
-                end
+      if opts[:source]
+        [opts[:source]].flatten!
+        opts[:source].each do |source|
+          Gem.sources.sources << Gem::Source.new(source)
+        end
+      end
+
+      sources = Gem::Resolver::BestSet.new
 
       begin
         install_gem_to_plugins_dir(plugin_dependency, [sources], opts[:update_mode])
