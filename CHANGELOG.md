@@ -1,12 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.11 -->
-## [v7.0.11](https://github.com/inspec/inspec/tree/v7.0.11) (2024-11-26)
+<!-- latest_release 7.0.13 -->
+## [v7.0.13](https://github.com/inspec/inspec/tree/v7.0.13) (2024-12-19)
 
 #### Merged Pull Requests
-- [Foreport] - Introduce `--legacy` flag for compatibility in `inspec automate upload` with legacy checks and export options [#7205](https://github.com/inspec/inspec/pull/7205) ([ahasunos](https://github.com/ahasunos))
-- ci: update digi cert token for windows platforms [#7217](https://github.com/inspec/inspec/pull/7217) ([ahasunos](https://github.com/ahasunos))
+- CHEF-18094-Remove podman resources [#7238](https://github.com/inspec/inspec/pull/7238) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -39,6 +38,8 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- CHEF-18094-Remove podman resources [#7238](https://github.com/inspec/inspec/pull/7238) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.13 -->
+- CHEF-16631 Implement fallback logic when gem caching is manually deleted [#7224](https://github.com/inspec/inspec/pull/7224) ([Nik08](https://github.com/Nik08)) <!-- 7.0.12 -->
 - [Foreport] - Introduce `--legacy` flag for compatibility in `inspec automate upload` with legacy checks and export options [#7205](https://github.com/inspec/inspec/pull/7205) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.11 -->
 - ci: update digi cert token for windows platforms [#7217](https://github.com/inspec/inspec/pull/7217) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.10 -->
 - CHEF-16514 remove redundant plugin activation [#7192](https://github.com/inspec/inspec/pull/7192) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.10 -->
