@@ -305,83 +305,69 @@ module Inspec::Plugin::V2
 
       # BestSet is rubygems.org API + indexing, APISet is for custom sources
       sources = if opts[:source]
-                  Gem::Resolver::APISet.new(URI.join(opts[:source] + "/api/v1/dependencies"))
+                  begin
+                    Gem::Resolver::APISet.new(URI.join(opts[:source], "api/v1/dependencies"))
+                  rescue URI::InvalidURIError
+                    raise Inspec::Plugin::V2::InstallError.new("Invalid source URL provided: #{opts[:source]}")
+                  end
                 else
+                  # RubyGems.org
                   Gem::Resolver::BestSet.new
                 end
-
       begin
         install_gem_to_plugins_dir(plugin_dependency, [sources], opts[:update_mode])
-      rescue Gem::RemoteFetcher::FetchError => gem_ex
-        # TODO: Give a hint if the host was not resolvable or a 404 occured
-        ex = Inspec::Plugin::V2::InstallError.new(gem_ex.message)
-        ex.plugin_name = requested_plugin_name
-        raise ex
+      rescue Gem::RemoteFetcher::FetchError => fetch_error
+        handle_fetch_error(fetch_error, requested_plugin_name)
+      rescue Inspec::Plugin::V2::InstallError => install_error
+        raise install_error
+      rescue StandardError => e
+        raise Inspec::Plugin::V2::InstallError.new("Unexpected error during plugin installation: #{e.message}")
       end
     end
 
-    def install_gem_to_plugins_dir(new_plugin_dependency, # rubocop: disable Metrics/AbcSize
-      extra_request_sets = [],
-      update_mode = false)
+    def install_gem_to_plugins_dir(new_plugin_dependency, extra_sources, update_mode)
+      resolver = Gem::Resolver.new(Array(new_plugin_dependency), extra_sources)
+      require "byebug"; byebug
+      solution = resolver.resolve
 
-      # Get a list of all the gems available to us.
-      gem_to_force_update = update_mode ? new_plugin_dependency.name : nil
-      set_available_for_resolution = build_gem_request_universe(extra_request_sets, gem_to_force_update)
+      solution.each do |activation_request|
+        spec = activation_request.full_spec
 
-      # Solve the dependency (that is, find a way to install the new plugin and anything it needs)
-      request_set = Gem::RequestSet.new(new_plugin_dependency)
+        next if Gem.loaded_specs[spec.name] && !update_mode
 
-      begin
-        solution = request_set.resolve(set_available_for_resolution)
-      rescue Gem::UnsatisfiableDependencyError => gem_ex
-        # TODO: use search facility to determine if the requested gem exists at all, vs if the constraints are impossible
-        ex = Inspec::Plugin::V2::InstallError.new(gem_ex.message)
-        ex.plugin_name = new_plugin_dependency.name
-        raise ex
+        gem_file_path = fetch_gem(spec)
+
+        installer = Gem::Installer.new(gem_file_path)
+        installer.install
+
+        Gem.loaded_specs[spec.name] = spec
       end
+    end
 
-      # Activate all current plugins before trying to activate the new one
-      loader.list_managed_gems.each do |spec|
-        next if spec.name == new_plugin_dependency.name && update_mode
+    def fetch_gem(spec)
+      fetcher = Gem::RemoteFetcher.fetcher
+      cache_dir = Gem.dir
+      gem_file_name = "#{spec.name}-#{spec.version}.gem"
+      remote_uri = spec.cache_dir
 
-        spec.activate
+      fetcher.download(remote_uri, File.join(cache_dir, gem_file_name))
+    end
+
+    def handle_fetch_error(fetch_error, plugin_name)
+      error_message = case fetch_error.message
+                      when /404/
+                        "Plugin '#{plugin_name}' not found at the specified source."
+                      when /timed out/
+                        "Network issue while fetching plugin '#{plugin_name}'. Please check your connection."
+                      when /Name or service not known/
+                        "Could not resolve the source for plugin '#{plugin_name}'. Please verify the source URL."
+                      else
+                        fetch_error.message
+                      end
+
+      raise Inspec::Plugin::V2::InstallError.new(error_message).tap do |ex|
+        ex.plugin_name = plugin_name
       end
-
-      # Make sure we remove any previously loaded gem on update
-      Gem.loaded_specs.delete(new_plugin_dependency.name) if update_mode
-
-      # Test activating the solution. This makes sure we do not try to load two different versions
-      # of the same gem on the stack or a malformed dependency.
-      begin
-        solution.each do |activation_request|
-          unless activation_request.full_spec.activated?
-            activation_request.full_spec.activate
-          end
-        end
-      rescue Gem::LoadError => gem_ex
-        ex = Inspec::Plugin::V2::InstallError.new(gem_ex.message)
-        ex.plugin_name = new_plugin_dependency.name
-        raise ex
-      end
-
-      # OK, perform the installation.
-      # Ignore deps here, because any needed deps should already be baked into new_plugin_dependency
-      request_set.install_into(gem_path, true, ignore_dependencies: true, document: [])
-
-      # Painful aspect of rubygems: the VendorSet request set type needs to be able to find a gemspec
-      # file within the source of the gem (and not all gems include it in their source tree; they are
-      # not obliged to during packaging.)
-      # So, after each install, run a scan for all gem(specs) we manage, and copy in their gemspec file
-      # into the exploded gem source area if absent.
-      loader.list_managed_gems.each do |spec|
-        path_inside_source = File.join(spec.gem_dir, "#{spec.name}.gemspec")
-        unless File.exist?(path_inside_source)
-          File.write(path_inside_source, spec.to_ruby)
-        end
-      end
-
-      # Locate the GemVersion for the new dependency and return it
-      solution.detect { |g| g.name == new_plugin_dependency.name }.version
     end
 
     #===================================================================#
