@@ -305,8 +305,8 @@ module Inspec::Plugin::V2
 
       # BestSet is rubygems.org API + indexing, APISet is for custom sources
       if opts[:source]
-        [opts[:source]].flatten!
-        opts[:source].each do |source|
+        sources = [opts[:source]].flatten
+        sources.each do |source|
           Gem.sources.sources << Gem::Source.new(source)
         end
       end
