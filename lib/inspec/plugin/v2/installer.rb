@@ -218,7 +218,7 @@ module Inspec::Plugin::V2
           raise InstallError, "#{plugin_name} version #{opts[:version]} is already installed."
         else
           # Do not redirect to plugin update when using gem based plugin
-          unless is_a_gem_based_plugin?(plugin_name)
+          unless gem_based_plugin?(opts)
             raise InstallError, "#{plugin_name} is already installed. Use 'inspec plugin update' to change version."
           end
         end
@@ -314,7 +314,7 @@ module Inspec::Plugin::V2
                 end
 
       begin
-        install_gem_to_plugins_dir(plugin_dependency, [sources], opts[:update_mode])
+        install_gem_to_plugins_dir(plugin_dependency, [sources], opts[:update_mode], opts)
       rescue Gem::RemoteFetcher::FetchError => gem_ex
         # TODO: Give a hint if the host was not resolvable or a 404 occured
         ex = Inspec::Plugin::V2::InstallError.new(gem_ex.message)
@@ -325,7 +325,7 @@ module Inspec::Plugin::V2
 
     def install_gem_to_plugins_dir(new_plugin_dependency, # rubocop: disable Metrics/AbcSize
       extra_request_sets = [],
-      update_mode = false)
+      update_mode = false, opts = {})
 
       # Get a list of all the gems available to us.
       gem_to_force_update = update_mode ? new_plugin_dependency.name : nil
@@ -347,7 +347,7 @@ module Inspec::Plugin::V2
       loader.list_managed_gems.each do |spec|
         # Skip in case of update mode
         # Skip in case using a gem based plugin
-        next if spec.name == new_plugin_dependency.name && (update_mode || is_a_gem_based_plugin?(new_plugin_dependency.name))
+        next if spec.name == new_plugin_dependency.name && (update_mode || gem_based_plugin?(opts))
 
         spec.activate
       end
@@ -355,7 +355,7 @@ module Inspec::Plugin::V2
       # Make sure we remove any previously loaded gem on update
       # Make sure we remove any previously loaded gem when trying to use resource pack gem
       # Gem based plugin when updated need to deactivate older version of gem
-      Gem.loaded_specs.delete(new_plugin_dependency.name) if update_mode || is_a_gem_based_plugin?(new_plugin_dependency.name)
+      Gem.loaded_specs.delete(new_plugin_dependency.name) if update_mode || gem_based_plugin?(opts)
 
       # Test activating the solution. This makes sure we do not try to load two different versions
       # of the same gem on the stack or a malformed dependency.
@@ -548,8 +548,9 @@ module Inspec::Plugin::V2
       conf_file
     end
 
-    def is_a_gem_based_plugin?(plugin_name)
-      (plugin_name =~ /^(inspec)-/ && plugin_name =~ /-resources/) || (plugin_name =~ /^(train)-/)
+    def gem_based_plugin?(opts)
+      # Param passed by gem fetcher while installing a new gem plugin dependency.
+      !!opts[:gem]
     end
   end
 end
