@@ -303,7 +303,9 @@ module Inspec::Plugin::V2
     def install_from_remote_gems(requested_plugin_name, opts)
       plugin_dependency = Gem::Dependency.new(requested_plugin_name, opts[:version] || "> 0")
 
-      # BestSet is rubygems.org API + indexing, APISet is for custom sources
+      # This adds custom gem sources to the memoized `Gem.Sources` for this specific run
+      # Note: This will not make any change to the environment Gem source list and
+      # in fact will consider all of the environment Gem sources and custom gem sources to resolve deps
       if opts[:source]
         sources = [opts[:source]].flatten
         sources.each do |source|
@@ -311,6 +313,8 @@ module Inspec::Plugin::V2
         end
       end
 
+      # BestSet is rubygems.org API + indexing by default
+      # `Gem.sources` is injected as a dependency implicitly while BestSet is initialized
       sources = Gem::Resolver::BestSet.new
 
       begin
