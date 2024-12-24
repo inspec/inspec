@@ -359,9 +359,7 @@ module Inspec::Plugin::V2
       # of the same gem on the stack or a malformed dependency.
       begin
         solution.each do |activation_request|
-          unless activation_request.full_spec.activated?
-            activation_request.full_spec.activate
-          end
+          activation_request.full_spec.activate unless activation_request.full_spec.activated?
         end
       rescue Gem::LoadError => gem_ex
         ex = Inspec::Plugin::V2::InstallError.new(gem_ex.message)
