@@ -545,9 +545,5 @@ module Inspec::Plugin::V2
 
       conf_file
     end
-
-    def is_resource_pack_gem?(plugin_name)
-      plugin_name =~ /^(inspec)-/ && plugin_name =~ /-resources/
-    end
   end
 end
