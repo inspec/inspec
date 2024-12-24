@@ -343,6 +343,9 @@ module Inspec::Plugin::V2
         raise ex
       end
 
+      required_version_string = new_plugin_dependency.requirement.requirements.first.last.to_s
+      required_version = Gem::Version.new(required_version_string)
+
       # Activate all current plugins before trying to activate the new one
       loader.list_managed_gems.each do |spec|
         # Skip in case of update mode
