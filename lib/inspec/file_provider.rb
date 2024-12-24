@@ -118,7 +118,7 @@ module Inspec
       else
         # Look up where the gem is installed, respecting version
         loader = Inspec::Plugin::V2::Loader.new
-        gem_path = loader.find_gem_directory(gem_name, gem_version)
+        gem_path = loader.find_gem_directory(gem_name, Gem::Version.new(gem_version))
         if gem_path && File.exist?(gem_path)
           gem = DirProvider.new(gem_path)
           @files = gem.files
