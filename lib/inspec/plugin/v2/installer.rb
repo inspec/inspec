@@ -217,10 +217,7 @@ module Inspec::Plugin::V2
         if opts.key?(:version) && plugin_version_installed?(plugin_name, opts[:version])
           raise InstallError, "#{plugin_name} version #{opts[:version]} is already installed."
         else
-          # Do not redirect to plugin update when using resource packs plugin
-          unless is_resource_pack_gem?(plugin_name)
-            raise InstallError, "#{plugin_name} is already installed. Use 'inspec plugin update' to change version."
-          end
+          raise InstallError, "#{plugin_name} is already installed. Use 'inspec plugin update' to change version."
         end
       end
 
