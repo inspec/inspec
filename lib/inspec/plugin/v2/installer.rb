@@ -314,7 +314,7 @@ module Inspec::Plugin::V2
                 end
 
       begin
-        install_gem_to_plugins_dir(plugin_dependency, [sources], opts[:update_mode], opts)
+        install_gem_to_plugins_dir(plugin_dependency, [sources], opts[:update_mode], opts: opts)
       rescue Gem::RemoteFetcher::FetchError => gem_ex
         # TODO: Give a hint if the host was not resolvable or a 404 occured
         ex = Inspec::Plugin::V2::InstallError.new(gem_ex.message)
@@ -325,7 +325,7 @@ module Inspec::Plugin::V2
 
     def install_gem_to_plugins_dir(new_plugin_dependency, # rubocop: disable Metrics/AbcSize
       extra_request_sets = [],
-      update_mode = false, opts = {})
+      update_mode = false, opts: {})
 
       # Get a list of all the gems available to us.
       gem_to_force_update = update_mode ? new_plugin_dependency.name : nil
