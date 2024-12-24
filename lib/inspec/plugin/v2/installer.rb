@@ -348,6 +348,7 @@ module Inspec::Plugin::V2
         # Skip in case of update mode
         # Skip in case using a gem based plugin
         next if spec.name == new_plugin_dependency.name && (update_mode || is_a_gem_based_plugin?(new_plugin_dependency.name))
+
         spec.activate
       end
 
