@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.13 -->
-## [v7.0.13](https://github.com/inspec/inspec/tree/v7.0.13) (2024-12-19)
+<!-- latest_release 7.0.14 -->
+## [v7.0.14](https://github.com/inspec/inspec/tree/v7.0.14) (2024-12-24)
 
 #### Merged Pull Requests
-- CHEF-18094-Remove podman resources [#7238](https://github.com/inspec/inspec/pull/7238) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- CHEF-14246 Implement version handling of resource pack gem via git fetcher [#7239](https://github.com/inspec/inspec/pull/7239) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- CHEF-14246 Implement version handling of resource pack gem via git fetcher [#7239](https://github.com/inspec/inspec/pull/7239) ([Nik08](https://github.com/Nik08)) <!-- 7.0.14 -->
 - CHEF-18094-Remove podman resources [#7238](https://github.com/inspec/inspec/pull/7238) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.13 -->
 - CHEF-16631 Implement fallback logic when gem caching is manually deleted [#7224](https://github.com/inspec/inspec/pull/7224) ([Nik08](https://github.com/Nik08)) <!-- 7.0.12 -->
 - [Foreport] - Introduce `--legacy` flag for compatibility in `inspec automate upload` with legacy checks and export options [#7205](https://github.com/inspec/inspec/pull/7205) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.11 -->
