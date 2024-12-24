@@ -50,7 +50,8 @@ module Inspec::Fetcher
           # No version permitted
           plugin_installer.install(@gem_name, path: @gem_path)
         else
-          plugin_installer.install(@gem_name, version: @version, source: @source )
+          # Passing an extra gem argument to enable detecting gem based plugins
+          plugin_installer.install(@gem_name, version: @version, source: @source, gem: @gem_name )
         end
       end
 
