@@ -350,10 +350,10 @@ module Inspec::Plugin::V2
         spec.activate
       end
 
-      # Make sure we remove any previously loaded gem on update
-      # Make sure we remove any previously loaded gem when trying to use resource pack gem
-      # Resource pack gems when updated need to deactivate older version of gem
-      Gem.loaded_specs.delete(new_plugin_dependency.name) if update_mode || is_resource_pack_gem?(new_plugin_dependency.name)
+      # Make sure we remove any previously loaded gem on update and for other versions
+      if update_mode || (required_version != Gem.loaded_specs[new_plugin_dependency.name].version)
+        Gem.loaded_specs.delete(new_plugin_dependency.name)
+      end
 
       # Test activating the solution. This makes sure we do not try to load two different versions
       # of the same gem on the stack or a malformed dependency.
