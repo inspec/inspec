@@ -348,9 +348,7 @@ module Inspec::Plugin::V2
 
       # Activate all current plugins before trying to activate the new one
       loader.list_managed_gems.each do |spec|
-        # Skip in case of update mode
-        # Skip in case using a resource pack plugin
-        next if spec.name == new_plugin_dependency.name && (update_mode || is_resource_pack_gem?(new_plugin_dependency.name))
+        next if spec.name == new_plugin_dependency.name && (spec.version != required_version || update_mode)
 
         spec.activate
       end
