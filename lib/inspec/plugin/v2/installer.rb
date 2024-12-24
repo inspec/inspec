@@ -218,7 +218,7 @@ module Inspec::Plugin::V2
           raise InstallError, "#{plugin_name} version #{opts[:version]} is already installed."
         else
           # Do not redirect to plugin update when using resource packs plugin
-          unless is_resource_pack_gem?(plugin_name)
+          unless is_a_gem_based_plugin?(plugin_name)
             raise InstallError, "#{plugin_name} is already installed. Use 'inspec plugin update' to change version."
           end
         end
@@ -347,15 +347,14 @@ module Inspec::Plugin::V2
       loader.list_managed_gems.each do |spec|
         # Skip in case of update mode
         # Skip in case using a resource pack plugin
-        next if spec.name == new_plugin_dependency.name && (update_mode || is_resource_pack_gem?(new_plugin_dependency.name))
-
+        next if spec.name == new_plugin_dependency.name && (update_mode || is_a_gem_based_plugin?(new_plugin_dependency.name))
         spec.activate
       end
 
       # Make sure we remove any previously loaded gem on update
       # Make sure we remove any previously loaded gem when trying to use resource pack gem
       # Resource pack gems when updated need to deactivate older version of gem
-      Gem.loaded_specs.delete(new_plugin_dependency.name) if update_mode || is_resource_pack_gem?(new_plugin_dependency.name)
+      Gem.loaded_specs.delete(new_plugin_dependency.name) if update_mode || is_a_gem_based_plugin?(new_plugin_dependency.name)
 
       # Test activating the solution. This makes sure we do not try to load two different versions
       # of the same gem on the stack or a malformed dependency.
@@ -548,8 +547,8 @@ module Inspec::Plugin::V2
       conf_file
     end
 
-    def is_resource_pack_gem?(plugin_name)
-      plugin_name =~ /^(inspec)-/ && plugin_name =~ /-resources/
+    def is_a_gem_based_plugin?(plugin_name)
+      (plugin_name =~ /^(inspec)-/ && plugin_name =~ /-resources/) || (plugin_name =~ /^(train)-/)
     end
   end
 end
