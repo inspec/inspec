@@ -24,3 +24,5 @@ end
 
 require "source_readers/inspec"
 require "source_readers/flat"
+require "source_readers/gem"
+

@@ -157,6 +157,35 @@ module Inspec::Plugin::V2
       self.class.list_managed_gems
     end
 
+    def self.find_gem_directory(gem_name, version = nil)
+      matching_gem_versions = list_managed_gems.filter { |g| g.name == gem_name }.sort_by(&:version)
+      selected_gemspec = nil
+      if version
+        selected_gemspec = matching_gem_versions.find { |g| g.version == version }
+      else
+        # Use latest
+        selected_gemspec = matching_gem_versions.last
+      end
+
+      selected_gemspec && selected_gemspec.full_gem_path
+    end
+
+    def self.find_gemspec_directory(gem_name, version = nil)
+      selected_gemspec = list_managed_gems
+        .select { |g| g.name == gem_name }
+        .sort_by(&:version)
+        .yield_self { |gems| version ? gems.find { |g| g.version == version } : gems.last }
+      selected_gemspec&.loaded_from
+    end
+
+    def find_gemspec_directory(gem_name, version = nil)
+      self.class.find_gemspec_directory(gem_name, version)
+    end
+
+    def find_gem_directory(gem_name, version = nil)
+      self.class.find_gem_directory(gem_name, version)
+    end
+
     # Lists all plugin gems found in the plugin_gem_path.
     # This is simply all gems that begin with train- or inspec-
     # and are not on the exclusion list.
@@ -168,8 +197,6 @@ module Inspec::Plugin::V2
     def list_installed_plugin_gems
       self.class.list_managed_gems
     end
-
-    private
 
     # 'Activating' a gem adds it to the load path, so 'require "gemname"' will work.
     # Given a gem name, this activates the gem and all of its dependencies, respecting
@@ -214,6 +241,8 @@ module Inspec::Plugin::V2
         # TODO: If we are under Bundler, inform it that we loaded a gem
       end
     end
+
+    private
 
     def annotate_status_after_loading(plugin_name)
       status = registry[plugin_name]

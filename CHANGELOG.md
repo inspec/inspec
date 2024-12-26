@@ -1,11 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-
-<!-- latest_release 6.8.15 -->
-## [v6.8.15](https://github.com/inspec/inspec/tree/v6.8.15) (2024-12-10)
+<!-- latest_release 7.0.15 -->
+## [v7.0.15](https://github.com/inspec/inspec/tree/v7.0.15) (2024-12-24)
 
 #### Merged Pull Requests
-- CHEF-12173: Update regular expression to fix warnings detected by CodeQL [#7222](https://github.com/inspec/inspec/pull/7222) ([ahasunos](https://github.com/ahasunos))
+- CHEF-18182 Implement sources handling for gem dependencies [#7244](https://github.com/inspec/inspec/pull/7244) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,10 +37,35 @@
 ### Changes since 6.8.11 release
 
 #### Merged Pull Requests
-- CHEF-12173: Update regular expression to fix warnings detected by CodeQL [#7222](https://github.com/inspec/inspec/pull/7222) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.15 -->
-- CHEF-11226: Upgrade Ruby and Ruby Dev Kit to 3.1.6 due to outdated embedded Perl version in 3.1.2 [#7174](https://github.com/inspec/inspec/pull/7174) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.14 -->
-- CHEF-15651: Introduce `--legacy` flag for compatibility in `inspec automate upload` with legacy checks and export options [#7200](https://github.com/inspec/inspec/pull/7200) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.13 -->
-- Fix license server URL override issue by prioritizing environment-set value [#7203](https://github.com/inspec/inspec/pull/7203) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.12 -->
+
+- CHEF-18182 Implement sources handling for gem dependencies [#7244](https://github.com/inspec/inspec/pull/7244) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.15 -->
+- CHEF-14246 Implement version handling of resource pack gem via git fetcher [#7239](https://github.com/inspec/inspec/pull/7239) ([Nik08](https://github.com/Nik08)) <!-- 7.0.14 -->
+- CHEF-18094-Remove podman resources [#7238](https://github.com/inspec/inspec/pull/7238) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.13 -->
+- CHEF-16631 Implement fallback logic when gem caching is manually deleted [#7224](https://github.com/inspec/inspec/pull/7224) ([Nik08](https://github.com/Nik08)) <!-- 7.0.12 -->
+- [Foreport] - Introduce `--legacy` flag for compatibility in `inspec automate upload` with legacy checks and export options [#7205](https://github.com/inspec/inspec/pull/7205) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.11 -->
+- ci: update digi cert token for windows platforms [#7217](https://github.com/inspec/inspec/pull/7217) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.10 -->
+- CHEF-16514 remove redundant plugin activation [#7192](https://github.com/inspec/inspec/pull/7192) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.10 -->
+- CHEF-17239: Fix tests to restore green verify pipeline [#7208](https://github.com/inspec/inspec/pull/7208) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.9 -->
+- CHEF-14729 Habitat LTS channel support  [#7191](https://github.com/inspec/inspec/pull/7191) ([Nik08](https://github.com/Nik08)) <!-- 7.0.8 -->
+- CHEF-15119 - Removes docker resources from core [#7170](https://github.com/inspec/inspec/pull/7170) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.7 -->
+- CHEF-15330 Cleanup ibmdb2 resources from Inspec repo [#7190](https://github.com/inspec/inspec/pull/7190) ([Nik08](https://github.com/Nik08)) <!-- 7.0.6 -->
+- CHEF-15332: Cleanup RabbitMQ resources and documentation from InSpec [#7183](https://github.com/inspec/inspec/pull/7183) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.5 -->
+- CHEF-15331 Removes the sybase resources from core  [#7171](https://github.com/inspec/inspec/pull/7171) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.4 -->
+- CHEF-15329: Cleanup MongoDB resources and documentation from InSpec [#7169](https://github.com/inspec/inspec/pull/7169) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.3 -->
+- Another attempt to fix the verify pipeline [#7177](https://github.com/inspec/inspec/pull/7177) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.3 -->
+- Attempt1 - To fix verify pipeline [#7175](https://github.com/inspec/inspec/pull/7175) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.2 -->
+- CHEF-14242 Support for Gem-Based Resource Packs [#7096](https://github.com/inspec/inspec/pull/7096) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 7.0.1 -->
+- CHEF-14805 Oracle db session resource fixes [#7136](https://github.com/inspec/inspec/pull/7136) ([Nik08](https://github.com/Nik08)) <!-- 6.8.7 -->
+- Update install doc [#7144](https://github.com/inspec/inspec/pull/7144) ([IanMadd](https://github.com/IanMadd)) <!-- 6.8.6 -->
+- ci: introduce inspec-7 as part of release branches [#7135](https://github.com/inspec/inspec/pull/7135) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.5 -->
+- CHEF-14881: Fix habitat pipeline for InSpec 6 [#7127](https://github.com/inspec/inspec/pull/7127) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.5 -->
+- Editing for install script docs [#7129](https://github.com/inspec/inspec/pull/7129) ([IanMadd](https://github.com/IanMadd)) <!-- 6.8.5 -->
+- added docs changes [#7118](https://github.com/inspec/inspec/pull/7118) ([vviveksharma](https://github.com/vviveksharma)) <!-- 6.8.4 -->
+- ci: use latest local license server [#7123](https://github.com/inspec/inspec/pull/7123) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.3 -->
+- enhance: improve fetch and persist to catch entitlement exception [#7121](https://github.com/inspec/inspec/pull/7121) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.3 -->
+- ci: resume habitat pipeline  [#7109](https://github.com/inspec/inspec/pull/7109) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.2 -->
+- Bump rexml from 3.3.2 to 3.3.3 in /omnibus [#7116](https://github.com/inspec/inspec/pull/7116) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.8.2 -->
+
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->

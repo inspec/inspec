@@ -13,6 +13,7 @@ module Inspec
       end
 
       class InstallError < Inspec::Plugin::V2::GemActionError; end
+      class InstallRequiredError < Inspec::Plugin::V2::InstallError; end
 
       class PluginExcludedError < Inspec::Plugin::V2::InstallError
         attr_accessor :details

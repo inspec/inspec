@@ -7,8 +7,12 @@ require "inspec/iaf_file"
 module Inspec
   class FileProvider
     def self.for_path(path)
-      if path.is_a?(Hash)
+      raise "Profile or dependency path not resolved." if path.nil?
+
+      if path.is_a?(Hash) && !path.key?(:gem)
         MockProvider.new(path)
+      elsif path.is_a?(Hash) && path.key?(:gem)
+        GemProvider.new(path)
       elsif File.directory?(path)
         DirProvider.new(path)
       elsif File.exist?(path) && path.end_with?(".tar.gz", "tgz")
@@ -98,6 +102,47 @@ module Inspec
       File.binread(file)
     end
   end # class DirProvider
+
+  class GemProvider < FileProvider
+    attr_reader :files
+    def initialize(gem_info)
+      # Determine a path to the gem installation directory
+      gem_name = gem_info[:gem]
+      bootstrap_file = gem_info[:path]
+      gem_version = gem_info[:version]
+      if bootstrap_file
+        # We were given an explicit path - go two directories up
+        parts = Pathname(gem_info[:path]).each_filename.to_a
+        @gem_lib_root = File.join(parts.slice(0, parts.length - 2))
+        @files = Dir[File.join(Shellwords.shellescape(@gem_lib_root), "**", "*")]
+      else
+        # Look up where the gem is installed, respecting version
+        loader = Inspec::Plugin::V2::Loader.new
+        gem_path = loader.find_gem_directory(gem_name, gem_version)
+        if gem_path && File.exist?(gem_path)
+          gem = DirProvider.new(gem_path)
+          @files = gem.files
+          gem
+        else
+          raise Inspec::Exceptions::GemDependencyNotFound, "Dependency does not exist #{gem_name}"
+        end
+      end
+    end
+
+    def read(file)
+      return nil unless files.include?(file)
+      return nil unless File.file?(file)
+
+      File.read(file)
+    end
+
+    def binread(file)
+      return nil unless files.include?(file)
+      return nil unless File.file?(file)
+
+      File.binread(file)
+    end
+  end # class GemProvider
 
   class ZipProvider < FileProvider
     attr_reader :files
