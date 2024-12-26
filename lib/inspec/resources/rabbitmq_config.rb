@@ -18,7 +18,7 @@ module Inspec::Resources
     include FileReader
 
     def initialize(conf_path = nil)
-      Inspec.deprecate(:core_resource_moved_to_rp, "The rabbitmq_config resource will be deprecated in InSpec 7.")
+      Inspec.deprecate(:core_resource_moved_to_rp, "The resource 'rabbitmq_config' will not be part of the InSpec 7 core.")
       @conf_path = conf_path || "/etc/rabbitmq/rabbitmq.config"
       @content = read_file_content(@conf_path, allow_empty: true)
     end

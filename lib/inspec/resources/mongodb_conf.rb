@@ -15,7 +15,7 @@ module Inspec::Resources
     EXAMPLE
 
     def initialize(conf_path = nil)
-      Inspec.deprecate(:core_resource_moved_to_rp, "The mongodb_conf resource will be deprecated in InSpec 7.")
+      Inspec.deprecate(:core_resource_moved_to_rp, "The resource 'mongodb_conf' will not be part of the InSpec 7 core.")
       @conf_path = conf_path || inspec.mongodb.conf_path
 
       if @conf_path.nil?

@@ -9,7 +9,7 @@ module Inspec::Resources
     attr_reader :conf_path
 
     def initialize
-      Inspec.deprecate(:core_resource_moved_to_rp, "The mongodb resource will be deprecated in InSpec 7.")
+      Inspec.deprecate(:core_resource_moved_to_rp, "The resource 'mongodb' will not be part of the InSpec 7 core.")
       case inspec.os[:family]
       when "debian", "fedora", "redhat", "linux", "suse"
         init_linux

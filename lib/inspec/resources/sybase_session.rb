@@ -25,7 +25,7 @@ module Inspec::Resources
     attr_reader :bin, :col_sep, :database, :password, :server, :sybase_home, :username
 
     def initialize(opts = {})
-      Inspec.deprecate(:core_resource_moved_to_rp, "The sybase_session resource will be deprecated in InSpec 7.")
+      Inspec.deprecate(:core_resource_moved_to_rp, "The resource 'sybase_session' will not be part of the InSpec 7 core.")
       @username = opts[:username]
       @password = opts[:password]
       @database = opts[:database]

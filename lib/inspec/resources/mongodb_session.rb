@@ -35,7 +35,7 @@ module Inspec::Resources
     attr_reader :user, :host, :port, :database, :params
 
     def initialize(opts = {})
-      Inspec.deprecate(:core_resource_moved_to_rp, "The mongodb_conf resource will be deprecated in InSpec 7.")
+      Inspec.deprecate(:core_resource_moved_to_rp, "The resource 'mongodb_conf' will not be part of the InSpec 7 core.")
       @user = opts[:user] || nil
       @password = opts[:password] || nil
       @host = opts[:host] || "127.0.0.1"

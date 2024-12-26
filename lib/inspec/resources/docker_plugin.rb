@@ -23,7 +23,7 @@ module Inspec::Resources
     EXAMPLE
 
     def initialize(opts = {})
-      Inspec.deprecate(:core_resource_moved_to_rp, "The docker_plugin resource will be deprecated in InSpec 7.")
+      Inspec.deprecate(:core_resource_moved_to_rp, "The resource 'docker_plugin' will not be part of the InSpec 7 core.")
       # do sanitizion of input values
       o = opts.dup
       o = { name: opts } if opts.is_a?(String)
