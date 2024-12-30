@@ -6,7 +6,9 @@ describe "Inspec::Resources::Elasticsearch" do
   let(:resource) { load_resource("elasticsearch") }
 
   it "returns a build hash" do
-    _(resource.build_hash).must_equal %w{b2f0c09 b2f0c09}
+    expect_deprecation(:core_resource_moved_to_rp) do
+      _(resource.build_hash).must_equal %w{b2f0c09 b2f0c09}
+    end
   end
 
   it "returns a cluster name" do
