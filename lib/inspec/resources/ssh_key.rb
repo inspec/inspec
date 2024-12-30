@@ -25,6 +25,8 @@ module Inspec::Resources
     include FileReader
 
     def initialize(keypath, passphrase = nil)
+      Inspec.deprecate(:core_resource_moved_to_rp, "The resource 'ssh_key' will not be part of the InSpec 7 core.")
+
       skip_resource "The `ssh_key` resource is not yet available on your OS." unless inspec.os.unix? || inspec.os.windows?
       @key_path = set_ssh_key_path(keypath)
       @passphrase = passphrase
