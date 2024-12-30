@@ -29,13 +29,6 @@ gem "ffi", ">= 1.15.5", "< 1.17.0"
 # but our runtime dep is still 3.9+
 gem "rspec", ">= 3.10"
 
-group :omnibus do
-  gem "rb-readline"
-  gem "appbundler"
-  gem "ed25519" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
-  gem "bcrypt_pbkdf" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
-end
-
 group :test do
   gem "chefstyle"
   gem "concurrent-ruby"
