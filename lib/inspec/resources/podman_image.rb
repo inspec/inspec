@@ -36,6 +36,8 @@ module Inspec::Resources
     attr_reader :opts, :image_info
 
     def initialize(opts)
+      Inspec.deprecate(:core_resource_moved_to_rp, "The resource 'podman_image' will not be part of the InSpec 7 core.")
+
       skip_resource "The `podman_image` resource is not yet available on your OS." unless inspec.os.unix?
       opts = { image: opts } if opts.is_a?(String)
       @opts = sanitize_options(opts)

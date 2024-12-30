@@ -8,7 +8,9 @@ describe Inspec::Resources::PodmanNetwork do
 
     describe "exist?" do
       it "returns true" do
-        _(resource.exist?).must_equal true
+        expect_deprecation(:core_resource_moved_to_rp) do
+          _(resource.exist?).must_equal true
+        end
       end
     end
 

@@ -29,6 +29,8 @@ module Inspec::Resources
     attr_reader :volume_info, :volume_name
 
     def initialize(volume_name)
+      Inspec.deprecate(:core_resource_moved_to_rp, "The resource 'podman_volume' will not be part of the InSpec 7 core.")
+
       skip_resource "The `podman_volume` resource is not yet available on your OS." unless inspec.os.unix?
       raise Inspec::Exceptions::ResourceFailed, "Podman is not running. Please make sure it is installed and running." unless podman_running?
 

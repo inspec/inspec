@@ -36,6 +36,8 @@ module Inspec::Resources
 
     attr_reader :param, :network_info
     def initialize(param)
+      Inspec.deprecate(:core_resource_moved_to_rp, "The resource 'podman_network' will not be part of the InSpec 7 core.")
+
       skip_resource "The `podman_network` resource is not yet available on your OS." unless inspec.os.unix?
 
       @param = param

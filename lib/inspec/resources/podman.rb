@@ -43,6 +43,10 @@ module Inspec::Resources
       end
     EXAMPLE
 
+    def initialize
+      Inspec.deprecate(:core_resource_moved_to_rp, "The resource 'podman' will not be part of the InSpec 7 core.")
+    end
+
     def containers
       PodmanContainerFilter.new(parse_containers)
     end

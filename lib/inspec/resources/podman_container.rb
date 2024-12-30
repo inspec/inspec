@@ -27,6 +27,7 @@ module Inspec::Resources
     EXAMPLE
 
     def initialize(opts = {})
+      Inspec.deprecate(:core_resource_moved_to_rp, "The resource 'podman_container' will not be part of the InSpec 7 core.")
       skip_resource "The `podman_container` resource is not yet available on your OS." unless inspec.os.unix?
 
       # if a string is provided, we expect it is the name
