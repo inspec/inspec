@@ -4,22 +4,20 @@ require_relative "../../../lib/inspec/resources/podman_volume"
 
 describe Inspec::Resources::PodmanVolume do
   it "checks podman volume parameter and works correctly" do
-    expect_deprecation(:core_resource_moved_to_rp) do
-      resource = MockLoader.new("unix".to_sym).load_resource("podman_volume", "my_volume")
-      _(resource.exist?).must_equal true
-      _(resource.name).must_equal "my_volume"
-      _(resource.driver).must_equal "local"
-      _(resource.mountpoint).must_equal "/var/home/core/.local/share/containers/storage/volumes/my_volume/_data"
-      _(resource.created_at).must_equal "2022-07-14T13:21:19.965421792+05:30"
-      _(resource.labels).must_equal({})
-      _(resource.scope).must_equal "local"
-      _(resource.options).must_equal({})
-      _(resource.mount_count).must_equal 0
-      _(resource.needs_copy_up).must_equal true
-      _(resource.needs_chown).must_equal true
-      _(resource.resource_id).must_equal "my_volume"
-      _(resource.to_s).must_equal "podman_volume my_volume"
-    end
+    resource = MockLoader.new("unix".to_sym).load_resource("podman_volume", "my_volume")
+    _(resource.exist?).must_equal true
+    _(resource.name).must_equal "my_volume"
+    _(resource.driver).must_equal "local"
+    _(resource.mountpoint).must_equal "/var/home/core/.local/share/containers/storage/volumes/my_volume/_data"
+    _(resource.created_at).must_equal "2022-07-14T13:21:19.965421792+05:30"
+    _(resource.labels).must_equal({})
+    _(resource.scope).must_equal "local"
+    _(resource.options).must_equal({})
+    _(resource.mount_count).must_equal 0
+    _(resource.needs_copy_up).must_equal true
+    _(resource.needs_chown).must_equal true
+    _(resource.resource_id).must_equal "my_volume"
+    _(resource.to_s).must_equal "podman_volume my_volume"
   end
 
   it "checks for a non-existing podman volume" do

@@ -5,55 +5,47 @@ require "inspec/resources/docker_service"
 describe "Inspec::Resources::DockerService" do
   describe "docker_service" do
     it "check docker service parsing" do
-      expect_deprecation(:core_resource_moved_to_rp) do
-        resource = load_resource("docker_service", "service1")
-        _(resource.id).must_equal "2ghswegspre1"
-        _(resource.tag).must_equal "1.0"
-        _(resource.image).must_equal "foo/image:1.0"
-        _(resource.repo).must_equal "foo/image"
-        _(resource.image_name).must_equal "foo/image"
-        _(resource.replicas).must_equal "3/3"
-        _(resource.mode).must_equal "replicated"
-        _(resource.ports).must_equal "*:1234->1234/tcp"
-        _(resource.resource_id).must_equal "2ghswegspre1"
-      end
+      resource = load_resource("docker_service", "service1")
+      _(resource.id).must_equal "2ghswegspre1"
+      _(resource.tag).must_equal "1.0"
+      _(resource.image).must_equal "foo/image:1.0"
+      _(resource.repo).must_equal "foo/image"
+      _(resource.image_name).must_equal "foo/image"
+      _(resource.replicas).must_equal "3/3"
+      _(resource.mode).must_equal "replicated"
+      _(resource.ports).must_equal "*:1234->1234/tcp"
+      _(resource.resource_id).must_equal "2ghswegspre1"
     end
 
     it "check docker service from id" do
-      expect_deprecation(:core_resource_moved_to_rp) do
-        resource = load_resource("docker_service", id: "2ghswegspre1")
-        _(resource.id).must_equal "2ghswegspre1"
-        _(resource.tag).must_equal "1.0"
-        _(resource.image).must_equal "foo/image:1.0"
-        _(resource.repo).must_equal "foo/image"
-        _(resource.image_name).must_equal "foo/image"
-        _(resource.replicas).must_equal "3/3"
-        _(resource.mode).must_equal "replicated"
-        _(resource.ports).must_equal "*:1234->1234/tcp"
-        _(resource.resource_id).must_equal "2ghswegspre1"
-      end
+      resource = load_resource("docker_service", id: "2ghswegspre1")
+      _(resource.id).must_equal "2ghswegspre1"
+      _(resource.tag).must_equal "1.0"
+      _(resource.image).must_equal "foo/image:1.0"
+      _(resource.repo).must_equal "foo/image"
+      _(resource.image_name).must_equal "foo/image"
+      _(resource.replicas).must_equal "3/3"
+      _(resource.mode).must_equal "replicated"
+      _(resource.ports).must_equal "*:1234->1234/tcp"
+      _(resource.resource_id).must_equal "2ghswegspre1"
     end
 
     it "check docker service from image" do
-      expect_deprecation(:core_resource_moved_to_rp) do
-        resource = load_resource("docker_service", image: "foo/image:1.0")
-        _(resource.id).must_equal "2ghswegspre1"
-        _(resource.tag).must_equal "1.0"
-        _(resource.image).must_equal "foo/image:1.0"
-        _(resource.repo).must_equal "foo/image"
-        _(resource.image_name).must_equal "foo/image"
-        _(resource.replicas).must_equal "3/3"
-        _(resource.mode).must_equal "replicated"
-        _(resource.ports).must_equal "*:1234->1234/tcp"
-        _(resource.resource_id).must_equal "2ghswegspre1"
-      end
+      resource = load_resource("docker_service", image: "foo/image:1.0")
+      _(resource.id).must_equal "2ghswegspre1"
+      _(resource.tag).must_equal "1.0"
+      _(resource.image).must_equal "foo/image:1.0"
+      _(resource.repo).must_equal "foo/image"
+      _(resource.image_name).must_equal "foo/image"
+      _(resource.replicas).must_equal "3/3"
+      _(resource.mode).must_equal "replicated"
+      _(resource.ports).must_equal "*:1234->1234/tcp"
+      _(resource.resource_id).must_equal "2ghswegspre1"
     end
 
     it "prints as a docker_image resource" do
-      expect_deprecation(:core_resource_moved_to_rp) do
-        resource = load_resource("docker_service", "service1")
-        _(resource.to_s).must_equal "Docker Service service1"
-      end
+      resource = load_resource("docker_service", "service1")
+      _(resource.to_s).must_equal "Docker Service service1"
     end
   end
 

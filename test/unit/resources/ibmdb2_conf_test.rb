@@ -4,50 +4,38 @@ require "inspec/resources/ibmdb2_conf"
 
 describe "Inspec::Resources::ibmdb2_conf" do
   it "generates the resource_id for the current resource" do
-    expect_deprecation(:core_resource_moved_to_rp) do
-      resource = load_resource("ibmdb2_conf", db_instance: "db2inst1")
-      _(resource.resource_id).must_equal "ibmdb2_conf:DatabaseInstance:db2inst1"
-    end
+    resource = load_resource("ibmdb2_conf", db_instance: "db2inst1")
+    _(resource.resource_id).must_equal "ibmdb2_conf:DatabaseInstance:db2inst1"
   end
 
   it "fails when no IBM db2 executable path is provided" do
-    expect_deprecation(:core_resource_moved_to_rp) do
-      resource = load_resource("ibmdb2_conf", db_instance: "db2inst1")
-      _(resource.resource_failed?).must_equal true
-      _(resource.resource_exception_message).must_equal "Can't connect to IBM DB2 without db2_executable_file_path, db_instance options provided."
-    end
+    resource = load_resource("ibmdb2_conf", db_instance: "db2inst1")
+    _(resource.resource_failed?).must_equal true
+    _(resource.resource_exception_message).must_equal "Can't connect to IBM DB2 without db2_executable_file_path, db_instance options provided."
   end
 
   it "fails when no IBM db2 instance name is provided" do
-    expect_deprecation(:core_resource_moved_to_rp) do
-      resource = load_resource("ibmdb2_conf", db2_executable_file_path: "/opt/ibm/db2/V11.5/bin/db2")
-      _(resource.resource_failed?).must_equal true
-      _(resource.resource_exception_message).must_equal "Can't connect to IBM DB2 without db2_executable_file_path, db_instance options provided."
-    end
+    resource = load_resource("ibmdb2_conf", db2_executable_file_path: "/opt/ibm/db2/V11.5/bin/db2")
+    _(resource.resource_failed?).must_equal true
+    _(resource.resource_exception_message).must_equal "Can't connect to IBM DB2 without db2_executable_file_path, db_instance options provided."
   end
 
   it "verify ibmdb2_conf on windows" do
-    expect_deprecation(:core_resource_moved_to_rp) do
-      resource = MockLoader.new(:windows).load_resource("ibmdb2_conf")
-      _(resource.resource_id).must_equal "ibmdb2_conf"
-      _(resource.resource_failed?).must_equal false
-      _(resource.output).must_be_kind_of Array
-    end
+    resource = MockLoader.new(:windows).load_resource("ibmdb2_conf")
+    _(resource.resource_id).must_equal "ibmdb2_conf"
+    _(resource.resource_failed?).must_equal false
+    _(resource.output).must_be_kind_of Array
   end
 
   it "return the output in array format" do
-    expect_deprecation(:core_resource_moved_to_rp) do
-      resource = load_resource("ibmdb2_conf", db2_executable_file_path: "/opt/ibm/db2/V11.5/bin/db2", db_instance: "db2inst1")
-      _(resource.resource_failed?).must_equal false
-      _(resource.output).must_be_kind_of Array
-    end
+    resource = load_resource("ibmdb2_conf", db2_executable_file_path: "/opt/ibm/db2/V11.5/bin/db2", db_instance: "db2inst1")
+    _(resource.resource_failed?).must_equal false
+    _(resource.output).must_be_kind_of Array
   end
 
   it "returns expected result" do
-    expect_deprecation(:core_resource_moved_to_rp) do
-      resource = load_resource("ibmdb2_conf", db2_executable_file_path: "/opt/ibm/db2/V11.5/bin/db2", db_instance: "db2inst1")
-      _(resource.resource_failed?).must_equal false
-      _(resource.output).must_include "Audit buffer size (4KB) (AUDIT_BUF_SZ) = 0"
-    end
+    resource = load_resource("ibmdb2_conf", db2_executable_file_path: "/opt/ibm/db2/V11.5/bin/db2", db_instance: "db2inst1")
+    _(resource.resource_failed?).must_equal false
+    _(resource.output).must_include "Audit buffer size (4KB) (AUDIT_BUF_SZ) = 0"
   end
 end

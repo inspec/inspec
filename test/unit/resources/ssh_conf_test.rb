@@ -5,13 +5,11 @@ require "inspec/resources/ssh_config"
 describe "Inspec::Resources::SshConfig" do
   describe "ssh_config" do
     it "check ssh config parsing" do
-      expect_deprecation(:core_resource_moved_to_rp) do
-        resource = load_resource("ssh_config")
-        _(resource.Host).must_equal "*"
-        _(resource.Tunnel).must_be_nil
-        _(resource.SendEnv).must_equal "LANG LC_*"
-        _(resource.HashKnownHosts).must_equal "yes"
-      end
+      resource = load_resource("ssh_config")
+      _(resource.Host).must_equal "*"
+      _(resource.Tunnel).must_be_nil
+      _(resource.SendEnv).must_equal "LANG LC_*"
+      _(resource.HashKnownHosts).must_equal "yes"
     end
 
     it "is case insensitive" do
