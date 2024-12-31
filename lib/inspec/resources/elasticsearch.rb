@@ -53,8 +53,6 @@ module Inspec::Resources
     attr_reader :nodes, :url
 
     def initialize(opts = {})
-      Inspec.deprecate(:core_resource_moved_to_rp, "The resource 'elasticsearch' will not be part of the InSpec 7 core.")
-
       return skip_resource "Package `curl` not avaiable on the host" unless inspec.command("curl").exist?
 
       @url = opts.fetch(:url, "http://localhost:9200")

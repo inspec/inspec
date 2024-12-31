@@ -14,7 +14,6 @@ module Inspec::Resources
 
     attr_reader :conf_param, :sql_query
     def initialize(conf_param_name, opts = {})
-      Inspec.deprecate(:core_resource_moved_to_rp, "The resource 'sybase_conf' will not be part of the InSpec 7 core.")
       @conf_param = conf_param_name
       opts[:username] ||= "sa"
       opts[:database] ||= "master"

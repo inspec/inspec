@@ -27,7 +27,6 @@ module Inspec::Resources
     EXAMPLE
 
     def initialize(opts = {})
-      Inspec.deprecate(:core_resource_moved_to_rp, "The resource 'ibmdb2_session' will not be part of the InSpec 7 core.")
       @db_name = opts[:db_name]
       if inspec.os.platform?("unix")
         @db2_executable_file_path = opts[:db2_executable_file_path]

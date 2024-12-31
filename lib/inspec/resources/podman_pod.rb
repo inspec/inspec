@@ -38,8 +38,6 @@ module Inspec::Resources
     attr_reader :pod_info, :pod_id
 
     def initialize(pod_id)
-      Inspec.deprecate(:core_resource_moved_to_rp, "The resource 'podman_pod' will not be part of the InSpec 7 core.")
-
       skip_resource "The `podman_pod` resource is not yet available on your OS." unless inspec.os.unix?
       raise Inspec::Exceptions::ResourceFailed, "Podman is not running. Please make sure it is installed and running." unless podman_running?
 

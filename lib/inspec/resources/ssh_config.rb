@@ -20,8 +20,6 @@ module Inspec::Resources
     include FileReader
 
     def initialize(conf_path = nil, type = nil)
-      Inspec.deprecate(:core_resource_moved_to_rp, "The resource 'ssh_config' will not be part of the InSpec 7 core.")
-
       @conf_path = conf_path || ssh_config_file("ssh_config")
       typename = (@conf_path.include?("sshd") ? "Server" : "Client")
       @type = type || "SSH #{typename} configuration #{conf_path}"
