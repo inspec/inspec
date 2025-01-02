@@ -111,7 +111,7 @@ module Inspec
       if key.start_with?("gem:")
         (_, gem_name, version) = key.split(":")
         loader = Inspec::Plugin::V2::Loader.new
-        loader.find_gemspec_directory(gem_name, version)
+        loader.find_gemspec_directory(gem_name, Gem::Version.new(version))
       end
     end
 
