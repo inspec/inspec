@@ -1,3 +1,3 @@
-# Example InSpec Profile
+# InSpec Profile for Deprecated Resources
 
-This example shows the implementation of an InSpec profile.
+This example demonstrates the implementation of an InSpec profile that includes deprecated resource.
