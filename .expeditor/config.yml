@@ -1,8 +1,6 @@
 # Documentation available at https://expeditor.chef.io/docs/getting-started/
 ---
 
-product_key: inspec
-
 rubygems:
  - inspec
  - inspec-core
@@ -17,7 +15,6 @@ pipelines:
        - HAB_NONINTERACTIVE: "true"
        - HAB_NOCOLORING: "true"
        - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
-#  - docker/build
  - artifact/habitat:
       description: Execute tests against the habitat artifact
       definition: .expeditor/artifact.habitat.yml
@@ -48,20 +45,6 @@ pipelines:
       - NO_AWS: 1
       - MT_CPU: 5
       - ARTIFACTORY_BASE_URL: https://artifactory-internal.ps.chef.co
- - omnibus/release:
-    env:
-     # The git cache is corrupt more often than not. This always purges the cache.
-     # https://chefio.atlassian.net/wiki/spaces/RELENGKB/pages/2204336129/Resolving+git+cache+build+errors+in+Omnibus
-     - EXPIRE_CACHE: 1
-     - IGNORE_ARTIFACTORY_RUBY_PROXY: true # Artifactory is throwing 500's when downloading some gems like ffi.
-     - ARTIFACTORY_BASE_URL: https://artifactory-internal.ps.chef.co
- - omnibus/adhoc:
-    definition: .expeditor/release.omnibus.yml
-    env:
-     - ADHOC: true
-     - EXPIRE_CACHE: 1
-     - IGNORE_ARTIFACTORY_RUBY_PROXY: true # Artifactory is throwing 500's when downloading some gems like ffi.
-     - ARTIFACTORY_BASE_URL: https://artifactory-internal.ps.chef.co
 
 slack:
  notify_channel: inspec-notify
@@ -92,6 +75,11 @@ changelog:
   - "Type: Enhancement": "Enhancements"
   - "Type: Bug": "Bug Fixes"
 
+
+artifact_channels:
+  - dev
+  - current
+
 subscriptions:
   - workload: pull_request_merged:{{github_repo}}:{{release_branch}}:*
     actions:
@@ -106,7 +94,6 @@ subscriptions:
          - habitat/*
          - inspec-bin/*
          - lib/*
-         - omnibus/*
          - support/*
          - tasks/*
          - test/*
@@ -120,16 +107,6 @@ subscriptions:
         ignore_labels:
          - "Expeditor: Skip All"
          - "Expeditor: Skip Changelog"
-     - trigger_pipeline:omnibus/adhoc:
-        not_if: built_in:bump_version
-        ignore_labels:
-         - "Expeditor: Skip Omnibus"
-         - "Expeditor: Skip All"
-     - trigger_pipeline:omnibus/release:
-        only_if: built_in:bump_version
-        ignore_labels:
-         - "Expeditor: Skip Omnibus"
-         - "Expeditor: Skip All"
      - trigger_pipeline:artifact/habitat:
         only_if: built_in:bump_version
         ignore_labels:
@@ -143,31 +120,17 @@ subscriptions:
      - built_in:build_gem:
         only_if:
          - built_in:bump_version
-#   - workload: artifact_published:unstable:inspec:{{version_constraint}}
-#     actions:
-#      - trigger_pipeline:docker/build
-#      - bash:.expeditor/buildkite/wwwrelease.sh:
-#         post_commit: true
-#   - workload: artifact_published:current:inspec:{{version_constraint}}
-#     actions:
-#      - built_in:promote_docker_images
-#      - built_in:promote_habitat_packages
-  - workload: project_promoted:{{agent_id}}:*
+
+# Creates dev package from unstable package once hab build is complete
+  - workload: buildkite_hab_build_group_published:{{agent_id}}:*
     actions:
-      - built_in:promote_artifactory_artifact
-  - workload: artifact_published:stable:inspec:{{version_constraint}}
-    actions:
-     - built_in:rollover_changelog
-     - built_in:publish_rubygems
-     - built_in:create_github_release
      - built_in:promote_habitat_packages
-     - bash:.expeditor/publish-release-notes.sh:
-        post_commit: true
-     - purge_packages_chef_io_fastly:{{target_channel}}/inspec/latest:
-        post_commit: true
-     - bash:.expeditor/announce-release.sh:
-        post_commit: true
-     - built_in:notify_chefio_slack_channels
+
+# Promoting dev to current
+  - workload: project_promoted:{{agent_id}}:dev*
+    actions:
+     - built_in:promote_habitat_packages
+
   - workload: pull_request_opened:{{github_repo}}:{{release_branch}}:*
     actions:
      - post_github_comment:.expeditor/templates/pull_request.mustache:
