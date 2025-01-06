@@ -129,10 +129,10 @@ subscriptions:
 # Promoting current to lts-2024 channel
   - workload: project_promoted:{{agent_id}}:current*
     actions:
-     - built_in:promote_habitat_packages
+     - built_in:rollover_changelog
      - built_in:publish_rubygems
      - built_in:create_github_release
-     - built_in:rollover_changelog
+     - built_in:promote_habitat_packages
      - bash:.expeditor/publish-release-notes.sh:
         post_commit: true
      - purge_packages_chef_io_fastly:{{target_channel}}/inspec/latest:
