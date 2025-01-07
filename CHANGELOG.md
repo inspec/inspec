@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.15 -->
-## [v7.0.15](https://github.com/inspec/inspec/tree/v7.0.15) (2024-12-24)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- CHEF-18182 Implement sources handling for gem dependencies [#7244](https://github.com/inspec/inspec/pull/7244) ([sathish-progress](https://github.com/sathish-progress))
+- TEST PR: Expeditor workflow to enable multiple channel promotion of Hab packages  [#7254](https://github.com/inspec/inspec/pull/7254) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- TEST PR: Expeditor workflow to enable multiple channel promotion of Hab packages  [#7254](https://github.com/inspec/inspec/pull/7254) ([Nik08](https://github.com/Nik08)) <!-- 7.0.15 -->
 - CHEF-18182 Implement sources handling for gem dependencies [#7244](https://github.com/inspec/inspec/pull/7244) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.15 -->
 - CHEF-14246 Implement version handling of resource pack gem via git fetcher [#7239](https://github.com/inspec/inspec/pull/7239) ([Nik08](https://github.com/Nik08)) <!-- 7.0.14 -->
 - CHEF-18094-Remove podman resources [#7238](https://github.com/inspec/inspec/pull/7238) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.13 -->
