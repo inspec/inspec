@@ -73,6 +73,11 @@
       "action": "exit",
       "suffix": "This resource was removed in InSpec 4.0."
     },
+    "core_resource_moved_to_rp": {
+      "action": "warn",
+      "suffix": "This resource will be moved to a separate resource pack. Additional details will be provided with the InSpec 7 release.",
+      "comment": "Deprecation notice for core resource which are getting moved to resource packs."
+    },
     "resource_iis_website": {
       "action": "exit",
       "suffix": "This resource was removed in InSpec 4.0.",
