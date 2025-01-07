@@ -1,12 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.16 -->
-## [v7.0.16](https://github.com/inspec/inspec/tree/v7.0.16) (2025-01-07)
+<!-- latest_release 7.0.17 -->
+## [v7.0.17](https://github.com/inspec/inspec/tree/v7.0.17) (2025-01-07)
 
 #### Merged Pull Requests
-- Revert: Version bump conditionals for hab pipelines [#7255](https://github.com/inspec/inspec/pull/7255) ([Nik08](https://github.com/Nik08))
-- TEST PR: Expeditor workflow to enable multiple channel promotion of Hab packages  [#7254](https://github.com/inspec/inspec/pull/7254) ([Nik08](https://github.com/Nik08))
+- Hab build fix for LTS channel [#7256](https://github.com/inspec/inspec/pull/7256) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -39,6 +38,7 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- Hab build fix for LTS channel [#7256](https://github.com/inspec/inspec/pull/7256) ([Nik08](https://github.com/Nik08)) <!-- 7.0.17 -->
 - Revert: Version bump conditionals for hab pipelines [#7255](https://github.com/inspec/inspec/pull/7255) ([Nik08](https://github.com/Nik08)) <!-- 7.0.16 -->
 - TEST PR: Expeditor workflow to enable multiple channel promotion of Hab packages  [#7254](https://github.com/inspec/inspec/pull/7254) ([Nik08](https://github.com/Nik08)) <!-- 7.0.15 -->
 - CHEF-18182 Implement sources handling for gem dependencies [#7244](https://github.com/inspec/inspec/pull/7244) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.15 -->
