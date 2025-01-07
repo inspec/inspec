@@ -45,20 +45,6 @@ pipelines:
       - NO_AWS: 1
       - MT_CPU: 5
       - ARTIFACTORY_BASE_URL: https://artifactory-internal.ps.chef.co
- - omnibus/release:
-    env:
-     # The git cache is corrupt more often than not. This always purges the cache.
-     # https://chefio.atlassian.net/wiki/spaces/RELENGKB/pages/2204336129/Resolving+git+cache+build+errors+in+Omnibus
-     - EXPIRE_CACHE: 1
-     - IGNORE_ARTIFACTORY_RUBY_PROXY: true # Artifactory is throwing 500's when downloading some gems like ffi.
-     - ARTIFACTORY_BASE_URL: https://artifactory-internal.ps.chef.co
- - omnibus/adhoc:
-    definition: .expeditor/release.omnibus.yml
-    env:
-     - ADHOC: true
-     - EXPIRE_CACHE: 1
-     - IGNORE_ARTIFACTORY_RUBY_PROXY: true # Artifactory is throwing 500's when downloading some gems like ffi.
-     - ARTIFACTORY_BASE_URL: https://artifactory-internal.ps.chef.co
 
 slack:
  notify_channel: inspec-notify
@@ -93,8 +79,8 @@ changelog:
 
 
 artifact_channels:
-  - base-2025-current
-  - base-2025
+  - dev
+  - test
 
 subscriptions:
   - workload: pull_request_merged:{{github_repo}}:{{release_branch}}:*
@@ -130,35 +116,31 @@ subscriptions:
         ignore_labels:
          - "Expeditor: Skip All"
          - "Expeditor: Skip Changelog"
-     - trigger_pipeline:artifact/habitat:
-        only_if: built_in:bump_version
-        ignore_labels:
-         - "Expeditor: Skip Habitat"
-         - "Expeditor: Skip All"
-     - trigger_pipeline:habitat/build:
-        only_if: built_in:bump_version
-        ignore_labels:
-         - "Expeditor: Skip Habitat"
-         - "Expeditor: Skip All"
+     - trigger_pipeline:artifact/habitat
+        # Commenting only for testing purpose
+        # only_if: built_in:bump_version
+        # ignore_labels:
+        #  - "Expeditor: Skip Habitat"
+        #  - "Expeditor: Skip All"
+     - trigger_pipeline:habitat/build
+        # Commenting only for testing purpose
+        # only_if: built_in:bump_version
+        # ignore_labels:
+        #  - "Expeditor: Skip Habitat"
+        #  - "Expeditor: Skip All"
      - built_in:build_gem:
         only_if:
          - built_in:bump_version
 
-# Creates base-2025-current package from unstable package once hab build is complete
+# Creates dev package from unstable package once hab build is complete
   - workload: buildkite_hab_build_group_published:{{agent_id}}:*
     actions:
      - built_in:promote_habitat_packages
 
-# Promoting base-2025-current to base-2025 channel
-  - workload: project_promoted:{{agent_id}}:*
+# Promoting dev to test
+  - workload: project_promoted:{{agent_id}}:dev*
     actions:
-     - built_in:rollover_changelog
-     - built_in:publish_rubygems
-   #   - built_in:create_github_release # This does not work under project_promoted workload
      - built_in:promote_habitat_packages
-     - purge_packages_chef_io_fastly:{{target_channel}}/inspec/latest:
-        post_commit: true
-     - built_in:notify_chefio_slack_channels
 
   - workload: pull_request_opened:{{github_repo}}:{{release_branch}}:*
     actions:
