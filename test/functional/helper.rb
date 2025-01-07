@@ -94,6 +94,10 @@ module FunctionalHelper
     stderr.split("\n").reject { |l| l.include? " DEPRECATION: " }.join("\n") + suffix
   end
 
+  def ignore_resource_pack_warning(output)
+    output.split("\n").reject { |l| l.include? " CHANGE NOTICE: " }.join("\n")
+  end
+
   def assert_json_controls_passing(_result = nil) # dummy arg
     # Strategy: assemble an array of tests that failed or skipped, and insist it is empty
     # @json['profiles'][0]['controls'][0]['results'][0]['status']

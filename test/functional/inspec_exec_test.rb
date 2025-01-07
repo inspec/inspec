@@ -805,7 +805,7 @@ describe "inspec exec" do
     let(:controls) { json["profiles"][0]["controls"] }
 
     it "completes the run with failed controls but no exception" do
-      _(stderr).must_be_empty
+      _(ignore_resource_pack_warning(stderr)).must_be_empty
 
       _(controls.count).must_equal 10
       _(controls.select { |c| c["results"][0]["status"] == "failed" }.count).must_be :>, 1
@@ -1607,6 +1607,17 @@ EOT
 
         delete_signing_keys(unique_key_name)
       end
+    end
+  end
+
+  describe "when running a profile with a core resource that will be deprecated in InSpec 7" do
+    let(:out) { inspec("exec " + File.join(profile_path, "deprecated-core-resources") + " --no-create-lockfile") }
+    it "issues a change notice warning and runs the profile successfully" do
+      _(stdout).must_include "WARN: CHANGE NOTICE:"
+      _(stdout).must_include "will not be part of the InSpec 7 core."
+      _(stdout).must_include "This resource will be moved to a separate resource pack."
+      _(stdout).must_include "Additional details will be provided with the InSpec 7 release."
+      assert_exit_code 0, out
     end
   end
 end
