@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.8.15 -->
-## [v6.8.15](https://github.com/inspec/inspec/tree/v6.8.15) (2024-12-10)
+<!-- latest_release 6.8.16 -->
+## [v6.8.16](https://github.com/inspec/inspec/tree/v6.8.16) (2025-01-07)
 
 #### Merged Pull Requests
-- CHEF-12173: Update regular expression to fix warnings detected by CodeQL [#7222](https://github.com/inspec/inspec/pull/7222) ([ahasunos](https://github.com/ahasunos))
+- CHEF-16823: Introduce deprecation warning for core resources moving to resource packs in InSpec 7 [#7219](https://github.com/inspec/inspec/pull/7219) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.11 release
 
 #### Merged Pull Requests
+- CHEF-16823: Introduce deprecation warning for core resources moving to resource packs in InSpec 7 [#7219](https://github.com/inspec/inspec/pull/7219) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.16 -->
 - CHEF-12173: Update regular expression to fix warnings detected by CodeQL [#7222](https://github.com/inspec/inspec/pull/7222) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.15 -->
 - CHEF-11226: Upgrade Ruby and Ruby Dev Kit to 3.1.6 due to outdated embedded Perl version in 3.1.2 [#7174](https://github.com/inspec/inspec/pull/7174) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.14 -->
 - CHEF-15651: Introduce `--legacy` flag for compatibility in `inspec automate upload` with legacy checks and export options [#7200](https://github.com/inspec/inspec/pull/7200) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.13 -->
