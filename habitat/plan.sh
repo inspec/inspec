@@ -22,8 +22,6 @@ pkg_build_deps=(
 pkg_bin_dirs=(bin)
 
 do_setup_environment() {
-  build_line 'Setting HAB_LTS_CHANNEL for testing'
-  export HAB_BLDR_CHANNEL="LTS-2024"
   build_line 'Setting GEM_HOME="$pkg_prefix/lib"'
   export GEM_HOME="$pkg_prefix/lib"
 
