@@ -368,9 +368,14 @@ module Inspec::Plugin::V2
       # of the same gem on the stack or a malformed dependency.
       begin
         solution.each do |activation_request|
-          unless activation_request.full_spec.activated?
-            activation_request.full_spec.activate
-          end
+          requested_gemspec = activation_request.full_spec
+          next if requested_gemspec.activated?
+
+          gem_name = requested_gemspec.name
+          loaded_gem = Gem.loaded_specs[gem_name]
+          # TODO: give priority to more recent version
+          Gem.loaded_specs.delete(gem_name) if loaded_gem && loaded_gem.version != requested_gemspec.version
+          activation_request.full_spec.activate
         end
       rescue Gem::LoadError => gem_ex
         ex = Inspec::Plugin::V2::InstallError.new(gem_ex.message)
