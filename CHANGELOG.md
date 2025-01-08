@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.18 -->
-## [v7.0.18](https://github.com/inspec/inspec/tree/v7.0.18) (2025-01-07)
+<!-- latest_release 7.0.19 -->
+## [v7.0.19](https://github.com/inspec/inspec/tree/v7.0.19) (2025-01-08)
 
 #### Merged Pull Requests
-- Plan file changes to fix Hab build fix for LTS channel [#7257](https://github.com/inspec/inspec/pull/7257) ([Nik08](https://github.com/Nik08))
+- CHEF-18347 Fix type mismatch comparison [#7252](https://github.com/inspec/inspec/pull/7252) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- CHEF-18347 Fix type mismatch comparison [#7252](https://github.com/inspec/inspec/pull/7252) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.19 -->
 - Plan file changes to fix Hab build fix for LTS channel [#7257](https://github.com/inspec/inspec/pull/7257) ([Nik08](https://github.com/Nik08)) <!-- 7.0.18 -->
 - Hab build fix for LTS channel [#7256](https://github.com/inspec/inspec/pull/7256) ([Nik08](https://github.com/Nik08)) <!-- 7.0.17 -->
 - Revert: Version bump conditionals for hab pipelines [#7255](https://github.com/inspec/inspec/pull/7255) ([Nik08](https://github.com/Nik08)) <!-- 7.0.16 -->
