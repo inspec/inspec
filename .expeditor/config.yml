@@ -127,7 +127,7 @@ subscriptions:
      - built_in:promote_habitat_packages
 
 # Promoting lts-2024-current to lts-2024 channel
-  - workload: project_promoted:{{agent_id}}:current*
+  - workload: project_promoted:{{agent_id}}:*
     actions:
      - built_in:rollover_changelog
      - built_in:publish_rubygems
