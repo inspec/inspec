@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.8.18 -->
-## [v6.8.18](https://github.com/inspec/inspec/tree/v6.8.18) (2025-01-09)
+<!-- latest_release 6.8.19 -->
+## [v6.8.19](https://github.com/inspec/inspec/tree/v6.8.19) (2025-01-09)
 
 #### Merged Pull Requests
-- Bump ffi from 1.17.0 to 1.17.1 in /omnibus [#7251](https://github.com/inspec/inspec/pull/7251) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump rexml from 3.3.3 to 3.3.9 in /omnibus [#7199](https://github.com/inspec/inspec/pull/7199) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.11 release
 
 #### Merged Pull Requests
+- Bump rexml from 3.3.3 to 3.3.9 in /omnibus [#7199](https://github.com/inspec/inspec/pull/7199) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.8.19 -->
 - Bump ffi from 1.17.0 to 1.17.1 in /omnibus [#7251](https://github.com/inspec/inspec/pull/7251) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.8.18 -->
 - Improvements in error handling of plugin installation error [#7161](https://github.com/inspec/inspec/pull/7161) ([Nik08](https://github.com/Nik08)) <!-- 6.8.17 -->
 - CHEF-16823: Introduce deprecation warning for core resources moving to resource packs in InSpec 7 [#7219](https://github.com/inspec/inspec/pull/7219) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.16 -->
