@@ -77,8 +77,8 @@ changelog:
 
 
 artifact_channels:
-  - lts-2024-current
-  - lts-2024
+  - LTS-2024-current
+  - LTS-2024
 
 subscriptions:
   - workload: pull_request_merged:{{github_repo}}:{{release_branch}}:*
