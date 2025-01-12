@@ -41,11 +41,7 @@ module Inspec::Reporters
         Inspec::Log.debug "Posting report to Chef Automate: #{uri.path}"
         http = Net::HTTP.new(uri.hostname, uri.port)
         http.use_ssl = uri.scheme == "https"
-        if @config["verify_ssl"] == true
-          http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-        else
-          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-        end
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
         res = http.request(req)
         if res.is_a?(Net::HTTPSuccess)
