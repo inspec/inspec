@@ -372,6 +372,8 @@ module Inspec::Plugin::V2
         # Skip in case of update mode
         # Skip in case using a gem based plugin
         next if spec.name == new_plugin_dependency.name && (update_mode || gem_based_plugin?(opts))
+        # give priority to already loaded gems
+        next if Gem.loaded_specs[spec.name]
 
         # activate the requested gemspec from the Gem::RequestSet
         spec.activate unless loaded_recent_most_version_of?(spec)
