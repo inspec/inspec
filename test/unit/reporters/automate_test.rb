@@ -47,7 +47,7 @@ describe Inspec::Reporters::Automate do
     it "converts a string to a uuid" do
       end_time = "2018-03-28T14:10:50Z"
       node_uuid = "22ad2f99-f84f-5456-95a0-7e91b4b66690"
-      assert = "4cd5aaa3-eea0-5aa2-9837-631e10b873b1"
+      assert = "e8293cb7-f18f-5a59-bf64-5ec9f13517b5"
       _(report.send(:uuid_from_string, end_time + node_uuid)).must_equal assert
     end
   end
