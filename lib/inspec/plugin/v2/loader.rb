@@ -233,12 +233,19 @@ module Inspec::Plugin::V2
         raise ex
       end
       solution.each do |activation_request|
-        requested_gemspec =  activation_request.full_spec
-        # Assumption that dependencies of installed plugins have already been resolved while installing
-        next if requested_gemspec.activated? || Gem.loaded_specs[requested_gemspec.name]
+        requested_gemspec = activation_request.full_spec
+        next if requested_gemspec.activated?
 
+        gem_name = requested_gemspec.name
+        loaded_gem = Gem.loaded_specs[gem_name]
+        if loaded_gem
+          if requested_gemspec.version > loaded_gem.version
+            Gem.loaded_specs.delete(gem_name)
+          else
+            next # don't activate requested gemspec
+          end
+        end
         requested_gemspec.activate
-        # TODO: If we are under Bundler, inform it that we loaded a gem
       end
     end
 
