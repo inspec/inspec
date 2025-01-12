@@ -29,9 +29,6 @@ updates:
   directory: "/"
   schedule:
     interval: daily
-<<<<<<< HEAD
-  open-pull-requests-limit: 10
-=======
   open-pull-requests-limit: 10
 # - package-ecosystem: bundler
 #   target-branch: "inspec-7"
@@ -39,4 +36,3 @@ updates:
 #   schedule:
 #     interval: daily
 #   open-pull-requests-limit: 10
->>>>>>> f4d52a52c (CHEF-18302 Remove omnibus support for InSpec (#7249))
