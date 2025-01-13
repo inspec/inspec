@@ -15,7 +15,6 @@ pipelines:
        - HAB_NONINTERACTIVE: "true"
        - HAB_NOCOLORING: "true"
        - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
-       - HAB_BLDR_CHANNEL: "LTS-2024"
  - artifact/habitat:
       description: Execute tests against the habitat artifact
       definition: .expeditor/artifact.habitat.yml
@@ -23,7 +22,6 @@ pipelines:
        - HAB_NONINTERACTIVE: "true"
        - HAB_NOCOLORING: "true"
        - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
-       - HAB_BLDR_CHANNEL: "LTS-2024"
       trigger: pull_request
  - verify/private:
       definition: .expeditor/verify_private.pipeline.yml
