@@ -18,12 +18,6 @@ You will need to have an account on BuildKite and be a member of both orgs to fu
 
 The [Rakefile](https://github.com/inspec/inspec/blob/main/Rakefile) defines the tests harness to be run. Most of the test scripts come down to executing "rake test" or similar.
 
-### Omnibus
-
-Omnibus is a system for building OS-specific packages of software, including all dependencies including Ruby runtimes. We use Omnibus to make RPMs, DEBs, MSIs, DMGs, and several other OS-specific formats that deploy inspec and its dependencies natively to the OS.
-
-The omnibus configuration for InSpec is stored at https://github.com/inspec/inspec/tree/master/omnibus and the main configuration file is [inspec.rb](https://github.com/inspec/inspec/blob/main/omnibus/config/projects/inspec.rb).
-
 ### Rubygems
 
 InSpec is published as a set of 4 gems - inspec, inspec-core, inspec-bin, and inspec-core-bin. When we release a new version to the public (a process we call "promotion" and typically happens on Wednesdays), we publish to rubygems.org.
