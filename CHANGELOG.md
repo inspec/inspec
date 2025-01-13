@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.21 -->
-## [v7.0.21](https://github.com/inspec/inspec/tree/v7.0.21) (2025-01-13)
+<!-- latest_release 7.0.22 -->
+## [v7.0.22](https://github.com/inspec/inspec/tree/v7.0.22) (2025-01-13)
 
 #### Merged Pull Requests
-- TEST PR: Expeditor workflow config fixes for testing [#7263](https://github.com/inspec/inspec/pull/7263) ([Nik08](https://github.com/Nik08))
+- CHEF-18302 Remove omnibus support for InSpec [#7249](https://github.com/inspec/inspec/pull/7249) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- CHEF-18302 Remove omnibus support for InSpec [#7249](https://github.com/inspec/inspec/pull/7249) ([Nik08](https://github.com/Nik08)) <!-- 7.0.22 -->
 - TEST PR: Expeditor workflow config fixes for testing [#7263](https://github.com/inspec/inspec/pull/7263) ([Nik08](https://github.com/Nik08)) <!-- 7.0.21 -->
 - CHEF-18207 Removed SSH resources and tests [#7248](https://github.com/inspec/inspec/pull/7248) ([sa-progress](https://github.com/sa-progress)) <!-- 7.0.20 -->
 - CHEF-18347 Fix type mismatch comparison [#7252](https://github.com/inspec/inspec/pull/7252) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.19 -->
