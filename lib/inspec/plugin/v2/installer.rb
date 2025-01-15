@@ -12,6 +12,7 @@ require "rubygems/uninstaller"
 require "rubygems/remote_fetcher"
 
 require "inspec/plugin/v2/filter"
+require "inspec/plugin/v2/concerns/gem_spec_helper"
 
 module Inspec::Plugin::V2
   # Handles all actions modifying the user's plugin set:
@@ -23,6 +24,7 @@ module Inspec::Plugin::V2
   class Installer
     include Singleton
     extend Forwardable
+    include Inspec::Plugin::V2::GemSpecHelper
 
     Gem.configuration["verbose"] = false
 

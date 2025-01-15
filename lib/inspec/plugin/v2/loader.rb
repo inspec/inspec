@@ -2,6 +2,7 @@ require "inspec/log"
 require "inspec/version"
 require "inspec/plugin/v2/config_file"
 require "inspec/plugin/v2/filter"
+require "inspec/plugin/v2/concerns/gem_spec_helper"
 
 module Inspec::Plugin::V2
   class Loader
@@ -10,6 +11,7 @@ module Inspec::Plugin::V2
     # For {inspec|train}_plugin_name?
     include Inspec::Plugin::V2::FilterPredicates
     extend Inspec::Plugin::V2::FilterPredicates
+    include Inspec::Plugin::V2::GemSpecHelper
 
     def initialize(options = {})
       @options = options
