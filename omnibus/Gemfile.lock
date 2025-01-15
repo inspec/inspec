@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/chef/omnibus-software.git
-  revision: b97bb4e3e1319ca1c06b1a06f1f6354d3514ff51
-  branch: main
+  revision: d51142c1f304be493c62d55954103bb9e313c591
+  branch: poorndm/test-openssl-3.3
   specs:
     omnibus-software (24.6.323)
       ffi (>= 1.17.0)
