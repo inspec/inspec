@@ -238,16 +238,7 @@ module Inspec::Plugin::V2
         requested_gemspec = activation_request.full_spec
         next if requested_gemspec.activated?
 
-        gem_name = requested_gemspec.name
-        loaded_gem = Gem.loaded_specs[gem_name]
-        if loaded_gem
-          if requested_gemspec.version > loaded_gem.version
-            Gem.loaded_specs.delete(gem_name)
-          else
-            next # don't activate requested gemspec
-          end
-        end
-        requested_gemspec.activate
+        requested_gemspec.activate unless loaded_recent_most_version_of?(requested_gemspec)
       end
     end
 
