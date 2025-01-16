@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.8.19 -->
-## [v6.8.19](https://github.com/inspec/inspec/tree/v6.8.19) (2025-01-09)
+<!-- latest_release 6.8.20 -->
+## [v6.8.20](https://github.com/inspec/inspec/tree/v6.8.20) (2025-01-16)
 
 #### Merged Pull Requests
-- Bump rexml from 3.3.3 to 3.3.9 in /omnibus [#7199](https://github.com/inspec/inspec/pull/7199) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- To Fix OpenSSL 3.2.0 gem issue [#7267](https://github.com/inspec/inspec/pull/7267) ([poorndm](https://github.com/poorndm))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.11 release
 
 #### Merged Pull Requests
+- To Fix OpenSSL 3.2.0 gem issue [#7267](https://github.com/inspec/inspec/pull/7267) ([poorndm](https://github.com/poorndm)) <!-- 6.8.20 -->
 - Bump rexml from 3.3.3 to 3.3.9 in /omnibus [#7199](https://github.com/inspec/inspec/pull/7199) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.8.19 -->
 - Bump ffi from 1.17.0 to 1.17.1 in /omnibus [#7251](https://github.com/inspec/inspec/pull/7251) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.8.18 -->
 - Improvements in error handling of plugin installation error [#7161](https://github.com/inspec/inspec/pull/7161) ([Nik08](https://github.com/Nik08)) <!-- 6.8.17 -->
