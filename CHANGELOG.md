@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.24 -->
-## [v7.0.24](https://github.com/inspec/inspec/tree/v7.0.24) (2025-01-16)
+<!-- latest_release 7.0.25 -->
+## [v7.0.25](https://github.com/inspec/inspec/tree/v7.0.25) (2025-01-17)
 
 #### Merged Pull Requests
-- CHEF-16379 auto-resolve gem conflicts [#7258](https://github.com/inspec/inspec/pull/7258) ([sathish-progress](https://github.com/sathish-progress))
+- CHEF-18598 Update Hab packages to use refresh channel [#7265](https://github.com/inspec/inspec/pull/7265) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- CHEF-18598 Update Hab packages to use refresh channel [#7265](https://github.com/inspec/inspec/pull/7265) ([Nik08](https://github.com/Nik08)) <!-- 7.0.25 -->
 - CHEF-16379 auto-resolve gem conflicts [#7258](https://github.com/inspec/inspec/pull/7258) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.24 -->
 - ci: remove HAB environment for channel [#7264](https://github.com/inspec/inspec/pull/7264) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.23 -->
 - CHEF-18302 Remove omnibus support for InSpec [#7249](https://github.com/inspec/inspec/pull/7249) ([Nik08](https://github.com/Nik08)) <!-- 7.0.22 -->
