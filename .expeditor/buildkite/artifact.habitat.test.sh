@@ -32,6 +32,7 @@ export HAB_NONINTERACTIVE=true
 export HAB_NOCOLORING=true
 export HAB_STUDIO_SECRET_HAB_NONINTERACTIVE=true
 export HAB_BLDR_CHANNEL='LTS-2024'
+export HAB_REFRESH_CHANNEL='LTS-2024'
 
 echo "--- system details"
 uname -a
