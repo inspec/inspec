@@ -1,5 +1,4 @@
 [inspec]
 build_targets = [
-  "x86_64-windows",
   "x86_64-linux"
 ]
