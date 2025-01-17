@@ -2,6 +2,7 @@ require "inspec/log"
 require "inspec/version"
 require "inspec/plugin/v2/config_file"
 require "inspec/plugin/v2/filter"
+require "inspec/plugin/v2/concerns/gem_spec_helper"
 
 module Inspec::Plugin::V2
   class Loader
@@ -10,6 +11,7 @@ module Inspec::Plugin::V2
     # For {inspec|train}_plugin_name?
     include Inspec::Plugin::V2::FilterPredicates
     extend Inspec::Plugin::V2::FilterPredicates
+    include Inspec::Plugin::V2::GemSpecHelper
 
     def initialize(options = {})
       @options = options
@@ -233,10 +235,10 @@ module Inspec::Plugin::V2
         raise ex
       end
       solution.each do |activation_request|
-        next if activation_request.full_spec.activated?
+        requested_gemspec = activation_request.full_spec
+        next if requested_gemspec.activated?
 
-        activation_request.full_spec.activate
-        # TODO: If we are under Bundler, inform it that we loaded a gem
+        requested_gemspec.activate unless loaded_recent_most_version_of?(requested_gemspec)
       end
     end
 

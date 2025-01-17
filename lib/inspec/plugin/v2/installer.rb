@@ -12,6 +12,7 @@ require "rubygems/uninstaller"
 require "rubygems/remote_fetcher"
 
 require "inspec/plugin/v2/filter"
+require "inspec/plugin/v2/concerns/gem_spec_helper"
 
 module Inspec::Plugin::V2
   # Handles all actions modifying the user's plugin set:
@@ -23,6 +24,7 @@ module Inspec::Plugin::V2
   class Installer
     include Singleton
     extend Forwardable
+    include Inspec::Plugin::V2::GemSpecHelper
 
     Gem.configuration["verbose"] = false
 
@@ -356,7 +358,8 @@ module Inspec::Plugin::V2
         # Skip in case using a gem based plugin
         next if spec.name == new_plugin_dependency.name && (update_mode || gem_based_plugin?(opts))
 
-        spec.activate
+        # activate the requested gemspec from the Gem::RequestSet
+        spec.activate unless loaded_recent_most_version_of?(spec)
       end
 
       # Make sure we remove any previously loaded gem on update
@@ -371,16 +374,8 @@ module Inspec::Plugin::V2
           requested_gemspec = activation_request.full_spec
           next if requested_gemspec.activated?
 
-          gem_name = requested_gemspec.name
-          loaded_gem = Gem.loaded_specs[gem_name]
-          if loaded_gem
-            if requested_gemspec.version > loaded_gem.version
-              Gem.loaded_specs.delete(gem_name)
-            else
-              next # don't activate requested gemspec
-            end
-          end
-          requested_gemspec.activate
+          # activate the requested gemspec from the Gem::RequestSet
+          requested_gemspec.activate unless loaded_recent_most_version_of?(requested_gemspec)
         end
       rescue Gem::LoadError => gem_ex
         ex = Inspec::Plugin::V2::InstallError.new(gem_ex.message)
