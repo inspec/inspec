@@ -27,6 +27,10 @@ module Inspec::Resources
       end
     end
 
+    def release
+      Gem::Version.new(@platform.release).to_s
+    end
+
     def resource_id
       @platform.name || "OS"
     end

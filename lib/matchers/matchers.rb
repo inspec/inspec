@@ -193,7 +193,7 @@ RSpec::Matchers.define :be_in do |list|
 
   failure_message do |item|
     if item.is_a?(Array)
-      "expected `#{item}` to be in the list: `#{list}` \nDiff:\n #{(item - list)}"
+      "expected `#{item}` to be in the list: `#{list}` \nDiff:\n #{item - list}"
     else
       "expected `#{item}` to be in the list: `#{list}`"
     end
@@ -201,7 +201,7 @@ RSpec::Matchers.define :be_in do |list|
 
   failure_message_when_negated do |item|
     if item.is_a?(Array)
-      "expected `#{item}` not to be in the list: `#{list}` \nComm:\n #{(item & list)}"
+      "expected `#{item}` not to be in the list: `#{list}` \nComm:\n #{item & list}"
     else
       "expected `#{item}` not to be in the list: `#{list}`"
     end
@@ -215,7 +215,6 @@ end
 # - you expect a number (strings will be converted if possible)
 #
 RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockLength
-
   def integer?(value)
     !(value =~ /\A-?0+\Z|\A-?[1-9]\d*\Z/).nil?
   end
@@ -242,7 +241,7 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
   def version?(value)
     Gem::Version.new(value)
     true
-  rescue ArgumentError => _ex
+  rescue ArgumentError => _e
     false
   end
 
@@ -268,7 +267,7 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
     elsif expected.is_a?(Integer) && actual.is_a?(String) && integer?(actual)
       return actual.to_i.send(op, expected)
     elsif expected.is_a?(Float) && float?(actual)
-      return actual.to_f.send(op, expected)
+      return actual.to_f.send(op, expected.to_f)
     elsif actual.is_a?(Symbol) && expected.is_a?(String)
       return try_match(actual.to_s, op, expected)
     elsif octal?(expected) && actual.is_a?(Integer)
@@ -277,7 +276,7 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
 
     # fallback to simple operation
     actual.send(op, expected)
-  rescue NameError => _
+  rescue NameError => _e
     false
   rescue ArgumentError
     false
@@ -301,14 +300,14 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
 
   def format_actual(actual, negate = false)
     actual = "0%o" % actual if octal?(@expected) && !actual.nil?
-    "\n%s\n     got: %s\n\n(compared using `cmp` matcher)\n" % [format_expectation(negate), actual]
+    format("\n%s\n     got: %s\n\n(compared using `cmp` matcher)\n", format_expectation(negate), actual)
   end
 
   def format_expectation(negate)
-    return "expected: %s" % [@expected] if @operation == :== && !negate
+    return format("expected: %s", @expected) if @operation == :== && !negate
 
     negate_str = negate ? "not " : ""
-    "expected it %sto be %s %p" % [negate_str, @operation, @expected]
+    format("expected it %sto be %s %p", negate_str, @operation, @expected)
   end
 
   failure_message do |actual|
@@ -320,7 +319,7 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
   end
 
   description do
-    "cmp %s %p" % [@operation, @expected]
+    format("cmp %s %p", @operation, @expected)
   end
 end
 
