@@ -15,6 +15,8 @@ A Chef InSpec profile can bring in the controls and custom resources from anothe
 Chef InSpec profile. Additionally, when inheriting the controls of another profile,
 a profile can skip or even modify those included controls.
 
+A Chef InSpec profile can also have a dependency on a resource pack, which starting from InSpec version 7, can be used as a gem-based resource pack.
+
 For hands-on examples, check out [Extending InSpec: InSpec Wrappers and Custom Resources](https://learn.chef.io/courses/course-v1:chef+InSpec201+Perpetual/about) on Learn Chef.
 
 ## Define dependencies
@@ -360,3 +362,44 @@ generates an `inspec.lock` file.
 
 If you add or update dependencies in `inspec.yml`, dependencies may be re-vendored
 and the lockfile updated with `inspec vendor --overwrite`
+
+## Gem based Resource Packs dependencies
+
+Any profile that has a dependency on gem-based resource packs can specify them using the `gem` setting in the `inspec.yml` metadata file.
+
+InSpec handles the installation and download of the specified resource pack gems when running the profile.
+
+For example, if a profile uses a resource that has been deprecated and moved to a separate resource pack, the resource pack dependency can be specified in the metadata file as follows:
+
+```yaml
+depends:
+  - name: inspec-ibmdb2-resources
+    gem: inspec-ibmdb2-resources
+```
+
+where:
+
+- `name`: A logical identifier for the resource pack.
+- `gem`: The name of the Ruby gem that contains the resource pack.
+
+### Using Resource Packs of a Specific Version
+
+InSpec also allows to specify a particular version of a gem-based resource pack in the `inspec.yml` metadata file. This ensures that a specific version of the resource pack is used, providing stability and compatibility for the compliance tests.
+
+```yaml
+depends:
+  - name: inspec-ibmdb2-resources
+    gem: inspec-ibmdb2-resources
+    version: 7.0.1
+```
+
+### Using Resource Packs from a Specific Source
+
+InSpec also allows to specify a custom source for gem-based resource packs in the `inspec.yml` metadata file. This is useful when the resource pack is hosted on a private gem repository or an alternate source instead of the default RubyGems repository.
+
+```yaml
+depends:
+  - name: inspec-ibmdb2-resources
+    gem: inspec-ibmdb2-resources
+    source: testingsourceurlgems.progress.com
+```
