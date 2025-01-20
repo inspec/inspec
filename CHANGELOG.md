@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.8.21 -->
-## [v6.8.21](https://github.com/inspec/inspec/tree/v6.8.21) (2025-01-17)
+<!-- latest_release 6.8.22 -->
+## [v6.8.22](https://github.com/inspec/inspec/tree/v6.8.22) (2025-01-20)
 
 #### Merged Pull Requests
-- CHEF-18596 Fix code scanning alert no. 63: Use of a broken or weak cryptographic hashing algorithm on sensitive data [#7261](https://github.com/inspec/inspec/pull/7261) ([sathish-progress](https://github.com/sathish-progress))
+- CHEF-18596 Fix code scanning alert no. 62: Request without certificate validation [#7260](https://github.com/inspec/inspec/pull/7260) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.11 release
 
 #### Merged Pull Requests
+- CHEF-18596 Fix code scanning alert no. 62: Request without certificate validation [#7260](https://github.com/inspec/inspec/pull/7260) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.8.22 -->
 - CHEF-18596 Fix code scanning alert no. 63: Use of a broken or weak cryptographic hashing algorithm on sensitive data [#7261](https://github.com/inspec/inspec/pull/7261) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.8.21 -->
 - To Fix OpenSSL 3.2.0 gem issue [#7267](https://github.com/inspec/inspec/pull/7267) ([poorndm](https://github.com/poorndm)) <!-- 6.8.20 -->
 - Bump rexml from 3.3.3 to 3.3.9 in /omnibus [#7199](https://github.com/inspec/inspec/pull/7199) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.8.19 -->
