@@ -15,7 +15,7 @@ A Chef InSpec profile can bring in the controls and custom resources from anothe
 Chef InSpec profile. Additionally, when inheriting the controls of another profile,
 a profile can skip or even modify those included controls.
 
-A Chef InSpec profile can also have a dependency on a resource pack, which starting from InSpec version 7, can be used as a gem-based resource pack.
+A Chef InSpec profile can also depend on a resource pack, which starting from InSpec version 7, can be used as a gem-based resource pack.
 
 For hands-on examples, check out [Extending InSpec: InSpec Wrappers and Custom Resources](https://learn.chef.io/courses/course-v1:chef+InSpec201+Perpetual/about) on Learn Chef.
 
@@ -365,7 +365,7 @@ and the lockfile updated with `inspec vendor --overwrite`
 
 ## Gem based Resource Packs dependencies
 
-Any profile that has a dependency on gem-based resource packs can specify them using the `gem` setting in the `inspec.yml` metadata file.
+Any profile dependent on gem-based resource packs can specify them using the `gem` setting in the `inspec.yml` metadata file.
 
 InSpec handles the installation and download of the specified resource pack gems when running the profile.
 
@@ -384,7 +384,7 @@ where:
 
 ### Using Resource Packs of a Specific Version
 
-InSpec also allows to specify a particular version of a gem-based resource pack in the `inspec.yml` metadata file. This ensures that a specific version of the resource pack is used, providing stability and compatibility for the compliance tests.
+InSpec also allows specifying a particular version of a gem-based resource pack in the `inspec.yml` metadata file. This ensures that a specific version of the resource pack is used, providing stability and compatibility for the compliance tests.
 
 ```yaml
 depends:
@@ -395,7 +395,7 @@ depends:
 
 ### Using Resource Packs from a Specific Source
 
-InSpec also allows to specify a custom source for gem-based resource packs in the `inspec.yml` metadata file. This is useful when the resource pack is hosted on a private gem repository or an alternate source instead of the default RubyGems repository.
+InSpec also allows specifying a custom source for gem-based resource packs in the `inspec.yml` metadata file. This is useful when the resource pack is hosted on a private gem repository or an alternate source instead of the default RubyGems repository.
 
 ```yaml
 depends:
