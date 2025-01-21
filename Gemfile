@@ -63,8 +63,9 @@ end
 gem "zeitwerk", "~> 2.6.0", "< 2.7"
 
 # Pinning dry-core,dry-core to < 1.1.0 as it is breaking the build because 1.1.0 is incompatible with the current version, ruby 3.0.x on CI
-gem "dry-core", "> 1.0.0", "< 1.1.0" if RUBY_VERSION < "3.1.0"
-gem "dry-inflector", "<= 1.1.0" if RUBY_VERSION < "3.1.0"
+gem "dry-types", "<= 1.7.2" if RUBY_VERSION < "3.1.0"
+# gem "dry-core", "> 1.0.0", "< 1.1.0" if RUBY_VERSION < "3.1.0"
+# gem "dry-inflector", "<= 1.1.0" if RUBY_VERSION < "3.1.0"
 
 # Pinning securerandom to < 0.4.0 as it is breaking the build because 0.4.0 is incompatible with the current version, ruby 3.0.x on CI
 # Remove this pin when upgrading to Ruby 3.1 or higher on CI.
