@@ -314,12 +314,7 @@ module Inspec::Plugin::V2
       # This adds custom gem sources to the memoized `Gem.Sources` for this specific run
       # Note: This will not make any change to the environment Gem source list and
       # in fact will consider all of the environment Gem sources and custom gem sources to resolve deps
-      if opts[:source]
-        sources = [opts[:source]].flatten
-        sources.each do |source|
-          Gem.sources.sources << Gem::Source.new(source)
-        end
-      end
+      source_manager.add(opts[:source])
 
       # BestSet is rubygems.org API + indexing by default
       # `Gem.sources` is injected as a dependency implicitly while BestSet is initialized
