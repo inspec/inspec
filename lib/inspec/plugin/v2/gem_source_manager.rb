@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require "singleton" unless defined?(Singleton)
-require 'forwardable' unless defined?(Forwardable)
+require "forwardable" unless defined?(Forwardable)
 require "chef-licensing"
 
 module Inspec::Plugin::V2
@@ -32,7 +32,7 @@ module Inspec::Plugin::V2
     end
 
     def licenses_string
-      ChefLicensing.license_keys.join(',')
+      ChefLicensing.license_keys.join(",")
     end
   end
 end
