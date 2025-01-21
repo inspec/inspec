@@ -132,6 +132,10 @@
       "gem":"inspec-test-resources",
       "message":"The internal_fallback_test resource is a test resource used to exercise InSpec's ability to fallback on gem resource packs."
     },
+    "elasticsearch.*": {
+      "gem":"inspec-elasticsearch-resources",
+      "message":"The `inspec-elasticsearch-resources` allows testing of elasticsearch using Inspec."
+    },
     "docker.+":{
       "gem": "inspec-docker-resources",
       "message": "The Inspec docker resources are moved out of InSpec core and will be installed as gem"
