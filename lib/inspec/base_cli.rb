@@ -389,6 +389,9 @@ module Inspec
       when Inspec::InvalidProfileSignature
         $stderr.puts exception.message
         Inspec::UI.new.exit(:bad_signature)
+      when Inspec::Exceptions::GemDependencyNotFound
+        $stderr.puts exception.message
+        Inspec::UI.new.exit(:gem_dependency_not_found)
       when Inspec::Error
         $stderr.puts exception.message
         exit(1)

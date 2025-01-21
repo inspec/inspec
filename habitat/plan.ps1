@@ -1,5 +1,7 @@
 # https://stackoverflow.com/questions/9948517
 # TODO: Set-StrictMode -Version Latest
+$env:HAB_BLDR_CHANNEL = "LTS-2024"
+$env:HAB_REFRESH_CHANNEL = "LTS-2024"
 $ErrorActionPreference = "Stop"
 $PSDefaultParameterValues['*:ErrorAction']='Stop'
 

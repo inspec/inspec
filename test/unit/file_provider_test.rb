@@ -295,3 +295,14 @@ describe Inspec::RelativeFileProvider do
   end
 
 end
+
+describe Inspec::GemProvider do
+  let(:gem_info) { { gem: "test-dummy-gem" } }
+  let(:subject) { Inspec::GemProvider.new(gem_info) }
+
+  describe "when gem does not exists" do
+    it "throws gem dependency exception" do
+      assert_raises(Inspec::Exceptions::GemDependencyNotFound) { subject.files }
+    end
+  end
+end
