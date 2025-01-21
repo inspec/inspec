@@ -14,6 +14,8 @@ require "rubygems/remote_fetcher"
 require "inspec/plugin/v2/filter"
 require "inspec/plugin/v2/concerns/gem_spec_helper"
 
+require "inspec/plugin/v2/gem_source_manager"
+
 module Inspec::Plugin::V2
   # Handles all actions modifying the user's plugin set:
   # * Modifying the plugins.json file
@@ -305,7 +307,7 @@ module Inspec::Plugin::V2
       install_gem_to_plugins_dir(plugin_dependency, [requested_local_gem_set])
     end
 
-    def install_from_remote_gems(requested_plugin_name, opts)
+    def install_from_remote_gems(requested_plugin_name, opts, source_manager: GemSourceManager.instance)
       plugin_dependency = Gem::Dependency.new(requested_plugin_name, opts[:version] || "> 0")
 
       # This adds custom gem sources to the memoized `Gem.Sources` for this specific run
