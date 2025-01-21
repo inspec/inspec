@@ -11,6 +11,12 @@ module Inspec::Plugin::V2
     DEFAULT_CHEF_RUBY_GEMS_SERVER = "rubygems.chef.io"
     DEFAULT_USERNAME = "v1"
 
+    def initialize
+      @sources = Gem.sources
+    end
+
+    def_delegator :@sources, :sources
+
     def add_chef_rubygems_server
       register_source(chef_rubygems_server)
     end
@@ -26,7 +32,6 @@ module Inspec::Plugin::V2
     end
 
     def register_source(source)
-      sources = Gem.sources.sources
       gem_source = Gem::Source.new(source)
       sources << gem_source unless sources.include?(gem_source)
     end
