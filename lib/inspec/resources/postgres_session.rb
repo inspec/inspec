@@ -1,7 +1,7 @@
 # copyright: 2015, Vulcano Security GmbH
 
 require "shellwords" unless defined?(Shellwords)
-require "cgi"
+require "cgi" unless defined?(CGI)
 module Inspec::Resources
   class Lines
     attr_reader :output, :exit_status
