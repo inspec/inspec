@@ -37,7 +37,8 @@ group :test do
   gem "minitest-sprint", "~> 1.0"
   gem "minitest", "5.15.0"
   gem "mocha"
-  gem "nokogiri"
+  # Pinning this version as it breaking for ruby 3.1.0
+  gem "nokogiri", "< 1.18.2"
   gem "pry-byebug"
   gem "pry"
   gem "rake"
@@ -60,6 +61,9 @@ end
 # Pinning zeitwerk to ~> 2.6 to avoid Ruby >= 3.2 requirement.
 # Remove this pin when upgrading to Ruby 3.2 or higher.
 gem "zeitwerk", "~> 2.6.0", "< 2.7"
+
+# Pinning dry-core to < 1.1.0 as it is breaking the build because 1.1.0 is incompatible with the current version, ruby 3.0.x on CI
+gem "dry-core", "> 1.0.0", "< 1.1.0" if RUBY_VERSION < "3.1.0"
 
 # Pinning securerandom to < 0.4.0 as it is breaking the build because 0.4.0 is incompatible with the current version, ruby 3.0.x on CI
 # Remove this pin when upgrading to Ruby 3.1 or higher on CI.
