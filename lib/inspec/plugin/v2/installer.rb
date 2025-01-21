@@ -14,6 +14,8 @@ require "rubygems/remote_fetcher"
 require "inspec/plugin/v2/filter"
 require "inspec/plugin/v2/concerns/gem_spec_helper"
 
+require "inspec/plugin/v2/gem_source_manager"
+
 module Inspec::Plugin::V2
   # Handles all actions modifying the user's plugin set:
   # * Modifying the plugins.json file
