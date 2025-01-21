@@ -8,6 +8,10 @@ describe "Inspec::Resources::PostgresSession" do
     resource = load_resource("postgres_session", "myuser", "mypass", "127.0.0.1", 5432)
     _(resource.resource_id).must_equal "postgress_session:User:myuser:Host:127.0.0.1"
   end
+  it "generates the resource_id for passwords with special characters" do
+    resource = load_resource("postgres_session", "myuser", "my@pa$ss", "127.0.0.1", 5432)
+    _(resource.resource_id).must_equal "postgress_session:User:myuser:Host:127.0.0.1"
+  end
   it "verify postgres_session create_psql_cmd with a basic query" do
     resource = load_resource("postgres_session", "myuser", "mypass", "127.0.0.1", 5432)
     _(resource.send(:create_psql_cmd, "SELECT * FROM STUDENTS;", ["testdb"])).must_equal "psql -d postgresql://myuser:mypass@127.0.0.1:5432/testdb -A -t -w -c SELECT\\ \\*\\ FROM\\ STUDENTS\\;"
