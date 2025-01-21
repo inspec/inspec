@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.26 -->
-## [v7.0.26](https://github.com/inspec/inspec/tree/v7.0.26) (2025-01-21)
+<!-- latest_release 7.0.27 -->
+## [v7.0.27](https://github.com/inspec/inspec/tree/v7.0.27) (2025-01-21)
 
 #### Merged Pull Requests
-- CHEF-15118 Remove elasticsearch resources [#7188](https://github.com/inspec/inspec/pull/7188) ([sathish-progress](https://github.com/sathish-progress))
+- chore: remove mongo dependency from gemspec as it is moved to mongodb resource pack [#7273](https://github.com/inspec/inspec/pull/7273) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- chore: remove mongo dependency from gemspec as it is moved to mongodb resource pack [#7273](https://github.com/inspec/inspec/pull/7273) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.27 -->
 - CHEF-15118 Remove elasticsearch resources [#7188](https://github.com/inspec/inspec/pull/7188) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.26 -->
 - CHEF-18598 Update Hab packages to use refresh channel [#7265](https://github.com/inspec/inspec/pull/7265) ([Nik08](https://github.com/Nik08)) <!-- 7.0.25 -->
 - CHEF-16379 auto-resolve gem conflicts [#7258](https://github.com/inspec/inspec/pull/7258) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.24 -->
