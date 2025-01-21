@@ -1,7 +1,7 @@
 # copyright: 2015, Vulcano Security GmbH
 
 require "shellwords" unless defined?(Shellwords)
-
+require "cgi"
 module Inspec::Resources
   class Lines
     attr_reader :output, :exit_status
@@ -42,7 +42,7 @@ module Inspec::Resources
 
     def initialize(user, pass, host = nil, port = nil, socket_path = nil)
       @user = user || "postgres"
-      @pass = pass
+      @pass = CGI.escape(pass)
       @host = host || "localhost"
       @port = port || 5432
       @socket_path = socket_path
