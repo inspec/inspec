@@ -77,8 +77,8 @@ changelog:
 
 
 artifact_channels:
-  - dev
-  - LTS-2024-test
+  - LTS-2024-current
+  - LTS-2024
 
 subscriptions:
   - workload: pull_request_merged:{{github_repo}}:{{release_branch}}:*
@@ -121,15 +121,25 @@ subscriptions:
         only_if:
          - built_in:bump_version
 
-# Creates dev package from unstable package once hab build is complete
+# Creates lts-2024-current package from unstable package once hab build is complete
   - workload: buildkite_hab_build_group_published:{{agent_id}}:*
     actions:
      - built_in:promote_habitat_packages
 
-# Promoting dev to LTS-2024-test
+# Promoting lts-2024-current to lts-2024 channel
   - workload: project_promoted:{{agent_id}}:*
     actions:
+     - built_in:rollover_changelog
+     - built_in:publish_rubygems
+     - built_in:create_github_release
      - built_in:promote_habitat_packages
+     - bash:.expeditor/publish-release-notes.sh:
+        post_commit: true
+     - purge_packages_chef_io_fastly:{{target_channel}}/inspec/latest:
+        post_commit: true
+     - bash:.expeditor/announce-release.sh:
+        post_commit: true
+     - built_in:notify_chefio_slack_channels
 
   - workload: pull_request_opened:{{github_repo}}:{{release_branch}}:*
     actions:
