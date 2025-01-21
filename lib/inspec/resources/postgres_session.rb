@@ -42,7 +42,7 @@ module Inspec::Resources
 
     def initialize(user, pass, host = nil, port = nil, socket_path = nil)
       @user = user || "postgres"
-      @pass = CGI.escape(pass)
+      @pass = pass
       @host = host || "localhost"
       @port = port || 5432
       @socket_path = socket_path
@@ -74,6 +74,10 @@ module Inspec::Resources
       Shellwords.escape(query)
     end
 
+    def encoded_password(password)
+      CGI.escape(password)
+    end
+
     def create_psql_cmd(query, db = [])
       dbs = db.map { |x| "#{x}" }.join(" ")
 
@@ -82,14 +86,14 @@ module Inspec::Resources
         # Socket connection only enabled for non-windows platforms
         # Windows does not support unix domain sockets
         option_port = @port.nil? ? "" : "-p #{@port}" # add explicit port if specified
-        "psql -d postgresql://#{@user}:#{@pass}@/#{dbs}?host=#{@socket_path} #{option_port} -A -t -w -c #{escaped_query(query)}"
+        "psql -d postgresql://#{@user}:#{encoded_password(@pass)}@/#{dbs}?host=#{@socket_path} #{option_port} -A -t -w -c #{escaped_query(query)}"
       else
         # Host in connection string establishes tcp/ip connection
         if inspec.os.windows?
           warn "Socket based connection not supported in windows, connecting using host" if @socket_path
-          "psql -d postgresql://#{@user}:#{@pass}@#{@host}:#{@port}/#{dbs} -A -t -w -c \"#{query}\""
+          "psql -d postgresql://#{@user}:#{encoded_password(@pass)}@#{@host}:#{@port}/#{dbs} -A -t -w -c \"#{query}\""
         else
-          "psql -d postgresql://#{@user}:#{@pass}@#{@host}:#{@port}/#{dbs} -A -t -w -c #{escaped_query(query)}"
+          "psql -d postgresql://#{@user}:#{encoded_password(@pass)}@#{@host}:#{@port}/#{dbs} -A -t -w -c #{escaped_query(query)}"
         end
       end
     end
