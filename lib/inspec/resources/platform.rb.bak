@@ -15,25 +15,25 @@ module Inspec::Resources
       end
     EXAMPLE
 
-    class Version
+    class Version < Gem::Version
       def initialize(version_string)
-        @version = Gem::Version.new(version_string)
+        super(version_string)
       end
 
       def major
-        @version.segments[0]
+        segments[0]
       end
 
       def minor
-        @version.segments[1]
+        segments[1]
       end
 
       def patch
-        @version.segments[2]
+        segments[2]
       end
 
       def build
-        @version.segments[3..-1].join('.') if @version.segments.size > 3
+        segments[3..-1].join('.') if segments.size > 3
       end
 
       def to_s

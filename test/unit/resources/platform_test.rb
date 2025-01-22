@@ -3,6 +3,10 @@ require "inspec/resource"
 require "inspec/resources/platform"
 
 describe "Inspec::Resources::Platform" do
+  before do
+    Inspec::Resources::PlatformResource.reset_shared_platform
+  end
+
   let(:resource) { MockLoader.new(:ubuntu).load_resource("platform") }
 
   it "generates the resource_id for the current resource" do
@@ -124,5 +128,4 @@ describe "Inspec::Resources::Platform" do
     ]
     _(resource2).wont_be :supported?, supports
   end
-
 end
