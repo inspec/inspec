@@ -60,15 +60,31 @@ Write-Host "--- Generating fake origin key"
 hab origin key generate $env:HAB_ORIGIN
 
 Write-Host "--- Building $Plan"
-$project_root = "$(git rev-parse --show-toplevel)"
-Set-Location $project_root
+$project_root = & git rev-parse --show-toplevel
+Set-Location -Path $project_root
 
-$env:DO_CHECK=$true; hab pkg build .
+$env:DO_CHECK = $true
+hab pkg build .
 
-. $project_root/results/last_build.ps1
+Write-Host "--- Sourcing 'results/last_build.ps1'"
+if (Test-Path "./results/last_build.ps1") {
+    . ./results/last_build.ps1
+    $env:pkg_artifact = $pkg_artifact
+} else {
+    Write-Host "No last_build.ps1 file found"
+}
 
 Write-Host "--- Installing $pkg_ident/$pkg_artifact"
-hab pkg install -b $project_root/results/$pkg_artifact
+hab pkg install -b "$project_root/results/$pkg_artifact"
+
+Write-Host "--- Removing world readability from /usr/local/bundle"
+# Adjust the path for Windows
+$bundlePath = "C:/usr/local/bundle"
+if (Test-Path $bundlePath) {
+    Get-ChildItem -Path $bundlePath -Recurse | ForEach-Object {
+        $_.Attributes = $_.Attributes -bor [System.IO.FileAttributes]::ReadOnly
+    }
+}
 
 Write-Host "--- Downloading Ruby + DevKit"
 aws s3 cp s3://core-buildkite-cache-chef-prod/rubyinstaller-devkit-2.6.6-1-x64.exe c:/rubyinstaller-devkit-2.6.6-1-x64.exe
