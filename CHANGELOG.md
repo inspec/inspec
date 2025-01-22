@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.8.22 -->
-## [v6.8.22](https://github.com/inspec/inspec/tree/v6.8.22) (2025-01-20)
+<!-- latest_release 6.8.23 -->
+## [v6.8.23](https://github.com/inspec/inspec/tree/v6.8.23) (2025-01-22)
 
 #### Merged Pull Requests
-- CHEF-18596 Fix code scanning alert no. 62: Request without certificate validation [#7260](https://github.com/inspec/inspec/pull/7260) ([sathish-progress](https://github.com/sathish-progress))
+- CHEF-16676-Bug fix for spl character password [#7277](https://github.com/inspec/inspec/pull/7277) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.11 release
 
 #### Merged Pull Requests
+- CHEF-16676-Bug fix for spl character password [#7277](https://github.com/inspec/inspec/pull/7277) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 6.8.23 -->
 - CHEF-18596 Fix code scanning alert no. 62: Request without certificate validation [#7260](https://github.com/inspec/inspec/pull/7260) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.8.22 -->
 - CHEF-18596 Fix code scanning alert no. 63: Use of a broken or weak cryptographic hashing algorithm on sensitive data [#7261](https://github.com/inspec/inspec/pull/7261) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.8.21 -->
 - To Fix OpenSSL 3.2.0 gem issue [#7267](https://github.com/inspec/inspec/pull/7267) ([poorndm](https://github.com/poorndm)) <!-- 6.8.20 -->
