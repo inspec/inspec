@@ -1,12 +1,11 @@
-require "minitest/autorun"
-require "rspec/matchers"
-require "rspec/expectations"
-require "matchers/matchers"
+require 'minitest/autorun'
+require 'rspec/matchers'
+require 'rspec/expectations'
+require 'matchers/matchers'
+require 'pry'
 
-require "pry"
-
-describe "inspec matchers" do
-  describe "cmp matcher" do
+describe 'inspec matchers' do
+  describe 'cmp matcher' do
     include RSpec::Matchers
 
     ##
@@ -51,104 +50,160 @@ describe "inspec matchers" do
       end
     end
 
-    it "String cmp String" do
-      assert_cmp "happy", "happy"
-      assert_cmp "HAPPY", "happy" # case insensitive
-      refute_cmp "happy", "unhappy"
-      refute_cmp "happy", nil
-    end
+    # Explicitly mark which tests are meant to be skipped
+    describe 'test execution' do
+      # Enable verbose test names in output
+      def self.test_order
+        :alpha
+      end
 
-    it "String cmp String w/o ==" do
-      # String, String, op!==, normal op call?
-      skip "TODO: how to test w/ other ops?"
-    end
+      before do
+        @known_skips = ['test_0002_String cmp String w/o ==', 'test_0016_should test XXX']
+      end
 
-    it "String cmp String w/ versions " do
-      assert_cmp "1.0", "1.0"
-      refute_cmp "1.0.0", "1.0"
-      refute_cmp "1.0", nil
-    end
+      it 'String cmp String' do
+        assert_cmp 'happy', 'happy'
+        assert_cmp 'HAPPY', 'happy' # case insensitive
+        refute_cmp 'happy', 'unhappy'
+        refute_cmp 'happy', nil
+      end
 
-    it "Regexp cmp String" do
-      assert_cmp(/abc/, "xxx abc zzz")
-      refute_cmp(/yyy/, "xxx abc zzz")
-      refute_cmp(/yyy/, nil)
-    end
+      it 'String cmp String w/o ==' do
+        skip 'TODO: how to test w/ other ops?'
+      end
 
-    it "Regexp cmp Int" do
-      assert_cmp(/42/, 42)
-      refute_cmp(/yyy/, 42)
-      refute_cmp(/yyy/, nil)
-    end
+      it 'String cmp String w/ versions ' do
+        assert_cmp '1.0', '1.0'
+        refute_cmp '1.0.0', '1.0'
+        refute_cmp '1.0', nil
+      end
 
-    it "String (int) cmp Integer" do
-      assert_cmp "42", 42
-      refute_cmp "42", 420
-      refute_cmp "42", nil
-    end
+      it 'Regexp cmp String' do
+        assert_cmp(/abc/, 'xxx abc zzz')
+        refute_cmp(/yyy/, 'xxx abc zzz')
+        refute_cmp(/yyy/, nil)
+      end
 
-    it "String (bool) cmp Bool" do
-      assert_cmp "true", true
-      assert_cmp "TRUE", true
-      refute_cmp "true", false
-      assert_cmp "false", false
-      assert_cmp "FALSE", false
-      refute_cmp "false", true
-      refute_cmp "false", nil
-      assert_cmp true, "true"
-      refute_cmp false, "true"
-      refute_cmp false, nil
-    end
+      it 'Regexp cmp Int' do
+        assert_cmp(/42/, 42)
+        refute_cmp(/yyy/, 42)
+        refute_cmp(/yyy/, nil)
+      end
 
-    it "Int cmp String(int)" do
-      assert_cmp 42, "42"
-      refute_cmp 420, "42"
-      refute_cmp 420, nil
-    end
+      it 'String (int) cmp Integer' do
+        assert_cmp '42', 42
+        refute_cmp '42', 420
+        refute_cmp '42', nil
+      end
 
-    it "Int cmp String(!int)" do
-      refute_cmp 42, :not_int
-      refute_cmp 42, nil
-    end
+      it 'String (bool) cmp Bool' do
+        assert_cmp 'true', true
+        assert_cmp 'TRUE', true
+        refute_cmp 'true', false
+        assert_cmp 'false', false
+        assert_cmp 'FALSE', false
+        refute_cmp 'false', true
+        refute_cmp 'false', nil
+        assert_cmp true, 'true'
+        refute_cmp false, 'true'
+        refute_cmp false, nil
+      end
 
-    it "Float cmp Float" do
-      assert_cmp 3.14159, 3.14159
-      refute_cmp 3.14159, 42.0
-      refute_cmp 3.14159, nil
-    end
+      it 'Int cmp String(int)' do
+        assert_cmp 42, '42'
+        refute_cmp 420, '42'
+        refute_cmp 420, nil
+      end
 
-    it "Float cmp String(float)" do
-      assert_cmp 3.14159, "3.14159"
-      refute_cmp 3.14159, "3.1415926"
-      refute_cmp 3.14159, nil
-    end
+      it 'Int cmp String(!int)' do
+        refute_cmp 42, :not_int
+        refute_cmp 42, nil
+      end
 
-    it "Float cmp String(!float)" do
-      refute_cmp 3.14159, :not_float
-      refute_cmp 3.14159, nil
-    end
+      it 'Float cmp Float' do
+        assert_cmp 3.14159, 3.14159
+        refute_cmp 3.14159, 42.0
+        refute_cmp 3.14159, nil
+      end
 
-    it "String cmp Symbol" do
-      assert_cmp "abc", :abc
-      assert_cmp "abc", :ABC
-      refute_cmp "abc", nil
-    end
+      it 'Float cmp String(float)' do
+        assert_cmp 3.14159, '3.14159'
+        refute_cmp 3.14159, '3.1415926'
+        refute_cmp 3.14159, nil
+      end
 
-    it "String(oct) cmp Int" do
-      assert_cmp "0777", 0777
-      refute_cmp "0777", 0777 + 1
-      refute_cmp "0999", 0 # bad octal regexp
-      refute_cmp "0777", nil
-    end
+      it 'Float cmp String(!float)' do
+        refute_cmp 3.14159, :not_float
+        refute_cmp 3.14159, nil
+      end
 
-    it "String(!oct) cmp Int" do
-      obj = Object.new
-      refute_cmp obj, 0x42
-      refute_cmp obj, nil
-    end
+      it 'String cmp Symbol' do
+        assert_cmp 'abc', :abc
+        assert_cmp 'abc', :ABC
+        refute_cmp 'abc', nil
+      end
 
-    it "should test XXX" do
-      skip "TODO?"
+      it 'String(oct) cmp Int' do
+        assert_cmp '0777', 0o777
+        refute_cmp '0777', 0o777 + 1
+        refute_cmp '0999', 0 # bad octal regexp
+        refute_cmp '0777', nil
+      end
+
+      it 'String(!oct) cmp Int' do
+        obj = Object.new
+        refute_cmp obj, 0x42
+        refute_cmp obj, nil
+      end
+
+      it 'should test XXX' do
+        skip 'TODO: Implement test'
+      end
+
+      it 'version comparison with segments' do
+        # Test explicit segment matching - Note the order swap
+        actual = rspec_expect('14.2.4')
+        expect = cmp('14').segments(1)
+        assert_operator actual, :to, expect
+
+        actual = rspec_expect('14.2.4')
+        expect = cmp('14.2').segments(2)
+        assert_operator actual, :to, expect
+
+        actual = rspec_expect('14.2.4')
+        expect = cmp('14.2.4').segments(3)
+        assert_operator actual, :to, expect
+
+        # Test failure cases
+        refute_cmp('15', '14.2.4')
+        refute_cmp('14.3', '14.2.4')
+      end
+
+      it 'version comparison with loose matching' do
+        # Test loose matching (equivalent to segments(1))
+        actual = rspec_expect('14.2.4')
+        expect = cmp('14').loose
+        assert_operator actual, :to, expect
+
+        # Test that loose matching works with numeric values
+        actual = rspec_expect('14.2.4')
+        expect = cmp(14).loose
+        assert_operator actual, :to, expect
+
+        # Test regular version comparison (should fail without loose)
+        refute_cmp(14.2, '14.2.4')
+      end
+
+      it 'version comparison failure cases' do
+        # Should fail when comparing different versions
+        refute_cmp('15.0.0', '14.2.4')
+        refute_cmp('14.3.0', '14.2.4')
+        refute_cmp('14.2.5', '14.2.4')
+
+        # Should fail when comparing with invalid version
+        refute_cmp('not.a.version', '14.2.4')
+        refute_cmp(nil, '14.2.4')
+      end
     end
   end
 end

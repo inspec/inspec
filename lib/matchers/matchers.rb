@@ -1,6 +1,6 @@
 # copyright: 2015, Vulcano Security GmbH
 
-require "rspec/matchers"
+require 'rspec/matchers'
 
 RSpec::Matchers.define :be_readable do
   match do |file|
@@ -16,7 +16,7 @@ RSpec::Matchers.define :be_readable do
   end
 
   description do
-    res = "be readable"
+    res = 'be readable'
     res += " by #{@by}" unless @by.nil?
     res += " by user #{@by_user}" unless @by_user.nil?
     res
@@ -37,7 +37,7 @@ RSpec::Matchers.define :be_writable do
   end
 
   description do
-    res = "be writable"
+    res = 'be writable'
     res += " by #{@by}" unless @by.nil?
     res += " by user #{@by_user}" unless @by_user.nil?
     res
@@ -58,7 +58,7 @@ RSpec::Matchers.define :be_executable do
   end
 
   description do
-    res = "be executable"
+    res = 'be executable'
     res += " by #{@by}" unless @by.nil?
     res += " by user #{@by_user}" unless @by_user.nil?
     res
@@ -94,7 +94,7 @@ RSpec::Matchers.define :be_enabled do
   end
 
   chain :with_level do |_level|
-    raise "[UNSUPPORTED] with level is not supported"
+    raise '[UNSUPPORTED] with level is not supported'
   end
 
   failure_message do |service|
@@ -110,7 +110,7 @@ RSpec::Matchers.define :be_running do
   end
 
   chain :under do |_under|
-    raise "[UNSUPPORTED] under is not supported"
+    raise '[UNSUPPORTED] under is not supported'
   end
 
   failure_message do |service|
@@ -125,7 +125,7 @@ RSpec::Matchers.define :be_reachable do
   end
 
   chain :with do |_attr|
-    raise "[UNSUPPORTED] `with` is not supported in combination with `be_reachable`"
+    raise '[UNSUPPORTED] `with` is not supported in combination with `be_reachable`'
   end
 
   failure_message do |host|
@@ -193,7 +193,7 @@ RSpec::Matchers.define :be_in do |list|
 
   failure_message do |item|
     if item.is_a?(Array)
-      "expected `#{item}` to be in the list: `#{list}` \nDiff:\n #{(item - list)}"
+      "expected `#{item}` to be in the list: `#{list}` \nDiff:\n #{item - list}"
     else
       "expected `#{item}` to be in the list: `#{list}`"
     end
@@ -201,7 +201,7 @@ RSpec::Matchers.define :be_in do |list|
 
   failure_message_when_negated do |item|
     if item.is_a?(Array)
-      "expected `#{item}` not to be in the list: `#{list}` \nComm:\n #{(item & list)}"
+      "expected `#{item}` not to be in the list: `#{list}` \nComm:\n #{item & list}"
     else
       "expected `#{item}` not to be in the list: `#{list}`"
     end
@@ -215,7 +215,6 @@ end
 # - you expect a number (strings will be converted if possible)
 #
 RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockLength
-
   def integer?(value)
     !(value =~ /\A-?0+\Z|\A-?[1-9]\d*\Z/).nil?
   end
@@ -232,29 +231,62 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
   end
 
   def boolean?(value)
-    if value.respond_to?("downcase")
-      %w{true false}.include?(value.downcase)
+    if value.respond_to?('downcase')
+      %w[true false].include?(value.downcase)
     else
       value.is_a?(TrueClass) || value.is_a?(FalseClass)
     end
   end
 
   def version?(value)
+    # Support partial version strings like "14.2"
+    return true if value.to_s =~ /\A\d+(\.\d+)*\Z/
+
     Gem::Version.new(value)
     true
-  rescue ArgumentError => _ex
+  rescue ArgumentError => _e
     false
+  end
+
+  def semver?(value)
+    # Relaxed pattern to match partial version strings like "14.2"
+    value.to_s =~ /\A\d+(\.\d+)*(-[A-Za-z0-9\-.]+)?(\+[A-Za-z0-9\-.]+)?\Z/
+  end
+
+  def fuzzy_version_match?(actual, expected)
+    actual_segments = actual.split('.')
+    expected_segments = expected.split('.')
+
+    # Use specified segment count or all segments from expected
+    compare_segments = @segment_count || expected_segments.length
+    @segment_count = compare_segments
+
+    # Compare only the specified number of segments
+    compare_segments.times do |index|
+      return false if actual_segments[index] != expected_segments[index]
+    end
+    true
   end
 
   # expects that the values have been checked with boolean?
   def to_boolean(value)
-    value.casecmp("true") == 0
+    value.casecmp('true') == 0
   end
 
-  def try_match(actual, op, expected) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
+  def try_match(actual, op, expected)
+    # Convert numeric expected value to string for version comparison
+    if (expected.is_a?(Integer) || expected.is_a?(Float)) && version?(actual.to_s) && @loose
+      expected = expected.to_s
+    elsif expected.is_a?(Float) && actual.is_a?(String) && version?(actual)
+      return Gem::Version.new(actual).send(op, Gem::Version.new(expected.to_s))
+    end
+
     # if actual and expected are strings
     if expected.is_a?(String) && actual.is_a?(String)
-      return actual.casecmp(expected) == 0 if op == :==
+      return fuzzy_version_match?(actual, expected) if op == :== && @loose && version?(expected) && version?(actual)
+      return actual.casecmp(expected).zero? if op == :==
       return Gem::Version.new(actual).send(op, Gem::Version.new(expected)) if
         version?(expected) && version?(actual)
     elsif expected.is_a?(Regexp) && (actual.is_a?(String) || actual.is_a?(Integer))
@@ -263,7 +295,7 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
       return actual.send(op, expected.to_i)
     elsif expected.is_a?(String) && boolean?(expected) && [true, false].include?(actual)
       return actual.send(op, to_boolean(expected))
-    elsif boolean?(expected) && %w{true false}.include?(actual)
+    elsif boolean?(expected) && %w[true false].include?(actual)
       return actual.send(op, expected.to_s)
     elsif expected.is_a?(Integer) && actual.is_a?(String) && integer?(actual)
       return actual.to_i.send(op, expected)
@@ -277,7 +309,7 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
 
     # fallback to simple operation
     actual.send(op, expected)
-  rescue NameError => _
+  rescue NameError => _e
     false
   rescue ArgumentError
     false
@@ -286,29 +318,62 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
   match do |actual|
     @operation ||= :==
     @expected ||= first_expected
+    @loose ||= false
+    @segment_count = nil
     return actual === @expected if @operation == :=== # rubocop:disable Style/CaseEquality
 
     actual = actual[0] if actual.is_a?(Array) && !@expected.is_a?(Array) && actual.length == 1
     try_match(actual, @operation, @expected)
   end
 
-  %i{== != < <= >= > === =~}.each do |op|
+  %i[== != < <= >= > === =~].each do |op|
     chain(op) do |x|
       @operation = op
       @expected = x
     end
   end
 
-  def format_actual(actual, negate = false)
-    actual = "0%o" % actual if octal?(@expected) && !actual.nil?
-    "\n%s\n     got: %s\n\n(compared using `cmp` matcher)\n" % [format_expectation(negate), actual]
+  chain :loose do
+    @loose = true
+    @segment_count = 1 # loose is an alias for segments(1)
+  end
+
+  chain :segments do |count|
+    @loose = true
+    @segment_count = count
+  end
+
+  def humanize_segments(count)
+    return '' unless count
+    return '(comparing first segment)' if count == 1
+
+    actual_segments = @actual.to_s.split('.').length if @actual
+    if actual_segments && count >= actual_segments
+      '(comparing all segments)'
+    else
+      "(comparing first #{count} segments)"
+    end
   end
 
   def format_expectation(negate)
-    return "expected: %s" % [@expected] if @operation == :== && !negate
+    return format('expected: %s', @expected) if @operation == :== && !negate
 
-    negate_str = negate ? "not " : ""
-    "expected it %sto be %s %p" % [negate_str, @operation, @expected]
+    negate_str = negate ? 'not ' : ''
+    format('expected it %sto be %s %p', negate_str, @operation, @expected)
+  end
+
+  def format_actual(actual, negate: false)
+    @actual = actual # Store for humanize_segments
+    actual_str = if octal?(@expected) && !actual.nil?
+                   '0%o' % actual
+                 else
+                   actual
+                 end
+    segment_info = humanize_segments(@segment_count)
+    format("\n%s\n     got: %s\n\n(compared using `cmp` matcher%s)\n",
+           format_expectation(negate),
+           actual_str,
+           segment_info.empty? ? '' : " #{segment_info}")
   end
 
   failure_message do |actual|
@@ -316,11 +381,12 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
   end
 
   failure_message_when_negated do |actual|
-    format_actual actual, true
+    format_actual actual, negate: true
   end
 
   description do
-    "cmp %s %p" % [@operation, @expected]
+    segment_info = humanize_segments(@segment_count)
+    format('cmp %s %p%s', @operation, @expected, segment_info.empty? ? '' : " #{segment_info}")
   end
 end
 

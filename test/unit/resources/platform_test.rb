@@ -1,131 +1,143 @@
-require "helper"
-require "inspec/resource"
-require "inspec/resources/platform"
+require 'helper'
+require 'inspec/resource'
+require 'inspec/resources/platform'
 
-describe "Inspec::Resources::Platform" do
+describe 'Inspec::Resources::Platform' do
   before do
     Inspec::Resources::PlatformResource.reset_shared_platform
   end
 
-  let(:resource) { MockLoader.new(:ubuntu).load_resource("platform") }
+  let(:resource) { MockLoader.new(:ubuntu).load_resource('platform') }
 
-  it "generates the resource_id for the current resource" do
-    _(resource.resource_id).must_equal "ubuntu"
+  it 'generates the resource_id for the current resource' do
+    _(resource.resource_id).must_equal 'ubuntu'
   end
 
-  it "verify platform parsing on Ubuntu" do
-    _(resource.name).must_equal "ubuntu"
-    _(resource.family).must_equal "debian"
-    _(resource.release).must_equal "22.04"
-    _(resource.arch).must_equal "x86_64"
+  it 'verify platform parsing on Ubuntu' do
+    _(resource.name).must_equal 'ubuntu'
+    _(resource.family).must_equal 'debian'
+    _(resource.release).must_equal '22.04'
+    _(resource.arch).must_equal 'x86_64'
   end
 
-  it "verify platform hash parsing on Ubuntu" do
-    _(resource[:name]).must_equal "ubuntu"
-    _(resource[:family]).must_equal "debian"
-    _(resource[:release]).must_equal "22.04"
-    _(resource[:arch]).must_equal "x86_64"
+  it 'verify platform hash parsing on Ubuntu' do
+    _(resource[:name]).must_equal 'ubuntu'
+    _(resource[:family]).must_equal 'debian'
+    _(resource[:release]).must_equal '22.04'
+    _(resource[:arch]).must_equal 'x86_64'
   end
 
-  it "verify platform families" do
-    expect = %w{debian linux unix os}
+  it 'verify platform families' do
+    expect = %w[debian linux unix os]
     _(resource.families).must_equal expect
   end
 
-  it "verify platform? responds correctly" do
-    _(resource.platform?("windows")).must_equal false
-    _(resource.platform?("unix")).must_equal true
-    _(resource.platform?("ubuntu")).must_equal true
-    _(resource.platform?("mac_os_x")).must_equal false
+  it 'verify platform? responds correctly' do
+    _(resource.platform?('windows')).must_equal false
+    _(resource.platform?('unix')).must_equal true
+    _(resource.platform?('ubuntu')).must_equal true
+    _(resource.platform?('mac_os_x')).must_equal false
   end
 
-  it "verify family? responds correctly" do
-    _(resource.in_family?("windows")).must_equal false
-    _(resource.in_family?("unix")).must_equal true
-    _(resource.in_family?("ubuntu")).must_equal false
-    _(resource.in_family?("mac_os_x")).must_equal false
+  it 'verify family? responds correctly' do
+    _(resource.in_family?('windows')).must_equal false
+    _(resource.in_family?('unix')).must_equal true
+    _(resource.in_family?('ubuntu')).must_equal false
+    _(resource.in_family?('mac_os_x')).must_equal false
   end
 
-  it "accept an empty supports collection" do
+  it 'accept an empty supports collection' do
     supports = []
     _(resource).must_be :supported?, supports
   end
 
-  it "verify supported? with multiple families" do
+  it 'verify supported? with multiple families' do
     supports = [
-      { os_family: "windows" },
-      { os_family: "unix" },
+      { os_family: 'windows' },
+      { os_family: 'unix' }
     ]
     _(resource).must_be :supported?, supports
   end
 
-  it "loads a profile which supports multiple names" do
+  it 'loads a profile which supports multiple names' do
     supports = [
-      { 'os-family': "windows", 'os-name': "windows_2000" },
-      { 'os-family': "unix", 'os-name': "ubuntu" },
+      { 'os-family': 'windows', 'os-name': 'windows_2000' },
+      { 'os-family': 'unix', 'os-name': 'ubuntu' }
     ]
     _(resource).must_be :supported?, supports
   end
 
-  it "reject a profile which supports multiple families" do
+  it 'reject a profile which supports multiple families' do
     supports = [
-      { os_family: "windows" },
-      { os_family: "redhat" },
+      { os_family: 'windows' },
+      { os_family: 'redhat' }
     ]
     _(resource).wont_be :supported?, supports
   end
 
-  it "loads a profile which supports release 22.04" do
+  it 'loads a profile which supports release 22.04' do
     supports = [
-      { 'os-family': "windows", 'os-name': "windows_2000" },
-      { 'os-name': "ubuntu", 'release': "22.04" },
+      { 'os-family': 'windows', 'os-name': 'windows_2000' },
+      { 'os-name': 'ubuntu', 'release': '22.04' }
     ]
     _(resource).must_be :supported?, supports
   end
 
-  it "loads a profile which supports release 22.*" do
+  it 'loads a profile which supports release 22.*' do
     supports = [
-      { 'os-family': "windows", 'os-name': "windows_2000" },
-      { 'os-name': "ubuntu", 'release': "22.*" },
+      { 'os-family': 'windows', 'os-name': 'windows_2000' },
+      { 'os-name': 'ubuntu', 'release': '22.*' }
     ]
     _(resource).must_be :supported?, supports
   end
 
-  it "loads a profile which supports release *.04" do
+  it 'loads a profile which supports release *.04' do
     supports = [
-      { 'os-family': "windows", 'os-name': "windows_2000" },
-      { 'os-name': "ubuntu", 'release': "*.04" },
+      { 'os-family': 'windows', 'os-name': 'windows_2000' },
+      { 'os-name': 'ubuntu', 'release': '*.04' }
     ]
     _(resource).must_be :supported?, supports
   end
 
-  it "reject a profile which supports release 12.*" do
+  it 'reject a profile which supports release 12.*' do
     supports = [
-      { 'os-family': "windows", 'os-name': "windows_2000" },
-      { 'os-name': "ubuntu", 'release': "12.*" },
+      { 'os-family': 'windows', 'os-name': 'windows_2000' },
+      { 'os-name': 'ubuntu', 'release': '12.*' }
     ]
     _(resource).wont_be :supported?, supports
   end
 
-  let(:resource2) { MockLoader.new(:windows2016).load_resource("platform") }
-  it "loads a profile which supports platform-name windows_server_2016*" do
-    supports = [
-      { 'platform-name': "windows_server_2016*" },
-    ]
-    _(resource2).must_be :supported?, supports
-  end
+  # Create a separate windows-specific context
+  describe 'Windows platform detection' do
+    before do
+      # Reset platform state before each test
+      Inspec::Resources::PlatformResource.reset_shared_platform
+    end
 
-  it "loads a profile which supports platform-name windows_server_2016*" do
-    supports = [
-      { 'platform-name': "*2016*" },
-    ]
-    _(resource2).must_be :supported?, supports
-  end
+    let(:windows_resource) { MockLoader.new(:windows2016).load_resource('platform') }
 
-  it "reject a profile which supports platform-name not matching regex windows_server_2016*" do
-    supports = [
-      { 'platform-name': "*2019*" },
-    ]
-    _(resource2).wont_be :supported?, supports
+    it 'loads a profile which supports platform-name windows_server_2016*' do
+      # Reset and create new resource instance for this test
+      Inspec::Resources::PlatformResource.reset_shared_platform
+      resource = MockLoader.new(:windows2016).load_resource('platform')
+      supports = [{ 'platform-name' => 'windows_server_2016*' }]
+      _(resource).must_be :supported?, supports
+    end
+
+    it 'loads a profile which supports platform-name *2016*' do
+      # Reset and create new resource instance for this test
+      Inspec::Resources::PlatformResource.reset_shared_platform
+      resource = MockLoader.new(:windows2016).load_resource('platform')
+      supports = [{ 'platform-name' => '*2016*' }]
+      _(resource).must_be :supported?, supports
+    end
+
+    it 'reject a profile which supports platform-name not matching regex windows_server_2016*' do
+      # Reset and create new resource instance for this test
+      Inspec::Resources::PlatformResource.reset_shared_platform
+      resource = MockLoader.new(:windows2016).load_resource('platform')
+      supports = [{ 'platform-name' => '*2019*' }]
+      _(resource).wont_be :supported?, supports
+    end
   end
 end
