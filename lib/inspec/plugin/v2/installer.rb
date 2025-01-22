@@ -14,6 +14,8 @@ require "rubygems/remote_fetcher"
 require "inspec/plugin/v2/filter"
 require "inspec/plugin/v2/concerns/gem_spec_helper"
 
+require "inspec/plugin/v2/gem_source_manager"
+
 module Inspec::Plugin::V2
   # Handles all actions modifying the user's plugin set:
   # * Modifying the plugins.json file
@@ -305,18 +307,14 @@ module Inspec::Plugin::V2
       install_gem_to_plugins_dir(plugin_dependency, [requested_local_gem_set])
     end
 
-    def install_from_remote_gems(requested_plugin_name, opts)
+    def install_from_remote_gems(requested_plugin_name, opts, source_manager: GemSourceManager.instance)
       plugin_dependency = Gem::Dependency.new(requested_plugin_name, opts[:version] || "> 0")
+      source_manager.add_chef_rubygems_server # ensure CHEF RUBYGEMS server is added to the source
 
       # This adds custom gem sources to the memoized `Gem.Sources` for this specific run
       # Note: This will not make any change to the environment Gem source list and
       # in fact will consider all of the environment Gem sources and custom gem sources to resolve deps
-      if opts[:source]
-        sources = [opts[:source]].flatten
-        sources.each do |source|
-          Gem.sources.sources << Gem::Source.new(source)
-        end
-      end
+      source_manager.add(opts[:source])
 
       # BestSet is rubygems.org API + indexing by default
       # `Gem.sources` is injected as a dependency implicitly while BestSet is initialized
