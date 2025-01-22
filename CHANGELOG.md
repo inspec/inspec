@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 5.22.66 -->
+## [v5.22.66](https://github.com/inspec/inspec/tree/v5.22.66) (2025-01-22)
+
+#### Merged Pull Requests
+- CHEF-16676-Bug fix for spl character password(InSpec-5) [#7276](https://github.com/inspec/inspec/pull/7276) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=5.22.65 -->
+### Changes since 5.22.65 release
+
+#### Merged Pull Requests
+- CHEF-16676-Bug fix for spl character password(InSpec-5) [#7276](https://github.com/inspec/inspec/pull/7276) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.66 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
