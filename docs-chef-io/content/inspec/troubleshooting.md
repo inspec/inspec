@@ -92,3 +92,23 @@ Chef licensing data is stored on the `$HOME/.chef/licenses.yaml` file.
 The `licenses.yaml` file is malformed and corrupt.
 
 Restore the file content to its original state to resolve this issue.
+
+## Unable to resolve dependency: user requested 'inspec-{RESOURCE_NAME}-resources (> 0)'
+
+Starting from **InSpec version 7**, Chef InSpec profiles can include dependencies on gem-based resource packs. If this error occurs, it can be resolved through the following steps:
+
+- Verification of gem details
+
+  Ensure that the correct gem name and version are specified in the `inspec.yml` file.
+
+- Checking gem availability:
+
+  Confirm the gem's presence on RubyGems.org, or if the private server is used, reach out to the Customer Success Manager or Support Team regarding its availability on Chef's Private RubyGem server.
+
+- Network connectivity:
+
+  Test the internet connection to ensure access to the gem sources.
+
+- Authentication issues:
+
+  Validate credentials and access permissions for Chef's Private RubyGem server to avoid unauthorized access issues.
