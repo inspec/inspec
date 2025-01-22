@@ -59,13 +59,13 @@ module Inspec::Resources
     end
 
     def platform
-      @platform ||= super
+      super
     end
 
     private
 
     def platform_info
-      @platform_info ||= {
+      {
         name: platform[:name],
         families: platform[:family_hierarchy],
         release: platform[:release],

@@ -4,10 +4,6 @@ require 'inspec/resources/os'
 
 # rubocop:disable Metrics/BlockLength
 describe 'Inspec::Resources::Os' do
-  before do
-    Inspec::Resources::PlatformResource.reset_shared_platform
-  end
-
   it 'verify os parsing on CentOS' do
     resource = MockLoader.new(:centos7).load_resource('os')
     _(resource.resource_id).must_equal 'centos'

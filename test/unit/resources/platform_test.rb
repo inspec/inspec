@@ -3,10 +3,6 @@ require 'inspec/resource'
 require 'inspec/resources/platform'
 
 describe 'Inspec::Resources::Platform' do
-  before do
-    Inspec::Resources::PlatformResource.reset_shared_platform
-  end
-
   let(:resource) { MockLoader.new(:ubuntu).load_resource('platform') }
 
   it 'generates the resource_id for the current resource' do
@@ -109,32 +105,21 @@ describe 'Inspec::Resources::Platform' do
 
   # Create a separate windows-specific context
   describe 'Windows platform detection' do
-    before do
-      # Reset platform state before each test
-      Inspec::Resources::PlatformResource.reset_shared_platform
-    end
-
     let(:windows_resource) { MockLoader.new(:windows2016).load_resource('platform') }
 
     it 'loads a profile which supports platform-name windows_server_2016*' do
-      # Reset and create new resource instance for this test
-      Inspec::Resources::PlatformResource.reset_shared_platform
       resource = MockLoader.new(:windows2016).load_resource('platform')
       supports = [{ 'platform-name' => 'windows_server_2016*' }]
       _(resource).must_be :supported?, supports
     end
 
     it 'loads a profile which supports platform-name *2016*' do
-      # Reset and create new resource instance for this test
-      Inspec::Resources::PlatformResource.reset_shared_platform
       resource = MockLoader.new(:windows2016).load_resource('platform')
       supports = [{ 'platform-name' => '*2016*' }]
       _(resource).must_be :supported?, supports
     end
 
     it 'reject a profile which supports platform-name not matching regex windows_server_2016*' do
-      # Reset and create new resource instance for this test
-      Inspec::Resources::PlatformResource.reset_shared_platform
       resource = MockLoader.new(:windows2016).load_resource('platform')
       supports = [{ 'platform-name' => '*2019*' }]
       _(resource).wont_be :supported?, supports

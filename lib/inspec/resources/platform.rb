@@ -45,50 +45,41 @@ module Inspec::Resources
 
       def <=>(other)
         other_version = convert_to_version(other)
-        # TODO: try to make this conditional on a debug flag
-        # puts "Comparing #{@version} with #{other_version}"
         @version <=> other_version
       end
 
       def eql?(other)
         other_version = convert_to_version(other)
-        # puts "Comparing #{@version} with #{other_version}"
         @version.eql?(other_version)
       end
 
       def ==(other)
         other_version = convert_to_version(other)
-        # puts "Comparing #{@version} with #{other_version}"
         @version == other_version
       end
 
       def ===(other)
         other_version = convert_to_version(other)
-        # puts "Comparing #{@version} with #{other_version}"
         @version === other_version
       end
 
       def <=(other)
         other_version = convert_to_version(other)
-        # puts "Comparing #{@version} with #{other_version}"
         @version <= other_version
       end
 
       def >=(other)
         other_version = convert_to_version(other)
-        # puts "Comparing #{@version} with #{other_version}"
         @version >= other_version
       end
 
       def <(other)
         other_version = convert_to_version(other)
-        # puts "Comparing #{@version} with #{other_version}"
         @version < other_version
       end
 
       def >(other)
         other_version = convert_to_version(other)
-        # puts "Comparing #{@version} with #{other_version}"
         @version > other_version
       end
 
@@ -100,21 +91,8 @@ module Inspec::Resources
       end
     end
 
-    # store a single shared platform
-    @shared_platform = nil
-
-    def self.reset_shared_platform
-      @shared_platform = nil
-    end
-
     def initialize
-      # only query backend once
-      unless self.class.instance_variable_get(:@shared_platform)
-        self.class.instance_variable_set(:@shared_platform, inspec.backend.platform.tap do |plat|
-          # puts "Initialized platform: #{plat.inspect}"
-        end)
-      end
-      @platform = self.class.instance_variable_get(:@shared_platform)
+      @platform = inspec.backend.platform
     end
 
     attr_reader :platform
@@ -232,9 +210,6 @@ module Inspec::Resources
                        .gsub(/\*/, '.*?') # Convert * to .*?
         # Create regex with case insensitive flag
         regex = Regexp.new("\\A#{pattern}\\z", Regexp::IGNORECASE)
-
-        # Debug output
-        puts "Debug: Checking platform #{name} against pattern #{regex.inspect}"
 
         # Check against both name and platform.name
         [name, platform.name].compact.any? do |n|
