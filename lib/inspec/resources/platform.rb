@@ -86,7 +86,7 @@ module Inspec::Resources
       private
 
       def convert_to_version(value)
-        value = format("%.2f", value) if value.is_a? Numeric
+        Gem::Version.new(value.to_s)
         Gem::Version.new(value.to_s)
       end
     end
