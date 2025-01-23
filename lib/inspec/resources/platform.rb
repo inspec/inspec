@@ -1,11 +1,11 @@
-require "inspec/resource"
-require "rubygems/version"
-require "logger"
+require 'inspec/resource'
+require 'rubygems/version'
+require 'logger'
 
 module Inspec::Resources
   class PlatformResource < Inspec.resource(1)
-    name "platform"
-    desc "Use the platform InSpec resource to test the platform on which the system is running."
+    name 'platform'
+    desc 'Use the platform InSpec resource to test the platform on which the system is running.'
     example <<~EXAMPLE
       describe platform do
         its('name') { should eq 'redhat' }
@@ -36,7 +36,7 @@ module Inspec::Resources
       end
 
       def build
-        @build_version || (@version.segments.size > 3 ? @version.segments[3..-1].join(".") : nil)
+        @build_version || (@version.segments.size > 3 ? @version.segments[3..-1].join('.') : nil)
       end
 
       def to_s
@@ -87,11 +87,11 @@ module Inspec::Resources
 
       def convert_to_version(value)
         Gem::Version.new(value.to_s)
-        Gem::Version.new(value.to_s)
       end
     end
 
     def initialize
+      super
       @platform = inspec.backend.platform
     end
 
@@ -158,13 +158,13 @@ module Inspec::Resources
           major: version.major,
           minor: version.minor,
           patch: version.patch,
-          build: version.build,
-        },
-      }.tap { |h| h.delete(:arch) if in_family?("api") }
+          build: version.build
+        }
+      }.tap { |h| h.delete(:arch) if in_family?('api') }
     end
 
     def supported?(supports)
-      raise ArgumentError, "`supports` is nil." unless supports
+      raise ArgumentError, '`supports` is nil.' unless supports
 
       # Handle string input by converting to array of platform hash
       supports = [{ platform: supports }] if supports.is_a?(String)
@@ -187,15 +187,15 @@ module Inspec::Resources
 
     # TODO: dumb... push this up or remove need
     def normalize(key)
-      key.to_s.tr("-", "_").to_sym
+      key.to_s.tr('-', '_').to_sym
     end
 
     def resource_id
-      platform.name || "platform"
+      platform.name || 'platform'
     end
 
     def to_s
-      "Platform Detection"
+      'Platform Detection'
     end
 
     private
@@ -204,10 +204,10 @@ module Inspec::Resources
       return false if name.nil?
 
       # allow wild card matching
-      if value.include?("*")
+      if value.include?('*')
         # Convert glob pattern to regex pattern
         pattern = value.gsub(/[.\-+]/) { |c| "\\#{c}" } # Escape special chars
-          .gsub(/\*/, ".*?") # Convert * to .*?
+                       .gsub(/\*/, '.*?') # Convert * to .*?
         # Create regex with case insensitive flag
         regex = Regexp.new("\\A#{pattern}\\z", Regexp::IGNORECASE)
 
@@ -223,8 +223,8 @@ module Inspec::Resources
 
     def check_release(value)
       # allow wild card matching
-      if value.include?("*")
-        cleaned = Regexp.escape(value).gsub('\*', ".*?")
+      if value.include?('*')
+        cleaned = Regexp.escape(value).gsub('\*', '.*?')
         release =~ /\A#{cleaned}\z/
       else
         release == value
