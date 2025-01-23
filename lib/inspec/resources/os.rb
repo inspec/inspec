@@ -63,22 +63,34 @@ module Inspec::Resources
     # rubocop:disable Style/Documentation
     class Version
       def initialize(version_string)
-        @version = Gem::Version.new(version_string)
+        @version = if version_string.nil? || version_string.empty? || version_string == "unknown"
+                     nil
+                   else
+                     Gem::Version.new(version_string)
+                   end
       end
 
       def major
+        return nil if @version.nil?
+
         @version.segments[0]
       end
 
       def minor
+        return nil if @version.nil?
+
         @version.segments[1]
       end
 
       def patch
+        return nil if @version.nil?
+
         @version.segments[2]
       end
 
       def build
+        return nil if @version.nil? || @version.segments.size <= 3
+
         @version.segments.size > 3 ? @version.segments[3..-1].join(".") : nil
       end
 
@@ -147,12 +159,14 @@ module Inspec::Resources
     # NOTE: This generally should be a PR to train but this gives us some flexibility
     def platform_specific_info(platform, type)
       case platform.name
-      when "mac_os_x", "darwin"  # Explicitly list supported platform names
+      when "mac_os_x", "darwin" # Explicitly list supported platform names
         case type
         when "release"
-          inspec.command("sw_vers -productVersion").stdout.strip
+          ver = inspec.command("sw_vers -productVersion").stdout.strip
+          ver.empty? ? platform[:release] : ver
         when "build"
-          inspec.command("sw_vers -buildVersion").stdout.strip
+          bld = inspec.command("sw_vers -buildVersion").stdout.strip
+          bld.empty? ? platform[:version][:build] : bld
         end
       end
     end

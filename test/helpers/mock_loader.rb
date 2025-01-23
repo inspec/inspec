@@ -802,6 +802,10 @@ class MockLoader
       "podman volume inspect non_existing_volume --format '{\"name\": {{json .Name}}, \"driver\": {{json .Driver}}, \"mountpoint\": {{json .Mountpoint}}, \"created_at\": {{json .CreatedAt}}, \"labels\": {{json .Labels}}, \"scope\": {{json .Scope}}, \"options\": {{json .Options}}, \"mount_count\": {{json .MountCount}}, \"needs_copy_up\": {{json .NeedsCopyUp}}, \"needs_chown\": {{json .NeedsChown}}}'" => cmd_stderr.call("podman-errors"),
       "podman pod inspect nginx-frontend --format '{\"id\": {{json .ID}}, \"name\": {{json .Name}}, \"created_at\": {{json .Created}}, \"create_command\": {{json .CreateCommand}}, \"state\": {{json .State}}, \"hostname\": {{json .Hostname}}, \"create_cgroup\": {{json .CreateCgroup}}, \"cgroup_parent\": {{json .CgroupParent}}, \"cgroup_path\": {{json .CgroupPath}}, \"create_infra\": {{json .CreateInfra}}, \"infra_container_id\": {{json .InfraContainerID}}, \"infra_config\": {{json .InfraConfig}}, \"shared_namespaces\": {{json .SharedNamespaces}}, \"num_containers\": {{json .NumContainers}}, \"containers\": {{json .Containers}}}'" => cmd.call("podman-pod-inspect"),
       "podman pod inspect non_existing_pod --format '{\"id\": {{json .ID}}, \"name\": {{json .Name}}, \"created_at\": {{json .Created}}, \"create_command\": {{json .CreateCommand}}, \"state\": {{json .State}}, \"hostname\": {{json .Hostname}}, \"create_cgroup\": {{json .CreateCgroup}}, \"cgroup_parent\": {{json .CgroupParent}}, \"cgroup_path\": {{json .CgroupPath}}, \"create_infra\": {{json .CreateInfra}}, \"infra_container_id\": {{json .InfraContainerID}}, \"infra_config\": {{json .InfraConfig}}, \"shared_namespaces\": {{json .SharedNamespaces}}, \"num_containers\": {{json .NumContainers}}, \"containers\": {{json .Containers}}}'" => cmd_stderr.call("podman-errors"),
+
+      # sw_vers commands
+      "sw_vers -productVersion" => cmd.call("sw_vers-productVersion_macos1472"),
+      "sw_vers -buildVersion" => cmd.call("sw_vers-buildVersion_macos1472"),
     }
 
     if @platform && (@platform[:name] == "windows" || @platform[:name] == "freebsd")
