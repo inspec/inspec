@@ -1,41 +1,122 @@
 class MockLoader
   # collects emulation operating systems
   OPERATING_SYSTEMS = { # rubocop:disable Style/MutableConstant
-    alpine: { name: "alpine", family: "alpine", release: "3.6.2", arch: "x86_64" },
-    arch: { name: "arch", family: "arch", release: nil, arch: nil },
-    centos5: { name: "centos", family: "redhat", release: "5.11", arch: "x86_64" },
-    centos6: { name: "centos", family: "redhat", release: "6.6", arch: "x86_64" },
-    centos7: { name: "centos", family: "redhat", release: "7.1.1503", arch: "x86_64" },
-    centos8: { name: "centos", family: "redhat", release: "8.0.1905", arch: "x86_64" },
-    cloudlinux: { name: "cloudlinux", family: "redhat", release: "7.4", arch: "x86_64" },
-    coreos: { name: "coreos", family: "coreos", release: "1437.0.0", arch: "x86_64" },
-    debian6: { name: "debian", family: "debian", release: "6", arch: "x86_64" },
-    debian7: { name: "debian", family: "debian", release: "7", arch: "x86_64" },
-    debian8: { name: "debian", family: "debian", release: "8", arch: "x86_64" },
-    debian10: { name: "debian", family: "debian", release: "buster/sid", arch: "x86_64" },
-    freebsd9: { name: "freebsd", family: "bsd", release: "9", arch: "amd64" },
-    freebsd10: { name: "freebsd", family: "bsd", release: "10", arch: "amd64" },
-    freebsd11: { name: "freebsd", family: "bsd", release: "11", arch: "amd64" },
-    freebsd12: { name: "freebsd", family: "bsd", release: "12", arch: "amd64" },
-    macos10_10: { name: "mac_os_x", family: "darwin", release: "10.10.4", arch: nil },
-    macos10_16: { name: "darwin", family: "darwin", release: "10.16", arch: nil },
-    ubuntu1404: { name: "ubuntu", family: "debian", release: "14.04", arch: "x86_64" },
-    ubuntu: { name: "ubuntu", family: "debian", release: "22.04", arch: "x86_64" },
-    mint17: { name: "linuxmint", family: "debian", release: "17.3", arch: "x86_64" },
-    mint18: { name: "linuxmint", family: "debian", release: "18", arch: "x86_64" },
-    windows: { name: "windows", family: "windows", release: "6.2.9200", arch: "x86_64" },
-    windows2016: { name: "windows_server_2016_datacenter", family: "windows", release: "10.0.14393", arch: "x86_64" },
-    windows2019: { name: "windows_server_2019_datacenter", family: "windows", release: "10.0.17763", arch: "x86_64" },
-    wrlinux: { name: "wrlinux", family: "redhat", release: "7.0(3)I2(2)", arch: "x86_64" },
-    solaris11: { name: "solaris", family: "solaris", release: "11", arch: "i386" },
-    solaris10: { name: "solaris", family: "solaris", release: "10", arch: "i386" },
-    hpux: { name: "hpux", family: "hpux", release: "B.11.31", arch: "ia64" },
-    aix: { name: "aix", family: "aix", release: "7.2", arch: "powerpc" },
-    amazon: { name: "amazon", family: "redhat", release: "2015.03", arch: "x86_64" },
-    amazon2: { name: "amazon", family: "redhat", release: "2", arch: "x86_64" },
-    aliyun3: { name: "alibaba", family: "redhat", release: "3", arch: "x86_64" },
-    yocto: { name: "yocto", family: "yocto", release: "0.0.1", arch: "aarch64" },
-    undefined: { name: nil, family: nil, release: nil, arch: nil },
+    # AIX
+    aix: { name: "aix", family: "aix", release: "7.2", arch: "powerpc",
+           version: { major: 7, minor: 2, patch: nil, build: nil } },
+
+    # Alpine
+    alpine: { name: "alpine", family: "alpine", release: "3.6.2", arch: "x86_64",
+              version: { major: 3, minor: 6, patch: 2, build: nil } },
+
+    # BSD Family
+    freebsd9: { name: "freebsd", family: "bsd", release: "9.3", arch: "amd64",
+                version: { major: 9,  minor: 3, patch: nil, build: "RELEASE" } },
+    freebsd10: { name: "freebsd", family: "bsd", release: "10.4", arch: "amd64",
+                 version: { major: 10, minor: 4, patch: nil, build: "RELEASE" } },
+    freebsd11: { name: "freebsd", family: "bsd", release: "11.4", arch: "amd64",
+                 version: { major: 11, minor: 4, patch: nil, build: "RELEASE" } },
+    freebsd12: { name: "freebsd", family: "bsd", release: "12.4", arch: "amd64",
+                 version: { major: 12, minor: 4, patch: nil, build: "RELEASE" } },
+    # Darwin/MacOS Family
+    macos1472: { name: "mac_os_x", family: "darwin", release: "14.7.2", arch: "arm64",
+                 version: { major: 14, minor: 7, patch: 2, build: "23H311" } },
+    macos10104: { name: "mac_os_x", family: "darwin", release: "10.10.4", arch: "x86_64",
+                  version: { major: 10, minor: 10, patch: 4, build: nil } },
+    macos10160: { name: "mac_os_x", family: "darwin", release: "10.16", arch: nil,
+                  version: { major: 10, minor: 16, patch: 0, build: nil } },
+    macos10157: { name: "mac_os_x", family: "darwin", release: "10.15.7", arch: "x86_64",
+                  version: { major: 10, minor: 15, patch: 7, build: nil } },
+    macos10_10: { name: "mac_os_x", family: "darwin", release: "10.10.4", arch: "x86_64",
+                  version: { major: 10, minor: 10, patch: 4, build: nil } },
+    macos10_16: { name: "mac_os_x", family: "darwin", release: "10.16", arch: nil,
+                  version: { major: 10, minor: 16, patch: 0, build: nil } },
+
+    # Debian Family
+    debian6: { name: "debian",    family: "debian", release: "6",          arch: "x86_64",
+               version: { major: 6,  minor: nil, patch: nil, build: nil } },
+    debian7: { name: "debian",    family: "debian", release: "7",          arch: "x86_64",
+               version: { major: 7,  minor: nil, patch: nil, build: nil } },
+    debian8: { name: "debian",    family: "debian", release: "8",          arch: "x86_64",
+               version: { major: 8,  minor: nil, patch: nil, build: nil } },
+    debian10: { name: "debian", family: "debian", release: "10", arch: "x86_64",
+                version: { major: 10, minor: nil, patch: nil, build: nil } },
+    mint17: { name: "linuxmint", family: "debian", release: "17.3", arch: "x86_64",
+              version: { major: 17, minor: 3, patch: nil, build: nil } },
+    mint18: { name: "linuxmint", family: "debian", release: "18", arch: "x86_64",
+              version: { major: 18, minor: nil, patch: nil, build: nil } },
+    ubuntu: { name: "ubuntu", family: "debian", release: "22.04", arch: "x86_64",
+              version: { major: 22, minor: 4, patch: nil, build: nil } },
+    ubuntu2204: { name: "ubuntu", family: "debian", release: "22.04", arch: "x86_64",
+                  version: { major: 22, minor: 4, patch: nil, build: nil } },
+    ubuntu1404: { name: "ubuntu", family: "debian", release: "14.04", arch: "x86_64",
+                  version: { major: 14, minor: 4, patch: nil, build: nil } },
+
+    # HP-UX
+    hpux: { name: "hpux", family: "hpux", release: "B.11.31", arch: "ia64",
+            version: { major: 11, minor: 31, patch: nil, build: nil } },
+
+    # RedHat Family
+    aliyun3: { name: "alibaba", family: "redhat", release: "3", arch: "x86_64",
+               version: { major: 3,    minor: nil,    patch: nil,    build: nil } },
+    coreos: { name: "coreos", family: "redhat", release: "38.20230806.3.0", arch: "x86_64",
+              version: { major: 38, minor: 20_230_806, patch: 3, build: 0 } },
+    amazon: { name: "amazon", family: "redhat", release: "2015.03", arch: "x86_64",
+              version: { major: 2015, minor: 3, patch: nil, build: nil } },
+    amazon2: { name: "amazon",     family: "redhat", release: "2",           arch: "x86_64",
+               version: { major: 2,    minor: nil,    patch: nil,    build: nil } },
+    centos5: { name: "centos",     family: "redhat", release: "5.11",        arch: "x86_64",
+               version: { major: 5,    minor: 11,   patch: nil,    build: nil } },
+    centos6: { name: "centos",     family: "redhat", release: "6.6",         arch: "x86_64",
+               version: { major: 6,    minor: 6,    patch: nil,    build: nil } },
+    centos7: { name: "centos",     family: "redhat", release: "7.1.1503",    arch: "x86_64",
+               version: { major: 7,    minor: 1,    patch: 1503, build: nil } },
+    centos8: { name: "centos",     family: "redhat", release: "8.0.1905",    arch: "x86_64",
+               version: { major: 8,    minor: 0,    patch: 1905, build: nil } },
+    cloudlinux: { name: "cloudlinux", family: "redhat", release: "7.4",         arch: "x86_64",
+                  version: { major: 7, minor: 4, patch: nil, build: nil } },
+    wrlinux: { name: "wrlinux", family: "redhat", release: "7.0(3)I2(2)", arch: "x86_64",
+               version: { major: 7,    minor: nil, patch: nil, build: nil } },
+
+    # Solaris Family
+    solaris10: { name: "solaris", family: "solaris", release: "10", arch: "i386",
+                 version: { major: 10, minor: nil, patch: nil, build: nil } },
+    solaris11: { name: "solaris", family: "solaris", release: "11", arch: "i386",
+                 version: { major: 11, minor: nil, patch: nil, build: nil } },
+    solaris: { name: "solaris", family: "solaris", release: "unknown", arch: "i386",
+               version: { major: nil, minor: nil, patch: nil, build: nil } },
+
+    # SUSE Family
+    suse15: { name: "suse", family: "suse", release: "15.4", arch: "x86_64",
+              version: { major: 15, minor: 4, patch: nil, build: nil } },
+    suse12: { name: "suse", family: "suse", release: "12.5", arch: "x86_64",
+              version: { major: 12, minor: 5, patch: nil, build: nil } },
+    opensuse: { name: "opensuse", family: "suse", release: "15.4", arch: "x86_64",
+                version: { major: 15, minor: 4, patch: nil, build: nil } },
+    leap: { name: "opensuse-leap", family: "suse", release: "15.4", arch: "x86_64",
+            version: { major: 15, minor: 4, patch: nil, build: nil } },
+    tumbleweed: { name: "opensuse-tumbleweed", family: "suse", release: "20230815", arch: "x86_64",
+                  version: { major: 20_230_815, minor: nil, patch: nil, build: nil } },
+
+    # Windows Family
+    windows: { name: "windows", family: "windows", release: "6.2.9200", arch: "x86_64",
+               version: { major: 6, minor: 2, patch: 9200, build: nil } },
+    windows2016: { name: "windows_server_2016_datacenter", family: "windows", release: "10.0.14393", arch: "x86_64",
+                   version: { major: 10, minor: 0, patch: 14_393, build: nil } },
+    windows2019: { name: "windows_server_2019_datacenter", family: "windows", release: "10.0.17763", arch: "x86_64",
+                   version: { major: 10, minor: 0, patch: 17_763, build: nil } },
+
+    # Yocto
+    yocto: { name: "yocto", family: "yocto", release: "0.0.1", arch: "aarch64",
+             version: { major: 0, minor: 0, patch: 1, build: nil } },
+
+    # Arch
+    arch: { name: "arch", family: "arch", release: nil, arch: nil,
+            version: { major: nil, minor: nil, patch: nil, build: nil } },
+
+    # Additional entries
+    undefined: { name: nil, family: nil, release: nil, arch: nil,
+                 version: { major: nil, minor: nil, patch: nil, build: nil } },
   }
 
   OPERATING_SYSTEMS[:linux] = OPERATING_SYSTEMS[:ubuntu]
