@@ -286,7 +286,8 @@ RSpec::Matchers.define :cmp do |first_expected| # rubocop:disable Metrics/BlockL
     # if actual and expected are strings
     if expected.is_a?(String) && actual.is_a?(String)
       return fuzzy_version_match?(actual, expected) if op == :== && @loose && version?(expected) && version?(actual)
-      return actual.casecmp(expected).zero? if op == :==
+      # rubocop:disable Style/NumericPredicate
+      return actual.casecmp(expected) == 0 if op == :==
       return Gem::Version.new(actual).send(op, Gem::Version.new(expected)) if
         version?(expected) && version?(actual)
     elsif expected.is_a?(Regexp) && (actual.is_a?(String) || actual.is_a?(Integer))

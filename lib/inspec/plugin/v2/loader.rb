@@ -213,7 +213,7 @@ module Inspec::Plugin::V2
         activation_request.full_spec.activate
         # TODO: If we are under Bundler, inform it that we loaded a gem
       end
-    rescue Gem::LoadError => e
+    rescue Gem::LoadError
       raise Inspec::Plugin::V2::LoadError, "Unable to resolve dependency: user requested '#{plugin_gem_name}'"
     end
 
