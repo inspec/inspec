@@ -1,11 +1,11 @@
-require 'inspec/resource'
-require 'rubygems/version'
-require 'logger'
+require "inspec/resource"
+require "rubygems/version"
+require "logger"
 
 module Inspec::Resources
   class PlatformResource < Inspec.resource(1)
-    name 'platform'
-    desc 'Use the platform InSpec resource to test the platform on which the system is running.'
+    name "platform"
+    desc "Use the platform InSpec resource to test the platform on which the system is running."
     example <<~EXAMPLE
       describe platform do
         its('name') { should eq 'redhat' }
@@ -75,8 +75,8 @@ module Inspec::Resources
         name: name,
         families: families,
         release: release,
-        arch: arch
-      }.tap { |h| h.delete(:arch) if in_family?('api') }
+        arch: arch,
+      }.tap { |h| h.delete(:arch) if in_family?("api") }
     end
 
     def supported?(supports, recursive: false)
@@ -107,15 +107,15 @@ module Inspec::Resources
     end
 
     def normalize(key)
-      key.to_s.tr('-', '_').to_sym
+      key.to_s.tr("-", "_").to_sym
     end
 
     def resource_id
-      platform.name || 'platform'
+      platform.name || "platform"
     end
 
     def to_s
-      'Platform Detection'
+      "Platform Detection"
     end
 
     private
@@ -124,10 +124,10 @@ module Inspec::Resources
       return false if name.nil?
 
       # allow wild card matching
-      if value.include?('*')
+      if value.include?("*")
         # Convert glob pattern to regex pattern
         pattern = value.gsub(/[.\-+]/) { |c| "\\#{c}" } # Escape special chars
-                       .gsub(/\*/, '.*?') # Convert * to .*?
+          .gsub(/\*/, ".*?") # Convert * to .*?
         # Create regex with case insensitive flag
         regex = Regexp.new("\\A#{pattern}\\z", Regexp::IGNORECASE)
 
@@ -143,8 +143,8 @@ module Inspec::Resources
 
     def check_release(value)
       # allow wild card matching
-      if value.include?('*')
-        cleaned = Regexp.escape(value).gsub('\*', '.*?')
+      if value.include?("*")
+        cleaned = Regexp.escape(value).gsub('\*', ".*?")
         release =~ /\A#{cleaned}\z/
       else
         release == value
