@@ -16,105 +16,31 @@ module Inspec::Resources
       end
     EXAMPLE
 
-    # rubocop:disable Style/Documentation
-    class Version
-      def initialize(version_string, build_version = nil)
-        @version = Gem::Version.new(version_string)
-        @build_version = build_version
-      end
-
-      def major
-        @version.segments[0]
-      end
-
-      def minor
-        @version.segments[1]
-      end
-
-      def patch
-        @version.segments[2]
-      end
-
-      def build
-        @build_version || (@version.segments.size > 3 ? @version.segments[3..-1].join('.') : nil)
-      end
-
-      def to_s
-        @version.to_s
-      end
-
-      def <=>(other)
-        other_version = convert_to_version(other)
-        @version <=> other_version
-      end
-
-      def eql?(other)
-        other_version = convert_to_version(other)
-        @version.eql?(other_version)
-      end
-
-      def ==(other)
-        other_version = convert_to_version(other)
-        @version == other_version
-      end
-
-      def ===(other)
-        other_version = convert_to_version(other)
-        @version === other_version
-      end
-
-      def <=(other)
-        other_version = convert_to_version(other)
-        @version <= other_version
-      end
-
-      def >=(other)
-        other_version = convert_to_version(other)
-        @version >= other_version
-      end
-
-      def <(other)
-        other_version = convert_to_version(other)
-        @version < other_version
-      end
-
-      def >(other)
-        other_version = convert_to_version(other)
-        @version > other_version
-      end
-
-      private
-
-      def convert_to_version(value)
-        Gem::Version.new(value.to_s)
-      end
-    end
-
     def initialize
-      super
       @platform = inspec.backend.platform
+      super
     end
 
     attr_reader :platform
 
     def family
-      platform.family
+      @platform.family
     end
 
     def release
-      platform.release
+      @platform.release
     end
 
     def arch
-      platform.arch
+      @platform.arch
     end
 
     def families
-      platform.family_hierarchy
+      @platform.family_hierarchy
     end
 
     def name
-      platform.name
+      @platform.name
     end
 
     def [](key)
@@ -135,16 +61,12 @@ module Inspec::Resources
     end
 
     def platform?(name)
-      platform.name == name ||
-        platform.family_hierarchy.include?(name)
+      @platform.name == name ||
+        @platform.family_hierarchy.include?(name)
     end
 
     def in_family?(family)
-      platform.family_hierarchy.include?(family)
-    end
-
-    def version
-      Version.new(release)
+      @platform.family_hierarchy.include?(family)
     end
 
     # rubocop:disable Style/HashSyntax
@@ -153,25 +75,22 @@ module Inspec::Resources
         name: name,
         families: families,
         release: release,
-        arch: arch,
-        version: {
-          major: version.major,
-          minor: version.minor,
-          patch: version.patch,
-          build: version.build
-        }
+        arch: arch
       }.tap { |h| h.delete(:arch) if in_family?('api') }
     end
 
-    def supported?(supports)
-      raise ArgumentError, '`supports` is nil.' unless supports
+    def supported?(supports, recursive: false)
+      return true if supports.nil? || supports.empty?
 
       # Handle string input by converting to array of platform hash
       supports = [{ platform: supports }] if supports.is_a?(String)
 
       supports.any? do |support|
+        next false unless support.is_a?(Hash)
+
         support.all? do |k, v|
-          case normalize(k)
+          key = normalize(k)
+          case key
           when :os_family, :platform_family
             in_family?(v)
           when :os, :platform
@@ -180,12 +99,13 @@ module Inspec::Resources
             check_name(v)
           when :release
             check_release(v)
+          else
+            false
           end
         end
-      end || supports.empty?
+      end
     end
 
-    # TODO: dumb... push this up or remove need
     def normalize(key)
       key.to_s.tr('-', '_').to_sym
     end
@@ -212,12 +132,12 @@ module Inspec::Resources
         regex = Regexp.new("\\A#{pattern}\\z", Regexp::IGNORECASE)
 
         # Check against both name and platform.name
-        [name, platform.name].compact.any? do |n|
+        [name, @platform.name].compact.any? do |n|
           n =~ regex
         end
       else
         # Case-insensitive exact match
-        name.casecmp?(value) || (platform.name && platform.name.casecmp?(value))
+        name.casecmp?(value) || (@platform.name && @platform.name.casecmp?(value))
       end
     end
 
