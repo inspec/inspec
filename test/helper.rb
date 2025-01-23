@@ -87,7 +87,7 @@ end
 # a_group => :tolerate # No opinion
 # all => ... # Any of the 5 values above
 # all_others => ... # Any of the 5 values above
-def handle_deprecations(opts_in)
+def handle_deprecations(opts_in, &_block)
   opts = opts_in.dup
 
   # Determine the default expectation
