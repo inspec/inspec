@@ -40,7 +40,7 @@ module Inspec::Resources
     end
 
     def version
-      Version.new(release, platform_specific_info(@platform, "build"))
+      Version.new(release)
     end
 
     def params
@@ -53,7 +53,7 @@ module Inspec::Resources
           major: version.major,
           minor: version.minor,
           patch: version.patch,
-          build: version.build,
+          build: platform_specific_info(@platform, "build") || version.build,
         },
       }.tap { |h| h.delete(:arch) if in_family?("api") }
     end
@@ -62,9 +62,8 @@ module Inspec::Resources
 
     # rubocop:disable Style/Documentation
     class Version
-      def initialize(version_string, build_version = nil)
+      def initialize(version_string)
         @version = Gem::Version.new(version_string)
-        @build_version = build_version
       end
 
       def major
@@ -80,7 +79,7 @@ module Inspec::Resources
       end
 
       def build
-        @build_version || (@version.segments.size > 3 ? @version.segments[3..-1].join(".") : nil)
+        @version.segments.size > 3 ? @version.segments[3..-1].join(".") : nil
       end
 
       def to_s
@@ -145,9 +144,10 @@ module Inspec::Resources
       }
     end
 
+    # NOTE: This generally should be a PR to train but this gives us some flexibility
     def platform_specific_info(platform, type)
-      case platform.family_hierarchy.first
-      when "darwin"
+      case platform.name
+      when "mac_os_x", "darwin"  # Explicitly list supported platform names
         case type
         when "release"
           inspec.command("sw_vers -productVersion").stdout.strip
