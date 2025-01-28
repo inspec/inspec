@@ -38,3 +38,6 @@ terraform.tfstate*
 terraform.tfstate.backup
 terraform.tfvars
 test/**/*.lock
+# Ignore specific .chef and .inspec directories in test/fixtures
+/test/fixtures/**/.chef/
+/test/fixtures/**/.inspec/
