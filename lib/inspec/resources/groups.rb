@@ -200,7 +200,38 @@ module Inspec::Resources
   # implements generic unix groups via /etc/group
   class UnixGroup < GroupInfo
     def groups
-      inspec.etc_group.entries
+      get_group_info
+    end
+
+    private
+
+    def get_group_info
+      # check if getent is available on the system
+      bin = find_getent_utility
+
+      # fetch details of the groups using getent
+      cmd = inspec.command("#{bin} group")
+      raise Inspec::Exceptions::ResourceFailed, "Executing #{bin} group failed: #{cmd.stderr}" if cmd.exit_status.to_i != 0
+
+      # Split the output into lines and map each line to a hash
+      cmd.stdout.strip.split("\n").map do |line|
+        name, password, gid, members = line.split(":")
+        {
+          "name" => name,
+          "password" => password,
+          "gid" => gid.to_i, # Convert gid to an integer
+          "members" => members,
+        }
+      end
+    end
+
+    # check if getent exist in the system
+    def find_getent_utility
+      %w{/usr/bin/getent /bin/getent getent}.each do |cmd|
+        return cmd if inspec.command(cmd).exist?
+      end
+
+      raise Inspec::Exceptions::ResourceFailed, "Could not find `getent` on your system."
     end
   end
 
