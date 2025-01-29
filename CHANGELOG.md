@@ -1,11 +1,7 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.8.24 -->
-## [v6.8.24](https://github.com/inspec/inspec/tree/v6.8.24) (2025-01-23)
-
-#### Merged Pull Requests
-- Revert &quot;CHEF-18596 Fix code scanning alert no. 62: Request without certificate validation&quot; [#7280](https://github.com/inspec/inspec/pull/7280) ([Nik08](https://github.com/Nik08))
+<!-- latest_release -->
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -34,26 +30,28 @@
 #### Merged Pull Requests
 - Bump omnibus-software from `4b08f0b` to `3268356` in /omnibus [#6587](https://github.com/inspec/inspec/pull/6587) ([dependabot[bot]](https://github.com/dependabot[bot]))
 
-<!-- release_rollup since=6.8.11 -->
-### Changes since 6.8.11 release
-
-#### Merged Pull Requests
-- Revert &quot;CHEF-18596 Fix code scanning alert no. 62: Request without certificate validation&quot; [#7280](https://github.com/inspec/inspec/pull/7280) ([Nik08](https://github.com/Nik08)) <!-- 6.8.24 -->
-- CHEF-16676-Bug fix for spl character password [#7277](https://github.com/inspec/inspec/pull/7277) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 6.8.23 -->
-- CHEF-18596 Fix code scanning alert no. 62: Request without certificate validation [#7260](https://github.com/inspec/inspec/pull/7260) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.8.22 -->
-- CHEF-18596 Fix code scanning alert no. 63: Use of a broken or weak cryptographic hashing algorithm on sensitive data [#7261](https://github.com/inspec/inspec/pull/7261) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.8.21 -->
-- To Fix OpenSSL 3.2.0 gem issue [#7267](https://github.com/inspec/inspec/pull/7267) ([poorndm](https://github.com/poorndm)) <!-- 6.8.20 -->
-- Bump rexml from 3.3.3 to 3.3.9 in /omnibus [#7199](https://github.com/inspec/inspec/pull/7199) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.8.19 -->
-- Bump ffi from 1.17.0 to 1.17.1 in /omnibus [#7251](https://github.com/inspec/inspec/pull/7251) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.8.18 -->
-- Improvements in error handling of plugin installation error [#7161](https://github.com/inspec/inspec/pull/7161) ([Nik08](https://github.com/Nik08)) <!-- 6.8.17 -->
-- CHEF-16823: Introduce deprecation warning for core resources moving to resource packs in InSpec 7 [#7219](https://github.com/inspec/inspec/pull/7219) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.16 -->
-- CHEF-12173: Update regular expression to fix warnings detected by CodeQL [#7222](https://github.com/inspec/inspec/pull/7222) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.15 -->
-- CHEF-11226: Upgrade Ruby and Ruby Dev Kit to 3.1.6 due to outdated embedded Perl version in 3.1.2 [#7174](https://github.com/inspec/inspec/pull/7174) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.14 -->
-- CHEF-15651: Introduce `--legacy` flag for compatibility in `inspec automate upload` with legacy checks and export options [#7200](https://github.com/inspec/inspec/pull/7200) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.13 -->
-- Fix license server URL override issue by prioritizing environment-set value [#7203](https://github.com/inspec/inspec/pull/7203) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.12 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v6.8.24](https://github.com/inspec/inspec/tree/v6.8.24) (2025-01-29)
+
+#### Merged Pull Requests
+- Fix license server URL override issue by prioritizing environment-set value [#7203](https://github.com/inspec/inspec/pull/7203) ([ahasunos](https://github.com/ahasunos))
+- CHEF-15651: Introduce `--legacy` flag for compatibility in `inspec automate upload` with legacy checks and export options [#7200](https://github.com/inspec/inspec/pull/7200) ([ahasunos](https://github.com/ahasunos))
+- CHEF-11226: Upgrade Ruby and Ruby Dev Kit to 3.1.6 due to outdated embedded Perl version in 3.1.2 [#7174](https://github.com/inspec/inspec/pull/7174) ([ahasunos](https://github.com/ahasunos))
+- CHEF-12173: Update regular expression to fix warnings detected by CodeQL [#7222](https://github.com/inspec/inspec/pull/7222) ([ahasunos](https://github.com/ahasunos))
+- CHEF-16823: Introduce deprecation warning for core resources moving to resource packs in InSpec 7 [#7219](https://github.com/inspec/inspec/pull/7219) ([ahasunos](https://github.com/ahasunos))
+- Improvements in error handling of plugin installation error [#7161](https://github.com/inspec/inspec/pull/7161) ([Nik08](https://github.com/Nik08))
+- Bump ffi from 1.17.0 to 1.17.1 in /omnibus [#7251](https://github.com/inspec/inspec/pull/7251) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump rexml from 3.3.3 to 3.3.9 in /omnibus [#7199](https://github.com/inspec/inspec/pull/7199) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- To Fix OpenSSL 3.2.0 gem issue [#7267](https://github.com/inspec/inspec/pull/7267) ([poorndm](https://github.com/poorndm))
+- CHEF-18596 Fix code scanning alert no. 63: Use of a broken or weak cryptographic hashing algorithm on sensitive data [#7261](https://github.com/inspec/inspec/pull/7261) ([sathish-progress](https://github.com/sathish-progress))
+- CHEF-18596 Fix code scanning alert no. 62: Request without certificate validation [#7260](https://github.com/inspec/inspec/pull/7260) ([sathish-progress](https://github.com/sathish-progress))
+- CHEF-16676-Bug fix for spl character password [#7277](https://github.com/inspec/inspec/pull/7277) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Revert &quot;CHEF-18596 Fix code scanning alert no. 62: Request without certificate validation&quot; [#7280](https://github.com/inspec/inspec/pull/7280) ([Nik08](https://github.com/Nik08))
+<!-- latest_stable_release -->
+
 ## [v6.8.11](https://github.com/inspec/inspec/tree/v6.8.11) (2024-11-06)
 
 #### Merged Pull Requests
@@ -73,7 +71,6 @@
 - Improved regex to load readme from inspec profiles [#7198](https://github.com/inspec/inspec/pull/7198) ([Nik08](https://github.com/Nik08))
 - chore: disable habitat package promotion in config [#7197](https://github.com/inspec/inspec/pull/7197) ([ahasunos](https://github.com/ahasunos))
 - CHEF-12879 Test kitchen integration with InSpec 6 [#7168](https://github.com/inspec/inspec/pull/7168) ([Nik08](https://github.com/Nik08))
-<!-- latest_stable_release -->
 
 ## [v6.8.1](https://github.com/inspec/inspec/tree/v6.8.1) (2024-07-31)
 
