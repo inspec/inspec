@@ -334,6 +334,7 @@ class MockLoader
       "chage -l root" => cmd.call("chage-l-root"),
       "cat ~/.ssh/authorized_keys" => cmd.call("authorized-keys-mock"),
       %{sh -c 'type "getent"'} => empty.call,
+      %{type "getent"} => empty.call,
       "getent shadow root" => cmd.call("getent-shadow-mock"),
       # user information for ldap test
       "id jfolmer" => cmd.call("id-jfolmer"),
