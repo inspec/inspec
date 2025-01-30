@@ -206,32 +206,53 @@ module Inspec::Resources
     private
 
     def get_group_info
-      # check if getent is available on the system
+      # First, try to fetch group info using getent
+      group_info = fetch_group_info_using_getent
+
+      return group_info unless group_info.empty?
+
+      # If getent fails, fallback to reading group info from /etc/group using inspec.etc_group.entries
+      Inspec::Log.debug("Falling back to reading group info from /etc/group as getent is unavailable or failed.")
+      inspec.etc_group.entries
+    end
+
+    # Fetches group information using the getent utility
+    def fetch_group_info_using_getent
+      # Find getent utility on the system
       bin = find_getent_utility
 
-      # fetch details of the groups using getent
-      cmd = inspec.command("#{bin} group")
-      raise Inspec::Exceptions::ResourceFailed, "Executing #{bin} group failed: #{cmd.stderr}" if cmd.exit_status.to_i != 0
+      # If getent is available, fetch group info
+      return [] unless bin
 
-      # Split the output into lines and map each line to a hash
+      cmd = inspec.command("#{bin} group")
+      return parse_group_info(cmd) if cmd.exit_status.to_i == 0
+
+      # If getent fails, log the error and return an empty array
+      Inspec::Log.debug("Failed to execute #{bin} group: #{cmd.stderr}.")
+      []
+    end
+
+    # Parses group info from the command output
+    def parse_group_info(cmd)
       cmd.stdout.strip.split("\n").map do |line|
         name, password, gid, members = line.split(":")
         {
           "name" => name,
           "password" => password,
-          "gid" => gid.to_i, # Convert gid to an integer
+          "gid" => gid.to_i,
           "members" => members,
         }
       end
     end
 
-    # check if getent exist in the system
+    # Checks if getent exists on the system
     def find_getent_utility
       %w{/usr/bin/getent /bin/getent getent}.each do |cmd|
         return cmd if inspec.command(cmd).exist?
       end
-
-      raise Inspec::Exceptions::ResourceFailed, "Could not find `getent` on your system."
+      # Log debug information if getent is not found
+      Inspec::Log.debug("Could not find `getent` on your system.")
+      nil # Return nil if getent is not found
     end
   end
 
