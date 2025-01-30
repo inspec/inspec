@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.29 -->
-## [v7.0.29](https://github.com/inspec/inspec/tree/v7.0.29) (2025-01-22)
+<!-- latest_release 7.0.30 -->
+## [v7.0.30](https://github.com/inspec/inspec/tree/v7.0.30) (2025-01-30)
 
 #### Merged Pull Requests
-- CHEF-14322 private rubygem server integ [#7275](https://github.com/inspec/inspec/pull/7275) ([sathish-progress](https://github.com/sathish-progress))
+- Updating Faraday support to match Chef Infra [#7286](https://github.com/inspec/inspec/pull/7286) ([johnmccrae](https://github.com/johnmccrae))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- Updating Faraday support to match Chef Infra [#7286](https://github.com/inspec/inspec/pull/7286) ([johnmccrae](https://github.com/johnmccrae)) <!-- 7.0.30 -->
 - CHEF-14322 private rubygem server integ [#7275](https://github.com/inspec/inspec/pull/7275) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.29 -->
 - CHEF-14368 Expeditor workflow changes for LTS Hab packages [#7253](https://github.com/inspec/inspec/pull/7253) ([Nik08](https://github.com/Nik08)) <!-- 7.0.28 -->
 - chore: remove mongo dependency from gemspec as it is moved to mongodb resource pack [#7273](https://github.com/inspec/inspec/pull/7273) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.27 -->
