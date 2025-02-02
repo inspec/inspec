@@ -28,6 +28,7 @@ module Inspec::Resources
     name 'random_number_generator'
     supports platform: 'unix'
     # TODO: Add support for Windows RNG through testing
+    # The Windows RNG implementation is untested and may not work as expected.
     # supports platform: 'windows'
 
     desc 'Tests the presence and status of a random number generator.'
@@ -47,6 +48,7 @@ module Inspec::Resources
          its('entropy_available') { should be > 1000 }
        end
 
+       # Windows support has not been fully tested or implemented yet
        if os.windows?
          describe random_number_generator do
            it { should be_software }
