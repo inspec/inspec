@@ -128,6 +128,7 @@ require "inspec/resources/zfs_dataset"
 require "inspec/resources/zfs_pool"
 require "inspec/resources/ipnat"
 require "inspec/resources/ipfilter"
+require "inspec/resources/random_number_generator"
 # file formats, depend on json implementation
 require "inspec/resources/json"
 require "inspec/resources/yaml"
