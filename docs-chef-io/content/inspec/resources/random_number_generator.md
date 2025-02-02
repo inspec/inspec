@@ -40,12 +40,6 @@ A `random_number_generator` resource block declares the resource and then one (o
     end
 ```
 
-> Where
->
-> - `it { should exist }` tests if the Random Number Generator exists.
-> - `it { should be_available }` tests if the Random Number Generator is available.
-> - `type`, `sources`, `entropy_available`, `cprng_status`, `cng_properties`, `has_sources`, `has_service_running`, and `has_support_services` are valid matchers for this resource.
-
 ## Properties
 
 ### type
@@ -223,7 +217,7 @@ These services are available across various distributions and can be checked usi
 
 ### be_hardware
 
-The `be_hardware` matcher tests if the Random Number Generator type is hardware:
+The `be_hardware` matcher tests if the Random Number Generator type is hardware based - either via the CPU or other system peripherals:
 
 ```ruby
     it { should be_hardware }
