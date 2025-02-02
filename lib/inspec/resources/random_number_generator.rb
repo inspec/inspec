@@ -368,6 +368,7 @@ module Inspec::Resources
   end
 
   # --- Windows Implementation ---
+  # TODO: Add support for Windows RNG through testing
   class WindowsRNG < RNGInfo
     def initialize(inspec)
       super(inspec)
