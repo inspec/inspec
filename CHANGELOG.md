@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.8.25 -->
-## [v6.8.25](https://github.com/inspec/inspec/tree/v6.8.25) (2025-02-03)
+<!-- latest_release 6.8.26 -->
+## [v6.8.26](https://github.com/inspec/inspec/tree/v6.8.26) (2025-02-03)
 
 #### Merged Pull Requests
-- Fix bad links in docs [#7287](https://github.com/inspec/inspec/pull/7287) ([IanMadd](https://github.com/IanMadd))
+- CHEF-15083: Update groups resource to use `getent` utility to fetch groups info [#7284](https://github.com/inspec/inspec/pull/7284) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- CHEF-15083: Update groups resource to use `getent` utility to fetch groups info [#7284](https://github.com/inspec/inspec/pull/7284) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.26 -->
 - Fix bad links in docs [#7287](https://github.com/inspec/inspec/pull/7287) ([IanMadd](https://github.com/IanMadd)) <!-- 6.8.25 -->
 <!-- release_rollup -->
 
