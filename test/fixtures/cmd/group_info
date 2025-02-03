@@ -1,0 +1,4 @@
+root:x:0:
+www-data:x:33:www-data,root
+GroupWithCaps:x:999:
+sftpusers:x:1000:sftponly
