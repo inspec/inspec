@@ -1,7 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release -->
+<!-- latest_release 6.8.25 -->
+## [v6.8.25](https://github.com/inspec/inspec/tree/v6.8.25) (2025-02-03)
+
+#### Merged Pull Requests
+- Fix bad links in docs [#7287](https://github.com/inspec/inspec/pull/7287) ([IanMadd](https://github.com/IanMadd))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -30,7 +34,11 @@
 #### Merged Pull Requests
 - Bump omnibus-software from `4b08f0b` to `3268356` in /omnibus [#6587](https://github.com/inspec/inspec/pull/6587) ([dependabot[bot]](https://github.com/dependabot[bot]))
 
-<!-- release_rollup -->
+<!-- release_rollup since=6.8.24 -->
+### Changes since 6.8.24 release
+
+#### Merged Pull Requests
+- Fix bad links in docs [#7287](https://github.com/inspec/inspec/pull/7287) ([IanMadd](https://github.com/IanMadd)) <!-- 6.8.25 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
