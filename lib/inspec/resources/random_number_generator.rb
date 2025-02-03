@@ -131,7 +131,7 @@ module Inspec::Resources
     end
 
     def to_s
-      "Random Number Generator (Type: #{type}, Sources: #{sources.join(', ')})"
+      "Random Number Generator (#{type})"
     end
 
     private
@@ -163,25 +163,24 @@ module Inspec::Resources
     end
 
     def rng_info
-      @rng_info ||= construct_rng_info(fetch_rng_info)
+      @rng_info ||= fetch_rng_info
     end
 
     protected
 
-    # Refactor construct_rng_info to accept a single hash argument
-    def construct_rng_info(info)
+    # Each platform implementation should return info in this format directly
+    def default_rng_info
       {
-        exists: info[:exists],
-        available: info[:available],
-        type: info[:rng_type],
-        sources: info[:rng_sources],
-        active_rng: info[:active_rng],
-        rng_available: info[:rng_sources],
-        entropy_available: info[:entropy_available],
-        service_running: info[:rng_service_running],
-        support_services: info[:rng_support_services],
-        cprng_status: info[:cprng_status],
-        cng_properties: info[:cng_properties]
+        exists: false,
+        available: false,
+        type: 'unknown',
+        sources: [],
+        active_rng: nil,
+        entropy_available: nil,
+        service_running: nil,
+        support_services: [],
+        cprng_status: nil,
+        cng_properties: nil
       }
     end
   end
@@ -240,12 +239,12 @@ module Inspec::Resources
       {
         exists: !rng_sources.empty?,
         available: !entropy_available.nil? && entropy_available > 0,
-        rng_type: rng_type,
-        rng_sources: rng_sources,
+        type: rng_type, # NOTE: removed rng_ prefix
+        sources: rng_sources, # NOTE: removed rng_ prefix
         active_rng: active_rng,
         entropy_available: entropy_available,
-        rng_service_running: rngd_running || haveged_running || jitterentropy_running,
-        rng_support_services: support_services
+        service_running: rngd_running || haveged_running || jitterentropy_running,
+        support_services: support_services
       }
     end
 
@@ -315,12 +314,12 @@ module Inspec::Resources
       {
         exists: !rng_sources.empty?,
         available: !rng_sources.empty?,
-        rng_type: rng_type,
-        rng_sources: rng_sources,
+        type: rng_type, # NOTE: removed rng_ prefix
+        sources: rng_sources, # NOTE: removed rng_ prefix
         active_rng: active_rng,
         entropy_available: nil,
-        rng_service_running: yarrow_loaded,
-        rng_support_services: []
+        service_running: yarrow_loaded,
+        support_services: []
       }
     end
   end
@@ -356,12 +355,12 @@ module Inspec::Resources
       {
         exists: !rng_sources.empty?,
         available: !rng_sources.empty?,
-        rng_type: rng_type,
-        rng_sources: rng_sources,
+        type: rng_type, # NOTE: removed rng_ prefix
+        sources: rng_sources, # NOTE: removed rng_ prefix
         active_rng: active_rng,
         entropy_available: nil,
-        rng_service_running: true, # macOS RNG is always running
-        rng_support_services: [],
+        service_running: true, # macOS RNG is always running
+        support_services: [],
         cprng_status: cprng_status
       }
     end
@@ -435,12 +434,12 @@ module Inspec::Resources
         {
           exists: !rng_sources.empty?,
           available: !rng_sources.empty?,
-          rng_type: rng_type,
-          rng_sources: rng_sources,
+          type: rng_type, # NOTE: removed rng_ prefix
+          sources: rng_sources, # NOTE: removed rng_ prefix
           active_rng: active_rng,
           entropy_available: nil,
-          rng_service_running: true, # Windows RNG services are built-in
-          rng_support_services: ['CryptoSvc'],
+          service_running: true, # Windows RNG services are built-in
+          support_services: ['CryptoSvc'],
           cng_properties: cng_properties
         }
       rescue StandardError
@@ -455,12 +454,12 @@ module Inspec::Resources
       {
         exists: false,
         available: false,
-        rng_type: 'unknown',
-        rng_sources: [],
+        type: 'unknown',
+        sources: [],
         active_rng: nil,
         entropy_available: nil,
-        rng_service_running: nil,
-        rng_support_services: []
+        service_running: nil,
+        support_services: []
       }
     end
   end
@@ -491,51 +490,59 @@ module Inspec::Resources
       {
         exists: random_exists,
         available: random_exists,
-        rng_type: rng_type,
-        rng_sources: rng_sources,
+        type: rng_type, # NOTE: removed rng_ prefix
+        sources: rng_sources, # NOTE: removed rng_ prefix
         active_rng: active_rng,
         entropy_available: nil,
-        rng_service_running: nil,
-        rng_support_services: [],
+        service_running: nil,
+        support_services: [],
         dmesg_output: dmesg_output
       }
     end
   end
 
   # Custom RSpec Matchers
+  RSpec::Matchers.define :exist do
+    match(&:exist?)
+  end
+
+  RSpec::Matchers.define :be_available do
+    match(&:available?)
+  end
+
   RSpec::Matchers.define :be_hardware do
-    match do |rng|
-      rng.is_hardware?
-    end
+    match(&:is_hardware?)
   end
 
   RSpec::Matchers.define :be_software do
-    match do |rng|
-      rng.is_software?
-    end
+    match(&:is_software?)
   end
 
   RSpec::Matchers.define :be_cprng do
-    match do |rng|
-      rng.is_cprng?
-    end
+    match(&:is_cprng?)
   end
 
   RSpec::Matchers.define :have_sources do
-    match do |rng|
-      rng.has_sources?
+    match(&:has_sources?)
+
+    failure_message do |rng|
+      "expected RNG to have sources, but found #{rng.sources.inspect}"
     end
   end
 
-  RSpec::Matchers.define :have_running_service do
-    match do |rng|
-      rng.has_service_running?
+  RSpec::Matchers.define :have_service_running do
+    match(&:has_service_running?)
+
+    failure_message do |rng|
+      "expected RNG service to be running, but service status is #{rng.service_running.inspect}"
     end
   end
 
   RSpec::Matchers.define :have_support_services do
-    match do |rng|
-      rng.has_support_services?
+    match(&:has_support_services?)
+
+    failure_message do |rng|
+      "expected RNG to have support services, but found #{rng.support_services.inspect}"
     end
   end
 end
