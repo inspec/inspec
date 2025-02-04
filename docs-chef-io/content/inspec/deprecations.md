@@ -17,27 +17,27 @@ InSpec 7 introduces several changes to the core resources. Some core resources h
 ## Deprecated core resources
 The list of deprecated core resources in InSpec 7 are:
 
-1. docker_container
-2. docker_image
-3. docker_plugin
-4. docker_service
-5. elasticsearch
-6. ibmdb2_conf
-7. ibmdb2_session
-8. mongodb
-9. mongodb_conf
-10. mongodb_session
-11. podman
-12. podman_container
-13. podman_image
-14. podman_network
-15. podman_pod
-16. podman_volume
-17. rabbitmq_config
-18. ssh_config
-19. ssh_key
-20. sybase_conf
-21. sybase_session
+- docker_container
+- docker_image
+- docker_plugin
+- docker_service
+- elasticsearch
+- ibmdb2_conf
+- ibmdb2_session
+- mongodb
+- mongodb_conf
+- mongodb_session
+- podman
+- podman_container
+- podman_image
+- podman_network
+- podman_pod
+- podman_volume
+- rabbitmq_config
+- ssh_config
+- ssh_key
+- sybase_conf
+- sybase_session
 
 ## Accessing deprecated resources
 Include the appropriate resource packs in your InSpec profiles to continue using the deprecated resources. Resource packs (collection of resources) can also extend the functionality of your profiles.Resource packs are collections of resources that can be included in your profiles to extend their functionality.
