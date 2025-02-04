@@ -5,15 +5,15 @@
 # Do not add any other code to this code block. Simplecov
 # only until the next code block:
 
-if ENV["CI_ENABLE_COVERAGE"]
-  require "simplecov/no_defaults"
-  require "helpers/simplecov_minitest"
+if ENV['CI_ENABLE_COVERAGE']
+  require 'simplecov/no_defaults'
+  require 'helpers/simplecov_minitest'
 
   SimpleCov.start do
-    add_filter "/test/"
-    add_group "Resources", ["lib/resources", "lib/inspec/resources"]
-    add_group "Matchers", ["lib/matchers", "lib/inspec/matchers"]
-    add_group "Backends", "lib/inspec/backend"
+    add_filter '/test/'
+    add_group 'Resources', ['lib/resources', 'lib/inspec/resources']
+    add_group 'Matchers', ['lib/matchers', 'lib/inspec/matchers']
+    add_group 'Backends', 'lib/inspec/backend'
   end
 end
 
@@ -46,9 +46,9 @@ end
 # test count and vast differences in test time (which should have been
 # a clue that something was up--windows is just NOT THAT FAST).
 
-require "minitest/autorun"
+require 'minitest/autorun'
 
-require "rspec/core/dsl"
+require 'rspec/core/dsl'
 module RSpec::Core::DSL
   class << self
     alias expose_globally! expose_globally! # alias prevents duplicate warning
@@ -59,17 +59,17 @@ module RSpec::Core::DSL
   end
   # rubocop:enable Lint/DuplicateMethods
 end
-require "rspec"
+require 'rspec'
 
 # End of rspec vs minitest fight
 ########################################################################
 
-require "webmock/minitest"
-require "mocha/minitest"
-require "inspec/log"
-require "inspec/backend"
-require_relative "helpers/mock_loader"
-require_relative "helpers/resources"
+require 'webmock/minitest'
+require 'mocha/minitest'
+require 'inspec/log'
+require 'inspec/backend'
+require_relative 'helpers/mock_loader'
+require_relative 'helpers/resources'
 
 TMP_CACHE = {} # rubocop: disable Style/MutableConstant
 
@@ -140,52 +140,52 @@ def expect_deprecation(group, &block)
 end
 
 def darwin?
-  !!(RbConfig::CONFIG["host_os"] =~ /darwin/)
+  !!(RbConfig::CONFIG['host_os'] =~ /darwin/)
 end
 
 module RNGInfoHelper
   RNG_INFO = {
     linux: {
-      exist: true,       # Changed from exists to exist
+      exists: true,       # Changed from exist
       available: true,
-      type: "hardware",
-      sources: ["/dev/random", "/dev/urandom", "/dev/hwrng"],
-      active: "/dev/hwrng",
+      type: 'hardware',
+      sources: ['/dev/random', '/dev/urandom', '/dev/hwrng'],
+      active: '/dev/hwrng',
       entropy: 2000,
       running: true,
-      services: %w{rngd haveged jitterentropy},
+      services: %w[rngd haveged jitterentropy],
       csprng_status: nil,
-      cng_properties: nil,
+      cng_properties: nil
     },
     darwin: {
-      exist: true,       # Changed from exists to exist
+      exists: true,       # Changed from exist
       available: true,
-      type: "csprng",
-      sources: ["/dev/random"],
-      active: "/dev/random",
+      type: 'csprng',
+      sources: ['/dev/random'],
+      active: '/dev/random',
       entropy: nil,
       running: true,
       services: [],
       csprng_status: {
-        system: "macOS 14.3",
-        architecture: "Apple Silicon",
-        kernel: "24.3.0",
-        random_subsystem: "Not exposed via sysctl",
+        system: 'macOS 14.3',
+        architecture: 'Apple Silicon',
+        kernel: '24.3.0',
+        random_subsystem: 'Not exposed via sysctl'
       },
-      cng_properties: nil,
+      cng_properties: nil
     },
     windows: {
-      exist: true,       # Changed from exists to exist
+      exists: true,       # Changed from exist
       available: true,
-      type: "hardware",
-      sources: %w{CryptoAPI TPM RDRAND},
-      active: "TPM",
+      type: 'hardware',
+      sources: %w[CryptoAPI TPM RDRAND],
+      active: 'TPM',
       entropy: nil,
       running: true,
-      services: ["CryptoSvc"],
+      services: ['CryptoSvc'],
       csprng_status: nil,
-      cng_properties: "Microsoft Primitive Provider",
-    },
+      cng_properties: 'Microsoft Primitive Provider'
+    }
   }.freeze
 end
 
@@ -200,17 +200,17 @@ class Minitest::Test
   # These tests are being worked on. These are github issues for them.
   # Related: https://github.com/inspec/inspec/pull/5063
   def skip_windows!
-    skip "These have never passed" if windows?
+    skip 'These have never passed' if windows?
   end
 
   def unmock(&blk)
     # eg: resource = unmock { group "staff" }
-    require "inspec/fetcher/mock"
-    require "inspec/runner"
+    require 'inspec/fetcher/mock'
+    require 'inspec/runner'
 
     # TODO: there is WAY too much magic going on in here
     runner = Inspec::Runner.new
-    runner.add_target("inspec.yml" => "name: inspec-shell")
+    runner.add_target('inspec.yml' => 'name: inspec-shell')
     profile = runner.target_profiles.first
     ctx = profile.runner_context
 

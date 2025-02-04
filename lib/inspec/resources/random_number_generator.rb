@@ -36,7 +36,7 @@ module Inspec::Resources
     example <<~EXAMPLE
       # General usage
       describe random_number_generator do
-        it { should exist }
+        it { should exists }
         it { should be_available }
         # Only test for hardware if not macOS
         it { should be_hardware } unless os[:family] == 'darwin'
@@ -94,6 +94,15 @@ module Inspec::Resources
       Inspec::Log.debug "RNG info: #{@rng_info}"
     end
 
+    def exists? # Define the method first
+      Inspec::Log.debug 'Checking if RNG exists'
+      @rng_info.exists
+    end
+
+    def exist? # Then add the alias
+      exists?
+    end
+
     %w[
       type sources active entropy running services csprng_status cng_properties # Changed from cprng_status
       has_sources? has_running? has_services?
@@ -113,11 +122,7 @@ module Inspec::Resources
     alias support_services services
     alias has_service_running? has_running?
     alias has_support_services? has_services?
-
-    def exist?
-      Inspec::Log.debug 'Checking if RNG exist'
-      @rng_info.exist
-    end
+    alias exist? exists? # Add alias for backward compatibility
 
     def available?
       Inspec::Log.debug 'Checking if RNG is available'
@@ -217,7 +222,7 @@ module Inspec::Resources
 
     def default_info
       {
-        exist: false,
+        exists: false, # Changed from exist
         available: false,
         type: 'unknown',
         sources: [],
@@ -298,7 +303,7 @@ module Inspec::Resources
       services << 'jitterentropy' if jitterentropy_running
 
       {
-        exist: !sources.empty?,
+        exists: !sources.empty?,
         available: !entropy.nil? && entropy > 0,
         type: type,
         sources: sources,
@@ -346,7 +351,7 @@ module Inspec::Resources
              end
 
       {
-        exist: !sources.empty?,
+        exists: !sources.empty?,
         available: !sources.empty?,
         type: type,
         sources: sources,
@@ -391,7 +396,7 @@ module Inspec::Resources
 
       # Don't convert to JSON string, keep as hash
       {
-        exist: random_exist,
+        exists: random_exist,
         available: random_exist,
         type: 'csprng',
         sources: sources, # Now sources is properly defined
@@ -473,7 +478,7 @@ module Inspec::Resources
         cng_properties = inspec.powershell('Get-CNGProperty -ProviderName Microsoft Primitive Provider').stdout
 
         {
-          exist: !sources.empty?,
+          exists: !sources.empty?,
           available: !sources.empty?,
           type: type,
           sources: sources,
@@ -492,7 +497,7 @@ module Inspec::Resources
     def default_info
       Inspec::Log.debug 'Returning default RNG info for Windows'
       {
-        exist: false,
+        exists: false,
         available: false,
         type: 'unknown',
         sources: [],
@@ -538,7 +543,7 @@ module Inspec::Resources
       type = dmesg_output.empty? ? 'unknown' : 'hardware'
 
       {
-        exist: random_exist,
+        exists: random_exist,
         available: random_exist,
         type: type,
         sources: sources,
@@ -550,8 +555,12 @@ module Inspec::Resources
   end
 
   # Custom RSpec Matchers
-  RSpec::Matchers.define :exist do
-    match(&:exist?)
+  RSpec::Matchers.define :exists do
+    match(&:exists?)
+  end
+
+  RSpec::Matchers.define :exist do  # Add matcher alias
+    match(&:exists?)
   end
 
   RSpec::Matchers.define :be_available do

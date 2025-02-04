@@ -236,7 +236,7 @@ This resource has the following custom matchers.
 
 ### exist
 
-The `exist` matcher tests if the Random Number Generator exists:
+The `exist` or `exists` matcher tests if the Random Number Generator exists:
 
 ```ruby
 it { should exist }
