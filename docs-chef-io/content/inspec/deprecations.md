@@ -12,10 +12,10 @@ gh_repo = "inspec"
 +++
 
 # Overview
-InSpec 7 introduces several changes to the core resources. As part of these changes, some core resources have been deprecated and are now available as resource packs. This document provides a list of the deprecated core resources and guidance on how to access them through resource packs.
+InSpec 7 introduces several changes to the core resources. Some core resources have been deprecated as part of these changes and are now available as resource packs. This document lists the deprecated core resources and guides you through accessing them through resource packs.
 
-## Deprecated Core Resources
-The following core resources have been deprecated in InSpec 7:
+## Deprecated core resources
+The list of deprecated core resources in InSpec 7 are:
 
 1. docker_container
 2. docker_image
@@ -39,12 +39,12 @@ The following core resources have been deprecated in InSpec 7:
 20. sybase_conf
 21. sybase_session
 
-## Accessing Deprecated Resources
-To continue using the deprecated resources, you need to include the appropriate resource packs in your InSpec profiles. Resource packs are collections of resources that can be included in your profiles to extend their functionality.
+## Accessing deprecated resources
+Include the appropriate resource packs in your InSpec profiles to continue using the deprecated resources. Resource packs (collection of resources) can also extend the functionality of your profiles.Resource packs are collections of resources that can be included in your profiles to extend their functionality.
 
-## Steps to Include Resource Packs
+## Steps to include resource packs
 
-1. Identify the Resource Pack
+1. Identify the resource pack.
     Determine which resource pack contains the deprecated resource you need. The table below lists (non-exhaustive) the deprecated resources along with the resource pack names where they are now available.
 
       | Resource          | Resource Pack Name            |
@@ -71,7 +71,7 @@ To continue using the deprecated resources, you need to include the appropriate 
       | sybase_conf       | inspec-sybase-resources       |
       | sybase_session    | inspec-sybase-resources       |
 
-2. Update Your InSpec Profile
+2. Update your InSpec Profile.
     Modify your inspec.yml file to include the resource pack. Below is an example of how to include a resource pack in your profile:
 
       ```yaml
@@ -105,8 +105,8 @@ To continue using the deprecated resources, you need to include the appropriate 
           path: <local-path-to-docker-resources-resource-pack>
       ```
 
-3. Use the Deprecated Resource
-    Once the resource pack is included, you can use the deprecated resource in your controls as you normally would. For example:
+3. Use the deprecated resource.
+    Use the deprecated resource in your controls once you include the resource pack. For example:
 
       ```ruby
       control 'example-control' do
@@ -120,4 +120,4 @@ To continue using the deprecated resources, you need to include the appropriate 
       ```
 
 ## Conclusion
-While InSpec 7 deprecates certain core resources, they remain accessible through resource packs. By including the appropriate resource packs in your profiles, you can continue to use these resources without interruption. For more information on resource packs and deprecated resources, refer to the official InSpec documentation.
+While InSpec 7 deprecates specific core resources, they remain accessible through resource packs. You can continue using these resources without interruption by including the appropriate resource packs in your profiles. For more information on resource packs and deprecated resources, please refer to the official [InSpec documentation](https://docs.chef.io/inspec/resources/).
