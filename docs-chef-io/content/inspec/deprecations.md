@@ -44,6 +44,8 @@ Include the appropriate resource packs in your InSpec profiles to continue using
 
 ## Steps to include resource packs
 
+To include resource packs, follow these steps:
+
 1. Identify the resource pack.
     Determine which resource pack contains the deprecated resource you need. The table below lists (non-exhaustive) the deprecated resources along with the resource pack names where they are now available.
 
