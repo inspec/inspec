@@ -87,7 +87,7 @@ end
 # a_group => :tolerate # No opinion
 # all => ... # Any of the 5 values above
 # all_others => ... # Any of the 5 values above
-def handle_deprecations(opts_in, &block)
+def handle_deprecations(opts_in)
   opts = opts_in.dup
 
   # Determine the default expectation
@@ -141,6 +141,52 @@ end
 
 def darwin?
   !!(RbConfig::CONFIG["host_os"] =~ /darwin/)
+end
+
+module RNGInfoHelper
+  RNG_INFO = {
+    linux: {
+      exist: true,       # Changed from exists to exist
+      available: true,
+      type: "hardware",
+      sources: ["/dev/random", "/dev/urandom", "/dev/hwrng"],
+      active: "/dev/hwrng",
+      entropy: 2000,
+      running: true,
+      services: %w{rngd haveged jitterentropy},
+      csprng_status: nil,
+      cng_properties: nil,
+    },
+    darwin: {
+      exist: true,       # Changed from exists to exist
+      available: true,
+      type: "csprng",
+      sources: ["/dev/random"],
+      active: "/dev/random",
+      entropy: nil,
+      running: true,
+      services: [],
+      csprng_status: {
+        system: "macOS 14.3",
+        architecture: "Apple Silicon",
+        kernel: "24.3.0",
+        random_subsystem: "Not exposed via sysctl",
+      },
+      cng_properties: nil,
+    },
+    windows: {
+      exist: true,       # Changed from exists to exist
+      available: true,
+      type: "hardware",
+      sources: %w{CryptoAPI TPM RDRAND},
+      active: "TPM",
+      entropy: nil,
+      running: true,
+      services: ["CryptoSvc"],
+      csprng_status: nil,
+      cng_properties: "Microsoft Primitive Provider",
+    },
+  }.freeze
 end
 
 class Minitest::Test

@@ -1,4 +1,5 @@
-require 'inspec/resources/powershell'
+# TODO: Add when we have a Windows RNG implementation
+# require "inspec/resources/powershell"
 require 'inspec/log'
 require 'hashie/mash'
 
@@ -33,39 +34,51 @@ module Inspec::Resources
 
     desc 'Tests the presence and status of a random number generator.'
     example <<~EXAMPLE
-           # General usage
+      # General usage
       describe random_number_generator do
-         it { should exist }
-         it { should be_available }
-         it { should be_hardware }
-         it { should have_sources }
-         it { should have_support_services }
-         # unless fips_enabled?, see `Support Services` section
-         # in the resource documentation.
-         it { should have_service_running }
-         its('type') { should match(/hardware|cprng|software/) }
-         its('sources') { should include '/dev/random' }
-         its('entropy_available') { should be > 1000 }
-       end
+        it { should exist }
+        it { should be_available }
+        # Only test for hardware if not macOS
+        it { should be_hardware } unless os[:family] == 'darwin'
+        it { should have_sources }
+        it { should have_support_services }
+        it { should have_service_running }
+        its('type') { should match(/hardware|csprng|software/) }
+        its('sources') { should include '/dev/random' }
+        if os[:family] == 'darwin'
+          its('entropy_available') { should be_nil }
+        else
+          its('entropy_available') { should be > 1000 }
+        end
+      end
 
-       # Windows support has not been fully tested or implemented yet
-       if os.windows?
-         describe random_number_generator do
-           it { should be_software }
-           its('cng_properties') { should match(/Microsoft Primitive Provider/) }
-         end
-       end
+      # Windows support has not been fully tested or implemented yet
+      if os.windows?
+        describe random_number_generator do
+          it { should be_software }
+          its('cng_properties') { should match(/Microsoft Primitive Provider/) }
+        end
+      end
 
-       if os[:family] == 'darwin'
-         describe random_number_generator do
-           it { should be_cprng }
-           its('cprng_status') { should match(/kern.random/) }
-         end
-       end
+      if os[:family] == 'darwin'
+        describe random_number_generator do
+          it { should be_csprng }
+          its('sources') { should include '/dev/random' }
+
+          # Test the structured status information (array-style access)
+          its(%w[csprng_status system]) { should include 'macOS' }
+          its(%w[csprng_status architecture]) { should match(/(Apple Silicon|Intel)/) }
+          its(%w[csprng_status kernel]) { should include '24.3.0' }
+          its(%w[csprng_status random_subsystem]) { should include 'Not exposed via sysctl' }
+
+          # Architecture-specific tests
+          its('sources') { should include 'RDRAND' } if its(%w[csprng_status architecture]) == 'Intel'
+        end
+      end
     EXAMPLE
 
-    attr_reader :rng_info, :type, :sources, :entropy_available, :service_running, :support_services, :cprng_status,
-                :cng_properties
+    attr_reader :rng_info, :type, :sources, :entropy, :running, :services, :csprng_status, # Changed from cprng_status
+                :cng_properties, :active
 
     # provide as this is a standard in inspec resources generally
     alias params rng_info
@@ -76,33 +89,34 @@ module Inspec::Resources
       @rng_provider = select_rng_manager(inspec.os)
       skip_resource 'The `random_number_generator` resource is not supported on your OS yet.' if @rng_provider.nil?
 
+      @cached_results = {} # Initialize the cache hash
       @rng_info = Hashie::Mash.new(@rng_provider.rng_info)
       Inspec::Log.debug "RNG info: #{@rng_info}"
-      @cached_results = {}
     end
 
     %w[
-      entropy_available service_running support_services type sources cprng_status cng_properties
-      has_sources? has_service_running? has_support_services?
+      type sources active entropy running services csprng_status cng_properties # Changed from cprng_status
+      has_sources? has_running? has_services?
     ].each do |method|
       define_method(method.to_sym) do
         @cached_results[method] ||= begin
           base_method = method.gsub('has_', '').gsub('?', '')
           Inspec::Log.debug "Calling method: #{method}"
-          if @rng_info.key?(base_method.to_sym)
-            @rng_info[base_method.to_sym]
-          elsif send(base_method).respond_to?(:any?)
-            send(base_method).any?
-          else
-            send(base_method)
-          end
+          @rng_info[base_method.to_sym]
         end
       end
     end
 
+    # Alias old method names to new ones for backward compatibility
+    alias entropy_available entropy
+    alias service_running running
+    alias support_services services
+    alias has_service_running? has_running?
+    alias has_support_services? has_services?
+
     def exist?
-      Inspec::Log.debug 'Checking if RNG exists'
-      @rng_info.exists
+      Inspec::Log.debug 'Checking if RNG exist'
+      @rng_info.exist
     end
 
     def available?
@@ -112,7 +126,7 @@ module Inspec::Resources
 
     def entropy_available?
       Inspec::Log.debug 'Checking if entropy is available'
-      !entropy_available.nil? && entropy_available > 0
+      !entropy.nil? && entropy > 0
     end
 
     def is_hardware?
@@ -125,9 +139,36 @@ module Inspec::Resources
       type == 'software'
     end
 
-    def is_cprng?
-      Inspec::Log.debug 'Checking if RNG type is CPRNG'
-      type == 'cprng'
+    def is_csprng?
+      Inspec::Log.debug 'Checking if RNG type is CSPRNG'
+      type == 'csprng'
+    end
+
+    def value(key)
+      return @rng_info unless key
+
+      # Handle array access for nested properties
+      if key.is_a?(Array)
+        current = @rng_info
+        key.each { |k| current = current[k] if current }
+        current
+      else
+        @rng_info[key]
+      end
+    end
+
+    def [](name, *rest)
+      return value(name) if rest.empty?
+
+      # Handle array-style access for nested properties
+      current = params
+      Array([name, *rest]).each do |key|
+        return nil unless current.respond_to?(:[])
+
+        current = current[key]
+        return nil if current.nil? # Return nil early if any part of the path is nil
+      end
+      current
     end
 
     def to_s
@@ -163,25 +204,33 @@ module Inspec::Resources
     end
 
     def rng_info
-      @rng_info ||= fetch_rng_info
+      @rng_info ||= begin
+        # Merge default and platform info
+        base_info = default_info.merge(collect_platform_info)
+
+        # Convert the entire structure to Hashie::Mash
+        Hashie::Mash.new(base_info)
+      end
     end
 
     protected
 
-    # Each platform implementation should return info in this format directly
-    def default_rng_info
+    def default_info
       {
-        exists: false,
+        exist: false,
         available: false,
         type: 'unknown',
         sources: [],
-        active_rng: nil,
-        entropy_available: nil,
-        service_running: nil,
-        support_services: [],
-        cprng_status: nil,
-        cng_properties: nil
+        active: nil,
+        entropy: nil,
+        running: nil,
+        services: []
       }
+    end
+
+    # Platform implementations can extend with their specific properties
+    def collect_platform_info
+      {}
     end
   end
 
@@ -192,34 +241,34 @@ module Inspec::Resources
       Inspec::Log.debug 'Initializing LinuxRNG'
     end
 
-    def fetch_rng_info
-      Inspec::Log.debug 'Fetching RNG info for Linux'
+    protected
 
+    def collect_platform_info
       # Combine file existence checks into a single command
       file_checks = {
-        hw_random: '/dev/hwrng',
-        intel_rng: '/dev/intel-rng',
-        tpm_rng: '/dev/tpm0'
+        hw: '/dev/hwrng', # Was hw_random
+        intel: '/dev/intel-rng', # Was intel_rng
+        tpm: '/dev/tpm0' # Was tpm_rng
       }
       file_check_cmd = file_checks.map do |key, file|
         "test -e #{file} && echo #{key}=true || echo #{key}=false"
       end.join(' && ')
       file_check_output = inspec.command(file_check_cmd).stdout.split("\n").map { |line| line.split('=') }.to_h
-      hw_random = file_check_output['hw_random'] == 'true'
-      intel_rng = file_check_output['intel_rng'] == 'true'
-      tpm_rng = file_check_output['tpm_rng'] == 'true'
+      hw = file_check_output['hw'] == 'true'
+      intel = file_check_output['intel'] == 'true'
+      tpm = file_check_output['tpm'] == 'true'
 
       # Combine system file reads into a single command
       system_files = {
-        active_rng: '/sys/devices/virtual/misc/hw_random/rng_current',
-        rng_available: '/sys/devices/virtual/misc/hw_random/rng_available',
-        entropy_available: '/proc/sys/kernel/random/entropy_avail'
+        active: '/sys/devices/virtual/misc/hw_random/rng_current', # Was active_rng
+        available: '/sys/devices/virtual/misc/hw_random/rng_available', # Was rng_available
+        entropy: '/proc/sys/kernel/random/entropy_avail' # Was entropy_available
       }
       system_file_cmd = system_files.map { |key, file| "echo #{key}=$(cat #{file} || echo -n)" }.join(' && ')
       system_file_output = inspec.command(system_file_cmd).stdout.split("\n").map { |line| line.split('=', 2) }.to_h
-      active_rng = system_file_output['active_rng']
-      rng_available = system_file_output['rng_available'].split
-      entropy_available = system_file_output['entropy_available'].to_i
+      active = system_file_output['active']
+      available = system_file_output['available'].split
+      entropy = system_file_output['entropy'].to_i
 
       # Check services in parallel
       services = %w[rngd haveged jitterentropy]
@@ -232,46 +281,32 @@ module Inspec::Resources
       haveged_running = service_output.any? { |line| line.include?('haveged') && line.include?('active') }
       jitterentropy_running = service_output.any? { |line| line.include?('jitterentropy') && line.include?('active') }
 
-      rng_sources = gather_rng_sources(hw_random, intel_rng, tpm_rng)
-      rng_type = determine_rng_type(hw_random, intel_rng, tpm_rng, rng_available)
-      support_services = gather_support_services(rngd_running, haveged_running, jitterentropy_running)
-
-      {
-        exists: !rng_sources.empty?,
-        available: !entropy_available.nil? && entropy_available > 0,
-        type: rng_type, # NOTE: removed rng_ prefix
-        sources: rng_sources, # NOTE: removed rng_ prefix
-        active_rng: active_rng,
-        entropy_available: entropy_available,
-        service_running: rngd_running || haveged_running || jitterentropy_running,
-        support_services: support_services
-      }
-    end
-
-    private
-
-    def gather_rng_sources(hw_random, intel_rng, tpm_rng)
       sources = ['/dev/random', '/dev/urandom']
-      sources << '/dev/hwrng' if hw_random
-      sources << '/dev/intel-rng' if intel_rng
-      sources << '/dev/tpm0' if tpm_rng
-      sources
-    end
+      sources << '/dev/hwrng' if hw
+      sources << '/dev/intel-rng' if intel
+      sources << '/dev/tpm0' if tpm
 
-    def determine_rng_type(hw_random, intel_rng, tpm_rng, rng_available)
-      if hw_random || intel_rng || tpm_rng || !rng_available.empty?
-        'hardware'
-      else
-        'software'
-      end
-    end
+      type = if hw || intel || tpm || !available.empty?
+               'hardware'
+             else
+               'software'
+             end
 
-    def gather_support_services(rngd_running, haveged_running, jitterentropy_running)
       services = []
       services << 'rngd' if rngd_running
       services << 'haveged' if haveged_running
       services << 'jitterentropy' if jitterentropy_running
-      services
+
+      {
+        exist: !sources.empty?,
+        available: !entropy.nil? && entropy > 0,
+        type: type,
+        sources: sources,
+        active: active,
+        entropy: entropy,
+        running: rngd_running || haveged_running || jitterentropy_running,
+        services: services
+      }
     end
   end
 
@@ -282,9 +317,9 @@ module Inspec::Resources
       Inspec::Log.debug 'Initializing FreeBSDRNG'
     end
 
-    def fetch_rng_info
-      Inspec::Log.debug 'Fetching RNG info for FreeBSD'
+    protected
 
+    def collect_platform_info
       # Combine checks into a single command
       cmd = <<~CMD
         kldstat | grep random && echo yarrow_loaded=true || echo yarrow_loaded=false
@@ -296,30 +331,27 @@ module Inspec::Resources
       rdrand_available = output['rdrand_available'] == 'true'
       intel_rng = output['intel_rng'] == 'true'
 
-      rng_sources = []
-      rng_sources << '/dev/random' if cached_file('/dev/random').exist?
-      rng_sources << '/dev/urandom' if cached_file('/dev/urandom').exist?
-      rng_sources << 'RDRAND' if rdrand_available
-      rng_sources << 'intel-rng' if intel_rng
+      sources = []
+      sources << '/dev/random' if cached_file('/dev/random').exist?
+      sources << '/dev/urandom' if cached_file('/dev/urandom').exist?
+      sources << 'RDRAND' if rdrand_available
+      sources << 'intel-rng' if intel_rng
 
-      active_rng = yarrow_loaded ? 'Yarrow' : nil
-      rng_type = if rdrand_available || intel_rng
-                   'hardware'
-                 elsif yarrow_loaded
-                   'software'
-                 else
-                   'unknown'
-                 end
+      type = if rdrand_available || intel_rng
+               'hardware'
+             elsif yarrow_loaded
+               'software'
+             else
+               'unknown'
+             end
 
       {
-        exists: !rng_sources.empty?,
-        available: !rng_sources.empty?,
-        type: rng_type, # NOTE: removed rng_ prefix
-        sources: rng_sources, # NOTE: removed rng_ prefix
-        active_rng: active_rng,
-        entropy_available: nil,
-        service_running: yarrow_loaded,
-        support_services: []
+        exist: !sources.empty?,
+        available: !sources.empty?,
+        type: type,
+        sources: sources,
+        active: yarrow_loaded ? 'Yarrow' : nil,
+        running: yarrow_loaded
       }
     end
   end
@@ -331,37 +363,46 @@ module Inspec::Resources
       Inspec::Log.debug 'Initializing MacOSRNG'
     end
 
-    def fetch_rng_info
-      Inspec::Log.debug 'Fetching RNG info for macOS'
+    protected
 
-      # Combine checks into a single command
-      cmd = <<~CMD
-        test -e /dev/random && echo random_exists=true || echo random_exists=false
-        sysctl -n hw.optional.rdrand && echo rdrand_available=true || echo rdrand_available=false
-        sysctl kern.random
-      CMD
-      output = inspec.command(cmd).stdout.split("\n")
-      random_exists = output[0].include?('random_exists=true')
-      rdrand_available = output[1].include?('rdrand_available=true')
-      cprng_status = output[2..-1].join("\n")
+    def collect_platform_info
+      # Get system information first
+      os_info = inspec.command('sw_vers -productVersion').stdout.strip
+      uname = inspec.command('uname -a').stdout.strip
+      arch = uname.include?('ARM64') ? 'Apple Silicon' : 'Intel'
+      kernel_version = begin
+        uname.match(/Kernel Version ([^;]+)/)[1].strip
+      rescue StandardError
+        'unknown'
+      end
 
-      rng_sources = []
-      rng_sources << '/dev/random' if random_exists
-      rng_sources << 'RDRAND' if rdrand_available
+      # Check random device
+      random_exist = inspec.file('/dev/random').exist?
+      rdrand_available = arch == 'Intel' && inspec.command('sysctl -n hw.optional.rdrand').stdout.include?('1')
 
-      active_rng = random_exists ? '/dev/random' : nil
-      rng_type = rdrand_available ? 'hardware' : 'cprng'
+      # Try to get random subsystem info, but don't rely on it
+      random_info = inspec.command('sysctl kern.random').stdout
+      random_subsystem = random_info.empty? ? 'Not exposed via sysctl' : random_info.strip
 
+      # Build sources array
+      sources = []
+      sources << '/dev/random' if random_exist
+      sources << 'RDRAND' if rdrand_available
+
+      # Don't convert to JSON string, keep as hash
       {
-        exists: !rng_sources.empty?,
-        available: !rng_sources.empty?,
-        type: rng_type, # NOTE: removed rng_ prefix
-        sources: rng_sources, # NOTE: removed rng_ prefix
-        active_rng: active_rng,
-        entropy_available: nil,
-        service_running: true, # macOS RNG is always running
-        support_services: [],
-        cprng_status: cprng_status
+        exist: random_exist,
+        available: random_exist,
+        type: 'csprng',
+        sources: sources, # Now sources is properly defined
+        active: random_exist ? '/dev/random' : nil,
+        running: true,
+        csprng_status: {
+          system: "macOS #{os_info}",
+          architecture: arch,
+          kernel: kernel_version,
+          random_subsystem: random_subsystem
+        }
       }
     end
   end
@@ -374,9 +415,9 @@ module Inspec::Resources
       Inspec::Log.debug 'Initializing WindowsRNG'
     end
 
-    def fetch_rng_info
-      Inspec::Log.debug 'Fetching RNG info for Windows'
+    protected
 
+    def collect_platform_info
       script = <<~EOH
         $rng = @{
           CryptoAPI = $false
@@ -404,42 +445,41 @@ module Inspec::Resources
       EOH
 
       result = inspec.powershell(script)
-      return default_info unless result.exit_status.zero?
+      return default_info unless result.exit_status == 0
 
       begin
         rng_data = JSON.parse(result.stdout)
-        rng_sources = []
-        rng_sources << 'CryptoAPI' if rng_data['CryptoAPI']
-        rng_sources << 'TPM' if rng_data['TPM']
-        rng_sources << 'RDRAND' if rng_data['RDRAND']
+        sources = []
+        sources << 'CryptoAPI' if rng_data['CryptoAPI']
+        sources << 'TPM' if rng_data['TPM']
+        sources << 'RDRAND' if rng_data['RDRAND']
 
-        active_rng = if rng_data['TPM']
-                       'TPM'
-                     elsif rng_data['RDRAND']
-                       'RDRAND'
-                     elsif rng_data['CryptoAPI']
-                       'CryptoAPI'
-                     end
+        active = if rng_data['TPM']
+                   'TPM'
+                 elsif rng_data['RDRAND']
+                   'RDRAND'
+                 elsif rng_data['CryptoAPI']
+                   'CryptoAPI'
+                 end
 
-        rng_type = if rng_data['TPM'] || rng_data['RDRAND']
-                     'hardware'
-                   elsif rng_data['CryptoAPI']
-                     'cprng'
-                   else
-                     'unknown'
-                   end
+        type = if rng_data['TPM'] || rng_data['RDRAND']
+                 'hardware'
+               elsif rng_data['CryptoAPI']
+                 'csprng'
+               else
+                 'unknown'
+               end
 
         cng_properties = inspec.powershell('Get-CNGProperty -ProviderName Microsoft Primitive Provider').stdout
 
         {
-          exists: !rng_sources.empty?,
-          available: !rng_sources.empty?,
-          type: rng_type, # NOTE: removed rng_ prefix
-          sources: rng_sources, # NOTE: removed rng_ prefix
-          active_rng: active_rng,
-          entropy_available: nil,
-          service_running: true, # Windows RNG services are built-in
-          support_services: ['CryptoSvc'],
+          exist: !sources.empty?,
+          available: !sources.empty?,
+          type: type,
+          sources: sources,
+          active: active,
+          running: true,
+          services: ['CryptoSvc'],
           cng_properties: cng_properties
         }
       rescue StandardError
@@ -452,14 +492,24 @@ module Inspec::Resources
     def default_info
       Inspec::Log.debug 'Returning default RNG info for Windows'
       {
-        exists: false,
+        exist: false,
         available: false,
         type: 'unknown',
         sources: [],
-        active_rng: nil,
-        entropy_available: nil,
-        service_running: nil,
-        support_services: []
+        active: nil,
+        entropy: nil,
+        running: nil,
+        services: [],
+        csprng_status: nil,
+        cng_properties: nil
+      }
+    end
+
+    protected
+
+    def platform_info
+      {
+        cng_properties: collect_cng_properties
       }
     end
   end
@@ -471,31 +521,29 @@ module Inspec::Resources
       Inspec::Log.debug 'Initializing GenericUnixRNG'
     end
 
-    def fetch_rng_info
-      Inspec::Log.debug 'Fetching RNG info for Generic Unix'
+    protected
 
+    def collect_platform_info
       # Combine checks into a single command
       cmd = <<~CMD
-        test -e /dev/random && echo random_exists=true || echo random_exists=false
+        test -e /dev/random && echo random_exist=true || echo random_exist=false
         dmesg | grep -i rng
       CMD
       output = inspec.command(cmd).stdout.split("\n")
-      random_exists = output[0].include?('random_exists=true')
+      random_exist = output[0].include?('random_exist=true')
       dmesg_output = output[1..-1].join("\n")
 
-      rng_sources = random_exists ? ['/dev/random'] : []
-      active_rng = random_exists ? '/dev/random' : nil
-      rng_type = dmesg_output.empty? ? 'unknown' : 'hardware'
+      sources = random_exist ? ['/dev/random'] : []
+      active = random_exist ? '/dev/random' : nil # Was active_rng
+      type = dmesg_output.empty? ? 'unknown' : 'hardware'
 
       {
-        exists: random_exists,
-        available: random_exists,
-        type: rng_type, # NOTE: removed rng_ prefix
-        sources: rng_sources, # NOTE: removed rng_ prefix
-        active_rng: active_rng,
-        entropy_available: nil,
-        service_running: nil,
-        support_services: [],
+        exist: random_exist,
+        available: random_exist,
+        type: type,
+        sources: sources,
+        active: active,
+        running: nil,
         dmesg_output: dmesg_output
       }
     end
@@ -518,8 +566,8 @@ module Inspec::Resources
     match(&:is_software?)
   end
 
-  RSpec::Matchers.define :be_cprng do
-    match(&:is_cprng?)
+  RSpec::Matchers.define :be_csprng do
+    match(&:is_csprng?)
   end
 
   RSpec::Matchers.define :have_sources do
