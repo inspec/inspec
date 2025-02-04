@@ -97,11 +97,11 @@ Restore the file content to its original state to resolve this issue.
 
 Chef InSpec profiles can include dependencies on gem-based resource packs from **InSpec version 7**. If this error occurs, resolve it using the following steps:
 
-- Verify the gem details:
+- Verification of gem details
 
   Specify the correct gem name and version in the `inspec.yml` file.
 
-- Check gem availability:
+- Checking gem availability:
 
   Confirm the gem's presence on RubyGems.org, or if a private server is used, contact the Customer Success Manager or Support Team regarding its availability on Chef's Private RubyGem server.
 
