@@ -95,7 +95,7 @@ Restore the file content to its original state to resolve this issue.
 
 ## Unable to resolve dependency: user requested 'inspec-{RESOURCE_NAME}-resources (> 0)'
 
-Chef InSpec profiles, which can include dependencies on gem-based resource packs from **InSpec version 7**. If this error occurs, resolve it using the following steps:
+Chef InSpec profiles can include dependencies on gem-based resource packs from **InSpec version 7**. If this error occurs, resolve it using the following steps:
 
 - Verification of gem details
 
