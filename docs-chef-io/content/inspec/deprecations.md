@@ -106,7 +106,7 @@ Include the appropriate resource packs in your InSpec profiles to continue using
       ```
 
 3. Use the deprecated resource.
-    Use the deprecated resource in your controls once you include the resource pack. For example:
+    Once the resource pack is included, you can use the deprecated resource in your controls as you normally would. For example:
 
       ```ruby
       control 'example-control' do
@@ -120,4 +120,5 @@ Include the appropriate resource packs in your InSpec profiles to continue using
       ```
 
 ## Conclusion
-While InSpec 7 deprecates specific core resources, they remain accessible through resource packs. You can continue using these resources without interruption by including the appropriate resource packs in your profiles. For more information on resource packs and deprecated resources, please refer to the official [InSpec documentation](https://docs.chef.io/inspec/resources/).
+
+While InSpec 7 deprecates specific core resources, they remain accessible through resource packs. You can continue using these resources without interruption by including the appropriate resource packs in your profiles. For more information on resource packs and deprecated resources, refer to the official [InSpec documentation](https://docs.chef.io/inspec/resources/).
