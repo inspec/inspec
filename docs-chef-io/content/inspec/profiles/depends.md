@@ -367,9 +367,9 @@ and the lockfile updated with `inspec vendor --overwrite`
 
 Any profile dependent on gem-based resource packs can specify them using the `gem` setting in the `inspec.yml` metadata file.
 
-InSpec handles the installation and download of the specified resource pack gems when running the profile.
+InSpec handles installing and downloading the specified resource pack gems when running the profile.
 
-For example, if a profile uses a resource that has been deprecated and moved to a separate resource pack, the resource pack dependency can be specified in the metadata file as follows:
+For example, if a profile uses a resource that has been deprecated and moved to a separate resource pack, you can specify the resource pack dependency in the metadata file as follows:
 
 ```yaml
 depends:
@@ -384,7 +384,7 @@ where:
 
 ### Using the resource packs of a specific version
 
-InSpec also allows specifying a particular version of a gem-based resource pack in the `inspec.yml` metadata file. This ensures that a specific version of the resource pack is used, providing stability and compatibility for the compliance tests.
+InSpec also allows the `inspec.yml` metadata file to specify a particular version of a gem-based resource pack. This ensures the resource pack's version is used, providing stability and compatibility for the compliance tests.
 
 ```yaml
 depends:
@@ -395,7 +395,7 @@ depends:
 
 ### Using resource packs from a specific source
 
-InSpec also allows specifying a custom source for gem-based resource packs in the `inspec.yml` metadata file. This is useful when the resource pack is hosted on a private gem repository or an alternate source instead of the default RubyGems repository.
+InSpec also allows for the specification of a custom source for gem-based resource packs in the `inspec.yml` metadata file. This is useful when the resource pack is hosted on a private gem repository or an alternate source instead of the default RubyGems repository.
 
 ```yaml
 depends:
