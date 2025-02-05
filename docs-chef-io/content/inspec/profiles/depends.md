@@ -15,7 +15,7 @@ A Chef InSpec profile can bring in the controls and custom resources from anothe
 Chef InSpec profile. Additionally, when inheriting the controls of another profile,
 a profile can skip or even modify those included controls.
 
-A Chef InSpec profile can also depend on a resource pack, which starting from InSpec version 7, can be used as a gem-based resource pack.
+A Chef InSpec profile can depend on a resource pack which (from InSpec version 7) can be a gem-based resource pack.
 
 For hands-on examples, check out [Extending InSpec: InSpec Wrappers and Custom Resources](https://learn.chef.io/courses/course-v1:chef+InSpec201+Perpetual/about) on Learn Chef.
 
@@ -363,7 +363,7 @@ generates an `inspec.lock` file.
 If you add or update dependencies in `inspec.yml`, dependencies may be re-vendored
 and the lockfile updated with `inspec vendor --overwrite`
 
-## Gem based Resource Packs dependencies
+## Gem-based resource packs dependencies
 
 Any profile dependent on gem-based resource packs can specify them using the `gem` setting in the `inspec.yml` metadata file.
 
@@ -382,7 +382,7 @@ where:
 - `name`: A logical identifier for the resource pack.
 - `gem`: The name of the Ruby gem that contains the resource pack.
 
-### Using Resource Packs of a Specific Version
+### Using the resource packs of a specific version
 
 InSpec also allows specifying a particular version of a gem-based resource pack in the `inspec.yml` metadata file. This ensures that a specific version of the resource pack is used, providing stability and compatibility for the compliance tests.
 
@@ -393,7 +393,7 @@ depends:
     version: 7.0.1
 ```
 
-### Using Resource Packs from a Specific Source
+### Using resource packs from a specific source
 
 InSpec also allows specifying a custom source for gem-based resource packs in the `inspec.yml` metadata file. This is useful when the resource pack is hosted on a private gem repository or an alternate source instead of the default RubyGems repository.
 
