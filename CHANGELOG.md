@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.66 -->
-## [v5.22.66](https://github.com/inspec/inspec/tree/v5.22.66) (2025-01-22)
+<!-- latest_release 5.22.67 -->
+## [v5.22.67](https://github.com/inspec/inspec/tree/v5.22.67) (2025-02-05)
 
 #### Merged Pull Requests
-- CHEF-16676-Bug fix for spl character password(InSpec-5) [#7276](https://github.com/inspec/inspec/pull/7276) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- chore: pin gems version which are unable to install for ruby 3.0/3.1 on CI [#7292](https://github.com/inspec/inspec/pull/7292) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.65 -->
 ### Changes since 5.22.65 release
 
 #### Merged Pull Requests
+- chore: pin gems version which are unable to install for ruby 3.0/3.1 on CI [#7292](https://github.com/inspec/inspec/pull/7292) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.67 -->
 - CHEF-16676-Bug fix for spl character password(InSpec-5) [#7276](https://github.com/inspec/inspec/pull/7276) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.66 -->
 <!-- release_rollup -->
 
