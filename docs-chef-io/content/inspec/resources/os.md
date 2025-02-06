@@ -145,7 +145,7 @@ control 'os-version-if-else' do
   title 'Verify OS version requirements'
   desc 'Ensure OS version meets minimum requirements'
 
-  if os.version < '8.2'
+  if os.version >= '8.2'
     impact 0.0
     describe 'This requirement only applies to RHEL 8 version(s) 8.0 and 8.1' do
       skip "Currently on release #{os.release}, this control is Not Applicable."
