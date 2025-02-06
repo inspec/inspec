@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.34 -->
-## [v7.0.34](https://github.com/inspec/inspec/tree/v7.0.34) (2025-02-05)
+<!-- latest_release 7.0.35 -->
+## [v7.0.35](https://github.com/inspec/inspec/tree/v7.0.35) (2025-02-06)
 
 #### Merged Pull Requests
-- CHEF-14266 Doc change for gem based resource packs dependencies [#7274](https://github.com/inspec/inspec/pull/7274) ([Nik08](https://github.com/Nik08))
+- Foreport 7284: CHEF-15083: Update groups resource to use `getent` utility [#7290](https://github.com/inspec/inspec/pull/7290) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- Foreport 7284: CHEF-15083: Update groups resource to use `getent` utility [#7290](https://github.com/inspec/inspec/pull/7290) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.35 -->
 - CHEF-14266 Doc change for gem based resource packs dependencies [#7274](https://github.com/inspec/inspec/pull/7274) ([Nik08](https://github.com/Nik08)) <!-- 7.0.34 -->
 - CHEF-18706: Document deprecations of core InSpec resources [#7285](https://github.com/inspec/inspec/pull/7285) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.33 -->
 - Pending doc review changes - troubleshooting doc [#7291](https://github.com/inspec/inspec/pull/7291) ([Nik08](https://github.com/Nik08)) <!-- 7.0.32 -->
