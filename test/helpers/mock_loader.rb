@@ -114,9 +114,9 @@ class MockLoader
       "/etc/mysql/mysql2.conf" => mockfile.call("mysql2.conf"),
       "/etc/mongod.conf" => mockfile.call("mongod.conf"),
       "/opt/oracle/product/18c/dbhomeXE/network/admin/listener.ora" => mockfile.call("listener.ora"),
-      "C:\\app\\Administrator\\product\\18.0.0\\dbhomeXE\\network\\admin\\listener.ora" => mockfile.call("listener.ora"),
+      'C:\\app\\Administrator\\product\\18.0.0\\dbhomeXE\\network\\admin\\listener.ora' => mockfile.call("listener.ora"),
       "/etc/cassandra/cassandra.yaml" => mockfile.call("cassandra.yaml"),
-      "C:\\Program Files\\apache-cassandra-3.11.4-bin\\apache-cassandra-3.11.4\\conf\\cassandra.yaml" => mockfile.call("cassandra.yaml"),
+      'C:\\Program Files\\apache-cassandra-3.11.4-bin\\apache-cassandra-3.11.4\\conf\\cassandra.yaml' => mockfile.call("cassandra.yaml"),
       "/etc/rabbitmq/rabbitmq.config" => mockfile.call("rabbitmq.config"),
       "kitchen.yml" => mockfile.call("kitchen.yml"),
       "example.csv" => mockfile.call("example.csv"),
@@ -547,9 +547,9 @@ class MockLoader
       "83c36bfade9375ae1feb91023cd1f7409b786fd992ad4013bf0f2259d33d6406" => cmd.call("docker-images"),
       "docker inspect ubuntu:latest" => cmd.call("docker-inspect-image"),
       # docker services
-      %{docker service ls --format '{"ID": {{json .ID}}, "Name": {{json .Name}}, "Mode": {{json .Mode}}, "Replicas": {{json .Replicas}}, "Image": {{json .Image}}, "Ports": {{json .Ports}}}'} => cmd.call("docker-service-ls"),
+      %(docker service ls --format '{"ID": {{json .ID}}, "Name": {{json .Name}}, "Mode": {{json .Mode}}, "Replicas": {{json .Replicas}}, "Image": {{json .Image}}, "Ports": {{json .Ports}}}') => cmd.call("docker-service-ls"),
       # docker plugins
-      %{docker plugin ls --format '{"id": {{json .ID}}, "name": "{{ with split .Name ":"}}{{index . 0}}{{end}}", "version": "{{ with split .Name ":"}}{{index . 1}}{{end}}", "enabled": {{json .Enabled}} }'} => cmd.call("docker-plugin-ls"),
+      %(docker plugin ls --format '{"id": {{json .ID}}, "name": "{{ with split .Name ":"}}{{index . 0}}{{end}}", "version": "{{ with split .Name ":"}}{{index . 1}}{{end}}", "enabled": {{json .Enabled}} }') => cmd.call("docker-plugin-ls"),
       # modprobe for kernel_module
       "modprobe --showconfig" => cmd.call("modprobe-config"),
       # get-process cmdlet for processes resource
@@ -669,8 +669,8 @@ class MockLoader
       "Get-Content win_secpol-abc123.cfg" => cmd.call("secedit-export"),
       "secedit /export /cfg win_secpol-abc123.cfg" => cmd.call("success"),
       "Remove-Item win_secpol-abc123.cfg" => cmd.call("success"),
-      "(New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-544\")).Translate( [System.Security.Principal.NTAccount]).Value" => cmd.call("security-policy-sid-translated"),
-      "(New-Object System.Security.Principal.SecurityIdentifier(\"S-1-5-32-555\")).Translate( [System.Security.Principal.NTAccount]).Value" => cmd.call("security-policy-sid-untranslated"),
+      '(New-Object System.Security.Principal.SecurityIdentifier("S-1-5-32-544")).Translate( [System.Security.Principal.NTAccount]).Value' => cmd.call("security-policy-sid-translated"),
+      '(New-Object System.Security.Principal.SecurityIdentifier("S-1-5-32-555")).Translate( [System.Security.Principal.NTAccount]).Value' => cmd.call("security-policy-sid-untranslated"),
 
       # Windows SID calls with CimInstance
       "Get-CimInstance -ClassName Win32_Account | Select-Object -Property Domain, Name, SID, SIDType | Where-Object { $_.Name -eq 'Alice' -and $_.SIDType -eq 1 } | ConvertTo-Csv -NoTypeInformation" => cmd.call("security-identifier-alice"),
@@ -690,7 +690,7 @@ class MockLoader
       "sestatus" => cmd.call("sestatus"),
       "semodule -lfull" => cmd.call("semodule-lfull"),
       "semanage boolean -l -n" => cmd.call("semanage-boolean"),
-      "Get-ChildItem -Path \"C:\\Program Files\\MongoDB\\Server\" -Name" => cmd.call("mongodb-version"),
+      'Get-ChildItem -Path "C:\\Program Files\\MongoDB\\Server" -Name' => cmd.call("mongodb-version"),
       "opa eval -i 'input.json' -d 'example.rego' 'data.example.allow'" => cmd.call("opa-result"),
       "opa eval -i 'input.json' -d 'example.rego' 'data.example.voilation'" => cmd.call("opa-empty-result"),
       "curl -X POST localhost:8181/v1/data/example/violation -d @v1-data-input.json -H 'Content-Type: application/json'" => cmd.call("opa-api-result"),
@@ -699,16 +699,16 @@ class MockLoader
       # ibmdb2
       "/opt/ibm/db2/V11.5/bin/db2 attach to db2inst1; /opt/ibm/db2/V11.5/bin/db2 get database manager configuration" => cmd.call("ibmdb2_conf_output"),
       "/opt/ibm/db2/V11.5/bin/db2 attach to db2inst1; /opt/ibm/db2/V11.5/bin/db2 connect to sample; /opt/ibm/db2/V11.5/bin/db2 select rolename from syscat.roleauth;" => cmd.call("ibmdb2_query_output"),
-      "set-item -path env:DB2CLP -value \"**$$**\"; db2 get database manager configuration" => cmd.call("ibmdb2_conf_output"),
-      "set-item -path env:DB2CLP -value \"**$$**\"; db2 connect to sample; db2 \"select rolename from syscat.roleauth\";" => cmd.call("ibmdb2_query_output"),
+      'set-item -path env:DB2CLP -value "**$$**"; db2 get database manager configuration' => cmd.call("ibmdb2_conf_output"),
+      'set-item -path env:DB2CLP -value "**$$**"; db2 connect to sample; db2 "select rolename from syscat.roleauth";' => cmd.call("ibmdb2_query_output"),
 
       # file resource windows inherit
       "(Get-Acl 'C:/ExamlpeFolder').access| Where-Object {$_.IsInherited -eq $true} | measure | % { $_.Count }" => cmd.call("windows_file_inherit_output"),
 
       # podman
-      %{podman ps -a --no-trunc --size --format '{\"ID\": {{json .ID}}, \"Image\": {{json .Image}}, \"ImageID\": {{json .ImageID}}, \"Command\": {{json .Command}}, \"CreatedAt\": {{json .CreatedAt}}, \"RunningFor\": {{json .RunningFor}}, \"Status\": {{json .Status}}, \"Pod\": {{json .Pod}}, \"Ports\": {{json .Ports}}, \"Size\": {{json .Size}}, \"Names\": {{json .Names}}, \"Networks\": {{json .Networks}}, \"Labels\": {{json .Labels}}, \"Mounts\": {{json .Mounts}}}'} => cmd.call("podman-ps-a"),
-      %{podman images -a --no-trunc --format '{\"ID\": {{json .ID}}, \"Repository\": {{json .Repository}}, \"Tag\": {{json .Tag}}, \"Size\": {{json .Size}}, \"Digest\": {{json .Digest}}, \"CreatedAt\": {{json .CreatedAt}}, \"CreatedSince\": {{json .CreatedSince}}, \"History\": {{json .History}}}'} => cmd.call("podman-images-a"),
-      %{podman network ls --no-trunc --format '{\"ID\": {{json .ID}}, \"Name\": {{json .Name}}, \"Driver\": {{json .Driver}}, \"Labels\": {{json .Labels}}, \"Options\": {{json .Options}}, \"IPAMOptions\": {{json .IPAMOptions}}, \"Created\": {{json .Created}}, \"Internal\": {{json .Internal}}, \"IPv6Enabled\": {{json .IPv6Enabled}}, \"DNSEnabled\": {{json .DNSEnabled}}, \"NetworkInterface\": {{json .NetworkInterface}}, \"Subnets\": {{json .Subnets}}}'} => cmd.call("podman-network-ls"),
+      %(podman ps -a --no-trunc --size --format '{\"ID\": {{json .ID}}, \"Image\": {{json .Image}}, \"ImageID\": {{json .ImageID}}, \"Command\": {{json .Command}}, \"CreatedAt\": {{json .CreatedAt}}, \"RunningFor\": {{json .RunningFor}}, \"Status\": {{json .Status}}, \"Pod\": {{json .Pod}}, \"Ports\": {{json .Ports}}, \"Size\": {{json .Size}}, \"Names\": {{json .Names}}, \"Networks\": {{json .Networks}}, \"Labels\": {{json .Labels}}, \"Mounts\": {{json .Mounts}}}') => cmd.call("podman-ps-a"),
+      %(podman images -a --no-trunc --format '{\"ID\": {{json .ID}}, \"Repository\": {{json .Repository}}, \"Tag\": {{json .Tag}}, \"Size\": {{json .Size}}, \"Digest\": {{json .Digest}}, \"CreatedAt\": {{json .CreatedAt}}, \"CreatedSince\": {{json .CreatedSince}}, \"History\": {{json .History}}}') => cmd.call("podman-images-a"),
+      %(podman network ls --no-trunc --format '{\"ID\": {{json .ID}}, \"Name\": {{json .Name}}, \"Driver\": {{json .Driver}}, \"Labels\": {{json .Labels}}, \"Options\": {{json .Options}}, \"IPAMOptions\": {{json .IPAMOptions}}, \"Created\": {{json .Created}}, \"Internal\": {{json .Internal}}, \"IPv6Enabled\": {{json .IPv6Enabled}}, \"DNSEnabled\": {{json .DNSEnabled}}, \"NetworkInterface\": {{json .NetworkInterface}}, \"Subnets\": {{json .Subnets}}}') => cmd.call("podman-network-ls"),
       "podman pod ps --no-trunc --format json" => cmd.call("podman-pod-ps"),
       "podman info --format json" => cmd.call("podman-info"),
       "podman version --format json" => cmd.call("podman-version"),
@@ -723,14 +723,16 @@ class MockLoader
       "podman volume inspect non_existing_volume --format '{\"name\": {{json .Name}}, \"driver\": {{json .Driver}}, \"mountpoint\": {{json .Mountpoint}}, \"created_at\": {{json .CreatedAt}}, \"labels\": {{json .Labels}}, \"scope\": {{json .Scope}}, \"options\": {{json .Options}}, \"mount_count\": {{json .MountCount}}, \"needs_copy_up\": {{json .NeedsCopyUp}}, \"needs_chown\": {{json .NeedsChown}}}'" => cmd_stderr.call("podman-errors"),
       "podman pod inspect nginx-frontend --format '{\"id\": {{json .ID}}, \"name\": {{json .Name}}, \"created_at\": {{json .Created}}, \"create_command\": {{json .CreateCommand}}, \"state\": {{json .State}}, \"hostname\": {{json .Hostname}}, \"create_cgroup\": {{json .CreateCgroup}}, \"cgroup_parent\": {{json .CgroupParent}}, \"cgroup_path\": {{json .CgroupPath}}, \"create_infra\": {{json .CreateInfra}}, \"infra_container_id\": {{json .InfraContainerID}}, \"infra_config\": {{json .InfraConfig}}, \"shared_namespaces\": {{json .SharedNamespaces}}, \"num_containers\": {{json .NumContainers}}, \"containers\": {{json .Containers}}}'" => cmd.call("podman-pod-inspect"),
       "podman pod inspect non_existing_pod --format '{\"id\": {{json .ID}}, \"name\": {{json .Name}}, \"created_at\": {{json .Created}}, \"create_command\": {{json .CreateCommand}}, \"state\": {{json .State}}, \"hostname\": {{json .Hostname}}, \"create_cgroup\": {{json .CreateCgroup}}, \"cgroup_parent\": {{json .CgroupParent}}, \"cgroup_path\": {{json .CgroupPath}}, \"create_infra\": {{json .CreateInfra}}, \"infra_container_id\": {{json .InfraContainerID}}, \"infra_config\": {{json .InfraConfig}}, \"shared_namespaces\": {{json .SharedNamespaces}}, \"num_containers\": {{json .NumContainers}}, \"containers\": {{json .Containers}}}'" => cmd_stderr.call("podman-errors"),
+      "sw_vers -productVersion" => cmd.call("sw_vers-productVersion"),
+      "sw_vers -buildVersion" => cmd.call("sw_vers-buildVersion"),
     }
 
     if @platform && (@platform[:name] == "windows" || @platform[:name] == "freebsd")
       mock_cmds.merge!(
-          "sestatus" => empty.call,
-          "semodule -lfull" => empty.call,
-          "semanage boolean -l -n" => empty.call
-        )
+        "sestatus" => empty.call,
+        "semodule -lfull" => empty.call,
+        "semanage boolean -l -n" => empty.call
+      )
     end
 
     # ports on linux
@@ -768,7 +770,7 @@ class MockLoader
       )
     end
 
-    if @platform && ! %w{centos cloudlinux coreos debian freebsd ubuntu amazon}.include?(@platform[:name])
+    if @platform && !%w{centos cloudlinux coreos debian freebsd ubuntu amazon}.include?(@platform[:name])
       mock_cmds.delete("/sbin/zfs get -Hp all tank/tmp")
       mock_cmds.delete("/sbin/zpool get -Hp all tank")
       mock_cmds.delete("which zfs")
@@ -839,7 +841,7 @@ class MockLoader
     dst
   end
 
-  def self.profile_zip(name, opts = {})
+  def self.profile_zip(name, _opts = {})
     path = File.join(home, "test", "fixtures", "profiles", name)
     dst = File.join(Dir.mktmpdir, "#{name}.zip")
 
