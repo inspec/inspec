@@ -323,9 +323,11 @@ class MockLoader
       # user information for linux
       "id root" => cmd.call("id-root"),
       "getent passwd root" => cmd.call("getent-passwd-root"),
+      "getent group" => cmd.call("group_info"),
       "chage -l root" => cmd.call("chage-l-root"),
       "cat ~/.ssh/authorized_keys" => cmd.call("authorized-keys-mock"),
       %{sh -c 'type "getent"'} => empty.call,
+      %{type "getent"} => empty.call,
       "getent shadow root" => cmd.call("getent-shadow-mock"),
       # user information for ldap test
       "id jfolmer" => cmd.call("id-jfolmer"),
