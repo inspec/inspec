@@ -1,5 +1,5 @@
 require "rspec/expectations"
-require "matchers/matchers"  # <-- Moved import here
+require "matchers/matchers"
 
 module RspecComparisonHelper
   include RSpec::Matchers

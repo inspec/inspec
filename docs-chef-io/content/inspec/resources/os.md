@@ -7,7 +7,7 @@ platform = "os"
 [menu]
   [menu.inspec]
     title = "os"
-    identifier = "inspec/resources/os/os.md OS resource" # Added identifier for clarity
+    identifier = "inspec/resources/os/os.md OS resource"
     parent = "inspec/resources/os"
 +++
 
@@ -69,7 +69,7 @@ The `version` property returns a `VersionWrapper` object with the following meth
 - `build` - The build version string (platform-specific)
 - `full` - The full version string
 
-The `VersionWrapper` object also supports semantic version comparison operators: `==`, `===`, `<`, `>`, `<=`, and `>=`.
+The `VersionWrapper` object also supports semantic version comparison operators: `==`, `===`, `<`, `>`, `<=`, :!~, and `>=`.
 
 > Note: The `VersionWrapper` is implemented as a thin wrapper around Ruby's `Gem::Version`, which ensures reliable semantic version parsing and robust version comparison capabilities.
 
@@ -145,7 +145,7 @@ control 'os-version-if-else' do
   title 'Verify OS version requirements'
   desc 'Ensure OS version meets minimum requirements'
 
-if os.version >= '8.2'
+  if os.version < '8.2'
     impact 0.0
     describe 'This requirement only applies to RHEL 8 version(s) 8.0 and 8.1' do
       skip "Currently on release #{os.release}, this control is Not Applicable."
@@ -170,7 +170,7 @@ control 'not-applicable-via-only_if' do
   tag nist: ['AC-7 a', 'AC-7 b']
 
   only_if('This check applies to RHEL versions 8.0 and 8.1. If the system is RHEL version 8.2 or newer, this check is Not Applicable.', impact: 0.0) do
-    (os.version < '8.2')
+    (os.version == '8.0' || os.version == '8.1')
   end
 
   describe selinux do
