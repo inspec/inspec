@@ -1,8 +1,8 @@
 +++
-title = "random_number_generator resource"
+title = "random_number_generator Resource"
+platform = "os"
 draft = false
 gh_repo = "inspec"
-platform = "os"
 
 [menu]
   [menu.inspec]
@@ -11,39 +11,24 @@ platform = "os"
     parent = "inspec/resources/os"
 +++
 
-Use the `random_number_generator` (RNG) Chef InSpec audit resource to test the presence and status of a Random Number Generator on the system.
+Use the `random_number_generator` resource to test Random Number Generator (RNG) configuration and state on Linux, macOS, FreeBSD, and Windows systems.
 
-## Availability
+## Installation
 
-### Install
+{{< readfile file="content/inspec/reusable/md/inspec_installation.md" >}}
 
-This resource is distributed with Chef InSpec.
+## Requirements
 
-### Version
+### Platform Support
 
-This resource is available from InSpec version 6.8.26.
+- Linux
+- macOS
+- FreeBSD
+- Generic Unix (basic support)
 
-## Syntax
+## Resource Parameters
 
-A `random_number_generator` resource block declares the resource and then one (or more) matchers.
-
-```ruby
-describe random_number_generator do
-  it { should exist }
-  it { should be_available }
-  # Only test for hardware if not macOS
-  it { should be_hardware } unless os[:family] == 'darwin'
-  it { should have_sources }
-  it { should have_support_services }
-  it { should have_service_running }
-  its('type') { should match(/hardware|csprng|software/) }
-  its('sources') { should include '/dev/random' }
-  its('active') { should_not be_nil }
-  its('running') { should eq true }
-  its('services') { should_not be_empty }
-  its('entropy_available') { should be > 1000 } unless os[:family] == 'darwin'
-end
-```
+This resource does not have any parameters.
 
 ## Properties
 
@@ -163,13 +148,13 @@ its(%w[csprng_status random_subsystem]) { should_not be_nil }
 its('sources') { should include 'RDRAND' } if its(%w[csprng_status architecture]) == 'Intel'
 ```
 
-### cng_properties
+{/* ### cng_properties
 
 The `cng_properties` property tests the Cryptography Next Generation (CNG) properties on Windows.
 
 ```ruby
 its('cng_properties') { should match /Microsoft Primitive Provider/ }
-```
+``` */}
 
 > **Type:** String
 >
@@ -177,56 +162,9 @@ its('cng_properties') { should match /Microsoft Primitive Provider/ }
 >
 > **Description:** Returns the CNG properties on Windows.
 
-## Platform-Specific Examples
+## Common Resource Functionality
 
-### Test Linux RNG Configuration
-
-```ruby
-describe random_number_generator do
-  it { should exist }
-  it { should be_available }
-  it { should be_hardware }
-  its('type') { should eq 'hardware' }
-  its('sources') { should include '/dev/hwrng' }
-  its('active') { should eq '/dev/hwrng' }
-  its('entropy_available') { should be > 1000 }
-  its('services') { should include 'rngd' }
-  its('running') { should eq true }
-end
-```
-
-### Test macOS RNG Configuration
-
-```ruby
-describe random_number_generator do
-  it { should exist }
-  it { should be_available }
-  it { should be_csprng }
-  its('type') { should eq 'csprng' }
-  its('sources') { should include '/dev/random' }
-  its('active') { should eq '/dev/random' }
-  its('running') { should eq true }
-  its('entropy_available') { should be_nil }
-
-  its(%w[csprng_status system]) { should include 'macOS' }
-  its(%w[csprng_status architecture]) { should match(/(Apple Silicon|Intel)/) }
-end
-```
-
-### Test Windows RNG Configuration
-
-```ruby
-describe random_number_generator do
-  it { should exist }
-  it { should be_available }
-  its('type') { should match(/hardware|csprng/) }
-  its('sources') { should include 'TPM' }
-  its('active') { should_not be_nil }
-  its('running') { should eq true }
-  its('services') { should eq ['CryptoSvc'] }
-  its('cng_properties') { should match(/Microsoft Primitive Provider/) }
-end
-```
+{{< readfile file="content/inspec/reusable/md/resource_functionality.md" >}}
 
 ## Matchers
 
@@ -296,6 +234,121 @@ The `have_support_services` matcher tests if the Random Number Generator has sup
 
 ```ruby
 it { should have_support_services }
+```
+
+## Examples
+
+### Linux RNG Configuration
+
+```ruby
+describe random_number_generator do
+  # Basic availability
+  it { should exist }
+  it { should be_available }
+  it { should be_hardware }
+  it { should be_running }
+
+  # Sources and entropy
+  its('sources') { should include '/dev/random' }
+  its('sources') { should include '/dev/urandom' }
+  its('entropy') { should be > 1000 }
+
+  # Services
+  its('services') { should include 'rngd' }
+  its('running') { should eq true }
+
+  # Hardware checks
+  its('type') { should eq 'hardware' }
+  its('sources') { should include '/dev/hwrng' }
+  its('active') { should_not be_nil }
+end
+```
+
+### macOS RNG Configuration
+
+```ruby
+describe random_number_generator do
+  # Basic checks
+  it { should exist }
+  it { should be_available }
+  it { should be_csprng }
+  it { should be_running }
+
+  # Source verification
+  its('sources') { should include '/dev/random' }
+  its('active') { should eq '/dev/random' }
+
+  # CSPRNG status checks
+  its(%w[csprng_status system]) { should match(/^macOS/) }
+  its(%w[csprng_status architecture]) { should match(/(Apple Silicon|Intel)/) }
+  its(%w[csprng_status kernel]) { should_not be_nil }
+  its(%w[csprng_status random_subsystem]) { should_not be_empty }
+
+  # Architecture-specific checks
+  describe 'when on Intel CPU' do
+    before do
+      skip unless its(%w[csprng_status architecture]) == 'Intel'
+    end
+
+    it 'should have RDRAND available' do
+      expect(subject.sources).to include 'RDRAND'
+    end
+  end
+end
+```
+
+{/* ### Windows RNG Configuration
+
+```ruby
+describe random_number_generator do
+  # Basic checks
+  it { should exist }
+  it { should be_available }
+  it { should be_running }
+  
+  # Services and API
+  its('services') { should include 'CryptoSvc' }
+  its('sources') { should include 'CryptoAPI' }
+  
+  # Type verification
+  its('type') { should match(/hardware|csprng/) }
+  
+  # Hardware RNG sources
+  describe 'hardware RNG availability' do
+    it 'should have at least one hardware source' do
+      expect(subject.sources).to include('TPM')
+        .or(include('RDRAND'))
+    end
+  end
+  
+  # CNG properties
+  its('cng_properties') { should match(/Microsoft Primitive Provider/) }
+end
+``` */}
+
+### FreeBSD RNG Configuration
+
+```rubydescribe random_number_generator do
+  # Basic checks
+  it { should exist }
+  it { should be_available }
+  it { should be_running }
+
+  # Sources
+  its('sources') { should include '/dev/random' }
+  its('sources') { should include '/dev/urandom' }
+
+  # Yarrow check
+  its('active') { should eq 'Yarrow' }
+
+  # Hardware RNG if available
+  describe 'when hardware RNG is available' do
+    it 'should have hardware sources' do
+      expect(subject.sources).to include('RDRAND').or(include('intel-rng'))
+    end
+    its('type') { should eq 'hardware' }
+  end
+end
 ```
 
 ## Support Services

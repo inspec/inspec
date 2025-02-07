@@ -18,10 +18,11 @@ describe "Inspec::Resources::RandomNumberGenerator" do
     end
   end
 
-  %i{linux darwin windows}.each do |platform|
+  # Test each supported platform
+  %i{linux darwin windows freebsd unix}.each do |platform|
     describe "on #{platform}" do
       let(:resource) { load_resource("random_number_generator") }
-      let(:info) { RNGInfoHelper::RNG_INFO[platform] }
+      let(:info) { RNGInfoHelper::RNG_INFO[platform == :unix ? :generic_unix : platform] }
 
       before do
         # Map our platform symbols to the correct MockLoader OS keys
@@ -29,122 +30,101 @@ describe "Inspec::Resources::RandomNumberGenerator" do
           linux: :linux,
           darwin: :macos10_16,
           windows: :windows,
+          freebsd: :freebsd,
+          unix: :unix,
         }
         MockLoader.mock_os(resource, os_map[platform])
         resource.instance_variable_set(:@rng_info, Hashie::Mash.new(info))
       end
 
-      # Basic properties
-      it "verifies basic properties" do
-        _(resource.exists?).must_equal info[:exists] # Changed from exist
+      # Test existence and basic properties
+      it "exist? returns expected result" do
+        _(resource.exist?).must_equal info[:exist]
+      end
+
+      it "available? returns expected result" do
         _(resource.available?).must_equal info[:available]
+      end
+
+      it "has expected type" do
         _(resource.type).must_equal info[:type]
+      end
+
+      it "has expected sources" do
         _(resource.sources).must_equal info[:sources]
       end
 
-      # Test method aliases
-      it "verifies method aliases" do
-        # Use assert_equal for non-nil values
-        _(resource.service_running).must_equal resource.running
-        _(resource.support_services).must_equal resource.services
-        _(resource.has_service_running?).must_equal resource.has_running?
-        _(resource.has_support_services?).must_equal resource.has_services?
+      # Test type-specific checks
+      it "correctly identifies RNG type" do
+        _(resource.hardware?).must_equal(info[:type] == "hardware")
+        _(resource.software?).must_equal(info[:type] == "software")
+        _(resource.csprng?).must_equal(info[:type] == "csprng")
+      end
 
-        # Separate test for entropy_available which might be nil
-        if resource.entropy.nil?
-          assert_nil resource.entropy_available
+      # Test resource state checks
+      it "correctly reports service state" do
+        _(resource.running?).must_equal !!info[:running]
+      end
+
+      it "correctly reports sources state" do
+        _(resource.has_sources?).must_equal info[:sources].any?
+      end
+
+      it "correctly reports services state" do
+        _(resource.has_services?).must_equal info[:services].any?
+      end
+
+      # Test entropy handling
+      it "correctly handles entropy checks" do
+        if info[:entropy].nil?
+          _(resource.has_entropy?).must_equal false
         else
-          assert_equal resource.entropy, resource.entropy_available
+          _(resource.has_entropy?).must_equal true
+          _(resource.entropy).must_equal info[:entropy]
         end
       end
 
-      # Test array access
-      it "supports array-style access" do
+      # Test property access methods
+      it "supports hash-style access" do
         _(resource[:type]).must_equal info[:type]
-        _(resource[:sources]).must_equal info[:sources]
-        _(resource["type"]).must_equal info[:type]
-        assert_nil resource["nonexistent"] # Changed to assert_nil
+        _(resource["sources"]).must_equal info[:sources]
       end
 
-      # Test edge cases for property access
-      it "handles missing or invalid properties gracefully" do
-        assert_nil resource["nonexistent"]
-        assert_nil resource[:nonexistent]
-        assert_nil resource["invalid.path"]
-        assert_nil resource["no", "such", "path"] # Changed to use commas instead of chained []
+      it "handles missing properties gracefully" do
+        _(resource["nonexistent"]).must_be_nil
+        _(resource[:nonexistent]).must_be_nil
+        _(resource["invalid", "path"]).must_be_nil
+        _(resource[:no, :such, :property]).must_be_nil
       end
 
-      # Test nested property access
-      it "supports nested property access" do
-        case platform
-        when :darwin
-          _(resource.csprng_status["system"]).must_match(/^macOS/)
-          _(resource["csprng_status"]["architecture"]).must_match(/(Apple Silicon|Intel)/)
-        when :windows
-          _(resource["services"]).must_equal ["CryptoSvc"]
-        when :linux
-          _(resource["services"]).must_equal info[:services]
-        end
-      end
-
-      # Test to_s
-      it "has a proper string representation" do
-        _(resource.to_s).must_equal "Random Number Generator (#{info[:type]})"
-      end
-
-      # Platform specific tests
+      # Platform-specific tests
       case platform
-      when :linux
-        describe "linux specific properties" do
-          it "verifies entropy properties" do
-            _(resource.entropy_available).must_equal info[:entropy]
-            _(resource.entropy_available?).must_equal true
-          end
-
-          it "verifies service properties" do
-            _(resource.services).must_equal info[:services]
-            _(resource.running).must_equal info[:running]
-          end
-
-          it "verifies hardware detection" do
-            _(resource.is_hardware?).must_equal true if info[:type] == "hardware"
-          end
-        end
-
       when :darwin
-        describe "macOS specific properties" do
-          it "verifies CSPRNG status" do
-            _(resource.csprng_status.system).must_match(/^macOS/)
-            _(resource.csprng_status.architecture).must_match(/(Apple Silicon|Intel)/)
-            assert_nil resource.csprng_status.nonexistent
-            _(resource.csprng_status.random_subsystem).wont_be_empty  # Changed expectation
-          end
-
-          it "verifies entropy is not available" do
-            assert_nil resource.entropy_available
-            _(resource.entropy_available?).must_equal false
-          end
-
-          it "verifies CSPRNG type" do
-            _(resource.is_csprng?).must_equal true
-          end
+        it "has valid CSPRNG status" do
+          status = resource.csprng_status
+          _(status.system).must_match(/^macOS/)
+          _(status.architecture).must_match(/(Apple Silicon|Intel)/)
+          _(status.kernel).wont_be_nil
+          _(status.random_subsystem).wont_be_empty
         end
 
       when :windows
-        describe "Windows specific properties" do
-          it "verifies CNG properties" do
-            _(resource.cng_properties).must_equal info[:cng_properties]
-          end
-
-          it "verifies Windows services" do
-            _(resource.services).must_equal ["CryptoSvc"]
-          end
-
-          it "has correct RNG type" do
-            _(resource.is_hardware?).must_equal true if info[:type] == "hardware"
-            _(resource.is_csprng?).must_equal true if info[:type] == "csprng"
-          end
+        it "has valid CNG properties" do
+          _(resource.cng_properties).must_equal info[:cng_properties]
+          _(resource.services).must_include "CryptoSvc"
         end
+
+      when :linux
+        it "has valid entropy and services" do
+          _(resource.entropy).must_equal info[:entropy]
+          _(resource.services).must_equal info[:services]
+          _(resource.active).must_equal info[:active]
+        end
+      end
+
+      # Test string representation
+      it "has correct string representation" do
+        _(resource.to_s).must_equal "Random Number Generator (#{info[:type]})"
       end
     end
   end
