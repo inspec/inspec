@@ -162,10 +162,6 @@ its('cng_properties') { should match /Microsoft Primitive Provider/ }
 >
 > **Description:** Returns the CNG properties on Windows.
 
-## Common Resource Functionality
-
-{{< readfile file="content/inspec/reusable/md/resource_functionality.md" >}}
-
 ## Matchers
 
 {{< readfile file="content/inspec/reusable/md/inspec_matchers_link.md" >}}
