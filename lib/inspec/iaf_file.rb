@@ -45,7 +45,7 @@ module Inspec
 
     def self.fetch_validation_key_from_github(keyname)
       URI.open("https://raw.githubusercontent.com/inspec/inspec/main/etc/keys/#{keyname}.pem.pub") do |r|
-        puts "Fetching validation key '#{keyname}' from github"
+        Inspec::Log.debug "Fetching validation key '#{keyname}' from github"
         dir = File.join(Inspec.config_dir, "keys")
         FileUtils.mkdir_p dir
         key_file = File.join(dir, "#{keyname}.pem.pub")
