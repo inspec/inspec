@@ -14,7 +14,7 @@ Chef InSpec has resources for auditing Azure.
 
 ## Initialize an InSpec profile for auditing Azure
 
-With Chef InSpec 4 or greater, you can create a profile for testing AWS resources with `inspec init profile`:
+With Chef InSpec 4 or greater, you can create a profile for testing Azure resources with `inspec init profile`:
 
 ```bash
 $ inspec init profile --platform azure <PROFILE_NAME>
