@@ -4,7 +4,7 @@ require "inspec/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "inspec-core"
-  spec.version       = Inspec::VERSION
+  spec.version       = "#{Inspec::VERSION}.rc"
   spec.authors       = ["Chef InSpec Team"]
   spec.email         = ["inspec@chef.io"]
   spec.summary       = "Infrastructure and compliance testing. Core library."
