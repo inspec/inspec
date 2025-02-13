@@ -132,7 +132,7 @@ subscriptions:
      - built_in:rollover_changelog
      - built_in:publish_rubygems
      - built_in:create_github_release
-     - built_in:promote_habitat_packages
+   #   - built_in:promote_habitat_packages # Uncomment after the InSpec RC release to enable promotion of Habitat packages
      - bash:.expeditor/publish-release-notes.sh:
         post_commit: true
      - purge_packages_chef_io_fastly:{{target_channel}}/inspec/latest:
