@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.68 -->
-## [v5.22.68](https://github.com/inspec/inspec/tree/v5.22.68) (2025-02-06)
+<!-- latest_release 5.22.69 -->
+## [v5.22.69](https://github.com/inspec/inspec/tree/v5.22.69) (2025-02-14)
 
 #### Merged Pull Requests
-- Backport 7284: CHEF-15083 - Update groups resource to use `getent` utility [#7289](https://github.com/inspec/inspec/pull/7289) ([ahasunos](https://github.com/ahasunos))
+- Backport: Fix main pipeline issue on JSON gem update [#7306](https://github.com/inspec/inspec/pull/7306) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.65 -->
 ### Changes since 5.22.65 release
 
 #### Merged Pull Requests
+- Backport: Fix main pipeline issue on JSON gem update [#7306](https://github.com/inspec/inspec/pull/7306) ([Nik08](https://github.com/Nik08)) <!-- 5.22.69 -->
 - Backport 7284: CHEF-15083 - Update groups resource to use `getent` utility [#7289](https://github.com/inspec/inspec/pull/7289) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.68 -->
 - chore: pin gems version which are unable to install for ruby 3.0/3.1 on CI [#7292](https://github.com/inspec/inspec/pull/7292) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.67 -->
 - CHEF-16676-Bug fix for spl character password(InSpec-5) [#7276](https://github.com/inspec/inspec/pull/7276) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.66 -->
