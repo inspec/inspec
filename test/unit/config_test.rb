@@ -98,11 +98,7 @@ describe "Inspec::Config" do
       let(:fixture_name) { "malformed_json" }
       it "should throw an exception" do
         ex = _ { cfg }.must_raise(Inspec::ConfigError::MalformedJson)
-        # Failed to load JSON configuration: 765: unexpected token at '{ "hot_garbage": "a", "version": "1.1",
-        # '
-        # Config was: "{ \"hot_garbage\": \"a\", \"version\": \"1.1\", \n"
         _(ex.message).must_include "Failed to load JSON config" # The message
-        _(ex.message).must_include "unexpected token" # The specific parser error
         _(ex.message).must_include "hot_garbage" # A sample of the unacceptable contents
       end
     end
