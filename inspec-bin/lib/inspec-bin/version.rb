@@ -1,5 +1,5 @@
 # This file managed by automation - do not edit manually
 module InspecBin
   INSPECBIN_ROOT = File.expand_path("..", __dir__)
-  VERSION = "6.8.28".freeze
+  VERSION = "6.8.29".freeze
 end
