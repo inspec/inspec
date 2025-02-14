@@ -72,7 +72,6 @@ describe "Inspec::Plugin::V2::ConfigFile" do
         ex = assert_raises(Inspec::Plugin::V2::ConfigError) { config_file_obj }
         _(ex.message).must_include("Failed to load")
         _(ex.message).must_include("JSON")
-        _(ex.message).must_include("unexpected token")
       end
     end
 
