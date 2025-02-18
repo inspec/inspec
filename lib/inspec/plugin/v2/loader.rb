@@ -352,8 +352,8 @@ module Inspec::Plugin::V2
     def detect_system_plugins
       # Find the gemspec for inspec
       inspec_gemspec =
-        find_inspec_gemspec("inspec",      "=#{Inspec::VERSION}") ||
-        find_inspec_gemspec("inspec-core", "=#{Inspec::VERSION}")
+        find_inspec_gemspec("inspec",      "=#{Inspec::VERSION}.rc") ||
+        find_inspec_gemspec("inspec-core", "=#{Inspec::VERSION}.rc")
 
       unless inspec_gemspec
         Inspec::Log.warn "inspec gem not found, skipping detecting of system plugins"
