@@ -4,7 +4,7 @@ require "inspec-bin/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "inspec-bin"
-  spec.version       = InspecBin::VERSION
+  spec.version       = "#{InspecBin::VERSION}.rc"
   spec.authors       = ["Chef InSpec Core Engineering "]
   spec.email         = ["inspec@chef.io"]
   spec.summary       = "Infrastructure and compliance testing."
@@ -23,7 +23,7 @@ Source code obtained from the Chef GitHub repository is made available under Apa
   spec.require_paths = ["lib"]
   spec.required_ruby_version = ">= 3.1.0"
 
-  spec.add_dependency "inspec", "= #{InspecBin::VERSION}"
+  spec.add_dependency "inspec", "= #{InspecBin::VERSION}.rc"
   spec.add_development_dependency "rake"
 
   spec.files = %w{README.md LICENSE Gemfile} + Dir.glob("*.gemspec") +
