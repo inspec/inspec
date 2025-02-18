@@ -4,7 +4,7 @@ require "inspec/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "inspec"
-  spec.version       = Inspec::VERSION
+  spec.version       = "#{Inspec::VERSION}.rc"
   spec.authors       = ["Chef InSpec Team"]
   spec.email         = ["inspec@chef.io"]
   spec.summary       = "Infrastructure and compliance testing."
@@ -30,7 +30,7 @@ Source code obtained from the Chef GitHub repository is made available under Apa
       .grep(/aws|azure|gcp|gemspec|Gemfile|inspec.gemspec/)
       .reject { |f| File.directory?(f) }
 
-  spec.add_dependency "inspec-core", "= #{Inspec::VERSION}"
+  spec.add_dependency "inspec-core", "= #{Inspec::VERSION}.rc"
 
   spec.add_dependency "train", "~> 3.10"
   spec.add_dependency "rake"
