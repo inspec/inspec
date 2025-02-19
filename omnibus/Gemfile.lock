@@ -1,10 +1,9 @@
 GIT
   remote: https://github.com/chef/omnibus-software.git
-  revision: b97bb4e3e1319ca1c06b1a06f1f6354d3514ff51
+  revision: fec97fbcad50c339d4f538ca5b74cc123f627e61
   branch: main
   specs:
     omnibus-software (24.6.323)
-      ffi (>= 1.17.0)
       omnibus (>= 9.0.0)
 
 GIT
@@ -198,6 +197,7 @@ GEM
     faraday-net_http (3.3.0)
       net-http
     ffi (1.17.0)
+    ffi (1.17.0-x64-mingw-ucrt)
     ffi-libarchive (1.1.14)
       ffi (~> 1.0)
     ffi-win32-extensions (1.0.4)
@@ -456,6 +456,7 @@ GEM
       strings (~> 0.2.0)
       tty-screen (~> 0.8)
     unf_ext (0.0.8.2)
+    unf_ext (0.0.8.2-x64-mingw-ucrt)
     unicode-display_width (2.5.0)
     unicode_utils (1.4.0)
     uri (0.13.1)
