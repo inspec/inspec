@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.8.29 -->
-## [v6.8.29](https://github.com/inspec/inspec/tree/v6.8.29) (2025-02-14)
+<!-- latest_release 6.8.30 -->
+## [v6.8.30](https://github.com/inspec/inspec/tree/v6.8.30) (2025-02-25)
 
 #### Merged Pull Requests
-- Fix main pipeline issue on JSON gem update [#7301](https://github.com/inspec/inspec/pull/7301) ([Nik08](https://github.com/Nik08))
+- CHEF-19664 update inspec main for updating deprecation [#7308](https://github.com/inspec/inspec/pull/7308) ([sa-progress](https://github.com/sa-progress))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- CHEF-19664 update inspec main for updating deprecation [#7308](https://github.com/inspec/inspec/pull/7308) ([sa-progress](https://github.com/sa-progress)) <!-- 6.8.30 -->
 - Fix main pipeline issue on JSON gem update [#7301](https://github.com/inspec/inspec/pull/7301) ([Nik08](https://github.com/Nik08)) <!-- 6.8.29 -->
 - Update azure.md [#7298](https://github.com/inspec/inspec/pull/7298) ([IanMadd](https://github.com/IanMadd)) <!-- 6.8.28 -->
 - Main branch coverage pipeline fix [#7295](https://github.com/inspec/inspec/pull/7295) ([Nik08](https://github.com/Nik08)) <!-- 6.8.27 -->
