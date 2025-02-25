@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.70 -->
-## [v5.22.70](https://github.com/inspec/inspec/tree/v5.22.70) (2025-02-18)
+<!-- latest_release 5.22.71 -->
+## [v5.22.71](https://github.com/inspec/inspec/tree/v5.22.71) (2025-02-25)
 
 #### Merged Pull Requests
-- BACKPORT: Updating train-winrm support [#7300](https://github.com/inspec/inspec/pull/7300) ([Nik08](https://github.com/Nik08))
+- Bump omnibus-software from `1c244b8` to `2385f09` in /omnibus [#7310](https://github.com/inspec/inspec/pull/7310) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.65 -->
 ### Changes since 5.22.65 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `1c244b8` to `2385f09` in /omnibus [#7310](https://github.com/inspec/inspec/pull/7310) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.71 -->
 - BACKPORT: Updating train-winrm support [#7300](https://github.com/inspec/inspec/pull/7300) ([Nik08](https://github.com/Nik08)) <!-- 5.22.70 -->
 - Backport: Fix main pipeline issue on JSON gem update [#7306](https://github.com/inspec/inspec/pull/7306) ([Nik08](https://github.com/Nik08)) <!-- 5.22.69 -->
 - Backport 7284: CHEF-15083 - Update groups resource to use `getent` utility [#7289](https://github.com/inspec/inspec/pull/7289) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.68 -->
