@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.71 -->
-## [v5.22.71](https://github.com/inspec/inspec/tree/v5.22.71) (2025-02-25)
+<!-- latest_release 5.22.72 -->
+## [v5.22.72](https://github.com/inspec/inspec/tree/v5.22.72) (2025-03-03)
 
 #### Merged Pull Requests
-- Bump omnibus-software from `1c244b8` to `2385f09` in /omnibus [#7310](https://github.com/inspec/inspec/pull/7310) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump rack from 2.2.9 to 2.2.11 in /omnibus [#7316](https://github.com/inspec/inspec/pull/7316) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.65 -->
 ### Changes since 5.22.65 release
 
 #### Merged Pull Requests
+- Bump rack from 2.2.9 to 2.2.11 in /omnibus [#7316](https://github.com/inspec/inspec/pull/7316) ([Nik08](https://github.com/Nik08)) <!-- 5.22.72 -->
 - Bump omnibus-software from `1c244b8` to `2385f09` in /omnibus [#7310](https://github.com/inspec/inspec/pull/7310) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.71 -->
 - BACKPORT: Updating train-winrm support [#7300](https://github.com/inspec/inspec/pull/7300) ([Nik08](https://github.com/Nik08)) <!-- 5.22.70 -->
 - Backport: Fix main pipeline issue on JSON gem update [#7306](https://github.com/inspec/inspec/pull/7306) ([Nik08](https://github.com/Nik08)) <!-- 5.22.69 -->
