@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/chef/omnibus-software.git
-  revision: 2385f096db95d7e00c23a89f97412304321f3851
+  revision: 3b903b2e01c332054196b17502134c2e280de2e6
   branch: main
   specs:
     omnibus-software (24.6.323)
@@ -346,7 +346,7 @@ GEM
       coderay (~> 1.1)
       method_source (~> 1.0)
     public_suffix (6.0.1)
-    rack (2.2.9)
+    rack (2.2.11)
     rainbow (3.1.1)
     rest-client (2.1.0)
       http-accept (>= 1.7.0, < 2.0)
