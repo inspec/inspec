@@ -103,6 +103,8 @@ subscriptions:
          - "*.md"
      - bash:.expeditor/update_version.sh:
         only_if: built_in:bump_version
+        ignore_labels:
+         - "Expeditor: Pre-Release Version Bump"
      - bash:.expeditor/update_pre_release_version.sh:
         only_if: built_in:bump_version
         only_if_labels:
