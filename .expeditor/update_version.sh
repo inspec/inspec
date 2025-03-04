@@ -6,5 +6,7 @@
 
 set -evx
 
-sed -i -r "s/VERSION = \".*\"/VERSION = \"$(cat VERSION)\"/" lib/inspec/version.rb
-sed -i -r "s/VERSION = \".*\"/VERSION = \"$(cat VERSION)\"/" inspec-bin/lib/inspec-bin/version.rb
+VERSION="$(cat VERSION).beta"
+
+sed -i -r "s/VERSION = \".*\"/VERSION = \"$VERSION\"/" lib/inspec/version.rb
+sed -i -r "s/VERSION = \".*\"/VERSION = \"$VERSION\"/" inspec-bin/lib/inspec-bin/version.rb
