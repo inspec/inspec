@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.36 -->
-## [v7.0.36](https://github.com/inspec/inspec/tree/v7.0.36) (2025-02-14)
+<!-- latest_release 7.0.37 -->
+## [v7.0.37](https://github.com/inspec/inspec/tree/v7.0.37) (2025-03-05)
 
 #### Merged Pull Requests
-- Foreport: Fix main pipeline issue on JSON gem update [#7307](https://github.com/inspec/inspec/pull/7307) ([Nik08](https://github.com/Nik08))
+- CHEF-18914 - InSpec 7 release changes with beta tag [#7318](https://github.com/inspec/inspec/pull/7318) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.1 release
 
 #### Merged Pull Requests
+- CHEF-18914 - InSpec 7 release changes with beta tag [#7318](https://github.com/inspec/inspec/pull/7318) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.37 -->
 - Foreport: Fix main pipeline issue on JSON gem update [#7307](https://github.com/inspec/inspec/pull/7307) ([Nik08](https://github.com/Nik08)) <!-- 7.0.36 -->
 - Foreport 7284: CHEF-15083: Update groups resource to use `getent` utility [#7290](https://github.com/inspec/inspec/pull/7290) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.35 -->
 - CHEF-14266 Doc change for gem based resource packs dependencies [#7274](https://github.com/inspec/inspec/pull/7274) ([Nik08](https://github.com/Nik08)) <!-- 7.0.34 -->
