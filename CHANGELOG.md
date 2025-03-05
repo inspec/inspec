@@ -1,8 +1,8 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.38 -->
-## [v7.0.38](https://github.com/inspec/inspec/tree/v7.0.38) (2025-03-05)
+<!-- latest_release 7.0.38.beta -->
+## [v7.0.38.beta](https://github.com/inspec/inspec/tree/v7.0.38) (2025-03-05)
 
 #### Merged Pull Requests
 - Updated comment related to beta version bumping [#7322](https://github.com/inspec/inspec/pull/7322) ([Nik08](https://github.com/Nik08))
