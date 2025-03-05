@@ -103,6 +103,12 @@ subscriptions:
          - "*.md"
      - bash:.expeditor/update_version.sh:
         only_if: built_in:bump_version
+        ignore_labels:
+         - "Expeditor: Pre-Release Version Bump"
+     - bash:.expeditor/update_pre_release_version.sh:
+        only_if: built_in:bump_version
+        only_if_labels:
+            - "Expeditor: Pre-Release Version Bump"
      - built_in:update_changelog:
         ignore_labels:
          - "Expeditor: Skip All"
@@ -131,14 +137,14 @@ subscriptions:
     actions:
      - built_in:rollover_changelog
      - built_in:publish_rubygems
-     - built_in:create_github_release
-     - built_in:promote_habitat_packages
-     - bash:.expeditor/publish-release-notes.sh:
-        post_commit: true
-     - purge_packages_chef_io_fastly:{{target_channel}}/inspec/latest:
-        post_commit: true
-     - bash:.expeditor/announce-release.sh:
-        post_commit: true
+   #   - built_in:create_github_release
+   #   - built_in:promote_habitat_packages # Uncomment after the InSpec RC release to enable promotion of Habitat packages
+   #   - bash:.expeditor/publish-release-notes.sh:
+   #      post_commit: true
+   #   - purge_packages_chef_io_fastly:{{target_channel}}/inspec/latest:
+   #      post_commit: true
+   #   - bash:.expeditor/announce-release.sh:
+   #      post_commit: true
      - built_in:notify_chefio_slack_channels
 
   - workload: pull_request_opened:{{github_repo}}:{{release_branch}}:*
