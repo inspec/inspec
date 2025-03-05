@@ -1,26 +1,24 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.72 -->
-## [v5.22.72](https://github.com/inspec/inspec/tree/v5.22.72) (2025-03-03)
-
-#### Merged Pull Requests
-- Bump rack from 2.2.9 to 2.2.11 in /omnibus [#7316](https://github.com/inspec/inspec/pull/7316) ([Nik08](https://github.com/Nik08))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=5.22.65 -->
-### Changes since 5.22.65 release
-
-#### Merged Pull Requests
-- Bump rack from 2.2.9 to 2.2.11 in /omnibus [#7316](https://github.com/inspec/inspec/pull/7316) ([Nik08](https://github.com/Nik08)) <!-- 5.22.72 -->
-- Bump omnibus-software from `1c244b8` to `2385f09` in /omnibus [#7310](https://github.com/inspec/inspec/pull/7310) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.71 -->
-- BACKPORT: Updating train-winrm support [#7300](https://github.com/inspec/inspec/pull/7300) ([Nik08](https://github.com/Nik08)) <!-- 5.22.70 -->
-- Backport: Fix main pipeline issue on JSON gem update [#7306](https://github.com/inspec/inspec/pull/7306) ([Nik08](https://github.com/Nik08)) <!-- 5.22.69 -->
-- Backport 7284: CHEF-15083 - Update groups resource to use `getent` utility [#7289](https://github.com/inspec/inspec/pull/7289) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.68 -->
-- chore: pin gems version which are unable to install for ruby 3.0/3.1 on CI [#7292](https://github.com/inspec/inspec/pull/7292) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.67 -->
-- CHEF-16676-Bug fix for spl character password(InSpec-5) [#7276](https://github.com/inspec/inspec/pull/7276) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.66 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v5.22.72](https://github.com/inspec/inspec/tree/v5.22.72) (2025-03-05)
+
+#### Merged Pull Requests
+- CHEF-16676-Bug fix for spl character password(InSpec-5) [#7276](https://github.com/inspec/inspec/pull/7276) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- chore: pin gems version which are unable to install for ruby 3.0/3.1 on CI [#7292](https://github.com/inspec/inspec/pull/7292) ([ahasunos](https://github.com/ahasunos))
+- Backport 7284: CHEF-15083 - Update groups resource to use `getent` utility [#7289](https://github.com/inspec/inspec/pull/7289) ([ahasunos](https://github.com/ahasunos))
+- Backport: Fix main pipeline issue on JSON gem update [#7306](https://github.com/inspec/inspec/pull/7306) ([Nik08](https://github.com/Nik08))
+- BACKPORT: Updating train-winrm support [#7300](https://github.com/inspec/inspec/pull/7300) ([Nik08](https://github.com/Nik08))
+- Bump omnibus-software from `1c244b8` to `2385f09` in /omnibus [#7310](https://github.com/inspec/inspec/pull/7310) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump rack from 2.2.9 to 2.2.11 in /omnibus [#7316](https://github.com/inspec/inspec/pull/7316) ([Nik08](https://github.com/Nik08))
+<!-- latest_stable_release -->
+
 ## [v5.22.65](https://github.com/inspec/inspec/tree/v5.22.65) (2024-12-13)
 
 #### Merged Pull Requests
@@ -33,7 +31,6 @@
 - empty commit [#7233](https://github.com/inspec/inspec/pull/7233) ([sean-simmons-progress](https://github.com/sean-simmons-progress))
 - force update [#7234](https://github.com/inspec/inspec/pull/7234) ([sean-simmons-progress](https://github.com/sean-simmons-progress))
 - Bump webrick from 1.8.1 to 1.9.1 in /omnibus [#7236](https://github.com/inspec/inspec/pull/7236) ([Nik08](https://github.com/Nik08))
-<!-- latest_stable_release -->
 
 ## [v5.22.58](https://github.com/inspec/inspec/tree/v5.22.58) (2024-09-03)
 
