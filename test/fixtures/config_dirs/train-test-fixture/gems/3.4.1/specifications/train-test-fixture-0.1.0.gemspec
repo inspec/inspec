@@ -12,8 +12,8 @@ Gem::Specification.new do |s|
   s.email = ["hello@chef.io".freeze]
   s.homepage = "https://github.com/inspec/train".freeze
   s.licenses = ["Apache-2.0".freeze]
-  s.rubygems_version = "3.4.0-preview1".freeze
+  s.rubygems_version = "3.4.1".freeze
   s.summary = "Test train plugin. Not intended for use as an example.".freeze
 
-  s.installed_by_version = "3.4.0-preview1" if s.respond_to? :installed_by_version
+  s.installed_by_version = "3.4.1" if s.respond_to? :installed_by_version
 end
