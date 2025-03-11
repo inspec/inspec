@@ -24,7 +24,7 @@ module InspecPlugins
              desc: "Which platform to generate a profile for: choose from #{valid_profile_platforms.join(", ")}"
       option :overwrite, type: :boolean, default: false,
              desc: "Overwrites existing directory"
-      option :resource, default: "", type: :string, aliases: [:r],
+      option :resource_dependency, default: nil, type: :string, aliases: [:r],
               desc: "Generate a resource dependency with the profile"
       def profile(new_profile_name)
         Inspec.with_feature("inspec-cli-init-profile") {
@@ -32,8 +32,14 @@ module InspecPlugins
             ui.error "Unable to generate profile: No template available for platform '#{options[:platform]}' (expected one of: #{valid_profile_platforms.join(", ")})"
             ui.exit(:usage_error)
           end
-          # set nil when passed with no value
-          options[:resource] = nil if options[:resource].strip.empty?
+          # Get the index of "--resource-dependency" in ARGV
+          resource_index = ARGV.index("--resource-dependency")
+
+          # Check if "--resource-dependency" exists but has no argument
+          if resource_index && (resource_index + 1 == ARGV.size || ARGV[resource_index + 1].start_with?("--"))
+            ui.error "Unable to generate profile: No resource pack name provided"
+            ui.exit(:usage_error)
+          end
 
           template_path = File.join("profiles", options[:platform])
           render_opts = {
@@ -44,7 +50,7 @@ module InspecPlugins
 
           vars = {
             name: new_profile_name,
-            resource: options[:resource],
+            resource_dependency: options[:resource_dependency],
           }
           renderer.render_with_values(template_path, "profile", vars)
         }
