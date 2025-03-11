@@ -67,7 +67,13 @@ function Invoke-Install {
         bundle config --local gemfile $project_root/Gemfile
         foreach($gem in ("inspec-core", "inspec", "inspec-bin")) {
             Write-BuildLine "** generating binstubs for $gem with precise version pins"
-            Invoke-Expression -Command "appbundler.bat $project_root $pkg_prefix/bin $gem"
+
+            Write-BuildLine "** Ensuring appbundler is installed"
+            gem install --install-dir $env:GEM_HOME appbundler
+
+            Write-BuildLine "** Generating binstubs for $gem with precise version pins"
+            Invoke-Expression -Command "$env:GEM_HOME/bin/appbundler.bat $project_root $pkg_prefix/bin $gem"
+
             If ($lastexitcode -ne 0) { Exit $lastexitcode }
         }
     } finally {
