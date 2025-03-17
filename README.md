@@ -317,7 +317,7 @@ Remote Targets
 | CentOS                       | 6, 7, 8                                          | i386, x86_64  |
 | Debian                       | 9, 10                                            | i386, x86_64  |
 | FreeBSD                      | 9, 10, 11                                        | i386, amd64   |
-| macOS                        | 11.0                                             | x86_64        |
+| macOS                        | 12.0                                             | x86_64, amd64       |
 | Oracle Enterprise Linux      | 6, 7, 8                                          | i386, x86_64  |
 | Red Hat Enterprise Linux     | 7, 8, 9                                          | i386, x86_64  |
 | Solaris                      | 10, 11                                           | sparc, x86    |
