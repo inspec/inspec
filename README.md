@@ -339,7 +339,7 @@ In addition, runtime support is provided for:
 
 | Platform | Versions | Arch   |
 | -------- | -------- | ------ |
-| macOS    | 11+      | x86_64, arm64 |
+| macOS    | 12      | x86_64, arm64 |
 | Debian   | 9, 10    | x86_64, aarch64 |
 | RHEL     | 7, 8, 9  | x86_64, aarch64 |
 | Fedora   | 29+      | x86_64, aarch64 |
