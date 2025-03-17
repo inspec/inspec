@@ -237,6 +237,7 @@ class MockLoader
       # registry key test using winrm 2.0
       "9417f24311a9dcd90f1b1734080a2d4c6516ec8ff2d452a2328f68eb0ed676cf" => cmd.call("reg_schedule"),
       "Auditpol /get /subcategory:'User Account Management' /r" => cmd.call("auditpol"),
+      "Auditpol /get /subcategory:'Some Invalid Key' /r" => cmd_exit_1.call,
       "/sbin/auditctl -l" => cmd.call("auditctl"),
       "/sbin/auditctl -s" => cmd.call("auditctl-s"),
       "dpkg -s curl" => cmd.call("dpkg-s-curl"),
