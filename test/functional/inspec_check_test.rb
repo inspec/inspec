@@ -6,6 +6,22 @@ describe "inspec check" do
 
   parallelize_me!
 
+  describe "inspec check with an empty (or only comments) control file" do
+    it "can check a profile with an empty control file with the legacy flag" do
+      out = inspec("check " + File.join(profile_path, "profile-with-comments-and-empty-file") + " --legacy_check")
+      _(out.stdout).must_include "Controls :   1"
+      _(out.stdout).must_include "Valid :      true"
+      assert_exit_code 0, out
+    end
+
+    it "can check a profile with an empty (or only comments) control file without the legacy flag" do
+      out = inspec("check " + File.join(profile_path, "profile-with-comments-and-empty-file"))
+      _(out.stdout).must_include "Controls :   1"
+      _(out.stdout).must_include "Valid :      true"
+      assert_exit_code 0, out
+    end
+  end
+
   describe "inspec check with json formatter" do
     it "can check a profile and produce valid JSON" do
       out = inspec("check " + example_profile + " --format json")
