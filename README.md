@@ -317,7 +317,7 @@ Remote Targets
 | CentOS                       | 6, 7, 8                                          | i386, x86_64  |
 | Debian                       | 9, 10                                            | i386, x86_64  |
 | FreeBSD                      | 9, 10, 11                                        | i386, amd64   |
-| macOS                        | 10.14, 10.15, 11.0                               | x86_64        |
+| macOS                        | 10.14, 10.15, 11.0 , 12.0                              | x86_64        |
 | Oracle Enterprise Linux      | 6, 7, 8                                          | i386, x86_64  |
 | Red Hat Enterprise Linux     | 6, 7, 8                                          | i386, x86_64  |
 | Solaris                      | 10, 11                                           | sparc, x86    |
@@ -339,7 +339,7 @@ In addition, runtime support is provided for:
 
 | Platform | Versions | Arch   |
 | -------- | -------- | ------ |
-| macOS    | 11+      | x86_64, arm64 |
+| macOS    | 11,12      | x86_64, arm64 |
 | Debian   | 9, 10    | x86_64, aarch64 |
 | RHEL     | 7, 8, 9  | x86_64, aarch64 |
 | Fedora   | 29+      | x86_64, aarch64 |
