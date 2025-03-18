@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 5.22.73 -->
+## [v5.22.73](https://github.com/inspec/inspec/tree/v5.22.73) (2025-03-18)
+
+#### Merged Pull Requests
+- remove mac 11 from inspec-5 as its EOL and update 12 as builder [#7331](https://github.com/inspec/inspec/pull/7331) ([muthuja](https://github.com/muthuja))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=5.22.72 -->
+### Changes since 5.22.72 release
+
+#### Merged Pull Requests
+- remove mac 11 from inspec-5 as its EOL and update 12 as builder [#7331](https://github.com/inspec/inspec/pull/7331) ([muthuja](https://github.com/muthuja)) <!-- 5.22.73 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
