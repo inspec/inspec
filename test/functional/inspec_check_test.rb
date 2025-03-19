@@ -6,7 +6,7 @@ describe "inspec check" do
 
   parallelize_me!
 
-  describe "inspec check with an only comments in control file" do
+  describe "inspec check for a profile with only comments in the control file" do
     it "can check a profile with only comments in control file with the legacy flag" do
       out = inspec("check " + File.join(profile_path, "profile-with-comments-in-control-file") + " --legacy_check")
       _(out.stdout).must_include "Valid :      true"
@@ -20,7 +20,7 @@ describe "inspec check" do
     end
   end
 
-  describe "inspec check with an empty in control file" do
+  describe "inspec check for a profile with an empty control file." do
     it "can check a profile with an empty control file with the legacy flag" do
       out = inspec("check " + File.join(profile_path, "profile-with-empty-control-file") + " --legacy_check")
       _(out.stdout).must_include "Valid :      true"
