@@ -27,12 +27,6 @@ module Inspec
     end
 
     def self.valid_waiver_file?(file_path)
-      # Check if the file exists
-      unless File.exist?(file_path)
-        Inspec::Log.warn "Waivers file '#{file_path}' does not exist. Skipping waivers."
-        return false
-      end
-
       # Check if the file is readable
       file_extension = File.extname(file_path)
       unless SUPPORTED_FILE_EXTENSION.include?(file_extension)
