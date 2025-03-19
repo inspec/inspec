@@ -17,43 +17,54 @@ module Inspec
       output = {}
 
       files.each do |file_path|
-        data = nil
-        file_extension = File.extname(file_path)
+        next unless valid_waiver_file?(file_path)
 
-        unless File.exist?(file_path)
-          Inspec::Log.warn "Waivers file '#{file_path}' does not exist. Skipping waivers."
-          next
-        end
-
-        unless SUPPORTED_FILE_EXTENSION.include?(file_extension)
-          raise Inspec::Exceptions::WaiversFileNotReadable,
-          "Cannot find parser for waivers file '#{file_path}'. " \
-          "Check to make sure file has the appropriate extension. Supported file extensions are: #{SUPPORTED_FILE_EXTENSION.join(", ")}"
-        end
-
-        if File.zero?(file_path)
-          Inspec::Log.warn "Waivers file '#{file_path}' is empty. Skipping waivers."
-          next
-        end
-
-        if [".yaml", ".yml"].include? file_extension
-          data = Secrets::YAML.resolve(file_path)
-          data = data&.inputs
-          validate_json_yaml(data)
-        elsif file_extension == ".csv"
-          data = Waivers::CSVFileReader.resolve(file_path)
-          headers = Waivers::CSVFileReader.headers
-          validate_headers(headers)
-        elsif file_extension == ".json"
-          data = Waivers::JSONFileReader.resolve(file_path)
-          validate_json_yaml(data)
-        end
-        next if data.nil?
-
+        data = parse_waiver_file(file_path)
         output.merge!(data) if data.is_a?(Hash)
       end
 
       @waivers_data[profile_id] = output
+    end
+
+    def self.valid_waiver_file?(file_path)
+      # Check if the file exists
+      unless File.exist?(file_path)
+        Inspec::Log.warn "Waivers file '#{file_path}' does not exist. Skipping waivers."
+        return false
+      end
+
+      # Check if the file is readable
+      file_extension = File.extname(file_path)
+      unless SUPPORTED_FILE_EXTENSION.include?(file_extension)
+        raise Inspec::Exceptions::WaiversFileNotReadable,
+              "Unsupported file extension for '#{file_path}'. Allowed waiver file extensions: #{SUPPORTED_FILE_EXTENSION.join(", ")}"
+      end
+
+      # Check if the file is empty
+      if File.zero?(file_path)
+        Inspec::Log.warn "Waivers file '#{file_path}' is empty. Skipping waivers."
+        return false
+      end
+
+      true
+    end
+
+    def self.parse_waiver_file(file_path)
+      file_extension = File.extname(file_path)
+
+      case file_extension
+      when ".yaml", ".yml"
+        data = Secrets::YAML.resolve(file_path)&.inputs
+        validate_json_yaml(data)
+      when ".csv"
+        data = Waivers::CSVFileReader.resolve(file_path)
+        validate_headers(Waivers::CSVFileReader.headers)
+      when ".json"
+        data = Waivers::JSONFileReader.resolve(file_path)
+        validate_json_yaml(data)
+      end
+
+      data
     end
 
     def self.validate_headers(headers, json_yaml = false)
