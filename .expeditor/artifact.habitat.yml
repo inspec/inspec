@@ -15,7 +15,7 @@ steps:
     expeditor:
       executor:
         docker:
-          image: ruby:3.4.2
+          image: ruby:3.4
           privileged: true
 
   - label: ":windows: Validate Habitat Builds of Chef InSpec"

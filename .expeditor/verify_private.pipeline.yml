@@ -9,34 +9,34 @@ expeditor:
 
 steps:
 
-  - label: lint-ruby-3.4.2
+  - label: lint-ruby-3.4
     command:
       - RAKE_TASK=test:lint /workdir/.expeditor/buildkite/verify.sh
     expeditor:
       secrets: true
       executor:
         docker:
-          image: ruby:3.1-bullseye
+          image: ruby:3.4-bullseye
 
-  - label: run-tests-ruby-3.4.2
+  - label: run-tests-ruby-3.4
     command:
       - /workdir/.expeditor/buildkite/verify.sh
     expeditor:
       secrets: true
       executor:
         docker:
-          image: ruby:3.4.2-bullseye
+          image: ruby:3.4-bullseye
 
-  - label: isolated-tests-ruby-3.4.2
+  - label: isolated-tests-ruby-3.4
     command:
       - RAKE_TASK=test:isolated /workdir/.expeditor/buildkite/verify.sh
     expeditor:
       secrets: true
       executor:
         docker:
-          image: ruby:3.1-bullseye
+          image: ruby:3.4-bullseye
 
-  - label: run-tests-ruby-3.4.2-windows
+  - label: run-tests-ruby-3.4-windows
     command:
       - /workdir/.expeditor/buildkite/verify.ps1
     expeditor:
@@ -47,4 +47,4 @@ steps:
             - BUILDKITE
           host_os: windows
           shell: ["powershell", "-Command"]
-          image: rubydistros/windows-2019:3.4.2
+          image: rubydistros/windows-2019:3.4
