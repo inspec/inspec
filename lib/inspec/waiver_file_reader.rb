@@ -17,6 +17,7 @@ module Inspec
       output = {}
 
       files.each do |file_path|
+        data = nil
         file_extension = File.extname(file_path)
 
         unless SUPPORTED_FILE_EXTENSION.include?(file_extension)
@@ -25,22 +26,21 @@ module Inspec
           "Check to make sure file has the appropriate extension. Supported file extensions are: #{SUPPORTED_FILE_EXTENSION.join(", ")}"
         end
 
-        data = nil
         if [".yaml", ".yml"].include? file_extension
           data = Secrets::YAML.resolve(file_path)
-          unless data.nil?
-            data = data.inputs
-            validate_json_yaml(data)
-          end
+          data = data&.inputs
+          validate_json_yaml(data)
         elsif file_extension == ".csv"
           data = Waivers::CSVFileReader.resolve(file_path)
           headers = Waivers::CSVFileReader.headers
           validate_headers(headers)
         elsif file_extension == ".json"
           data = Waivers::JSONFileReader.resolve(file_path)
-          validate_json_yaml(data) unless data.nil?
+          validate_json_yaml(data)
         end
-        output.merge!(data) if !data.nil? && data.is_a?(Hash)
+        next if data.nil?
+
+        output.merge!(data) if data.is_a?(Hash)
       end
 
       @waivers_data[profile_id] = output
@@ -56,8 +56,10 @@ module Inspec
     end
 
     def self.validate_json_yaml(data)
+      return if data.nil?
+
       headers = []
-      data.each_value do |value|
+      data&.each_value do |value|
         headers.push value.keys
       end
       validate_headers(headers.flatten.uniq, true)
