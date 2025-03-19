@@ -20,10 +20,20 @@ module Inspec
         data = nil
         file_extension = File.extname(file_path)
 
+        unless File.exist?(file_path)
+          Inspec::Log.warn "Waivers file '#{file_path}' does not exist. Skipping waivers."
+          next
+        end
+
         unless SUPPORTED_FILE_EXTENSION.include?(file_extension)
           raise Inspec::Exceptions::WaiversFileNotReadable,
           "Cannot find parser for waivers file '#{file_path}'. " \
           "Check to make sure file has the appropriate extension. Supported file extensions are: #{SUPPORTED_FILE_EXTENSION.join(", ")}"
+        end
+
+        if File.zero?(file_path)
+          Inspec::Log.warn "Waivers file '#{file_path}' is empty. Skipping waivers."
+          next
         end
 
         if [".yaml", ".yml"].include? file_extension
