@@ -6,17 +6,29 @@ describe "inspec check" do
 
   parallelize_me!
 
-  describe "inspec check with an empty (or only comments) control file" do
-    it "can check a profile with an empty control file with the legacy flag" do
-      out = inspec("check " + File.join(profile_path, "profile-with-comments-and-empty-file") + " --legacy_check")
-      _(out.stdout).must_include "Controls :   1"
+  describe "inspec check with an only comments in control file" do
+    it "can check a profile with only comments in control file with the legacy flag" do
+      out = inspec("check " + File.join(profile_path, "profile-with-comments-in-control-file") + " --legacy_check")
       _(out.stdout).must_include "Valid :      true"
       assert_exit_code 0, out
     end
 
-    it "can check a profile with an empty (or only comments) control file without the legacy flag" do
-      out = inspec("check " + File.join(profile_path, "profile-with-comments-and-empty-file"))
-      _(out.stdout).must_include "Controls :   1"
+    it "can check a profile with only comments in control file without the legacy flag" do
+      out = inspec("check " + File.join(profile_path, "profile-with-comments-in-control-file"))
+      _(out.stdout).must_include "Valid :      true"
+      assert_exit_code 0, out
+    end
+  end
+
+  describe "inspec check with an empty in control file" do
+    it "can check a profile with an empty control file with the legacy flag" do
+      out = inspec("check " + File.join(profile_path, "profile-with-empty-control-file") + " --legacy_check")
+      _(out.stdout).must_include "Valid :      true"
+      assert_exit_code 0, out
+    end
+
+    it "can check a profile with an empty control file without the legacy flag" do
+      out = inspec("check " + File.join(profile_path, "profile-with-empty-control-file"))
       _(out.stdout).must_include "Valid :      true"
       assert_exit_code 0, out
     end
