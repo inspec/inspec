@@ -34,8 +34,8 @@ do_setup_environment() {
   build_line 'Setting GEM_HOME="$pkg_prefix/lib"'
   export GEM_HOME="$pkg_prefix/lib"
 
-  build_line "Setting GEM_PATH=$GEM_HOME"
-  export GEM_PATH="$GEM_HOME"
+  build_line "Setting GEM_PATH=$GEM_HOME:${INSPEC_CONFIG_DIR:-~/.inspec}"
+  export GEM_PATH="$GEM_HOME:${INSPEC_CONFIG_DIR:-~/.inspec}"
 }
 
 do_unpack() {
