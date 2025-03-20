@@ -628,7 +628,7 @@ module Inspec
                                                                               include_tests: include_tests)
 
         # Collect all metadata defined in the control block and inputs defined inside the control block
-        src.ast.each_node { |n|
+        src.ast&.each_node { |n|
           ctl_id_collector.process(n)
           input_collector.process(n)
         }
@@ -690,7 +690,7 @@ module Inspec
       }
       source_location_ref = @source_reader.target.abs_path(control_filename)
       Inspec::Profile::AstHelper::TitleCollector.new(group_data)
-        .process(src.ast.child_nodes.first) # Picking the title defined for the whole controls file
+        .process(src.ast&.child_nodes&.first) # Picking the title defined for the whole controls file
       group_controls = @info_from_parse[:controls].select { |control| control[:source_location][:ref] == source_location_ref }
       group_data[:controls] = group_controls.map { |control| control[:id] }
 
