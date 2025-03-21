@@ -28,7 +28,7 @@ module Inspec
 
     def self.valid_waiver_file?(file_path)
       # Check if the file is readable
-      file_extension = File.extname(file_path)
+      file_extension = File.extname(file_path).downcase
       unless SUPPORTED_FILE_EXTENSION.include?(file_extension)
         raise Inspec::Exceptions::WaiversFileNotReadable,
               "Unsupported file extension for '#{file_path}'. Allowed waiver file extensions: #{SUPPORTED_FILE_EXTENSION.join(", ")}"
@@ -44,7 +44,7 @@ module Inspec
     end
 
     def self.parse_waiver_file(file_path)
-      file_extension = File.extname(file_path)
+      file_extension = File.extname(file_path).downcase
 
       case file_extension
       when ".yaml", ".yml"
@@ -74,7 +74,7 @@ module Inspec
       return if data.nil?
 
       headers = []
-      data&.each_value do |value|
+      data.each_value do |value|
         headers.push value.keys
       end
       validate_headers(headers.flatten.uniq, true)
