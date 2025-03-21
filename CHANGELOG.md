@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.41 -->
-## [v7.0.41](https://github.com/inspec/inspec/tree/v7.0.41) (2025-03-14)
+<!-- latest_release 7.0.42 -->
+## [v7.0.42](https://github.com/inspec/inspec/tree/v7.0.42) (2025-03-21)
 
 #### Merged Pull Requests
-- CHEF-19348-Update tomlrb version [#7328](https://github.com/inspec/inspec/pull/7328) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Foreport: CHEF-20111: Fix inspec check for a profile with only comments or empty file [#7333](https://github.com/inspec/inspec/pull/7333) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Foreport: CHEF-20111: Fix inspec check for a profile with only comments or empty file [#7333](https://github.com/inspec/inspec/pull/7333) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.42 -->
 - CHEF-19348-Update tomlrb version [#7328](https://github.com/inspec/inspec/pull/7328) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.41 -->
 - CHEF-18694 windows hab package fix for in spec 7 [#7327](https://github.com/inspec/inspec/pull/7327) ([sa-progress](https://github.com/sa-progress)) <!-- 7.0.40 -->
 - CHEF-18694 Windows hab pipeline enabled for InSpec 7 [#7270](https://github.com/inspec/inspec/pull/7270) ([Nik08](https://github.com/Nik08)) <!-- 7.0.39 -->
