@@ -391,6 +391,9 @@ module Inspec::Plugin::V2
       # So, after each install, run a scan for all gem(specs) we manage, and copy in their gemspec file
       # into the exploded gem source area if absent.
       loader.list_managed_gems.each do |spec|
+        lib_dir = File.join(spec.gem_dir, "lib")
+        # add freshly downloaded gems to the load path
+        $LOAD_PATH.unshift(lib_dir) unless $LOAD_PATH.include?(lib_dir)
         path_inside_source = File.join(spec.gem_dir, "#{spec.name}.gemspec")
         unless File.exist?(path_inside_source)
           File.write(path_inside_source, spec.to_ruby)
