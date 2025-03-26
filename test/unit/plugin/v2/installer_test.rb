@@ -210,6 +210,39 @@ class PluginInstallerInstallationTests < Minitest::Test
     assert spec.activated?, "Installing a gem should cause the gem to activate"
   end
 
+  def test_activate_dependents_after_plugin_install
+    skip_slow_tests
+    skip_live_net_tests
+
+    ENV["GEM_HOME"] = @@orig_home
+    ENV["INSPEC_CONFIG_DIR"] = nil
+
+    capture_subprocess_io do
+      @installer.install("inspec-test-fixture")
+    end
+
+    # Because no exception was thrown, this is a positive test case for prefix-checking.
+
+    # Installing a gem places it under the config dir gem area
+    spec_path = File.join(@installer.gem_path, "specifications", "inspec-test-fixture-0.2.0.gemspec")
+    assert File.exist?(spec_path), "After installation from rubygems.org, the gemspec should be installed to the gem path"
+    installed_gem_base = File.join(@installer.gem_path, "gems", "inspec-test-fixture-0.2.0")
+    assert Dir.exist?(installed_gem_base), "After installation from rubygems.org, the gem tree should be installed to the gem path"
+
+    # installing a gem with dependencies should result in the deps being installed under the config dir
+    spec_path = File.join(@installer.gem_path, "specifications", "ordinal_array-0.2.0.gemspec")
+    assert File.exist?(spec_path), "After installation from a gem file, the gemspec should be installed to the gem path"
+    installed_gem_base = File.join(@installer.gem_path, "gems", "inspec-test-fixture-0.2.0")
+    assert Dir.exist?(installed_gem_base), "After installation from a gem file, the gem tree should be installed to the gem path"
+
+    # Installation != gem activation
+    spec = Gem.loaded_specs["inspec-test-fixture"]
+    assert spec.activated?, "Installing a gem should cause the gem to activate"
+
+    assert spec = Gem.loaded_specs["ordinal_array"], "Dependent Gems should be loaded"
+    assert spec.activated?, "Installing a gem should cause the gem to activate"
+  end
+
   def test_handle_no_such_gem
     skip_slow_tests
     skip_live_net_tests
