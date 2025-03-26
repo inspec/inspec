@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.74 -->
-## [v5.22.74](https://github.com/inspec/inspec/tree/v5.22.74) (2025-03-21)
+<!-- latest_release 5.22.75 -->
+## [v5.22.75](https://github.com/inspec/inspec/tree/v5.22.75) (2025-03-26)
 
 #### Merged Pull Requests
-- Backport: CHEF-20111: Fix inspec check for a profile with only comments or empty file [#7334](https://github.com/inspec/inspec/pull/7334) ([ahasunos](https://github.com/ahasunos))
+- CHEF-18044 Waiver error handling fixes [#7339](https://github.com/inspec/inspec/pull/7339) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.72 -->
 ### Changes since 5.22.72 release
 
 #### Merged Pull Requests
+- CHEF-18044 Waiver error handling fixes [#7339](https://github.com/inspec/inspec/pull/7339) ([Nik08](https://github.com/Nik08)) <!-- 5.22.75 -->
 - Backport: CHEF-20111: Fix inspec check for a profile with only comments or empty file [#7334](https://github.com/inspec/inspec/pull/7334) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.74 -->
 - remove mac 11 from inspec-5 as its EOL and update 12 as builder [#7331](https://github.com/inspec/inspec/pull/7331) ([muthuja](https://github.com/muthuja)) <!-- 5.22.73 -->
 <!-- release_rollup -->
