@@ -372,6 +372,15 @@ module Inspec::Plugin::V2
           requested_gemspec = activation_request.full_spec
           next if requested_gemspec.activated?
 
+          # The specs at this point are pointed to GEM_HOME/Gem.default_dir directory
+          # because of the resolved set's assumption that we will install Gems in the same directory
+          # In many cases, RubyGems has already loaded gems from default dir
+          # Hence at this point it is really only a sanity check
+          # And if the requested_gemspec_file has not been downloaded in this default dir do not activate it
+          # Activation will be taken care after the downloads
+          requested_gemspec_file = File.join(requested_gemspec.gem_dir, "#{requested_gemspec.name}.gemspec")
+          next unless File.exist?(requested_gemspec_file)
+
           # activate the requested gemspec from the Gem::RequestSet
           requested_gemspec.activate unless loaded_recent_most_version_of?(requested_gemspec)
         end
