@@ -405,7 +405,7 @@ module Inspec::Plugin::V2
           File.write(path_inside_source, spec.to_ruby)
         end
       end
-
+      loader.activate_managed_gems_for_plugin(new_plugin_dependency.name)
       # Locate the GemVersion for the new dependency and return it
       solution.detect { |g| g.name == new_plugin_dependency.name }.version
     end
