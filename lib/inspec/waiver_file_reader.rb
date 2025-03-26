@@ -5,6 +5,8 @@ require "inspec/utils/waivers/json_file_reader"
 module Inspec
   class WaiverFileReader
 
+    SUPPORTED_FILE_EXTENSION = %w{.yaml .yml .csv .json}.freeze
+
     def self.fetch_waivers_by_profile(profile_id, files)
       read_waivers_from_file(profile_id, files) if @waivers_data.nil? || @waivers_data[profile_id].nil?
       @waivers_data[profile_id]
@@ -15,37 +17,47 @@ module Inspec
       output = {}
 
       files.each do |file_path|
-        data = read_from_file(file_path)
-        output.merge!(data) if !data.nil? && data.is_a?(Hash)
+        next unless valid_waiver_file?(file_path)
 
-        if data.nil?
-          raise Inspec::Exceptions::WaiversFileNotReadable,
-              "Cannot find parser for waivers file." \
-              "Check to make sure file has the appropriate extension."
-        end
-      rescue Inspec::Exceptions::WaiversFileNotReadable, Inspec::Exceptions::WaiversFileInvalidFormatting => e
-        Inspec::Log.error "Error reading waivers file #{file_path}. #{e.message}"
-        Inspec::UI.new.exit(:usage_error)
+        data = parse_waiver_file(file_path)
+        output.merge!(data) if data.is_a?(Hash)
       end
 
       @waivers_data[profile_id] = output
     end
 
-    def self.read_from_file(file_path)
-      data = nil
-      file_extension = File.extname(file_path)
-      if [".yaml", ".yml"].include? file_extension
-        data = Secrets::YAML.resolve(file_path)
-        data = data.inputs unless data.nil?
-        validate_json_yaml(data)
-      elsif file_extension == ".csv"
-        data = Waivers::CSVFileReader.resolve(file_path)
-        headers = Waivers::CSVFileReader.headers
-        validate_csv_headers(headers)
-      elsif file_extension == ".json"
-        data = Waivers::JSONFileReader.resolve(file_path)
-        validate_json_yaml(data) unless data.nil?
+    def self.valid_waiver_file?(file_path)
+      # Check if the file is readable
+      file_extension = File.extname(file_path).downcase
+      unless SUPPORTED_FILE_EXTENSION.include?(file_extension)
+        raise Inspec::Exceptions::WaiversFileNotReadable,
+              "Unsupported file extension for '#{file_path}'. Allowed waiver file extensions: #{SUPPORTED_FILE_EXTENSION.join(", ")}"
       end
+
+      # Check if the file is empty
+      if File.zero?(file_path)
+        Inspec::Log.warn "Waivers file '#{file_path}' is empty. Skipping waivers."
+        return false
+      end
+
+      true
+    end
+
+    def self.parse_waiver_file(file_path)
+      file_extension = File.extname(file_path).downcase
+
+      case file_extension
+      when ".yaml", ".yml"
+        data = Secrets::YAML.resolve(file_path)&.inputs
+        validate_json_yaml(data)
+      when ".csv"
+        data = Waivers::CSVFileReader.resolve(file_path)
+        validate_csv_headers(Waivers::CSVFileReader.headers)
+      when ".json"
+        data = Waivers::JSONFileReader.resolve(file_path)
+        validate_json_yaml(data)
+      end
+
       data
     end
 
@@ -81,6 +93,8 @@ module Inspec
     end
 
     def self.validate_json_yaml(data)
+      return if data.nil?
+
       missing_required_field = false
       data.each do |key, value|
         # In case of yaml or json we need to validate headers/parametes for each value
