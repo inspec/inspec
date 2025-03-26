@@ -339,6 +339,9 @@ module Inspec::Plugin::V2
       set_available_for_resolution = build_gem_request_universe(extra_request_sets, gem_to_force_update)
 
       # Solve the dependency (that is, find a way to install the new plugin and anything it needs)
+      # [WARN]: Gem::RequestSet cannot resolve from multiple directories
+      # So all dependent gems will be resolved to the GEM_HOME/Gem.default_dir directory
+      # assuming everything will be installed in the same dir
       request_set = Gem::RequestSet.new(new_plugin_dependency)
 
       begin
