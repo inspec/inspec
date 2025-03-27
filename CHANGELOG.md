@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.75 -->
-## [v5.22.75](https://github.com/inspec/inspec/tree/v5.22.75) (2025-03-26)
+<!-- latest_release 5.22.76 -->
+## [v5.22.76](https://github.com/inspec/inspec/tree/v5.22.76) (2025-03-27)
 
 #### Merged Pull Requests
-- CHEF-18044 Waiver error handling fixes [#7339](https://github.com/inspec/inspec/pull/7339) ([Nik08](https://github.com/Nik08))
+- Backport - CHEF-15789 - Improve error handling for audit_policy resource [#7336](https://github.com/inspec/inspec/pull/7336) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.72 -->
 ### Changes since 5.22.72 release
 
 #### Merged Pull Requests
+- Backport - CHEF-15789 - Improve error handling for audit_policy resource [#7336](https://github.com/inspec/inspec/pull/7336) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.76 -->
 - CHEF-18044 Waiver error handling fixes [#7339](https://github.com/inspec/inspec/pull/7339) ([Nik08](https://github.com/Nik08)) <!-- 5.22.75 -->
 - Backport: CHEF-20111: Fix inspec check for a profile with only comments or empty file [#7334](https://github.com/inspec/inspec/pull/7334) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.74 -->
 - remove mac 11 from inspec-5 as its EOL and update 12 as builder [#7331](https://github.com/inspec/inspec/pull/7331) ([muthuja](https://github.com/muthuja)) <!-- 5.22.73 -->
