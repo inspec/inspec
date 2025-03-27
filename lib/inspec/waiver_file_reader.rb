@@ -21,6 +21,9 @@ module Inspec
 
         data = parse_waiver_file(file_path)
         output.merge!(data) if data.is_a?(Hash)
+      rescue Inspec::Exceptions::WaiversFileNotReadable, Inspec::Exceptions::WaiversFileInvalidFormatting => e
+        Inspec::Log.error "Error reading waivers file #{file_path}. #{e.message}"
+        Inspec::UI.new.exit(:usage_error)
       end
 
       @waivers_data[profile_id] = output
