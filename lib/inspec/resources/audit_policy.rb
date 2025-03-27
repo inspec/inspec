@@ -39,11 +39,17 @@ module Inspec::Resources
       # expected result:
       # Machine Name,Policy Target,Subcategory,Subcategory GUID,Inclusion Setting,Exclusion Setting
       # WIN-MB8NINQ388J,System,Kerberos Authentication Service,{0CCE9242-69AE-11D9-BED3-505054503030},No Auditing,
-      result ||= inspec.command("Auditpol /get /subcategory:'#{key}' /r").stdout
+      auditpol_cmd = "Auditpol /get /subcategory:'#{key}' /r"
+      result ||= inspec.command(auditpol_cmd)
+
+      unless result.exit_status == 0
+        error = result.stdout + "\n" + result.stderr
+        raise Inspec::Exceptions::ResourceFailed, "Error while executing #{auditpol_cmd} command: #{error}"
+      end
 
       # find line
       target = nil
-      result.each_line do |s|
+      result.stdout.each_line do |s|
         target = s.strip if s =~ /\b.*#{key}.*\b/
       end
 
