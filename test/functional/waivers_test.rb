@@ -321,11 +321,7 @@ describe "waivers" do
       it "raise error" do
         result = run_result
         assert_includes result.stderr, "Unsupported file extension"
-        if windows?
-          assert_equal 1, result.exit_status
-        else
-          assert_equal 102, result.exit_status
-        end
+        assert_equal 1, result.exit_status
       end
     end
   end
