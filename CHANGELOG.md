@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.8.33 -->
-## [v6.8.33](https://github.com/inspec/inspec/tree/v6.8.33) (2025-03-25)
+<!-- latest_release 6.8.34 -->
+## [v6.8.34](https://github.com/inspec/inspec/tree/v6.8.34) (2025-03-27)
 
 #### Merged Pull Requests
-- CHEF-15789 - Improve error handling for `audit_policy` resource [#7319](https://github.com/inspec/inspec/pull/7319) ([ahasunos](https://github.com/ahasunos))
+- Updating train-winrm support [#7296](https://github.com/inspec/inspec/pull/7296) ([johnmccrae](https://github.com/johnmccrae))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Updating train-winrm support [#7296](https://github.com/inspec/inspec/pull/7296) ([johnmccrae](https://github.com/johnmccrae)) <!-- 6.8.34 -->
 - CHEF-15789 - Improve error handling for `audit_policy` resource [#7319](https://github.com/inspec/inspec/pull/7319) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.33 -->
 - CHEF-20111: Fix `inspec check` for a profile with only comments or empty file [#7332](https://github.com/inspec/inspec/pull/7332) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.32 -->
 - remove mac11 as its EOL and upadte 12 as builder [#7330](https://github.com/inspec/inspec/pull/7330) ([muthuja](https://github.com/muthuja)) <!-- 6.8.31 -->
