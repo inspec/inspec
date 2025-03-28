@@ -23,7 +23,7 @@ describe NginxParser do
   end
 
   it "parses a simple assignment" do
-    _(parsestr("assignment a;")).must_equal "[{:assignment=>{:identifier=>\"assignment\"@0, :args=>[{:value=>\"a\"@11}]}}]"
+    _(parsestr("assignment a;")).must_equal "[{assignment: {identifier: \"assignment\"@0, args: [{value: \"a\"@11}]}}]"
   end
 
   it "parses an assignment with a single quoted value" do
@@ -63,39 +63,39 @@ describe NginxParser do
   end
 
   it "parses an empty group" do
-    _(parsestr("group {}")).must_equal "[{:section=>{:identifier=>\"group\"@0}, :args=>\"\", :expressions=>[]}]"
+    _(parsestr("group {}")).must_equal "[{section: {identifier: \"group\"@0}, args: \"\", expressions: []}]"
   end
 
   it "parses a group with parameters" do
-    _(parsestr("group a b {}")).must_equal "[{:section=>{:identifier=>\"group\"@0}, :args=>[{:value=>\"a\"@6}, {:value=>\"b\"@8}], :expressions=>[]}]"
+    _(parsestr("group a b {}")).must_equal "[{section: {identifier: \"group\"@0}, args: [{value: \"a\"@6}, {value: \"b\"@8}], expressions: []}]"
   end
 
   it "parses a group with a body" do
-    _(parsestr("group {\na b;\n}")).must_equal "[{:section=>{:identifier=>\"group\"@0}, :args=>\"\", :expressions=>[{:assignment=>{:identifier=>\"a\"@8, :args=>[{:value=>\"b\"@10}]}}]}]"
+    _(parsestr("group {\na b;\n}")).must_equal "[{section: {identifier: \"group\"@0}, args: \"\", expressions: [{assignment: {identifier: \"a\"@8, args: [{value: \"b\"@10}]}}]}]"
   end
 
   it "parses a group with arguments and a body" do
-    _(parsestr("group c {\na b;\n}")).must_equal "[{:section=>{:identifier=>\"group\"@0}, :args=>[{:value=>\"c\"@6}], :expressions=>[{:assignment=>{:identifier=>\"a\"@10, :args=>[{:value=>\"b\"@12}]}}]}]"
+    _(parsestr("group c {\na b;\n}")).must_equal "[{section: {identifier: \"group\"@0}, args: [{value: \"c\"@6}], expressions: [{assignment: {identifier: \"a\"@10, args: [{value: \"b\"@12}]}}]}]"
   end
 
   it "parses nested groups" do
-    _(parsestr("f {g {h {\n# comment\n}}}")).must_equal "[{:section=>{:identifier=>\"f\"@0}, :args=>\"\", :expressions=>[{:section=>{:identifier=>\"g\"@3}, :args=>\"\", :expressions=>[{:section=>{:identifier=>\"h\"@6}, :args=>\"\", :expressions=>[]}]}]}]"
+    _(parsestr("f {g {h {\n# comment\n}}}")).must_equal "[{section: {identifier: \"f\"@0}, args: \"\", expressions: [{section: {identifier: \"g\"@3}, args: \"\", expressions: [{section: {identifier: \"h\"@6}, args: \"\", expressions: []}]}]}]"
   end
 
   it "parses quoted identifiers for assignments" do
-    _(parsestr(%{"~^\/opcache-api" 1;})).must_equal "[{:assignment=>{:identifier=>\"~^/opcache-api\"@1, :args=>[{:value=>\"1\"@17}]}}]"
+    _(parsestr(%{"~^\/opcache-api" 1;})).must_equal "[{assignment: {identifier: \"~^/opcache-api\"@1, args: [{value: \"1\"@17}]}}]"
   end
 
   it "parses regex identifiers for assignments" do
-    _(parsestr(%{~^\/opcache-api 1;})).must_equal "[{:assignment=>{:identifier=>\"~^/opcache-api\"@0, :args=>[{:value=>\"1\"@15}]}}]"
+    _(parsestr(%{~^\/opcache-api 1;})).must_equal "[{assignment: {identifier: \"~^/opcache-api\"@0, args: [{value: \"1\"@15}]}}]"
   end
 
   it "parses wildcard identifiers for assignments" do
-    _(parsestr(%{*.example.org qa;})).must_equal "[{:assignment=>{:identifier=>\"*.example.org\"@0, :args=>[{:value=>\"qa\"@14}]}}]"
+    _(parsestr(%{*.example.org qa;})).must_equal "[{assignment: {identifier: \"*.example.org\"@0, args: [{value: \"qa\"@14}]}}]"
   end
 
   it "parses dot-prefixed identifiers for assignments" do
-    _(parsestr(%{.example.com test;})).must_equal "[{:assignment=>{:identifier=>\".example.com\"@0, :args=>[{:value=>\"test\"@13}]}}]"
+    _(parsestr(%{.example.com test;})).must_equal "[{assignment: {identifier: \".example.com\"@0, args: [{value: \"test\"@13}]}}]"
   end
 
 end
