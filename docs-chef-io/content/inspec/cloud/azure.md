@@ -31,12 +31,12 @@ Create new profile at /Users/me/<PROFILE_NAME>
 Assuming the `inputs.yml` file contains your Azure project ID, you can execute this sample profile using the following command:
 
 ```bash
-inspec exec <PROFILE_NAME> --input-file=<PROFILE_NAME>/inputs.yml -t gcp://
+inspec exec <PROFILE_NAME> --input-file=<PROFILE_NAME>/inputs.yml -t azure://
 ```
 
 ## Set Azure credentials
 
-To use Chef InSpec Azure resources, you will need to create a Service Principal Name (SPN) for auditing an Azure subscription.
+To use Chef InSpec Azure resources, create a Service Principal Name (SPN) to audit an Azure subscription.
 
 This can be done on the command line or from the Azure Portal:
 
