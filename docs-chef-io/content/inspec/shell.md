@@ -19,8 +19,7 @@ having to create a profile or write a test file. See
 [http://pryrepl.org/](http://pryrepl.org/) for an introduction to what pry is and what it can
 do.
 
-See [Explore Chef InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/)
-on Learn Chef for a hands-on example that uses Chef InSpec shell.
+For a hands-on example that uses Chef InSpec shell, see the Learn Chef tutorial [Test Expectations with Chef InSpec](https://www.chef.io/training/tutorials).
 
 ## Launch the shell
 
