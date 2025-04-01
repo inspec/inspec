@@ -36,15 +36,15 @@ steps:
         docker:
           image: ruby:3.4.2-bullseye
 
-  # - label: run-tests-ruby-3.4.2-windows
-  #   command:
-  #     - /workdir/.expeditor/buildkite/verify.ps1
-  #   expeditor:
-  #     secrets: true
-  #     executor:
-  #       docker:
-  #         environment:
-  #           - BUILDKITE
-  #         host_os: windows
-  #         shell: ["powershell", "-Command"]
-  #         image: rubydistros/windows-2019:3.4.2
+  - label: run-tests-ruby-3.4-windows
+    command:
+      - /workdir/.expeditor/buildkite/verify.ps1
+    expeditor:
+      secrets: true
+      executor:
+        docker:
+          environment:
+            - BUILDKITE
+          host_os: windows
+          shell: ["powershell", "-Command"]
+          image: rubydistros/windows-2019:3.4
