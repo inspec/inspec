@@ -39,7 +39,8 @@ group :test do
   gem "mocha"
   # Pinning this version as it breaking for ruby 3.1.0
   gem "nokogiri", "< 1.17.2"
-  gem "pry-byebug"
+  # Pinning this version as it breaking for ruby 3.0.0
+  gem "pry-byebug", "< 3.11.0"
   gem "pry"
   gem "rake"
   gem "simplecov"
