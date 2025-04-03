@@ -1,3 +1,4 @@
+require "rubygems/package" unless defined?(Gem::Package)
 require "rubygems/package/tar_writer" unless defined?(Gem::Package::TarWriter)
 
 module Inspec::Archive
