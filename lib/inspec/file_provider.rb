@@ -1,4 +1,5 @@
 require "rubygems/package" unless defined?(Gem::Package)
+require "rubygems/package/tar_header" unless defined?(Gem::Package::TarHeader)
 require "pathname" unless defined?(Pathname)
 require "zlib" unless defined?(Zlib)
 require "zip" unless defined?(Zip)
