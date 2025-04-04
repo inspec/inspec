@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.43 -->
-## [v7.0.43](https://github.com/inspec/inspec/tree/v7.0.43) (2025-03-27)
+<!-- latest_release 7.0.44 -->
+## [v7.0.44](https://github.com/inspec/inspec/tree/v7.0.44) (2025-04-04)
 
 #### Merged Pull Requests
-- Foreport - CHEF-15789 - Improve error handling for audit_policy resource [#7335](https://github.com/inspec/inspec/pull/7335) ([ahasunos](https://github.com/ahasunos))
+- Sonar config for inspec-7 branch [#7348](https://github.com/inspec/inspec/pull/7348) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Sonar config for inspec-7 branch [#7348](https://github.com/inspec/inspec/pull/7348) ([Nik08](https://github.com/Nik08)) <!-- 7.0.44 -->
 - Foreport - CHEF-15789 - Improve error handling for audit_policy resource [#7335](https://github.com/inspec/inspec/pull/7335) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.43 -->
 - Foreport: CHEF-20111: Fix inspec check for a profile with only comments or empty file [#7333](https://github.com/inspec/inspec/pull/7333) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.42 -->
 - CHEF-19348-Update tomlrb version [#7328](https://github.com/inspec/inspec/pull/7328) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.41 -->
