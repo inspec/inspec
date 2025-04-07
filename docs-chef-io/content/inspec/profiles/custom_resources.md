@@ -13,7 +13,7 @@ gh_repo = "inspec"
 
 You can extend the functionality of Chef InSpec profiles by creating custom resources.
 
-For hands-on examples, check out [Extending InSpec: InSpec Wrappers and Custom Resources](https://learn.chef.io/courses/course-v1:chef+InSpec201+Perpetual/about) on Learn Chef.
+For hands-on examples, check out [Extending InSpec: InSpec Wrappers and Custom Resources](https://www.chef.io/training/tutorials) on Learn Chef.
 
 ## Resource location
 
