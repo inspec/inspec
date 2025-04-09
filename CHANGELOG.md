@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.45 -->
-## [v7.0.45](https://github.com/inspec/inspec/tree/v7.0.45) (2025-04-09)
+<!-- latest_release 7.0.46 -->
+## [v7.0.46](https://github.com/inspec/inspec/tree/v7.0.46) (2025-04-09)
 
 #### Merged Pull Requests
-- CHEF-19361 Removed Opa resources from Inspec [#7314](https://github.com/inspec/inspec/pull/7314) ([sa-progress](https://github.com/sa-progress))
+- Foreport to InSpec 7: Waivers error handling fix [#7344](https://github.com/inspec/inspec/pull/7344) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Foreport to InSpec 7: Waivers error handling fix [#7344](https://github.com/inspec/inspec/pull/7344) ([Nik08](https://github.com/Nik08)) <!-- 7.0.46 -->
 - CHEF-19361 Removed Opa resources from Inspec [#7314](https://github.com/inspec/inspec/pull/7314) ([sa-progress](https://github.com/sa-progress)) <!-- 7.0.45 -->
 - Sonar config for inspec-7 branch [#7348](https://github.com/inspec/inspec/pull/7348) ([Nik08](https://github.com/Nik08)) <!-- 7.0.44 -->
 - Foreport - CHEF-15789 - Improve error handling for audit_policy resource [#7335](https://github.com/inspec/inspec/pull/7335) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.43 -->
