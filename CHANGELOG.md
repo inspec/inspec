@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.76 -->
-## [v5.22.76](https://github.com/inspec/inspec/tree/v5.22.76) (2025-03-27)
+<!-- latest_release 5.22.77 -->
+## [v5.22.77](https://github.com/inspec/inspec/tree/v5.22.77) (2025-04-09)
 
 #### Merged Pull Requests
-- Backport - CHEF-15789 - Improve error handling for audit_policy resource [#7336](https://github.com/inspec/inspec/pull/7336) ([ahasunos](https://github.com/ahasunos))
+- Version pinned byebug for supporting Ruby 3.0.0 [#7350](https://github.com/inspec/inspec/pull/7350) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.72 -->
 ### Changes since 5.22.72 release
 
 #### Merged Pull Requests
+- Version pinned byebug for supporting Ruby 3.0.0 [#7350](https://github.com/inspec/inspec/pull/7350) ([Nik08](https://github.com/Nik08)) <!-- 5.22.77 -->
 - Backport - CHEF-15789 - Improve error handling for audit_policy resource [#7336](https://github.com/inspec/inspec/pull/7336) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.76 -->
 - CHEF-18044 Waiver error handling fixes [#7339](https://github.com/inspec/inspec/pull/7339) ([Nik08](https://github.com/Nik08)) <!-- 5.22.75 -->
 - Backport: CHEF-20111: Fix inspec check for a profile with only comments or empty file [#7334](https://github.com/inspec/inspec/pull/7334) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.74 -->
