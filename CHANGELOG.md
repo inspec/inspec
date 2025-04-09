@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.8.35 -->
-## [v6.8.35](https://github.com/inspec/inspec/tree/v6.8.35) (2025-04-07)
+<!-- latest_release 6.8.36 -->
+## [v6.8.36](https://github.com/inspec/inspec/tree/v6.8.36) (2025-04-09)
 
 #### Merged Pull Requests
-- Fix dead links to Learn Chef in docs [#7346](https://github.com/inspec/inspec/pull/7346) ([IanMadd](https://github.com/IanMadd))
+- Issue with reading/writing signed and tar profiles [#7349](https://github.com/inspec/inspec/pull/7349) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Issue with reading/writing signed and tar profiles [#7349](https://github.com/inspec/inspec/pull/7349) ([Nik08](https://github.com/Nik08)) <!-- 6.8.36 -->
 - Fix dead links to Learn Chef in docs [#7346](https://github.com/inspec/inspec/pull/7346) ([IanMadd](https://github.com/IanMadd)) <!-- 6.8.35 -->
 - Updating train-winrm support [#7296](https://github.com/inspec/inspec/pull/7296) ([johnmccrae](https://github.com/johnmccrae)) <!-- 6.8.34 -->
 - CHEF-15789 - Improve error handling for `audit_policy` resource [#7319](https://github.com/inspec/inspec/pull/7319) ([ahasunos](https://github.com/ahasunos)) <!-- 6.8.33 -->
