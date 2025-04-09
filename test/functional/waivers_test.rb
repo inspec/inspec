@@ -244,14 +244,14 @@ describe "waivers" do
     describe "when an only_if is used with empty waiver file" do
       let(:waiver_file) { "empty.yaml" }
 
-      it "raise warning unable to parse empty.yaml file error" do
+      it "only warn file is empty error -> empty.yaml" do
         result = run_result
-        assert_includes result.stderr, "WARN: Unable to parse"
-        assert_includes result.stderr, "YAML file is empty."
+        assert_includes result.stderr, "waivers/only_if/files/empty.yaml' is empty"
+        assert_includes result.stderr, "Skipping waivers"
         if windows?
           assert_equal 1, result.exit_status
         else
-          assert_equal 102, result.exit_status
+          assert_equal 101, result.exit_status
         end
       end
     end
@@ -313,6 +313,15 @@ describe "waivers" do
         assert_includes result.stderr, "ERROR: Control ID 04_waivered_no_expiry_ran_fails: missing required parameter/s [\"justification\"]"
         assert_includes result.stderr, "Fix parameters in file to proceed."
         assert_includes result.stderr, "WARN: Control ID 03_waivered_no_expiry_ran_passes: extra parameter/s [\"run_random\", \"expiration_date_random\"]"
+      end
+    end
+
+    describe "using unsupported extension file" do
+      let(:waiver_file) { "waivers.testextension" }
+      it "raise error" do
+        result = run_result
+        assert_includes result.stderr, "Unsupported file extension"
+        assert_equal 1, result.exit_status
       end
     end
   end
