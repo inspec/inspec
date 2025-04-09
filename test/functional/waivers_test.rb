@@ -286,29 +286,33 @@ describe "waivers" do
 
     describe "using csv file" do
       let(:waiver_file) { "wrong-headers.csv" }
-      it "raise warnings" do
+      it "raise errors" do
         result = run_result
-        assert_includes result.stderr, "Missing column headers: [\"control_id\", \"justification\"]"
-        assert_includes result.stderr, "Invalid column header: Column can't be nil"
-        assert_includes result.stderr, "Extra column headers: [\"control_id_random\", \"justification_random\", \"run_random\", \"expiration_date_random\", nil]"
+        assert_includes result.stderr, "ERROR: Error reading waivers file"
+        assert_includes result.stderr, "Missing required header/s [\"control_id\", \"justification\"]"
+        assert_includes result.stderr, "Fix headers in file to proceed."
       end
     end
 
     describe "using json file" do
       let(:waiver_file) { "wrong-headers.json" }
-      it "raise warnings" do
+      it "raise errors" do
         result = run_result
-        assert_includes result.stderr, "Missing column headers: [\"justification\"]"
-        assert_includes result.stderr, "Extra column headers: [\"justification_random\", \"run_random\", \"expiration_date_random\"]"
+        assert_includes result.stderr, "ERROR: Error reading waivers file"
+        assert_includes result.stderr, "ERROR: Control ID 04_waivered_no_expiry_ran_fails: missing required parameter/s [\"justification\"]"
+        assert_includes result.stderr, "Fix parameters in file to proceed."
+        assert_includes result.stderr, "WARN: Control ID 03_waivered_no_expiry_ran_passes: extra parameter/s [\"run_random\", \"expiration_date_random\"]"
       end
     end
 
     describe "using yaml file" do
       let(:waiver_file) { "wrong-headers.yaml" }
-      it "raise warnings" do
+      it "raise errors" do
         result = run_result
-        assert_includes result.stderr, "Missing column headers: [\"justification\"]"
-        assert_includes result.stderr, "Extra column headers: [\"justification_random\", \"run_random\", \"expiration_date_random\"]"
+        assert_includes result.stderr, "ERROR: Error reading waivers file"
+        assert_includes result.stderr, "ERROR: Control ID 04_waivered_no_expiry_ran_fails: missing required parameter/s [\"justification\"]"
+        assert_includes result.stderr, "Fix parameters in file to proceed."
+        assert_includes result.stderr, "WARN: Control ID 03_waivered_no_expiry_ran_passes: extra parameter/s [\"run_random\", \"expiration_date_random\"]"
       end
     end
 
@@ -317,12 +321,19 @@ describe "waivers" do
       it "raise error" do
         result = run_result
         assert_includes result.stderr, "Unsupported file extension"
-        if windows?
-          assert_equal 1, result.exit_status
-        else
-          assert_equal 102, result.exit_status
-        end
+        assert_equal 1, result.exit_status
       end
+    end
+  end
+
+  describe "with a waiver file with malformed data" do
+    let(:profile_name) { "basic" }
+    let(:waiver_file) { "malformed-waiver.yaml" }
+
+    it "raise error" do
+      result = run_result
+      assert_includes result.stderr, "ERROR:"
+      assert_includes result.stderr, "invalid YAML or contents is not a Hash"
     end
   end
 end
