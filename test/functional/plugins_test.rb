@@ -225,7 +225,7 @@ describe "Resource Pack Plugin support" do
 
     it "runs the resource pack plugin type successfully" do
       # Remove known harmless gem signing warning
-      cleaned_stderr = run_result.stderr.gsub(/\[.*\] Warning: No private key present, creating unsigned gem\.\n?/, '')
+      cleaned_stderr = run_result.stderr.gsub(/\[.*\] Warning: No private key present, creating unsigned gem\.\n?/, "")
 
       _(cleaned_stderr).must_be_empty
       _(run_result.exit_status).must_equal 0
