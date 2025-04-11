@@ -45,6 +45,5 @@ Source code obtained from the Chef GitHub repository is made available under Apa
   spec.add_dependency "train-habitat",    "~> 0.1"
   spec.add_dependency "train-aws",        "~> 0.2"
   spec.add_dependency "train-winrm",      "~> 0.2.17"
-  spec.add_dependency "train-kubernetes", "~> 0.1"
-
+  spec.add_dependency "train-kubernetes", ">= 0.3.1"
 end
