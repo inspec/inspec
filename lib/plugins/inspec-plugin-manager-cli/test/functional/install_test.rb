@@ -260,9 +260,6 @@ class PluginManagerCliInstall < Minitest::Test
 
     install_result = run_inspec_process_with_this_plugin("plugin install inspec-test-fixture", pre_run: pre_block)
 
-    # Merge stdout and stderr for complete match check
-    output = install_result.stdout + install_result.stderr
-
     assert_plugin_refused_with_message(
       install_result,
       plugin_name: "inspec-test-fixture",
