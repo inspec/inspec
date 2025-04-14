@@ -289,7 +289,6 @@ class PluginManagerCliInstall < Minitest::Test
       expected_exit: 2
     )
 
-
     assert_empty install_result.stderr
 
     assert_exit_code 2, install_result

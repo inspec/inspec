@@ -96,11 +96,6 @@ module PluginManagerHelpers
 
   def assert_plugin_installed_successfully(result, plugin_name:, version: nil, source: nil)
     output = result.stdout + result.stderr
-
-    # Debug (optional)
-    puts "STDOUT:\n#{result.stdout}" if ENV["DEBUG_PLUGIN_TEST"]
-    puts "STDERR:\n#{result.stderr}" if ENV["DEBUG_PLUGIN_TEST"]
-
     # Generic success message grep
     success_message = output.lines.grep(/installed|plugin installed via|successfully installed/i).last
     refute_nil success_message, "Expected a success message indicating the plugin was installed"
@@ -115,9 +110,6 @@ module PluginManagerHelpers
 
   def assert_plugin_refused_with_message(result, plugin_name:, version: nil, reason_pattern: /already installed|update required|refusing/i, expected_exit: 0)
     output = result.stdout + result.stderr
-
-    puts "STDOUT:\n#{result.stdout}" if ENV["DEBUG_PLUGIN_TEST"]
-    puts "STDERR:\n#{result.stderr}" if ENV["DEBUG_PLUGIN_TEST"]
 
     refusal_message = output.lines.grep(reason_pattern).last
     refute_nil refusal_message, "Expected a refusal message but none found in output."
