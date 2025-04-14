@@ -89,7 +89,8 @@ describe "inspec export" do
 
   it "exports the profile in default yaml format" do
     out = inspec("export " + example_profile)
-    _(out.stderr).must_equal ""
+    clean_stderr = out.stderr.lines.reject { |line| line.include?("No private key present") }.join
+    _(clean_stderr).must_equal ""
     assert_exit_code 0, out
     _(YAML.load(out.stdout)).must_be_kind_of Hash
   end

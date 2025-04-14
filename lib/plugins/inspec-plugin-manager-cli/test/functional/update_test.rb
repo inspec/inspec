@@ -13,7 +13,11 @@ class PluginManagerCliUpdate < Minitest::Test
     end
 
     update_result = run_inspec_process_with_this_plugin("plugin update inspec-test-fixture", pre_run: pre_block, post_run: list_after_run)
+    # Debug output (optional for troubleshooting)
+    puts "STDOUT:\n#{update_result.stdout}"
+    puts "STDERR:\n#{update_result.stderr}"
 
+    # Try to extract success message
     success_message = update_result.stdout.split("\n").grep(/updated/).last
     refute_nil success_message, "Should find a success message at the end"
     assert_includes success_message, "inspec-test-fixture"

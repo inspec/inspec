@@ -13,6 +13,10 @@ class PluginManagerCliUninstall < Minitest::Test
     # Attempt uninstall
     uninstall_result = run_inspec_process_with_this_plugin("plugin uninstall inspec-test-fixture", pre_run: pre_block, post_run: list_after_run)
 
+    # Debug output (optional for troubleshooting)
+    puts "STDOUT:\n#{uninstall_result.stdout}"
+    puts "STDERR:\n#{uninstall_result.stderr}"
+
     success_message = uninstall_result.stdout.split("\n").grep(/uninstalled/).last
     refute_nil success_message, "Should find a success message at the end"
     assert_includes success_message, "inspec-test-fixture"
