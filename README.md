@@ -1,5 +1,7 @@
 # Chef InSpec: Inspect Your Infrastructure
 
+
+
 * **Project State: Active**
 * **Issues Response SLA: 14 business days**
 * **Pull Request Response SLA: 14 business days**
@@ -16,7 +18,7 @@ Chef InSpec is an open-source testing framework for infrastructure with a human-
 # Disallow insecure protocols by testing
 
 describe package('telnetd') do
-  it { should_not be_installed }
+  it { should_not be_installed } 
 end
 
 describe inetd_conf do
