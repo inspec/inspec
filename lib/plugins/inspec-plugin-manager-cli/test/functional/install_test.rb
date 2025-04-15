@@ -262,11 +262,6 @@ class PluginManagerCliInstall < Minitest::Test
 
     # Merge stdout and stderr for complete match check
     output = install_result.stdout + install_result.stderr
-
-    # Print output for debugging
-    puts "STDOUT:\n#{install_result.stdout}"
-    puts "STDERR:\n#{install_result.stderr}"
-
     refusal_message = output.lines.grep(/already installed|latest version/i).last
 
     refute_nil refusal_message, "Expected refusal message indicating plugin is already installed at latest version"

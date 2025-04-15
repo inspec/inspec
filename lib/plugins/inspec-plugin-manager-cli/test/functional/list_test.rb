@@ -38,20 +38,20 @@ class PluginManagerCliList < Minitest::Test
 
   def test_list_when_gem_and_path_plugins_installed
     pre_block = Proc.new do |plugin_statefile_data, tmp_dir|
-      plugin_statefile_data.clear
+      plugin_statefile_data.clear # Signal not to write a file, we'll provide one.
       copy_in_core_config_dir("test-fixture-1-float", tmp_dir)
-      ENV["INSPEC_CONFIG_DIR"] = tmp_dir # 👈 Force InSpec to use only this
     end
 
-    result = run_inspec_process_with_this_plugin("plugin list --user", pre_run: pre_block)
+    result = run_inspec_process_with_this_plugin("plugin list --user ", pre_run: pre_block)
 
     plugins_seen = parse_plugin_list_lines(result.stdout, result.stderr)
-
-    # Debug print (optional)
-    # puts "Plugins seen:\n" + plugins_seen.map(&:inspect).join("\n")
-
     assert_equal 2, plugins_seen.count
-
+    # Plugin Name                   Version   Via         ApiVer  Description
+    # -----------------------------------------------------------------------------
+    #  inspec-meaning-of-life        src       path         2
+    #  inspec-test-fixture           0.1.0     gem (user)   2      A simple test plugin gem for InSpec
+    # -----------------------------------------------------------------------------
+    #  2 plugin(s) total
     meaning = plugins_seen.detect { |p| p[:name] == "inspec-meaning-of-life" }
     refute_nil meaning
     assert_equal "path", meaning[:type]
