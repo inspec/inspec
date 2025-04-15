@@ -55,6 +55,19 @@ module Inspec::Fetcher
         end
       end
 
+      # Usually this `path` is cache path
+      # We want to copy installed gem to cache path so it can be vendored
+      # and read again as a cache
+      if path
+        loader = Inspec::Plugin::V2::Loader.new
+        gem_dir_path = loader.find_gem_directory(@gem_name, @version)
+
+        # Cache the gem file
+        FileUtils.mkdir_p(path)
+        FileUtils.cp_r(gem_dir_path, path)
+        @archive_path = path
+      end
+
       # Should the plugin activate? No, it should only be "fetched" (installed)
       # Activation would load resource libararies and would effectively execute the profile
 
