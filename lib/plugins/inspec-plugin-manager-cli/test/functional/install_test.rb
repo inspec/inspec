@@ -260,13 +260,20 @@ class PluginManagerCliInstall < Minitest::Test
 
     install_result = run_inspec_process_with_this_plugin("plugin install inspec-test-fixture", pre_run: pre_block)
 
-    assert_plugin_refused_with_message(
-      install_result,
-      plugin_name: "inspec-test-fixture",
-      version: "0.2.0",
-      reason_pattern: /already installed|latest version/i,
-      expected_exit: 0
-    )
+    # Merge stdout and stderr for complete match check
+    output = install_result.stdout + install_result.stderr
+
+    # Print output for debugging
+    puts "STDOUT:\n#{install_result.stdout}"
+    puts "STDERR:\n#{install_result.stderr}"
+
+    refusal_message = output.lines.grep(/already installed|latest version/i).last
+
+    refute_nil refusal_message, "Expected refusal message indicating plugin is already installed at latest version"
+    assert_includes refusal_message, "inspec-test-fixture"
+    assert_includes refusal_message, "0.2.0"
+    assert_match(/already installed|latest version/i, refusal_message)
+
     # Some plugin systems exit with code 0 for no-op installs
     assert_exit_code 0, install_result
   end
@@ -278,13 +285,14 @@ class PluginManagerCliInstall < Minitest::Test
     end
 
     install_result = run_inspec_process_with_this_plugin("plugin install inspec-test-fixture", pre_run: pre_block)
-    assert_plugin_refused_with_message(
-      install_result,
-      plugin_name: "inspec-test-fixture",
-      version: "0.1.0",
-      reason_pattern: /update required|plugin update/i,
-      expected_exit: 2
-    )
+
+    refusal_message = install_result.stdout.split("\n").grep(/refusing/).last
+    refute_nil refusal_message, "Should find a failure message at the end"
+    assert_includes refusal_message, "inspec-test-fixture"
+    assert_includes refusal_message, "0.1.0"
+    assert_includes refusal_message, "0.2.0"
+    assert_includes refusal_message, "Update required"
+    assert_includes refusal_message, "inspec plugin update"
 
     assert_empty install_result.stderr
 
