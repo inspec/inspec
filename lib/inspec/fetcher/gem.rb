@@ -61,9 +61,7 @@ module Inspec::Fetcher
       @target
     end
 
-    def archive_path
-      @target
-    end
+    attr_reader :archive_path
 
     def writable?
       # Gem based profile is not writable because it is not cached in lockfile
