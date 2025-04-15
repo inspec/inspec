@@ -38,7 +38,10 @@ class PluginManagerCliUninstall < Minitest::Test
     end
     uninstall_result = run_inspec_process_with_this_plugin("plugin uninstall inspec-meaning-of-life", pre_run: pre_block, post_run: list_after_run)
 
-    success_message = uninstall_result.stdout.split("\n").grep(/uninstalled/).last
+    lines = uninstall_result.stdout.split("\n")
+    success_message = lines.grep(/uninstalled/).last
+    puts "STDOUT lines:\n#{lines.join("\n")}" if success_message.nil?
+
     refute_nil success_message, "Should find a success message at the end"
     assert_includes success_message, "inspec-meaning-of-life"
     assert_includes success_message, "path-based plugin install"
