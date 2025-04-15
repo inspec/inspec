@@ -8,9 +8,7 @@ module Inspec::Fetcher
     # Gem fetcher's priority should be lowest because gem profiles are only executables via inspec metadata
 
     def self.resolve(target)
-      if target.is_a?(Hash) && target.key?(:gem)
-        resolve_from_hash(target)
-      end
+      resolve_from_hash(target) if target.is_a?(Hash) && target.key?(:gem)
     end
 
     def self.resolve_from_hash(target)
@@ -32,15 +30,13 @@ module Inspec::Fetcher
     def fetch(path)
       plugin_installer = Inspec::Plugin::V2::Installer.instance
 
-      # Determine if gem is installed
-      have_plugin = false
       Inspec::Log.debug("GemFetcher fetching #{@gem_name} v" + (@version || "ANY"))
 
-      if @version
-        have_plugin = plugin_installer.plugin_version_installed?(@gem_name, @version)
-      else
-        have_plugin = plugin_installer.plugin_installed?(@gem_name)
-      end
+      have_plugin = if @version
+                      plugin_installer.plugin_version_installed?(@gem_name, @version)
+                    else
+                      plugin_installer.plugin_installed?(@gem_name)
+                    end
 
       unless have_plugin
         # Install
@@ -51,7 +47,7 @@ module Inspec::Fetcher
           plugin_installer.install(@gem_name, path: @gem_path)
         else
           # Passing an extra gem argument to enable detecting gem based plugins
-          plugin_installer.install(@gem_name, version: @version, source: @source, gem: @gem_name )
+          plugin_installer.install(@gem_name, version: @version, source: @source, gem: @gem_name)
         end
       end
 
