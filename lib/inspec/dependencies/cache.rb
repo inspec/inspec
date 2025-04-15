@@ -59,11 +59,8 @@ module Inspec
       return false if key.nil? || key.empty?
 
       if key.start_with?("gem:")
-        # A gem installation
-        (_, gem_name, version) = key.split(":")
-        loader = Inspec::Plugin::V2::Loader.new
-        !loader.find_gem_directory(gem_name, version).nil?
-
+        # check if the gem is installed in InSpec Config DIR or if it is present as cache in cache DIR
+        !gemspec_path_for(key).nil? || File.directory?(base_path_for(key))
       elsif key.start_with?("gem_path:")
         # Gem installed as explicit path reference, as in testing / development
         entry_point_path = key.sub(/^gem_path:/, "")
