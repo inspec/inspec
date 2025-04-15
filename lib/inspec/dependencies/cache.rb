@@ -85,10 +85,10 @@ module Inspec
     #
     def base_path_for(key)
       if key.start_with?("gem:")
-        # A gem installation
-        (_, gem_name, version) = key.split(":")
-        loader = Inspec::Plugin::V2::Loader.new
-        loader.find_gem_directory(gem_name, version)
+        # fetch the Gem installed path and if the gem is not available in the installed DIR
+        # construct the cache path where it can be found
+        # At this point this path will be used both for writing and reading the gem cache
+        gemspec_path_for(key) || File.join(@path, key)
 
       elsif key.start_with?("gem_path:")
         # Gem installed as explicit path reference, as in testing / development
