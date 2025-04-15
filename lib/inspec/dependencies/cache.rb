@@ -16,6 +16,7 @@ module Inspec
   #
   class Cache
     attr_reader :path
+
     def initialize(path = nil)
       @path = path || File.join(Inspec.config_dir, "cache")
       FileUtils.mkdir_p(@path) unless File.directory?(@path)
@@ -119,9 +120,7 @@ module Inspec
       locked = false
       path = base_path_for(key)
       # For archive there is no need to lock the directory so we skip those and return false for archive formatted cache
-      if File.directory?(path)
-        locked = File.exist?("#{path}/.lock")
-      end
+      locked = File.exist?("#{path}/.lock") if File.directory?(path)
       locked
     end
 
