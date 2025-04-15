@@ -64,7 +64,6 @@ module Inspec::Plugin::V2
           # plugin.  However, gems only work with require (rubygems dooes not overload `load`)
           case plugin_details.installation_type
           when :user_gem
-            require 'pry';binding.pry
             activate_managed_gems_for_plugin(plugin_name)
             require plugin_details.entry_point
           when :system_gem
