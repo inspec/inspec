@@ -406,7 +406,6 @@ describe "train plugin support" do
       puts "STDOUT:\n#{outcome.stdout}"
       puts "STDERR:\n#{outcome.stderr}"
 
-
       _(outcome.stdout.chomp).must_equal "Lorem Ipsum"
 
       _(outcome.stderr).must_be_empty
