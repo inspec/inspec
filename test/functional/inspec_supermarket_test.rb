@@ -16,10 +16,11 @@ describe "inspec supermarket" do
   it "info" do
     out = inspec("supermarket info dev-sec/ssh-baseline")
 
-    _(out.stdout).must_include "name: \e[0m  ssh-baseline"
+    cleaned_output = out.stdout.gsub(/\e\[\d+m/, "") # Strip ANSI
+    puts "Supermarket Info Output:\n#{cleaned_output}" if cleaned_output.strip.empty?
 
+    _(cleaned_output).must_include "name: ssh-baseline"
     _(out.stderr).must_equal ""
-
     assert_exit_code 0, out
   end
 
@@ -53,9 +54,11 @@ describe "inspec supermarket" do
   it "info with --supermarket_url option" do
     out = inspec("supermarket info dev-sec/ssh-baseline --supermarket_url='https://supermarket.chef.io'")
 
-    _(out.stdout).must_include "name: \e[0m  ssh-baseline"
-    _(out.stderr).must_equal ""
+    cleaned_output = out.stdout.gsub(/\e\[\d+m/, "")
+    puts "Supermarket Info Output with URL:\n#{cleaned_output}" if cleaned_output.strip.empty?
 
+    _(cleaned_output).must_include "name: ssh-baseline"
+    _(out.stderr).must_equal ""
     assert_exit_code 0, out
   end
 
