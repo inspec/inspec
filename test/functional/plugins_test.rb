@@ -364,7 +364,7 @@ describe "train plugin support" do
     it "can run inspec detect against a URL target" do
       outcome = inspec_with_env("detect -t test-fixture://", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
 
-      lines = result.stdout.split("\n")
+      lines = outcome.stdout.split("\n")
       name_line = lines.grep(/Name/).first
 
       puts "Detect Output:\n#{lines.join("\n")}" if name_line.nil?
