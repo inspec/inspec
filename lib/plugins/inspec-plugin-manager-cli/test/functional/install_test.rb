@@ -8,7 +8,6 @@ class PluginManagerCliInstall < Minitest::Test
 
   include PluginManagerHelpers
   ruby_abi_version = (Gem.ruby_version.segments[0, 2] << 0).join(".")
-
   # Test multiple heuristics of the path-mode install.
   # These are all positive tests; they should resolve the entry point to the same path in each case.
   {
@@ -46,11 +45,12 @@ class PluginManagerCliInstall < Minitest::Test
 
       install_result = run_inspec_process_with_this_plugin("plugin install #{fixture_info[:given]}", post_run: list_after_run)
 
-      assert_plugin_installed_successfully(
-        install_result,
-        plugin_name: fixture_info[:plugin_name],
-        source: "plugin installed via source path reference"
-      )
+      # Check UX messaging
+      success_message = install_result.stdout.split("\n").grep(/installed/).last
+      assert_empty install_result.stderr
+      refute_nil success_message, "Should find a success message at the end"
+      assert_includes success_message, fixture_info[:plugin_name]
+      assert_includes success_message, "plugin installed via source path reference"
 
       # Check round-trip UX via list
       itf_plugin = @list_result.detect { |p| p[:name] == fixture_info[:plugin_name] }
@@ -254,22 +254,20 @@ class PluginManagerCliInstall < Minitest::Test
 
   def test_refuse_install_when_already_installed_same_version
     pre_block = Proc.new do |plugin_statefile_data, tmp_dir|
-      plugin_statefile_data.clear
+      plugin_statefile_data.clear # Signal not to write a file, we'll provide one.
       copy_in_core_config_dir("test-fixture-2-float", tmp_dir)
     end
 
     install_result = run_inspec_process_with_this_plugin("plugin install inspec-test-fixture", pre_run: pre_block)
 
-    # Merge stdout and stderr for complete match check
-    output = install_result.stdout + install_result.stderr
-    refusal_message = output.lines.grep(/already installed|latest version/i).last
-
-    refute_nil refusal_message, "Expected refusal message indicating plugin is already installed at latest version"
+    refusal_message = install_result.stdout.split("\n").grep(/refusing/).last
+    refute_nil refusal_message, "Should find a failure message at the end"
     assert_includes refusal_message, "inspec-test-fixture"
     assert_includes refusal_message, "0.2.0"
-    assert_match(/already installed|latest version/i, refusal_message)
+    assert_includes refusal_message, "Plugin already installed at latest version"
 
-    # Some plugin systems exit with code 0 for no-op installs
+    assert_empty install_result.stderr
+
     assert_exit_code 0, install_result
   end
 
