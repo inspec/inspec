@@ -224,7 +224,10 @@ describe "Resource Pack Plugin support" do
     let(:run_result) { run_inspec_process("exec #{fixture_path}", json: true) }
 
     it "runs the resource pack plugin type successfully" do
-      _(run_result.stderr).must_be_empty
+      # Remove known harmless gem signing warning
+      cleaned_stderr = run_result.stderr.gsub(/\[.*\] Warning: No private key present, creating unsigned gem\.\n?/, "")
+
+      _(cleaned_stderr).must_be_empty
       _(run_result.exit_status).must_equal 0
       assert_json_controls_passing
     end
@@ -362,7 +365,13 @@ describe "train plugin support" do
       outcome = inspec_with_env("detect -t test-fixture://", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
 
       lines = outcome.stdout.split("\n")
-      _(lines.grep(/Name/).first).must_include("test-fixture")
+      name_line = lines.grep(/Name/).first
+
+      puts "Detect Output:\n#{lines.join("\n")}" if name_line.nil?
+
+      refute_nil name_line, "Expected a line containing 'Name' but found none"
+      _(name_line).must_include("test-fixture")
+
       _(lines.grep(/Name/).first).wont_include("train-test-fixture")
       _(lines.grep(/Release/).first).must_include("0.1.0")
       _(lines.grep(/Families/).first).must_include("os")
@@ -394,6 +403,9 @@ describe "train plugin support" do
     it "can run inspec shell and read a file" do
       # The test fixture always returns the same content regardless of path
       outcome = inspec_with_env("shell -t test-fixture:// -c 'file(%q{/opt/any-path}).content'", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
+
+      puts "STDOUT:\n#{outcome.stdout}"
+      puts "STDERR:\n#{outcome.stderr}"
 
       _(outcome.stdout.chomp).must_equal "Lorem Ipsum"
 

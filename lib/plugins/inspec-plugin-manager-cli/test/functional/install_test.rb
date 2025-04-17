@@ -8,7 +8,6 @@ class PluginManagerCliInstall < Minitest::Test
 
   include PluginManagerHelpers
   ruby_abi_version = (Gem.ruby_version.segments[0, 2] << 0).join(".")
-
   # Test multiple heuristics of the path-mode install.
   # These are all positive tests; they should resolve the entry point to the same path in each case.
   {
