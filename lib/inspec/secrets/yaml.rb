@@ -18,11 +18,7 @@ module Secrets
     def initialize(target)
       # Ruby 3.1 treats YAML load as a dangerous operation by default, requiring us to declare date and time classes as permitted
       # It's not a valid option in 3.0.x
-      if Gem.ruby_version >= Gem::Version.new("3.1.0")
-        @inputs = ::YAML.load_file(target, permitted_classes: [Date, Time])
-      else
-        @inputs = ::YAML.load_file(target)
-      end
+      @inputs = ::YAML.load_file(target, permitted_classes: [Date, Time])
 
       # In case of empty yaml file raise the warning else raise the parsing error.
       if !@inputs || @inputs.empty?
