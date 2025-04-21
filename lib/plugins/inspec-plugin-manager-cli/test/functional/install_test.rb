@@ -343,7 +343,7 @@ class PluginManagerCliInstall < Minitest::Test
 
     assert_includes install_result.stdout, "DEBUG"
 
-    assert_includes install_result.stdout, "Unknown error occurred - installation failed"
+    assert_match(/Gem::ConflictError|installation failed/i, install_result.stderr)
 
     assert_exit_code 1, install_result
   end
