@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.78 -->
-## [v5.22.78](https://github.com/inspec/inspec/tree/v5.22.78) (2025-04-14)
+<!-- latest_release 5.22.79 -->
+## [v5.22.79](https://github.com/inspec/inspec/tree/v5.22.79) (2025-04-22)
 
 #### Merged Pull Requests
-- Backports: CHEF-3849: InSpec should exit quickly and clearly if waiver file is malformed/corrupt [#7345](https://github.com/inspec/inspec/pull/7345) ([Nik08](https://github.com/Nik08))
+- Pinned version of train kubernetes for 3.0 support [#7358](https://github.com/inspec/inspec/pull/7358) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.72 -->
 ### Changes since 5.22.72 release
 
 #### Merged Pull Requests
+- Pinned version of train kubernetes for 3.0 support [#7358](https://github.com/inspec/inspec/pull/7358) ([Nik08](https://github.com/Nik08)) <!-- 5.22.79 -->
 - Backports: CHEF-3849: InSpec should exit quickly and clearly if waiver file is malformed/corrupt [#7345](https://github.com/inspec/inspec/pull/7345) ([Nik08](https://github.com/Nik08)) <!-- 5.22.78 -->
 - Version pinned byebug for supporting Ruby 3.0.0 [#7350](https://github.com/inspec/inspec/pull/7350) ([Nik08](https://github.com/Nik08)) <!-- 5.22.77 -->
 - Backport - CHEF-15789 - Improve error handling for audit_policy resource [#7336](https://github.com/inspec/inspec/pull/7336) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.76 -->
