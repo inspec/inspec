@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/chef/omnibus-software.git
-  revision: 3b903b2e01c332054196b17502134c2e280de2e6
+  revision: 6961522234e884a9b2d68c42e65287afc7274a27
   branch: main
   specs:
-    omnibus-software (24.6.323)
+    omnibus-software (24.6.324)
       ffi (>= 1.17.0)
       omnibus (>= 9.0.0)
 
@@ -34,14 +34,15 @@ GEM
       public_suffix (>= 2.0.2, < 7.0)
     artifactory (3.0.17)
     awesome_print (1.9.2)
-    aws-eventstream (1.3.1)
-    aws-partitions (1.1054.0)
-    aws-sdk-core (3.219.0)
+    aws-eventstream (1.3.2)
+    aws-partitions (1.1090.0)
+    aws-sdk-core (3.222.2)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
       aws-sigv4 (~> 1.9)
       base64
       jmespath (~> 1, >= 1.6.1)
+      logger
     aws-sdk-kms (1.99.0)
       aws-sdk-core (~> 3, >= 3.216.0)
       aws-sigv4 (~> 1.5)
@@ -240,11 +241,11 @@ GEM
       train-core (~> 3.10)
       tty-prompt (~> 0.17)
       tty-table (~> 0.10)
-    iostruct (0.4.0)
+    iostruct (0.5.0)
     ipaddress (0.8.3)
     iso8601 (0.13.0)
     jmespath (1.6.2)
-    json (2.10.1)
+    json (2.10.2)
     kitchen-vagrant (1.14.1)
       test-kitchen (>= 1.4, < 4)
     libyajl2 (2.1.0)
@@ -279,16 +280,16 @@ GEM
       mixlib-shellout
       mixlib-versioning
       thor
-    mixlib-log (3.2.0)
-      ffi (~> 1.9, <= 1.17.0)
-    mixlib-shellout (3.3.6)
+    mixlib-log (3.2.3)
+      ffi (>= 1.15.5)
+    mixlib-shellout (3.3.9)
       chef-utils
-    mixlib-shellout (3.3.6-universal-mingw32)
+    mixlib-shellout (3.3.9-universal-mingw32)
       chef-utils
       ffi-win32-extensions (~> 1.0.3)
       win32-process (~> 0.9)
       wmi-lite (~> 1.0)
-    mixlib-shellout (3.3.6-x64-mingw-ucrt)
+    mixlib-shellout (3.3.9-x64-mingw-ucrt)
       chef-utils
       ffi-win32-extensions (~> 1.0.3)
       win32-process (~> 0.9)
