@@ -56,3 +56,10 @@ end
 group :deploy do
   gem "inquirer"
 end
+
+
+# Reference for https://github.com/inspec/train/pull/787
+gem "train-core", git: "https://github.com/inspec/train.git", branch: "bs/ruby-3.4-upgrade"
+
+# Reference for https://github.com/inspec/train-winrm/pull/42
+gem "train-winrm", git: "https://github.com/inspec/train-winrm.git", branch: "nm/drop-3.0-support"
