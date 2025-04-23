@@ -98,7 +98,7 @@ module Inspec::Fetcher
     end
 
     def resolved_source
-      h = { gem: @gem_name, version: @version, gem_path: @gem_path }
+      h = { gem: @gem_name, version: gem_version, gem_path: @gem_path }
       h[:sha256] = sha256
       h
     end
