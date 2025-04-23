@@ -102,5 +102,11 @@ module Inspec::Fetcher
       h[:sha256] = sha256
       h
     end
+
+    private
+
+    def gem_version
+      @version || Inspec::Plugin::V2::Loader.find_gemspec_of(@gem_name)&.version&.to_s
+    end
   end
 end
