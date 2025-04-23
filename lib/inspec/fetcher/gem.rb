@@ -79,14 +79,14 @@ module Inspec::Fetcher
 
     def cache_key
       # This special value is interpreted by Inspec::Cache.exists?
-      # gem:gemname:version
-      # gem_path:/filesystem/path/entrypoint.rb
-
-      if @gem_path
-        "gem_path:#{@gem_path}"
-      else
-        "gem:#{@gem_name}:#{@version}"
-      end
+      # SHA256 on gem:gemname:version
+      # SHA256 on gem_path:/filesystem/path/entrypoint.rb
+      key = if @gem_path
+              "gem_path:#{@gem_path}"
+            else
+              "gem:#{@gem_name}:#{gem_version}"
+            end
+      OpenSSL::Digest.hexdigest("SHA256", key)
     end
 
     # The intent here is to provide a signature that would change with the content of the profile.
