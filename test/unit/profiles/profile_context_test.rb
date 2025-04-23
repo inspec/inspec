@@ -97,9 +97,8 @@ describe Inspec::ProfileContext do
     it "supports empty describe calls" do
       assert_load("describe", "")
       _(profile.rules.keys.length).must_equal 1
-      puts profile.rules.keys[0]
       if RUBY3_4_PLUS
-        _(profile.rules.keys[0]).must_match(/^\(generated from profile_context\.rb:\d+ [0-9a-f]+\)$/)
+        _(profile.rules.keys[0]).must_match(/^\(generated from \(eval(?: at .+profile_context\.rb:\d+)?\):\d+ [0-9a-f]+\)$/)
       elsif RUBY3_3_PLUS
         _(profile.rules.keys[0]).must_match(/^\(generated from profile_context\.rb:\d+\):\d+ [0-9a-f]+\)$/)
       else
