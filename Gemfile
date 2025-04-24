@@ -71,3 +71,5 @@ gem "dry-inflector", "<= 1.1.0" if RUBY_VERSION < "3.1.0"
 # Pinning securerandom to < 0.4.0 as it is breaking the build because 0.4.0 is incompatible with the current version, ruby 3.0.x on CI
 # Remove this pin when upgrading to Ruby 3.1 or higher on CI.
 gem "securerandom", "< 0.4.0" if RUBY_VERSION < "3.1.0"
+
+gem "train-winrm", git: "https://github.com/inspec/train-winrm.git", branch: "nm/gem-pinning-fixes"
