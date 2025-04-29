@@ -75,3 +75,7 @@ gem "securerandom", "< 0.4.0" if RUBY_VERSION < "3.1.0"
 gem "train-winrm", git: "https://github.com/inspec/train-winrm", branch: "nm/testing-chef-winrm-fixes"
 
 gem "train-core", git: "https://github.com/inspec/train", branch: "nm/test-chef-winrm-dep"
+
+gem "chef-gyoku", git: "https://github.com/chef/chef-gyoku", branch: "jfm/inspec-ruby-3-plus"
+
+gem "chef-winrm", git: "https://github.com/chef/chef-winrm", branch: "jfm/inspec-ruby-3-plus"
