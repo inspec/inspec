@@ -73,3 +73,5 @@ gem "dry-inflector", "<= 1.1.0" if RUBY_VERSION < "3.1.0"
 gem "securerandom", "< 0.4.0" if RUBY_VERSION < "3.1.0"
 
 gem "train-winrm", git: "https://github.com/inspec/train-winrm", branch: "nm/testing-chef-winrm-fixes"
+
+gem "train-core", git: "https://github.com/inspec/train", branch: "nm/test-chef-winrm-dep"
