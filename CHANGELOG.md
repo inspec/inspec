@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.22.80 -->
+## [v5.22.80](https://github.com/inspec/inspec/tree/v5.22.80) (2025-04-30)
 
 #### Merged Pull Requests
+- Version pinned train and train winrm  [#7360](https://github.com/inspec/inspec/pull/7360) ([Nik08](https://github.com/Nik08))
 - Bump omnibus-software from `3b903b2` to `6961522` in /omnibus [#7357](https://github.com/inspec/inspec/pull/7357) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.22.72 release
 
 #### Merged Pull Requests
+- Version pinned train and train winrm  [#7360](https://github.com/inspec/inspec/pull/7360) ([Nik08](https://github.com/Nik08)) <!-- 5.22.80 -->
 - Bump omnibus-software from `3b903b2` to `6961522` in /omnibus [#7357](https://github.com/inspec/inspec/pull/7357) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.79 -->
 - Pinned version of train kubernetes for 3.0 support [#7358](https://github.com/inspec/inspec/pull/7358) ([Nik08](https://github.com/Nik08)) <!-- 5.22.79 -->
 - Backports: CHEF-3849: InSpec should exit quickly and clearly if waiver file is malformed/corrupt [#7345](https://github.com/inspec/inspec/pull/7345) ([Nik08](https://github.com/Nik08)) <!-- 5.22.78 -->
