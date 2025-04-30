@@ -100,7 +100,7 @@ module Inspec
         # inspec-test-resources/lib/inspec-test-resources.rb
         # go two directories up
         parts = Pathname(entry_point_path).each_filename.to_a
-        File.join(parts.slice(0, parts.length - 2))
+        "/" + File.join(parts.slice(0, parts.length - 2))
       else
         # Standard cache entry
         File.join(@path, key)
