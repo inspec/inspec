@@ -4,6 +4,13 @@
 Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
 
+# Fast path --version to improve CLI startup performance
+if ARGV.length == 1 && (ARGV[0] == "--version" || ARGV[0] == "-v")
+  require_relative "../../lib/inspec/version"
+  puts "InSpec v#{Inspec::VERSION}"
+  exit 0
+end
+
 lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
