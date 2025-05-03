@@ -54,6 +54,13 @@ module Inspec::Reporters
 
         File.write(config_file, output)
       elsif config["stdout"] == true
+        ## Modify this piece of code to only create file when passed --ai flag
+        ## Only for Hackathon
+        config["file"] = "inspec-ai-control-logs/#{Process.pid}.txt"
+        dirname = File.dirname(config["file"])
+        FileUtils.mkdir_p(dirname) unless File.directory?(dirname)
+        File.write(config["file"], output)
+        ## Only for Hackathon
         print output
         $stdout.flush
       end
