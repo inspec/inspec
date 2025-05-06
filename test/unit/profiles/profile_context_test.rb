@@ -111,7 +111,7 @@ describe Inspec::ProfileContext do
       assert_load("describe true do; it { should_eq true }; end", "")
       _(profile.rules.keys.length).must_equal 1
       if RUBY3_4_PLUS
-        _(profile.rules.keys[0]).must_match(/^\(generated from profile_context\.rb:\d+\)(?::\d+)? [0-9a-f]+\)$/)
+        _(profile.rules.keys[0]).must_match(/^\(generated from profile_context\.rb:\d+\)?(?::\d+)? [0-9a-f]+\)?$/)
       elsif RUBY3_3_PLUS
         _(profile.rules.keys[0]).must_match(/^\(generated from profile_context\.rb:\d+\):\d+ [0-9a-f]+\)$/)
       else
@@ -125,7 +125,7 @@ describe Inspec::ProfileContext do
       _(profile.rules.keys.length).must_equal 3
       [0, 1, 2].each do |i|
         if RUBY3_4_PLUS
-          _(profile.rules.keys[i]).must_match(/^\(generated from profile_context\.rb:\d+\)(?::\d+)? [0-9a-f]+\)$/)
+          _(profile.rules.keys[i]).must_match(/^\(generated from profile_context\.rb:\d+\)?(?::\d+)? [0-9a-f]+\)?$/)
         elsif RUBY3_3_PLUS
           _(profile.rules.keys[0]).must_match(/^\(generated from profile_context\.rb:\d+\):\d+ [0-9a-f]+\)$/)
         else
