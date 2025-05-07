@@ -95,7 +95,7 @@ describe "example inheritance profile" do
   end
 
   it "can vendor profile dependencies from gem" do
-    git_depends_path = File.join(profile_path, "dependencies/uses-inspec-resource-pack-remote-gem")
+    git_depends_path = File.join(profile_path, "profile-with-gem-dependency")
 
     Dir.mktmpdir do |tmpdir|
       FileUtils.cp_r(git_depends_path + "/.", tmpdir)
@@ -108,9 +108,9 @@ describe "example inheritance profile" do
       _(File.exist?(File.join(tmpdir, "vendor"))).must_equal true
       _(File.exist?(File.join(tmpdir, "inspec.lock"))).must_equal true
       # Check that our vendor directory exists
-      _(File.exist?(File.join(tmpdir, "vendor"))).must_equal true
+      _(Dir.glob(File.join(tmpdir, "vendor", "*")).length).must_equal 1
       # Check that our vendor directory has contents
-      _(Dir.glob(File.join(tmpdir, "vendor", "*", "*", "inspec.yml")).length).must_be :>=, 1
+      _(Dir.glob(File.join(tmpdir, "vendor", "*", "*")).length).must_be :>=, 8
 
       _(out.stderr).must_equal ""
 
