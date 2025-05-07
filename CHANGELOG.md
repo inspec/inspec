@@ -1,29 +1,26 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.80 -->
-## [v5.22.80](https://github.com/inspec/inspec/tree/v5.22.80) (2025-04-30)
-
-#### Merged Pull Requests
-- Version pinned train and train winrm  [#7360](https://github.com/inspec/inspec/pull/7360) ([Nik08](https://github.com/Nik08))
-- Bump omnibus-software from `3b903b2` to `6961522` in /omnibus [#7357](https://github.com/inspec/inspec/pull/7357) ([dependabot[bot]](https://github.com/dependabot[bot]))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=5.22.72 -->
-### Changes since 5.22.72 release
-
-#### Merged Pull Requests
-- Version pinned train and train winrm  [#7360](https://github.com/inspec/inspec/pull/7360) ([Nik08](https://github.com/Nik08)) <!-- 5.22.80 -->
-- Bump omnibus-software from `3b903b2` to `6961522` in /omnibus [#7357](https://github.com/inspec/inspec/pull/7357) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.79 -->
-- Pinned version of train kubernetes for 3.0 support [#7358](https://github.com/inspec/inspec/pull/7358) ([Nik08](https://github.com/Nik08)) <!-- 5.22.79 -->
-- Backports: CHEF-3849: InSpec should exit quickly and clearly if waiver file is malformed/corrupt [#7345](https://github.com/inspec/inspec/pull/7345) ([Nik08](https://github.com/Nik08)) <!-- 5.22.78 -->
-- Version pinned byebug for supporting Ruby 3.0.0 [#7350](https://github.com/inspec/inspec/pull/7350) ([Nik08](https://github.com/Nik08)) <!-- 5.22.77 -->
-- Backport - CHEF-15789 - Improve error handling for audit_policy resource [#7336](https://github.com/inspec/inspec/pull/7336) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.76 -->
-- CHEF-18044 Waiver error handling fixes [#7339](https://github.com/inspec/inspec/pull/7339) ([Nik08](https://github.com/Nik08)) <!-- 5.22.75 -->
-- Backport: CHEF-20111: Fix inspec check for a profile with only comments or empty file [#7334](https://github.com/inspec/inspec/pull/7334) ([ahasunos](https://github.com/ahasunos)) <!-- 5.22.74 -->
-- remove mac 11 from inspec-5 as its EOL and update 12 as builder [#7331](https://github.com/inspec/inspec/pull/7331) ([muthuja](https://github.com/muthuja)) <!-- 5.22.73 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v5.22.80](https://github.com/inspec/inspec/tree/v5.22.80) (2025-05-07)
+
+#### Merged Pull Requests
+- remove mac 11 from inspec-5 as its EOL and update 12 as builder [#7331](https://github.com/inspec/inspec/pull/7331) ([muthuja](https://github.com/muthuja))
+- Backport: CHEF-20111: Fix inspec check for a profile with only comments or empty file [#7334](https://github.com/inspec/inspec/pull/7334) ([ahasunos](https://github.com/ahasunos))
+- CHEF-18044 Waiver error handling fixes [#7339](https://github.com/inspec/inspec/pull/7339) ([Nik08](https://github.com/Nik08))
+- Backport - CHEF-15789 - Improve error handling for audit_policy resource [#7336](https://github.com/inspec/inspec/pull/7336) ([ahasunos](https://github.com/ahasunos))
+- Version pinned byebug for supporting Ruby 3.0.0 [#7350](https://github.com/inspec/inspec/pull/7350) ([Nik08](https://github.com/Nik08))
+- Backports: CHEF-3849: InSpec should exit quickly and clearly if waiver file is malformed/corrupt [#7345](https://github.com/inspec/inspec/pull/7345) ([Nik08](https://github.com/Nik08))
+- Pinned version of train kubernetes for 3.0 support [#7358](https://github.com/inspec/inspec/pull/7358) ([Nik08](https://github.com/Nik08))
+- Bump omnibus-software from `3b903b2` to `6961522` in /omnibus [#7357](https://github.com/inspec/inspec/pull/7357) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Version pinned train and train winrm  [#7360](https://github.com/inspec/inspec/pull/7360) ([Nik08](https://github.com/Nik08))
+<!-- latest_stable_release -->
+
 ## [v5.22.72](https://github.com/inspec/inspec/tree/v5.22.72) (2025-03-05)
 
 #### Merged Pull Requests
@@ -34,7 +31,6 @@
 - BACKPORT: Updating train-winrm support [#7300](https://github.com/inspec/inspec/pull/7300) ([Nik08](https://github.com/Nik08))
 - Bump omnibus-software from `1c244b8` to `2385f09` in /omnibus [#7310](https://github.com/inspec/inspec/pull/7310) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Bump rack from 2.2.9 to 2.2.11 in /omnibus [#7316](https://github.com/inspec/inspec/pull/7316) ([Nik08](https://github.com/Nik08))
-<!-- latest_stable_release -->
 
 ## [v5.22.65](https://github.com/inspec/inspec/tree/v5.22.65) (2024-12-13)
 
