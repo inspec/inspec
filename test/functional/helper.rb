@@ -1,4 +1,4 @@
-require "helper"
+require_relative "../helper"
 require "train"
 
 ENV["CHEF_LICENSE"] = "accept-no-persist"
