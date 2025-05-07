@@ -95,7 +95,7 @@ describe "example inheritance profile" do
   end
 
   it "can vendor profile dependencies from gem" do
-    git_depends_path = File.join(profile_path, "profile-with-gem-dependency")
+    git_depends_path = File.join(profile_path, "dependencies/uses-inspec-resource-pack-remote-gem")
 
     Dir.mktmpdir do |tmpdir|
       FileUtils.cp_r(git_depends_path + "/.", tmpdir)
