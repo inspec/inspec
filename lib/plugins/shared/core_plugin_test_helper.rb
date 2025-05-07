@@ -12,7 +12,7 @@ require "tmpdir" unless defined?(Dir.mktmpdir)
 require "pathname" unless defined?(Pathname)
 require "forwardable" unless defined?(Forwardable)
 
-require "functional/helper"
+require_relative "../../../test/functional/helper"
 require "inspec/plugin/v2"
 
 # Configure Minitest to expose things like `let`
