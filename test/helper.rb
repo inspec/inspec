@@ -4,7 +4,6 @@
 ##
 # Do not add any other code to this code block. Simplecov
 # only until the next code block:
-
 if ENV["CI_ENABLE_COVERAGE"]
   require "simplecov/no_defaults"
   require "helpers/simplecov_minitest"
