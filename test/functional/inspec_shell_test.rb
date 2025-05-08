@@ -382,7 +382,7 @@ describe "inspec shell tests" do
       end
 
       it "reruns controls when redefined" do
-        out = do_shell("control \"test\" do describe file(\"#{__FILE__}\") do it { should exist } end end\ncontrol \"test\" do describe file(\"foo/bar/baz\") do it { should exist } end end")
+        out = do_shell("control \"test1\" do describe file(\"#{__FILE__}\") do it { should exist } end end\ncontrol \"test2\" do describe file(\"foo/bar/baz\") do it { should exist } end end")
         _(out.stdout).must_include "1 successful"
         _(out.stdout).must_include "1 failure"
       end

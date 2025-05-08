@@ -237,6 +237,7 @@ class MockLoader
       # registry key test using winrm 2.0
       "9417f24311a9dcd90f1b1734080a2d4c6516ec8ff2d452a2328f68eb0ed676cf" => cmd.call("reg_schedule"),
       "Auditpol /get /subcategory:'User Account Management' /r" => cmd.call("auditpol"),
+      "Auditpol /get /subcategory:'Some Invalid Key' /r" => cmd_exit_1.call,
       "/sbin/auditctl -l" => cmd.call("auditctl"),
       "/sbin/auditctl -s" => cmd.call("auditctl-s"),
       "dpkg -s curl" => cmd.call("dpkg-s-curl"),
@@ -663,11 +664,6 @@ class MockLoader
       "sestatus" => cmd.call("sestatus"),
       "semodule -lfull" => cmd.call("semodule-lfull"),
       "semanage boolean -l -n" => cmd.call("semanage-boolean"),
-      "opa eval -i 'input.json' -d 'example.rego' 'data.example.allow'" => cmd.call("opa-result"),
-      "opa eval -i 'input.json' -d 'example.rego' 'data.example.voilation'" => cmd.call("opa-empty-result"),
-      "curl -X POST localhost:8181/v1/data/example/violation -d @v1-data-input.json -H 'Content-Type: application/json'" => cmd.call("opa-api-result"),
-      "curl -X POST localhost:8181/v1/data/example/violation -d @v1-data-input1.json -H 'Content-Type: application/json'" => cmd.call("opa-api-empty-result"),
-
       # file resource windows inherit
       "(Get-Acl 'C:/ExamlpeFolder').access| Where-Object {$_.IsInherited -eq $true} | measure | % { $_.Count }" => cmd.call("windows_file_inherit_output"),
     }

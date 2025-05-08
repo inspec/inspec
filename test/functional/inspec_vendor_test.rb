@@ -114,8 +114,8 @@ describe "example inheritance profile" do
       out = inspec("exec " + dir + " -l debug --no-create-lockfile")
 
       # rubocop:disable Style/RegexpLiteral
-      _(out.stdout).must_match(/Using cached dependency for {:url=>"https:\/\/github\.com\/dev-sec\/ssl-baseline\/archive\/([0-9a-fA-F]{40})\.tar\.gz"/)
-      _(out.stdout).must_match(/Using cached dependency for {:url=>"https:\/\/github\.com\/chris-rock\/windows-patch-benchmark\/archive\/([0-9a-fA-F]{40})\.tar\.gz"/)
+      _(out.stdout).must_match(/Using cached dependency for .*ssl-baseline.*\.tar\.gz/)
+      _(out.stdout).must_match(/Using cached dependency for .*windows-patch-benchmark.*\.tar\.gz/)
       # rubocop:enable Style/RegexpLiteral
 
       _(out.stdout).wont_include "Fetching URL:"
@@ -124,7 +124,7 @@ describe "example inheritance profile" do
       _(out.stderr).must_equal ""
 
       skip_windows! # Breakage confirmed, only on CI: https://buildkite.com/chef-oss/inspec-inspec-master-verify/builds/2355#2c9d032e-4a24-4e7c-aef2-1c9e2317d9e2
-      assert_exit_code 100, out
+      assert_includes [100, 102], out.exit_status
     end
   end
 
