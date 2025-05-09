@@ -94,6 +94,30 @@ describe "example inheritance profile" do
     end
   end
 
+  it "can vendor profile dependencies from gem" do
+    git_depends_path = File.join(profile_path, "dependencies/uses-inspec-resource-pack-remote-gem")
+
+    Dir.mktmpdir do |tmpdir|
+      FileUtils.cp_r(git_depends_path + "/.", tmpdir)
+      _(File.exist?(File.join(tmpdir, "vendor"))).must_equal false
+
+      out = inspec("vendor " + tmpdir + " --overwrite")
+
+      _(out.stdout).must_include "Dependencies for profile #{tmpdir} successfully vendored to #{tmpdir}/vendor"
+
+      _(File.exist?(File.join(tmpdir, "vendor"))).must_equal true
+      _(File.exist?(File.join(tmpdir, "inspec.lock"))).must_equal true
+      # Check that our vendor directory exists
+      _(File.exist?(File.join(tmpdir, "vendor"))).must_equal true
+      # Check that our vendor directory has contents
+      _(Dir.glob(File.join(tmpdir, "vendor", "*", "*", "inspec.yml")).length).must_be :>=, 1
+
+      _(out.stderr).must_equal ""
+
+      assert_exit_code 0, out
+    end
+  end
+
   it "ensure nothing is loaded from external source if vendored profile is used" do
     prepare_examples("meta-profile") do |dir|
       # Breakage confirmed, only on CI:
