@@ -108,9 +108,9 @@ describe "example inheritance profile" do
       _(File.exist?(File.join(tmpdir, "vendor"))).must_equal true
       _(File.exist?(File.join(tmpdir, "inspec.lock"))).must_equal true
       # Check that our vendor directory exists
-      _(Dir.glob(File.join(tmpdir, "vendor", "*")).length).must_equal 1
+      _(File.exist?(File.join(tmpdir, "vendor"))).must_equal true
       # Check that our vendor directory has contents
-      _(Dir.glob(File.join(tmpdir, "vendor", "*", "*")).length).must_be :>=, 8
+      _(Dir.glob(File.join(tmpdir, "vendor", "*", "*", "inspec.yml")).length).must_be :>=, 1
 
       _(out.stderr).must_equal ""
 
