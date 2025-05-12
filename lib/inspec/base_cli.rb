@@ -40,10 +40,16 @@ module Inspec
 
       # Load the plugin system only if core plugins cli commands or plugin reporters are used
       # Given args array contains the command name and also reporter name
-      # TODO Handle scenario where reporter is used with a file, example: json:file-1.json
-      unless ((list_core_plugin_cli_commands + list_core_plugin_reporters) & given_args).empty?
+
+      # Preprocess given_args to exclude parts after the colon
+      ## Example: Passed with reporter like json:file-1.json
+      new_args = given_args.map { |arg| arg.split(":").first }
+
+      # Load the plugin system only if core plugins CLI commands or plugin reporters are used
+      unless ((list_core_plugin_cli_commands + list_core_plugin_reporters) & new_args).empty?
         require "inspec/utils/plugin_loading"
       end
+
       super(given_args, config)
     end
 
