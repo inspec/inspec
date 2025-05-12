@@ -6,6 +6,7 @@ require "inspec/config"
 require "inspec/dist"
 require "inspec/utils/deprecation/global_method"
 require "inspec/utils/licensing_config"
+require "inspec/utils/plugins_util"
 
 # Allow end of options during array type parsing
 # https://github.com/erikhuda/thor/issues/631
@@ -37,6 +38,12 @@ module Inspec
         fetch_and_persist_license
       end
 
+      # Load the plugin system only if core plugins cli commands or plugin reporters are used
+      # Given args array contains the command name and also reporter name
+      # TODO Handle scenario where reporter is used with a file, example: json:file-1.json
+      unless ((list_core_plugin_cli_commands + list_core_plugin_reporters) & given_args).empty?
+        require "inspec/utils/plugin_loading"
+      end
       super(given_args, config)
     end
 
