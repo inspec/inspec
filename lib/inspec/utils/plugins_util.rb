@@ -1,7 +1,7 @@
 
-PLUGINS_CLI_COMMANDS = %w{plugin parallel license init habitat compliance automate sign}
+PLUGINS_CLI_COMMANDS = %w{plugin parallel license init habitat compliance automate sign}.freeze
 
-PLUGIN_REPORTERS = %w{progress-bar junit junit2 json-min html2 child-status}
+PLUGIN_REPORTERS = %w{progress-bar junit junit2 json-min html2 child-status}.freeze
 
 def list_core_plugin_cli_commands
   ### Logic to fetch list of plugin names - but not very useful at this point
