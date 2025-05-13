@@ -6,7 +6,6 @@ require "inspec/config"
 require "inspec/dist"
 require "inspec/utils/deprecation/global_method"
 require "inspec/utils/licensing_config"
-require "inspec/utils/plugins_util"
 
 # Allow end of options during array type parsing
 # https://github.com/erikhuda/thor/issues/631
