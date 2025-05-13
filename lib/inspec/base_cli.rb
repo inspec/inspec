@@ -38,15 +38,9 @@ module Inspec
         fetch_and_persist_license
       end
 
-      # Load the plugin system only if core plugins cli commands or plugin reporters are used
-      # Given args array contains the command name and also reporter name
-
-      # Preprocess given_args to exclude parts after the colon
-      ## Example: Passed with reporter like json:file-1.json
-      new_args = given_args.map { |arg| arg.split(":").first }
-
-      # Load the plugin system only if core plugins CLI commands or plugin reporters are used
-      unless ((list_core_plugin_cli_commands + list_core_plugin_reporters) & new_args).empty?
+      # Skip plugin loading for following quick commands which does not do any heavy lifting.
+      quick_commands = %w{schema env clear_cache version detect}
+      unless quick_commands.any? { |cmd| cmd == given_args[0] }
         require "inspec/utils/plugin_loading"
       end
 
