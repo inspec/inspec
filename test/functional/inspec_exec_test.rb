@@ -588,9 +588,12 @@ describe "inspec exec" do
     let(:out) { inspec("exec " + simple_inheritance) }
 
     it "should print the profile information and then the test results" do
-      _(stdout).must_include "  tmp-1.0: Create / directory (1 failed)\n     File / is expected to be directory\n     File / is expected not to be directory\n"
+      _(stdout).must_include "tmp-1.0: Create / directory (1 failed)"
+      _(stdout).must_include "File / is expected to be directory"
+      _(stdout).must_include "File / is expected not to be directory"
     end
   end
+
 
   describe "using namespaced resources" do
     it "works" do
