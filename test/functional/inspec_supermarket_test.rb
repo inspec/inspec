@@ -15,13 +15,13 @@ describe "inspec supermarket" do
 
   it "info" do
     out = inspec("supermarket info dev-sec/ssh-baseline")
-
-    _(out.stdout).must_include "name: \e[0m  ssh-baseline"
-
+    cleaned_output = out.stdout.gsub(/\e\[\d+m/, "") # Strip ANSI
+    puts "Supermarket Info Output:\n#{cleaned_output}" if cleaned_output.strip.empty?
+    assert_match(/name:\s+ssh-baseline/, cleaned_output)
     _(out.stderr).must_equal ""
-
     assert_exit_code 0, out
   end
+
 
   it "supermarket exec" do
     if is_windows?
@@ -53,11 +53,16 @@ describe "inspec supermarket" do
   it "info with --supermarket_url option" do
     out = inspec("supermarket info dev-sec/ssh-baseline --supermarket_url='https://supermarket.chef.io'")
 
-    _(out.stdout).must_include "name: \e[0m  ssh-baseline"
-    _(out.stderr).must_equal ""
+    cleaned_output = out.stdout.gsub(/\e\[\d+m/, "") # Remove ANSI codes
+    puts "Supermarket Info Output with URL:\n#{cleaned_output}" if cleaned_output.strip.empty?
 
+    # Robust match allowing variable spacing
+    assert_match(/name:\s+ssh-baseline/, cleaned_output)
+
+    _(out.stderr).must_equal ""
     assert_exit_code 0, out
   end
+
 
   it "supermarket exec with --supermarket_url option" do
     if is_windows?

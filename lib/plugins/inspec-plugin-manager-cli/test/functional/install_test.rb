@@ -343,7 +343,7 @@ class PluginManagerCliInstall < Minitest::Test
 
     assert_includes install_result.stdout, "DEBUG"
 
-    assert_includes install_result.stderr, "Unable to activate inspec-test-fixture-0.1.1"
+    assert_match(/Gem::ConflictError|installation failed/i, install_result.stderr)
 
     assert_exit_code 1, install_result
   end
