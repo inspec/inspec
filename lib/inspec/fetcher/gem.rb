@@ -57,11 +57,12 @@ module Inspec::Fetcher
       if path
         loader = Inspec::Plugin::V2::Loader.new
         gem_dir_path = loader.find_gem_directory(@gem_name, @version)
-
+        if gem_dir_path
         # Cache the gem file
-        FileUtils.mkdir_p(path)
-        FileUtils.cp_r(gem_dir_path, path)
-        @archive_path = path
+          FileUtils.mkdir_p(path)
+          FileUtils.cp_r(gem_dir_path, path)
+          @archive_path = path
+        end
       end
 
       # Should the plugin activate? No, it should only be "fetched" (installed)
