@@ -62,6 +62,8 @@ module Inspec::Fetcher
           FileUtils.mkdir_p(path)
           FileUtils.cp_r(gem_dir_path, path)
           @archive_path = path
+        else
+          @archive_path = @target
         end
       end
 
