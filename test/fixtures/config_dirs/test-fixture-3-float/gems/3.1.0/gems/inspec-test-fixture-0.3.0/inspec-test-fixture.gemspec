@@ -1,6 +1,6 @@
 lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require_relative "lib/inspec-test-fixture/version"
+require "inspec-test-fixture/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "inspec-test-fixture"

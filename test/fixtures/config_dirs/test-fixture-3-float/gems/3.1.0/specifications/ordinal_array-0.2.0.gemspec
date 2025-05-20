@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 # stub: ordinal_array 0.2.0 ruby lib
 
 Gem::Specification.new do |s|
