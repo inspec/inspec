@@ -85,8 +85,9 @@ module Inspec
     end
 
     def assert_cache_sanity!
-      # TODO: update this to handle gem resource pack dependencies
+      # do not check cache sanity if the target is a gem or a resource pack
       # which are known by a special prefix on their cache key or by having the :gem key
+      return if target.respond_to?(:key?) && target.key?(:gem)
       return unless target.respond_to?(:key?) && target.key?(:sha256)
 
       exception_message = <<~EOF
