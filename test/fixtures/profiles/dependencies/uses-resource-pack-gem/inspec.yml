@@ -14,4 +14,4 @@ depends:
    # Note that path makes this a local install, bypassing source
    # To test with actual gem install, comment out this next line.
    # (You'll also need to make the inspec-test-resources gem available via your gem sources)
-   path: test/fixtures/plugins/inspec-test-resources/lib/inspec-test-resources.rb
+   path: test/fixtures/plugins/inspec-test-resources/inspec-test-resources-0.2.1.gem
