@@ -62,7 +62,7 @@ module Inspec
       if key.start_with?("gem:")
         # check if the gem is installed in InSpec Config DIR or if it is present as cache in cache DIR
         !gemspec_path_for(key).nil? || File.directory?(base_path_for(key))
-      elsif key.start_with?("gem_path:")
+      elsif key.start_with?("gem_path:") # TODO: remove this as it will be redundant with the introduction of SHA256 key
         # Gem installed as explicit path reference, as in testing / development
         entry_point_path = key.sub(/^gem_path:/, "")
         File.exist?(entry_point_path)
