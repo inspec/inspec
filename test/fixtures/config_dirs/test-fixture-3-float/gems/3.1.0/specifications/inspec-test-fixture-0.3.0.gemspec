@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # stub: inspec-test-fixture 0.3.0 ruby lib
 
 Gem::Specification.new do |s|
@@ -17,15 +16,15 @@ Gem::Specification.new do |s|
 
   s.installed_by_version = "3.3.3" if s.respond_to? :installed_by_version
 
-  if s.respond_to? :specification_version then
+  if s.respond_to? :specification_version
     s.specification_version = 4
   end
 
-  if s.respond_to? :add_runtime_dependency then
-    s.add_development_dependency(%q<rake>.freeze, ["~> 10.0"])
-    s.add_runtime_dependency(%q<ordinal_array>.freeze, ["~> 0.2.0"])
+  if s.respond_to? :add_runtime_dependency
+    s.add_development_dependency(%q{rake}.freeze, ["~> 10.0"])
+    s.add_runtime_dependency(%q{ordinal_array}.freeze, ["~> 0.2.0"])
   else
-    s.add_dependency(%q<rake>.freeze, ["~> 10.0"])
-    s.add_dependency(%q<ordinal_array>.freeze, ["~> 0.2.0"])
+    s.add_dependency(%q{rake}.freeze, ["~> 10.0"])
+    s.add_dependency(%q{ordinal_array}.freeze, ["~> 0.2.0"])
   end
 end
