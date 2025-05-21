@@ -1,5 +1,5 @@
 require "inspec-test-fixture/version"
-if InspecPlugins::TestFixture::VERSION == Gem::Version.new("0.2.0")
+if InspecPlugins::TestFixture::VERSION == Gem::Version.new("0.3.0")
   require "ordinal_array"
 end
 
