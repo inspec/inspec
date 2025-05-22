@@ -7,9 +7,8 @@ class Module
   include Minitest::Spec::DSL
 end
 
-RUBY3_1_PLUS = Gem.ruby_version >= Gem::Version.new("3.1")
-RUBY3_3_PLUS = Gem.ruby_version >= Gem::Version.new("3.3")
-RUBY3_4_PLUS = Gem.ruby_version >= Gem::Version.new("3.4")
+RUBY3_1_PLUS = Gem.ruby_version >= Gem::Version.new("3.1.0")
+RUBY3_4_PLUS = Gem.ruby_version >= Gem::Version.new("3.4.0")
 
 module DescribeOneTest
   it "loads an empty describe.one" do
@@ -99,8 +98,6 @@ describe Inspec::ProfileContext do
       _(profile.rules.keys.length).must_equal 1
       if RUBY3_4_PLUS
         _(profile.rules.keys[0]).must_match(/^\(generated from \(eval(?: at .+profile_context\.rb:\d+)?\):\d+ [0-9a-f]+\)$/)
-      elsif RUBY3_3_PLUS
-        _(profile.rules.keys[0]).must_match(/^\(generated from profile_context\.rb:\d+\):\d+ [0-9a-f]+\)$/)
       else
         _(profile.rules.keys[0]).must_match(/^\(generated from \(eval\):1 [0-9a-f]+\)$/)
       end
@@ -112,8 +109,6 @@ describe Inspec::ProfileContext do
       _(profile.rules.keys.length).must_equal 1
       if RUBY3_4_PLUS
         _(profile.rules.keys[0]).must_match(/^\(generated from profile_context\.rb:\d+\)?(?::\d+)? [0-9a-f]+\)?$/)
-      elsif RUBY3_3_PLUS
-        _(profile.rules.keys[0]).must_match(/^\(generated from profile_context\.rb:\d+\):\d+ [0-9a-f]+\)$/)
       else
         _(profile.rules.keys[0]).must_match(/^\(generated from \(eval\):1 [0-9a-f]+\)$/)
       end
@@ -126,10 +121,8 @@ describe Inspec::ProfileContext do
       [0, 1, 2].each do |i|
         if RUBY3_4_PLUS
           _(profile.rules.keys[i]).must_match(/^\(generated from profile_context\.rb:\d+\)?(?::\d+)? [0-9a-f]+\)?$/)
-        elsif RUBY3_3_PLUS
-          _(profile.rules.keys[0]).must_match(/^\(generated from profile_context\.rb:\d+\):\d+ [0-9a-f]+\)$/)
         else
-          _(profile.rules.keys[0]).must_match(/^\(generated from \(eval\):1 [0-9a-f]+\)$/)
+          _(profile.rules.keys[i]).must_match(/^\(generated from \(eval\):2 [0-9a-f]+\)$/)
         end
         _(profile.rules.values[i]).must_be_kind_of Inspec::Rule
       end
