@@ -43,7 +43,6 @@ class PluginManagerCliUpdate < Minitest::Test
     # Loosen pattern to allow for variations
     refusal_message = output.lines.grep(/(already.*(installed|current|latest)|up to date|nothing to update)/i).last
     refute_nil refusal_message, "Should find a failure message at the end"
-    require 'pry';binding.pry
     assert_includes refusal_message, "inspec-test-fixture"
     assert_includes refusal_message, "0.3.0"
     assert_match(/already.*version|up to date|nothing to update/i, refusal_message)
