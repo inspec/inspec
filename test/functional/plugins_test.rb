@@ -365,9 +365,6 @@ describe "train plugin support" do
 
       lines = outcome.stdout.split("\n")
       name_line = lines.grep(/Name/).first
-
-      puts "Detect Output:\n#{lines.join("\n")}" if name_line.nil?
-
       refute_nil name_line, "Expected a line containing 'Name' but found none"
       _(name_line).must_include("test-fixture")
 
@@ -402,9 +399,6 @@ describe "train plugin support" do
     it "can run inspec shell and read a file" do
       # The test fixture always returns the same content regardless of path
       outcome = inspec_with_env("shell -t test-fixture:// -c 'file(%q{/opt/any-path}).content'", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
-
-      puts "STDOUT:\n#{outcome.stdout}"
-      puts "STDERR:\n#{outcome.stderr}"
 
       _(outcome.stdout.chomp).must_equal "Lorem Ipsum"
 
