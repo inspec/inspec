@@ -140,7 +140,6 @@ describe "Inspec::Resources::JSON" do
       _(resource.resource_exception_message).must_match(/unexpected token.*not-valid-json/)
     end
 
-
     it "empty stdout, message in stderr" do
       skip "Bug #4465: does not work on windows w/ transport==local" if windows?
 

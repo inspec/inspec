@@ -22,7 +22,6 @@ describe "inspec supermarket" do
     assert_exit_code 0, out
   end
 
-
   it "supermarket exec" do
     if is_windows?
       out = inspec("supermarket exec dev-sec/windows-patch-baseline")
@@ -62,7 +61,6 @@ describe "inspec supermarket" do
     _(out.stderr).must_equal ""
     assert_exit_code 0, out
   end
-
 
   it "supermarket exec with --supermarket_url option" do
     if is_windows?

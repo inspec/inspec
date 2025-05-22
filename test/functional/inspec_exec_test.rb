@@ -594,7 +594,6 @@ describe "inspec exec" do
     end
   end
 
-
   describe "using namespaced resources" do
     it "works" do
       inspec("exec " + File.join(profile_path, "dependencies", "resource-namespace") + " --no-create-lockfile")
