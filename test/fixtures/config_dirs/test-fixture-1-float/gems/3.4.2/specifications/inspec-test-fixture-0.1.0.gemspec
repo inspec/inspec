@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = "2.6.13".freeze
   s.summary = "A simple test plugin gem for InSpec".freeze
 
-  s.installed_by_version = "3.6.2".freeze
+  s.installed_by_version = "3.6.5".freeze
 
   s.specification_version = 4
 
