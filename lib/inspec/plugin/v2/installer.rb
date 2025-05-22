@@ -542,6 +542,11 @@ module Inspec::Plugin::V2
       loader.list_managed_gems.each do |spec|
         next if spec.name == gem_to_force_update
 
+        libdir = File.join(spec.gem_dir, "lib")
+        if Dir.exist?(libdir) && !$LOAD_PATH.include?(libdir)
+          $LOAD_PATH.unshift(libdir)
+        end
+
         installed_plugins_gem_set.add_vendor_gem(spec.name, spec.gem_dir)
       end
 
