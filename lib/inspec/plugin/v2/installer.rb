@@ -543,9 +543,8 @@ module Inspec::Plugin::V2
         next if spec.name == gem_to_force_update
 
         libdir = File.join(spec.gem_dir, "lib")
-        if Dir.exist?(libdir) && !$LOAD_PATH.include?(libdir)
-          $LOAD_PATH.unshift(libdir)
-        end
+        raise StandardError, "Cannot find lib directory for #{spec.name} gem dir: #{libdir}" unless Dir.exist?(libdir)
+        $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 
         installed_plugins_gem_set.add_vendor_gem(spec.name, spec.gem_dir)
       end
