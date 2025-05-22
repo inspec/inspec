@@ -26,7 +26,7 @@ describe NginxParser do
     if Gem.ruby_version >= Gem::Version.new("3.4.0")
       _(parsestr("assignment a;")).must_equal "[{assignment: {identifier: \"assignment\"@0, args: [{value: \"a\"@11}]}}]"
     else
-      _(parsestr("assignment a;")).must_equal "[{assignment: {identifier: \"assignment\"@0, args: [{value: \"a\"@11}]}}]"
+      _(parsestr("assignment a;")).must_equal "[{:assignment=>{:identifier=>\"assignment\"@0, :args=>[{:value=>\"a\"@11}]}}]"
     end
   end
 
@@ -84,7 +84,11 @@ describe NginxParser do
   end
 
   it "parses a group with a body" do
-    _(parsestr("group {\na b;\n}")).must_equal "[{section: {identifier: \"group\"@0}, args: \"\", expressions: [{assignment: {identifier: \"a\"@8, args: [{value: \"b\"@10}]}}]}]"
+    if Gem.ruby_version >= Gem::Version.new("3.4.0")
+      _(parsestr("group {\na b;\n}")).must_equal "[{section: {identifier: \"group\"@0}, args: \"\", expressions: [{assignment: {identifier: \"a\"@8, args: [{value: \"b\"@10}]}}]}]"
+    else
+      _(parsestr("group {\na b;\n}")).must_equal "[{:section=>{:identifier=>\"group\"@0}, :args=>\"\", :expressions=>[{:assignment=>{:identifier=>\"a\"@8, :args=>[{:value=>\"b\"@10}]}}]}]"
+    end
   end
 
   it "parses a group with arguments and a body" do
