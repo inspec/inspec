@@ -23,7 +23,11 @@ describe NginxParser do
   end
 
   it "parses a simple assignment" do
-    _(parsestr("assignment a;")).must_equal "[{assignment: {identifier: \"assignment\"@0, args: [{value: \"a\"@11}]}}]"
+    if Gem.ruby_version >= Gem::Version.new("3.4.0")
+      _(parsestr("assignment a;")).must_equal "[{assignment: {identifier: \"assignment\"@0, args: [{value: \"a\"@11}]}}]"
+    else
+      _(parsestr("assignment a;")).must_equal "[{assignment: {identifier: \"assignment\"@0, args: [{value: \"a\"@11}]}}]"
+    end
   end
 
   it "parses an assignment with a single quoted value" do
@@ -60,14 +64,23 @@ describe NginxParser do
     result = parse('include "/a/\"b/*.conf";')
     _(result[0][:assignment][:identifier]).must_equal "include"
     _(result[0][:assignment][:args][0][:value]).must_equal '/a/\"b/*.conf'
+
   end
 
   it "parses an empty group" do
-    _(parsestr("group {}")).must_equal "[{section: {identifier: \"group\"@0}, args: \"\", expressions: []}]"
+    if Gem.ruby_version >= Gem::Version.new("3.4.0")
+      _(parsestr("group {}")).must_equal "[{section: {identifier: \"group\"@0}, args: \"\", expressions: []}]"
+    else
+      _(parsestr("group {}")).must_equal "[{:section=>{:identifier=>\"group\"@0}, :args=>\"\", :expressions=>[]}]"
+    end
   end
 
   it "parses a group with parameters" do
-    _(parsestr("group a b {}")).must_equal "[{section: {identifier: \"group\"@0}, args: [{value: \"a\"@6}, {value: \"b\"@8}], expressions: []}]"
+    if Gem.ruby_version >= Gem::Version.new("3.4.0")
+      _(parsestr("group a b {}")).must_equal "[{section: {identifier: \"group\"@0}, args: [{value: \"a\"@6}, {value: \"b\"@8}], expressions: []}]"
+    else
+      _(parsestr("group a b {}")).must_equal "[{:section=>{:identifier=>\"group\"@0}, :args=>[{:value=>\"a\"@6}, {:value=>\"b\"@8}], :expressions=>[]}]"
+    end
   end
 
   it "parses a group with a body" do
@@ -75,27 +88,51 @@ describe NginxParser do
   end
 
   it "parses a group with arguments and a body" do
-    _(parsestr("group c {\na b;\n}")).must_equal "[{section: {identifier: \"group\"@0}, args: [{value: \"c\"@6}], expressions: [{assignment: {identifier: \"a\"@10, args: [{value: \"b\"@12}]}}]}]"
+    if Gem.ruby_version >= Gem::Version.new("3.4.0")
+      _(parsestr("group c {\na b;\n}")).must_equal "[{section: {identifier: \"group\"@0}, args: [{value: \"c\"@6}], expressions: [{assignment: {identifier: \"a\"@10, args: [{value: \"b\"@12}]}}]}]"
+    else
+      _(parsestr("group c {\na b;\n}")).must_equal "[{:section=>{:identifier=>\"group\"@0}, :args=>[{:value=>\"c\"@6}], :expressions=>[{:assignment=>{:identifier=>\"a\"@10, :args=>[{:value=>\"b\"@12}]}}]}]"
+    end
   end
 
   it "parses nested groups" do
-    _(parsestr("f {g {h {\n# comment\n}}}")).must_equal "[{section: {identifier: \"f\"@0}, args: \"\", expressions: [{section: {identifier: \"g\"@3}, args: \"\", expressions: [{section: {identifier: \"h\"@6}, args: \"\", expressions: []}]}]}]"
+    if Gem.ruby_version >= Gem::Version.new("3.4.0")
+      _(parsestr("f {g {h {\n# comment\n}}}")).must_equal "[{section: {identifier: \"f\"@0}, args: \"\", expressions: [{section: {identifier: \"g\"@3}, args: \"\", expressions: [{section: {identifier: \"h\"@6}, args: \"\", expressions: []}]}]}]"
+    else
+      _(parsestr("f {g {h {\n# comment\n}}}")).must_equal "[{:section=>{:identifier=>\"f\"@0}, :args=>\"\", :expressions=>[{:section=>{:identifier=>\"g\"@3}, :args=>\"\", :expressions=>[{:section=>{:identifier=>\"h\"@6}, :args=>\"\", :expressions=>[]}]}]}]"
+    end
   end
 
   it "parses quoted identifiers for assignments" do
-    _(parsestr(%{"~^\/opcache-api" 1;})).must_equal "[{assignment: {identifier: \"~^/opcache-api\"@1, args: [{value: \"1\"@17}]}}]"
+    if Gem.ruby_version >= Gem::Version.new("3.4.0")
+      _(parsestr(%{"~^\/opcache-api" 1;})).must_equal "[{assignment: {identifier: \"~^/opcache-api\"@1, args: [{value: \"1\"@17}]}}]"
+    else
+      _(parsestr(%{"~^\/opcache-api" 1;})).must_equal "[{:assignment=>{:identifier=>\"~^/opcache-api\"@1, :args=>[{:value=>\"1\"@17}]}}]"
+    end
   end
 
   it "parses regex identifiers for assignments" do
-    _(parsestr(%{~^\/opcache-api 1;})).must_equal "[{assignment: {identifier: \"~^/opcache-api\"@0, args: [{value: \"1\"@15}]}}]"
+    if Gem.ruby_version >= Gem::Version.new("3.4.0")
+      _(parsestr(%{~^\/opcache-api 1;})).must_equal "[{assignment: {identifier: \"~^/opcache-api\"@0, args: [{value: \"1\"@15}]}}]"
+    else
+      _(parsestr(%{~^\/opcache-api 1;})).must_equal "[{:assignment=>{:identifier=>\"~^/opcache-api\"@0, :args=>[{:value=>\"1\"@15}]}}]"
+    end
   end
 
   it "parses wildcard identifiers for assignments" do
-    _(parsestr(%{*.example.org qa;})).must_equal "[{assignment: {identifier: \"*.example.org\"@0, args: [{value: \"qa\"@14}]}}]"
+    if Gem.ruby_version >= Gem::Version.new("3.4.0")
+      _(parsestr(%{*.example.org qa;})).must_equal "[{assignment: {identifier: \"*.example.org\"@0, args: [{value: \"qa\"@14}]}}]"
+    else
+      _(parsestr(%{*.example.org qa;})).must_equal "[{:assignment=>{:identifier=>\"*.example.org\"@0, :args=>[{:value=>\"qa\"@14}]}}]"
+    end
   end
 
   it "parses dot-prefixed identifiers for assignments" do
-    _(parsestr(%{.example.com test;})).must_equal "[{assignment: {identifier: \".example.com\"@0, args: [{value: \"test\"@13}]}}]"
+    if Gem.ruby_version >= Gem::Version.new("3.4.0")
+      _(parsestr(%{.example.com test;})).must_equal "[{assignment: {identifier: \".example.com\"@0, args: [{value: \"test\"@13}]}}]"
+    else
+      _(parsestr(%{.example.com test;})).must_equal "[{:assignment=>{:identifier=>\".example.com\"@0, :args=>[{:value=>\"test\"@13}]}}]"
+    end
   end
 
 end
