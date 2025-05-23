@@ -285,7 +285,16 @@ module Inspec::Plugin::V2
     #===================================================================#
 
     def install_from_path(requested_plugin_name, opts)
-      # Nothing to do here; we will later update the plugins file with the path.
+      return unless gem_based_plugin?(opts)
+
+      local_gem_path = opts[:path]
+      Inspec::Log.debug("Installing #{requested_plugin_name} from path #{local_gem_path}")
+      raise InstallError, "Gem File not found: #{local_gem_path}" unless File.exist?(local_gem_path)
+
+      gem_installer = Gem::Installer.at(local_gem_path, install_dir: gem_path, ignore_dependencies: true, document: [])
+      gem_installer.install
+
+      Inspec::Log.debug("Installed gem from path: #{local_gem_path} to #{gem_path}")
     end
 
     def install_from_gem_file(requested_plugin_name, opts)

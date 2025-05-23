@@ -70,7 +70,9 @@ module Inspec::Plugin::V2
             require plugin_details.entry_point
           else
             load_path = plugin_details.entry_point
-            load_path += ".rb" unless plugin_details.entry_point.end_with?(".rb")
+            next if load_path.end_with?(".gem") # local resource pack's path will have gem path
+
+            load_path += ".rb" unless load_path.end_with?(".rb")
             load load_path
           end
           plugin_details.loaded = true

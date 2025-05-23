@@ -132,12 +132,7 @@ describe "Inspec::Resources::JSON" do
 
     it "bad stdout, empty stderr" do
       resource = run_json_cmd "echo 'not-valid-json'"
-
-      # Assert that the resource failed
-      _(resource.resource_failed?).must_equal true
-      # Assert that the error message includes the expected failure
-      # using a more flexible and robust pattern
-      _(resource.resource_exception_message).must_match(/unexpected token.*not-valid-json/)
+      assert_resource_failed resource, "unexpected token 'not-valid-json"
     end
 
     it "empty stdout, message in stderr" do

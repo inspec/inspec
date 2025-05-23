@@ -255,7 +255,7 @@ class PluginManagerCliInstall < Minitest::Test
   def test_refuse_install_when_already_installed_same_version
     pre_block = Proc.new do |plugin_statefile_data, tmp_dir|
       plugin_statefile_data.clear # Signal not to write a file, we'll provide one.
-      copy_in_core_config_dir("test-fixture-2-float", tmp_dir)
+      copy_in_core_config_dir("test-fixture-3-float", tmp_dir)
     end
     # This is a test of the "refuse to install" logic, not the "update" logic.
     install_result = run_inspec_process_with_this_plugin("plugin install inspec-test-fixture", pre_run: pre_block)

@@ -33,7 +33,7 @@ class PluginManagerCliUpdate < Minitest::Test
   def test_refuse_update_when_already_current
     pre_block = Proc.new do |plugin_statefile_data, tmp_dir|
       plugin_statefile_data.clear # Signal not to write a file, we'll provide one.
-      copy_in_core_config_dir("test-fixture-2-float", tmp_dir)
+      copy_in_core_config_dir("test-fixture-3-float", tmp_dir)
     end
 
     update_result = run_inspec_process_with_this_plugin("plugin update inspec-test-fixture", pre_run: pre_block)
@@ -45,7 +45,9 @@ class PluginManagerCliUpdate < Minitest::Test
     refute_nil refusal_message, "Should find a failure message at the end"
     assert_includes refusal_message, "inspec-test-fixture"
     assert_includes refusal_message, "0.3.0"
-    assert_match(/already.*version|up to date|nothing to update/i, refusal_message)
+    assert_includes refusal_message, "Already installed at latest version"
+
+    assert_empty update_result.stderr
 
     assert_exit_code 0, update_result
   end
