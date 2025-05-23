@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.48 -->
-## [v7.0.48](https://github.com/inspec/inspec/tree/v7.0.48) (2025-05-22)
+<!-- latest_release 7.0.49 -->
+## [v7.0.49](https://github.com/inspec/inspec/tree/v7.0.49) (2025-05-23)
 
 #### Merged Pull Requests
-- Fixes for external plugin testing [#7363](https://github.com/inspec/inspec/pull/7363) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- CHEF-14327 support resource packs with vendor [#7355](https://github.com/inspec/inspec/pull/7355) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- CHEF-14327 support resource packs with vendor [#7355](https://github.com/inspec/inspec/pull/7355) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.49 -->
 - Fixes for external plugin testing [#7363](https://github.com/inspec/inspec/pull/7363) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 7.0.48 -->
 - CHEF-20736, CHEF-18371 bump up train kubernetes [#7352](https://github.com/inspec/inspec/pull/7352) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.47 -->
 - Foreport to InSpec 7: Waivers error handling fix [#7344](https://github.com/inspec/inspec/pull/7344) ([Nik08](https://github.com/Nik08)) <!-- 7.0.46 -->
