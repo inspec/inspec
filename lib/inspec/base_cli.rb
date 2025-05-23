@@ -1,11 +1,14 @@
 require "thor" # rubocop:disable Chef/Ruby/UnlessDefinedRequire
-require "chef-licensing"
 require "inspec/log"
 require "inspec/ui"
 require "inspec/config"
 require "inspec/dist"
 require "inspec/utils/deprecation/global_method"
-require "inspec/utils/licensing_config"
+
+## Disabled licensing - To enable it revert this
+# require "chef-licensing"
+# require "inspec/utils/licensing_config"
+##
 
 # Allow end of options during array type parsing
 # https://github.com/erikhuda/thor/issues/631
@@ -34,7 +37,8 @@ module Inspec
     def self.start(given_args = ARGV, config = {})
       if Inspec::Dist::EXEC_NAME == "inspec"
         check_license! if config[:enforce_license] || config[:enforce_license].nil?
-        fetch_and_persist_license
+        # Disabled licensing - To enable it revert this
+        # fetch_and_persist_license
       end
 
       super(given_args, config)
