@@ -1,5 +1,5 @@
 require "time" unless defined?(Time.zone_offset)
-require "chef-licensing"
+# require "chef-licensing" ## Disabled licensing
 require_relative "telemetry/null"
 require_relative "telemetry/http"
 require_relative "telemetry/run_context_probe"
