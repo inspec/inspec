@@ -8,9 +8,7 @@ module Inspec::Fetcher
     # Gem fetcher's priority should be lowest because gem profiles are only executables via inspec metadata
 
     def self.resolve(target)
-      if target.is_a?(Hash) && target.key?(:gem)
-        resolve_from_hash(target)
-      end
+      resolve_from_hash(target) if target.is_a?(Hash) && target.key?(:gem)
     end
 
     def self.resolve_from_hash(target)
@@ -32,15 +30,13 @@ module Inspec::Fetcher
     def fetch(path)
       plugin_installer = Inspec::Plugin::V2::Installer.instance
 
-      # Determine if gem is installed
-      have_plugin = false
       Inspec::Log.debug("GemFetcher fetching #{@gem_name} v" + (@version || "ANY"))
 
-      if @version
-        have_plugin = plugin_installer.plugin_version_installed?(@gem_name, @version)
-      else
-        have_plugin = plugin_installer.plugin_installed?(@gem_name)
-      end
+      have_plugin = if @version
+                      plugin_installer.plugin_version_installed?(@gem_name, @version)
+                    else
+                      plugin_installer.plugin_installed?(@gem_name)
+                    end
 
       unless have_plugin
         # Install
@@ -48,10 +44,26 @@ module Inspec::Fetcher
         Inspec::Log.debug("GemFetcher - install request for #{@gem_name}")
         if @gem_path
           # No version permitted
-          plugin_installer.install(@gem_name, path: @gem_path)
+          plugin_installer.install(@gem_name, gem: @gem_name, path: @gem_path)
         else
           # Passing an extra gem argument to enable detecting gem based plugins
-          plugin_installer.install(@gem_name, version: @version, source: @source, gem: @gem_name )
+          plugin_installer.install(@gem_name, version: @version, source: @source, gem: @gem_name)
+        end
+      end
+
+      # Usually this `path` is cache path
+      # We want to copy installed gem to cache path so it can be vendored
+      # and read again as a cache
+      if path
+        loader = Inspec::Plugin::V2::Loader.new
+        gem_dir_path = loader.find_gem_directory(@gem_name, @version)
+        if gem_dir_path
+          # Cache the gem file
+          FileUtils.mkdir_p(path)
+          FileUtils.cp_r(gem_dir_path, path)
+          @archive_path = path
+        else
+          @archive_path = @target
         end
       end
 
@@ -61,9 +73,7 @@ module Inspec::Fetcher
       @target
     end
 
-    def archive_path
-      @target
-    end
+    attr_reader :archive_path
 
     def writable?
       # Gem based profile is not writable because it is not cached in lockfile
@@ -72,13 +82,15 @@ module Inspec::Fetcher
 
     def cache_key
       # This special value is interpreted by Inspec::Cache.exists?
-      # gem:gemname:version
-      # gem_path:/filesystem/path/entrypoint.rb
-
-      if @gem_path
-        "gem_path:#{@gem_path}"
-      else
-        "gem:#{@gem_name}:#{@version}"
+      # SHA256 on gem:gemname:version
+      # SHA256 on gem_path:/filesystem/path/entrypoint.rb
+      @cache_key ||= begin
+        key = if @gem_path
+                "gem_path:#{@gem_path}"
+              else
+                "gem:#{@gem_name}:#{gem_version}"
+              end
+        OpenSSL::Digest.hexdigest("SHA256", key)
       end
     end
 
@@ -91,9 +103,15 @@ module Inspec::Fetcher
     end
 
     def resolved_source
-      h = { gem: @gem_name, version: @version, gem_path: @gem_path }
+      h = { gem: @gem_name, version: gem_version, gem_path: @gem_path }
       h[:sha256] = sha256
       h
+    end
+
+    private
+
+    def gem_version
+      @version || Inspec::Plugin::V2::Loader.find_gemspec_of(@gem_name)&.version&.to_s
     end
   end
 end

@@ -16,6 +16,7 @@ module Inspec
   #
   class Cache
     attr_reader :path
+
     def initialize(path = nil)
       @path = path || File.join(Inspec.config_dir, "cache")
       FileUtils.mkdir_p(@path) unless File.directory?(@path)
@@ -59,12 +60,9 @@ module Inspec
       return false if key.nil? || key.empty?
 
       if key.start_with?("gem:")
-        # A gem installation
-        (_, gem_name, version) = key.split(":")
-        loader = Inspec::Plugin::V2::Loader.new
-        !loader.find_gem_directory(gem_name, version).nil?
-
-      elsif key.start_with?("gem_path:")
+        # check if the gem is installed in InSpec Config DIR or if it is present as cache in cache DIR
+        !gemspec_path_for(key).nil? || File.directory?(base_path_for(key))
+      elsif key.start_with?("gem_path:") # TODO: remove this as it will be redundant with the introduction of SHA256 key
         # Gem installed as explicit path reference, as in testing / development
         entry_point_path = key.sub(/^gem_path:/, "")
         File.exist?(entry_point_path)
@@ -88,10 +86,10 @@ module Inspec
     #
     def base_path_for(key)
       if key.start_with?("gem:")
-        # A gem installation
-        (_, gem_name, version) = key.split(":")
-        loader = Inspec::Plugin::V2::Loader.new
-        loader.find_gem_directory(gem_name, version)
+        # fetch the Gem installed path and if the gem is not available in the installed DIR
+        # construct the cache path where it can be found
+        # At this point this path will be used both for writing and reading the gem cache
+        gemspec_path_for(key) || File.join(@path, key)
 
       elsif key.start_with?("gem_path:")
         # Gem installed as explicit path reference, as in testing / development
@@ -122,9 +120,7 @@ module Inspec
       locked = false
       path = base_path_for(key)
       # For archive there is no need to lock the directory so we skip those and return false for archive formatted cache
-      if File.directory?(path)
-        locked = File.exist?("#{path}/.lock")
-      end
+      locked = File.exist?("#{path}/.lock") if File.directory?(path)
       locked
     end
 
