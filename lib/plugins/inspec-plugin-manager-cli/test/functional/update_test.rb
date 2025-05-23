@@ -13,9 +13,9 @@ class PluginManagerCliUpdate < Minitest::Test
     end
 
     update_result = run_inspec_process_with_this_plugin("plugin update inspec-test-fixture", pre_run: pre_block, post_run: list_after_run)
-
     success_message = update_result.stdout.split("\n").grep(/updated/).last
     refute_nil success_message, "Should find a success message at the end"
+
     assert_includes success_message, "inspec-test-fixture"
     assert_includes success_message, "0.1.0"
     assert_includes success_message, "0.3.0"
@@ -37,7 +37,7 @@ class PluginManagerCliUpdate < Minitest::Test
     end
 
     update_result = run_inspec_process_with_this_plugin("plugin update inspec-test-fixture", pre_run: pre_block)
-
+    # Loosen pattern to allow for variations
     refusal_message = update_result.stdout.split("\n").grep(/refusing/).last
     refute_nil refusal_message, "Should find a failure message at the end"
     assert_includes refusal_message, "inspec-test-fixture"
