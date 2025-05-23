@@ -11,8 +11,10 @@ require "inspec/dependencies/cache"
 require "inspec/dist"
 require "inspec/reporters"
 require "inspec/runner_rspec"
-# require "chef-licensing" # Disabled licensing - To enable it revert this
-require "inspec/utils/telemetry"
+## Disabled licensing & telemetry - To enable it revert this
+# require "chef-licensing"
+# require "inspec/utils/telemetry"
+##
 # spec requirements
 
 module Inspec
@@ -195,7 +197,8 @@ module Inspec
       }
 
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
-      Inspec::Telemetry.run_starting(runner: self, conf: @conf)
+      ## Disabled telemetry
+      # Inspec::Telemetry.run_starting(runner: self, conf: @conf)
       load
       run_tests(with)
 
@@ -250,7 +253,8 @@ module Inspec
       @run_data = @test_collector.run(with)
       # dont output anything if we want a report
       render_output(@run_data) unless @conf["report"]
-      Inspec::Telemetry.run_ending(runner: self, run_data: @run_data, conf: @conf)
+      ## Disabled telemetry
+      # Inspec::Telemetry.run_ending(runner: self, run_data: @run_data, conf: @conf)
       @test_collector.exit_code
     end
 
