@@ -1,11 +1,14 @@
 require "thor" # rubocop:disable Chef/Ruby/UnlessDefinedRequire
-require "chef-licensing"
 require "inspec/log"
 require "inspec/ui"
 require "inspec/config"
 require "inspec/dist"
 require "inspec/utils/deprecation/global_method"
-require "inspec/utils/licensing_config"
+
+## Disabled licensing - To enable it revert this
+# require "chef-licensing"
+# require "inspec/utils/licensing_config"
+##
 
 # Allow end of options during array type parsing
 # https://github.com/erikhuda/thor/issues/631
@@ -34,7 +37,8 @@ module Inspec
     def self.start(given_args = ARGV, config = {})
       if Inspec::Dist::EXEC_NAME == "inspec"
         check_license! if config[:enforce_license] || config[:enforce_license].nil?
-        fetch_and_persist_license
+        # Disabled licensing - To enable it revert this
+        # fetch_and_persist_license
       end
 
       super(given_args, config)
@@ -243,30 +247,31 @@ module Inspec
 
     def self.help(*args)
       super(*args)
-      if Inspec::Dist::EXEC_NAME == "inspec"
-        puts <<~CHEF_LICENSE_HELP
-          Chef Compliance has three tiers of licensing:
+      ## Licensing disabled - remove licenses information from help
+      # if Inspec::Dist::EXEC_NAME == "inspec"
+      #   puts <<~CHEF_LICENSE_HELP
+      #     Chef Compliance has three tiers of licensing:
 
-          * Free-Tier
-            Users are limited to audit maximum of 10 targets
-            Entitled for personal or non-commercial use
+      #     * Free-Tier
+      #       Users are limited to audit maximum of 10 targets
+      #       Entitled for personal or non-commercial use
 
-          * Trial
-            Entitled for unlimited number of targets
-            Entitled for 30 days only
-            Entitled for commercial use
+      #     * Trial
+      #       Entitled for unlimited number of targets
+      #       Entitled for 30 days only
+      #       Entitled for commercial use
 
-          * Commercial
-            Entitled for purchased number of targets
-            Entitled for period of subscription purchased
-            Entitled for commercial use
+      #     * Commercial
+      #       Entitled for purchased number of targets
+      #       Entitled for period of subscription purchased
+      #       Entitled for commercial use
 
-          inspec license add: This command helps users to generate or add an additional license (not applicable to local licensing service)
+      #     inspec license add: This command helps users to generate or add an additional license (not applicable to local licensing service)
 
-          For more information please visit:
-          www.chef.io/licensing/faqs
-        CHEF_LICENSE_HELP
-      end
+      #     For more information please visit:
+      #     www.chef.io/licensing/faqs
+      #   CHEF_LICENSE_HELP
+      # end
       puts "\nAbout #{Inspec::Dist::PRODUCT_NAME}:"
       puts "  Patents: chef.io/patents\n\n"
     end

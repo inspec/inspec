@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require "chef-licensing"
+# require "chef-licensing" ## Disabled licensing
 require "securerandom" unless defined?(SecureRandom)
 require "digest" unless defined?(Digest)
 require_relative "../../dist"
