@@ -174,8 +174,8 @@ module Inspec
     end
 
     def run(with = nil)
-      product_dist_name = Inspec::Dist::PRODUCT_NAME
       ## Disabled licensing - To enable it revert this
+      # product_dist_name = Inspec::Dist::PRODUCT_NAME
       # if Inspec::Dist::EXEC_NAME == "inspec"
       #   if Inspec::Telemetry::RunContextProbe.guess_run_context == "test-kitchen"
       #     product_dist_name = "Chef Workstation"
