@@ -41,7 +41,9 @@ module Inspec
 
     def self.license
       Inspec::Log.debug "Fetching license context for telemetry check"
-      @license = ChefLicensing.license_context
+      ## Disabled licensing - to enable, undo this change
+      # @license = ChefLicensing.license_context
+      @license = nil
     end
 
     ######
