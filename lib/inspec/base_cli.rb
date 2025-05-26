@@ -44,28 +44,29 @@ module Inspec
       super(given_args, config)
     end
 
-    def self.fetch_and_persist_license
-      allowed_commands = ["-h", "--help", "help", "-v", "--version", "version", "license"]
-      begin
-        if (allowed_commands & ARGV.map(&:downcase)).empty? && !ARGV.empty?
-          license_keys = ChefLicensing.fetch_and_persist
+    ## Uncomment this method to enable licensing logic for use
+    # def self.fetch_and_persist_license
+    #   allowed_commands = ["-h", "--help", "help", "-v", "--version", "version", "license"]
+    #   begin
+    #     if (allowed_commands & ARGV.map(&:downcase)).empty? && !ARGV.empty?
+    #       license_keys = ChefLicensing.fetch_and_persist
 
-          # Only if EULA acceptance or license key args are present. And licenses are successfully persisted, do clean exit.
-          if ARGV.select { |arg| !(arg.include? "--chef-license") }.empty? && !(license_keys.nil? || license_keys.empty?)
-            Inspec::UI.new.exit
-          end
-        end
-      rescue ChefLicensing::LicenseKeyFetcher::LicenseKeyNotFetchedError
-        Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without valid licenses."
-        Inspec::UI.new.exit(:license_not_set)
-      rescue ChefLicensing::SoftwareNotEntitled
-        Inspec::Log.error "License is not entitled to use InSpec."
-        Inspec::UI.new.exit(:license_not_entitled)
-      rescue ChefLicensing::Error => e
-        Inspec::Log.error e.message
-        Inspec::UI.new.exit(:usage_error)
-      end
-    end
+    #       # Only if EULA acceptance or license key args are present. And licenses are successfully persisted, do clean exit.
+    #       if ARGV.select { |arg| !(arg.include? "--chef-license") }.empty? && !(license_keys.nil? || license_keys.empty?)
+    #         Inspec::UI.new.exit
+    #       end
+    #     end
+    #   rescue ChefLicensing::LicenseKeyFetcher::LicenseKeyNotFetchedError
+    #     Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without valid licenses."
+    #     Inspec::UI.new.exit(:license_not_set)
+    #   rescue ChefLicensing::SoftwareNotEntitled
+    #     Inspec::Log.error "License is not entitled to use InSpec."
+    #     Inspec::UI.new.exit(:license_not_entitled)
+    #   rescue ChefLicensing::Error => e
+    #     Inspec::Log.error e.message
+    #     Inspec::UI.new.exit(:usage_error)
+    #   end
+    # end
 
     # EULA acceptance
     def self.check_license!
