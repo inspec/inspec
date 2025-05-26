@@ -14,7 +14,9 @@ module Inspec
 
       def fetch_license_ids
         Inspec::Log.debug "Fetching license IDs for telemetry"
-        @license_keys ||= ChefLicensing.license_keys
+        ## Disabled licensing - to enable, undo this change
+        # @license_keys ||= ChefLicensing.license_keys
+        @license_keys ||= []
       end
 
       def create_wrapper
