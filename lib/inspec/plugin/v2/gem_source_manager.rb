@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require "singleton" unless defined?(Singleton)
 require "forwardable" unless defined?(Forwardable)
-require "chef-licensing"
+# require "chef-licensing" ## Disabled licensing - undo this change once ChefLicensing is enabled
 
 module Inspec::Plugin::V2
   class GemSourceManager
@@ -37,7 +37,9 @@ module Inspec::Plugin::V2
     end
 
     def licenses_string
-      ChefLicensing.license_keys.join(",")
+      ## Disabled licensing - undo this change once ChefLicensing is enabled
+      # ChefLicensing.license_keys.join(",")
+      ""
     end
   end
 end
