@@ -370,7 +370,7 @@ describe "inputs" do
 
       result = run_inspec_process(cmd, json: true)
 
-      _(result.stderr).must_equal "Type 'Color' is not a valid input type.\n"
+      _(result.stderr.strip).must_equal "Type 'Color' is not a valid input type."
       assert_exit_code 1, result
     end
 
@@ -478,7 +478,7 @@ describe "inputs" do
 
     it "should be a failure for invalid value when required flag is passed through dsl" do
       result = run_inspec_process("exec #{inputs_profiles_path}/dsl --controls required_flag_failure_check", json: true)
-      _(result.stderr).must_include "Input 'input_value_04' is required and does not have a value.\n"
+      _(result.stderr.strip).must_include "Input 'input_value_04' is required and does not have a value."
       assert_exit_code 1, result
     end
 
