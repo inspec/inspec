@@ -18,7 +18,8 @@ module ShellDetectorTestHelpers
   end
 
   def with_env(shell)
-    ENV.expects(:[]).with("SHELL").returns(shell)
+    ENV.stubs(:[]).returns(nil) # allow any key access to return nil
+    ENV.stubs(:[]).with("SHELL").returns(shell)
   end
 
   def with_pwuid(shell)

@@ -39,7 +39,7 @@ describe "inspec exec automate" do
     end
 
     it "should fail" do
-      _(run_result.stderr).must_equal "Error generating reporter 'automate'\n"
+      _(run_result.stderr.strip).must_equal "Error generating reporter 'automate'"
       _(run_result.stdout).must_include "ERROR: send_report: POST to /data-collector/v0/"
       assert_exit_code 1, run_result
     end
