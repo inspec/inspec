@@ -42,7 +42,7 @@ group :test do
   gem "json_schemer"
   gem "m"
   gem "minitest-sprint", "~> 1.0"
-  gem "minitest", "5.15.0"
+  gem "minitest"
   gem "mocha"
   gem "nokogiri"
   gem "pry-byebug"
@@ -56,3 +56,6 @@ end
 group :deploy do
   gem "inquirer"
 end
+
+# TODO : Remove the dependency once the 'chef-licensing' gem is released
+gem "chef-licensing", git: "https://github.com/chef/chef-licensing.git", glob: "components/ruby/*.gemspec", branch: "nm/ruby-34"
