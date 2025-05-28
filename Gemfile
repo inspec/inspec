@@ -43,9 +43,6 @@ group :test do
   gem "m"
   gem "minitest-sprint", "~> 1.0"
   gem "minitest"
-  # Ruby 3.4+ extracts minitest-mock to a separate gem (bundled gem)
-  # Adding unconditionally as it's compatible with all Ruby versions
-  gem "minitest-mock"
   gem "mocha"
   gem "nokogiri"
   gem "pry-byebug"
@@ -59,3 +56,6 @@ end
 group :deploy do
   gem "inquirer"
 end
+
+# TODO : Remove the dependency once the 'chef-licensing' gem is released
+gem "chef-licensing", git: "https://github.com/chef/chef-licensing.git", glob: "components/ruby/*.gemspec", branch: "nm/ruby-34"
