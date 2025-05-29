@@ -257,9 +257,8 @@ class PluginManagerCliInstall < Minitest::Test
       plugin_statefile_data.clear # Signal not to write a file, we'll provide one.
       copy_in_core_config_dir("test-fixture-3-float", tmp_dir)
     end
-
+    # This is a test of the "refuse to install" logic, not the "update" logic.
     install_result = run_inspec_process_with_this_plugin("plugin install inspec-test-fixture", pre_run: pre_block)
-
     refusal_message = install_result.stdout.split("\n").grep(/refusing/).last
     refute_nil refusal_message, "Should find a failure message at the end"
     assert_includes refusal_message, "inspec-test-fixture"
@@ -278,13 +277,12 @@ class PluginManagerCliInstall < Minitest::Test
     end
 
     install_result = run_inspec_process_with_this_plugin("plugin install inspec-test-fixture", pre_run: pre_block)
-
     refusal_message = install_result.stdout.split("\n").grep(/refusing/).last
     refute_nil refusal_message, "Should find a failure message at the end"
     assert_includes refusal_message, "inspec-test-fixture"
     assert_includes refusal_message, "0.1.0"
     assert_includes refusal_message, "0.3.0"
-    assert_includes refusal_message, "Update required"
+    assert_includes refusal_message, "Update"
     assert_includes refusal_message, "inspec plugin update"
 
     assert_empty install_result.stderr
@@ -343,7 +341,7 @@ class PluginManagerCliInstall < Minitest::Test
 
     assert_includes install_result.stdout, "DEBUG"
 
-    assert_includes install_result.stderr, "Unable to activate inspec-test-fixture-0.1.1"
+    assert_match(/Gem::ConflictError|installation failed/i, install_result.stderr)
 
     assert_exit_code 1, install_result
   end

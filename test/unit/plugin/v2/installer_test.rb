@@ -509,15 +509,15 @@ class PluginInstallerUninstallTests < Minitest::Test
     WebMock.disable_net_connect!(allow: %r{(api\.)?rubygems\.org/.*})
     skip_slow_tests # not that slow, just noisy
 
-    copy_in_config_dir("test-fixture-2-float")
+    copy_in_config_dir("test-fixture-3-float")
     @installer.__reset_loader
 
     @installer.uninstall("inspec-test-fixture")
 
     # UnInstalling a gem removes the gemspec and the gem library code
-    spec_path = File.join(@installer.gem_path, "specifications", "inspec-test-fixture-0.2.0.gemspec")
+    spec_path = File.join(@installer.gem_path, "specifications", "inspec-test-fixture-0.3.0.gemspec")
     refute File.exist?(spec_path), "After uninstallation of a gem plugin with deps, the gemspec should be removed."
-    installed_gem_base = File.join(@installer.gem_path, "gems", "inspec-test-fixture-0.2.0")
+    installed_gem_base = File.join(@installer.gem_path, "gems", "inspec-test-fixture-0.3.0")
     refute Dir.exist?(installed_gem_base), "After uninstallation of a gem plugin with deps, the gem tree should be removed."
 
     # UnInstalling a gem with dependencies should result in the deps being removed
