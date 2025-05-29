@@ -509,7 +509,7 @@ class PluginInstallerUninstallTests < Minitest::Test
     WebMock.disable_net_connect!(allow: %r{(api\.)?rubygems\.org/.*})
     skip_slow_tests # not that slow, just noisy
 
-    copy_in_config_dir("test-fixture-2-float")
+    copy_in_config_dir("test-fixture-3-float")
     @installer.__reset_loader
 
     @installer.uninstall("inspec-test-fixture")
