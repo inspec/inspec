@@ -4,7 +4,6 @@ require "helper"
 require "inspec/plugin/v2"
 
 require "train" # Needed for Train plugin testing
-
 class Inspec::Plugin::V2::Loader
   public :detect_system_plugins
 end
@@ -153,7 +152,7 @@ class PluginLoaderTests < Minitest::Test
   end
 
   def test_list_managed_gems
-    ENV["INSPEC_CONFIG_DIR"] = File.join(@config_dir_path, "test-fixture-2-float")
+    ENV["INSPEC_CONFIG_DIR"] = File.join(@config_dir_path, "test-fixture-3-float")
     loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true)
     gemspecs = loader.list_managed_gems
     gem = gemspecs.detect { |spec| spec.name == "ordinal_array" }
@@ -171,7 +170,7 @@ class PluginLoaderTests < Minitest::Test
   end
 
   def test_load_mock_plugin_by_gem
-    ENV["INSPEC_CONFIG_DIR"] = File.join(@config_dir_path, "test-fixture-2-float")
+    ENV["INSPEC_CONFIG_DIR"] = File.join(@config_dir_path, "test-fixture-3-float")
 
     reg = Inspec::Plugin::V2::Registry.instance
     plugin_name = :'inspec-test-fixture'
