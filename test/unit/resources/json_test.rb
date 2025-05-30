@@ -133,7 +133,7 @@ describe "Inspec::Resources::JSON" do
     it "bad stdout, empty stderr" do
       resource = run_json_cmd "echo 'not-valid-json'"
 
-      assert_resource_failed resource, "unexpected token at 'not-valid-json"
+      assert_resource_failed resource, "unexpected token 'not-valid-json"
     end
 
     it "empty stdout, message in stderr" do
