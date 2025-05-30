@@ -7,11 +7,11 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["InSpec Engineering Team".freeze]
-  s.date = "2025-05-21"
+  s.date = "2025-05-07"
   s.description = "This gem is used to test the gem search and install capabilities of InSpec's plugin V2 system.  It is not a good example or starting point for plugin development.".freeze
   s.email = ["hello@chef.io".freeze]
   s.homepage = "https://github.com/inspec/inspec".freeze
-  s.rubygems_version = "3.6.2".freeze
+  s.rubygems_version = "3.3.3".freeze
   s.summary = "A simple test plugin gem for InSpec".freeze
 
   s.installed_by_version = "3.6.2".freeze
