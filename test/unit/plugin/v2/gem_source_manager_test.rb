@@ -9,13 +9,14 @@ class TestGemSourceManager < Minitest::Test
     @gem_source_manager = Inspec::Plugin::V2::GemSourceManager.instance
   end
 
-  def test_add_chef_rubygems_server
-    ChefLicensing.stub(:license_keys, ["test-license"]) do
-      expected_server = "https://v1:test-license@rubygems.chef.io"
-      @gem_source_manager.add_chef_rubygems_server
-      assert_includes mapped_uri_string, expected_server
-    end
-  end
+  ## Disable Chef Rubygems server tests until ChefLicensing is enabled
+  # def test_add_chef_rubygems_server
+  #   ChefLicensing.stub(:license_keys, ["test-license"]) do
+  #     expected_server = "https://v1:test-license@rubygems.chef.io"
+  #     @gem_source_manager.add_chef_rubygems_server
+  #     assert_includes mapped_uri_string, expected_server
+  #   end
+  # end
 
   def test_add_single_source
     source = "https://custom.source.com"
@@ -31,12 +32,13 @@ class TestGemSourceManager < Minitest::Test
     end
   end
 
-  def test_chef_rubygems_server_url_format
-    ChefLicensing.stub(:license_keys, %w{test-license-1 test-license-2}) do
-      expected_url = "https://v1:test-license-1,test-license-2@rubygems.chef.io"
-      assert_equal expected_url, @gem_source_manager.send(:chef_rubygems_server)
-    end
-  end
+  ## Disable Chef Rubygems server tests until ChefLicensing is enabled
+  # def test_chef_rubygems_server_url_format
+  #   ChefLicensing.stub(:license_keys, %w{test-license-1 test-license-2}) do
+  #     expected_url = "https://v1:test-license-1,test-license-2@rubygems.chef.io"
+  #     assert_equal expected_url, @gem_source_manager.send(:chef_rubygems_server)
+  #   end
+  # end
 
   def test_no_duplicate_sources
     source = "https://unique.source.com"
