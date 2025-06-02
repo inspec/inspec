@@ -1,4 +1,4 @@
-require "chef-licensing"
+# require "chef-licensing" # Disabled licensing - To enable it revert this
 require "inspec/dist"
 
 autoload :Pry, "pry"
@@ -13,7 +13,7 @@ module Inspec
     end
 
     def start
-      ChefLicensing.check_software_entitlement! if Inspec::Dist::EXEC_NAME == "inspec"
+      # ChefLicensing.check_software_entitlement! if Inspec::Dist::EXEC_NAME == "inspec"
       # This will hold a single evaluation binding context as opened within
       # the instance_eval context of the anonymous class that the profile
       # context creates to evaluate each individual test file. We want to
@@ -22,12 +22,14 @@ module Inspec
       @ctx_binding = @runner.eval_with_virtual_profile("binding")
       configure_pry
       @ctx_binding.pry
-    rescue ChefLicensing::SoftwareNotEntitled
-      Inspec::Log.error "License is not entitled to use InSpec."
-      Inspec::UI.new.exit(:license_not_entitled)
-    rescue ChefLicensing::Error => e
-      Inspec::Log.error e.message
-      Inspec::UI.new.exit(:usage_error)
+      ## Disabled licensing - To enable it revert this
+      # rescue ChefLicensing::SoftwareNotEntitled
+      #   Inspec::Log.error "License is not entitled to use InSpec."
+      #   Inspec::UI.new.exit(:license_not_entitled)
+      # rescue ChefLicensing::Error => e
+      #   Inspec::Log.error e.message
+      #   Inspec::UI.new.exit(:usage_error)
+      ##
     end
 
     def configure_pry # rubocop:disable Metrics/AbcSize

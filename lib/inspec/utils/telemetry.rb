@@ -1,5 +1,5 @@
 require "time" unless defined?(Time.zone_offset)
-require "chef-licensing"
+# require "chef-licensing" ## Disabled licensing
 require_relative "telemetry/null"
 require_relative "telemetry/http"
 require_relative "telemetry/run_context_probe"
@@ -39,7 +39,9 @@ module Inspec
 
     def self.license
       Inspec::Log.debug "Fetching license context for telemetry check"
-      @license = ChefLicensing.license_context
+      ## Disabled licensing - to enable, undo this change
+      # @license = ChefLicensing.license_context
+      @license = nil
     end
 
     ######
