@@ -151,7 +151,21 @@ describe "Inspec::Resources::Http" do
 
     describe "POST request with data" do
       let(:http_method) { "POST" }
-      let(:opts)        { { data: { a: "1", b: "five" } } }
+      let(:opts) { { data: { a: "1", b: "five" } } }
+
+      before do
+        Inspec::Resources::Cmd.any_instance
+          .stubs(:stdout)
+          .returns("HTTP/1.1 200 OK\nContent-Type: text/html; charset=UTF-8\n\npost ok")
+
+        Inspec::Resources::Cmd.any_instance
+          .stubs(:exit_status)
+          .returns(0)
+
+        Inspec::Resources::Cmd.any_instance
+          .stubs(:exist?)
+          .returns(true)
+      end
 
       it "returns correct data" do
         _(worker.status).must_equal 200

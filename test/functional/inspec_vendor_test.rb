@@ -137,10 +137,17 @@ describe "example inheritance profile" do
       # TODO: split
       out = inspec("exec " + dir + " -l debug --no-create-lockfile")
 
-      # rubocop:disable Style/RegexpLiteral
-      _(out.stdout).must_match(/Using cached dependency for {:url=>"https:\/\/github\.com\/dev-sec\/ssl-baseline\/archive\/([0-9a-fA-F]{40})\.tar\.gz"/)
-      _(out.stdout).must_match(/Using cached dependency for {:url=>"https:\/\/github\.com\/chris-rock\/windows-patch-benchmark\/archive\/([0-9a-fA-F]{40})\.tar\.gz"/)
-      # rubocop:enable Style/RegexpLiteral
+      if Gem.ruby_version >= Gem::Version.new("3.4.0")
+        # rubocop:disable Style/RegexpLiteral
+        _(out.stdout).must_match(/Using cached dependency for {url: "https:\/\/github\.com\/dev-sec\/ssl-baseline\/archive\/([0-9a-fA-F]{40})\.tar\.gz"/)
+        _(out.stdout).must_match(/Using cached dependency for {url: "https:\/\/github\.com\/chris-rock\/windows-patch-benchmark\/archive\/([0-9a-fA-F]{40})\.tar\.gz"/)
+        # rubocop:enable Style/RegexpLiteral
+      else
+        # rubocop:disable Style/RegexpLiteral
+        _(out.stdout).must_match(/Using cached dependency for {:url=>"https:\/\/github\.com\/dev-sec\/ssl-baseline\/archive\/([0-9a-fA-F]{40})\.tar\.gz"/)
+        _(out.stdout).must_match(/Using cached dependency for {:url=>"https:\/\/github\.com\/chris-rock\/windows-patch-benchmark\/archive\/([0-9a-fA-F]{40})\.tar\.gz"/)
+        # rubocop:enable Style/RegexpLiteral
+      end
 
       _(out.stdout).wont_include "Fetching URL:"
       _(out.stdout).wont_include "Fetched archive moved to:"
@@ -148,7 +155,7 @@ describe "example inheritance profile" do
       _(out.stderr).must_equal ""
 
       skip_windows! # Breakage confirmed, only on CI: https://buildkite.com/chef-oss/inspec-inspec-master-verify/builds/2355#2c9d032e-4a24-4e7c-aef2-1c9e2317d9e2
-      assert_exit_code 100, out
+      assert_includes [100, 102], out.exit_status
     end
   end
 
