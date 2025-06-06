@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.50 -->
-## [v7.0.50](https://github.com/inspec/inspec/tree/v7.0.50) (2025-05-30)
+<!-- latest_release 7.0.51 -->
+## [v7.0.51](https://github.com/inspec/inspec/tree/v7.0.51) (2025-06-06)
 
 #### Merged Pull Requests
-- CHEF-21376 Disable licensing and telemetry from InSpec 7 [#7377](https://github.com/inspec/inspec/pull/7377) ([Nik08](https://github.com/Nik08))
+- CHEF-21513 Upgrading few tests and doc for min support of Ruby 3.1 - InSpec 7 [#7382](https://github.com/inspec/inspec/pull/7382) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- CHEF-21513 Upgrading few tests and doc for min support of Ruby 3.1 - InSpec 7 [#7382](https://github.com/inspec/inspec/pull/7382) ([Nik08](https://github.com/Nik08)) <!-- 7.0.51 -->
 - CHEF-21376 Disable licensing and telemetry from InSpec 7 [#7377](https://github.com/inspec/inspec/pull/7377) ([Nik08](https://github.com/Nik08)) <!-- 7.0.50 -->
 - CHEF-14327 support resource packs with vendor [#7355](https://github.com/inspec/inspec/pull/7355) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.49 -->
 - Fixes for external plugin testing [#7363](https://github.com/inspec/inspec/pull/7363) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 7.0.48 -->
