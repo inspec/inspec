@@ -18,13 +18,13 @@ class PluginManagerCliUpdate < Minitest::Test
     refute_nil success_message, "Should find a success message at the end"
     assert_includes success_message, "inspec-test-fixture"
     assert_includes success_message, "0.1.0"
-    assert_includes success_message, "0.2.0"
+    assert_includes success_message, "0.3.0"
     assert_includes success_message, "updated from rubygems.org"
 
     itf_plugin = @list_result.detect { |p| p[:name] == "inspec-test-fixture" }
     refute_nil itf_plugin, "plugin name should now appear in the output of inspec list"
     assert_equal "gem (user)", itf_plugin[:type]
-    assert_equal "0.2.0", itf_plugin[:version]
+    assert_equal "0.3.0", itf_plugin[:version]
 
     assert_empty_ignoring_27_warnings update_result.stderr
     assert_exit_code 0, update_result
@@ -41,7 +41,7 @@ class PluginManagerCliUpdate < Minitest::Test
     refusal_message = update_result.stdout.split("\n").grep(/refusing/).last
     refute_nil refusal_message, "Should find a failure message at the end"
     assert_includes refusal_message, "inspec-test-fixture"
-    assert_includes refusal_message, "0.2.0"
+    assert_includes refusal_message, "0.3.0"
     assert_includes refusal_message, "Already installed at latest version"
 
     assert_empty update_result.stderr
