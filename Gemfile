@@ -58,4 +58,4 @@ group :deploy do
 end
 
 
-gem "train", git: "https://github.com/inspec/train.git", branch: "sa/pipe"
+gem "train", git: "https://github.com/inspec/train.git", branch: "sa/ownership_check"
