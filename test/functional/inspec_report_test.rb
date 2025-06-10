@@ -1,7 +1,7 @@
 require "functional/helper"
 require "inspec/runner"
 require "inspec/resources/file"
-require "inspec/utils/licensing_config"
+# require "inspec/utils/licensing_config" ## Disabled licensing - to enable, uncomment this line
 
 describe "inspec report tests" do
   include FunctionalHelper
