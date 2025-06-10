@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.8.37 -->
-## [v6.8.37](https://github.com/inspec/inspec/tree/v6.8.37) (2025-04-09)
+<!-- latest_release 6.8.38 -->
+## [v6.8.38](https://github.com/inspec/inspec/tree/v6.8.38) (2025-06-10)
 
 #### Merged Pull Requests
-- Foreport to InSpec 6: Waivers error handling fix  [#7343](https://github.com/inspec/inspec/pull/7343) ([Nik08](https://github.com/Nik08))
+- Chef 22339 backport inspec 7 test changes to main [#7379](https://github.com/inspec/inspec/pull/7379) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Chef 22339 backport inspec 7 test changes to main [#7379](https://github.com/inspec/inspec/pull/7379) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.8.38 -->
 - Foreport to InSpec 6: Waivers error handling fix  [#7343](https://github.com/inspec/inspec/pull/7343) ([Nik08](https://github.com/Nik08)) <!-- 6.8.37 -->
 - Issue with reading/writing signed and tar profiles [#7349](https://github.com/inspec/inspec/pull/7349) ([Nik08](https://github.com/Nik08)) <!-- 6.8.36 -->
 - Fix dead links to Learn Chef in docs [#7346](https://github.com/inspec/inspec/pull/7346) ([IanMadd](https://github.com/IanMadd)) <!-- 6.8.35 -->
