@@ -14,7 +14,6 @@ Gem::Specification.new do |spec|
 
   spec.files         = [
     "inspec-test-fixture.gemspec",
-    "inspec.yml",
     "lib/inspec-test-fixture.rb",
     "lib/inspec-test-fixture/plugin.rb",
     "lib/inspec-test-fixture/mock_plugin.rb",
