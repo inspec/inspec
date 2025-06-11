@@ -18,7 +18,7 @@ if RUBY_VERSION.start_with?("3.0")
       alias_method :original_write_binary, :write_binary if respond_to?(:write_binary)
 
       def write_binary(path, data)
-        File.open(path, 'wb:ASCII-8BIT') { |f| f.write(data) }
+        File.open(path, "wb:ASCII-8BIT") { |f| f.write(data) }
       end
     end
   end
