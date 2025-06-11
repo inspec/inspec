@@ -11,6 +11,19 @@ require "rubygems/name_tuple"
 require "rubygems/uninstaller"
 require "rubygems/remote_fetcher"
 
+# Fix for encoding error in Ruby 3.0.x when RubyGems tries to write binary data with UTF-8 encoding
+if RUBY_VERSION.start_with?("3.0")
+  module Gem
+    class << self
+      alias_method :original_write_binary, :write_binary if respond_to?(:write_binary)
+
+      def write_binary(path, data)
+        File.open(path, 'wb:ASCII-8BIT') { |f| f.write(data) }
+      end
+    end
+  end
+end
+
 require "inspec/plugin/v2/filter"
 
 module Inspec::Plugin::V2
