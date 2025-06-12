@@ -46,7 +46,6 @@ group :test do
   gem "simplecov"
   gem "simplecov_json_formatter"
   gem "webmock"
-  gem "signet", "< 0.20.0" # 0.20.0+ requires min ruby 3.1
 end
 
 group :deploy do

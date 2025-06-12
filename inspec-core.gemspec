@@ -13,9 +13,8 @@ Gem::Specification.new do |spec|
   spec.license       = "Apache-2.0"
   spec.require_paths = ["lib"]
 
-  # We want to support ruby 3.0 as Chef is using ruby to support AIX and we want to make sure InSpec works with it. (Ref: https://github.com/chef/chef/pull/13207)
-  # TODO: Once we have Chef working fully with ruby 3.1 we can drop ruby 3.0
-  spec.required_ruby_version = ">= 3.0.3"
+  # Chef will provide AIX support with ruby 3.0 in separate builds with older versions of InSpec 5, hence we can drop ruby 3.0 support
+  spec.required_ruby_version = ">= 3.1.0"
 
   # the gemfile and gemspec are necessary for appbundler so don't remove it
   spec.files =
@@ -54,6 +53,5 @@ Gem::Specification.new do |spec|
   # However, it has been moved to 'inspec-core.gemspec' due to a dependency on the 'ast' gem,
   # which was causing a LoadError ('cannot load such file -- ast') for users/applications using 'inspec-core'.
   spec.add_dependency "cookstyle"
-
   spec.add_dependency "train-core", "~> 3.12.13"
 end
