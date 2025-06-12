@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 5.22.81 -->
+## [v5.22.81](https://github.com/inspec/inspec/tree/v5.22.81) (2025-06-12)
+
+#### Merged Pull Requests
+- Pipeline fixes [#7390](https://github.com/inspec/inspec/pull/7390) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=5.22.80 -->
+### Changes since 5.22.80 release
+
+#### Merged Pull Requests
+- Pipeline fixes [#7390](https://github.com/inspec/inspec/pull/7390) ([Nik08](https://github.com/Nik08)) <!-- 5.22.81 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
