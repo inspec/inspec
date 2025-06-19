@@ -68,11 +68,14 @@ module Inspec::Fetcher
       else
         Dir.mktmpdir do |working_dir|
           checkout(working_dir)
-          if @relative_path
+          if Dir.empty?(working_dir)
+            Inspec::Log.debug("Remove #{working_dir} directory because it is empty")
+            FileUtils.rm_r(destination_path)
+          elsif @relative_path
             perform_relative_path_fetch(destination_path, working_dir)
           else
             Inspec::Log.debug("Checkout of #{resolved_ref.nil? ? @remote_url : resolved_ref} successful. " \
-                              "Moving checkout to #{destination_path}")
+                                "Moving checkout to #{destination_path}")
             FileUtils.cp_r(working_dir + "/.", destination_path)
           end
         end
