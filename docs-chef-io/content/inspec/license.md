@@ -113,26 +113,26 @@ if no license key is already set and it doesn't detect an automated method of se
 
 1. At the first prompt, select **I already have a license ID**.
 
-   ```bash
-   inspec shell
-   ------------------------------------------------------------
-     License ID Validation
+    ```bash
+    inspec shell
+    ------------------------------------------------------------
+      License ID Validation
 
-     To continue using Chef InSpec, a license ID is required.
-     (Free, Trial, or Commercial)
+      To continue using Chef InSpec, a license ID is required.
+      (Free, Trial, or Commercial)
 
-     If you generated a license previously, you might
-     have received it in an email.
+      If you generated a license previously, you might
+      have received it in an email.
 
-     If you are a commercial user, you can also find it in the
-     supportlink.chef.io portal.
-   ------------------------------------------------------------
+      If you are a commercial user, you can also find it in the
+      supportlink.chef.io portal.
+    ------------------------------------------------------------
 
-   Please choose one of the options below (Press ↑/↓ arrow to move and Enter to select)
-   ‣ I already have a license ID
-     I don't have a license ID and would like to generate a new license ID
-     Skip
-   ```
+    Please choose one of the options below (Press ↑/↓ arrow to move and Enter to select)
+    ‣ I already have a license ID
+      I don't have a license ID and would like to generate a new license ID
+      Skip
+    ```
 
 1. Enter your license key at the second prompt.
 
