@@ -11,6 +11,23 @@ gh_repo = "inspec"
     weight = 30
 +++
 
+## Important Notice
+
+**Starting with Chef InSpec 6.9.0, license key enforcement has been removed.**  
+You no longer need to provide a license key to run Chef InSpec.  
+**However, acceptance of the Chef End User License Agreement (EULA) is still required.**
+
+### Why This Change?
+
+Chef InSpec 6.9.0 and later do not enforce license key validation during execution.  
+This change simplifies usage and improves accessibility for all users, while still requiring acceptance of the Chef EULA.
+
+---
+
+The documentation below applies to Chef InSpec versions **6.6.0 through 6.8.24**, where license key enforcement was still required.
+
+---
+
 Before running Chef InSpec, you must accept the Chef EULA and---starting with **Chef InSpec 6**---add a license key.
 
 Chef InSpec accepts a license key using one of two methods:
@@ -96,26 +113,26 @@ if no license key is already set and it doesn't detect an automated method of se
 
 1. At the first prompt, select **I already have a license ID**.
 
-    ```bash
-    inspec shell
-    ------------------------------------------------------------
-      License ID Validation
+   ```bash
+   inspec shell
+   ------------------------------------------------------------
+     License ID Validation
 
-      To continue using Chef InSpec, a license ID is required.
-      (Free, Trial, or Commercial)
+     To continue using Chef InSpec, a license ID is required.
+     (Free, Trial, or Commercial)
 
-      If you generated a license previously, you might
-      have received it in an email.
+     If you generated a license previously, you might
+     have received it in an email.
 
-      If you are a commercial user, you can also find it in the
-      supportlink.chef.io portal.
-    ------------------------------------------------------------
+     If you are a commercial user, you can also find it in the
+     supportlink.chef.io portal.
+   ------------------------------------------------------------
 
-    Please choose one of the options below (Press ↑/↓ arrow to move and Enter to select)
-    ‣ I already have a license ID
-      I don't have a license ID and would like to generate a new license ID
-      Skip
-    ```
+   Please choose one of the options below (Press ↑/↓ arrow to move and Enter to select)
+   ‣ I already have a license ID
+     I don't have a license ID and would like to generate a new license ID
+     Skip
+   ```
 
 1. Enter your license key at the second prompt.
 
