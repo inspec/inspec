@@ -55,6 +55,13 @@ Source code obtained from the Chef GitHub repository is made available under Apa
   spec.add_dependency "semverse",                 "~> 3.0"
   spec.add_dependency "multipart-post",           "~> 2.0"
 
+  # Gem dependency needed with Ruby 3.4 upgrade
+  # TODO : Remove the dependency on mutex_m once the 'chef-licensing' gem is released with the fix
+  # spec.add_dependency "mutex_m",                  "~> 0.2.0"
+  spec.add_dependency "syslog",                   "~> 0.1"
+  spec.add_dependency "csv",                      "~> 3.0"
+  spec.add_dependency "ostruct",                  "~> 0.1.0"
+
   # cookstyle support for inspec check
   # This was initially included in 'inspec.gemspec' to keep 'chef-client' lightweight.
   # However, it has been moved to 'inspec-core.gemspec' due to a dependency on the 'ast' gem,
