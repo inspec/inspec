@@ -69,7 +69,7 @@ module Inspec::Fetcher
         Dir.mktmpdir do |working_dir|
           checkout(working_dir)
           if Dir.empty?(working_dir)
-            Inspec::Log.debug("Remove #{working_dir} directory because it is empty")
+            Inspec::Log.debug("Remove #{destination_path} directory because it is empty")
             FileUtils.rm_r(destination_path)
           elsif @relative_path
             perform_relative_path_fetch(destination_path, working_dir)
