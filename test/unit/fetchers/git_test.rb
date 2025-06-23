@@ -124,6 +124,7 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       expect_clone
       expect_checkout_without_ref
       expect_mv_into_place
+      Dir.stubs(:empty?).with("test-tmp-dir").returns(false) # Prevent ENOENT
       result = fetcher.resolve({ git: git_dep_dir })
       result.fetch("fetchpath")
     end
@@ -167,6 +168,53 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       expect_ls_remote
       result = fetcher.resolve({ git: git_dep_dir })
       _ { result.resolved_source }.must_raise Inspec::FetcherFailure
+    end
+  end
+
+  describe "fetch method edge cases" do
+    let(:destination_path) { "fetchpath" }
+    let(:working_dir) { "tmp-working-dir" }
+    let(:git_dep_dir) { "test-directory" }
+    let(:fetcher_instance) { fetcher.new(git_dep_dir) }
+
+    before do
+      FileUtils.stubs(:mkdir_p)
+      Dir.stubs(:exist?).with(destination_path).returns(false)
+      fetcher_instance.stubs(:cloned?).returns(false)
+      fetcher_instance.stubs(:checkout)
+      FileUtils.stubs(:cp_r)
+      FileUtils.stubs(:rm_r)
+      Inspec::Log.stubs(:debug)
+    end
+
+    it "removes destination_path if working_dir is empty" do
+      Dir.stubs(:mktmpdir).yields(working_dir)
+      Dir.stubs(:empty?).with(working_dir).returns(true)
+
+      FileUtils.expects(:rm_r).with(destination_path)
+      Inspec::Log.expects(:debug).with("Remove #{working_dir} directory because it is empty")
+
+      fetcher_instance.fetch(destination_path)
+    end
+
+    it "calls perform_relative_path_fetch if @relative_path is set and working_dir is not empty" do
+      Dir.stubs(:mktmpdir).yields(working_dir)
+      Dir.stubs(:empty?).with(working_dir).returns(false)
+      fetcher_instance.instance_variable_set(:@relative_path, "some/path")
+      fetcher_instance.expects(:perform_relative_path_fetch).with(destination_path, working_dir)
+
+      fetcher_instance.fetch(destination_path)
+    end
+
+    it "copies working_dir contents to destination_path if not empty and no @relative_path" do
+      Dir.stubs(:mktmpdir).yields(working_dir)
+      Dir.stubs(:empty?).with(working_dir).returns(false)
+      fetcher_instance.instance_variable_set(:@relative_path, nil)
+      fetcher_instance.stubs(:resolved_ref).returns(nil) # Prevent shellout/resolve_ref
+      FileUtils.expects(:cp_r).with("#{working_dir}/.", destination_path)
+      Inspec::Log.expects(:debug).with(regexp_matches(/Moving checkout to #{destination_path}/))
+
+      fetcher_instance.fetch(destination_path)
     end
   end
 end
