@@ -80,7 +80,7 @@ module Inspec::Fetcher
           # In this case, remove the destination directory to avoid
           # leaving an empty or invalid profile directory.
           Inspec::Log.debug("Remove #{destination_path} directory because temp directory #{working_dir} it is empty")
-          FileUtils.rm_r(destination_path) unless Dir.empty?(working_dir) || Dir.empty?(working_dir)
+          FileUtils.rm_r(destination_path) unless Dir.empty?(working_dir) || Dir.empty?(destination_path)
         end
       end
       @repo_directory
