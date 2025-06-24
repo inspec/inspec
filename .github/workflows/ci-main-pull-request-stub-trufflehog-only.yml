@@ -1,0 +1,48 @@
+# This stub runs only the TruffleHog scan as part of CI checks on pull requests to main branch.
+
+name: CI Pull Request – TruffleHog Only
+
+on: 
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  STUB_VERSION: "1.0.0"
+
+jobs:
+  trufflehog-scan-only:
+    uses: chef/common-github-actions/.github/workflows/ci-main-pull-request.yml@main
+    secrets: inherit
+    permissions: 
+      id-token: write
+      contents: read
+    with:   
+      visibility: ${{ github.event.repository.visibility }}
+
+      # Enable only TruffleHog scan
+      perform-trufflehog-scan: true
+
+      # Disable all other features
+      perform-complexity-checks: false
+      perform-language-linting: false
+      perform-blackduck-polaris: false
+      perform-blackduck-sca-scan: false
+      build: false
+      unit-tests: false
+      perform-sonarqube-scan: false
+      report-to-atlassian-dashboard: false
+      package-binaries: false
+      habitat-build: false
+      publish-packages: false
+      generate-sbom: false
+      export-github-sbom: false
+      generate-blackduck-sbom: false
+      generate-msft-sbom: false
+      license_scout: false
