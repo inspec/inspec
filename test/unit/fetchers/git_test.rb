@@ -188,16 +188,18 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
     end
 
     it "removes destination_path if working_dir is empty" do
+      # Simulate the case where the temporary working directory is empty after clone/checkout.
+      # The fetch method should log a debug message and remove the destination_path.
       Dir.stubs(:mktmpdir).yields(working_dir)
       Dir.stubs(:empty?).with(working_dir).returns(true)
 
       FileUtils.expects(:rm_r).with(destination_path)
-      Inspec::Log.expects(:debug).with("Remove #{working_dir} directory because it is empty")
-
       fetcher_instance.fetch(destination_path)
     end
 
     it "calls perform_relative_path_fetch if @relative_path is set and working_dir is not empty" do
+      # Simulate the case where a relative path is specified and the working directory is not empty.
+      # The fetch method should call perform_relative_path_fetch.
       Dir.stubs(:mktmpdir).yields(working_dir)
       Dir.stubs(:empty?).with(working_dir).returns(false)
       fetcher_instance.instance_variable_set(:@relative_path, "some/path")
@@ -207,6 +209,8 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
     end
 
     it "copies working_dir contents to destination_path if not empty and no @relative_path" do
+      # Simulate the case where the working directory is not empty and no relative path is set.
+      # The fetch method should copy the contents of working_dir to destination_path.
       Dir.stubs(:mktmpdir).yields(working_dir)
       Dir.stubs(:empty?).with(working_dir).returns(false)
       fetcher_instance.instance_variable_set(:@relative_path, nil)

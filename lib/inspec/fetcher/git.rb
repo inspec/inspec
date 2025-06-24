@@ -69,7 +69,11 @@ module Inspec::Fetcher
         Dir.mktmpdir do |working_dir|
           checkout(working_dir)
           if Dir.empty?(working_dir)
-            Inspec::Log.debug("Remove #{destination_path} directory because it is empty")
+            # If the temporary working directory is empty after checkout,
+            # this means the git repository did not contain any files (or the checkout failed).
+            # In this case, remove the destination directory to avoid
+            # leaving an empty or invalid profile directory.
+            Inspec::Log.debug("Remove #{destination_path} directory because temp directory {working_dir} it is empty")
             FileUtils.rm_r(destination_path)
           elsif @relative_path
             perform_relative_path_fetch(destination_path, working_dir)
