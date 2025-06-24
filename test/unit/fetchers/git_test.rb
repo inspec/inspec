@@ -124,9 +124,9 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       expect_clone
       expect_checkout_without_ref
       expect_mv_into_place
-      Dir.stubs(:empty?).with("test-tmp-dir").returns(false) # Prevent ENOENT on temp dir
-      Dir.stubs(:empty?).with("fetchpath").returns(false)    # Prevent ENOENT on fetchpath
-      FileUtils.stubs(:rm_r)                                 # Prevent actual deletion and ENOENT
+      Dir.stubs(:empty?).with("test-tmp-dir").returns(false) # Prevent ENOENT
+      Dir.stubs(:empty?).with("fetchpath").returns(false) # Prevent ENOENT on fetchpath
+      FileUtils.stubs(:rm_r) # Prevent actual deletion and ENOENT
       result = fetcher.resolve({ git: git_dep_dir })
       result.fetch("fetchpath")
     end
@@ -173,7 +173,7 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
     end
   end
 
-  describe "fetch method cleanup logic" do
+  describe "fetch method edge cases" do
     let(:destination_path) { "fetchpath" }
     let(:working_dir) { "tmp-working-dir" }
     let(:git_dep_dir) { "test-directory" }
@@ -185,23 +185,36 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       fetcher_instance.stubs(:cloned?).returns(false)
       fetcher_instance.stubs(:checkout)
       FileUtils.stubs(:cp_r)
-      # Stub resolved_ref to avoid triggering real git ls-remote
-      fetcher_instance.stubs(:resolved_ref).returns(nil)
+      FileUtils.stubs(:rm_r)
+      Inspec::Log.stubs(:debug)
     end
 
-    it "removes destination_path if working_dir is not empty (cleanup logic)" do
+    it "removes destination_path and logs debug message" do
       Dir.stubs(:mktmpdir).yields(working_dir)
-      # Simulate working_dir is not empty
-      Dir.stubs(:empty?).with(working_dir).returns(false)
+      Dir.stubs(:empty?).with(destination_path).returns(true)
+      Dir.stubs(:exist?).with(destination_path).returns(true)
+      fetcher_instance.stubs(:resolved_ref).returns(nil)
+
       FileUtils.expects(:rm_r).with(destination_path)
+      Inspec::Log.expects(:debug).with("Remove #{destination_path} directory because temp directory #{working_dir} it is empty")
       fetcher_instance.fetch(destination_path)
     end
 
-    it "does not remove destination_path if working_dir is empty (cleanup logic)" do
+    it "calls perform_relative_path_fetch" do
       Dir.stubs(:mktmpdir).yields(working_dir)
-      # Simulate working_dir is empty
-      Dir.stubs(:empty?).with(working_dir).returns(true)
-      FileUtils.expects(:rm_r).with(destination_path).never
+      Dir.stubs(:empty?).with(destination_path).returns(false)
+      fetcher_instance.instance_variable_set(:@relative_path, "relative/path")
+      fetcher_instance.expects(:perform_relative_path_fetch).with(destination_path, working_dir)
+      fetcher_instance.fetch(destination_path)
+    end
+
+    it "copies working_dir contents to destination_path and logs debug" do
+      Dir.stubs(:mktmpdir).yields(working_dir)
+      Dir.stubs(:empty?).with(destination_path).returns(false)
+      fetcher_instance.instance_variable_set(:@relative_path, nil)
+      fetcher_instance.stubs(:resolved_ref).returns(nil)
+      FileUtils.expects(:cp_r).with("#{working_dir}/.", destination_path)
+      Inspec::Log.expects(:debug).with(regexp_matches(/Moving checkout to #{destination_path}/))
       fetcher_instance.fetch(destination_path)
     end
   end

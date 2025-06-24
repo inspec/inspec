@@ -75,12 +75,14 @@ module Inspec::Fetcher
                                 "Moving checkout to #{destination_path}")
             FileUtils.cp_r(working_dir + "/.", destination_path)
           end
-          # If the temporary working directory is empty after checkout,
-          # this means the git repository did not contain any files (or the checkout failed).
-          # In this case, remove the destination directory to avoid
-          # leaving an empty or invalid profile directory.
-          Inspec::Log.debug("Remove #{destination_path} directory because temp directory #{working_dir} it is empty")
-          FileUtils.rm_r(destination_path) unless Dir.empty?(working_dir) || Dir.empty?(destination_path)
+          if Dir.exist?(destination_path) && Dir.empty?(destination_path)
+            # If the temporary working directory is empty after checkout,
+            # this means the git repository did not contain any files (or the checkout failed).
+            # In this case, remove the destination directory to avoid
+            # leaving an empty or invalid profile directory.
+            Inspec::Log.debug("Remove #{destination_path} directory because temp directory #{working_dir} it is empty")
+            FileUtils.rm_r(destination_path)
+          end
         end
       end
       @repo_directory
