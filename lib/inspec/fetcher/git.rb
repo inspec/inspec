@@ -73,7 +73,9 @@ module Inspec::Fetcher
             # this means the git repository did not contain any files (or the checkout failed).
             # In this case, remove the destination directory to avoid
             # leaving an empty or invalid profile directory.
-            FileUtils.rm_r(destination_path)
+            if Dir.exist?(destination_path)
+              FileUtils.rm_rf(destination_path)
+            end
             raise Inspec::FetcherFailure, "Profile git dependency failed for #{@remote_url} - no files found in the repository."
           end
           if @relative_path

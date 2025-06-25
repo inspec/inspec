@@ -124,9 +124,11 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       expect_clone
       expect_checkout_without_ref
       expect_mv_into_place
-      Dir.stubs(:empty?).with("test-tmp-dir").returns(false) # Prevent ENOENT
-      Dir.stubs(:empty?).with("fetchpath").returns(false) # Prevent ENOENT on fetchpath
-      FileUtils.stubs(:rm_r) # Prevent actual deletion and ENOENT
+      Dir.stubs(:exist?).with("test-tmp-dir").returns(true) # Simulate directory existence
+      Dir.stubs(:children).with("test-tmp-dir").returns(["file1"]) # Simulate non-empty directory
+      Dir.stubs(:exist?).with("fetchpath").returns(true) # Simulate directory existence
+      Dir.stubs(:children).with("fetchpath").returns(["file2"]) # Simulate non-empty directory
+      FileUtils.stubs(:rm_rf) # Prevent actual deletion and ENOENT
       result = fetcher.resolve({ git: git_dep_dir })
       result.fetch("fetchpath")
     end
@@ -156,7 +158,7 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       Dir.stubs(:children).with("test-tmp-dir").returns([".git"])
       Dir.stubs(:exist?).with("test-tmp-dir").returns(true)
       Dir.stubs(:exist?).with("fetchpath").returns(true)
-      FileUtils.expects(:rm_r).with("fetchpath") # Ensure cleanup happens
+      FileUtils.expects(:rm_rf).with("fetchpath") # Ensure cleanup happens
 
       result = fetcher.resolve({ git: git_dep_dir })
       err = _ { result.fetch("fetchpath") }.must_raise Inspec::FetcherFailure
