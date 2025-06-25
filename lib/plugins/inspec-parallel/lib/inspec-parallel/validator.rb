@@ -1,4 +1,3 @@
-require "inspec/cli"
 module InspecPlugins
   module Parallelism
     class Validator
