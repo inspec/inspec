@@ -1,4 +1,3 @@
-require "inspec/cli"
 require "concurrent"
 require_relative "super_reporter/base"
 
