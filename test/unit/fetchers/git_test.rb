@@ -147,6 +147,22 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       result.fetch("fetchpath")
       _(result.archive_path).must_equal "fetchpath"
     end
+
+    it "raises error if git_only_or_empty? returns true after checkout" do
+      expect_ls_remote_without_ref
+      expect_clone
+      expect_checkout_without_ref
+
+      Dir.stubs(:children).with("test-tmp-dir").returns([".git"])
+      Dir.stubs(:exist?).with("test-tmp-dir").returns(true)
+      Dir.stubs(:exist?).with("fetchpath").returns(true)
+      FileUtils.expects(:rm_r).with("fetchpath") # Ensure cleanup happens
+
+      result = fetcher.resolve({ git: git_dep_dir })
+      err = _ { result.fetch("fetchpath") }.must_raise Inspec::FetcherFailure
+      _(err.message).must_include "Profile git dependency failed for test-directory - no files found in the repository."
+    end
+
   end
 
   describe "when given a invalid repository" do
@@ -172,50 +188,30 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       _ { result.resolved_source }.must_raise Inspec::FetcherFailure
     end
   end
+  describe "#git_only_or_empty?" do
+    let(:git_fetcher) { fetcher.new("https://example.com/repo.git") }
 
-  describe "fetch method edge cases" do
-    let(:destination_path) { "fetchpath" }
-    let(:working_dir) { "tmp-working-dir" }
-    let(:git_dep_dir) { "test-directory" }
-    let(:fetcher_instance) { fetcher.new(git_dep_dir) }
-
-    before do
-      FileUtils.stubs(:mkdir_p)
-      Dir.stubs(:exist?).with(destination_path).returns(false)
-      fetcher_instance.stubs(:cloned?).returns(false)
-      fetcher_instance.stubs(:checkout)
-      FileUtils.stubs(:cp_r)
-      FileUtils.stubs(:rm_r)
-      Inspec::Log.stubs(:debug)
+    it "returns true when directory is empty" do
+      Dir.stubs(:exist?).with("empty-dir").returns(true)
+      Dir.stubs(:children).with("empty-dir").returns([])
+      _(git_fetcher.send(:git_only_or_empty?, "empty-dir")).must_equal true
     end
 
-    it "removes destination_path and logs debug message" do
-      Dir.stubs(:mktmpdir).yields(working_dir)
-      Dir.stubs(:empty?).with(destination_path).returns(true)
-      Dir.stubs(:exist?).with(destination_path).returns(true)
-      fetcher_instance.stubs(:resolved_ref).returns(nil)
-
-      FileUtils.expects(:rm_r).with(destination_path)
-      Inspec::Log.expects(:debug).with("Removing #{destination_path} directory because temp directory #{working_dir} is empty")
-      fetcher_instance.fetch(destination_path)
+    it "returns true when directory contains only .git" do
+      Dir.stubs(:exist?).with("git-only-dir").returns(true)
+      Dir.stubs(:children).with("git-only-dir").returns([".git"])
+      _(git_fetcher.send(:git_only_or_empty?, "git-only-dir")).must_equal true
     end
 
-    it "calls perform_relative_path_fetch" do
-      Dir.stubs(:mktmpdir).yields(working_dir)
-      Dir.stubs(:empty?).with(destination_path).returns(false)
-      fetcher_instance.instance_variable_set(:@relative_path, "relative/path")
-      fetcher_instance.expects(:perform_relative_path_fetch).with(destination_path, working_dir)
-      fetcher_instance.fetch(destination_path)
+    it "returns false when directory contains files other than .git" do
+      Dir.stubs(:exist?).with("non-empty-dir").returns(true)
+      Dir.stubs(:children).with("non-empty-dir").returns([".git", "README.md"])
+      _(git_fetcher.send(:git_only_or_empty?, "non-empty-dir")).must_equal false
     end
 
-    it "copies working_dir contents to destination_path and logs debug" do
-      Dir.stubs(:mktmpdir).yields(working_dir)
-      Dir.stubs(:empty?).with(destination_path).returns(false)
-      fetcher_instance.instance_variable_set(:@relative_path, nil)
-      fetcher_instance.stubs(:resolved_ref).returns(nil)
-      FileUtils.expects(:cp_r).with("#{working_dir}/.", destination_path)
-      Inspec::Log.expects(:debug).with(regexp_matches(/Moving checkout to #{destination_path}/))
-      fetcher_instance.fetch(destination_path)
+    it "returns false when directory does not exist" do
+      Dir.stubs(:exist?).with("missing-dir").returns(false)
+      _(git_fetcher.send(:git_only_or_empty?, "missing-dir")).must_equal false
     end
   end
 end
