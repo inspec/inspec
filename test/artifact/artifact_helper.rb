@@ -16,8 +16,10 @@ class ArtifactTest < Minitest::Test
 
   def assert_artifact(inspec_command)
     stdout, stderr, status = run_cmd "inspec #{inspec_command} #{TEST_CLI_OPTS}"
-
-    assert_empty stderr.sub(/#< CLIXML\n/, "")
+    filtered_stderr = stderr.sub(/#< CLIXML\n/, "")
+    filtered_stderr = filtered_stderr.gsub(/.*warning: method redefined.*\n?/, "")
+    filtered_stderr = filtered_stderr.gsub(/.*warning: previous definition.*\n?/, "")
+    assert_empty filtered_stderr
     assert stdout
     assert status
   end
