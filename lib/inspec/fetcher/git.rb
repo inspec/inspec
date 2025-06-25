@@ -80,7 +80,7 @@ module Inspec::Fetcher
             # this means the git repository did not contain any files (or the checkout failed).
             # In this case, remove the destination directory to avoid
             # leaving an empty or invalid profile directory.
-            Inspec::Log.debug("Remove #{destination_path} directory because temp directory #{working_dir} it is empty")
+            Inspec::Log.debug("Removing #{destination_path} directory because temp directory #{working_dir} is empty")
             FileUtils.rm_r(destination_path)
           end
         end

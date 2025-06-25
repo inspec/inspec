@@ -196,7 +196,7 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       fetcher_instance.stubs(:resolved_ref).returns(nil)
 
       FileUtils.expects(:rm_r).with(destination_path)
-      Inspec::Log.expects(:debug).with("Remove #{destination_path} directory because temp directory #{working_dir} it is empty")
+      Inspec::Log.expects(:debug).with("Removing #{destination_path} directory because temp directory #{working_dir} is empty")
       fetcher_instance.fetch(destination_path)
     end
 
