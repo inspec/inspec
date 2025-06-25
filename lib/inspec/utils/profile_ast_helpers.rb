@@ -1,7 +1,7 @@
 require "ast"
 require "rubocop-ast"
 module Inspec
-  class Profile
+  class ProfileUtil
     class AstHelper
       class CollectorBase < Parser::AST::Processor
         include RuboCop::AST::Traversal

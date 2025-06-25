@@ -623,8 +623,8 @@ module Inspec
         src = RuboCop::AST::ProcessedSource.new(control_file_source, RUBY_VERSION.to_f)
         source_location_ref = @source_reader.target.abs_path(control_filename)
 
-        input_collector = Inspec::Profile::AstHelper::InputCollectorOutsideControlBlock.new(@info_from_parse)
-        ctl_id_collector = Inspec::Profile::AstHelper::ControlIDCollector.new(@info_from_parse, source_location_ref,
+        input_collector = Inspec::ProfileUtil::AstHelper::InputCollectorOutsideControlBlock.new(@info_from_parse)
+        ctl_id_collector = Inspec::ProfileUtil::AstHelper::ControlIDCollector.new(@info_from_parse, source_location_ref,
                                                                               include_tests: include_tests)
 
         # Collect all metadata defined in the control block and inputs defined inside the control block
@@ -689,7 +689,7 @@ module Inspec
         title: nil,
       }
       source_location_ref = @source_reader.target.abs_path(control_filename)
-      Inspec::Profile::AstHelper::TitleCollector.new(group_data)
+      Inspec::ProfileUtil::AstHelper::TitleCollector.new(group_data)
         .process(src.ast&.child_nodes&.first) # Picking the title defined for the whole controls file
       group_controls = @info_from_parse[:controls].select { |control| control[:source_location][:ref] == source_location_ref }
       group_data[:controls] = group_controls.map { |control| control[:id] }
