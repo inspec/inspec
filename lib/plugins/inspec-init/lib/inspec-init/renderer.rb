@@ -82,9 +82,14 @@ module InspecPlugins
       def render(template_content, hash)
         # create a new binding class
         cls = Class.new do
+          method_names = Set.new
           hash.each do |key, value|
-            define_method key.to_sym do
-              value
+            method_name = key.to_sym
+            unless method_names.include?(method_name)
+              method_names << method_name
+              define_method method_name do
+                value
+              end
             end
           end
           # expose binding
