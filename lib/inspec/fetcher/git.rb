@@ -68,16 +68,36 @@ module Inspec::Fetcher
       else
         Dir.mktmpdir do |working_dir|
           checkout(working_dir)
+          if git_only_or_empty?(working_dir)
+            # If the temporary working directory is empty after checkout,
+            # this means the git repository did not contain any files (or the checkout failed).
+            # In this case, remove the destination directory to avoid
+            # leaving an empty or invalid profile directory.
+            if Dir.exist?(destination_path)
+              FileUtils.rm_rf(destination_path)
+            end
+            raise Inspec::FetcherFailure, "Profile git dependency failed for #{@remote_url} - no files found in the repository."
+          end
           if @relative_path
             perform_relative_path_fetch(destination_path, working_dir)
           else
             Inspec::Log.debug("Checkout of #{resolved_ref.nil? ? @remote_url : resolved_ref} successful. " \
-                              "Moving checkout to #{destination_path}")
+                                "Moving checkout to #{destination_path}")
             FileUtils.cp_r(working_dir + "/.", destination_path)
           end
         end
       end
       @repo_directory
+    end
+
+    def git_only_or_empty?(dir)
+      return false unless Dir.exist?(dir)
+
+      children = Dir.children(dir)
+      # Return true if:
+      # - directory is completely empty
+      # - or it contains only one entry: '.git'
+      children.empty? || (children - [".git"]).empty?
     end
 
     def perform_relative_path_fetch(destination_path, working_dir)
