@@ -20,6 +20,9 @@ module Inspec
       end
 
       def create_wrapper
+        # Require the run_context_probe only when needed to avoid circular dependency
+        require_relative "run_context_probe"
+
         Inspec::Log.debug "Initialising wrapper for telemetry"
         {
           version: VERSION,
