@@ -13,6 +13,10 @@ module InspecPlugins::Html2Reporter
       js_path = cfg[:alternate_js_file] || (template_path + "/default.js")
       css_path = cfg[:alternate_css_file] || (template_path + "/default.css")
 
+      # Mark variables as used (they're used in the ERB template via binding)
+      js_path = js_path # rubocop:disable Lint/SelfAssignment
+      css_path = css_path # rubocop:disable Lint/SelfAssignment
+
       template = ERB.new(File.read(template_path + "/body.html.erb"))
       output(template.result(binding))
     end
