@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.52 -->
-## [v7.0.52](https://github.com/inspec/inspec/tree/v7.0.52) (2025-06-19)
+<!-- latest_release 7.0.53 -->
+## [v7.0.53](https://github.com/inspec/inspec/tree/v7.0.53) (2025-06-26)
 
 #### Merged Pull Requests
-- CHEF-18371 Update/ruby upgrade 3.4.2 (exclusive of habitat upgrade) [#7380](https://github.com/inspec/inspec/pull/7380) ([Nik08](https://github.com/Nik08))
+- Habitat authentication token [#7397](https://github.com/inspec/inspec/pull/7397) ([borisicbs](https://github.com/borisicbs))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Habitat authentication token [#7397](https://github.com/inspec/inspec/pull/7397) ([borisicbs](https://github.com/borisicbs)) <!-- 7.0.53 -->
 - CHEF-18371 Update/ruby upgrade 3.4.2 (exclusive of habitat upgrade) [#7380](https://github.com/inspec/inspec/pull/7380) ([Nik08](https://github.com/Nik08)) <!-- 7.0.52 -->
 - CHEF-21513 Upgrading few tests and doc for min support of Ruby 3.1 - InSpec 7 [#7382](https://github.com/inspec/inspec/pull/7382) ([Nik08](https://github.com/Nik08)) <!-- 7.0.51 -->
 - CHEF-21376 Disable licensing and telemetry from InSpec 7 [#7377](https://github.com/inspec/inspec/pull/7377) ([Nik08](https://github.com/Nik08)) <!-- 7.0.50 -->
