@@ -35,7 +35,7 @@ end
 # fails a pattern match
 control 'Generates a message' do
   describe file('/') do
-    its('content') { should match /some regex that is expected in the content/ }
+    its('content') { should match(/some regex that is expected in the content/) }
   end
 end
 
@@ -44,7 +44,7 @@ control 'cmp-1.0' do
   title 'Using the cmp matcher for numbers'
   describe 7 do
     it { should cmp >= 9 }
-    it { should_not cmp /^\d$/ }
+    it { should_not cmp(/^\d$/) }
     it { should cmp == '7' }
   end
 end
