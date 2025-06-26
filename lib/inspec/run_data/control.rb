@@ -33,10 +33,10 @@ module Inspec
         ].each do |field|
           self[field] = raw_ctl_data[field]
         end
+      end
 
-        def status
-          Inspec::EnhancedOutcomes.determine_status(results, impact)
-        end
+      def status
+        Inspec::EnhancedOutcomes.determine_status(results, impact)
       end
     end
 
