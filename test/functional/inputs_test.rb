@@ -380,7 +380,7 @@ describe "inputs" do
 
       result = run_inspec_process(cmd, json: true)
 
-      _(result.stderr).must_include "Input 'a_required_input' is required and does not have a value.\n"
+      _(result.stderr).must_include "Input 'a_required_input' is required and does not have a value."
       assert_exit_code 1, result
     end
 
