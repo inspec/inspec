@@ -1,5 +1,6 @@
 require "thor" # rubocop:disable Chef/Ruby/UnlessDefinedRequire
 require "chef-licensing"
+require "tty-prompt"
 require "inspec/log"
 require "inspec/ui"
 require "inspec/config"
@@ -67,16 +68,7 @@ module Inspec
     def self.check_license!
       allowed_commands = ["-h", "--help", "help", "-v", "--version", "version"]
 
-      begin
-        original_stderr = $stderr
-        # We are redirecting the stderr to a StringIO object
-        # This is a workaround to avoid the warning "circular require considered harmful"
-        $stderr = StringIO.new
-        require "license_acceptance/acceptor"
-      ensure
-        # Restore the original stderr
-        $stderr = original_stderr
-      end
+      require "license_acceptance/acceptor"
 
       begin
         if (allowed_commands & ARGV.map(&:downcase)).empty? && # Did they use a non-exempt command?
