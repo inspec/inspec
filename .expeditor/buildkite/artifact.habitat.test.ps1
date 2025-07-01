@@ -45,5 +45,5 @@ $Env:Path += ";C:\hab\bin"
 Write-Host "+++ Testing $Plan"
 
 Push-Location $project_root/test/artifact
-rake
+hab pkg exec chef/inspec rake
 If ($lastexitcode -ne 0) { Exit $lastexitcode }
