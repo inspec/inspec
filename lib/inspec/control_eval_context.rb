@@ -142,7 +142,7 @@ module Inspec
         ::Inspec::Rule.set_skip_rule(control, true, msg)
       end
 
-      profile_context_owner.register_rule(control, &block) unless control.nil?
+      profile_context_owner.register_rule(control) unless control.nil?
     end
 
     def input(input_name, options = {})
