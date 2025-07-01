@@ -25,7 +25,7 @@ catch {
   Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1'))
 }
 finally {
-  Write-Host ":habicat: I think I have the version I need to build."
+  Write-Host ":habitat: I think I have the version I need to build."
 }
 
 
@@ -40,19 +40,7 @@ $env:DO_CHECK=$true; hab pkg build .
 
 . $project_root/results/last_build.ps1
 
-Write-Host "--- Installing $pkg_ident/$pkg_artifact"
-hab pkg install -b $project_root/results/$pkg_artifact
-
-Write-Host "--- Downloading Ruby + DevKit"
-aws s3 cp s3://core-buildkite-cache-chef-prod/rubyinstaller-devkit-2.6.6-1-x64.exe c:/rubyinstaller-devkit-2.6.6-1-x64.exe
-
-Write-Host "--- Installing Ruby + DevKit"
-Start-Process c:\rubyinstaller-devkit-2.6.6-1-x64.exe -ArgumentList '/verysilent /dir=C:\\ruby26' -Wait
-
-Write-Host "--- Cleaning up installation"
-Remove-Item c:\rubyinstaller-devkit-2.6.6-1-x64.exe -Force
-
-$Env:Path += ";C:\ruby26\bin;C:\hab\bin"
+$Env:Path += ";C:\hab\bin"
 
 Write-Host "+++ Testing $Plan"
 
