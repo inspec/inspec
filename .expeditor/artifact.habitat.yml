@@ -8,6 +8,7 @@ expeditor:
           limit: 1
 
 steps:
+
   - label: ":linux: Validate Habitat Builds of Chef InSpec"
     commands:
       - .expeditor/buildkite/artifact.habitat.test.sh
