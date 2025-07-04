@@ -1,6 +1,7 @@
 # TODO: Commentine artifactory source block temporarily
 # to addres JIRA #9390 (Chef InSpec  Verify pipeline is failing due to checksum mismatch of mixlib-shellout gem)
 # For Chef internal builds, allows preview versions of gems if available.
+#
 # if ENV["ARTIFACTORY_BASE_URL"]
 #   source ENV["ARTIFACTORY_BASE_URL"] + "/artifactory/api/gems/omnibus-gems-local/" do
 #     # TODO: either fully populate this list, or revert back to non-block format
