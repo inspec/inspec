@@ -1,5 +1,3 @@
-export HAB_BLDR_CHANNEL="base-2025"
-export HAB_REFRESH_CHANNEL="base-2025"
 pkg_name=inspec
 pkg_origin=chef
 pkg_version=$(cat "$PLAN_CONTEXT/../VERSION")
@@ -24,10 +22,10 @@ pkg_build_deps=(
 pkg_bin_dirs=(bin)
 
 do_prepare(){
-  export HAB_BLDR_CHANNEL="LTS-2024"
+  export HAB_BLDR_CHANNEL="base-2025"
+  export HAB_REFRESH_CHANNEL="base-2025"
+  export HAB_FALLBACK_CHANNEL="base-2025"
   export HAB_STUDIO_SECRET_NODE_OPTIONS="--dns-result-order=ipv4first"
-  export HAB_STUDIO_SECRET_HAB_BLDR_CHANNEL="LTS-2024"
-  export HAB_STUDIO_SECRET_HAB_FALLBACK_CHANNEL="LTS-2024"
 }
 
 do_setup_environment() {
