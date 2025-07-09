@@ -22,9 +22,9 @@ pkg_build_deps=(
 pkg_bin_dirs=(bin)
 
 do_prepare(){
-  export HAB_STUDIO_SECRET_HAB_BLDR_CHANNEL="base-2025"
-  export HAB_STUDIO_SECRET_HAB_REFRESH_CHANNEL="base-2025"
-  export HAB_STUDIO_SECRET_HAB_FALLBACK_CHANNEL="base-2025"
+  export HAB_BLDR_CHANNEL="base-2025"
+  export HAB_REFRESH_CHANNEL="base-2025"
+  export HAB_FALLBACK_CHANNEL="base-2025"
   export HAB_STUDIO_SECRET_NODE_OPTIONS="--dns-result-order=ipv4first"
 }
 
