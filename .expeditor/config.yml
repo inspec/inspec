@@ -77,8 +77,8 @@ changelog:
 
 
 artifact_channels:
-  - LTS-2024-current
-  - LTS-2024
+  - base-2025-current
+  - base-2025
 
 subscriptions:
   - workload: pull_request_merged:{{github_repo}}:{{release_branch}}:*
@@ -127,12 +127,12 @@ subscriptions:
         only_if:
          - built_in:bump_version
 
-# Creates lts-2024-current package from unstable package once hab build is complete
+# Creates base-2025-current package from unstable package once hab build is complete
   - workload: buildkite_hab_build_group_published:{{agent_id}}:*
     actions:
      - built_in:promote_habitat_packages
 
-# Promoting lts-2024-current to lts-2024 channel
+# Promoting base-2025-current to base-2025 channel
   - workload: project_promoted:{{agent_id}}:*
     actions:
      - built_in:rollover_changelog
