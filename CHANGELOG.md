@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.53 -->
-## [v7.0.53](https://github.com/inspec/inspec/tree/v7.0.53) (2025-06-26)
+<!-- latest_release 7.0.55 -->
+## [v7.0.55](https://github.com/inspec/inspec/tree/v7.0.55) (2025-07-09)
 
 #### Merged Pull Requests
-- Habitat authentication token [#7397](https://github.com/inspec/inspec/pull/7397) ([borisicbs](https://github.com/borisicbs))
+- Cleanup HAB env &amp; Update HAB Promote channel to base-2025 [#7410](https://github.com/inspec/inspec/pull/7410) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,8 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Cleanup HAB env &amp; Update HAB Promote channel to base-2025 [#7410](https://github.com/inspec/inspec/pull/7410) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.55 -->
+- CHEF-18373-Habitat package upgrade for Ruby 3.4.x - Linux [#7400](https://github.com/inspec/inspec/pull/7400) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.54 -->
 - Habitat authentication token [#7397](https://github.com/inspec/inspec/pull/7397) ([borisicbs](https://github.com/borisicbs)) <!-- 7.0.53 -->
 - CHEF-18371 Update/ruby upgrade 3.4.2 (exclusive of habitat upgrade) [#7380](https://github.com/inspec/inspec/pull/7380) ([Nik08](https://github.com/Nik08)) <!-- 7.0.52 -->
 - CHEF-21513 Upgrading few tests and doc for min support of Ruby 3.1 - InSpec 7 [#7382](https://github.com/inspec/inspec/pull/7382) ([Nik08](https://github.com/Nik08)) <!-- 7.0.51 -->

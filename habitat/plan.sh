@@ -1,5 +1,3 @@
-export HAB_BLDR_CHANNEL="LTS-2024"
-export HAB_REFRESH_CHANNEL="LTS-2024"
 pkg_name=inspec
 pkg_origin=chef
 pkg_version=$(cat "$PLAN_CONTEXT/../VERSION")
@@ -12,7 +10,7 @@ pkg_license=('Apache-2.0')
 pkg_deps=(
   core/coreutils
   core/git
-  core/ruby3_1
+  core/ruby3_4
   core/bash
 )
 pkg_build_deps=(
@@ -24,10 +22,10 @@ pkg_build_deps=(
 pkg_bin_dirs=(bin)
 
 do_prepare(){
-  export HAB_BLDR_CHANNEL="LTS-2024"
+  export HAB_BLDR_CHANNEL="base-2025"
+  export HAB_REFRESH_CHANNEL="base-2025"
+  export HAB_FALLBACK_CHANNEL="base-2025"
   export HAB_STUDIO_SECRET_NODE_OPTIONS="--dns-result-order=ipv4first"
-  export HAB_STUDIO_SECRET_HAB_BLDR_CHANNEL="LTS-2024"
-  export HAB_STUDIO_SECRET_HAB_FALLBACK_CHANNEL="LTS-2024"
 }
 
 do_setup_environment() {
@@ -89,7 +87,7 @@ export PATH="/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH
 export GEM_HOME="$GEM_HOME"
 export GEM_PATH="$GEM_PATH"
 
-exec $(pkg_path_for core/ruby3_1)/bin/ruby $real_bin \$@
+exec $(pkg_path_for core/ruby3_4)/bin/ruby $real_bin \$@
 EOF
   chmod -v 755 "$bin"
 }
