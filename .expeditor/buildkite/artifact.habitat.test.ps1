@@ -47,47 +47,6 @@ function Install-Habitat {
     Write-Host "Warning: Could not verify Habitat installation"
   }
 }
-
-function Get-HabVersion {
-  # Returns the installed hab semver string (e.g. "1.6.652"), or $null if not found.
-  try {
-    $output = hab --version 2>&1
-    if ($LASTEXITCODE -ne 0) { return $null }
-    # Output format: "hab 1.6.652/20230206161841"
-    $versionPart = ($output -split " ")[1] -split "/" | Select-Object -First 1
-    return $versionPart
-  } catch {
-    return $null
-  }
-}
-
-# Ensure Habitat is in PATH before checking
-$habExeDir = "C:\ProgramData\Habitat"
-if (Test-Path $habExeDir) {
-  $env:Path = "$habExeDir;$env:Path"
-}
-
-$installedVersion = Get-HabVersion
-
-if ($null -eq $installedVersion) {
-  Write-Host "Habitat not found. Installing..."
-  Set-ExecutionPolicy Bypass -Scope Process -Force
-  Install-Habitat
-} elseif ([version]$installedVersion -ge [version]$MinHabVersion) {
-  Write-Host "Habitat $installedVersion satisfies minimum required version $MinHabVersion. Skipping install."
-} else {
-  Write-Host "Habitat $installedVersion is below required $MinHabVersion. Upgrading..."
-  # Only delete the binary when an upgrade is intentionally needed,
-  # reducing risk of disrupting other parallel CI jobs in the common case.
-  $habExe = "$habExeDir\hab.exe"
-  if (Test-Path $habExe) {
-    Remove-Item $habExe -Force -ErrorAction SilentlyContinue
-    Write-Host "Removed old hab.exe to allow clean upgrade."
-  }
-  Set-ExecutionPolicy Bypass -Scope Process -Force
-  Install-Habitat
-}
-
 # Set HAB_ORIGIN after Habitat installation
 Write-Host "HAB_ORIGIN set to 'ci' after installation."
 $env:HAB_ORIGIN = 'ci'
