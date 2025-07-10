@@ -4,7 +4,7 @@
 # if ENV["ARTIFACTORY_BASE_URL"]
 #   source ENV["ARTIFACTORY_BASE_URL"] + "/artifactory/api/gems/omnibus-gems-local/" do
 #     # TODO: either fully populate this list, or revert back to non-block format
-#     #       to sweep all Chef gems from Artifactory.
+#     #      to sweep all Chef gems from Artifactory.
 #     gem "chef-licensing"
 #   end
 # end
