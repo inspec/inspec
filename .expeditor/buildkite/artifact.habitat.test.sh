@@ -43,7 +43,6 @@ curl https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/in
 echo "--- Setting HAB_ORIGIN to 'ci' after installation"
 export HAB_ORIGIN='ci'
 
-
 echo "--- Generating fake origin key"
 hab origin key generate $HAB_ORIGIN
 HAB_CI_KEY=$(realpath /hab/cache/keys/"$HAB_ORIGIN"*.pub)
