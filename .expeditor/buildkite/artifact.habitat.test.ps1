@@ -7,8 +7,8 @@ $PSDefaultParameterValues['*:ErrorAction']='Stop'
 $ErrorActionPreference = 'Stop'
 $env:CHEF_LICENSE = 'accept-no-persist'
 $env:HAB_LICENSE = 'accept-no-persist'
-$env:HAB_BLDR_CHANNEL = 'LTS-2024'
-$env:HAB_REFRESH_CHANNEL = 'LTS-2024'
+$env:HAB_BLDR_CHANNEL = 'base-2025'
+$env:HAB_REFRESH_CHANNEL = 'base-2025'
 $Plan = 'inspec'
 
 Write-Host "--- system details"
@@ -27,25 +27,9 @@ function Install-Habitat {
   # Suppress errors from the installer script that might try to remove locked files
   $ErrorActionPreference = 'Continue'
   Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1'))
-  $ErrorActionPreference = 'Stop'
-
-  # Add Habitat to PATH for current session
-  $habExeDir = "C:\ProgramData\Habitat"
-  if (Test-Path $habExeDir) {
-    $env:Path = "$habExeDir;$env:Path"
-    Write-Host "Added $habExeDir to PATH"
-  }
-
-  # Wait for installation to complete and avoid racing conditions
-  Start-Sleep -Seconds 2
-
-  # Verify installation
-  $habVersion = hab --version 2>&1
-  if ($LASTEXITCODE -eq 0) {
-    Write-Host ":habitat: Installed Habitat version: $habVersion"
-  } else {
-    Write-Host "Warning: Could not verify Habitat installation"
-  }
+}
+finally {
+  Write-Host ":habitat: I think I have the version I need to build."
 }
 # Set HAB_ORIGIN after Habitat installation
 Write-Host "HAB_ORIGIN set to 'ci' after installation."
