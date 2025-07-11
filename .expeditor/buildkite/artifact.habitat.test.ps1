@@ -7,8 +7,8 @@ $PSDefaultParameterValues['*:ErrorAction']='Stop'
 $ErrorActionPreference = 'Stop'
 $env:CHEF_LICENSE = 'accept-no-persist'
 $env:HAB_LICENSE = 'accept-no-persist'
-$env:HAB_BLDR_CHANNEL = 'LTS-2024'
-$env:HAB_REFRESH_CHANNEL = 'LTS-2024'
+$env:HAB_BLDR_CHANNEL = 'base-2025'
+$env:HAB_REFRESH_CHANNEL = 'base-2025'
 $Plan = 'inspec'
 
 Write-Host "--- system details"
@@ -24,7 +24,7 @@ catch {
   Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1'))
 }
 finally {
-  Write-Host ":habicat: I think I have the version I need to build."
+  Write-Host ":habitat: I think I have the version I need to build."
 }
 # Set HAB_ORIGIN after Habitat installation
 Write-Host "HAB_ORIGIN set to 'ci' after installation."
