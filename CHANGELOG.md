@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.56 -->
-## [v7.0.56](https://github.com/inspec/inspec/tree/v7.0.56) (2025-07-10)
+<!-- latest_release 7.0.57 -->
+## [v7.0.57](https://github.com/inspec/inspec/tree/v7.0.57) (2025-07-11)
 
 #### Merged Pull Requests
-- Fixes for &#39;Package Not Found &#39; error in Habitat pipelines [#7411](https://github.com/inspec/inspec/pull/7411) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- CHEF-18374 Habitat package upgrade for Ruby 3.4.x - Windows [#7401](https://github.com/inspec/inspec/pull/7401) ([sa-progress](https://github.com/sa-progress))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- CHEF-18374 Habitat package upgrade for Ruby 3.4.x - Windows [#7401](https://github.com/inspec/inspec/pull/7401) ([sa-progress](https://github.com/sa-progress)) <!-- 7.0.57 -->
 - Fixes for &#39;Package Not Found &#39; error in Habitat pipelines [#7411](https://github.com/inspec/inspec/pull/7411) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.56 -->
 - Cleanup HAB env &amp; Update HAB Promote channel to base-2025 [#7410](https://github.com/inspec/inspec/pull/7410) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.55 -->
 - CHEF-18373-Habitat package upgrade for Ruby 3.4.x - Linux [#7400](https://github.com/inspec/inspec/pull/7400) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.54 -->
