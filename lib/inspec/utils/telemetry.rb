@@ -2,6 +2,7 @@ require "time" unless defined?(Time.zone_offset)
 require "chef-licensing"
 require_relative "telemetry/null"
 require_relative "telemetry/http"
+require_relative "telemetry/run_context_probe"
 
 module Inspec
   class Telemetry
@@ -18,9 +19,6 @@ module Inspec
       # Don't perform telemetry action if running under Automate - Automate does LDC tracking for us
       # Don't perform telemetry action if license is a commercial license
       # Don't perform telemetry action if running under Test Kitchen
-
-      # Require the run_context_probe only when needed to avoid circular dependency
-      require_relative "telemetry/run_context_probe"
 
       if Inspec::Dist::EXEC_NAME != "inspec" ||
           Inspec::Telemetry::RunContextProbe.under_automate? ||
