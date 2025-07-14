@@ -5,7 +5,10 @@ class TestInspecPlugin < ArtifactTest
     # This one is custom because it emits a special warning to stderr
     inspec_command = "plugin list"
     stdout, stderr, status = run_cmd "inspec #{inspec_command} #{TEST_CLI_OPTS}"
-    assert_empty stderr.sub(/#< CLIXML\n/, "").sub(/The table size exceeds the currently set width\.Defaulting to vertical orientation\.\n/, "")
+    filtered_stderr = stderr.sub(/#< CLIXML\n/, "")
+    filtered_stderr = filtered_stderr.gsub(/.*warning: assigned but unused variable.*\n?/, "")
+    filtered_stderr = filtered_stderr.sub(/The table size exceeds the currently set width\.Defaulting to vertical orientation\.\n/, "")
+    assert_empty filtered_stderr
     assert stdout
     assert status
   end

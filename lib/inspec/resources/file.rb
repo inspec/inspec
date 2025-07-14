@@ -46,9 +46,9 @@ module Inspec::Resources
     %w{
       type exist? file? block_device? character_device? socket? directory?
       symlink? pipe? mode mode? owner owned_by? group grouped_into?
-      link_path shallow_link_path linked_to? mtime size selinux_label immutable?
+      link_path shallow_link_path linked_to? mtime size selinux_label
       product_version file_version version? md5sum sha256sum
-      path basename source source_path uid gid
+      basename source source_path uid gid
     }.each do |m|
       define_method m do |*args|
         file.send(m, *args)

@@ -1,4 +1,5 @@
 require "thor" # rubocop:disable Chef/Ruby/UnlessDefinedRequire
+require "tty-prompt"
 require "inspec/log"
 require "inspec/ui"
 require "inspec/config"
@@ -73,6 +74,7 @@ module Inspec
       allowed_commands = ["-h", "--help", "help", "-v", "--version", "version"]
 
       require "license_acceptance/acceptor"
+
       begin
         if (allowed_commands & ARGV.map(&:downcase)).empty? && # Did they use a non-exempt command?
             !ARGV.empty? # Did they supply at least one command?

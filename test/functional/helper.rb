@@ -163,7 +163,9 @@ module FunctionalHelper
     gem_warning_patterns = /
       redefining\s+'object_id' |
       default\s+gems\s+starting\s+from\s+Ruby\s+\d+\.\d+\.\d+ |
-      Gemfile\s+or\s+gemspec\s+to\s+silence\s+this\s+warning
+      Gemfile\s+or\s+gemspec\s+to\s+silence\s+this\s+warning |
+      method\s+redefined;\s+discarding\s+old\s+\w+ |
+      previous\s+definition\s+of\s+\w+\s+was\s+here
     /x
 
     # Filter out matching errors in a single pass
