@@ -22,6 +22,7 @@ gem "unf_ext", "= 0.0.8.2"
 # but our runtime dep is still 3.9+
 gem "rspec", ">= 3.10"
 
+
 group :omnibus do
   gem "rb-readline"
   gem "appbundler"
@@ -75,3 +76,6 @@ gem "dry-inflector", "<= 1.1.0" if RUBY_VERSION < "3.1.0"
 # Pinning securerandom to < 0.4.0 as it is breaking the build because 0.4.0 is incompatible with the current version, ruby 3.0.x on CI
 # Remove this pin when upgrading to Ruby 3.1 or higher on CI.
 gem "securerandom", "< 0.4.0" if RUBY_VERSION < "3.1.0"
+# Add train dependency from git CHEF-19255-inspec-bugcrowd-chef-privilege-escalation-vulnerability
+gem "train", git: "https://github.com/inspec/train.git", branch: "CHEF-19255-inspec-bugcrowd-chef-privilege-escalation-vulnerability"
+gem "train-core", git: "https://github.com/inspec/train.git", branch: "CHEF-19255-inspec-bugcrowd-chef-privilege-escalation-vulnerability"
