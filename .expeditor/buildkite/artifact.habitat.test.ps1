@@ -5,9 +5,10 @@
 # TODO: Set-StrictMode -Version Latest
 $PSDefaultParameterValues['*:ErrorAction']='Stop'
 $ErrorActionPreference = 'Stop'
-$env:HAB_ORIGIN = 'ci'
 $env:CHEF_LICENSE = 'accept-no-persist'
 $env:HAB_LICENSE = 'accept-no-persist'
+$env:HAB_BLDR_CHANNEL = 'LTS-2024'
+$env:HAB_REFRESH_CHANNEL = 'LTS-2024'
 $Plan = 'inspec'
 
 Write-Host "--- system details"
@@ -55,6 +56,9 @@ finally {
   Write-Host ":habicat: I think I have the version I need to build."
 }
 
+# Set HAB_ORIGIN after Habitat installation
+Write-Host "HAB_ORIGIN set to 'ci' after installation."
+$env:HAB_ORIGIN = 'ci'
 
 Write-Host "--- Generating fake origin key"
 hab origin key generate $env:HAB_ORIGIN
