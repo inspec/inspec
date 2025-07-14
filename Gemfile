@@ -29,6 +29,7 @@ gem "ffi", ">= 1.15.5", "< 1.17.0"
 # but our runtime dep is still 3.9+
 gem "rspec", ">= 3.10"
 
+
 group :omnibus do
   gem "rb-readline"
   gem "appbundler"
@@ -56,3 +57,7 @@ end
 group :deploy do
   gem "inquirer"
 end
+
+# Add train dependency from git CHEF-19255-inspec-bugcrowd-chef-privilege-escalation-vulnerability
+gem "train", git: "https://github.com/inspec/train.git", branch: "CHEF-19255-inspec-bugcrowd-chef-privilege-escalation-vulnerability"
+gem "train-core", git: "https://github.com/inspec/train.git", branch: "CHEF-19255-inspec-bugcrowd-chef-privilege-escalation-vulnerability"
