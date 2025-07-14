@@ -32,7 +32,7 @@ Source code obtained from the Chef GitHub repository is made available under Apa
 
   spec.add_dependency "inspec-core", "= #{Inspec::VERSION}"
 
-  # spec.add_dependency "train", "~> 3.10"
+  spec.add_dependency "train", "~> 3.10"
   spec.add_dependency "rake"
 
   # progress bar streaming reporter plugin support
