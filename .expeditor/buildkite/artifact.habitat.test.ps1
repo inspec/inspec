@@ -60,6 +60,7 @@ finally {
 Write-Host "HAB_ORIGIN set to 'ci' after installation."
 $env:HAB_ORIGIN = 'ci'
 
+
 Write-Host "--- Generating fake origin key"
 hab origin key generate $env:HAB_ORIGIN
 
