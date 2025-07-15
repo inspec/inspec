@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.83 -->
-## [v5.22.83](https://github.com/inspec/inspec/tree/v5.22.83) (2025-06-26)
+<!-- latest_release 5.22.84 -->
+## [v5.22.84](https://github.com/inspec/inspec/tree/v5.22.84) (2025-07-15)
 
 #### Merged Pull Requests
-- CHEF-18030- Fix GitFetcher to Clear Empty Cache Directory on Fetch [#7398](https://github.com/inspec/inspec/pull/7398) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- FOREPORT: Fixes for ci/hab package not found error [#7416](https://github.com/inspec/inspec/pull/7416) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.80 -->
 ### Changes since 5.22.80 release
 
 #### Merged Pull Requests
+- FOREPORT: Fixes for ci/hab package not found error [#7416](https://github.com/inspec/inspec/pull/7416) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.84 -->
 - CHEF-18030- Fix GitFetcher to Clear Empty Cache Directory on Fetch [#7398](https://github.com/inspec/inspec/pull/7398) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.83 -->
 - Updated train pinning for future Ruby3 support [#7389](https://github.com/inspec/inspec/pull/7389) ([Nik08](https://github.com/Nik08)) <!-- 5.22.82 -->
 - Pipeline fixes [#7390](https://github.com/inspec/inspec/pull/7390) ([Nik08](https://github.com/Nik08)) <!-- 5.22.81 -->
