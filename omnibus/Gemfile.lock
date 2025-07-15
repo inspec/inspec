@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/chef/omnibus-software.git
-  revision: 6961522234e884a9b2d68c42e65287afc7274a27
-  branch: main
+  revision: b73725aa8ac70f7f52c9785e97b8d98ac90a1220
+  branch: poorndm/upgrade-ruby-3.1.7
   specs:
     omnibus-software (24.6.324)
       ffi (>= 1.17.0)
