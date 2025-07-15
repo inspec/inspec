@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.86 -->
-## [v5.22.86](https://github.com/inspec/inspec/tree/v5.22.86) (2025-07-15)
+<!-- latest_release 5.22.87 -->
+## [v5.22.87](https://github.com/inspec/inspec/tree/v5.22.87) (2025-07-15)
 
 #### Merged Pull Requests
-- CHEF-21513 Drop Ruby 3.0 support from InSpec 5 [#7359](https://github.com/inspec/inspec/pull/7359) ([Nik08](https://github.com/Nik08))
+- Fix for omnibus release windows build failure [#7424](https://github.com/inspec/inspec/pull/7424) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.80 -->
 ### Changes since 5.22.80 release
 
 #### Merged Pull Requests
+- Fix for omnibus release windows build failure [#7424](https://github.com/inspec/inspec/pull/7424) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.87 -->
 - CHEF-21513 Drop Ruby 3.0 support from InSpec 5 [#7359](https://github.com/inspec/inspec/pull/7359) ([Nik08](https://github.com/Nik08)) <!-- 5.22.86 -->
 - Remove unsupported Windows platform from omnibus build pipeline [#7418](https://github.com/inspec/inspec/pull/7418) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.85 -->
 - FOREPORT: Fixes for ci/hab package not found error [#7416](https://github.com/inspec/inspec/pull/7416) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.84 -->
