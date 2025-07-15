@@ -9,21 +9,13 @@ expeditor:
 
 steps:
 
-  - label: lint-ruby-3.0
+  - label: lint-ruby-3.1
     command:
       - RAKE_TASK=test:lint /workdir/.expeditor/buildkite/verify.sh
     expeditor:
       executor:
         docker:
-          image: ruby:3.0-bullseye
-
-  - label: run-tests-ruby-3.0
-    command:
-      - /workdir/.expeditor/buildkite/verify.sh
-    expeditor:
-      executor:
-        docker:
-          image: ruby:3.0-bullseye
+          image: ruby:3.1-bullseye
 
   - label: run-tests-ruby-3.1
     command:
@@ -32,14 +24,6 @@ steps:
       executor:
         docker:
           image: ruby:3.1-bullseye
-
-  - label: isolated-tests-ruby-3.0
-    command:
-      - RAKE_TASK=test:isolated /workdir/.expeditor/buildkite/verify.sh
-    expeditor:
-      executor:
-        docker:
-          image: ruby:3.0-bullseye
 
   - label: isolated-tests-ruby-3.1
     command:
