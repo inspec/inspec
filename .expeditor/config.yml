@@ -93,6 +93,11 @@ changelog:
   - "Type: Enhancement": "Enhancements"
   - "Type: Bug": "Bug Fixes"
 
+artifact_channels:
+  - unstable
+  - lts-2024-current
+  - lts-2024
+
 subscriptions:
   - workload: pull_request_merged:{{github_repo}}:{{release_branch}}:*
     actions:
@@ -149,14 +154,14 @@ subscriptions:
      - trigger_pipeline:docker/build
      - bash:.expeditor/buildkite/wwwrelease.sh:
         post_commit: true
-  - workload: artifact_published:current:inspec:{{version_constraint}}
+  - workload: artifact_published:lts-2024-current:inspec:{{version_constraint}}
     actions:
      - built_in:promote_docker_images
      - built_in:promote_habitat_packages
   - workload: project_promoted:{{agent_id}}:*
     actions:
       - built_in:promote_artifactory_artifact
-  - workload: artifact_published:stable:inspec:{{version_constraint}}
+  - workload: artifact_published:lts-2024:inspec:{{version_constraint}}
     actions:
      - bash:.expeditor/update_dockerfile.sh
      - built_in:rollover_changelog
