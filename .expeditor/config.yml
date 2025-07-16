@@ -93,6 +93,12 @@ changelog:
   - "Type: Enhancement": "Enhancements"
   - "Type: Bug": "Bug Fixes"
 
+artifact_channels:
+  - unstable
+  - current
+  - stable
+  - lts-2024
+
 subscriptions:
   - workload: pull_request_merged:{{github_repo}}:{{release_branch}}:*
     actions:
@@ -153,7 +159,7 @@ subscriptions:
     actions:
      - built_in:promote_docker_images
      - built_in:promote_habitat_packages
-  - workload: project_promoted:{{agent_id}}:*
+  - workload: project_promoted:{{agent_id}}:current:*
     actions:
       - built_in:promote_artifactory_artifact
   - workload: artifact_published:stable:inspec:{{version_constraint}}
@@ -171,6 +177,9 @@ subscriptions:
      - bash:.expeditor/announce-release.sh:
         post_commit: true
      - built_in:notify_chefio_slack_channels
+  - workload: project_promoted:{{agent_id}}:stable:*
+    actions:
+      - built_in:promote_habitat_packages
   - workload: pull_request_opened:{{github_repo}}:{{release_branch}}:*
     actions:
      - post_github_comment:.expeditor/templates/pull_request.mustache:
