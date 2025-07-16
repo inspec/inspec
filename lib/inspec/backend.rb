@@ -17,7 +17,11 @@ module Inspec
 
     def self.add_resource_methods # TODO: remove
       Inspec::Resource.registry.each do |id, r|
-        define_method id.to_sym do |*args|
+        method_name = id.to_sym
+        # Skip if method is already defined (e.g. built-in Ruby methods or methods from gems)
+        next if instance_methods.include?(method_name)
+
+        define_method method_name do |*args|
           r.new(self, id.to_s, *args)
         end
       end
