@@ -11,10 +11,8 @@ require "inspec/dependencies/cache"
 require "inspec/dist"
 require "inspec/reporters"
 require "inspec/runner_rspec"
-## Disabled licensing & telemetry - To enable it revert this
-# require "chef-licensing"
-# require "inspec/utils/telemetry"
-##
+require "chef-licensing"
+require "inspec/utils/telemetry"
 # spec requirements
 
 module Inspec
@@ -170,18 +168,16 @@ module Inspec
     end
 
     def run(with = nil)
-      ## Disabled licensing - To enable it revert this
-      # product_dist_name = Inspec::Dist::PRODUCT_NAME
-      # if Inspec::Dist::EXEC_NAME == "inspec"
-      #   if Inspec::Telemetry::RunContextProbe.guess_run_context == "test-kitchen"
-      #     product_dist_name = "Chef Workstation"
-      #     configure_licensing_config_for_kitchen(@conf)
-      #     # Persist the license key in file when passed via test-kitchen
-      #     ChefLicensing.fetch_and_persist if @conf[:chef_license_key]
-      #   end
-      #   ChefLicensing.check_software_entitlement!
-      # end
-      ##
+      product_dist_name = Inspec::Dist::PRODUCT_NAME
+      if Inspec::Dist::EXEC_NAME == "inspec"
+        if Inspec::Telemetry::RunContextProbe.guess_run_context == "test-kitchen"
+          product_dist_name = "Chef Workstation"
+          configure_licensing_config_for_kitchen(@conf)
+          # Persist the license key in file when passed via test-kitchen
+          ChefLicensing.fetch_and_persist if @conf[:chef_license_key]
+        end
+        ChefLicensing.check_software_entitlement!
+      end
 
       # Validate if profiles are signed and verified
       # Additional check is required to provide error message in case of inspec exec command (exec command can use multiple profiles as well)
@@ -193,22 +189,18 @@ module Inspec
       }
 
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
-      ## Disabled telemetry
-      # Inspec::Telemetry.run_starting(runner: self, conf: @conf)
+      Inspec::Telemetry.run_starting(runner: self, conf: @conf)
       load
       run_tests(with)
-
-      ## Disabled licensing - To enable it revert this
-      # rescue ChefLicensing::LicenseKeyFetcher::LicenseKeyNotFetchedError
-      #   Inspec::Log.error "#{product_dist_name} cannot execute without valid licenses."
-      #   Inspec::UI.new.exit(:license_not_set)
-      # rescue ChefLicensing::SoftwareNotEntitled
-      #   Inspec::Log.error "License is not entitled to use #{product_dist_name}."
-      #   Inspec::UI.new.exit(:license_not_entitled)
-      # rescue ChefLicensing::Error => e
-      #   Inspec::Log.error e.message
-      #   Inspec::UI.new.exit(:usage_error)
-      ##
+    rescue ChefLicensing::LicenseKeyFetcher::LicenseKeyNotFetchedError
+      Inspec::Log.error "#{product_dist_name} cannot execute without valid licenses."
+      Inspec::UI.new.exit(:license_not_set)
+    rescue ChefLicensing::SoftwareNotEntitled
+      Inspec::Log.error "License is not entitled to use #{product_dist_name}."
+      Inspec::UI.new.exit(:license_not_entitled)
+    rescue ChefLicensing::Error => e
+      Inspec::Log.error e.message
+      Inspec::UI.new.exit(:usage_error)
     end
 
     def verify_target_profiles_if_signed(target_profiles)
@@ -249,8 +241,7 @@ module Inspec
       @run_data = @test_collector.run(with)
       # dont output anything if we want a report
       render_output(@run_data) unless @conf["report"]
-      ## Disabled telemetry
-      # Inspec::Telemetry.run_ending(runner: self, run_data: @run_data, conf: @conf)
+      Inspec::Telemetry.run_ending(runner: self, run_data: @run_data, conf: @conf)
       @test_collector.exit_code
     end
 
