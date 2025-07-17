@@ -61,3 +61,4 @@ end
 # Add train dependency from git CHEF-19255-inspec-bugcrowd-chef-privilege-escalation-vulnerability
 gem "train", git: "https://github.com/inspec/train.git", branch: "CHEF-19255-inspec-bugcrowd-chef-privilege-escalation-vulnerability"
 gem "train-core", git: "https://github.com/inspec/train.git", branch: "CHEF-19255-inspec-bugcrowd-chef-privilege-escalation-vulnerability"
+gem "omnibus", "~> 8.0", group: :omnibus
