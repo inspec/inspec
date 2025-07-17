@@ -40,9 +40,6 @@ build_iteration 1
 overrides_path = File.expand_path("../../../omnibus_overrides.rb", __dir__)
 instance_eval(File.read(overrides_path), overrides_path)
 
-override :train, version: "CHEF-19255-inspec-bugcrowd-chef-privilege-escalation-vulnerability"
-override :train_core, version: "CHEF-19255-inspec-bugcrowd-chef-privilege-escalation-vulnerability"
-
 dependency "preparation"
 dependency "inspec"
 
