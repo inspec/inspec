@@ -1,8 +1,8 @@
 # THIS IS NOW HAND MANAGED, JUST EDIT THE THING
 
 # grab the current train release from rubygems.org
-override "train", version: "CHEF-19255-inspec-bugcrowd-chef-privilege-escalation-vulnerability"
-override "train_core", version: "CHEF-19255-inspec-bugcrowd-chef-privilege-escalation-vulnerability"
+# train_stable = /^train \((.*)\)/.match(`gem list ^train$ --remote`)[1]
+# override "train", version: "v#{train_stable}"
 override "ruby", version: "3.1.6"
 
 override :openssl, version: "3.0.9"
