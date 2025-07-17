@@ -8,6 +8,10 @@ gem "ffi", ">= 1.9.14", "!= 1.13.0"
 
 gem "ffi-yajl", "2.6.0"
 
+# Add train dependency from git CHEF-19255-inspec-bugcrowd-chef-privilege-escalation-vulnerability
+gem "train", git: "https://github.com/inspec/train.git", branch: "CHEF-19255-inspec-bugcrowd-chef-privilege-escalation-vulnerability"
+gem "train-core", git: "https://github.com/inspec/train.git", branch: "CHEF-19255-inspec-bugcrowd-chef-privilege-escalation-vulnerability"
+
 # This development group is installed by default when you run `bundle install`,
 # but if you are using Omnibus in a CI-based infrastructure, you do not need
 # the Test Kitchen-based build lab. You can skip these unnecessary dependencies
