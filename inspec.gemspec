@@ -47,6 +47,6 @@ Source code obtained from the Chef GitHub repository is made available under Apa
   spec.add_dependency "train-winrm",      "~> 0.2.17"
   spec.add_dependency "train-kubernetes", "~> 0.1"
 
-  spec.add_dependency "mongo", "= 2.13.2" # 2.14 introduces a broken symlink in mongo-2.14.0/spec/support/ocsp
+  spec.add_dependency "mongo", "= 2.21.2" # 2.14 introduces a broken symlink in mongo-2.14.0/spec/support/ocsp
 
 end
