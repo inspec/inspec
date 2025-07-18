@@ -1,10 +1,9 @@
 GIT
   remote: https://github.com/chef/omnibus-software.git
-  revision: b73725aa8ac70f7f52c9785e97b8d98ac90a1220
-  branch: poorndm/upgrade-ruby-3.1.7
+  revision: 6e8cf122cedadca0947e2702eb09aad48f4d96e0
+  branch: main
   specs:
     omnibus-software (24.6.324)
-      ffi (>= 1.17.0)
       omnibus (>= 9.0.0)
 
 GIT
@@ -196,8 +195,7 @@ GEM
       faraday (>= 1, < 3)
     faraday-net_http (3.3.0)
       net-http
-    ffi (1.17.0)
-    ffi (1.17.0-x64-mingw-ucrt)
+    ffi (1.17.2)
     ffi-libarchive (1.1.14)
       ffi (~> 1.0)
     ffi-win32-extensions (1.0.4)
@@ -245,7 +243,7 @@ GEM
     iso8601 (0.13.0)
     jmespath (1.6.2)
     json (2.10.2)
-    kitchen-vagrant (1.14.1)
+    kitchen-vagrant (2.0.1)
       test-kitchen (>= 1.4, < 4)
     libyajl2 (2.1.0)
     license-acceptance (2.1.13)
