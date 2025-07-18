@@ -54,5 +54,5 @@ Gem::Specification.new do |spec|
   # which was causing a LoadError ('cannot load such file -- ast') for users/applications using 'inspec-core'.
   spec.add_dependency "cookstyle"
 
-  spec.add_dependency "train-core", "~> 3.12.13" # Adding tight version constraint for train as it is compatible with Ruby 3.0.x
+  spec.add_dependency "train-core", ">= 3.12.13", "< 3.14.0" # Adding tight version constraint for train as it is compatible with Ruby 3.0.x
 end
