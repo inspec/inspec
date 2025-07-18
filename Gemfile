@@ -35,7 +35,7 @@ group :test do
   gem "json_schemer"
   gem "m"
   gem "minitest-sprint", "~> 1.0"
-  gem "minitest", "5.15.0"
+  gem "minitest", "5.25.5"
   gem "mocha"
   # Pinning this version as it breaking for ruby 3.1.0
   gem "nokogiri", "< 1.17.2"
