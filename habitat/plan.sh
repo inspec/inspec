@@ -1,5 +1,5 @@
-export HAB_BLDR_CHANNEL="LTS-2024"
-export HAB_REFRESH_CHANNEL="LTS-2024"
+#export HAB_BLDR_CHANNEL="LTS-2024"
+#export HAB_REFRESH_CHANNEL="LTS-2024"
 pkg_name=inspec
 pkg_origin=chef
 pkg_version=$(cat "$PLAN_CONTEXT/../VERSION")

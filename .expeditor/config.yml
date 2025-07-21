@@ -61,6 +61,17 @@ pipelines:
      - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
     trigger: pull_request
 
+ - artifact/habitat-lts-2024:
+     description: Build Habitat artifacts with LTS-2024
+     definition: .expeditor/artifact.habitat.yml
+     env:
+       - HAB_NONINTERACTIVE: "true"
+       - HAB_NOCOLORING: "true"
+       - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+       - HAB_REFRESH_CHANNEL: "LTS-2024"
+       - HAB_BLDR_CHANNEL: "LTS-2024"
+     trigger: pull_request
+
 schedules:
  - name: integration_schedule
    description: Periodic Integration Testing
