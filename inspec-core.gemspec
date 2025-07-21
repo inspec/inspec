@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "license-acceptance",       ">= 0.2.13", "< 3.0"
   # TODO: We should remove the thor pinning in next upcoming releases currently it's breaking our unit test in cli_args_test for aliases due to
   # recent changes made in thor library REF: https://github.com/rails/thor/releases/tag/v1.3.0 & https://github.com/rails/thor/pull/800
-  spec.add_dependency "thor",                     ">= 0.20", "< 1.3.0"
+  spec.add_dependency "thor",                     ">= 0.20", "< 1.5.0"
   spec.add_dependency "method_source",            ">= 0.8", "< 2.0"
   spec.add_dependency "rubyzip",                  ">= 1.2.2", "< 3.0"
   spec.add_dependency "rspec",                    ">= 3.9", "<= 3.12"
