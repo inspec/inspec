@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.88 -->
-## [v5.22.88](https://github.com/inspec/inspec/tree/v5.22.88) (2025-07-17)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- CHEF-23590-InSpec 5-Hab upgrade for Ruby for 3.1.7 [#7417](https://github.com/inspec/inspec/pull/7417) ([balasubramanian-s](https://github.com/balasubramanian-s))
-- Bump test-kitchen from 3.5.0 to 3.8.0 in /omnibus [#7413](https://github.com/inspec/inspec/pull/7413) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update Artifact test Profiles [#7443](https://github.com/inspec/inspec/pull/7443) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.80 -->
 ### Changes since 5.22.80 release
 
 #### Merged Pull Requests
+- Update Artifact test Profiles [#7443](https://github.com/inspec/inspec/pull/7443) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.88 -->
 - CHEF-23590-InSpec 5-Hab upgrade for Ruby for 3.1.7 [#7417](https://github.com/inspec/inspec/pull/7417) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.88 -->
 - Bump test-kitchen from 3.5.0 to 3.8.0 in /omnibus [#7413](https://github.com/inspec/inspec/pull/7413) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.87 -->
 - Fix for omnibus release windows build failure [#7424](https://github.com/inspec/inspec/pull/7424) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.87 -->
