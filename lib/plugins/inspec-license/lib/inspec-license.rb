@@ -3,13 +3,12 @@ module InspecPlugins
     class Plugin < ::Inspec.plugin(2)
       plugin_name :"inspec-license"
 
-      ## Disabled licensing commands
-      # if Inspec::Dist::EXEC_NAME == "inspec"
-      #   cli_command :license do
-      #     require_relative "inspec-license/cli"
-      #     InspecPlugins::License::CLI
-      #   end
-      # end
+      if Inspec::Dist::EXEC_NAME == "inspec"
+        cli_command :license do
+          require_relative "inspec-license/cli"
+          InspecPlugins::License::CLI
+        end
+      end
     end
   end
 end

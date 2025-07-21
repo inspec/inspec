@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.8.38 -->
-## [v6.8.38](https://github.com/inspec/inspec/tree/v6.8.38) (2025-06-10)
+<!-- latest_release 6.8.41 -->
+## [v6.8.41](https://github.com/inspec/inspec/tree/v6.8.41) (2025-07-15)
 
 #### Merged Pull Requests
-- Chef 22339 backport inspec 7 test changes to main [#7379](https://github.com/inspec/inspec/pull/7379) ([sathish-progress](https://github.com/sathish-progress))
+- forport #7424 [#7425](https://github.com/inspec/inspec/pull/7425) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,9 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- forport #7424 [#7425](https://github.com/inspec/inspec/pull/7425) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.8.41 -->
+- FOREPORT: Fixes for ci/hab package not found error [#7415](https://github.com/inspec/inspec/pull/7415) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 6.8.40 -->
+- Revert &quot;CHEF-21375 Disable licensing and telemetry from InSpec 6&quot; [#7409](https://github.com/inspec/inspec/pull/7409) ([Nik08](https://github.com/Nik08)) <!-- 6.8.39 -->
 - Chef 22339 backport inspec 7 test changes to main [#7379](https://github.com/inspec/inspec/pull/7379) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.8.38 -->
 - Foreport to InSpec 6: Waivers error handling fix  [#7343](https://github.com/inspec/inspec/pull/7343) ([Nik08](https://github.com/Nik08)) <!-- 6.8.37 -->
 - Issue with reading/writing signed and tar profiles [#7349](https://github.com/inspec/inspec/pull/7349) ([Nik08](https://github.com/Nik08)) <!-- 6.8.36 -->
