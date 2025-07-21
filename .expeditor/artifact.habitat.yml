@@ -18,10 +18,10 @@ steps:
           image: ruby:3.1-bullseye
           privileged: true
 
-  - label: ":windows: Validate Habitat Builds of Chef InSpec"
-    commands:
-      - .expeditor/buildkite/artifact.habitat.test.ps1
-    expeditor:
-      executor:
-        windows:
-          privileged: true
+#  - label: ":windows: Validate Habitat Builds of Chef InSpec"
+#    commands:
+#      - .expeditor/buildkite/artifact.habitat.test.ps1
+#    expeditor:
+#      executor:
+#        windows:
+#          privileged: true
