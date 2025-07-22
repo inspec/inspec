@@ -17,6 +17,8 @@ pipelines:
      - HAB_NONINTERACTIVE: "true"
      - HAB_NOCOLORING: "true"
      - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+     - HAB_REFRESH_CHANNEL: LTS-2024
+     - HAB_BLDR_CHANNEL: LTS-2024
  - docker/build
  - omnibus/release:
     env:
@@ -59,6 +61,9 @@ pipelines:
      - HAB_NONINTERACTIVE: "true"
      - HAB_NOCOLORING: "true"
      - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+     - HAB_REFRESH_CHANNEL: LTS-2024
+     - HAB_BLDR_CHANNEL: LTS-2024
+
     trigger: pull_request
 
 
