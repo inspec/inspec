@@ -53,13 +53,22 @@ pipelines:
 #     definition: .expeditor/integration.resources.yml
 #     trigger: pull_request
  - artifact/habitat:
-    description: Execute tests against the habitat artifact
+    description: Execute tests against the habitat artifact for Stable
     definition: .expeditor/artifact.habitat.yml
     env:
      - HAB_NONINTERACTIVE: "true"
      - HAB_NOCOLORING: "true"
      - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
     trigger: pull_request
+
+ - artifact/habitat/lts-2024:
+     description: Execute tests against the habitat artifact for LTS-2024
+     definition: .expeditor/artifact.habitat.lts.yml
+     env:
+       - HAB_NONINTERACTIVE: "true"
+       - HAB_NOCOLORING: "true"
+       - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+     trigger: pull_request
 
 schedules:
  - name: integration_schedule
