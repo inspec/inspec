@@ -13,9 +13,6 @@ on:
 permissions:
   contents: read
 
-env:
-  STUB_VERSION: "1.0.1"
-
 jobs:
   call-ci-main-pr-check-pipeline:
     uses: chef/common-github-actions/.github/workflows/ci-main-pull-request.yml@main
@@ -26,8 +23,10 @@ jobs:
     with:   
       visibility: ${{ github.event.repository.visibility }}
 
-      # Enable only TruffleHog scan
+      # Enabled features
       perform-trufflehog-scan: true
+      generate-sbom: true
+      export-github-sbom: true
 
       # All other features
       perform-complexity-checks: false
@@ -41,8 +40,6 @@ jobs:
       package-binaries: false
       habitat-build: false
       publish-packages: false
-      generate-sbom: true
-      export-github-sbom: true
       generate-blackduck-sbom: false
       generate-msft-sbom: false
       license_scout: false
