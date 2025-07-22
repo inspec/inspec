@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.8.41 -->
-## [v6.8.41](https://github.com/inspec/inspec/tree/v6.8.41) (2025-07-15)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- forport #7424 [#7425](https://github.com/inspec/inspec/pull/7425) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-21404 Enable CI for trufflelog scanning [#7399](https://github.com/inspec/inspec/pull/7399) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- CHEF-21404 Enable CI for trufflelog scanning [#7399](https://github.com/inspec/inspec/pull/7399) ([Nik08](https://github.com/Nik08)) <!-- 6.8.41 -->
 - forport #7424 [#7425](https://github.com/inspec/inspec/pull/7425) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.8.41 -->
 - FOREPORT: Fixes for ci/hab package not found error [#7415](https://github.com/inspec/inspec/pull/7415) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 6.8.40 -->
 - Revert &quot;CHEF-21375 Disable licensing and telemetry from InSpec 6&quot; [#7409](https://github.com/inspec/inspec/pull/7409) ([Nik08](https://github.com/Nik08)) <!-- 6.8.39 -->
