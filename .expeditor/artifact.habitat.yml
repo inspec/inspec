@@ -18,8 +18,6 @@ steps:
           image: ruby:3.1-bullseye
           privileged: true
           environment:
-            - HAB_STUDIO_SECRET_HAB_REFRESH_CHANNEL = "LTS-2024"
-            - HAB_STUDIO_SECRET_HAB_BLDR_CHANNEL = "LTS-2024"
             - HAB_REFRESH_CHANNEL = "LTS-2024"
             - HAB_BLDR_CHANNEL = "LTS-2024"
 
