@@ -1,0 +1,11 @@
+---
+origin: chef
+
+bldr_channel: LTS-2024
+
+expeditor:
+  defaults:
+    buildkite:
+      retry:
+        automatic:
+          limit: 1
