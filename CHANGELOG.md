@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Update rspec requirement from &gt;= 3.9, &lt;= 3.12 to &gt;= 3.9, &lt;= 3.14 [#7432](https://github.com/inspec/inspec/pull/7432) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Update rspec-its requirement from ~&gt; 1.2 to &gt;= 1.2, &lt; 3.0 [#7436](https://github.com/inspec/inspec/pull/7436) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Update Artifact test Profiles [#7443](https://github.com/inspec/inspec/pull/7443) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
@@ -12,6 +13,7 @@
 ### Changes since 5.22.80 release
 
 #### Merged Pull Requests
+- Update rspec requirement from &gt;= 3.9, &lt;= 3.12 to &gt;= 3.9, &lt;= 3.14 [#7432](https://github.com/inspec/inspec/pull/7432) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.88 -->
 - Update rspec-its requirement from ~&gt; 1.2 to &gt;= 1.2, &lt; 3.0 [#7436](https://github.com/inspec/inspec/pull/7436) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.88 -->
 - Update Artifact test Profiles [#7443](https://github.com/inspec/inspec/pull/7443) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.88 -->
 - CHEF-23590-InSpec 5-Hab upgrade for Ruby for 3.1.7 [#7417](https://github.com/inspec/inspec/pull/7417) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.88 -->
