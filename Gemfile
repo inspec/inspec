@@ -49,7 +49,7 @@ group :test do
   gem "signet", "< 0.20.0" # 0.20.0+ requires min ruby 3.1
   # Pinning to 1.15 as multi_json 1.16 require ruby 3.2 version
   # Ref: https://buildkite.com/chef-oss/inspec-inspec-inspec-5-verify/builds/647#019808ca-087b-43bc-b1f9-40a36f59c5f4
-  gem "multi_json", "~> 1.15.0"
+  gem "multi_json", "~> 1.17.0"
 end
 
 group :deploy do
