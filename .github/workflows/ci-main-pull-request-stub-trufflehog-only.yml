@@ -13,10 +13,6 @@ on:
 permissions:
   contents: read
 
-# Important to keep to enable pipelines - else pipelines are not triggered
-env:
-  STUB_VERSION: "1.0.1"
-
 jobs:
   call-ci-main-pr-check-pipeline:
     uses: chef/common-github-actions/.github/workflows/ci-main-pull-request.yml@main
