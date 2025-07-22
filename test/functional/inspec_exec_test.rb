@@ -501,7 +501,7 @@ describe "inspec exec" do
     let(:out) { inspec("exec " + File.join(profile_path, "unsupported_inspec") + " --no-create-lockfile") }
 
     it "does not support this profile" do
-      _(stderr).must_equal "This profile requires Chef InSpec version >= 99.0.0. You are running Chef InSpec v#{Inspec::VERSION}.\n"
+      _(stderr).must_equal "This profile requires Chef InSpec version >= 99.0.0. You are running Chef InSpec v#{Inspec::VERSION}."
 
       assert_exit_code 1, out
     end
@@ -703,7 +703,7 @@ describe "inspec exec" do
   describe "when trying to use --sudo with a local target" do
     it "must print an error and exit" do
       inspec("exec #{File.join(profile_path, "profile-support-skip")} --sudo")
-      str = "Sudo is only valid when running against a remote host. To run this locally with elevated privileges, run the command with `sudo ...`.\n"
+      str = "Sudo is only valid when running against a remote host. To run this locally with elevated privileges, run the command with `sudo ...`."
 
       _(stderr).must_include str
 
@@ -758,7 +758,7 @@ describe "inspec exec" do
     it "raises an exception when an invalid transport is given" do
       inspec("exec " + complete_profile + " -t winrm://administrator@dummy --password dummy --winrm-transport nonesuch")
 
-      _(stderr).must_include "Client error, can't connect to 'winrm' backend: Unsupported transport type: :nonesuch\n"
+      _(stderr).must_include "Client error, can't connect to 'winrm' backend: Unsupported transport type: :nonesuch"
 
       assert_exit_code 1, out
     end
@@ -1207,7 +1207,7 @@ describe "inspec exec" do
       let(:cloud_profile) { cloud_path + "test-azure" }
       let(:args) { "-t azure://" }
       it "should fail to connect to azure due to lack of creds but not stacktrace" do
-        _(run_result.stderr).must_include "Tenant id cannot be nil\n"
+        _(run_result.stderr).must_include "Tenant id cannot be nil"
       end
     end
 

@@ -27,7 +27,6 @@ module Inspec # TODO: move this somewhere "better"?
   autoload :Runner,        "inspec/runner"
   autoload :Shell,         "inspec/shell"
   autoload :SourceReader,  "inspec/source_reader"
-  autoload :Telemetry,     "inspec/utils/telemetry"
   autoload :V1,            "inspec/plugin/v1"
   autoload :V2,            "inspec/plugin/v2"
   autoload :VERSION,       "inspec/version"
