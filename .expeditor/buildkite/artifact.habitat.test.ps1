@@ -7,13 +7,14 @@ $PSDefaultParameterValues['*:ErrorAction']='Stop'
 $ErrorActionPreference = 'Stop'
 $env:CHEF_LICENSE = 'accept-no-persist'
 $env:HAB_LICENSE = 'accept-no-persist'
-$env:HAB_BLDR_CHANNEL = 'LTS-2024'
-$env:HAB_REFRESH_CHANNEL = 'LTS-2024'
 $Plan = 'inspec'
 
 Write-Host "--- system details"
 $Properties = 'Caption', 'CSName', 'Version', 'BuildType', 'OSArchitecture'
 Get-CimInstance Win32_OperatingSystem | Select-Object $Properties | Format-Table -AutoSize
+
+Write-Host "--- HAB environment variables"
+Get-ChildItem Env: | Where-Object { $_.Name -like "HAB_*" } | ForEach-Object { "$($_.Name)=$($_.Value)" }
 
 Write-Host "--- Installing the version of Habitat required"
 
