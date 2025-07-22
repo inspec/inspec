@@ -15,8 +15,8 @@ Write-Host "--- system details"
 $Properties = 'Caption', 'CSName', 'Version', 'BuildType', 'OSArchitecture'
 Get-CimInstance Win32_OperatingSystem | Select-Object $Properties | Format-Table -AutoSize
 
-Write-Host "--- HAB environment variables"
-Get-ChildItem Env:
+Write-Host "--- environment variables"
+Get-ChildItem Env: | ForEach-Object { "$($_.Name)=$($_.Value)" }
 
 Write-Host "--- Installing the version of Habitat required"
 
