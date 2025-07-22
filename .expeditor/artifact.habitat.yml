@@ -17,6 +17,8 @@ steps:
         docker:
           image: ruby:3.1-bullseye
           privileged: true
+    env:
+      INSPEC_HAB_LINUX_DEPS: "core/ruby31"
 
   - label: ":windows: Validate Habitat Builds of Chef InSpec for Stable Release"
     commands:

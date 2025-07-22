@@ -10,7 +10,7 @@ pkg_license=('Apache-2.0')
 pkg_deps=(
   core/coreutils
   core/git
-  core/ruby3_1
+#  core/ruby3_1
   core/bash
 )
 pkg_build_deps=(
@@ -20,6 +20,13 @@ pkg_build_deps=(
   core/sed
 )
 pkg_bin_dirs=(bin)
+
+# multiple space-separated dependencies via environment
+if [ -n "$INSPEC_HAB_LINUX_DEPS" ]; then
+  for dep in $INSPEC_HAB_LINUX_DEPS; do
+    pkg_deps+=("$dep")
+  done
+fi
 
 do_setup_environment() {
   build_line 'Setting GEM_HOME="$pkg_prefix/lib"'
@@ -80,7 +87,9 @@ export PATH="/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH
 export GEM_HOME="$GEM_HOME"
 export GEM_PATH="$GEM_PATH"
 
-exec $(pkg_path_for core/ruby3_1)/bin/ruby $real_bin \$@
+# Find the first Ruby package in pkg_deps (e.g., core/ruby3_1) to use its path dynamically
+ruby_pkg=$(echo "${pkg_deps[@]}" | tr ' ' '\n' | grep '^core/ruby' | head -n1)
+exec "$(pkg_path_for "$ruby_pkg")/bin/ruby" $real_bin "$@"
 EOF
   chmod -v 755 "$bin"
 }

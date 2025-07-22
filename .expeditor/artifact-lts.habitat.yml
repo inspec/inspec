@@ -20,6 +20,7 @@ steps:
     env:
       HAB_REFRESH_CHANNEL: "LTS-2024"
       HAB_BLDR_CHANNEL: "LTS-2024"
+      INSPEC_HAB_LINUX_DEPS: "core/ruby3_1"
 
   - label: ":windows: Validate Habitat Builds of Chef InSpec for LTS-2024 Release"
     commands:
