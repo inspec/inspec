@@ -21,10 +21,13 @@ steps:
             - HAB_REFRESH_CHANNEL=LTS-2024
             - HAB_BLDR_CHANNEL=LTS-2024
 
-#  - label: ":windows: Validate Habitat Builds of Chef InSpec"
-#    commands:
-#      - .expeditor/buildkite/artifact.habitat.test.ps1
-#    expeditor:
-#      executor:
-#        windows:
-#          privileged: true
+  - label: ":windows: Validate Habitat Builds of Chef InSpec"
+    commands:
+      - .expeditor/buildkite/artifact.habitat.test.ps1
+    expeditor:
+      executor:
+        windows:
+          privileged: true
+          environment:
+            - HAB_REFRESH_CHANNEL=LTS-2024
+            - HAB_BLDR_CHANNEL=LTS-2024
