@@ -33,10 +33,10 @@ export HAB_NONINTERACTIVE=true
 export HAB_NOCOLORING=true
 export HAB_STUDIO_SECRET_HAB_NONINTERACTIVE=true
 
-# export HAB env from machine
+echo "--- HAB environment variables"
 env | grep '^HAB_'
-[ -n "$HAB_BLDR_CHANNEL" ] && export HAB_BLDR_CHANNEL="$HAB_BLDR_CHANNEL"
-[ -n "$HAB_REFRESH_CHANNEL" ] && export HAB_REFRESH_CHANNEL="$HAB_REFRESH_CHANNEL"
+#[ -n "$HAB_BLDR_CHANNEL" ] && export HAB_BLDR_CHANNEL="$HAB_BLDR_CHANNEL"
+#[ -n "$HAB_REFRESH_CHANNEL" ] && export HAB_REFRESH_CHANNEL="$HAB_REFRESH_CHANNEL"
 
 
 echo "--- system details"
