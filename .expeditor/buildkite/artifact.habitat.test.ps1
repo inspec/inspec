@@ -15,6 +15,9 @@ Write-Host "--- system details"
 $Properties = 'Caption', 'CSName', 'Version', 'BuildType', 'OSArchitecture'
 Get-CimInstance Win32_OperatingSystem | Select-Object $Properties | Format-Table -AutoSize
 
+Write-Host "--- HAB environment variables"
+Get-ChildItem Env:
+
 Write-Host "--- Installing the version of Habitat required"
 
 function Stop-HabProcess {
@@ -83,8 +86,6 @@ else {
     Exit 1
 }
 
-Write-Host "--- HAB environment variables"
-Get-ChildItem Env: | Where-Object { $_.Name -like 'HAB_*' }
 
 Write-Host "--- Building $Plan"
 $project_root = "$(git rev-parse --show-toplevel)"
