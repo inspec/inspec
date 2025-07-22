@@ -83,6 +83,9 @@ else {
     Exit 1
 }
 
+Write-Host "--- HAB environment variables"
+Get-ChildItem Env: | Where-Object { $_.Name -like 'HAB_*' }
+
 Write-Host "--- Building $Plan"
 $project_root = "$(git rev-parse --show-toplevel)"
 Set-Location $project_root

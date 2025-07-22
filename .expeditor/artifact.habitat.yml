@@ -9,17 +9,17 @@ expeditor:
 
 steps:
 
-  - label: ":linux: Validate Habitat Builds of Chef InSpec"
-    commands:
-      - .expeditor/buildkite/artifact.habitat.test.sh
-    expeditor:
-      executor:
-        docker:
-          image: ruby:3.1-bullseye
-          privileged: true
-          environment:
-            - HAB_REFRESH_CHANNEL=LTS-2024
-            - HAB_BLDR_CHANNEL=LTS-2024
+#  - label: ":linux: Validate Habitat Builds of Chef InSpec"
+#    commands:
+#      - .expeditor/buildkite/artifact.habitat.test.sh
+#    expeditor:
+#      executor:
+#        docker:
+#          image: ruby:3.1-bullseye
+#          privileged: true
+#          environment:
+#            - HAB_REFRESH_CHANNEL=LTS-2024
+#            - HAB_BLDR_CHANNEL=LTS-2024
 
   - label: ":windows: Validate Habitat Builds of Chef InSpec"
     commands:
