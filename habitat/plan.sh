@@ -27,6 +27,7 @@ if [ -n "$INSPEC_HAB_LINUX_DEPS" ]; then
     pkg_deps+=("$dep")
   done
 fi
+echo "Updated pkg_deps: ${pkg_deps[@]}"
 
 do_setup_environment() {
   build_line 'Setting GEM_HOME="$pkg_prefix/lib"'
@@ -89,6 +90,7 @@ export GEM_PATH="$GEM_PATH"
 
 # Find the first Ruby package in pkg_deps (e.g., core/ruby3_1) to use its path dynamically
 ruby_pkg=$(echo "${pkg_deps[@]}" | tr ' ' '\n' | grep '^core/ruby' | head -n1)
+echo "Selected ruby_pkg: $ruby_pkg"
 exec "$(pkg_path_for "$ruby_pkg")/bin/ruby" $real_bin "$@"
 EOF
   chmod -v 755 "$bin"
