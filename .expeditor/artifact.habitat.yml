@@ -17,6 +17,9 @@ steps:
         docker:
           image: ruby:3.1-bullseye
           privileged: true
+        environment:
+          - HAB_REFRESH_CHANNEL = "LTS-2024"
+          - HAB_BLDR_CHANNEL = "LTS-2024"
 
 #  - label: ":windows: Validate Habitat Builds of Chef InSpec"
 #    commands:
