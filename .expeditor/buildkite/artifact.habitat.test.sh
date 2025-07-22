@@ -63,6 +63,11 @@ fi
 
 echo "--- Building $PLAN"
 cd "$project_root"
+if [ -n "$INSPEC_HAB_LINUX_DEPS" ]; then
+  for dep in $INSPEC_HAB_LINUX_DEPS; do
+    sed -i "/pkg_deps=(/a\  $dep" habitat/plan.sh
+  done
+fi
 DO_CHECK=true hab pkg build .
 
 echo "--- Sourcing 'results/last_build.sh'"
