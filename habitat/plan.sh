@@ -12,7 +12,7 @@ echo "Using Ruby package: $ruby_package"
 pkg_deps=(
   core/coreutils
   core/git
-  core/ruby3_1
+  $ruby_package
   core/bash
 )
 pkg_build_deps=(
