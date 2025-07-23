@@ -23,14 +23,6 @@ pkg_build_deps=(
 )
 pkg_bin_dirs=(bin)
 
-# multiple space-separated dependencies via environment
-if [ -n "$INSPEC_HAB_LINUX_DEPS" ]; then
-  for dep in $INSPEC_HAB_LINUX_DEPS; do
-    pkg_deps+=("$dep")
-  done
-fi
-echo "Updated pkg_deps: ${pkg_deps[@]}"
-
 do_setup_environment() {
   build_line 'Setting GEM_HOME="$pkg_prefix/lib"'
   export GEM_HOME="$pkg_prefix/lib"
