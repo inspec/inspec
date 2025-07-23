@@ -101,7 +101,7 @@ EOF
     end
   end
 
-  describe "checks socks5 cli paramaters" do
+  describe "checks socks5 cli parameters" do
     it "accepts socks_proxy option" do
       options = { "socks_proxy" => "socks5h://proxy-host:1080" }
       cli.send(:configure_logger, options)
