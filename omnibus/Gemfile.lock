@@ -1,18 +1,17 @@
 GIT
   remote: https://github.com/chef/omnibus-software.git
-  revision: 6961522234e884a9b2d68c42e65287afc7274a27
+  revision: e1c6a63b742826ed1fe97d769d6a181e9ba7c692
   branch: main
   specs:
-    omnibus-software (24.6.324)
-      ffi (>= 1.17.0)
+    omnibus-software (25.7.326)
       omnibus (>= 9.0.0)
 
 GIT
   remote: https://github.com/chef/omnibus.git
-  revision: 332bce59458ea6e4569f329955fe55bbf9834e2b
+  revision: c885825f1886cfe3d7a2e139e40de1f5b4b91374
   branch: main
   specs:
-    omnibus (9.0.25)
+    omnibus (9.1.0)
       aws-sdk-s3 (~> 1.116.0)
       chef-cleanroom (~> 1.0)
       chef-utils (>= 15.4)
@@ -196,8 +195,7 @@ GEM
       faraday (>= 1, < 3)
     faraday-net_http (3.3.0)
       net-http
-    ffi (1.17.0)
-    ffi (1.17.0-x64-mingw-ucrt)
+    ffi (1.17.2)
     ffi-libarchive (1.1.14)
       ffi (~> 1.0)
     ffi-win32-extensions (1.0.4)
@@ -245,7 +243,7 @@ GEM
     iso8601 (0.13.0)
     jmespath (1.6.2)
     json (2.10.2)
-    kitchen-vagrant (1.14.1)
+    kitchen-vagrant (2.0.1)
       test-kitchen (>= 1.4, < 4)
     libyajl2 (2.1.0)
     license-acceptance (2.1.13)
