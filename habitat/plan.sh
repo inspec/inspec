@@ -7,10 +7,12 @@ pkg_description="InSpec is an open-source testing framework for infrastructure
 pkg_upstream_url=https://www.inspec.io/
 pkg_maintainer="The Habitat Maintainers <humans@habitat.sh>"
 pkg_license=('Apache-2.0')
+ruby_package=$([ "$HAB_BLDR_CHANNEL" = "LTS-2024" ] && echo core/ruby3_1 || echo core/ruby31)
+echo "Using Ruby package: $ruby_package"
 pkg_deps=(
   core/coreutils
   core/git
-#  core/ruby3_1
+  $ruby_package
   core/bash
 )
 pkg_build_deps=(
@@ -88,10 +90,7 @@ export PATH="/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH
 export GEM_HOME="$GEM_HOME"
 export GEM_PATH="$GEM_PATH"
 
-# Find the first Ruby package in pkg_deps (e.g., core/ruby3_1) to use its path dynamically
-ruby_pkg=$(echo "${pkg_deps[@]}" | tr ' ' '\n' | grep '^core/ruby' | head -n1)
-echo "Selected ruby_pkg: $ruby_pkg"
-exec "$(pkg_path_for "$ruby_pkg")/bin/ruby" $real_bin "$@"
+exec "$(pkg_path_for "$ruby_package")/bin/ruby" $real_bin "$@"
 EOF
   chmod -v 755 "$bin"
 }
