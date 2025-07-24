@@ -1,20 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.89 -->
-## [v5.22.89](https://github.com/inspec/inspec/tree/v5.22.89) (2025-07-23)
+<!-- latest_release 5.22.90 -->
+## [v5.22.90](https://github.com/inspec/inspec/tree/v5.22.90) (2025-07-24)
 
 #### Merged Pull Requests
-- CHEF-23589 Upgrade omnibus with Ruby 3.1.7 [#7423](https://github.com/inspec/inspec/pull/7423) ([Nik08](https://github.com/Nik08))
-- Update thor requirement from &gt;= 0.20, &lt; 1.3.0 to &gt;= 0.20, &lt; 1.5.0 [#7442](https://github.com/inspec/inspec/pull/7442) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- Update rspec requirement from &gt;= 3.9, &lt;= 3.12 to &gt;= 3.9, &lt;= 3.14 [#7432](https://github.com/inspec/inspec/pull/7432) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- Update rspec-its requirement from ~&gt; 1.2 to &gt;= 1.2, &lt; 3.0 [#7436](https://github.com/inspec/inspec/pull/7436) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- Update Artifact test Profiles [#7443](https://github.com/inspec/inspec/pull/7443) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Revert &quot;CHEF-23961-InSpec 5-Hab upgrade for Ruby for 3.1.7&quot; [#7460](https://github.com/inspec/inspec/pull/7460) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.80 -->
 ### Changes since 5.22.80 release
 
 #### Merged Pull Requests
+- Revert &quot;CHEF-23961-InSpec 5-Hab upgrade for Ruby for 3.1.7&quot; [#7460](https://github.com/inspec/inspec/pull/7460) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.90 -->
 - CHEF-23589 Upgrade omnibus with Ruby 3.1.7 [#7423](https://github.com/inspec/inspec/pull/7423) ([Nik08](https://github.com/Nik08)) <!-- 5.22.89 -->
 - Update thor requirement from &gt;= 0.20, &lt; 1.3.0 to &gt;= 0.20, &lt; 1.5.0 [#7442](https://github.com/inspec/inspec/pull/7442) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.88 -->
 - Update rspec requirement from &gt;= 3.9, &lt;= 3.12 to &gt;= 3.9, &lt;= 3.14 [#7432](https://github.com/inspec/inspec/pull/7432) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.88 -->
