@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.90 -->
-## [v5.22.90](https://github.com/inspec/inspec/tree/v5.22.90) (2025-07-24)
+<!-- latest_release 5.22.91 -->
+## [v5.22.91](https://github.com/inspec/inspec/tree/v5.22.91) (2025-07-24)
 
 #### Merged Pull Requests
-- Revert &quot;CHEF-23961-InSpec 5-Hab upgrade for Ruby for 3.1.7&quot; [#7460](https://github.com/inspec/inspec/pull/7460) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Bump thor from 1.3.1 to 1.4.0 in /omnibus [#7461](https://github.com/inspec/inspec/pull/7461) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.80 -->
 ### Changes since 5.22.80 release
 
 #### Merged Pull Requests
+- Bump thor from 1.3.1 to 1.4.0 in /omnibus [#7461](https://github.com/inspec/inspec/pull/7461) ([Nik08](https://github.com/Nik08)) <!-- 5.22.91 -->
 - Revert &quot;CHEF-23961-InSpec 5-Hab upgrade for Ruby for 3.1.7&quot; [#7460](https://github.com/inspec/inspec/pull/7460) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.90 -->
 - CHEF-23589 Upgrade omnibus with Ruby 3.1.7 [#7423](https://github.com/inspec/inspec/pull/7423) ([Nik08](https://github.com/Nik08)) <!-- 5.22.89 -->
 - Update thor requirement from &gt;= 0.20, &lt; 1.3.0 to &gt;= 0.20, &lt; 1.5.0 [#7442](https://github.com/inspec/inspec/pull/7442) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.88 -->
