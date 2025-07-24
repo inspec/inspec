@@ -18,8 +18,8 @@ steps:
           image: ruby:3.1-bullseye
           privileged: true
     env:
-      HAB_REFRESH_CHANNEL: "stable"
-      HAB_BLDR_CHANNEL: "stable"
+      HAB_REFRESH_CHANNEL: "LTS-2024"
+      HAB_BLDR_CHANNEL: "LTS-2024"
 
   - label: ":windows: Validate Habitat Builds of Chef InSpec"
     commands:
@@ -29,5 +29,5 @@ steps:
         windows:
           privileged: true
     env:
-      HAB_REFRESH_CHANNEL: "stable"
-      HAB_BLDR_CHANNEL: "stable"
+      HAB_REFRESH_CHANNEL: "LTS-2024"
+      HAB_BLDR_CHANNEL: "LTS-2024"

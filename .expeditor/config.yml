@@ -13,10 +13,23 @@ rubygems:
 
 pipelines:
  - habitat/build:
+    description: Build Habitat packages for Chef InSpec for Stable Channel
+    definition: .expeditor/build.habitat.yml
     env:
      - HAB_NONINTERACTIVE: "true"
      - HAB_NOCOLORING: "true"
      - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+     - HAB_REFRESH_CHANNEL: "stable"
+     - HAB_BLDR_CHANNEL: "stable"
+ - habitat/build-lts:
+     description: Build Habitat packages for Chef InSpec for LTS Channel
+     definition: .expeditor/build.habitat.yml
+     env:
+       - HAB_NONINTERACTIVE: "true"
+       - HAB_NOCOLORING: "true"
+       - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+       - HAB_REFRESH_CHANNEL: "LTS-2024"
+       - HAB_BLDR_CHANNEL: "LTS-2024"
  - docker/build
  - omnibus/release:
     env:
@@ -53,13 +66,22 @@ pipelines:
 #     definition: .expeditor/integration.resources.yml
 #     trigger: pull_request
  - artifact/habitat:
-    description: Execute tests against the habitat artifact
+    description: Execute tests against the habitat artifact for Stable Channel
     definition: .expeditor/artifact.habitat.yml
     env:
      - HAB_NONINTERACTIVE: "true"
      - HAB_NOCOLORING: "true"
      - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
     trigger: pull_request
+#  Pipeline for testing the habitat artifact against LTS channels
+ - artifact/habitat-lts:
+     description: Execute tests against the habitat artifact for LTS Channel
+     definition: .expeditor/artifact-lts.habitat.yml
+     env:
+       - HAB_NONINTERACTIVE: "true"
+       - HAB_NOCOLORING: "true"
+       - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+     trigger: pull_request
 
 schedules:
  - name: integration_schedule
@@ -131,6 +153,11 @@ subscriptions:
         ignore_labels:
          - "Expeditor: Skip Habitat"
          - "Expeditor: Skip All"
+     - trigger_pipeline:artifact/habitat-lts:
+         only_if: built_in:bump_version
+         ignore_labels:
+           - "Expeditor: Skip Habitat"
+           - "Expeditor: Skip All"
      - trigger_pipeline:omnibus/release:
         only_if: built_in:bump_version
         ignore_labels:
@@ -141,6 +168,11 @@ subscriptions:
         ignore_labels:
          - "Expeditor: Skip Habitat"
          - "Expeditor: Skip All"
+     - trigger_pipeline:habitat/build-lts:
+         only_if: built_in:bump_version
+         ignore_labels:
+           - "Expeditor: Skip Habitat"
+           - "Expeditor: Skip All"
      - built_in:build_gem:
         only_if:
          - built_in:bump_version
