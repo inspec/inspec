@@ -56,8 +56,8 @@ jobs:
           hab origin key download $HAB_ORIGIN
           hab origin key download --auth $HAB_AUTH_TOKEN --secret $HAB_ORIGIN
           echo "--- running linux hab build"
-          export HAB_REFRESH_CHANNEL: "LTS-2024"
-          export HAB_BLDR_CHANNEL: "LTS-2024"
+          export HAB_REFRESH_CHANNEL="LTS-2024"
+          export HAB_BLDR_CHANNEL="LTS-2024"
           hab pkg build .
 
 
