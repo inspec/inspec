@@ -59,6 +59,10 @@ jobs:
           export HAB_REFRESH_CHANNEL="LTS-2024"
           export HAB_BLDR_CHANNEL="LTS-2024"
           hab pkg build .
+          echo "--- pushing to ${{ env.BLDR_URL }}/#/${{ env.HAB_ORIGIN }}/${{ env.HAB_PACKAGE }}..."
+          source results/last_build.env
+          hab pkg upload --auth $HAB_AUTH_TOKEN results/$pkg_artifact
+          echo "--- push complete!!"          
 
 
       - name: Install Habitat on Windows
