@@ -1,5 +1,4 @@
-#todo
-
+#todo how to figure out the queues for this
 write-output "-- building inspec linux x86_64 hab package"
 
 hab license accept
