@@ -60,7 +60,6 @@ pipelines:
      - HAB_NOCOLORING: "true"
      - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
     trigger: pull_request
-    
 schedules:
  - name: integration_schedule
    description: Periodic Integration Testing
@@ -143,10 +142,7 @@ subscriptions:
          - "Expeditor: Skip All"
      - built_in:build_gem:
         only_if:
-         - built_in:bump_version
-        ignore_labels:
-         - "Expeditor: Skip Habitat"
-         - "Expeditor: Skip All"             
+         - built_in:bump_version            
   - workload: artifact_published:unstable:inspec:{{version_constraint}}
     actions:
      - trigger_pipeline:docker/build
