@@ -60,6 +60,14 @@ pipelines:
      - HAB_NOCOLORING: "true"
      - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
     trigger: pull_request
+ - hab-lts:
+    description: Build Habitat packages for Chef InSpec for LTS Channel
+    definition: .expeditor/hab-lts.yml 
+    env:
+     - HAB_NONINTERACTIVE: "true"
+     - HAB_NOCOLORING: "true"
+     - HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+    trigger: pull_request           
 
 schedules:
  - name: integration_schedule
@@ -141,9 +149,15 @@ subscriptions:
         ignore_labels:
          - "Expeditor: Skip Habitat"
          - "Expeditor: Skip All"
+     - trigger_pipeline:hab-lts:
      - built_in:build_gem:
         only_if:
          - built_in:bump_version
+     - trigger_pipeline:hab-lts:
+        only_if: built_in:bump_version
+        ignore_labels:
+         - "Expeditor: Skip Habitat"
+         - "Expeditor: Skip All"             
   - workload: artifact_published:unstable:inspec:{{version_constraint}}
     actions:
      - trigger_pipeline:docker/build
