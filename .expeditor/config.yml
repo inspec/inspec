@@ -149,7 +149,6 @@ subscriptions:
         ignore_labels:
          - "Expeditor: Skip Habitat"
          - "Expeditor: Skip All"
-     - trigger_pipeline:hab-lts:
      - built_in:build_gem:
         only_if:
          - built_in:bump_version
