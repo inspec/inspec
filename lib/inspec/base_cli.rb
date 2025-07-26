@@ -38,7 +38,8 @@ module Inspec
     # EULA acceptance
     def self.check_license!
       allowed_commands = ["-h", "--help", "help", "-v", "--version", "version"]
-
+      # temporary fix
+      Kernel.require "pastel"
       require "license_acceptance/acceptor"
       begin
         if (allowed_commands & ARGV.map(&:downcase)).empty? && # Did they use a non-exempt command?
