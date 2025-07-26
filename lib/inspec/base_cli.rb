@@ -38,7 +38,8 @@ module Inspec
     # EULA acceptance
     def self.check_license!
       allowed_commands = ["-h", "--help", "help", "-v", "--version", "version"]
-
+      # temporary fix
+      Kernel.require "pastel"
       require "license_acceptance/acceptor"
       begin
         if (allowed_commands & ARGV.map(&:downcase)).empty? && # Did they use a non-exempt command?
@@ -140,6 +141,16 @@ module Inspec
         desc: "A list of paths to the ssh config file, e.g ~/.ssh/config or /etc/ssh/ssh_config."
       option :podman_url, type: :string,
         desc: "Provides the path to the Podman API endpoint. Defaults to unix:///run/user/$UID/podman/podman.sock for rootless container, unix:///run/podman/podman.sock for rootful container (for this you need to execute inspec as root user)."
+      option :socks_proxy, type: :string,
+         desc: "SOCKS5H proxy URL to tunnel the WinRM connection (e.g., socks5h://proxy-host:1080)."
+      option :socks_user, type: :string,
+         desc: "Username for authenticating with the SOCKS5 proxy."
+      option :socks_password, type: :string, lazy_default: -1,
+         desc: "Password for authenticating with the SOCKS5 proxy."
+      option :kerberos_realm, type: :string,
+         desc: "Kerberos realm used for authentication."
+      option :kerberos_service, type: :string,
+         desc: "Kerberos service principal name (e.g., HTTP, HOST)."
     end
 
     def self.profile_options
