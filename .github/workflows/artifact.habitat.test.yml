@@ -12,6 +12,7 @@ env:
   HABITAT_VERSION_SET: 'latest'
   CHEF_LICENSE: "accept-no-persist"
   HAB_LICENSE: "accept-no-persist"
+  HAB_NONINTERACTIVE: "true"
   # org-wide access token on https://github.com/organizations/progress-platform-services/settings/secrets/actions
 
 permissions:
