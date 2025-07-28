@@ -10,8 +10,8 @@ env:
   HAB_ORIGIN: 'chef'
   HAB_AUTH_TOKEN: ${{ secrets.HAB_AUTH_TOKEN }}
   HABITAT_VERSION_SET: 'latest'
-  CHEF_LICENSE: "accept-no-persist"
-  HAB_LICENSE: "accept-no-persist"
+  CHEF_LICENSE: "accept"
+  HAB_LICENSE: "accept"
   HAB_NONINTERACTIVE: "true"
   # org-wide access token on https://github.com/organizations/progress-platform-services/settings/secrets/actions
 
@@ -65,8 +65,8 @@ jobs:
       - name: Install habitat packaging (linux)
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
-          export CHEF_LICENSE="accept-no-persist"
-          export HAB_LICENSE="accept-no-persist"
+          export CHEF_LICENSE="accept"
+          export HAB_LICENSE="accept"
           export HAB_NONINTERACTIVE="true"
           echo "--- Accepting Habitat license"
           hab license accept
