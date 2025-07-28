@@ -1,13 +1,13 @@
-name: Testing LTS 2024 Habitat packages
-      
+name: Artifact Testing LTS 2024 Habitat packages
+
 on:
   pull_request:
     branches:
       - inspec-5
-      
+
 env:
   BLDR_URL: 'https://bldr.habitat.sh/'
-  HAB_ORIGIN: 'chef-private'
+  HAB_ORIGIN: 'ci'
   HAB_AUTH_TOKEN: ${{ secrets.HAB_AUTH_TOKEN }}
   HABITAT_VERSION_SET: 'latest'
   # org-wide access token on https://github.com/organizations/progress-platform-services/settings/secrets/actions
@@ -35,32 +35,89 @@ jobs:
         with:
           fetch-depth: 0
 
-
-      - name: install habitat on Linux
+      - name: Install habitat on Linux
         if: ${{ matrix.os == 'ubuntu-latest' }}
         shell: bash
         run: |
-          echo "--- STARTING HAB INSTALL ON  ${{ matrix.os }} UBUNTU with habitat version:${{vars.HABITAT_VERSION_SET}}"
-          export HABITAT_VERSION="${{vars.HABITAT_VERSION_SET}}"
+          echo "--- STARTING HAB INSTALL ON  ${{ matrix.os }} UBUNTU with habitat version:${{ vars.HABITAT_VERSION_SET }}"
+          export HABITAT_VERSION="${{ vars.HABITAT_VERSION_SET }}"
           HABITAT_VERSION="${HABITAT_VERSION:?HABITAT_VERSION must be set}"
           HABITAT_TARGET="${HABITAT_TARGET:-x86_64-linux}"
           curl https://raw.githubusercontent.com/habitat-sh/habitat/master/components/hab/install.sh | sudo bash -s -- -v "$HABITAT_VERSION" -t "$HABITAT_TARGET"
-      - name: test Habitat packaging (linux)
+
+      - name: Build Habitat package (linux)
         if: ${{ matrix.os == 'ubuntu-latest' }}
         shell: bash
         run: |
-          ./expeditor/buildkite/artifact.habitat.test.sh
+          hab license accept
+          hab origin key download $HAB_ORIGIN
+          hab origin key download --auth $HAB_AUTH_TOKEN --secret $HAB_ORIGIN
+          export HAB_REFRESH_CHANNEL="LTS-2024"
+          export HAB_BLDR_CHANNEL="LTS-2024"
+          hab pkg build .
 
+      - name: Sourcing from Last Results
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        shell: bash
+        run: |
+          echo "--- Sourcing 'results/last_build.sh'"
+          if [ -f ./results/last_build.env ]; then
+          cat ./results/last_build.env
+          . ./results/last_build.env
+          export pkg_artifact
+          else
+          echo "Missing last_build.env"
+          exit 1
+          fi
+
+      - name: Install Habitat packaging (linux)
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        shell: bash
+        run: |
+          hab pkg install -b "${GITHUB_WORKSPACE:?is undefined}/results/${pkg_artifact:?is undefined}"
+          sudo chmod go-w /usr/local/bundle || echo "Warning: /usr/local/bundle not found"
+          export PATH="$(hab pkg path ci/inspec)/bin:$PATH"
+          echo "PATH is $PATH"
+
+      - name: Run artifact tests(linux)
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        shell: bash
+        run: |
+          pushd "$PWD/test/artifact"
+          rake
 
       - name: Install Habitat on Windows
         if: ${{ matrix.os == 'windows-latest' }}
         shell: pwsh
         run: |
-          write-output "--- STARTING HAB INSTALL ON ${{ matrix.os }} WINDOWS with habitat version:${{vars.HABITAT_VERSION_SET}}"
+          write-output "--- STARTING HAB INSTALL ON ${{ matrix.os }} WINDOWS with habitat version:${{ vars.HABITAT_VERSION_SET }}"
           $env:HAB_LICENSE = "accept-no-persist"
-          Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1) } -Version ${{vars.HABITAT_VERSION_SET}}"
-      - name: test Habitat packaging (windows)
+          Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1) } -Version ${{ vars.HABITAT_VERSION_SET }}"
+
+      - name: Run habitat packaging windows
         if: ${{ matrix.os == 'windows-latest' }}
         shell: pwsh
         run: |
-          ./expeditor/buildkite/artifact.habitat.test.ps1          
+          $env:Path += ";C:\ProgramData\Habitat"
+          hab license accept
+          hab origin key download ${{ env.HAB_ORIGIN }}
+          hab origin key download --auth ${{ secrets.HAB_AUTH_TOKEN }} --secret ${{ env.HAB_ORIGIN }}
+          $env:HAB_REFRESH_CHANNEL = "LTS-2024"
+          $env:HAB_BLDR_CHANNEL = "LTS-2024"
+          write-output "--- running windows hab build"
+          hab pkg build .
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "Package build failed."
+            exit 1
+          }
+
+          # Source the last_build.ps1 (sets $pkg_ident and $pkg_artifact)
+          try {
+            . "$env:GITHUB_WORKSPACE/results/last_build.ps1"
+          } catch {
+            Write-Host "Error running last_build.ps1: $_"
+            exit 1
+          }
+
+          Write-Host "--- Installing $pkg_ident/$pkg_artifact"
+          hab pkg install -b "$env:GITHUB_WORKSPACE/results/$pkg_artifact"

@@ -1,10 +1,13 @@
-name: Build Habitat packages
+name: Build Habitat packages from inspec-5 branch and push to specified channel
       
 on:
-  pull_request:
-    branches:
-      - inspec-5
-      
+  workflow_dispatch:
+    inputs:
+      habitat_channel:
+        description: 'Habitat channel to build and push to'
+        required: true
+        default: 'LTS-2024'
+
 env:
   BLDR_URL: 'https://bldr.habitat.sh/'
   HAB_ORIGIN: 'chef-private'
@@ -34,6 +37,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: inspec-5
 
 
       - name: install habitat on Linux
@@ -53,8 +57,8 @@ jobs:
           hab origin key download $HAB_ORIGIN
           hab origin key download --auth $HAB_AUTH_TOKEN --secret $HAB_ORIGIN
           echo "--- running linux hab build"
-          export HAB_REFRESH_CHANNEL="LTS-2024"
-          export HAB_BLDR_CHANNEL="LTS-2024"
+          export HAB_REFRESH_CHANNEL=${{ inputs.habitat_channel }}
+          export HAB_BLDR_CHANNEL=${{ inputs.habitat_channel }}
           hab pkg build .
         #   echo "--- pushing to ${{ env.BLDR_URL }}/#/${{ env.HAB_ORIGIN }}/${{ env.HAB_PACKAGE }}..."
         #   source results/last_build.env
@@ -77,7 +81,7 @@ jobs:
           hab license accept
           hab origin key download ${{ env.HAB_ORIGIN }}
           hab origin key download --auth ${{ secrets.HAB_AUTH_TOKEN }} --secret ${{ env.HAB_ORIGIN }}
-          $env:HAB_REFRESH_CHANNEL = "LTS-2024"
-          $env:HAB_BLDR_CHANNEL = "LTS-2024"
+          $env:HAB_REFRESH_CHANNEL = ${{ inputs.habitat_channel }}
+          $env:HAB_BLDR_CHANNEL = ${{ inputs.habitat_channel }}
           write-output "--- running windows hab build"
           hab pkg build .
