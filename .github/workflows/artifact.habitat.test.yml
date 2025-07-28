@@ -10,8 +10,8 @@ env:
   HAB_ORIGIN: 'chef'
   HAB_AUTH_TOKEN: ${{ secrets.HAB_AUTH_TOKEN }}
   HABITAT_VERSION_SET: 'latest'
-  CHEF_LICENSE: "accept"
-  HAB_LICENSE: "accept"
+  CHEF_LICENSE: "accept-no-persist"
+  HAB_LICENSE: "accept-no-persist"
   HAB_NONINTERACTIVE: "true"
   # org-wide access token on https://github.com/organizations/progress-platform-services/settings/secrets/actions
 
@@ -65,15 +65,12 @@ jobs:
       - name: Install habitat packaging (linux)
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
-          export CHEF_LICENSE="accept"
-          export HAB_LICENSE="accept"
-          export HAB_NONINTERACTIVE="true"
-          echo "--- Accepting Habitat license"
-          hab license accept
           echo "--- Sourcing 'results/last_build.sh'"
           source results/last_build.env
+          echo "--- Accepting Habitat license"
+          sudo hab license accept
           echo "--- Installing  ${pkg_ident:?is undefined}"
-          sudo hab pkg install -b results/$pkg_artifact -z $HAB_AUTH_TOKEN
+          sudo hab pkg install -b results/$pkg_artifact
           export PATH="$(hab pkg path chef/inspec)/bin:$PATH"
           echo "PATH is $PATH"
 
