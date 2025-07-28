@@ -52,6 +52,9 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest' }}
         shell: bash
         run: |
+          export CHEF_LICENSE=${CHEF_LICENSE}
+          export HAB_LICENSE=${HAB_LICENSE}
+          export HAB_NONINTERACTIVE=${HAB_NONINTERACTIVE}
           hab license accept
           hab origin key download $HAB_ORIGIN
           hab origin key download --auth $HAB_AUTH_TOKEN --secret $HAB_ORIGIN
