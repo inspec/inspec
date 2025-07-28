@@ -7,7 +7,7 @@ on:
 
 env:
   BLDR_URL: 'https://bldr.habitat.sh/'
-  HAB_ORIGIN: 'ci'
+  HAB_ORIGIN: 'chef'
   HAB_AUTH_TOKEN: ${{ secrets.HAB_AUTH_TOKEN }}
   HABITAT_VERSION_SET: 'latest'
   # org-wide access token on https://github.com/organizations/progress-platform-services/settings/secrets/actions
