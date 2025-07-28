@@ -63,7 +63,7 @@ jobs:
           echo "--- Sourcing 'results/last_build.sh'"
           source results/last_build.env
           echo "--- Installing  ${pkg_ident:?is undefined}"
-          hab pkg install -b results/$pkg_artifact
+          sudo hab pkg install -b results/$pkg_artifact
           export PATH="$(hab pkg path chef/inspec)/bin:$PATH"
           echo "PATH is $PATH"
 
