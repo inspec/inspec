@@ -56,7 +56,7 @@ jobs:
           export HAB_BLDR_CHANNEL="LTS-2024"
           hab pkg build .
 
-      - name: Sourcing from Last Results
+      - name: Install Habitat package (linux)
         if: ${{ matrix.os == 'ubuntu-latest' }}
         shell: bash
         run: |
@@ -69,14 +69,10 @@ jobs:
           echo "Missing last_build.env"
           exit 1
           fi
-
-      - name: Install Habitat packaging (linux)
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        shell: bash
-        run: |
+          echo "--- Installing  ${pkg_ident:?is undefined}"
           hab pkg install -b "${GITHUB_WORKSPACE:?is undefined}/results/${pkg_artifact:?is undefined}"
           sudo chmod go-w /usr/local/bundle || echo "Warning: /usr/local/bundle not found"
-          export PATH="$(hab pkg path ci/inspec)/bin:$PATH"
+          export PATH="$(hab pkg path chef/inspec)/bin:$PATH"
           echo "PATH is $PATH"
 
       - name: Run artifact tests(linux)
