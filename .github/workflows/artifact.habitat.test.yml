@@ -61,17 +61,9 @@ jobs:
         shell: bash
         run: |
           echo "--- Sourcing 'results/last_build.sh'"
-          if [ -f ./results/last_build.env ]; then
-          cat ./results/last_build.env
-          . ./results/last_build.env
-          export pkg_artifact
-          else
-          echo "Missing last_build.env"
-          exit 1
-          fi
+          source results/last_build.env
           echo "--- Installing  ${pkg_ident:?is undefined}"
-          hab pkg install -b "${GITHUB_WORKSPACE:?is undefined}/results/${pkg_artifact:?is undefined}"
-          sudo chmod go-w /usr/local/bundle || echo "Warning: /usr/local/bundle not found"
+          hab pkg install -b results/$pkg_artifact
           export PATH="$(hab pkg path chef/inspec)/bin:$PATH"
           echo "PATH is $PATH"
 
@@ -102,18 +94,7 @@ jobs:
           $env:HAB_BLDR_CHANNEL = "LTS-2024"
           write-output "--- running windows hab build"
           hab pkg build .
-          if ($LASTEXITCODE -ne 0) {
-            Write-Host "Package build failed."
-            exit 1
-          }
-
-          # Source the last_build.ps1 (sets $pkg_ident and $pkg_artifact)
-          try {
-            . "$env:GITHUB_WORKSPACE/results/last_build.ps1"
-          } catch {
-            Write-Host "Error running last_build.ps1: $_"
-            exit 1
-          }
-
+          Write-Host "--- Source the last_build.ps1"
+          . results\last_build.ps1
           Write-Host "--- Installing $pkg_ident/$pkg_artifact"
-          hab pkg install -b "$env:GITHUB_WORKSPACE/results/$pkg_artifact"
+          hab pkg install -b results\$pkg_artifact

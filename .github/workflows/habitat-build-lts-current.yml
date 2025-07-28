@@ -1,4 +1,4 @@
-name: Build Habitat packages and push to LTS 2024
+name: Build Habitat packages and push to LTS 2024-Current
       
 on:
   push:
@@ -61,7 +61,6 @@ jobs:
           hab pkg upload --auth $HAB_AUTH_TOKEN results/$pkg_artifact --channel LTS-2024-current
           echo "--- push complete!!"          
 
-
       - name: Install Habitat on Windows
         if: ${{ matrix.os == 'windows-latest' }}
         shell: pwsh
@@ -81,8 +80,8 @@ jobs:
           $env:HAB_BLDR_CHANNEL = "LTS-2024"
           write-output "--- running windows hab build"
           hab pkg build .
-          write-output "--- pushing hab to unstable channel"
+          write-output "--- pushing hab to current channel"
           . results\last_build.ps1
-          hab pkg upload results\$pkg_artifact --auth ${{ secrets.HAB_AUTH_TOKEN }} --channel LTS-2024
+          hab pkg upload results\$pkg_artifact --auth ${{ secrets.HAB_AUTH_TOKEN }} --channel LTS-2024-current
           write-output "--- push complete!!"
                      
