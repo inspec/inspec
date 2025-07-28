@@ -48,7 +48,7 @@ jobs:
           HABITAT_TARGET="${HABITAT_TARGET:-x86_64-linux}"
           curl https://raw.githubusercontent.com/habitat-sh/habitat/master/components/hab/install.sh | sudo bash -s -- -v "$HABITAT_VERSION" -t "$HABITAT_TARGET"
 
-      - name: Build and Install Habitat package (linux)
+      - name: Build Habitat package (linux)
         if: ${{ matrix.os == 'ubuntu-latest' }}
         shell: bash
         run: |
@@ -61,6 +61,15 @@ jobs:
           export HAB_REFRESH_CHANNEL="LTS-2024"
           export HAB_BLDR_CHANNEL="LTS-2024"
           hab pkg build .
+
+      - name: Install habitat packaging (linux)
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: |
+          export CHEF_LICENSE="accept-no-persist"
+          export HAB_LICENSE="accept-no-persist"
+          export HAB_NONINTERACTIVE="true"
+          echo "--- Accepting Habitat license"
+          hab license accept
           echo "--- Sourcing 'results/last_build.sh'"
           source results/last_build.env
           echo "--- Installing  ${pkg_ident:?is undefined}"
