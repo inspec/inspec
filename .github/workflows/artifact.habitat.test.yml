@@ -73,4 +73,5 @@ jobs:
           hab pkg install -b results\$pkg_artifact
           $env:Path += ";$(hab pkg path chef/inspec)/bin;$(hab pkg path chef/ruby31-plus-devkit)/bin;$(hab pkg path core/git)/bin"
           Push-Location test/artifact
-          rake
+          hab pkg exec chef/ruby31-plus-devkit rake -f Rakefile
+          Pop-Location
