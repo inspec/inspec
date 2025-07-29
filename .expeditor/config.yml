@@ -164,6 +164,11 @@ subscriptions:
      - built_in:create_github_release
      - built_in:promote_docker_images
      - built_in:promote_habitat_packages
+     - trigger_github_actions:
+        workflow: promote-hab-packages.yml
+        inputs:
+          source_channel: "LTS-2024-current"
+          target_channel: "LTS-2024"
      - bash:.expeditor/publish-release-notes.sh:
         post_commit: true
      - purge_packages_chef_io_fastly:{{target_channel}}/inspec/latest:
