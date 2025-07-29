@@ -1,4 +1,4 @@
-name: Artifact Testing LTS 2024 Habitat packages
+name: Test LTS-2024 Habitat Package Artifacts on PR
 
 on:
   pull_request:
@@ -13,7 +13,6 @@ env:
   CHEF_LICENSE: "accept-no-persist"
   HAB_LICENSE: "accept-no-persist"
   HAB_NONINTERACTIVE: "true"
-  # org-wide access token on https://github.com/organizations/progress-platform-services/settings/secrets/actions
 
 permissions:
   contents: write
@@ -24,82 +23,51 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-      # matrix strategy is described at https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs
 
     runs-on: ${{ matrix.os }}
-    # free runner types are https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
-    # from macos-latest, windows-latest, ubuntu-latest, ubuntu-20.04, ubuntu-18.04, ubuntu-16.04, windows-2019, windows-2016
-    # included software packages on runners are at https://github.com/actions/runner-images#available-images 
     steps:
-      - name: print OS
+      - name: Print OS
         run: echo "--- ${{ matrix.os }}"
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Install habitat on Linux
+      - name: Install, Build, and Test Habitat Package (Linux)
         if: ${{ matrix.os == 'ubuntu-latest' }}
         shell: bash
+        env:
+          HAB_REFRESH_CHANNEL: "LTS-2024"
+          HAB_BLDR_CHANNEL: "LTS-2024"
         run: |
-          echo "--- STARTING HAB INSTALL ON  ${{ matrix.os }} UBUNTU with habitat version:${{ env.HABITAT_VERSION_SET }}"
-          HABITAT_VERSION="${{ env.HABITAT_VERSION_SET }}"
-          HABITAT_VERSION="${HABITAT_VERSION:?HABITAT_VERSION must be set}"
-          HABITAT_TARGET="${HABITAT_TARGET:-x86_64-linux}"
-          curl https://raw.githubusercontent.com/habitat-sh/habitat/master/components/hab/install.sh | sudo bash -s -- -v "$HABITAT_VERSION" -t "$HABITAT_TARGET"
-
-      - name: Build Habitat package (linux)
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        shell: bash
-        run: |
+          echo "--- Installing Habitat on Linux with version: $HABITAT_VERSION_SET"
+          curl https://raw.githubusercontent.com/habitat-sh/habitat/master/components/hab/install.sh | sudo bash -s -- -v "$HABITAT_VERSION_SET" -t "x86_64-linux"
           hab license accept
           hab origin key download $HAB_ORIGIN
           hab origin key download --auth $HAB_AUTH_TOKEN --secret $HAB_ORIGIN
-          export HAB_REFRESH_CHANNEL="LTS-2024"
-          export HAB_BLDR_CHANNEL="LTS-2024"
           hab pkg build .
-
-      - name: Install habitat packaging (linux)
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        shell: bash
-        run: |
-          echo "--- Sourcing 'results/last_build.sh'"
           source results/last_build.env
-          echo "--- Accepting Habitat license"
           sudo hab license accept
-          echo "--- Installing  ${pkg_ident:?is undefined}"
           sudo hab pkg install -b results/$pkg_artifact
           export PATH="$(hab pkg path chef/inspec)/bin:$PATH"
-          echo "PATH is $PATH"
-
-      - name: Run artifact tests(linux)
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        shell: bash
-        run: |
           pushd "$PWD/test/artifact"
           rake
 
-      - name: Install Habitat on Windows
+      - name: Install, Build, and Test Habitat Package (Windows)
         if: ${{ matrix.os == 'windows-latest' }}
         shell: pwsh
+        env:
+          HAB_REFRESH_CHANNEL: "LTS-2024"
+          HAB_BLDR_CHANNEL: "LTS-2024"
         run: |
-          write-output "--- STARTING HAB INSTALL ON ${{ matrix.os }} WINDOWS with habitat version:${{ env.HABITAT_VERSION_SET }}"
+          Write-Output "--- Installing Habitat on Windows with version: $env:HABITAT_VERSION_SET"
           $env:HAB_LICENSE = "accept-no-persist"
-          Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1) } -Version ${{ env.HABITAT_VERSION_SET }}"
-
-      - name: Run habitat packaging windows
-        if: ${{ matrix.os == 'windows-latest' }}
-        shell: pwsh
-        run: |
+          Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1) } -Version $env:HABITAT_VERSION_SET"
           $env:Path += ";C:\ProgramData\Habitat"
           hab license accept
-          hab origin key download ${{ env.HAB_ORIGIN }}
-          hab origin key download --auth ${{ secrets.HAB_AUTH_TOKEN }} --secret ${{ env.HAB_ORIGIN }}
-          $env:HAB_REFRESH_CHANNEL = "LTS-2024"
-          $env:HAB_BLDR_CHANNEL = "LTS-2024"
-          write-output "--- running windows hab build"
+          hab origin key download $env:HAB_ORIGIN
+          hab origin key download --auth $env:HAB_AUTH_TOKEN --secret $env:HAB_ORIGIN
           hab pkg build .
-          Write-Host "--- Source the last_build.ps1"
           . results\last_build.ps1
-          Write-Host "--- Installing $pkg_ident/$pkg_artifact"
           hab pkg install -b results\$pkg_artifact

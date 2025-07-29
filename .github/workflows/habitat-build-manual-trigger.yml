@@ -1,4 +1,4 @@
-name: Build Habitat packages from inspec-5 branch and push to specified channel
+name: Manually Build and Publish Habitat Packages to Custom Channel
 
 on:
   workflow_dispatch:
@@ -16,7 +16,6 @@ env:
   CHEF_LICENSE: "accept-no-persist"
   HAB_LICENSE: "accept-no-persist"
   HAB_NONINTERACTIVE: "true"
-  # org-wide access token on https://github.com/organizations/progress-platform-services/settings/secrets/actions
 
 permissions:
   contents: write
@@ -27,68 +26,50 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-      # matrix strategy is described at https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs
 
     runs-on: ${{ matrix.os }}
-    # free runner types are https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners
-    # from macos-latest, windows-latest, ubuntu-latest, ubuntu-20.04, ubuntu-18.04, ubuntu-16.04, windows-2019, windows-2016
-    # included software packages on runners are at https://github.com/actions/runner-images#available-images 
     steps:
-      - name: print OS
+      - name: Print OS
         run: echo "--- ${{ matrix.os }}"
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: inspec-5
 
-
-      - name: Install habitat on Linux
+      - name: Install, Build, and Upload Habitat Package (Linux)
         if: ${{ matrix.os == 'ubuntu-latest' }}
         shell: bash
+        env:
+          HAB_REFRESH_CHANNEL: "${{ inputs.habitat_channel }}"
+          HAB_BLDR_CHANNEL: "${{ inputs.habitat_channel }}"
         run: |
-          echo "--- STARTING HAB INSTALL ON  ${{ matrix.os }} UBUNTU with habitat version:${{vars.HABITAT_VERSION_SET}}"
-          export HABITAT_VERSION="${{vars.HABITAT_VERSION_SET}}"
-          HABITAT_VERSION="${HABITAT_VERSION:?HABITAT_VERSION must be set}"
-          HABITAT_TARGET="${HABITAT_TARGET:-x86_64-linux}"
-          curl https://raw.githubusercontent.com/habitat-sh/habitat/master/components/hab/install.sh | sudo bash -s -- -v "$HABITAT_VERSION" -t "$HABITAT_TARGET"
-      - name: Run Habitat packaging (linux)
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        shell: bash
-        run: |
+          echo "--- Installing Habitat on Linux with version: $HABITAT_VERSION_SET"
+          curl https://raw.githubusercontent.com/habitat-sh/habitat/master/components/hab/install.sh | sudo bash -s -- -v "$HABITAT_VERSION_SET" -t "x86_64-linux"
           hab license accept
-          hab origin key download "$HAB_ORIGIN"
-          hab origin key download --auth "$HAB_AUTH_TOKEN" --secret "$HAB_ORIGIN"
-          echo "--- running linux hab build"
-          export HAB_REFRESH_CHANNEL="${{ inputs.habitat_channel }}"
-          export HAB_BLDR_CHANNEL="${{ inputs.habitat_channel }}"
+          hab origin key download $HAB_ORIGIN
+          hab origin key download --auth $HAB_AUTH_TOKEN --secret $HAB_ORIGIN
           hab pkg build .
-          echo "--- pushing to ${{ inputs.habitat_channel }} channel..."
           source results/last_build.env
-          hab pkg upload --auth "$HAB_AUTH_TOKEN" results/$pkg_artifact --channel "${{ inputs.habitat_channel }}"
-          echo "--- push complete!!"          
+          hab pkg upload --auth $HAB_AUTH_TOKEN results/$pkg_artifact --channel "${{ inputs.habitat_channel }}"
+          echo "--- push complete!!"
 
-
-      - name: Install Habitat on Windows
+      - name: Install, Build, and Upload Habitat Package (Windows)
         if: ${{ matrix.os == 'windows-latest' }}
         shell: pwsh
+        env:
+          HAB_REFRESH_CHANNEL: "${{ inputs.habitat_channel }}"
+          HAB_BLDR_CHANNEL: "${{ inputs.habitat_channel }}"
         run: |
-          Write-Output "--- STARTING HAB INSTALL ON ${{ matrix.os }} WINDOWS with habitat version:${{ env.HABITAT_VERSION_SET }}"
+          Write-Output "--- Installing Habitat on Windows with version: $env:HABITAT_VERSION_SET"
           $env:HAB_LICENSE = "accept-no-persist"
-          Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1) } -Version ${{ env.HABITAT_VERSION_SET }}"
-      - name: run habitat packaging windows
-        if: ${{ matrix.os == 'windows-latest' }}
-        shell: pwsh
-        run: |
+          Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1) } -Version $env:HABITAT_VERSION_SET"
           $env:Path += ";C:\ProgramData\Habitat"
           hab license accept
           hab origin key download $env:HAB_ORIGIN
           hab origin key download --auth $env:HAB_AUTH_TOKEN --secret $env:HAB_ORIGIN
-          $env:HAB_REFRESH_CHANNEL = "${{ inputs.habitat_channel }}"
-          $env:HAB_BLDR_CHANNEL = "${{ inputs.habitat_channel }}"
-          Write-Output "--- running windows hab build"
           hab pkg build .
-          Write-Output "--- pushing hab to ${{ inputs.habitat_channel }} channel"
           . results\last_build.ps1
           hab pkg upload results\$pkg_artifact --auth $env:HAB_AUTH_TOKEN --channel "${{ inputs.habitat_channel }}"
           Write-Output "--- push complete!!"
