@@ -1,10 +1,10 @@
 name: Build Habitat packages and push to LTS 2024-Current
-      
+
 on:
   push:
     branches:
       - inspec-5
-      
+
 env:
   BLDR_URL: 'https://bldr.habitat.sh/'
   HAB_ORIGIN: 'chef'
@@ -39,12 +39,12 @@ jobs:
           fetch-depth: 0
 
 
-      - name: install habitat on Linux
+      - name: Install habitat on Linux
         if: ${{ matrix.os == 'ubuntu-latest' }}
         shell: bash
         run: |
-          echo "--- STARTING HAB INSTALL ON  ${{ matrix.os }} UBUNTU with habitat version:${{vars.HABITAT_VERSION_SET}}"
-          export HABITAT_VERSION="${{vars.HABITAT_VERSION_SET}}"
+          echo "--- STARTING HAB INSTALL ON  ${{ matrix.os }} UBUNTU with habitat version:${{ env.HABITAT_VERSION_SET }}"
+          HABITAT_VERSION="${{ env.HABITAT_VERSION_SET }}"
           HABITAT_VERSION="${HABITAT_VERSION:?HABITAT_VERSION must be set}"
           HABITAT_TARGET="${HABITAT_TARGET:-x86_64-linux}"
           curl https://raw.githubusercontent.com/habitat-sh/habitat/master/components/hab/install.sh | sudo bash -s -- -v "$HABITAT_VERSION" -t "$HABITAT_TARGET"
@@ -68,9 +68,9 @@ jobs:
         if: ${{ matrix.os == 'windows-latest' }}
         shell: pwsh
         run: |
-          write-output "--- STARTING HAB INSTALL ON ${{ matrix.os }} WINDOWS with habitat version:${{vars.HABITAT_VERSION_SET}}"
+          write-output "--- STARTING HAB INSTALL ON ${{ matrix.os }} WINDOWS with habitat version:${{ env.HABITAT_VERSION_SET }}"
           $env:HAB_LICENSE = "accept-no-persist"
-          Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1) } -Version ${{vars.HABITAT_VERSION_SET}}"
+          Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1) } -Version ${{ env.HABITAT_VERSION_SET }}"
       - name: run habitat packaging windows and deploy to LTS-2024
         if: ${{ matrix.os == 'windows-latest' }}
         shell: pwsh
@@ -87,4 +87,3 @@ jobs:
           . results\last_build.ps1
           hab pkg upload results\$pkg_artifact --auth ${{ secrets.HAB_AUTH_TOKEN }} --channel LTS-2024-current
           write-output "--- push complete!!"
-                     

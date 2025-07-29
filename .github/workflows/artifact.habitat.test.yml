@@ -42,8 +42,8 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest' }}
         shell: bash
         run: |
-          echo "--- STARTING HAB INSTALL ON  ${{ matrix.os }} UBUNTU with habitat version:${{ vars.HABITAT_VERSION_SET }}"
-          export HABITAT_VERSION="${{ vars.HABITAT_VERSION_SET }}"
+          echo "--- STARTING HAB INSTALL ON  ${{ matrix.os }} UBUNTU with habitat version:${{ env.HABITAT_VERSION_SET }}"
+          HABITAT_VERSION="${{ env.HABITAT_VERSION_SET }}"
           HABITAT_VERSION="${HABITAT_VERSION:?HABITAT_VERSION must be set}"
           HABITAT_TARGET="${HABITAT_TARGET:-x86_64-linux}"
           curl https://raw.githubusercontent.com/habitat-sh/habitat/master/components/hab/install.sh | sudo bash -s -- -v "$HABITAT_VERSION" -t "$HABITAT_TARGET"
@@ -52,9 +52,6 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest' }}
         shell: bash
         run: |
-          export CHEF_LICENSE=${CHEF_LICENSE}
-          export HAB_LICENSE=${HAB_LICENSE}
-          export HAB_NONINTERACTIVE=${HAB_NONINTERACTIVE}
           hab license accept
           hab origin key download $HAB_ORIGIN
           hab origin key download --auth $HAB_AUTH_TOKEN --secret $HAB_ORIGIN
@@ -64,6 +61,7 @@ jobs:
 
       - name: Install habitat packaging (linux)
         if: ${{ matrix.os == 'ubuntu-latest' }}
+        shell: bash
         run: |
           echo "--- Sourcing 'results/last_build.sh'"
           source results/last_build.env
@@ -85,9 +83,9 @@ jobs:
         if: ${{ matrix.os == 'windows-latest' }}
         shell: pwsh
         run: |
-          write-output "--- STARTING HAB INSTALL ON ${{ matrix.os }} WINDOWS with habitat version:${{ vars.HABITAT_VERSION_SET }}"
+          write-output "--- STARTING HAB INSTALL ON ${{ matrix.os }} WINDOWS with habitat version:${{ env.HABITAT_VERSION_SET }}"
           $env:HAB_LICENSE = "accept-no-persist"
-          Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1) } -Version ${{ vars.HABITAT_VERSION_SET }}"
+          Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1) } -Version ${{ env.HABITAT_VERSION_SET }}"
 
       - name: Run habitat packaging windows
         if: ${{ matrix.os == 'windows-latest' }}
