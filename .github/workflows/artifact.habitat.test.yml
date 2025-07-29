@@ -34,12 +34,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.1'
-          bundler-cache: false
-
       - name: Install, Build, and Test Habitat Package (Linux)
         if: ${{ matrix.os == 'ubuntu-latest' }}
         shell: bash
@@ -76,8 +70,18 @@ jobs:
           hab origin key download --auth $env:HAB_AUTH_TOKEN --secret $env:HAB_ORIGIN
           hab pkg build .
           . results\last_build.ps1
-          $env:Path += ";C:\hab\bin"
           hab pkg install -b results\$pkg_artifact
-          Push-Location test/artifact
+          Write-Host "--- Downloading Ruby + DevKit"
+          aws s3 cp s3://core-buildkite-cache-chef-prod/rubyinstaller-devkit-2.6.6-1-x64.exe c:/rubyinstaller-devkit-2.6.6-1-x64.exe
+        
+          Write-Host "--- Installing Ruby + DevKit"
+          Start-Process c:\rubyinstaller-devkit-2.6.6-1-x64.exe -ArgumentList '/verysilent /dir=C:\\ruby26' -Wait
+          
+          Write-Host "--- Cleaning up installation"
+          Remove-Item c:\rubyinstaller-devkit-2.6.6-1-x64.exe -Force
+          
+          $Env:Path += ";C:\ruby26\bin;C:\hab\bin"
+          
+          Write-Host "+++ Testing $env:Plan"
+          Push-Location "test/artifact"
           rake
-          Pop-Location
