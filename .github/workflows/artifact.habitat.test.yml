@@ -75,7 +75,7 @@ jobs:
           Invoke-WebRequest -Uri "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.1.6-1/rubyinstaller-devkit-3.1.6-1-x64.exe" -OutFile "c:/rubyinstaller-devkit-3.1.6-1-x64.exe"
           
           Write-Host "--- Installing Ruby + DevKit"
-          Start-Process c:\rubyinstaller-devkit-3.1.6-1-x64.exe -ArgumentList '/verysilent /dir=C:\\ruby316' -Wait
+          Start-Process c:\rubyinstaller-devkit-3.1.6-1-x64.exe -ArgumentList '/verysilent /allusers /dir=C:\\ruby316' -Wait
           
           Write-Host "--- Cleaning up installation"
           Remove-Item c:\rubyinstaller-devkit-3.1.6-1-x64.exe -Force
