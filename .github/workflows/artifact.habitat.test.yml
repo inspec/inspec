@@ -34,6 +34,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+
       - name: Install, Build, and Test Habitat Package (Linux)
         if: ${{ matrix.os == 'ubuntu-latest' }}
         shell: bash
@@ -70,8 +76,8 @@ jobs:
           hab origin key download --auth $env:HAB_AUTH_TOKEN --secret $env:HAB_ORIGIN
           hab pkg build .
           . results\last_build.ps1
+          $env:Path += ";C:\hab\bin"
           hab pkg install -b results\$pkg_artifact
-          $env:Path += ";$(hab pkg path chef/inspec)/bin;$(hab pkg path chef/ruby31-plus-devkit)/bin;$(hab pkg path core/git)/bin"
           Push-Location test/artifact
-          hab pkg exec chef/ruby31-plus-devkit rake -f Rakefile
+          rake
           Pop-Location
