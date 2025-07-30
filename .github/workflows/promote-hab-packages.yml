@@ -1,15 +1,10 @@
 name: Promote Habitat Packages
+
 on:
-  workflow_call:
-    inputs:
-      source_channel:
-        description: "Source Habitat channel to fetch the packages from"
-        required: true
-        type: string
-      target_channel:
-        description: "Target Habitat channel to promote the packages to"
-        required: true
-        type: string
+  release:
+    types: [published]
+    branches:
+      - inspec-5
 
 env:
   BLDR_URL: 'https://bldr.habitat.sh/'
@@ -19,36 +14,30 @@ env:
   CHEF_LICENSE: "accept-no-persist"
   HAB_LICENSE: "accept-no-persist"
   HAB_NONINTERACTIVE: "true"
+  SOURCE_CHANNEL: "LTS-2024-Current"
+  TARGET_CHANNEL: "LTS-2024"
+  VERSION: "${GITHUB_REF_NAME#v}"
 
 permissions:
-  contents: write
+  contents: read # Changed from write to read, as write is not needed
 
 jobs:
   promote:
+    if: startsWith(github.event.release.tag_name, 'v5.')
     runs-on: ubuntu-latest
     env:
       ORIGIN: chef
       API_URL: https://bldr.habitat.sh/v1/depot/channels
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Read VERSION file
-        id: read_version
+      - name: Print tag
         run: |
-          version=$(cat VERSION)
-          echo "VERSION is $version"
-          echo "version=$version" >> "$GITHUB_OUTPUT"
-
+          echo "Release version: ${{ github.event.release.tag_name }}"
       - name: Get latest Linux package
         id: get_linux
         run: |
-          version=${{ steps.read_version.outputs.version }}
-          url="${{ env.API_URL }}/${{ env.ORIGIN }}/${{ inputs.source_channel }}/pkgs/inspec/$version/latest?target=x86_64-linux"
-          echo "--- Requesting: $url"
+          url="${{ env.API_URL }}/${{ env.ORIGIN }}/${{ env.source_channel }}/pkgs/inspec/${{ env.VERSION }}/latest?target=x86_64-linux"
+          echo "Requesting: $url"
           response=$(curl -s "$url")
           if echo "$response" | grep -q '^{'; then
             ident=$(echo "$response" | jq -r '.ident.origin + "/" + .ident.name + "/" + .ident.version + "/" + .ident.release')
@@ -56,16 +45,14 @@ jobs:
           else
             echo "Linux package not found or invalid response"
             echo "$response"
-          exit 1
+            exit 1
           fi
 
       - name: Get latest Windows package
         id: get_windows
         run: |
-          version="${{ steps.read_version.outputs.version }}"
-          url="${{ env.API_URL }}/${{ env.ORIGIN }}/${{ inputs.source_channel }}/pkgs/inspec/$version/latest?target=x86_64-windows"
+          url="${{ env.API_URL }}/${{ env.ORIGIN }}/${{ env.source_channel }}/pkgs/inspec/${{ env.VERSION }}/latest?target=x86_64-windows"
           echo "Requesting: $url"
-          
           response=$(curl -s "$url")
           if echo "$response" | grep -q '^{'; then
             ident=$(echo "$response" | jq -r '.ident.origin + "/" + .ident.name + "/" + .ident.version + "/" + .ident.release')
@@ -86,12 +73,12 @@ jobs:
 
       - name: Promote Linux package
         run: |
-          hab pkg promote ${{ steps.get_linux.outputs.linux_pkg }} ${{ inputs.target_channel }} --auth="${{ secrets.HAB_AUTH_TOKEN }}"
+          hab pkg promote ${{ steps.get_linux.outputs.linux_pkg }} ${{ env.target_channel }} --auth="${{ secrets.HAB_AUTH_TOKEN }}"
         env:
           HAB_LICENSE: accept-no-persist
 
       - name: Promote Windows package
         run: |
-          hab pkg promote ${{ steps.get_windows.outputs.windows_pkg }} ${{ inputs.target_channel }} --auth="${{ secrets.HAB_AUTH_TOKEN }}"
+          hab pkg promote ${{ steps.get_windows.outputs.windows_pkg }} ${{ env.target_channel }} --auth="${{ secrets.HAB_AUTH_TOKEN }}"
         env:
           HAB_LICENSE: accept-no-persist
