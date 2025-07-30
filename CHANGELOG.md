@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Bump test-kitchen from 3.8.0 to 3.8.1 in /omnibus [#7465](https://github.com/inspec/inspec/pull/7465) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Update pry-byebug requirement from &lt; 3.11.0 to &lt; 3.12.0 [#7456](https://github.com/inspec/inspec/pull/7456) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Bump omnibus from `c885825` to `d3264e1` in /omnibus [#7470](https://github.com/inspec/inspec/pull/7470) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
@@ -12,6 +13,7 @@
 ### Changes since 5.22.80 release
 
 #### Merged Pull Requests
+- Bump test-kitchen from 3.8.0 to 3.8.1 in /omnibus [#7465](https://github.com/inspec/inspec/pull/7465) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.91 -->
 - Update pry-byebug requirement from &lt; 3.11.0 to &lt; 3.12.0 [#7456](https://github.com/inspec/inspec/pull/7456) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.91 -->
 - Bump omnibus from `c885825` to `d3264e1` in /omnibus [#7470](https://github.com/inspec/inspec/pull/7470) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.91 -->
 - Bump thor from 1.3.1 to 1.4.0 in /omnibus [#7461](https://github.com/inspec/inspec/pull/7461) ([Nik08](https://github.com/Nik08)) <!-- 5.22.91 -->
