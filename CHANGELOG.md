@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Update pry-byebug requirement from &lt; 3.11.0 to &lt; 3.12.0 [#7456](https://github.com/inspec/inspec/pull/7456) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Bump omnibus from `c885825` to `d3264e1` in /omnibus [#7470](https://github.com/inspec/inspec/pull/7470) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.22.80 release
 
 #### Merged Pull Requests
+- Update pry-byebug requirement from &lt; 3.11.0 to &lt; 3.12.0 [#7456](https://github.com/inspec/inspec/pull/7456) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.91 -->
 - Bump omnibus from `c885825` to `d3264e1` in /omnibus [#7470](https://github.com/inspec/inspec/pull/7470) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.91 -->
 - Bump thor from 1.3.1 to 1.4.0 in /omnibus [#7461](https://github.com/inspec/inspec/pull/7461) ([Nik08](https://github.com/Nik08)) <!-- 5.22.91 -->
 - Revert &quot;CHEF-23961-InSpec 5-Hab upgrade for Ruby for 3.1.7&quot; [#7460](https://github.com/inspec/inspec/pull/7460) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.90 -->
