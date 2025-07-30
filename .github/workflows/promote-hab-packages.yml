@@ -16,7 +16,6 @@ env:
   HAB_NONINTERACTIVE: "true"
   SOURCE_CHANNEL: "LTS-2024-current"
   TARGET_CHANNEL: "LTS-2024"
-  VERSION: "${GITHUB_REF_NAME#v}"
 
 permissions:
   contents: write
@@ -30,6 +29,9 @@ jobs:
       API_URL: https://bldr.habitat.sh/v1/depot/channels
 
     steps:
+      - name: Set VERSION env
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
+
       - name: Print tag
         run: |
           echo "Release version: ${{ github.event.release.tag_name }}"
@@ -37,7 +39,7 @@ jobs:
         id: get_linux
         run: |
           set -euo pipefail
-          url="${{ env.API_URL }}/${{ env.ORIGIN }}/${{ env.SOURCE_CHANNEL }}/pkgs/inspec/${{ env.VERSION }}/latest?target=x86_64-linux"
+          url="${{ env.API_URL }}/${{ env.ORIGIN }}/${{ env.SOURCE_CHANNEL }}/pkgs/inspec/${VERSION}/latest?target=x86_64-linux"
           echo "Requesting: $url"
           response=$(curl -s "$url")
           if echo "$response" | grep -q '^{'; then
@@ -53,7 +55,7 @@ jobs:
         id: get_windows
         run: |
           set -euo pipefail
-          url="${{ env.API_URL }}/${{ env.ORIGIN }}/${{ env.SOURCE_CHANNEL }}/pkgs/inspec/${{ env.VERSION }}/latest?target=x86_64-windows"
+          url="${{ env.API_URL }}/${{ env.ORIGIN }}/${{ env.SOURCE_CHANNEL }}/pkgs/inspec/${VERSION}/latest?target=x86_64-windows"
           echo "Requesting: $url"
           response=$(curl -s "$url")
           if echo "$response" | grep -q '^{'; then
