@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.22.92 -->
+## [v5.22.92](https://github.com/inspec/inspec/tree/v5.22.92) (2025-07-30)
 
 #### Merged Pull Requests
+- Update rubyzip requirement from &gt;= 1.2.2, &lt; 3.0 to &gt;= 1.2.2, &lt; 4.0 [#7469](https://github.com/inspec/inspec/pull/7469) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Bump test-kitchen from 3.8.0 to 3.8.1 in /omnibus [#7465](https://github.com/inspec/inspec/pull/7465) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Update pry-byebug requirement from &lt; 3.11.0 to &lt; 3.12.0 [#7456](https://github.com/inspec/inspec/pull/7456) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Bump omnibus from `c885825` to `d3264e1` in /omnibus [#7470](https://github.com/inspec/inspec/pull/7470) ([dependabot[bot]](https://github.com/dependabot[bot]))
@@ -13,6 +14,7 @@
 ### Changes since 5.22.80 release
 
 #### Merged Pull Requests
+- Update rubyzip requirement from &gt;= 1.2.2, &lt; 3.0 to &gt;= 1.2.2, &lt; 4.0 [#7469](https://github.com/inspec/inspec/pull/7469) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.92 -->
 - Bump test-kitchen from 3.8.0 to 3.8.1 in /omnibus [#7465](https://github.com/inspec/inspec/pull/7465) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.91 -->
 - Update pry-byebug requirement from &lt; 3.11.0 to &lt; 3.12.0 [#7456](https://github.com/inspec/inspec/pull/7456) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.91 -->
 - Bump omnibus from `c885825` to `d3264e1` in /omnibus [#7470](https://github.com/inspec/inspec/pull/7470) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.91 -->
