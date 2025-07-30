@@ -14,12 +14,12 @@ env:
   CHEF_LICENSE: "accept-no-persist"
   HAB_LICENSE: "accept-no-persist"
   HAB_NONINTERACTIVE: "true"
-  SOURCE_CHANNEL: "LTS-2024-Current"
+  SOURCE_CHANNEL: "LTS-2024-current"
   TARGET_CHANNEL: "LTS-2024"
   VERSION: "${GITHUB_REF_NAME#v}"
 
 permissions:
-  contents: read # Changed from write to read, as write is not needed
+  contents: write
 
 jobs:
   promote:
@@ -36,7 +36,8 @@ jobs:
       - name: Get latest Linux package
         id: get_linux
         run: |
-          url="${{ env.API_URL }}/${{ env.ORIGIN }}/${{ env.source_channel }}/pkgs/inspec/${{ env.VERSION }}/latest?target=x86_64-linux"
+          set -euo pipefail
+          url="${{ env.API_URL }}/${{ env.ORIGIN }}/${{ env.SOURCE_CHANNEL }}/pkgs/inspec/${{ env.VERSION }}/latest?target=x86_64-linux"
           echo "Requesting: $url"
           response=$(curl -s "$url")
           if echo "$response" | grep -q '^{'; then
@@ -51,7 +52,8 @@ jobs:
       - name: Get latest Windows package
         id: get_windows
         run: |
-          url="${{ env.API_URL }}/${{ env.ORIGIN }}/${{ env.source_channel }}/pkgs/inspec/${{ env.VERSION }}/latest?target=x86_64-windows"
+          set -euo pipefail
+          url="${{ env.API_URL }}/${{ env.ORIGIN }}/${{ env.SOURCE_CHANNEL }}/pkgs/inspec/${{ env.VERSION }}/latest?target=x86_64-windows"
           echo "Requesting: $url"
           response=$(curl -s "$url")
           if echo "$response" | grep -q '^{'; then
@@ -73,12 +75,12 @@ jobs:
 
       - name: Promote Linux package
         run: |
-          hab pkg promote ${{ steps.get_linux.outputs.linux_pkg }} ${{ env.target_channel }} --auth="${{ secrets.HAB_AUTH_TOKEN }}"
+          hab pkg promote ${{ steps.get_linux.outputs.linux_pkg }} ${{ env.TARGET_CHANNEL }} --auth="${{ secrets.HAB_AUTH_TOKEN }}"
         env:
           HAB_LICENSE: accept-no-persist
 
       - name: Promote Windows package
         run: |
-          hab pkg promote ${{ steps.get_windows.outputs.windows_pkg }} ${{ env.target_channel }} --auth="${{ secrets.HAB_AUTH_TOKEN }}"
+          hab pkg promote ${{ steps.get_windows.outputs.windows_pkg }} ${{ env.TARGET_CHANNEL }} --auth="${{ secrets.HAB_AUTH_TOKEN }}"
         env:
           HAB_LICENSE: accept-no-persist
