@@ -32,8 +32,9 @@ Source code obtained from the Chef GitHub repository is made available under Apa
 
   spec.add_dependency "inspec-core", "= #{Inspec::VERSION}"
 
-  spec.add_dependency "train", "~> 3.16", ">= 3.16.1"
-  spec.add_dependency "rake", ">= 12.3.3"
+  spec.add_dependency "train", "~> 3.13", ">= 3.13.2"
+  spec.add_dependency "rake"
+
   # progress bar streaming reporter plugin support
   spec.add_dependency "progress_bar", "~> 1.3.3"
 
@@ -43,6 +44,6 @@ Source code obtained from the Chef GitHub repository is made available under Apa
   # Train plugins we ship with InSpec
   spec.add_dependency "train-habitat",    "~> 0.1"
   spec.add_dependency "train-aws",        "~> 0.2"
-  spec.add_dependency "train-winrm",      "~> 0.2.17"
+  spec.add_dependency "train-winrm",      "~> 0.3.1"
   spec.add_dependency "train-kubernetes", ">= 0.3.1"
 end
