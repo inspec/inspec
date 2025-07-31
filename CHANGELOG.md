@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.22.93 -->
+## [v5.22.93](https://github.com/inspec/inspec/tree/v5.22.93) (2025-07-31)
 
 #### Merged Pull Requests
+- Update signet requirement from &lt; 0.20.0 to &lt; 0.21.0 [#7458](https://github.com/inspec/inspec/pull/7458) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Bump omnibus-software from `e1c6a63` to `d3688ec` in /omnibus [#7478](https://github.com/inspec/inspec/pull/7478) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.22.80 release
 
 #### Merged Pull Requests
+- Update signet requirement from &lt; 0.20.0 to &lt; 0.21.0 [#7458](https://github.com/inspec/inspec/pull/7458) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.93 -->
 - Bump omnibus-software from `e1c6a63` to `d3688ec` in /omnibus [#7478](https://github.com/inspec/inspec/pull/7478) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.92 -->
 - Update rubyzip requirement from &gt;= 1.2.2, &lt; 3.0 to &gt;= 1.2.2, &lt; 4.0 [#7469](https://github.com/inspec/inspec/pull/7469) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.92 -->
 - Bump test-kitchen from 3.8.0 to 3.8.1 in /omnibus [#7465](https://github.com/inspec/inspec/pull/7465) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.91 -->
