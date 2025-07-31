@@ -75,10 +75,12 @@ changelog:
   - "Type: Enhancement": "Enhancements"
   - "Type: Bug": "Bug Fixes"
 
-
+# Channel promotion flow for InSpec 7 (base-2025) will be:
+# unstable → base-2025-current → base-2025 & stable
 artifact_channels:
   - base-2025-current
   - base-2025
+  - stable
 
 subscriptions:
   - workload: pull_request_merged:{{github_repo}}:{{release_branch}}:*
