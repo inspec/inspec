@@ -44,6 +44,7 @@ jobs:
           echo "--- Installing Habitat on Linux with version: $HABITAT_VERSION_SET"
           curl https://raw.githubusercontent.com/habitat-sh/habitat/master/components/hab/install.sh | sudo bash -s -- -v "$HABITAT_VERSION_SET" -t "x86_64-linux"
           hab license accept
+          echo "--- Downloading Habitat Origin Key $HAB_ORIGIN $HAB_AUTH_TOKEN"
           hab origin key download $HAB_ORIGIN
           hab origin key download --auth $HAB_AUTH_TOKEN --secret $HAB_ORIGIN
           hab pkg build .
