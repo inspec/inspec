@@ -40,7 +40,7 @@ group :test do
   # Pinning this version as it breaking for ruby 3.1.0
   gem "nokogiri", "< 1.17.2"
   # Pinning this version as it breaking for ruby 3.0.0
-  gem "pry-byebug", "< 3.11.0"
+  gem "pry-byebug", "< 3.12.0"
   gem "pry"
   gem "rake"
   gem "simplecov"

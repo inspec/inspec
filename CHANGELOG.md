@@ -1,16 +1,23 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.91 -->
-## [v5.22.91](https://github.com/inspec/inspec/tree/v5.22.91) (2025-07-24)
+<!-- latest_release 5.22.92 -->
+## [v5.22.92](https://github.com/inspec/inspec/tree/v5.22.92) (2025-07-30)
 
 #### Merged Pull Requests
-- Bump thor from 1.3.1 to 1.4.0 in /omnibus [#7461](https://github.com/inspec/inspec/pull/7461) ([Nik08](https://github.com/Nik08))
+- Update rubyzip requirement from &gt;= 1.2.2, &lt; 3.0 to &gt;= 1.2.2, &lt; 4.0 [#7469](https://github.com/inspec/inspec/pull/7469) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump test-kitchen from 3.8.0 to 3.8.1 in /omnibus [#7465](https://github.com/inspec/inspec/pull/7465) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update pry-byebug requirement from &lt; 3.11.0 to &lt; 3.12.0 [#7456](https://github.com/inspec/inspec/pull/7456) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump omnibus from `c885825` to `d3264e1` in /omnibus [#7470](https://github.com/inspec/inspec/pull/7470) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.80 -->
 ### Changes since 5.22.80 release
 
 #### Merged Pull Requests
+- Update rubyzip requirement from &gt;= 1.2.2, &lt; 3.0 to &gt;= 1.2.2, &lt; 4.0 [#7469](https://github.com/inspec/inspec/pull/7469) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.92 -->
+- Bump test-kitchen from 3.8.0 to 3.8.1 in /omnibus [#7465](https://github.com/inspec/inspec/pull/7465) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.91 -->
+- Update pry-byebug requirement from &lt; 3.11.0 to &lt; 3.12.0 [#7456](https://github.com/inspec/inspec/pull/7456) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.91 -->
+- Bump omnibus from `c885825` to `d3264e1` in /omnibus [#7470](https://github.com/inspec/inspec/pull/7470) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.91 -->
 - Bump thor from 1.3.1 to 1.4.0 in /omnibus [#7461](https://github.com/inspec/inspec/pull/7461) ([Nik08](https://github.com/Nik08)) <!-- 5.22.91 -->
 - Revert &quot;CHEF-23961-InSpec 5-Hab upgrade for Ruby for 3.1.7&quot; [#7460](https://github.com/inspec/inspec/pull/7460) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.90 -->
 - CHEF-23589 Upgrade omnibus with Ruby 3.1.7 [#7423](https://github.com/inspec/inspec/pull/7423) ([Nik08](https://github.com/Nik08)) <!-- 5.22.89 -->
