@@ -57,9 +57,7 @@ group :deploy do
 end
 
 # Build is failing - see: https://buildkite.com/chef-oss/inspec-inspec-inspec-5-verify/builds/442
-# Error:
-# zeitwerk-2.7.1 requires Ruby >= 3.2, which is incompatible with the current version (Ruby 3.0.7p220)
-
+# Error: zeitwerk-2.7.1 requires Ruby >= 3.2, which is incompatible with the current version (Ruby 3.0.7p220)
 # Dependency chain:
 # zeitwerk → dry-configurable, dry-struct, dry-types → k8s-ruby → train-kubernetes
 

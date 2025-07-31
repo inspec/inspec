@@ -51,7 +51,7 @@ catch {
   Install-Habitat
 }
 finally {
-  Write-Host ":habicat: I think I have the version I need to build."
+  Write-Host ":habitat: I think I have the version I need to build."
 }
 
 # Set HAB_ORIGIN after Habitat installation
