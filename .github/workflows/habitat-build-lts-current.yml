@@ -19,7 +19,6 @@ permissions:
 
 jobs:
   agent-matrix:
-    if: github.actor == 'chef-ci'
     strategy:
       fail-fast: false
       matrix:
