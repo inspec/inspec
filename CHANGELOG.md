@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.22.94 -->
+## [v5.22.94](https://github.com/inspec/inspec/tree/v5.22.94) (2025-07-31)
 
 #### Merged Pull Requests
+- Trigger Version Bumper [#7482](https://github.com/inspec/inspec/pull/7482) ([balasubramanian-s](https://github.com/balasubramanian-s))
 - Fix Github Action Skips [#7481](https://github.com/inspec/inspec/pull/7481) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.22.80 release
 
 #### Merged Pull Requests
+- Trigger Version Bumper [#7482](https://github.com/inspec/inspec/pull/7482) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.94 -->
 - Fix Github Action Skips [#7481](https://github.com/inspec/inspec/pull/7481) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.93 -->
 - Update signet requirement from &lt; 0.20.0 to &lt; 0.21.0 [#7458](https://github.com/inspec/inspec/pull/7458) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.93 -->
 - Bump omnibus-software from `e1c6a63` to `d3688ec` in /omnibus [#7478](https://github.com/inspec/inspec/pull/7478) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.92 -->
