@@ -3,8 +3,6 @@ name: Promote Habitat Packages
 on:
   release:
     types: [published]
-    branches:
-      - inspec-5
 
 env:
   BLDR_URL: 'https://bldr.habitat.sh/'
