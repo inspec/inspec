@@ -56,6 +56,3 @@ end
 group :deploy do
   gem "inquirer"
 end
-
-# TODO : Remove the dependency once the 'chef-licensing' gem is released
-gem "chef-licensing", git: "https://github.com/chef/chef-licensing.git", glob: "components/ruby/*.gemspec", branch: "nm/ruby-34"
