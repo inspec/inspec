@@ -47,6 +47,9 @@ build do
   gem "build inspec-bin.gemspec", env: env, cwd: "#{project_dir}/inspec-bin"
   gem "install inspec-bin-*.gem --no-document", env: env, cwd: "#{project_dir}/inspec-bin"
 
+  # Copy the testing package file to the installation directory
+  copy "#{project_dir}/omnibus/testing-pkg.txt", install_dir
+
   block do
     appbundle "inspec", lockdir: project_dir, gem: "inspec-bin", env: env
   end
