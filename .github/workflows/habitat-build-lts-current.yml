@@ -1,9 +1,6 @@
 name: Build and Publish Habitat Packages to LTS-2024-Current Channel
 
-on:
-  push:
-    tags:
-      - 'v5*'
+on: workflow_dispatch
 
 env:
   BLDR_URL: 'https://bldr.habitat.sh/'
