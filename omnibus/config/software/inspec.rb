@@ -22,6 +22,8 @@ dependency "ruby"
 
 license :project_license
 
+license_file "NOTICE"
+
 default_version "v#{Inspec::VERSION}"
 
 source path: "#{Omnibus::Config.project_root}/../",
@@ -50,15 +52,6 @@ build do
   block do
     appbundle "inspec", lockdir: project_dir, gem: "inspec-bin", env: env
   end
-
-  # block do
-  #   # Copy the testing package file to the installation directory
-  #   test_pkg_file_path = File.expand_path("../../../testing-pkg.txt", __dir__)
-  #   puts "PATH TO PACKAGE ----------> #{test_pkg_file_path}"
-  #   puts "PATH TO COPY ----------> #{default_root}/#{name}"
-  #   puts "install_dir ----------> #{install_dir}"
-  #   copy test_pkg_file_path, "#{default_root}/#{name}"
-  # end
 
   block "Delete test folder from problem gems" do
     env["VISUAL"] = "echo"

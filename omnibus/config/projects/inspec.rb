@@ -25,8 +25,6 @@ homepage "https://github.com/inspec/inspec"
 license "Chef EULA"
 license_file "CHEF-EULA.md"
 
-license_file "NOTICE"
-
 # Defaults to C:/opscode/inspec on Windows
 # and /opt/inspec on all other platforms.
 if windows?
