@@ -33,11 +33,6 @@ else
   install_dir "#{default_root}/#{name}"
 end
 
-block do
-  puts "Install directory: #{install_dir}"
-  puts "#{project_dir}/omnibus/testing-pkg.txt"
-end
-
 # Copy the testing package file to the installation directory
 copy "#{project_dir}/omnibus/testing-pkg.txt", "#{default_root}/#{name}"
 

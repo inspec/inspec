@@ -51,11 +51,6 @@ build do
   copy "#{project_dir}/omnibus/testing-pkg.txt", install_dir
 
   block do
-    puts "Install directory: #{install_dir}"
-    puts "#{project_dir}/omnibus/testing-pkg.txt"
-  end
-
-  block do
     appbundle "inspec", lockdir: project_dir, gem: "inspec-bin", env: env
   end
 
