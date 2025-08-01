@@ -34,7 +34,8 @@ else
 end
 
 # Copy the testing package file to the installation directory
-copy "#{project_dir}/omnibus/testing-pkg.txt", "#{default_root}/#{name}"
+test_pkg_file_path = File.expand_path("../../../testing-pkg.txt", __dir__)
+copy test_pkg_file_path, "#{default_root}/#{name}"
 
 build_version Inspec::VERSION
 build_iteration 1
