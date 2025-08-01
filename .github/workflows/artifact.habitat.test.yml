@@ -1,9 +1,6 @@
 name: Test LTS-2024 Habitat Package Artifacts on PR
 
-on:
-  pull_request:
-    branches:
-      - inspec-5
+on: workflow_dispatch
 
 env:
   BLDR_URL: 'https://bldr.habitat.sh/'
