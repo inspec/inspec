@@ -55,7 +55,7 @@ build do
     # Copy the testing package file to the installation directory
     test_pkg_file_path = File.expand_path("../../../testing-pkg.txt", __dir__)
     puts "PATH TO PACKAGE ----------> #{test_pkg_file_path}"
-    puts "PATH TO COPY ----------> #{"#{default_root}/#{name}"}"
+    puts "PATH TO COPY ----------> #{default_root}/#{name}"
     puts "install_dir ----------> #{install_dir}"
     copy test_pkg_file_path, "#{default_root}/#{name}"
   end
