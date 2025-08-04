@@ -20,7 +20,8 @@ name "inspec"
 
 dependency "ruby"
 
-license :project_license
+license "Apache-2.0"
+license_file "LICENSE"
 
 license_file "NOTICE"
 
