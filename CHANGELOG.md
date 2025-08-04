@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.94 -->
-## [v5.22.94](https://github.com/inspec/inspec/tree/v5.22.94) (2025-07-31)
+<!-- latest_release 5.22.95 -->
+## [v5.22.95](https://github.com/inspec/inspec/tree/v5.22.95) (2025-08-04)
 
 #### Merged Pull Requests
-- Trigger Version Bumper [#7482](https://github.com/inspec/inspec/pull/7482) ([balasubramanian-s](https://github.com/balasubramanian-s))
-- Fix Github Action Skips [#7481](https://github.com/inspec/inspec/pull/7481) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- PR to bump version for inspec 5 release [#7484](https://github.com/inspec/inspec/pull/7484) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.80 -->
 ### Changes since 5.22.80 release
 
 #### Merged Pull Requests
+- PR to bump version for inspec 5 release [#7484](https://github.com/inspec/inspec/pull/7484) ([Nik08](https://github.com/Nik08)) <!-- 5.22.95 -->
 - Trigger Version Bumper [#7482](https://github.com/inspec/inspec/pull/7482) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.94 -->
 - Fix Github Action Skips [#7481](https://github.com/inspec/inspec/pull/7481) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.93 -->
 - Update signet requirement from &lt; 0.20.0 to &lt; 0.21.0 [#7458](https://github.com/inspec/inspec/pull/7458) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.93 -->
