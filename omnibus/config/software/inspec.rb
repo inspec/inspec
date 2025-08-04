@@ -24,6 +24,8 @@ license :project_license
 
 license_file "NOTICE"
 
+skip_transitive_dependency_licensing true
+
 default_version "v#{Inspec::VERSION}"
 
 source path: "#{Omnibus::Config.project_root}/../",
