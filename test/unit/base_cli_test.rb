@@ -100,4 +100,36 @@ EOF
       _(cli.send(:suppress_log_output?, opts)).must_equal false
     end
   end
+
+  describe "checks socks5 cli parameters" do
+    it "accepts socks_proxy option" do
+      options = { "socks_proxy" => "socks5h://proxy-host:1080" }
+      cli.send(:configure_logger, options)
+      _(options["socks_proxy"]).must_equal "socks5h://proxy-host:1080"
+    end
+
+    it "accepts socks_user option" do
+      options = { "socks_user" => "proxyuser" }
+      cli.send(:configure_logger, options)
+      _(options["socks_user"]).must_equal "proxyuser"
+    end
+
+    it "accepts socks_password option" do
+      options = { "socks_password" => "proxypass" }
+      cli.send(:configure_logger, options)
+      _(options["socks_password"]).must_equal "proxypass"
+    end
+
+    it "accepts kerberos_realm option" do
+      options = { "kerberos_realm" => "EXAMPLE.COM" }
+      cli.send(:configure_logger, options)
+      _(options["kerberos_realm"]).must_equal "EXAMPLE.COM"
+    end
+
+    it "accepts kerberos_service option" do
+      options = { "kerberos_service" => "HTTP" }
+      cli.send(:configure_logger, options)
+      _(options["kerberos_service"]).must_equal "HTTP"
+    end
+  end
 end
