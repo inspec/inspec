@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# require "chef-licensing" ## Disabled licensing
+require "chef-licensing"
 require "securerandom" unless defined?(SecureRandom)
 require "digest" unless defined?(Digest)
 require_relative "../../dist"
@@ -14,9 +14,7 @@ module Inspec
 
       def fetch_license_ids
         Inspec::Log.debug "Fetching license IDs for telemetry"
-        ## Disabled licensing - to enable, undo this change
-        # @license_keys ||= ChefLicensing.license_keys
-        @license_keys ||= []
+        @license_keys ||= ChefLicensing.license_keys
       end
 
       def create_wrapper
