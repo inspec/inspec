@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.59 -->
-## [v7.0.59](https://github.com/inspec/inspec/tree/v7.0.59) (2025-08-11)
+<!-- latest_release 7.0.60 -->
+## [v7.0.60](https://github.com/inspec/inspec/tree/v7.0.60) (2025-08-12)
 
 #### Merged Pull Requests
-- Reverted testing change for chef-licensing upgrade on Ruby 3.4 [#7479](https://github.com/inspec/inspec/pull/7479) ([Nik08](https://github.com/Nik08))
+- Revert &quot;CHEF-21376 Disable licensing and telemetry from InSpec 7&quot; [#7495](https://github.com/inspec/inspec/pull/7495) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Revert &quot;CHEF-21376 Disable licensing and telemetry from InSpec 7&quot; [#7495](https://github.com/inspec/inspec/pull/7495) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.60 -->
 - Reverted testing change for chef-licensing upgrade on Ruby 3.4 [#7479](https://github.com/inspec/inspec/pull/7479) ([Nik08](https://github.com/Nik08)) <!-- 7.0.59 -->
 - CHEF-23231 Upgrade train and train-winrm to latest version - InSpec 7 [#7476](https://github.com/inspec/inspec/pull/7476) ([Nik08](https://github.com/Nik08)) <!-- 7.0.58 -->
 - CHEF-18374 Habitat package upgrade for Ruby 3.4.x - Windows [#7401](https://github.com/inspec/inspec/pull/7401) ([sa-progress](https://github.com/sa-progress)) <!-- 7.0.57 -->
