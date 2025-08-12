@@ -4,7 +4,7 @@ require "helper"
 require "inspec/secrets"
 require "inspec/runner"
 require "inspec/fetcher/mock"
-# require "inspec/utils/licensing_config" ## Disabled licensing - to enable, uncomment this line
+require "inspec/utils/licensing_config"
 
 describe Inspec::Runner do
   let(:runner) { Inspec::Runner.new({ command_runner: :generic, reporter: [] }) }

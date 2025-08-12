@@ -22,10 +22,10 @@ module InspecPlugins
 
       def run
         initiate_background_run if run_in_background # running a process as daemon changes parent process pid
-        # original_stdout_stream = ChefLicensing::Config.output ## Disabling licensing config
+        original_stdout_stream = ChefLicensing::Config.output
         until invocations.empty? && @child_tracker.empty?
           # Changing output to STDERR to avoid the output interruption between runs
-          # ChefLicensing::Config.output = STDERR ## Disabling licensing config
+          ChefLicensing::Config.output = STDERR
           while should_start_more_jobs?
             if Inspec.locally_windows?
               spawn_another_process
@@ -39,7 +39,7 @@ module InspecPlugins
           sleep 0.1
         end
         # Reset output to the original STDOUT stream as a safe measure.
-        # ChefLicensing::Config.output = original_stdout_stream ## Disabling licensing config
+        ChefLicensing::Config.output = original_stdout_stream
 
         # Requires renaming operations on windows only
         # Do Rename and delete operations after all child processes have exited successfully

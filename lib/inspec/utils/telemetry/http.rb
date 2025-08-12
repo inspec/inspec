@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require_relative "base"
 require "faraday" unless defined?(Faraday)
-# require "inspec/utils/licensing_config" ## Disabled licensing
+require "inspec/utils/licensing_config"
 module Inspec
   class Telemetry
     class HTTP < Base

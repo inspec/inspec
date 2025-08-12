@@ -1,14 +1,11 @@
 require "thor" # rubocop:disable Chef/Ruby/UnlessDefinedRequire
+require "chef-licensing"
 require "inspec/log"
 require "inspec/ui"
 require "inspec/config"
 require "inspec/dist"
 require "inspec/utils/deprecation/global_method"
-
-## Disabled licensing - To enable it revert this
-# require "chef-licensing"
-# require "inspec/utils/licensing_config"
-##
+require "inspec/utils/licensing_config"
 
 # Allow end of options during array type parsing
 # https://github.com/erikhuda/thor/issues/631
@@ -37,36 +34,34 @@ module Inspec
     def self.start(given_args = ARGV, config = {})
       if Inspec::Dist::EXEC_NAME == "inspec"
         check_license! if config[:enforce_license] || config[:enforce_license].nil?
-        # Disabled licensing - To enable it revert this
-        # fetch_and_persist_license
+        fetch_and_persist_license
       end
 
       super(given_args, config)
     end
 
-    ## Uncomment this method to enable licensing logic for use
-    # def self.fetch_and_persist_license
-    #   allowed_commands = ["-h", "--help", "help", "-v", "--version", "version", "license"]
-    #   begin
-    #     if (allowed_commands & ARGV.map(&:downcase)).empty? && !ARGV.empty?
-    #       license_keys = ChefLicensing.fetch_and_persist
+    def self.fetch_and_persist_license
+      allowed_commands = ["-h", "--help", "help", "-v", "--version", "version", "license"]
+      begin
+        if (allowed_commands & ARGV.map(&:downcase)).empty? && !ARGV.empty?
+          license_keys = ChefLicensing.fetch_and_persist
 
-    #       # Only if EULA acceptance or license key args are present. And licenses are successfully persisted, do clean exit.
-    #       if ARGV.select { |arg| !(arg.include? "--chef-license") }.empty? && !(license_keys.nil? || license_keys.empty?)
-    #         Inspec::UI.new.exit
-    #       end
-    #     end
-    #   rescue ChefLicensing::LicenseKeyFetcher::LicenseKeyNotFetchedError
-    #     Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without valid licenses."
-    #     Inspec::UI.new.exit(:license_not_set)
-    #   rescue ChefLicensing::SoftwareNotEntitled
-    #     Inspec::Log.error "License is not entitled to use InSpec."
-    #     Inspec::UI.new.exit(:license_not_entitled)
-    #   rescue ChefLicensing::Error => e
-    #     Inspec::Log.error e.message
-    #     Inspec::UI.new.exit(:usage_error)
-    #   end
-    # end
+          # Only if EULA acceptance or license key args are present. And licenses are successfully persisted, do clean exit.
+          if ARGV.select { |arg| !(arg.include? "--chef-license") }.empty? && !(license_keys.nil? || license_keys.empty?)
+            Inspec::UI.new.exit
+          end
+        end
+      rescue ChefLicensing::LicenseKeyFetcher::LicenseKeyNotFetchedError
+        Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without valid licenses."
+        Inspec::UI.new.exit(:license_not_set)
+      rescue ChefLicensing::SoftwareNotEntitled
+        Inspec::Log.error "License is not entitled to use InSpec."
+        Inspec::UI.new.exit(:license_not_entitled)
+      rescue ChefLicensing::Error => e
+        Inspec::Log.error e.message
+        Inspec::UI.new.exit(:usage_error)
+      end
+    end
 
     # EULA acceptance
     def self.check_license!
@@ -248,31 +243,30 @@ module Inspec
 
     def self.help(*args)
       super(*args)
-      ## Licensing disabled - remove licenses information from help
-      # if Inspec::Dist::EXEC_NAME == "inspec"
-      #   puts <<~CHEF_LICENSE_HELP
-      #     Chef Compliance has three tiers of licensing:
+      if Inspec::Dist::EXEC_NAME == "inspec"
+        puts <<~CHEF_LICENSE_HELP
+          Chef Compliance has three tiers of licensing:
 
-      #     * Free-Tier
-      #       Users are limited to audit maximum of 10 targets
-      #       Entitled for personal or non-commercial use
+          * Free-Tier
+            Users are limited to audit maximum of 10 targets
+            Entitled for personal or non-commercial use
 
-      #     * Trial
-      #       Entitled for unlimited number of targets
-      #       Entitled for 30 days only
-      #       Entitled for commercial use
+          * Trial
+            Entitled for unlimited number of targets
+            Entitled for 30 days only
+            Entitled for commercial use
 
-      #     * Commercial
-      #       Entitled for purchased number of targets
-      #       Entitled for period of subscription purchased
-      #       Entitled for commercial use
+          * Commercial
+            Entitled for purchased number of targets
+            Entitled for period of subscription purchased
+            Entitled for commercial use
 
-      #     inspec license add: This command helps users to generate or add an additional license (not applicable to local licensing service)
+          inspec license add: This command helps users to generate or add an additional license (not applicable to local licensing service)
 
-      #     For more information please visit:
-      #     www.chef.io/licensing/faqs
-      #   CHEF_LICENSE_HELP
-      # end
+          For more information please visit:
+          www.chef.io/licensing/faqs
+        CHEF_LICENSE_HELP
+      end
       puts "\nAbout #{Inspec::Dist::PRODUCT_NAME}:"
       puts "  Patents: chef.io/patents\n\n"
     end
