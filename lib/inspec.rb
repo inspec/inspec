@@ -4,7 +4,7 @@ libdir = File.dirname(__FILE__)
 $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 
 require "inspec/version"
-# require "inspec/utils/licensing_config" ## Disabled licensing - to enable, uncomment this line
+require "inspec/utils/licensing_config"
 require "inspec/exceptions"
 require "inspec/utils/deprecation"
 require "inspec/profile"
