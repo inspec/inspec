@@ -46,12 +46,11 @@ module Inspec
       return unless block_given?
 
       begin
-        instance_eval(&block)
-
-        # By applying waivers *after* the instance eval, we assure that
-        # waivers have higher precedence than only_if.
         __apply_waivers
 
+        unless waiver_is_valid?
+          instance_eval(&block)
+        end
       rescue SystemStackError, StandardError => e
         # We've encountered an exception while trying to eval the code inside the
         # control block. We need to prevent the exception from bubbling up, and
@@ -484,6 +483,16 @@ module Inspec
       { ref: r, line: l }
     rescue MethodSource::SourceNotFoundError
       {}
+    end
+
+    def waiver_is_valid?
+      return false if @__waiver_data.nil? || @__waiver_data.empty?
+
+      if @__waiver_data["run"] == false && !@__waiver_data["message"].match?(/Waiver expired on/)
+        true
+      else
+        false
+      end
     end
   end
 end
