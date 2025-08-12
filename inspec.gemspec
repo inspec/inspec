@@ -40,6 +40,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "train-winrm",      "~> 0.2.19"
   spec.add_dependency "train-kubernetes", "< 0.3.1" # 0.3.1+ requires min ruby 3.1
 
-  spec.add_dependency "mongo", "= 2.13.2" # 2.14 introduces a broken symlink in mongo-2.14.0/spec/support/ocsp
+  spec.add_dependency "mongo", "= 2.21.2" # 2.14 introduces a broken symlink in mongo-2.14.0/spec/support/ocsp
 
 end
