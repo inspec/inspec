@@ -318,8 +318,7 @@ module Inspec::Plugin::V2
 
     def install_from_remote_gems(requested_plugin_name, opts, source_manager: GemSourceManager.instance)
       plugin_dependency = Gem::Dependency.new(requested_plugin_name, opts[:version] || "> 0")
-      ## Disabling logic to add chef rubygems server until licensing is disabled
-      # source_manager.add_chef_rubygems_server # ensure CHEF RUBYGEMS server is added to the source
+      source_manager.add_chef_rubygems_server # ensure CHEF RUBYGEMS server is added to the source
 
       # This adds custom gem sources to the memoized `Gem.Sources` for this specific run
       # Note: This will not make any change to the environment Gem source list and
