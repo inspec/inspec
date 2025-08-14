@@ -299,7 +299,14 @@ module Inspec
       # # Pull together waiver
       waived_control_ids = []
       waiver_paths.each do |waiver_path|
-        waiver_content = YAML.load_file(waiver_path)
+        # Ruby 3.1 treats YAML load as a dangerous operation by default, requiring us to declare date and time classes as permitted
+        # It's not a valid option in 3.0.x
+        if Gem.ruby_version >= Gem::Version.new("3.1.0")
+          waiver_content = ::YAML.load_file(waiver_path, permitted_classes: [Date, Time])
+        else
+          waiver_content = YAML.load_file(waiver_path)
+        end
+
         unless waiver_content
           # Note that we will have already issued a detailed warning
           Inspec::Log.error "YAML parsing error in #{waiver_path}"
