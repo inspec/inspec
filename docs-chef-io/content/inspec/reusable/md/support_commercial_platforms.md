@@ -7,4 +7,4 @@
 | Red Hat Enterprise Linux | `x86_64`, `aarch64` (7.x, 8.x and 9.x only) | `7.x`, `8.x`, `9.x` |
 | SUSE Linux Enterprise Server | `x86_64`, `aarch64` (15.x only) | `12.x`, `15.x` |
 | Ubuntu | `x86_64` | `16.04`, `18.04`, `20.04` |
-| Windows | `x86_64` | `8.1`, `2012`, `2012 R2`, `2016`, `10` (all channels except "insider" builds), `2019`, `11`, `2022` |
+| Windows | `x86_64` | `2016`, `10` (all channels except "insider" builds), `2019`, `11`, `2022` |
