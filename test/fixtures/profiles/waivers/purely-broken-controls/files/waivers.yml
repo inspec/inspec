@@ -5,3 +5,4 @@
 02_my_working_but_waived_control:
   justification: Sound reasoning
   run: false
+  expiration_date: 2077-06-01
