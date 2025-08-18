@@ -90,6 +90,10 @@ class MockLoader
 
     mock_files = {
       "/proc/net/bonding/bond0" => mockfile.call("bond0"),
+      "/etc/ssh/ssh_config" => mockfile.call("ssh_config"),
+      "/etc/ssh/sshd_config" => mockfile.call("sshd_config"),
+      "/etc/ssh/sshd_config_does_not_exist" => mockfile.call("sshd_config_does_not_exist"),
+      "/etc/ssh/sshd_config_empty" => emptyfile.call,
       "/etc/passwd" => mockfile.call("passwd"),
       "/etc/shadow" => mockfile.call("shadow"),
       "/etc/ntp.conf" => mockfile.call("ntp.conf"),
@@ -145,6 +149,7 @@ class MockLoader
       "test_certificate.rsa.crt.pem" => mockfile.call("test_certificate.rsa.crt.pem"),
       "test_certificate.rsa.key.pem" => mockfile.call("test_certificate.rsa.key.pem"),
       "test_ca_public.key.pem" => mockfile.call("test_ca_public.key.pem"),
+      "test/fixtures/files/test_rsa_key" => mockfile.call("test_rsa_key"),
       # Test DH parameters, 2048 bit long safe prime, generator 2 for dh_params in PEM format
       "dh_params.dh_pem" => mockfile.call("dh_params.dh_pem"),
       "default.toml" => mockfile.call("default.toml"),
