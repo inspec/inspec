@@ -30,7 +30,8 @@ class TestSshKeyResource < Minitest::Test
 
   def generate_ssh_key
     file_path = "test/fixtures/files/test_rsa_key"
-    cmd = Mixlib::ShellOut.new("yes | ssh-keygen -t rsa -b 4096 -N '' -f #{file_path}")
+    # Use PEM format to ensure Net::SSH can parse the private key reliably across environments
+    cmd = Mixlib::ShellOut.new("yes | ssh-keygen -t rsa -b 4096 -m PEM -N '' -f #{file_path}")
     cmd.run_command
     cmd.error!
     sleep 3
