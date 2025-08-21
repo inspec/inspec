@@ -325,6 +325,7 @@ describe "inspec shell tests" do
         out = do_shell("help resources")
         _(out.stdout).must_include " - command"
         _(out.stdout).must_include " - file"
+        _(out.stdout).must_include " - sshd_config"
       end
 
       it "provides matchers help" do
