@@ -51,6 +51,14 @@ do_build() {
 }
 
 do_install() {
+  # Work around to load custom chef-licensing branch
+  git clone --depth 1 --branch nm/introducing-optional-mode https://github.com/chef/chef-licensing.git /tmp/chef-licensing
+  pushd /tmp/chef-licensing/components/ruby
+    gem build chef-licensing.gemspec
+    gem install chef-licensing-*.gem --no-document
+  popd
+  rm -rf /tmp/chef-licensing
+
   # internal artificatory is not compatible to resolve gem deps and fails with gem install <URL>
   # so we are using the following workaround
   curl -o chef-official-distribution-0.1.3.gem https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/gems/chef-official-distribution-0.1.3.gem && gem install chef-official-distribution-0.1.3.gem --local
