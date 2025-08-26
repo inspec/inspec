@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 5.22.96 -->
+## [v5.22.96](https://github.com/inspec/inspec/tree/v5.22.96) (2025-08-26)
+
+#### Merged Pull Requests
+- CHEF-25164 Update Train deps for InSpec 5: train/train-core 3.13.4+, train-winrm… [#7508](https://github.com/inspec/inspec/pull/7508) ([sa-progress](https://github.com/sa-progress))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=5.22.95 -->
+### Changes since 5.22.95 release
+
+#### Merged Pull Requests
+- CHEF-25164 Update Train deps for InSpec 5: train/train-core 3.13.4+, train-winrm… [#7508](https://github.com/inspec/inspec/pull/7508) ([sa-progress](https://github.com/sa-progress)) <!-- 5.22.96 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
