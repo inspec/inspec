@@ -1,35 +1,50 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.22.91 -->
-## [v5.22.91](https://github.com/inspec/inspec/tree/v5.22.91) (2025-07-24)
+<!-- latest_release 5.22.96 -->
+## [v5.22.96](https://github.com/inspec/inspec/tree/v5.22.96) (2025-08-26)
 
 #### Merged Pull Requests
-- Bump thor from 1.3.1 to 1.4.0 in /omnibus [#7461](https://github.com/inspec/inspec/pull/7461) ([Nik08](https://github.com/Nik08))
+- CHEF-25164 Update Train deps for InSpec 5: train/train-core 3.13.4+, train-winrm… [#7508](https://github.com/inspec/inspec/pull/7508) ([sa-progress](https://github.com/sa-progress))
 <!-- latest_release -->
 
-<!-- release_rollup since=5.22.80 -->
-### Changes since 5.22.80 release
+<!-- release_rollup since=5.22.95 -->
+### Changes since 5.22.95 release
 
 #### Merged Pull Requests
-- Bump thor from 1.3.1 to 1.4.0 in /omnibus [#7461](https://github.com/inspec/inspec/pull/7461) ([Nik08](https://github.com/Nik08)) <!-- 5.22.91 -->
-- Revert &quot;CHEF-23961-InSpec 5-Hab upgrade for Ruby for 3.1.7&quot; [#7460](https://github.com/inspec/inspec/pull/7460) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.90 -->
-- CHEF-23589 Upgrade omnibus with Ruby 3.1.7 [#7423](https://github.com/inspec/inspec/pull/7423) ([Nik08](https://github.com/Nik08)) <!-- 5.22.89 -->
-- Update thor requirement from &gt;= 0.20, &lt; 1.3.0 to &gt;= 0.20, &lt; 1.5.0 [#7442](https://github.com/inspec/inspec/pull/7442) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.88 -->
-- Update rspec requirement from &gt;= 3.9, &lt;= 3.12 to &gt;= 3.9, &lt;= 3.14 [#7432](https://github.com/inspec/inspec/pull/7432) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.88 -->
-- Update rspec-its requirement from ~&gt; 1.2 to &gt;= 1.2, &lt; 3.0 [#7436](https://github.com/inspec/inspec/pull/7436) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.88 -->
-- Update Artifact test Profiles [#7443](https://github.com/inspec/inspec/pull/7443) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.88 -->
-- CHEF-23590-InSpec 5-Hab upgrade for Ruby for 3.1.7 [#7417](https://github.com/inspec/inspec/pull/7417) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.88 -->
-- Bump test-kitchen from 3.5.0 to 3.8.0 in /omnibus [#7413](https://github.com/inspec/inspec/pull/7413) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.87 -->
-- Fix for omnibus release windows build failure [#7424](https://github.com/inspec/inspec/pull/7424) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.87 -->
-- CHEF-21513 Drop Ruby 3.0 support from InSpec 5 [#7359](https://github.com/inspec/inspec/pull/7359) ([Nik08](https://github.com/Nik08)) <!-- 5.22.86 -->
-- Remove unsupported Windows platform from omnibus build pipeline [#7418](https://github.com/inspec/inspec/pull/7418) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.22.85 -->
-- FOREPORT: Fixes for ci/hab package not found error [#7416](https://github.com/inspec/inspec/pull/7416) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.84 -->
-- CHEF-18030- Fix GitFetcher to Clear Empty Cache Directory on Fetch [#7398](https://github.com/inspec/inspec/pull/7398) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.22.83 -->
-- Updated train pinning for future Ruby3 support [#7389](https://github.com/inspec/inspec/pull/7389) ([Nik08](https://github.com/Nik08)) <!-- 5.22.82 -->
-- Pipeline fixes [#7390](https://github.com/inspec/inspec/pull/7390) ([Nik08](https://github.com/Nik08)) <!-- 5.22.81 -->
+- CHEF-25164 Update Train deps for InSpec 5: train/train-core 3.13.4+, train-winrm… [#7508](https://github.com/inspec/inspec/pull/7508) ([sa-progress](https://github.com/sa-progress)) <!-- 5.22.96 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v5.22.95](https://github.com/inspec/inspec/tree/v5.22.95) (2025-08-05)
+
+#### Merged Pull Requests
+- Pipeline fixes [#7390](https://github.com/inspec/inspec/pull/7390) ([Nik08](https://github.com/Nik08))
+- Updated train pinning for future Ruby3 support [#7389](https://github.com/inspec/inspec/pull/7389) ([Nik08](https://github.com/Nik08))
+- CHEF-18030- Fix GitFetcher to Clear Empty Cache Directory on Fetch [#7398](https://github.com/inspec/inspec/pull/7398) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- FOREPORT: Fixes for ci/hab package not found error [#7416](https://github.com/inspec/inspec/pull/7416) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Remove unsupported Windows platform from omnibus build pipeline [#7418](https://github.com/inspec/inspec/pull/7418) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-21513 Drop Ruby 3.0 support from InSpec 5 [#7359](https://github.com/inspec/inspec/pull/7359) ([Nik08](https://github.com/Nik08))
+- Fix for omnibus release windows build failure [#7424](https://github.com/inspec/inspec/pull/7424) ([Vasu1105](https://github.com/Vasu1105))
+- Bump test-kitchen from 3.5.0 to 3.8.0 in /omnibus [#7413](https://github.com/inspec/inspec/pull/7413) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- CHEF-23590-InSpec 5-Hab upgrade for Ruby for 3.1.7 [#7417](https://github.com/inspec/inspec/pull/7417) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Update Artifact test Profiles [#7443](https://github.com/inspec/inspec/pull/7443) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Update rspec-its requirement from ~&gt; 1.2 to &gt;= 1.2, &lt; 3.0 [#7436](https://github.com/inspec/inspec/pull/7436) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update rspec requirement from &gt;= 3.9, &lt;= 3.12 to &gt;= 3.9, &lt;= 3.14 [#7432](https://github.com/inspec/inspec/pull/7432) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update thor requirement from &gt;= 0.20, &lt; 1.3.0 to &gt;= 0.20, &lt; 1.5.0 [#7442](https://github.com/inspec/inspec/pull/7442) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- CHEF-23589 Upgrade omnibus with Ruby 3.1.7 [#7423](https://github.com/inspec/inspec/pull/7423) ([Nik08](https://github.com/Nik08))
+- Revert &quot;CHEF-23961-InSpec 5-Hab upgrade for Ruby for 3.1.7&quot; [#7460](https://github.com/inspec/inspec/pull/7460) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Bump thor from 1.3.1 to 1.4.0 in /omnibus [#7461](https://github.com/inspec/inspec/pull/7461) ([Nik08](https://github.com/Nik08))
+- Bump omnibus from `c885825` to `d3264e1` in /omnibus [#7470](https://github.com/inspec/inspec/pull/7470) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update pry-byebug requirement from &lt; 3.11.0 to &lt; 3.12.0 [#7456](https://github.com/inspec/inspec/pull/7456) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump test-kitchen from 3.8.0 to 3.8.1 in /omnibus [#7465](https://github.com/inspec/inspec/pull/7465) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update rubyzip requirement from &gt;= 1.2.2, &lt; 3.0 to &gt;= 1.2.2, &lt; 4.0 [#7469](https://github.com/inspec/inspec/pull/7469) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump omnibus-software from `e1c6a63` to `d3688ec` in /omnibus [#7478](https://github.com/inspec/inspec/pull/7478) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update signet requirement from &lt; 0.20.0 to &lt; 0.21.0 [#7458](https://github.com/inspec/inspec/pull/7458) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Fix Github Action Skips [#7481](https://github.com/inspec/inspec/pull/7481) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Trigger Version Bumper [#7482](https://github.com/inspec/inspec/pull/7482) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- PR to bump version for inspec 5 release [#7484](https://github.com/inspec/inspec/pull/7484) ([Nik08](https://github.com/Nik08))
+<!-- latest_stable_release -->
+
 ## [v5.22.80](https://github.com/inspec/inspec/tree/v5.22.80) (2025-05-07)
 
 #### Merged Pull Requests
@@ -42,7 +57,6 @@
 - Pinned version of train kubernetes for 3.0 support [#7358](https://github.com/inspec/inspec/pull/7358) ([Nik08](https://github.com/Nik08))
 - Bump omnibus-software from `3b903b2` to `6961522` in /omnibus [#7357](https://github.com/inspec/inspec/pull/7357) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Version pinned train and train winrm  [#7360](https://github.com/inspec/inspec/pull/7360) ([Nik08](https://github.com/Nik08))
-<!-- latest_stable_release -->
 
 ## [v5.22.72](https://github.com/inspec/inspec/tree/v5.22.72) (2025-03-05)
 

@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   # recent changes made in thor library REF: https://github.com/rails/thor/releases/tag/v1.3.0 & https://github.com/rails/thor/pull/800
   spec.add_dependency "thor",                     ">= 0.20", "< 1.5.0"
   spec.add_dependency "method_source",            ">= 0.8", "< 2.0"
-  spec.add_dependency "rubyzip",                  ">= 1.2.2", "< 3.0"
+  spec.add_dependency "rubyzip",                  ">= 1.2.2", "< 4.0"
   spec.add_dependency "rspec",                    ">= 3.9", "<= 3.14"
   spec.add_dependency "rspec-its",                ">= 1.2", "< 3.0"
   spec.add_dependency "pry",                      "~> 0.13"
@@ -54,6 +54,5 @@ Gem::Specification.new do |spec|
   # which was causing a LoadError ('cannot load such file -- ast') for users/applications using 'inspec-core'.
   spec.add_dependency "cookstyle"
 
-  # compatible with Ruby 3.1.x
-  spec.add_dependency "train-core", "~> 3.13", ">= 3.13.2"
+  spec.add_dependency "train-core", "~> 3.13", ">= 3.13.4"
 end

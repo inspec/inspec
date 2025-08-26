@@ -1,0 +1,78 @@
+name: Build and Publish Habitat Packages to LTS-2024-Current Channel
+
+on: workflow_dispatch
+
+env:
+  BLDR_URL: 'https://bldr.habitat.sh/'
+  HAB_ORIGIN: 'chef'
+  HAB_AUTH_TOKEN: ${{ secrets.HAB_AUTH_TOKEN }}
+  HABITAT_VERSION_SET: 'latest'
+  CHEF_LICENSE: "accept-no-persist"
+  HAB_LICENSE: "accept-no-persist"
+  HAB_NONINTERACTIVE: "true"
+
+permissions:
+  contents: write
+
+jobs:
+  agent-matrix:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Print OS
+        run: echo "--- ${{ matrix.os }}"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Habitat
+        shell: bash
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: |
+          echo "--- Installing Habitat on Linux with version: $HABITAT_VERSION_SET"
+          curl https://raw.githubusercontent.com/habitat-sh/habitat/master/components/hab/install.sh | sudo bash -s -- -v "$HABITAT_VERSION_SET" -t "x86_64-linux"
+
+      - name: Install Habitat
+        shell: pwsh
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: |
+          Write-Output "--- Installing Habitat on Windows with version: $env:HABITAT_VERSION_SET"
+          $env:HAB_LICENSE = "accept-no-persist"
+          Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1) } -Version $env:HABITAT_VERSION_SET"
+
+      - name: Build and Upload Habitat Package
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        shell: bash
+        env:
+          HAB_REFRESH_CHANNEL: "LTS-2024"
+          HAB_BLDR_CHANNEL: "LTS-2024"
+        run: |
+          hab license accept
+          hab origin key download $HAB_ORIGIN
+          hab origin key download --auth $HAB_AUTH_TOKEN --secret $HAB_ORIGIN
+          hab pkg build .
+          source results/last_build.env
+          hab pkg upload --auth $HAB_AUTH_TOKEN results/$pkg_artifact --channel LTS-2024-current
+          echo "--- push complete!!"
+
+      - name: Build and Upload Habitat Package
+        if: ${{ matrix.os == 'windows-latest' }}
+        shell: pwsh
+        env:
+          HAB_REFRESH_CHANNEL: "LTS-2024"
+          HAB_BLDR_CHANNEL: "LTS-2024"
+        run: |
+          $env:Path += ";C:\ProgramData\Habitat"
+          hab license accept
+          hab origin key download $env:HAB_ORIGIN
+          hab origin key download --auth $env:HAB_AUTH_TOKEN --secret $env:HAB_ORIGIN
+          hab pkg build .
+          . results\last_build.ps1
+          hab pkg upload results\$pkg_artifact --auth $env:HAB_AUTH_TOKEN --channel LTS-2024-current
+          Write-Output "--- push complete!!"

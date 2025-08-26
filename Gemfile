@@ -40,13 +40,13 @@ group :test do
   # Pinning this version as it breaking for ruby 3.1.0
   gem "nokogiri", "< 1.17.2"
   # Pinning this version as it breaking for ruby 3.0.0
-  gem "pry-byebug", "< 3.11.0"
+  gem "pry-byebug", "< 3.12.0"
   gem "pry"
   gem "rake"
   gem "simplecov"
   gem "simplecov_json_formatter"
   gem "webmock"
-  gem "signet", "< 0.20.0" # 0.20.0+ requires min ruby 3.1
+  gem "signet", "< 0.21.0" # 0.20.0+ requires min ruby 3.1
   # Pinning to 1.15 as multi_json 1.16 require ruby 3.2 version
   # Ref: https://buildkite.com/chef-oss/inspec-inspec-inspec-5-verify/builds/647#019808ca-087b-43bc-b1f9-40a36f59c5f4
   gem "multi_json", "~> 1.15.0"
@@ -57,12 +57,9 @@ group :deploy do
 end
 
 # Build is failing - see: https://buildkite.com/chef-oss/inspec-inspec-inspec-5-verify/builds/442
-# Error:
-# zeitwerk-2.7.1 requires Ruby >= 3.2, which is incompatible with the current version (Ruby 3.0.7p220)
-
+# Error: zeitwerk-2.7.1 requires Ruby >= 3.2, which is incompatible with the current version (Ruby 3.0.7p220)
 # Dependency chain:
 # zeitwerk → dry-configurable, dry-struct, dry-types → k8s-ruby → train-kubernetes
-
 # Pinning zeitwerk to ~> 2.6 to avoid Ruby >= 3.2 requirement.
 # Remove this pin when upgrading to Ruby 3.2 or higher.
 gem "zeitwerk", "~> 2.6.0", "< 2.7"
