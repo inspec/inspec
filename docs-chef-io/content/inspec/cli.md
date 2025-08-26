@@ -183,6 +183,12 @@ This subcommand has the following additional options:
 `--key-files=one two three`
 : Login key or certificate file for a remote scan.
 
+`--kerberos-realm=KERBEROS_REALM`
+: Kerberos realm used for authentication (WinRM).
+
+`--kerberos-service=KERBEROS_SERVICE`
+: Kerberos service principal name (e.g., HTTP, HOST) (WinRM).
+
 `--password=PASSWORD`
 : Login password for a remote scan, if required.
 
@@ -212,6 +218,15 @@ This subcommand has the following additional options:
 
 `--shell-options=SHELL_OPTIONS`
 : Additional shell options.
+
+`--socks-password=SOCKS_PASSWORD`
+: Password for authenticating with the SOCKS5 proxy (WinRM).
+
+`--socks-proxy=SOCKS_PROXY`
+: SOCKS5H proxy URL to tunnel the WinRM connection (e.g., proxy-host:1080) (WinRM).
+
+`--socks-user=SOCKS_USER`
+: Username for authenticating with the SOCKS5 proxy (WinRM).
 
 `--ssl`
 `--no-ssl`
@@ -452,6 +467,12 @@ This subcommand has the following additional options:
 `--key-files=one two three`
 : Login key or certificate file for a remote scan.
 
+`--kerberos-realm=KERBEROS_REALM`
+: Kerberos realm used for authentication (WinRM).
+
+`--kerberos-service=KERBEROS_SERVICE`
+: Kerberos service principal name (e.g., HTTP, HOST) (WinRM).
+
 `--password=PASSWORD`
 : Login password for a remote scan, if required.
 
@@ -504,6 +525,15 @@ This subcommand has the following additional options:
 
 `--silence-deprecations=all|GROUP GROUP...`
 : Suppress deprecation warnings. See install_dir/etc/deprecations.json for a list of GROUPs or use 'all'.
+
+`--socks-password=SOCKS_PASSWORD`
+: Password for authenticating with the SOCKS5 proxy (WinRM).
+
+`--socks-proxy=SOCKS_PROXY`
+: SOCKS5H proxy URL to tunnel the WinRM connection (e.g., proxy-host:1080) (WinRM).
+
+`--socks-user=SOCKS_USER`
+: Username for authenticating with the SOCKS5 proxy (WinRM).
 
 `--ssh-config-file=one two three`
 : A list of paths to the SSH configuration file, for example: `~/.ssh/config` or `/etc/ssh/ssh_config`.
@@ -825,6 +855,12 @@ This subcommand has the following additional options:
 `--key-files=one two three`
 : Login key or certificate file for a remote scan.
 
+`--kerberos-realm=KERBEROS_REALM`
+: Kerberos realm used for authentication (WinRM).
+
+`--kerberos-service=KERBEROS_SERVICE`
+: Kerberos service principal name (e.g., HTTP, HOST) (WinRM).
+
 `--password=PASSWORD`
 : Login password for a remote scan, if required.
 
@@ -901,6 +937,15 @@ This subcommand has the following additional options:
 
 `--winrm-transport=WINRM_TRANSPORT`
 : Specify which transport to use, defaults to negotiate (WinRM).
+
+`--socks-password=SOCKS_PASSWORD`
+: Password for authenticating with the SOCKS5 proxy (WinRM).
+
+`--socks-proxy=SOCKS_PROXY`
+: SOCKS5H proxy URL to tunnel the WinRM connection (e.g., proxy-host:1080) (WinRM).
+
+`--socks-user=SOCKS_USER`
+: Username for authenticating with the SOCKS5 proxy (WinRM).
 
 `--enhanced-outcomes`
 : Includes enhanced outcome of controls in report data.
