@@ -275,3 +275,38 @@ another_input: another_value
 ```bash
 inspec shell --input-file=<path>
 ```
+
+### Using Shell with SOCKS5 Proxy
+
+For Windows targets behind a SOCKS5 proxy, you can use the shell with SOCKS proxy parameters:
+
+```bash
+# Basic SOCKS5 proxy connection
+inspec shell -t winrm://windows-host --socks-proxy socks5h://proxy-host:1080
+
+# SOCKS5 proxy with authentication
+inspec shell -t winrm://windows-host \
+  --socks-proxy socks5h://proxy-host:1080 \
+  --socks-user proxy_username \
+  --socks-password proxy_password \
+
+# Combined with Kerberos authentication
+inspec shell -t winrm://windows-host \
+  --socks-proxy socks5h://proxy-host:1080 \
+  --socks-user proxy_username \
+  --socks-password proxy_password \
+  --kerberos-realm CORP.EXAMPLE.COM \
+  --kerberos-service HTTP \
+  --winrm_transport kerberos 
+```
+
+Once connected through the SOCKS proxy, you can interact with Windows resources normally:
+
+```ruby
+inspec> os.family
+=> "windows"
+inspec> file('C:\Windows\System32').exist?
+=> true
+inspec> service('wuauserv').installed?
+=> true
+```
