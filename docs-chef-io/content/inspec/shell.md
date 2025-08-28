@@ -280,6 +280,8 @@ inspec shell --input-file=<path>
 
 For Windows targets behind a SOCKS5 proxy, you can use the shell with SOCKS proxy parameters:
 
+##### SOCKS5 proxy support is currently available only on Linux clients.
+
 ```bash
 # Basic SOCKS5 proxy connection
 inspec shell -t winrm://windows-host --socks-proxy socks5h://proxy-host:1080
@@ -288,7 +290,7 @@ inspec shell -t winrm://windows-host --socks-proxy socks5h://proxy-host:1080
 inspec shell -t winrm://windows-host \
   --socks-proxy socks5h://proxy-host:1080 \
   --socks-user proxy_username \
-  --socks-password proxy_password \
+  --socks-password proxy_password
 
 # Combined with Kerberos authentication
 inspec shell -t winrm://windows-host \
@@ -297,7 +299,7 @@ inspec shell -t winrm://windows-host \
   --socks-password proxy_password \
   --kerberos-realm CORP.EXAMPLE.COM \
   --kerberos-service HTTP \
-  --winrm_transport kerberos 
+  --winrm_transport kerberos
 ```
 
 Once connected through the SOCKS proxy, you can interact with Windows resources normally:
