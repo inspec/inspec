@@ -276,33 +276,39 @@ another_input: another_value
 inspec shell --input-file=<path>
 ```
 
-### Using Shell with SOCKS5 Proxy
+## Use the InSpec Shell with a SOCKS5 proxy
 
-For Windows targets behind a SOCKS5 proxy, you can use the shell with SOCKS proxy parameters:
+You can use the InSpec Shell to target Windows nodes using WinRM through a SOCKS5 proxy.
+This is supported on Linux clients.
 
-##### SOCKS5 proxy support is currently available only on Linux clients.
+To start an InSpec Shell session with a basic SOCKS5 proxy connection:
 
 ```bash
-# Basic SOCKS5 proxy connection
-inspec shell -t winrm://windows-host --socks-proxy socks5h://proxy-host:1080
+inspec shell -t winrm://<WINDOWS_HOST> --socks-proxy socks5h://<PROXY_HOST>:1080
+```
 
-# SOCKS5 proxy with authentication
-inspec shell -t winrm://windows-host \
-  --socks-proxy socks5h://proxy-host:1080 \
-  --socks-user proxy_username \
-  --socks-password proxy_password
+To start an InSpec Shell session with a SOCKS5 proxy and authentication:
 
-# Combined with Kerberos authentication
-inspec shell -t winrm://windows-host \
-  --socks-proxy socks5h://proxy-host:1080 \
-  --socks-user proxy_username \
-  --socks-password proxy_password \
-  --kerberos-realm CORP.EXAMPLE.COM \
+```bash
+inspec shell -t winrm://<WINDOWS_HOST> \
+  --socks-proxy socks5h://<PROXY_HOST>:1080 \
+  --socks-user <PROXY_USERNAME> \
+  --socks-password <PROXY_PASSWORD>
+```
+
+To start an InSpec Shell session with a SOCKS5 proxy using SOCKS and Kerberos authentication:
+
+```bash
+inspec shell -t winrm://<WINDOWS_HOST> \
+  --socks-proxy socks5h://<PROXY_HOST>:1080 \
+  --socks-user <PROXY_USERNAME> \
+  --socks-password <PROXY_PASSWORD> \
+  --kerberos-realm <KERBEROS_REALM> \
   --kerberos-service HTTP \
   --winrm_transport kerberos
 ```
 
-Once connected through the SOCKS proxy, you can interact with Windows resources normally:
+Once you're connected through the SOCKS proxy, you can interact with Windows resources normally. For example:
 
 ```ruby
 inspec> os.family
