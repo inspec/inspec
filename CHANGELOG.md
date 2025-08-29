@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.23.0 -->
-## [v5.23.0](https://github.com/inspec/inspec/tree/v5.23.0) (2025-08-29)
+<!-- latest_release 5.23.1 -->
+## [v5.23.1](https://github.com/inspec/inspec/tree/v5.23.1) (2025-08-29)
 
 #### Merged Pull Requests
-- Chef 23504 add socks kerberos cli options to inspec [#7448](https://github.com/inspec/inspec/pull/7448) ([sathish-progress](https://github.com/sathish-progress))
+- Bump omnibus-software from `d3688ec` to `50c7885` in /omnibus [#7500](https://github.com/inspec/inspec/pull/7500) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.95 -->
 ### Changes since 5.22.95 release
 
 #### Merged Pull Requests
+- Bump omnibus-software from `d3688ec` to `50c7885` in /omnibus [#7500](https://github.com/inspec/inspec/pull/7500) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.23.1 -->
 - Chef 23504 add socks kerberos cli options to inspec [#7448](https://github.com/inspec/inspec/pull/7448) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.0 -->
 - Update signet requirement from &lt; 0.21.0 to &lt; 0.22.0 [#7511](https://github.com/inspec/inspec/pull/7511) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.97 -->
 - CHEF-25164 Update Train deps for InSpec 5: train/train-core 3.13.4+, train-winrm… [#7508](https://github.com/inspec/inspec/pull/7508) ([sa-progress](https://github.com/sa-progress)) <!-- 5.22.96 -->
