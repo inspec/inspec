@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.61 -->
-## [v7.0.61](https://github.com/inspec/inspec/tree/v7.0.61) (2025-08-21)
+<!-- latest_release 7.0.62 -->
+## [v7.0.62](https://github.com/inspec/inspec/tree/v7.0.62) (2025-09-01)
 
 #### Merged Pull Requests
-- CHEF-23911 Revert &quot;CHEF-18207 Removed SSH resources and tests&quot; [#7502](https://github.com/inspec/inspec/pull/7502) ([sa-progress](https://github.com/sa-progress))
+- CHEF-23438-Bypass entitlement checks for InSpec7 [#7509](https://github.com/inspec/inspec/pull/7509) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- CHEF-23438-Bypass entitlement checks for InSpec7 [#7509](https://github.com/inspec/inspec/pull/7509) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.62 -->
 - CHEF-23911 Revert &quot;CHEF-18207 Removed SSH resources and tests&quot; [#7502](https://github.com/inspec/inspec/pull/7502) ([sa-progress](https://github.com/sa-progress)) <!-- 7.0.61 -->
 - Revert &quot;CHEF-21376 Disable licensing and telemetry from InSpec 7&quot; [#7495](https://github.com/inspec/inspec/pull/7495) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.60 -->
 - Reverted testing change for chef-licensing upgrade on Ruby 3.4 [#7479](https://github.com/inspec/inspec/pull/7479) ([Nik08](https://github.com/Nik08)) <!-- 7.0.59 -->
