@@ -57,8 +57,7 @@ module Inspec
       rescue ChefLicensing::SoftwareNotEntitled
         true
         # UNDO: uncomment if entitlement check is needed
-        # Edge Case by product: https://progresssoftware.atlassian.net/browse/CHEF-23438
-        # By default, all licensed users are assumed to be entitled to use this product.
+        # Edge Case by product: By default, all licensed users are assumed to be entitled to use this product.
         #
         # Inspec::Log.error "License is not entitled to use InSpec."
         # Inspec::UI.new.exit(:license_not_entitled)
