@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.8.42 -->
+## [v6.8.42](https://github.com/inspec/inspec/tree/v6.8.42) (2025-09-08)
 
 #### Merged Pull Requests
+- CHEF-23919 - Update Windows platform support list [#7420](https://github.com/inspec/inspec/pull/7420) ([Vasu1105](https://github.com/Vasu1105))
 - CHEF-21404 Enable CI for trufflelog scanning [#7399](https://github.com/inspec/inspec/pull/7399) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- CHEF-23919 - Update Windows platform support list [#7420](https://github.com/inspec/inspec/pull/7420) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.8.42 -->
 - CHEF-21404 Enable CI for trufflelog scanning [#7399](https://github.com/inspec/inspec/pull/7399) ([Nik08](https://github.com/Nik08)) <!-- 6.8.41 -->
 - forport #7424 [#7425](https://github.com/inspec/inspec/pull/7425) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.8.41 -->
 - FOREPORT: Fixes for ci/hab package not found error [#7415](https://github.com/inspec/inspec/pull/7415) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 6.8.40 -->
