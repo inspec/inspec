@@ -57,7 +57,7 @@ function Invoke-Build {
 
         Write-BuildLine "** Installing custom chef-licensing branch "
         git clone --depth 1 --branch nm/introducing-optional-mode https://github.com/chef/chef-licensing.git "$customGemsPath\chef-licensing"
-        Push-Location "$customGemsPath\chef-licensing"
+        Push-Location "$customGemsPath\chef-licensing\components\ruby"
         Write-BuildLine " ** Installing chef-licensing"
         bundle install
         If ($lastexitcode -ne 0) { Exit $lastexitcode }
