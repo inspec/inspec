@@ -48,6 +48,33 @@ function Invoke-Build {
         Write-BuildLine " ** Using bundler to retrieve the Ruby dependencies"
         bundle install
         If ($lastexitcode -ne 0) { Exit $lastexitcode }
+
+        # --- Installing custom chef-licensing branch ---
+        $customGemsPath = Join-Path $HAB_CACHE_SRC_PATH "custom_gems"
+        if (!(Test-Path $customGemsPath)) {
+            New-Item -ItemType Directory -Path $customGemsPath | Out-Null
+        }
+
+        Write-BuildLine "** Installing custom chef-licensing branch "
+        git clone --depth 1 --branch nm/introducing-optional-mode https://github.com/chef/chef-licensing.git "$customGemsPath\chef-licensing"
+        Push-Location "$customGemsPath\chef-licensing"
+        Write-BuildLine " ** Installing chef-licensing"
+        bundle install
+        If ($lastexitcode -ne 0) { Exit $lastexitcode }
+        Pop-Location
+
+        # internal artificatory is not compatible to resolve gem deps and fails with gem install <URL>
+        # so we are using the following workaround
+        Write-BuildLine "** Installing chef-official-distribution gem from artifactory"
+        $gemFile = Join-Path $customGemsPath "chef-official-distribution-0.1.3.gem"
+        if (!(Test-Path $gemFile)) {
+            Write-BuildLine " ** Downloading chef-official-distribution"
+            Invoke-WebRequest -Uri "https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/gems/chef-official-distribution-0.1.3.gem" -OutFile $gemFile
+        }
+
+        Write-BuildLine " ** Installing test-distribution gem"
+        gem install $gemFile --no-document --install-dir $env:GEM_HOME
+        If ($lastexitcode -ne 0) { Exit $lastexitcode }
         Write-BuildLine " ** Running the inspec project's 'rake install' to install the path-based gems so they look like any other installed gem."
         bundle exec rake install # this needs to be 'bundle exec'd because a Rakefile makes reference to Bundler
         If ($lastexitcode -ne 0) { Exit $lastexitcode }
@@ -57,37 +84,6 @@ function Invoke-Build {
 }
 
 function Invoke-Install {
-    # Work around to load custom chef-licensing branch
-    Write-BuildLine "** Installing custom chef-licensing branch"
-    git clone --depth 1 --branch nm/introducing-optional-mode https://github.com/chef/chef-licensing.git $env:TEMP/chef-licensing
-    try {
-        Push-Location $env:TEMP/chef-licensing/components/ruby
-        gem build chef-licensing.gemspec
-        gem install chef-licensing-*.gem --no-document
-        If ($lastexitcode -ne 0) { Exit $lastexitcode }
-    } finally {
-        Pop-Location
-    }
-    Remove-Item $env:TEMP/chef-licensing -Recurse -Force
-
-    # Verify chef-licensing installation
-    Write-BuildLine "** Verifying chef-licensing installation"
-    gem list chef-licensing
-    If ($lastexitcode -ne 0) { Exit $lastexitcode }
-
-    # internal artificatory is not compatible to resolve gem deps and fails with gem install <URL>
-    # so we are using the following workaround
-    Write-BuildLine "** Installing chef-official-distribution gem from artifactory"
-    Invoke-WebRequest -Uri "https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/gems/chef-official-distribution-0.1.3.gem" -OutFile "chef-official-distribution-0.1.3.gem"
-    gem install chef-official-distribution-0.1.3.gem --local
-    If ($lastexitcode -ne 0) { Exit $lastexitcode }
-    Remove-Item chef-official-distribution-0.1.3.gem -Force
-
-    # Verify chef-official-distribution installation
-    Write-BuildLine "** Verifying chef-official-distribution installation"
-    gem list chef-official-distribution
-    If ($lastexitcode -ne 0) { Exit $lastexitcode }
-
     Write-BuildLine "** Copy built & cached gems to install directory"
     Copy-Item -Path "$HAB_CACHE_SRC_PATH/$pkg_dirname/*" -Destination $pkg_prefix -Recurse -Force -Exclude @("gem_make.out", "mkmf.log", "Makefile",
                      "*/latest", "latest",
@@ -96,9 +92,9 @@ function Invoke-Install {
     try {
         Push-Location $pkg_prefix
         bundle config --local gemfile $project_root/Gemfile
+        gem install --install-dir $env:GEM_HOME appbundler
+
         foreach($gem in ("inspec-core", "inspec", "inspec-bin")) {
-            Write-BuildLine "** generating binstubs for $gem with precise version pins"
-            gem install --install-dir $env:GEM_HOME appbundler
             Write-BuildLine "** Generating binstubs for $gem with precise version pins"
             Invoke-Expression -Command "$env:GEM_HOME/bin/appbundler.bat $project_root $pkg_prefix/bin $gem"
             If ($lastexitcode -ne 0) { Exit $lastexitcode }
