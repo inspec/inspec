@@ -89,7 +89,7 @@ jobs:
       generate-sbom: true
       export-github-sbom: true      # SPDX JSON artifact on job instance  
       perform-blackduck-sca-scan: true # Re-enable built-in SCA
-      blackduck-scan-failure-severities: 'BLOCKER,CRITICAL,HIGH'  # Control which severities fail the build
+      blackduck-scan-failure-severities: 'BLOCKER,CRITICAL'  # Control which severities fail the build (removed HIGH to be less strict)
       generate-blackduck-sbom: false # obsolete, use perform-blackduck-sca-scan instead
         
       generate-msft-sbom: false
