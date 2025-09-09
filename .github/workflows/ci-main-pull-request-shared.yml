@@ -192,7 +192,7 @@ on:
         description: 'BlackDuck scan failure severities (e.g., BLOCKER, CRITICAL, HIGH, MEDIUM, LOW)'
         required: false
         type: string
-        default: 'BLOCKER,CRITICAL'
+        default: 'BLOCKER'
       udf1:
         description: 'User defined flag 1'
         required: false
