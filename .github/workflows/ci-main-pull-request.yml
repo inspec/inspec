@@ -91,7 +91,7 @@ jobs:
       generate-sbom: true
       export-github-sbom: true      # SPDX JSON artifact on job instance  
       perform-blackduck-sca-scan: true # Re-enable built-in SCA
-      blackduck-project-group-name: 'InSpec' # typically one of (Chef), Chef-Agents, Chef-Automate, Chef-Chef360, Chef-Habitat, Chef-Infrastructure-Server, Chef-Shared-Services'
+      blackduck-project-group-name: 'Chef-Agents' # typically one of (Chef), Chef-Agents, Chef-Automate, Chef-Chef360, Chef-Habitat, Chef-Infrastructure-Server, Chef-Shared-Services'
       blackduck-project-name: ${{ github.event.repository.name }} # BlackDuck project name, typically the repository name
       generate-blackduck-sbom: false # obsolete, use perform-blackduck-sca-scan instead
         
