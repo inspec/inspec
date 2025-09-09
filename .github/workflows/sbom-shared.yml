@@ -198,6 +198,7 @@ jobs:
             --detect.policy.check=false
             --detect.risk.report.pdf=false
             --detect.project.codelocation.unmap=true
+            --bridge.break=false
           ### ---------- SRM SCANNING: REQUIRED FIELDS ----------
           # srm_url: ${{ secrets.BLACKDUCK_SBOM_URL }}  # SRM_URL
           # srm_apikey: ${{ secrets.BLACKDUCK_SBOM_API_KEY }}  # SRM_API_KEY
