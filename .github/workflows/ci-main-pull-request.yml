@@ -90,7 +90,7 @@ jobs:
       export-github-sbom: true      # SPDX JSON artifact on job instance  
       perform-blackduck-sca-scan: true # Re-enable built-in SCA
       blackduck-scan-failure-severities: 'BLOCKER'  # Only fail on BLOCKER severity (most critical only)
-      generate-blackduck-sbom: true # obsolete, use perform-blackduck-sca-scan instead
+      generate-blackduck-sbom: false # obsolete, use perform-blackduck-sca-scan instead
         
       generate-msft-sbom: false
       license_scout: false      # Run license scout for license compliance (uses .license_scout.yml)
