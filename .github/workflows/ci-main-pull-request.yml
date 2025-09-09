@@ -30,7 +30,7 @@ jobs:
 
   # Run the local shared flow with BlackDuck scan failure control; SBOM export to GitHub is ON here.
   call-ci-main-pr-check-pipeline:
-    uses: ./.github/workflows/shared/ci-main-pull-request.yml
+    uses: ./.github/workflows/ci-main-pull-request-shared.yml
     secrets: inherit
     permissions: 
       id-token: write

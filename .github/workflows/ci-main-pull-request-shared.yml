@@ -785,7 +785,7 @@ jobs:
   generate-sbom:
     name: 'Generating SBOM'
     if: ${{ inputs.generate-sbom == true }}
-    uses: ./.github/workflows/shared/sbom.yml
+    uses: ./.github/workflows/sbom-shared.yml
     needs: ci-build
     secrets: inherit
     with:
