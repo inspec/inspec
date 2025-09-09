@@ -28,9 +28,9 @@ jobs:
         run: |
           echo "CI main pull request stub version $STUB_VERSION"
 
-  # Run the org's shared flow; SBOM export to GitHub is ON here.
+  # Run the local shared flow with BlackDuck scan failure control; SBOM export to GitHub is ON here.
   call-ci-main-pr-check-pipeline:
-    uses: chef/common-github-actions/.github/workflows/ci-main-pull-request.yml@main
+    uses: ./.github/workflows/shared/ci-main-pull-request.yml
     secrets: inherit
     permissions: 
       id-token: write
@@ -89,6 +89,7 @@ jobs:
       generate-sbom: true
       export-github-sbom: true      # SPDX JSON artifact on job instance  
       perform-blackduck-sca-scan: true # Re-enable built-in SCA
+      blackduck-scan-failure-severities: 'BLOCKER,CRITICAL,HIGH'  # Control which severities fail the build
       generate-blackduck-sbom: false # obsolete, use perform-blackduck-sca-scan instead
         
       generate-msft-sbom: false
