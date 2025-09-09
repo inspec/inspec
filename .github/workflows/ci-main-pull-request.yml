@@ -42,8 +42,6 @@ jobs:
 
       # if version specified, it takes precedence; can be a semver like 1.0.2-xyz or a tag like "latest"
       version: '0.1.0' # ${{ github.event.repository.version }}
-      detect-version-source-type: 'file' # options include "none" (do not detect), "file", "github-tag" or "github-release"
-      detect-version-source-parameter: '' # use for file name
       
       # complexity-checks
       perform-complexity-checks: true
