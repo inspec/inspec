@@ -51,7 +51,7 @@ function Invoke-Build {
         Write-BuildLine " ** Running the inspec project's 'rake install' to install the path-based gems so they look like any other installed gem."
         bundle exec rake install # this needs to be 'bundle exec'd because a Rakefile makes reference to Bundler
         If ($lastexitcode -ne 0) { Exit $lastexitcode }
-    }finally {
+    } finally {
         Pop-Location
     }
 }
