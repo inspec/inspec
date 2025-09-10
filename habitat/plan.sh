@@ -51,6 +51,18 @@ do_build() {
 }
 
 do_install() {
+  # workaround to load custom chef-licensing branch
+  git clone --depth 1 --branch nm/introducing-optional-mode https://github.com/chef/chef-licensing.git /tmp/chef-licensing
+  pushd /tmp/chef-licensing/components/ruby
+    gem build chef-licensing.gemspec
+    gem install chef-licensing-*.gem --no-document
+  popd
+  rm -rf /tmp/chef-licensing
+
+  gem source --add "https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/"
+  gem install chef-official-distribution
+  gem sources -r "https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/"
+
   # MUST install inspec first because inspec-bin depends on it via gemspec
   pushd "$HAB_CACHE_SRC_PATH/$pkg_dirname/"
     gem install inspec-*.gem --no-document
