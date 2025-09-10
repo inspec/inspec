@@ -57,7 +57,7 @@ function Invoke-Build {
 }
 
 function Invoke-Install {
-    # Work around to load custom chef-licensing branch
+    # workaround to load custom chef-licensing branch
     Write-BuildLine "** Installing custom chef-licensing branch"
     git clone --depth 1 --branch nm/introducing-optional-mode https://github.com/chef/chef-licensing.git $env:TEMP/chef-licensing
     try {
@@ -75,7 +75,7 @@ function Invoke-Install {
     gem list chef-licensing
     If ($lastexitcode -ne 0) { Exit $lastexitcode }
 
-    # internal artificatory is not compatible to resolve gem deps and fails with gem install <URL>
+    # internal artifactory is not compatible to resolve gem deps and fails with gem install <URL>
     # so we are using the following workaround
     Write-BuildLine "** Installing chef-official-distribution gem from artifactory"
     Invoke-WebRequest -Uri "https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/gems/chef-official-distribution-0.1.3.gem" -OutFile "chef-official-distribution-0.1.3.gem"
