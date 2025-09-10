@@ -55,8 +55,12 @@ module Inspec
         Inspec::Log.error "#{Inspec::Dist::PRODUCT_NAME} cannot execute without valid licenses."
         Inspec::UI.new.exit(:license_not_set)
       rescue ChefLicensing::SoftwareNotEntitled
-        Inspec::Log.error "License is not entitled to use InSpec."
-        Inspec::UI.new.exit(:license_not_entitled)
+        true
+        # UNDO: uncomment if entitlement check is needed
+        # Edge Case by product: By default, all licensed users are assumed to be entitled to use this product.
+        #
+        # Inspec::Log.error "License is not entitled to use InSpec."
+        # Inspec::UI.new.exit(:license_not_entitled)
       rescue ChefLicensing::Error => e
         Inspec::Log.error e.message
         Inspec::UI.new.exit(:usage_error)
