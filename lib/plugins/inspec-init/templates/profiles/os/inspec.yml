@@ -6,5 +6,8 @@ copyright_email: you@example.com
 license: Apache-2.0
 summary: An InSpec Compliance Profile
 version: 0.1.0
+<% if resource_dependency %>depends:
+  - name: <%= resource_dependency %>
+    gem: <%= resource_dependency %><% end %>
 supports:
   platform: os
