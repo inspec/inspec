@@ -59,15 +59,9 @@ do_install() {
   popd
   rm -rf /tmp/chef-licensing
 
-  # internal artifactory is not compatible to resolve gem deps and fails with gem install <URL>
-  # so we are using the following workaround
-  # curl -o chef-official-distribution-0.1.3.gem https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/gems/chef-official-distribution-0.1.3.gem && gem install chef-official-distribution-0.1.3.gem --local
-
-  if [[ -n "${ARTIFACTORY_BASE_URL}" ]]; then
-    gem source --add "${ARTIFACTORY_BASE_URL}/artifactory/omnibus-gems-local/"
-    gem install chef-official-distribution
-    gem sources -r "${ARTIFACTORY_BASE_URL}/artifactory/omnibus-gems-local/"
-  fi
+  gem source --add "https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/"
+  gem install chef-official-distribution
+  gem sources -r "https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/"
 
   # MUST install inspec first because inspec-bin depends on it via gemspec
   pushd "$HAB_CACHE_SRC_PATH/$pkg_dirname/"
