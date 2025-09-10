@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.62 -->
-## [v7.0.62](https://github.com/inspec/inspec/tree/v7.0.62) (2025-09-01)
+<!-- latest_release 7.0.63 -->
+## [v7.0.63](https://github.com/inspec/inspec/tree/v7.0.63) (2025-09-10)
 
 #### Merged Pull Requests
-- CHEF-23438-Bypass entitlement checks for InSpec7 [#7509](https://github.com/inspec/inspec/pull/7509) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- CHEF-23438-Disable Entitlement check for edge case  [#7520](https://github.com/inspec/inspec/pull/7520) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- CHEF-23438-Disable Entitlement check for edge case  [#7520](https://github.com/inspec/inspec/pull/7520) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.63 -->
 - CHEF-23438-Bypass entitlement checks for InSpec7 [#7509](https://github.com/inspec/inspec/pull/7509) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.62 -->
 - CHEF-23911 Revert &quot;CHEF-18207 Removed SSH resources and tests&quot; [#7502](https://github.com/inspec/inspec/pull/7502) ([sa-progress](https://github.com/sa-progress)) <!-- 7.0.61 -->
 - Revert &quot;CHEF-21376 Disable licensing and telemetry from InSpec 7&quot; [#7495](https://github.com/inspec/inspec/pull/7495) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.60 -->
