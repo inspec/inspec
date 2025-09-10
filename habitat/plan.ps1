@@ -35,13 +35,6 @@ function Invoke-SetupEnvironment {
 
 function Invoke-Build {
     try {
-        # Add Windows Defender exclusions for Habitat directories to improve build performance
-        Write-BuildLine " ** Adding Windows Defender exclusions for Habitat directories"
-        Add-MpPreference -ExclusionPath "C:\hab"
-        Add-MpPreference -ExclusionPath "C:\ProgramData\hab"
-        Add-MpPreference -ExclusionPath "$env:USERPROFILE\.hab"
-        Add-MpPreference -ExclusionPath $project_root
-
         $env:Path += ";c:\\Program Files\\Git\\bin"
         Push-Location $project_root
         $env:GEM_HOME = "$HAB_CACHE_SRC_PATH/$pkg_dirname/vendor"
@@ -58,8 +51,7 @@ function Invoke-Build {
         Write-BuildLine " ** Running the inspec project's 'rake install' to install the path-based gems so they look like any other installed gem."
         bundle exec rake install # this needs to be 'bundle exec'd because a Rakefile makes reference to Bundler
         If ($lastexitcode -ne 0) { Exit $lastexitcode }
-    }
-    finally {
+    }finally {
         Pop-Location
     }
 }
