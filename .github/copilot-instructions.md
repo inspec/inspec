@@ -562,15 +562,31 @@ All tasks should follow this prompt-based workflow:
    - Identify files to be modified/created
    - Plan test strategy
 3. **Provide Summary**: Summarize understanding and ask for confirmation
-4. **Prompt**: **Analysis Complete**. Next step: Start implementation. Other steps remaining: Implementation → Testing → PR Creation. Do you want to continue with the implementation?"
+4. **Prompt**: **Analysis Complete**. Next step: Start implementation. Other steps remaining: Implementation → Testing → Committing the code → PR Creation. Do you want to continue with the implementation?"
 
 #### Step 2: Implementation
 1. **Code Implementation**:
-   - Follow existing code patterns and styles
-   - Implement changes incrementally
-   - Follow Ruby/InSpec best practices
+   - **Read InSpec Context First**: Review relevant sections from this instructions file based on your task:
+     - **Documentation work**: Follow the **Documentation Structure and Guidelines** section
+     - **CLI changes**: Reference **CLI Option Management** patterns and **Base CLI Options**
+     - **Resource development**: Use **Resource Development** patterns and check `lib/inspec/resources/`
+     - **Transport/connection work**: Review **Transport Layer Integration** and **Remote Connection Development**
+     - **Testing framework**: Follow **Testing Patterns** section (Unit Tests, Functional Tests, Integration Tests)
+     - **Licensing features**: Reference **Licensing System** integration patterns
+     - **Plugin development**: Check **Plugin system files** and existing plugins in `lib/plugins/`
+     - **Packaging/distribution**: Review **Packaging and Distribution** section for Habitat/Omnibus changes
+   - **Follow Coding Standards**:
+     - Use **Code Style Guidelines** for Ruby version compatibility and string literals
+     - Follow **Error Handling Patterns** for InSpec-specific exceptions
+     - Check **Key Development Patterns** for architecture-specific guidance
+   - **Implementation Approach**:
+     - Follow existing code patterns and styles in similar files
+     - Implement changes incrementally
+     - Follow Ruby/InSpec best practices as documented above
+     - Check **Common File Locations** to understand where different types of code should go
+     - Review **Files and Areas to Avoid Modifying** before making changes
 2. **Progress Updates**: After each significant change, provide summary
-3. **Prompt**: **Implementation Complete**. Next step: Create unit tests. Other steps remaining: Testing → PR Creation. Do you want to continue with creating tests?"
+3. **Prompt**: **Implementation Complete**. Next step: Create unit tests. Other steps remaining: Testing → Committing the code → PR Creation. Do you want to continue with creating tests?"
 
 #### Step 3: Testing
 1. **Create Unit Tests**:
@@ -579,16 +595,20 @@ All tasks should follow this prompt-based workflow:
    - Use Minitest framework with describe/it syntax as documented
    - Follow existing test patterns in `test/unit/` and use `MockLoader` for resource testing
    - Ensure good test coverage
-2. **Run Tests**: Execute tests to verify functionality
-3. **Prompt**: **Tests Complete**. Next step: Create PR with GitHub CLI. Other steps remaining: PR Creation. Do you want to continue with PR creation?"
+   - Skip the test cases if the change is a documentation change.
+2. **Run Tests**: Execute tests to verify functionality if test cases were added
+3. **Prompt**: **Tests Complete**. Next step: Committing the code. Other steps remaining: Committing the code → PR Creation. Do you want to continue with committing the code?"
 
-#### Step 4: PR Creation
+#### Step 4: Committing the code
 1. **Create Branch**: Use Jira ID as branch name (if provided)
-2. **Commit Changes**: Stage and commit all changes
-3. **Push Branch**: Push to remote repository
-4. **Create PR**: Use GitHub CLI to create pull request
-5. **PR Description**: Include HTML-formatted summary of changes
-6. **Final Prompt**: **PR Created Successfully**. All steps completed!"
+2. **Commit Changes**: Stage and commit all changes. Use meaningful commit messages. Create separate commits for different types of changes (code, tests, docs).
+6. **Prompt**: **Code committed Successfully**. Next step: Create PR with GitHub CLI. Other steps remaining: PR Creation. Do you want to continue with PR creation?"
+
+#### Step 5: PR Creation
+1. **Push Branch**: Push to remote repository
+2. **Create PR**: Use GitHub CLI to create pull request
+3. **PR Description**: Include HTML-formatted summary of changes
+4. **Final Prompt**: **PR Created Successfully**. All steps completed!"
 
 ### 3. Prompt-Based Execution
 
@@ -618,23 +638,26 @@ When creating PRs:
    gh pr create --title "feat: {JIRA_ID} - Brief description" --body "{HTML_DESCRIPTION}"
    ```
 
-4. **PR Description Format**: Use HTML tags for better formatting
-   ```html
-   <h2>Summary</h2>
-   <p>Brief description of changes</p>
-   
-   <h2>Changes Made</h2>
-   <ul>
-   <li>Change 1</li>
-   <li>Change 2</li>
-   </ul>
-   
-   <h2>Testing</h2>
-   <p>Description of tests added/modified</p>
-   
-   <h2>Jira</h2>
-   <p>Resolves: {JIRA_ID}</p>
-   ```
+4. **PR Description Format**: Follow this format for better consistency
+  <!--- Provide a short summary of your changes in the Title above -->
+
+  ## Description
+  <!--- Describe your changes in detail, what problems does it solve? -->
+
+  ## Related Issue
+  <!--- If you are suggesting a new feature or change, please create an issue first -->
+  <!--- Please link to the issue, discourse, or stackoverflow here: -->
+
+  ## Types of changes
+  <!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+  - [ ] Bug fix (non-breaking change which fixes an issue)
+  - [ ] New content (non-breaking change)
+  - [ ] Breaking change (a content change which would break existing functionality or processes)
+
+  ## Checklist:
+  <!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
+  <!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+  - [ ] I have read the **CONTRIBUTING** document.
 
 ### 5. MCP Server Integration (atlassian-mcp-server)
 
