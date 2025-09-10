@@ -15,6 +15,18 @@ Write-Host "--- system details"
 $Properties = 'Caption', 'CSName', 'Version', 'BuildType', 'OSArchitecture'
 Get-CimInstance Win32_OperatingSystem | Select-Object $Properties | Format-Table -AutoSize
 
+Write-Host "--- Adding Windows Defender exclusions for Habitat directories"
+try {
+    Add-MpPreference -ExclusionPath "C:\hab"
+    Add-MpPreference -ExclusionPath "C:\ProgramData\hab"
+    Add-MpPreference -ExclusionPath "$env:USERPROFILE\.hab"
+    $project_root = "$(git rev-parse --show-toplevel)"
+    Add-MpPreference -ExclusionPath $project_root
+    Write-Host "Windows Defender exclusions added successfully"
+} catch {
+    Write-Host "Warning: Could not add Windows Defender exclusions (may require admin rights): $($_.Exception.Message)"
+}
+
 Write-Host "--- Installing the version of Habitat required"
 try {
   hab --version
