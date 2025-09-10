@@ -359,6 +359,123 @@ export GITHUB_TOKEN=ghp_your-token
 gem "train-winrm", path: "/path/to/local/train-winrm"
 ```
 
+## Documentation Structure and Guidelines
+
+InSpec maintains documentation across multiple locations, each serving different purposes and audiences.
+
+### docs.chef.io Documentation (`docs-chef-io/` folder)
+
+All user-facing documentation visible on [docs.chef.io](https://docs.chef.io/inspec/) is maintained in the `docs-chef-io/` folder:
+
+```
+docs-chef-io/
+├── content/inspec/           # Main InSpec documentation
+│   ├── _index.md            # Overview page
+│   ├── cli.md               # CLI reference
+│   ├── resources/           # Resource documentation
+│   ├── reporters.md         # Reporters documentation
+│   ├── habitat.md           # Habitat integration
+│   └── ...                  # Other user guides
+├── layouts/                 # Hugo layout templates
+├── static/                  # Static assets (images, CSS)
+└── config.toml             # Hugo configuration
+```
+
+**Example Documentation File:**
+```markdown
++++
+title = "Resource Name"
+draft = false
+gh_repo = "inspec"
+
+[menu]
+  [menu.inspec]
+    title = "Resource Name"
+    identifier = "inspec/resources/resource_name"
+    parent = "inspec/resources"
+    weight = 10
++++
+
+# Resource Description
+
+Brief description of what the resource does...
+
+## Syntax
+
+Basic syntax example...
+
+## Examples
+
+Practical usage examples...
+```
+
+**Important Notes:**
+- Confirm the different sections that needs to be included in the documentation before making any changes.
+
+### GitHub Wiki (Release Notes)
+
+**Location**: https://github.com/inspec/inspec/wiki/Pending-Release-Notes
+
+**Important Notes:**
+- **Do NOT create files in repository**
+- **NOT controlled by code repository** - Wiki is separate from main codebase
+- **Manually updated** by accessing the GitHub wiki interface directly
+- Provide with the content that could be used to update manually but do not make any changes to the repository itself. And also suggest to follow the process to update it.
+
+**Process:**
+1. Release notes are drafted in the "Pending Release Notes" wiki page
+2. During release process, content is moved to version-specific pages
+3. Updates require direct wiki access, not pull requests
+4. Content is used by automated release scripts
+
+**Content Structure:**
+- **New Features**: Major functionality additions
+- **Improvements**: Performance and usability enhancements
+- **Bug Fixes**: Important bug resolutions
+- **CVEs**: Any security vulnerabilities addressed
+- **Dependency updates**: Any updates to key dependencies
+
+### README Files - Avoid Updates
+
+**Policy**: README files are **rarely updated** and should **not** be modified unless absolutely necessary. So ask to confirm if any changes are needed.
+
+### CHANGELOG.md - Auto-Generated
+
+**Important**: `CHANGELOG.md` is **automatically generated** and should **never be manually edited**.
+
+**Process:**
+- Expeditor automation manages changelog entries
+- Content comes from PR titles and labels
+- Version bumps trigger automatic updates
+
+### Development Documentation (`dev-docs/` folder)
+
+Internal development documentation for contributors and maintainers:
+
+```
+dev-docs/
+├── ci-cd.md                # CI/CD pipeline documentation
+├── compliance.md           # Compliance and legal considerations
+├── control-eval.md         # Control evaluation internals
+├── deprecation.md          # Deprecation process
+├── plugins.md              # Plugin development guide
+└── ...                     # Other technical guides
+```
+
+**Purpose:**
+- Technical implementation details
+- Development workflows and processes
+- Internal architecture decisions
+- Contributor guidelines and advanced topics
+
+**Audience**: InSpec core team, contributors, advanced users
+
+#### Documentation Style Guidelines:
+- **Clear headings**: Use descriptive, scannable headings
+- **Active voice**: Write in active voice when possible
+- **Consistent terminology**: Use InSpec-specific terms consistently
+- **Code formatting**: Use proper syntax highlighting for code blocks
+
 ## Common File Locations
 
 - **CLI definitions**: `lib/inspec/base_cli.rb`
