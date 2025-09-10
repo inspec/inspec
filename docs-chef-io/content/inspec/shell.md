@@ -281,7 +281,7 @@ inspec shell --input-file=<path>
 ## Use the InSpec Shell with a SOCKS5 proxy
 
 You can use the InSpec Shell to target Windows nodes using WinRM through a SOCKS5 proxy.
-This is supported on Linux clients.
+These connections options can be run from Linux workstations.
 
 To start an InSpec Shell session with a basic SOCKS5 proxy connection:
 
