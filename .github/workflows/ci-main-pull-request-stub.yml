@@ -7,10 +7,15 @@ name: CI Pull Request on Main Branch
 
 on: 
   pull_request:
-    # branches: [ main, release/** ]
-    branches: [ inspec-7 ]
+    branches:
+      - inspec-5
+      - main
+      - inspec-7
   push:
-    branches: [ inspec-7 ]
+    branches:
+      - inspec-5
+      - main
+      - inspec-7
 
   workflow_dispatch:
 
