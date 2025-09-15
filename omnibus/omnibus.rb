@@ -31,18 +31,26 @@
 # Enable S3 asset caching
 # ------------------------------
 use_s3_caching true
-s3_access_key  ENV["AWS_ACCESS_KEY_ID"]
-s3_secret_key  ENV["AWS_SECRET_ACCESS_KEY"]
-s3_bucket      "opscode-omnibus-cache"
 
+# note, this is statically set in the omnibus-buildkite-plugin, you are always going to be forced to use internal sources. If you dont want internal sources, you must enable this to false.
+use_internal_sources ENV.fetch('OMNIBUS_USE_INTERNAL_SOURCES', true)
+
+# Enable S3 asset caching
+# ------------------------------
+use_s3_caching true
+s3_access_key  ENV['AWS_ACCESS_KEY_ID']
+s3_secret_key  ENV['AWS_SECRET_ACCESS_KEY']
+s3_bucket      'opscode-omnibus-cache-private'
+s3_acl         'private'
+s3_region      'us-west-2'
 build_retries 3
 fetcher_retries 3
 fetcher_read_timeout 120
 
 # Windows architecture defaults
 # ------------------------------
-arch = if %w{x86 x64}.include?((ENV["OMNIBUS_WINDOWS_ARCH"] || "").downcase)
-         ENV["OMNIBUS_WINDOWS_ARCH"].downcase.to_sym
+arch = if %w[x86 x64].include?((ENV['OMNIBUS_WINDOWS_ARCH'] || '').downcase)
+         ENV['OMNIBUS_WINDOWS_ARCH'].downcase.to_sym
        else
          :x86
        end
@@ -50,4 +58,4 @@ windows_arch arch
 
 # Build in FIPS compatability mode
 # ------------------------------
-fips_mode (ENV["OMNIBUS_FIPS_MODE"] || "").casecmp("true") >= 0
+fips_mode (ENV['OMNIBUS_FIPS_MODE'] || '').casecmp('true') >= 0
