@@ -49,8 +49,8 @@ fetcher_read_timeout 120
 
 # Windows architecture defaults
 # ------------------------------
-arch = if %w[x86 x64].include?((ENV['OMNIBUS_WINDOWS_ARCH'] || '').downcase)
-         ENV['OMNIBUS_WINDOWS_ARCH'].downcase.to_sym
+arch = if %w{x86 x64}.include?((ENV["OMNIBUS_WINDOWS_ARCH"] || "").downcase)
+         ENV["OMNIBUS_WINDOWS_ARCH"].downcase.to_sym
        else
          :x86
        end
@@ -58,4 +58,4 @@ windows_arch arch
 
 # Build in FIPS compatability mode
 # ------------------------------
-fips_mode (ENV['OMNIBUS_FIPS_MODE'] || '').casecmp('true') >= 0
+fips_mode (ENV["OMNIBUS_FIPS_MODE"] || "").casecmp("true") >= 0
