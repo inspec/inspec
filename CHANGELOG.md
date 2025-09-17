@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.23.2 -->
-## [v5.23.2](https://github.com/inspec/inspec/tree/v5.23.2) (2025-08-29)
+<!-- latest_release 5.23.3 -->
+## [v5.23.3](https://github.com/inspec/inspec/tree/v5.23.3) (2025-09-17)
 
 #### Merged Pull Requests
-- Update mongo requirement from = 2.13.2 to = 2.21.3 [#7504](https://github.com/inspec/inspec/pull/7504) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- update internal sources flags to fetch from private s3 also new windo… [#7528](https://github.com/inspec/inspec/pull/7528) ([muthuja](https://github.com/muthuja))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.95 -->
 ### Changes since 5.22.95 release
 
 #### Merged Pull Requests
+- update internal sources flags to fetch from private s3 also new windo… [#7528](https://github.com/inspec/inspec/pull/7528) ([muthuja](https://github.com/muthuja)) <!-- 5.23.3 -->
 - Update mongo requirement from = 2.13.2 to = 2.21.3 [#7504](https://github.com/inspec/inspec/pull/7504) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.23.2 -->
 - Bump omnibus-software from `d3688ec` to `50c7885` in /omnibus [#7500](https://github.com/inspec/inspec/pull/7500) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.23.1 -->
 - Chef 23504 add socks kerberos cli options to inspec [#7448](https://github.com/inspec/inspec/pull/7448) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.0 -->
