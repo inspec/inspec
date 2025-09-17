@@ -172,8 +172,7 @@ module Inspec
     end
 
     def run(with = nil)
-      # Undo: uncomment if entitlement check is needed
-      # ChefLicensing.check_software_entitlement! if Inspec::Dist::EXEC_NAME == "inspec"
+      ChefLicensing.check_software_entitlement! if Inspec::Dist::EXEC_NAME == "inspec"
 
       # Validate if profiles are signed and verified
       # Additional check is required to provide error message in case of inspec exec command (exec command can use multiple profiles as well)
