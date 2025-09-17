@@ -13,9 +13,7 @@ module Inspec
     end
 
     def start
-      # Undo: uncomment if entitlement check is needed
-      # ChefLicensing.check_software_entitlement! if Inspec::Dist::EXEC_NAME == "inspec"
-
+      ChefLicensing.check_software_entitlement! if Inspec::Dist::EXEC_NAME == "inspec"
       # This will hold a single evaluation binding context as opened within
       # the instance_eval context of the anonymous class that the profile
       # context creates to evaluate each individual test file. We want to
