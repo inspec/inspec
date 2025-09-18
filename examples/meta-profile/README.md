@@ -17,7 +17,7 @@ depends:
   # git
   - git: https://github.com/dev-sec/ssl-baseline.git
   - name: windows-patch-benchmark
-    git: https://github.com/chris-rock/windows-patch-benchmark.git
+    git: https://github.com/dev-sec/windows-patch-benchmark.git
   # Chef Compliance
   - name: linux
     compliance: base/linux
