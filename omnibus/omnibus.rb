@@ -28,10 +28,6 @@
 # ------------------------------
 use_git_caching false
 
-# Enable S3 asset caching
-# ------------------------------
-use_s3_caching true
-
 # note, this is statically set in the omnibus-buildkite-plugin, you are always going to be forced to use internal sources. If you dont want internal sources, you must enable this to false.
 use_internal_sources ENV.fetch("OMNIBUS_USE_INTERNAL_SOURCES", true)
 
