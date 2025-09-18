@@ -16,8 +16,8 @@ depends:
     url: https://github.com/dev-sec/tests-os-hardening/archive/master.zip
   # git
   - git: https://github.com/dev-sec/ssl-baseline.git
-  - name: windows-patch-benchmark
-    git: https://github.com/chris-rock/windows-patch-benchmark.git
+  - name: windows-patch-baseline
+    git: https://github.com/dev-sec/windows-patch-baseline.git
   # Chef Compliance
   - name: linux
     compliance: base/linux
@@ -31,7 +31,7 @@ include_controls 'hardening/ssh-hardening'
 include_controls 'os-hardening'
 include_controls 'ssl-baseline'
 include_controls 'linux'
-include_controls 'windows-patch-benchmark'
+include_controls 'windows-patch-baseline'
 ```
 
 Further details are described in our [InSpec Docs](https://docs.chef.io/inspec/profiles/)

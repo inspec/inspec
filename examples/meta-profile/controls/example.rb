@@ -9,4 +9,4 @@ include_controls 'ssl-baseline' do
 end
 
 # inspec knows that it cannot run Windows tests on Linux
-include_controls 'windows-patch-benchmark'
+include_controls 'windows-patch-baseline'
