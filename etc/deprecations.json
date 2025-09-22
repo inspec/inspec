@@ -139,6 +139,30 @@
     "docker.+":{
       "gem": "inspec-docker-resources",
       "message": "The Inspec docker resources are moved out of InSpec core and will be installed as gem"
+    },
+    "ibmdb2.+":{
+      "gem": "inspec-ibmdb2-resources",
+      "message": "The Inspec ibmdb2 resources are moved out of InSpec core and will be installed as gem"
+    },
+    "mongodb.+":{
+      "gem": "inspec-mongodb-resources",
+      "message": "The Inspec mongodb resources are moved out of InSpec core and will be installed as gem"
+    },
+    "opa.+":{
+      "gem": "inspec-opa-resources",
+      "message": "The Inspec opa resources are moved out of InSpec core and will be installed as gem"
+    },
+    "podman.+":{
+      "gem": "inspec-podman-resources",
+      "message": "The Inspec podman resources are moved out of InSpec core and will be installed as gem"
+    },
+    "rabbitmq.+":{
+      "gem": "inspec-rabbitmq-resources",
+      "message": "The Inspec rabbitmq resources are moved out of InSpec core and will be installed as gem"
+    },
+    "sybase.+":{
+      "gem": "inspec-sybase-resources",
+      "message": "The Inspec sybase resources are moved out of InSpec core and will be installed as gem"
     }
   }
 }
