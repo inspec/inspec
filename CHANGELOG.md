@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.23.5 -->
-## [v5.23.5](https://github.com/inspec/inspec/tree/v5.23.5) (2025-09-18)
+<!-- latest_release 5.23.6 -->
+## [v5.23.6](https://github.com/inspec/inspec/tree/v5.23.6) (2025-09-23)
 
 #### Merged Pull Requests
-- Update Artifact test Profiles - InSpec-5 [#7535](https://github.com/inspec/inspec/pull/7535) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- CHEF-25165 NOTICE file for InSpec omnibus package [#7488](https://github.com/inspec/inspec/pull/7488) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.22.95 -->
 ### Changes since 5.22.95 release
 
 #### Merged Pull Requests
+- CHEF-25165 NOTICE file for InSpec omnibus package [#7488](https://github.com/inspec/inspec/pull/7488) ([Nik08](https://github.com/Nik08)) <!-- 5.23.6 -->
 - Update Artifact test Profiles - InSpec-5 [#7535](https://github.com/inspec/inspec/pull/7535) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.23.5 -->
 - Add Omnibus build support for macOS 13 and 14 on ARM64 architecture. [#7524](https://github.com/inspec/inspec/pull/7524) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.23.4 -->
 - update internal sources flags to fetch from private s3 also new windo… [#7528](https://github.com/inspec/inspec/pull/7528) ([muthuja](https://github.com/muthuja)) <!-- 5.23.3 -->
