@@ -1,7 +1,7 @@
 FROM --platform=linux/amd64 ubuntu:22.04
 LABEL maintainer="Chef Software, Inc. <docker@chef.io>"
 
-ARG VERSION=5.22.95
+ARG VERSION=5.23.6
 ARG CHANNEL=stable
 
 ENV PATH=/opt/inspec/bin:/opt/inspec/embedded/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin

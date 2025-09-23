@@ -1,28 +1,26 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.23.6 -->
-## [v5.23.6](https://github.com/inspec/inspec/tree/v5.23.6) (2025-09-23)
-
-#### Merged Pull Requests
-- CHEF-25165 NOTICE file for InSpec omnibus package [#7488](https://github.com/inspec/inspec/pull/7488) ([Nik08](https://github.com/Nik08))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=5.22.95 -->
-### Changes since 5.22.95 release
-
-#### Merged Pull Requests
-- CHEF-25165 NOTICE file for InSpec omnibus package [#7488](https://github.com/inspec/inspec/pull/7488) ([Nik08](https://github.com/Nik08)) <!-- 5.23.6 -->
-- Update Artifact test Profiles - InSpec-5 [#7535](https://github.com/inspec/inspec/pull/7535) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.23.5 -->
-- Add Omnibus build support for macOS 13 and 14 on ARM64 architecture. [#7524](https://github.com/inspec/inspec/pull/7524) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.23.4 -->
-- update internal sources flags to fetch from private s3 also new windo… [#7528](https://github.com/inspec/inspec/pull/7528) ([muthuja](https://github.com/muthuja)) <!-- 5.23.3 -->
-- Update mongo requirement from = 2.13.2 to = 2.21.3 [#7504](https://github.com/inspec/inspec/pull/7504) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.23.2 -->
-- Bump omnibus-software from `d3688ec` to `50c7885` in /omnibus [#7500](https://github.com/inspec/inspec/pull/7500) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.23.1 -->
-- Chef 23504 add socks kerberos cli options to inspec [#7448](https://github.com/inspec/inspec/pull/7448) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.0 -->
-- Update signet requirement from &lt; 0.21.0 to &lt; 0.22.0 [#7511](https://github.com/inspec/inspec/pull/7511) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.22.97 -->
-- CHEF-25164 Update Train deps for InSpec 5: train/train-core 3.13.4+, train-winrm… [#7508](https://github.com/inspec/inspec/pull/7508) ([sa-progress](https://github.com/sa-progress)) <!-- 5.22.96 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v5.23.6](https://github.com/inspec/inspec/tree/v5.23.6) (2025-09-23)
+
+#### Merged Pull Requests
+- CHEF-25164 Update Train deps for InSpec 5: train/train-core 3.13.4+, train-winrm… [#7508](https://github.com/inspec/inspec/pull/7508) ([sa-progress](https://github.com/sa-progress))
+- Update signet requirement from &lt; 0.21.0 to &lt; 0.22.0 [#7511](https://github.com/inspec/inspec/pull/7511) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Chef 23504 add socks kerberos cli options to inspec [#7448](https://github.com/inspec/inspec/pull/7448) ([sathish-progress](https://github.com/sathish-progress))
+- Bump omnibus-software from `d3688ec` to `50c7885` in /omnibus [#7500](https://github.com/inspec/inspec/pull/7500) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update mongo requirement from = 2.13.2 to = 2.21.3 [#7504](https://github.com/inspec/inspec/pull/7504) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- update internal sources flags to fetch from private s3 also new windo… [#7528](https://github.com/inspec/inspec/pull/7528) ([muthuja](https://github.com/muthuja))
+- Add Omnibus build support for macOS 13 and 14 on ARM64 architecture. [#7524](https://github.com/inspec/inspec/pull/7524) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Update Artifact test Profiles - InSpec-5 [#7535](https://github.com/inspec/inspec/pull/7535) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- CHEF-25165 NOTICE file for InSpec omnibus package [#7488](https://github.com/inspec/inspec/pull/7488) ([Nik08](https://github.com/Nik08))
+<!-- latest_stable_release -->
+
 ## [v5.22.95](https://github.com/inspec/inspec/tree/v5.22.95) (2025-08-05)
 
 #### Merged Pull Requests
@@ -51,7 +49,6 @@
 - Fix Github Action Skips [#7481](https://github.com/inspec/inspec/pull/7481) ([balasubramanian-s](https://github.com/balasubramanian-s))
 - Trigger Version Bumper [#7482](https://github.com/inspec/inspec/pull/7482) ([balasubramanian-s](https://github.com/balasubramanian-s))
 - PR to bump version for inspec 5 release [#7484](https://github.com/inspec/inspec/pull/7484) ([Nik08](https://github.com/Nik08))
-<!-- latest_stable_release -->
 
 ## [v5.22.80](https://github.com/inspec/inspec/tree/v5.22.80) (2025-05-07)
 
