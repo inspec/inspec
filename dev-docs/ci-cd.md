@@ -120,7 +120,7 @@ The gems are taken from Artifactory and published to Rubygems.org. This is done 
 
 #### Release notes are published
 
-The [pending release notes](https://github.com/inspec/inspec/wiki/-v7) are copied to AWS S3 by a [script](https://github.com/inspec/inspec/blob/master/.expeditor/publish-release-notes.sh), and then reset back to an empty state. Another [script](https://github.com/inspec/inspec/blob/main/.expeditor/announce-release.sh) takes the release notes from S3 and creates a post on Discourse.
+The [pending release notes](https://github.com/inspec/inspec/wiki/Pending-Release-Notes-v7) are copied to AWS S3 by a [script](https://github.com/inspec/inspec/blob/master/.expeditor/publish-release-notes.sh), and then reset back to an empty state. Another [script](https://github.com/inspec/inspec/blob/main/.expeditor/announce-release.sh) takes the release notes from S3 and creates a post on Discourse.
 
 
 
