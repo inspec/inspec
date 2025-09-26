@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release unreleased -->
+## Unreleased
+
+#### Merged Pull Requests
+- CHEF-25277 add docs for socks feature [#7510](https://github.com/inspec/inspec/pull/7510) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=5.23.6 -->
+### Changes since 5.23.6 release
+
+#### Merged Pull Requests
+- CHEF-25277 add docs for socks feature [#7510](https://github.com/inspec/inspec/pull/7510) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.6 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
