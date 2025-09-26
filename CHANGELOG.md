@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.66 -->
-## [v7.0.66](https://github.com/inspec/inspec/tree/v7.0.66) (2025-09-25)
+<!-- latest_release 7.0.67 -->
+## [v7.0.67](https://github.com/inspec/inspec/tree/v7.0.67) (2025-09-26)
 
 #### Merged Pull Requests
-- CHEF-26157-Revert &quot;Bypass entitlement checks for InSpec7&quot; [#7533](https://github.com/inspec/inspec/pull/7533) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- CHEF-25173 Pull release notes from v7 wiki page for InSpec 7 [#7540](https://github.com/inspec/inspec/pull/7540) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- CHEF-25173 Pull release notes from v7 wiki page for InSpec 7 [#7540](https://github.com/inspec/inspec/pull/7540) ([Nik08](https://github.com/Nik08)) <!-- 7.0.67 -->
 - CHEF-26157-Revert &quot;Bypass entitlement checks for InSpec7&quot; [#7533](https://github.com/inspec/inspec/pull/7533) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.66 -->
 - CHEF-26493-Update Fallback Resource packs [#7541](https://github.com/inspec/inspec/pull/7541) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.65 -->
 - CHEF-23442 Added support to use trace level with log level option [#7513](https://github.com/inspec/inspec/pull/7513) ([Nik08](https://github.com/Nik08)) <!-- 7.0.64 -->
