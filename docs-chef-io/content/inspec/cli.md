@@ -183,6 +183,12 @@ This subcommand has the following additional options:
 `--key-files=one two three`
 : Login key or certificate file for a remote scan.
 
+`--kerberos-realm=KERBEROS_REALM`
+: The Kerberos realm used for authentication (WinRM). This option can only be run from Linux workstations.
+
+`--kerberos-service=KERBEROS_SERVICE`
+: The Kerberos service principal name (such as HTTP or HOST) (WinRM). This option can only be run from Linux workstations.
+
 `--password=PASSWORD`
 : Login password for a remote scan, if required.
 
@@ -212,6 +218,15 @@ This subcommand has the following additional options:
 
 `--shell-options=SHELL_OPTIONS`
 : Additional shell options.
+
+`--socks-password=SOCKS_PASSWORD`
+: The password for authenticating with a SOCKS5 proxy (WinRM). This option can only be run from Linux workstations.
+
+`--socks-proxy=SOCKS_PROXY`
+: The SOCKS5H proxy URL to tunnel the WinRM connection (for example, `<URL_OR_IP_ADDRESS>:1080`) (WinRM). This option can only be run from Linux workstations.
+
+`--socks-user=SOCKS_USER`
+: The username for authenticating with a SOCKS5 proxy (WinRM). This option can only be run from Linux workstations.
 
 `--ssl`
 `--no-ssl`
@@ -452,6 +467,12 @@ This subcommand has the following additional options:
 `--key-files=one two three`
 : Login key or certificate file for a remote scan.
 
+`--kerberos-realm=KERBEROS_REALM`
+: The Kerberos realm used for authentication (WinRM). This option can only be run from Linux workstations.
+
+`--kerberos-service=KERBEROS_SERVICE`
+: The Kerberos service principal name (such as HTTP or HOST) (WinRM). This option can only be run from Linux workstations.
+
 `--password=PASSWORD`
 : Login password for a remote scan, if required.
 
@@ -504,6 +525,15 @@ This subcommand has the following additional options:
 
 `--silence-deprecations=all|GROUP GROUP...`
 : Suppress deprecation warnings. See install_dir/etc/deprecations.json for a list of GROUPs or use 'all'.
+
+`--socks-password=SOCKS_PASSWORD`
+: The password for authenticating with a SOCKS5 proxy (WinRM). This option can only be run from Linux workstations.
+
+`--socks-proxy=SOCKS_PROXY`
+: The SOCKS5H proxy URL to tunnel the WinRM connection (for example, `<URL_OR_IP_ADDRESS>:1080`) (WinRM). This option can only be run from Linux workstations.
+
+`--socks-user=SOCKS_USER`
+: The username for authenticating with a SOCKS5 proxy (WinRM). This option can only be run from Linux workstations.
 
 `--ssh-config-file=one two three`
 : A list of paths to the SSH configuration file, for example: `~/.ssh/config` or `/etc/ssh/ssh_config`.
@@ -810,6 +840,9 @@ This subcommand has the following additional options:
 `--enable-password=ENABLE_PASSWORD`
 : Password for enable mode on Cisco IOS devices.
 
+`--enhanced-outcomes`
+: Includes enhanced outcome of controls in report data.
+
 `--host=HOST`
 : Specify a remote host which is tested.
 
@@ -824,6 +857,12 @@ This subcommand has the following additional options:
 `-i`
 `--key-files=one two three`
 : Login key or certificate file for a remote scan.
+
+`--kerberos-realm=KERBEROS_REALM`
+: Kerberos realm used for authentication (WinRM). This option can only be run from Linux workstations.
+
+`--kerberos-service=KERBEROS_SERVICE`
+: Kerberos service principal name (for example, HTTP, HOST) (WinRM). This option can only be run from Linux workstations.
 
 `--password=PASSWORD`
 : Login password for a remote scan, if required.
@@ -857,6 +896,15 @@ This subcommand has the following additional options:
 
 `--shell-options=SHELL_OPTIONS`
 : Additional shell options.
+
+`--socks-password=SOCKS_PASSWORD`
+: The password for authenticating with a SOCKS5 proxy (WinRM). This option can only be run from Linux workstations.
+
+`--socks-proxy=SOCKS_PROXY`
+: The SOCKS5H proxy URL to tunnel the WinRM connection (for example, `<URL_OR_IP_ADDRESS>:1080`) (WinRM). This option can only be run from Linux workstations.
+
+`--socks-user=SOCKS_USER`
+: The username for authenticating with a SOCKS5 proxy (WinRM). This option can only be run from Linux workstations.
 
 `--ssh-config-file=one two three`
 : A list of paths to the SSH configuration file, for example: `~/.ssh/config` or `/etc/ssh/ssh_config`.
@@ -901,9 +949,6 @@ This subcommand has the following additional options:
 
 `--winrm-transport=WINRM_TRANSPORT`
 : Specify which transport to use, defaults to negotiate (WinRM).
-
-`--enhanced-outcomes`
-: Includes enhanced outcome of controls in report data.
 
 ## supermarket
 
