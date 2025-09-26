@@ -44,6 +44,6 @@ Source code obtained from the Chef GitHub repository is made available under Apa
   # Train plugins we ship with InSpec
   spec.add_dependency "train-habitat",    "~> 0.1"
   spec.add_dependency "train-aws",        "~> 0.2"
-  spec.add_dependency "train-winrm",      "~> 0.3.1"
+  spec.add_dependency "train-winrm",      "~> 0.4.0" # socks5h changes in 0.4.0
   spec.add_dependency "train-kubernetes", ">= 0.3.1"
 end
