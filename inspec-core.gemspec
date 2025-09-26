@@ -60,7 +60,7 @@ Source code obtained from the Chef GitHub repository is made available under Apa
   # spec.add_dependency "mutex_m",                  "~> 0.2.0"
   spec.add_dependency "syslog",                   "~> 0.1"
   spec.add_dependency "csv",                      "~> 3.0"
-  spec.add_dependency "ostruct",                  "~> 0.1.0"
+  spec.add_dependency "ostruct",                  ">= 0.1", "< 0.7"
 
   # cookstyle support for inspec check
   # This was initially included in 'inspec.gemspec' to keep 'chef-client' lightweight.
