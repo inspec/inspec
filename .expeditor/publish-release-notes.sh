@@ -6,18 +6,20 @@ git clone https://x-access-token:${GITHUB_TOKEN}@github.com/inspec/inspec.wiki.g
 
 pushd ./inspec.wiki
   # Publish release notes to S3
-  aws s3 cp Pending-Release-Notes.md "s3://chef-automate-artifacts/release-notes/${EXPEDITOR_PRODUCT_KEY}/${EXPEDITOR_VERSION}.md" --acl public-read --content-type "text/plain" --profile chef-cd
-  aws s3 cp Pending-Release-Notes.md "s3://chef-automate-artifacts/${EXPEDITOR_CHANNEL}/latest/${EXPEDITOR_PRODUCT_KEY}/release-notes.md" --acl public-read --content-type "text/plain" --profile chef-cd
+  aws s3 cp Pending-Release-Notes-v7.md "s3://chef-automate-artifacts/release-notes/${EXPEDITOR_PRODUCT_KEY}/${EXPEDITOR_VERSION}.md" --acl public-read --content-type "text/plain" --profile chef-cd
+  aws s3 cp Pending-Release-Notes-v7.md "s3://chef-automate-artifacts/${EXPEDITOR_CHANNEL}/latest/${EXPEDITOR_PRODUCT_KEY}/release-notes.md" --acl public-read --content-type "text/plain" --profile chef-cd
 
   # Reset "Pending Release Notes" wiki page
-  cat >./Pending-Release-Notes.md <<EOH
-## New Features
+  cat >./Pending-Release-Notes-v7.md <<EOH
+## New features
 -
 ## Improvements
 -
-## Bug Fixes
+## Bug fixes
 -
-## Backward Incompatibilities
+## Security fixes
+-
+## Dependency updates
 -
 EOH
 
