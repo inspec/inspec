@@ -57,6 +57,35 @@ function Invoke-Build {
 }
 
 function Invoke-Install {
+    # workaround to load custom chef-licensing branch
+    Write-BuildLine "** Installing custom chef-licensing branch"
+    git clone --depth 1 --branch nm/introducing-optional-mode https://github.com/chef/chef-licensing.git $env:TEMP/chef-licensing
+    try {
+        Push-Location $env:TEMP/chef-licensing/components/ruby
+        gem build chef-licensing.gemspec
+        gem install chef-licensing-*.gem --no-document
+        If ($lastexitcode -ne 0) { Exit $lastexitcode }
+    } finally {
+        Pop-Location
+    }
+    Remove-Item $env:TEMP/chef-licensing -Recurse -Force
+
+    # Verify chef-licensing installation
+    Write-BuildLine "** Verifying chef-licensing installation"
+    gem list chef-licensing
+    If ($lastexitcode -ne 0) { Exit $lastexitcode }
+
+    Write-BuildLine "** Installing chef-official-distribution gem from artifactory"
+    # Invoke-WebRequest -Uri "https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/gems/chef-official-distribution-0.1.3.gem" -OutFile "chef-official-distribution-0.1.3.gem"
+    gem source --add "https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/"
+    gem install chef-official-distribution
+    gem sources -r "https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/"
+
+    # Verify chef-official-distribution installation
+    Write-BuildLine "** Verifying chef-official-distribution installation"
+    gem list chef-official-distribution
+    If ($lastexitcode -ne 0) { Exit $lastexitcode }
+
     Write-BuildLine "** Copy built & cached gems to install directory"
     Copy-Item -Path "$HAB_CACHE_SRC_PATH/$pkg_dirname/*" -Destination $pkg_prefix -Recurse -Force -Exclude @("gem_make.out", "mkmf.log", "Makefile",
                      "*/latest", "latest",
