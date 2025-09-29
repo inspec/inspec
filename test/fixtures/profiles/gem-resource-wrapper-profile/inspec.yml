@@ -1,0 +1,18 @@
+name: gem-resource-wrapper-profile
+title: InSpec Profile
+maintainer: The Authors
+copyright: The Authors
+copyright_email: you@example.com
+license: Apache-2.0
+summary: An InSpec Compliance Profile
+version: 0.1.
+inspec_version: '>= 7'
+supports:
+  platform: os
+depends:
+  - name: profile-docker-gem
+    path: ../profile-docker-gem
+  - name: profile-docker-git-url
+    path: ../profile-docker-git-url
+  - name: profile-docker-url
+    path: ../profile-docker-url
