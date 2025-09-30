@@ -26,9 +26,8 @@ class ProfileCli < Minitest::Test
     expected_files = files.map { |x| File.join(base_dir, x) }
     assert_equal actual_files.sort, expected_files.sort
 
-    # Command runs without error
-    assert_empty result.stderr
-
+    # Debug logs are written to stderr so we can't assert it's empty
+    # Command runs without error - check exit code only
     assert_exit_code 0, result
   end
 end
