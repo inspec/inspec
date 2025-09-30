@@ -15,7 +15,7 @@ class ProfileCli < Minitest::Test
   end
 
   def test_setup_subcommand
-    result = run_inspec_process("habitat profile setup " + @habitat_profile + " --log-level debug")
+    result = run_inspec_process("habitat profile setup " + @habitat_profile)
 
     # Command creates only expected files
     base_dir = File.join(@tmpdir, "habitat-profile", "habitat")
@@ -26,8 +26,8 @@ class ProfileCli < Minitest::Test
     expected_files = files.map { |x| File.join(base_dir, x) }
     assert_equal actual_files.sort, expected_files.sort
 
-    # Debug logs are written to stderr so we can't assert it's empty
-    # Command runs without error - check exit code only
+    # Command runs without error
+    assert_empty result.stderr
     assert_exit_code 0, result
   end
 end
