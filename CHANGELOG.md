@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.69 -->
-## [v7.0.69](https://github.com/inspec/inspec/tree/v7.0.69) (2025-09-30)
+<!-- latest_release 7.0.70 -->
+## [v7.0.70](https://github.com/inspec/inspec/tree/v7.0.70) (2025-10-03)
 
 #### Merged Pull Requests
-- Fix inspec habitat tests [#7558](https://github.com/inspec/inspec/pull/7558) ([Nik08](https://github.com/Nik08))
+- Update rspec-its requirement from ~&gt; 1.2 to &gt;= 1.2, &lt; 3.0 [#7553](https://github.com/inspec/inspec/pull/7553) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Update rspec-its requirement from ~&gt; 1.2 to &gt;= 1.2, &lt; 3.0 [#7553](https://github.com/inspec/inspec/pull/7553) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 7.0.70 -->
 - Fix inspec habitat tests [#7558](https://github.com/inspec/inspec/pull/7558) ([Nik08](https://github.com/Nik08)) <!-- 7.0.69 -->
 - CHEF-26495 Foreport -7448 Add socks kerberos cli options to inspec [#7554](https://github.com/inspec/inspec/pull/7554) ([Nik08](https://github.com/Nik08)) <!-- 7.0.68 -->
 - CHEF-25173 Pull release notes from v7 wiki page for InSpec 7 [#7540](https://github.com/inspec/inspec/pull/7540) ([Nik08](https://github.com/Nik08)) <!-- 7.0.67 -->
