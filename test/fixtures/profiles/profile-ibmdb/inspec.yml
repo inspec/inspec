@@ -1,0 +1,14 @@
+name: profile-ibmdb
+title: InSpec Profile
+maintainer: The Authors
+copyright: The Authors
+copyright_email: you@example.com
+license: Apache-2.0
+summary: An InSpec Compliance Profile
+version: 0.1.0
+inspec_version: '>= 7'
+supports:
+  platform: os
+depends:
+  - name: inspec-ibmdb2-resources
+    gem: inspec-ibmdb2-resources

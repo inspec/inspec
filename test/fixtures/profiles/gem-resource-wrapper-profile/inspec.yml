@@ -16,3 +16,5 @@ depends:
     path: ../profile-docker-git-url
   - name: profile-docker-url
     path: ../profile-docker-url
+  - name: profile-ibmdb
+    path: ../profile-ibmdb
