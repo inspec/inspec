@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.71 -->
-## [v7.0.71](https://github.com/inspec/inspec/tree/v7.0.71) (2025-10-06)
+<!-- latest_release 7.0.72 -->
+## [v7.0.72](https://github.com/inspec/inspec/tree/v7.0.72) (2025-10-06)
 
 #### Merged Pull Requests
-- Update parslet requirement from &gt;= 1.5, &lt; 2.0 to &gt;= 1.5, &lt; 3.0 [#7552](https://github.com/inspec/inspec/pull/7552) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update rubyzip requirement from &gt;= 1.2.2, &lt; 3.0 to &gt;= 1.2.2, &lt; 4.0 [#7550](https://github.com/inspec/inspec/pull/7550) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Update rubyzip requirement from &gt;= 1.2.2, &lt; 3.0 to &gt;= 1.2.2, &lt; 4.0 [#7550](https://github.com/inspec/inspec/pull/7550) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 7.0.72 -->
 - Update parslet requirement from &gt;= 1.5, &lt; 2.0 to &gt;= 1.5, &lt; 3.0 [#7552](https://github.com/inspec/inspec/pull/7552) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 7.0.71 -->
 - Update rspec-its requirement from ~&gt; 1.2 to &gt;= 1.2, &lt; 3.0 [#7553](https://github.com/inspec/inspec/pull/7553) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 7.0.70 -->
 - Fix inspec habitat tests [#7558](https://github.com/inspec/inspec/pull/7558) ([Nik08](https://github.com/Nik08)) <!-- 7.0.69 -->
