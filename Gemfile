@@ -12,7 +12,6 @@
 source "https://rubygems.org"
 
 gem "inspec", path: "."
-gem "chef-licensing", github: "chef/chef-licensing", branch: "nm/introducing-optional-mode", glob: "components/ruby/chef-licensing.gemspec"
 
 # This dependency is NOT used for normal gem deployment
 # - instead, inspec-bin gemspec-depends on inspec
