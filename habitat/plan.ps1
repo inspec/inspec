@@ -76,10 +76,10 @@ function Invoke-Install {
     If ($lastexitcode -ne 0) { Exit $lastexitcode }
 
     Write-BuildLine "** Installing chef-official-distribution gem from artifactory"
-    # Invoke-WebRequest -Uri "https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/gems/chef-official-distribution-0.1.3.gem" -OutFile "chef-official-distribution-0.1.3.gem"
-    gem source --add "https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/"
+    $ArtifactoryUrl = "https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/"
+    gem sources --add $ArtifactoryUrl
     gem install chef-official-distribution
-    gem sources -r "https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/"
+    gem sources --remove $ArtifactoryUrl
 
     # Verify chef-official-distribution installation
     Write-BuildLine "** Verifying chef-official-distribution installation"
