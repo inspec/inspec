@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.64 -->
-## [v7.0.64](https://github.com/inspec/inspec/tree/v7.0.64) (2025-09-16)
+<!-- latest_release 7.0.71 -->
+## [v7.0.71](https://github.com/inspec/inspec/tree/v7.0.71) (2025-10-06)
 
 #### Merged Pull Requests
-- CHEF-23442 Added support to use trace level with log level option [#7513](https://github.com/inspec/inspec/pull/7513) ([Nik08](https://github.com/Nik08))
+- Update parslet requirement from &gt;= 1.5, &lt; 2.0 to &gt;= 1.5, &lt; 3.0 [#7552](https://github.com/inspec/inspec/pull/7552) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,13 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Update parslet requirement from &gt;= 1.5, &lt; 2.0 to &gt;= 1.5, &lt; 3.0 [#7552](https://github.com/inspec/inspec/pull/7552) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 7.0.71 -->
+- Update rspec-its requirement from ~&gt; 1.2 to &gt;= 1.2, &lt; 3.0 [#7553](https://github.com/inspec/inspec/pull/7553) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 7.0.70 -->
+- Fix inspec habitat tests [#7558](https://github.com/inspec/inspec/pull/7558) ([Nik08](https://github.com/Nik08)) <!-- 7.0.69 -->
+- CHEF-26495 Foreport -7448 Add socks kerberos cli options to inspec [#7554](https://github.com/inspec/inspec/pull/7554) ([Nik08](https://github.com/Nik08)) <!-- 7.0.68 -->
+- CHEF-25173 Pull release notes from v7 wiki page for InSpec 7 [#7540](https://github.com/inspec/inspec/pull/7540) ([Nik08](https://github.com/Nik08)) <!-- 7.0.67 -->
+- CHEF-26157-Revert &quot;Bypass entitlement checks for InSpec7&quot; [#7533](https://github.com/inspec/inspec/pull/7533) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.66 -->
+- CHEF-26493-Update Fallback Resource packs [#7541](https://github.com/inspec/inspec/pull/7541) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.65 -->
 - CHEF-23442 Added support to use trace level with log level option [#7513](https://github.com/inspec/inspec/pull/7513) ([Nik08](https://github.com/Nik08)) <!-- 7.0.64 -->
 - CHEF-23438-Disable Entitlement check for edge case  [#7520](https://github.com/inspec/inspec/pull/7520) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.63 -->
 - CHEF-23438-Bypass entitlement checks for InSpec7 [#7509](https://github.com/inspec/inspec/pull/7509) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.62 -->

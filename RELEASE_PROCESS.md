@@ -99,7 +99,7 @@ The difference between the gems is as follows:
 
 ### Update Pending Release Notes
 
-As you merge each pull request, update the [Pending Release Notes](https://github.com/inspec/inspec/wiki/Pending-Release-Notes). Some guidelines:
+As you merge each pull request, update the [Pending Release Notes](https://github.com/inspec/inspec/wiki/Pending-Release-Notes-v7). Some guidelines:
 
 * Do not include minor or non-customer visible changes, such as CI changes or test harness changes.
 * Do include bug fixes, features, and other things that impact the user.
