@@ -57,24 +57,6 @@ function Invoke-Build {
 }
 
 function Invoke-Install {
-    # workaround to load custom chef-licensing branch
-    Write-BuildLine "** Installing custom chef-licensing branch"
-    git clone --depth 1 --branch nm/introducing-optional-mode https://github.com/chef/chef-licensing.git $env:TEMP/chef-licensing
-    try {
-        Push-Location $env:TEMP/chef-licensing/components/ruby
-        gem build chef-licensing.gemspec
-        gem install chef-licensing-*.gem --no-document
-        If ($lastexitcode -ne 0) { Exit $lastexitcode }
-    } finally {
-        Pop-Location
-    }
-    Remove-Item $env:TEMP/chef-licensing -Recurse -Force
-
-    # Verify chef-licensing installation
-    Write-BuildLine "** Verifying chef-licensing installation"
-    gem list chef-licensing
-    If ($lastexitcode -ne 0) { Exit $lastexitcode }
-
     Write-BuildLine "** Installing chef-official-distribution gem from artifactory"
     $ArtifactoryUrl = "https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/"
     gem sources --add $ArtifactoryUrl
