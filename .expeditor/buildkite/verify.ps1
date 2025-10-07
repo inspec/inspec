@@ -55,17 +55,17 @@ function CheckIfEnvVarIsSet {
 $envVarName = "CHEF_LICENSE_SERVER"
 CheckIfEnvVarIsSet -envVarName $envVarName
 
-if ($Env:CI_ENABLE_COVERAGE)
-{
-    echo "--- fetching Sonar token from vault"
-    $Env:SONAR_TOKEN=vault kv get -field token secret/inspec/sonar
-}
+# if ($Env:CI_ENABLE_COVERAGE)
+# {
+#     echo "--- fetching Sonar token from vault"
+#     $Env:SONAR_TOKEN=vault kv get -field token secret/inspec/sonar
+# }
 
 echo "--- bundle install"
-bundle config set --local without deploy kitchen
+bundle config set --local without deploy
 bundle install --jobs=7 --retry=3
 
 echo "+++ bundle exec rake test:parallel"
-bundle exec rake test:parallel K=4
+bundle exec rake test:parallel K=20
 
 exit $LASTEXITCODE
