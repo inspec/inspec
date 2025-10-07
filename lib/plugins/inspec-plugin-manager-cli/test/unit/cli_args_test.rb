@@ -18,7 +18,7 @@ class PluginManagerCliOptions < Minitest::Test
     { u: :user, a: :all, c: :core, s: :system }.each do |abbrev, option|
       assert_includes arg_config.keys, option, "The list command should have an --#{option} option"
       assert_equal :boolean, arg_config[option].type, "The --#{option} option should be boolean"
-      assert_equal abbrev, arg_config[option].aliases.first, "The --#{option} option should be aliased as -#{abbrev}"
+      assert_equal "-#{abbrev}", arg_config[option].aliases.first, "The --#{option} option should be aliased as -#{abbrev}"
       refute_nil arg_config[option].description, "The --#{option} option should have a description"
       refute arg_config[option].required, "The --#{option} option should not be required"
     end
@@ -32,19 +32,19 @@ class PluginManagerCliOptions < Minitest::Test
 
     assert_includes arg_config.keys, :all, "The search command should have an --all option"
     assert_equal :boolean, arg_config[:all].type, "The --all option should be boolean"
-    assert_equal :a, arg_config[:all].aliases.first, "The --all option should be aliased as -a"
+    assert_equal "-a", arg_config[:all].aliases.first, "The --all option should be aliased as -a"
     refute_nil arg_config[:all].description, "The --all option should have a description"
     refute arg_config[:all].required, "The --all option should not be required"
 
     assert_includes arg_config.keys, :exact, "The search command should have an --exact option"
     assert_equal :boolean, arg_config[:exact].type, "The --exact option should be boolean"
-    assert_equal :e, arg_config[:exact].aliases.first, "The --exact option should be aliased as -e"
+    assert_equal "-e", arg_config[:exact].aliases.first, "The --exact option should be aliased as -e"
     refute_nil arg_config[:exact].description, "The --exact option should have a description"
     refute arg_config[:exact].required, "The --exact option should not be required"
 
     assert_includes arg_config.keys, :source, "The search command should have a --source option"
     assert_equal :string, arg_config[:source].type, "The --source option should be a string"
-    assert_equal :s, arg_config[:source].aliases.first, "The --source option should be aliased as -s"
+    assert_equal "-s", arg_config[:source].aliases.first, "The --source option should be aliased as -s"
     refute_nil arg_config[:source].description, "The --source option should have a description"
     refute arg_config[:source].required, "The --source option should not be required"
 
@@ -61,13 +61,14 @@ class PluginManagerCliOptions < Minitest::Test
 
     assert_includes arg_config.keys, :version, "The install command should have a --version option"
     assert_equal :string, arg_config[:version].type, "The --version option should be a string"
-    assert_equal :v, arg_config[:version].aliases.first, "The --version option should be aliased as -v"
+    assert_equal "-v", arg_config[:version].aliases.first, "The --version option should be aliased as -v"
     refute_nil arg_config[:version].description, "The --version option should have a description"
     refute arg_config[:version].required, "The --version option should not be required"
 
     assert_includes arg_config.keys, :source, "The install command should have a --source option"
     assert_equal :string, arg_config[:source].type, "The --source option should be a string"
-    assert_equal :s, arg_config[:source].aliases.first, "The --source option should be aliased as -s"
+    assert_equal "-s", arg_config[:source].aliases.first, "The --source option should be aliased as -s"
+
     refute_nil arg_config[:source].description, "The --source option should have a description"
     refute arg_config[:source].required, "The --source option should not be required"
 
