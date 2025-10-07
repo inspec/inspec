@@ -29,8 +29,19 @@ module Inspec
         return Inspec::Telemetry::Null
       end
 
+      # Handle telemetry disable option
+      if telemetry_disabled_by_cli?
+        if cinc_user?
+          Inspec::Log.debug "Telemetry disabled by CINC user via --disable-telemetry option."
+          return Inspec::Telemetry::Null
+        else
+          # Issue a warning if a Chef InSpec user is trying to opt out of telemetry using --disable-telemetry
+          Inspec::Log.warn "The --disable-telemetry option is only available for CINC users. Telemetry opt-out is not permissible for Chef InSpec users."
+        end
+      end
+
       if Inspec::Dist::EXEC_NAME == "inspec" && telemetry_disabled?
-        # Issue a warning if an InSpec user is explicitly trying to opt out of telemetry using cli option
+        # Issue a warning if an InSpec user is explicitly trying to opt out of telemetry using --enable-telemetry=false
         Inspec::Log.warn "Telemetry opt-out is not permissible."
       end
 
@@ -71,6 +82,16 @@ module Inspec
 
     def self.telemetry_disabled?
       config.telemetry_options["enable_telemetry"].nil? ? false : !config.telemetry_options["enable_telemetry"]
+    end
+
+    def self.telemetry_disabled_by_cli?
+      config.telemetry_options["disable_telemetry"] == true
+    end
+
+    def self.cinc_user?
+      # CINC (Community Distribution of Chef InSpec) uses "cinc-auditor" as executable name
+      # while Chef InSpec uses "inspec"
+      Inspec::Dist::EXEC_NAME != "inspec"
     end
   end
 end

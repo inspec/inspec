@@ -59,6 +59,9 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   class_option :enable_telemetry, type: :boolean,
     desc: "Allow or disable telemetry", default: true
 
+  class_option :disable_telemetry, type: :boolean,
+    desc: "Disable telemetry (only available for CINC users)", default: false
+
   require "license_acceptance/cli_flags/thor"
   include LicenseAcceptance::CLIFlags::Thor
 

@@ -121,4 +121,92 @@ describe "Telemetry" do
       end
     end
   end
+
+  describe "telemetry opt-out for CINC users" do
+    describe "telemetry_disabled_by_cli?" do
+      it "returns true when disable_telemetry option is set to true" do
+        conf = Inspec::Config.new({ "disable_telemetry" => true })
+        Inspec::Telemetry.class_variable_set(:@@config, conf)
+        _(Inspec::Telemetry.telemetry_disabled_by_cli?).must_equal true
+      end
+
+      it "returns false when disable_telemetry option is not set" do
+        conf = Inspec::Config.new({})
+        Inspec::Telemetry.class_variable_set(:@@config, conf)
+        _(Inspec::Telemetry.telemetry_disabled_by_cli?).must_equal false
+      end
+
+      it "returns false when disable_telemetry option is set to false" do
+        conf = Inspec::Config.new({ "disable_telemetry" => false })
+        Inspec::Telemetry.class_variable_set(:@@config, conf)
+        _(Inspec::Telemetry.telemetry_disabled_by_cli?).must_equal false
+      end
+    end
+
+    describe "cinc_user?" do
+      it "returns true when EXEC_NAME is not 'inspec'" do
+        original_exec_name = Inspec::Dist::EXEC_NAME
+        Inspec::Dist.const_set(:EXEC_NAME, "cinc-auditor")
+        _(Inspec::Telemetry.cinc_user?).must_equal true
+        Inspec::Dist.const_set(:EXEC_NAME, original_exec_name)
+      end
+
+      it "returns false when EXEC_NAME is 'inspec'" do
+        original_exec_name = Inspec::Dist::EXEC_NAME
+        Inspec::Dist.const_set(:EXEC_NAME, "inspec")
+        _(Inspec::Telemetry.cinc_user?).must_equal false
+        Inspec::Dist.const_set(:EXEC_NAME, original_exec_name)
+      end
+    end
+
+    describe "determine_backend_class with disable_telemetry option" do
+      before do
+        # Reset class variables to ensure clean state
+        Inspec::Telemetry.class_variable_set(:@@instance, nil)
+      end
+
+      it "returns Null backend for CINC users with --disable-telemetry" do
+        original_exec_name = Inspec::Dist::EXEC_NAME
+
+        # Mock CINC user (non-inspec executable)
+        Inspec::Dist.const_set(:EXEC_NAME, "cinc-auditor")
+        conf = Inspec::Config.new({ "disable_telemetry" => true })
+        Inspec::Telemetry.class_variable_set(:@@config, conf)
+
+        # Mock the dependencies to avoid actual API calls
+        Inspec::Telemetry::RunContextProbe.stubs(:under_automate?).returns(false)
+        Inspec::Telemetry::RunContextProbe.stubs(:guess_run_context).returns("cli")
+        Inspec::Telemetry.stubs(:license).returns(nil)
+
+        backend_class = Inspec::Telemetry.determine_backend_class
+        _(backend_class).must_equal Inspec::Telemetry::Null
+
+        # Restore original value
+        Inspec::Dist.const_set(:EXEC_NAME, original_exec_name)
+      end
+
+      it "returns HTTP backend for Chef InSpec users with --disable-telemetry and logs warning" do
+        original_exec_name = Inspec::Dist::EXEC_NAME
+
+        # Mock Chef InSpec user
+        Inspec::Dist.const_set(:EXEC_NAME, "inspec")
+        conf = Inspec::Config.new({ "disable_telemetry" => true })
+        Inspec::Telemetry.class_variable_set(:@@config, conf)
+
+        # Mock the dependencies to avoid actual API calls
+        Inspec::Telemetry::RunContextProbe.stubs(:under_automate?).returns(false)
+        Inspec::Telemetry::RunContextProbe.stubs(:guess_run_context).returns("cli")
+        Inspec::Telemetry.stubs(:license).returns(nil)
+
+        # Capture log messages
+        log_output = capture_io do
+          backend_class = Inspec::Telemetry.determine_backend_class
+          _(backend_class).must_equal Inspec::Telemetry::HTTP
+        end
+
+        # Restore original value
+        Inspec::Dist.const_set(:EXEC_NAME, original_exec_name)
+      end
+    end
+  end
 end
