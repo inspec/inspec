@@ -57,6 +57,17 @@ function Invoke-Build {
 }
 
 function Invoke-Install {
+    Write-BuildLine "** Installing chef-official-distribution gem from artifactory"
+    $ArtifactoryUrl = "https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/"
+    gem sources --add $ArtifactoryUrl
+    gem install chef-official-distribution
+    gem sources --remove $ArtifactoryUrl
+
+    # Verify chef-official-distribution installation
+    Write-BuildLine "** Verifying chef-official-distribution installation"
+    gem list chef-official-distribution
+    If ($lastexitcode -ne 0) { Exit $lastexitcode }
+
     Write-BuildLine "** Copy built & cached gems to install directory"
     Copy-Item -Path "$HAB_CACHE_SRC_PATH/$pkg_dirname/*" -Destination $pkg_prefix -Recurse -Force -Exclude @("gem_make.out", "mkmf.log", "Makefile",
                      "*/latest", "latest",
