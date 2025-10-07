@@ -757,8 +757,3 @@ For Jira interactions, use the following MCP server functions:
 - `omnibus/` packaging (unless specifically required)
 - `Gemfile.lock` (generated file)
 - Any files marked as auto-generated
-
-**Restricted Areas** (modify with extreme caution):
-- Core CLI files (`lib/inspec/base_cli.rb`, `lib/inspec/cli.rb`)
-- Plugin system files
-- Core runner and profile evaluation logic
