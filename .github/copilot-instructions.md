@@ -656,9 +656,8 @@ All tasks should follow this prompt-based workflow:
 
 #### Step 5: PR Creation
 1. **Push Branch**: Push to remote repository
-2. **Create PR**: Use GitHub CLI to create pull request
-3. **PR Description**: Include HTML-formatted summary of changes
-4. **Final Prompt**: **PR Created Successfully**. All steps completed!"
+2. **Follow PR Creation Process**: Use the comprehensive process outlined in "GitHub CLI and PR Creation Process" section below
+3. **Final Prompt**: **PR Created Successfully**. All steps completed!"
 
 ### 3. Prompt-Based Execution
 
@@ -667,9 +666,9 @@ All tasks should follow this prompt-based workflow:
 - **User Control**: Wait for user confirmation before proceeding to the next step
 - **Progress Tracking**: Clearly indicate which steps are completed and which remain
 
-### 4. GitHub CLI and Branch Management
+### 4. GitHub CLI and PR Creation Process
 
-When creating PRs:
+Complete process for branch management and PR creation:
 
 1. **Authentication**: Use GitHub CLI authentication (no .profile references)
    ```bash
@@ -683,12 +682,32 @@ When creating PRs:
    git checkout -b {JIRA_ID}
    ```
 
-3. **PR Creation**: Use GitHub CLI with the standard InSpec PR template
-   ```bash
-   gh pr create --title "feat: {JIRA_ID} - Brief description" --body-file pr_template.md
+3. **PR Title Selection**: Before creating PR, ask user to select change type:
+   ```
+   What type of change is this PR?
+   1. feat: New feature or functionality
+   2. fix: Bug fix
+   3. docs: Documentation changes
+   4. refactor: Code refactoring without functionality change
+   5. test: Adding or updating tests
+   6. chore: Maintenance tasks, dependency updates
+   7. perf: Performance improvements
+   8. style: Code style/formatting changes
+   9. ci: CI/CD pipeline changes
+   10. revert: Reverting previous changes
    ```
 
-4. **PR Description Format**: **MUST** follow this exact template format:
+4. **PR Creation**: Use GitHub CLI with dynamic title based on user selection
+   ```bash
+   gh pr create --title "{CHANGE_TYPE}: {JIRA_ID} - Brief description" --body-file pr_template.md
+   ```
+
+   Examples:
+   - `feat: CHEF-1234 - Add new telemetry opt-out feature`
+   - `fix: CHEF-5678 - Resolve memory leak in resource loading`
+   - `docs: CHEF-9999 - Update CLI documentation`
+
+5. **PR Description Format**: **MUST** follow this exact template format:
    ```markdown
    <!--- Provide a short summary of your changes in the Title above -->
 
@@ -711,13 +730,13 @@ When creating PRs:
    - [ ] I have read the **CONTRIBUTING** document.
    ```
 
-5. **PR Creation Process**:
-   - Create a temporary `pr_template.md` file with the filled template
-   - Use `gh pr create --body-file pr_template.md` to avoid shell escaping issues
-   - Clean up the temporary file after PR creation
-   - **Always use the exact template format above** - do not modify the structure
+6. **Execute PR Creation**:
+   - Create temporary `pr_template.md` with filled template
+   - Run: `gh pr create --title "{CHANGE_TYPE}: {JIRA_ID} - Brief description" --body-file pr_template.md`
+   - Clean up temporary file
+   - **Always use exact template format** - never modify structure
 
-### 6. MCP Server Integration (atlassian-mcp-server)
+### 5. MCP Server Integration (atlassian-mcp-server)
 
 For Jira interactions, use the following MCP server functions:
 
@@ -726,7 +745,7 @@ For Jira interactions, use the following MCP server functions:
 - **Add Comments**: `mcp_atlassian-mcp_addCommentToJiraIssue` - Add progress comments
 - **Transition Issue**: `mcp_atlassian-mcp_transitionJiraIssue` - Move issue status
 
-### 7. Files and Areas to Avoid Modifying
+### 6. Files and Areas to Avoid Modifying
 
 **Prohibited Files/Areas**:
 - `VERSION` file (managed by release process)
