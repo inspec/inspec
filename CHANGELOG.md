@@ -1,12 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.78 -->
-## [v7.0.78](https://github.com/inspec/inspec/tree/v7.0.78) (2025-10-07)
+<!-- latest_release 7.0.79 -->
+## [v7.0.79](https://github.com/inspec/inspec/tree/v7.0.79) (2025-10-07)
 
 #### Merged Pull Requests
-- Forport 7277 Postgres session resource fix for special characters in password [#7566](https://github.com/inspec/inspec/pull/7566) ([Vasu1105](https://github.com/Vasu1105))
-- Update Artifact test Profiles (#7443) [#7567](https://github.com/inspec/inspec/pull/7567) ([Vasu1105](https://github.com/Vasu1105))
+- Update thor requirement from &gt;= 0.20, &lt; 1.3.0 to &gt;= 0.20, &lt; 1.5.0 [#7551](https://github.com/inspec/inspec/pull/7551) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -39,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Update thor requirement from &gt;= 0.20, &lt; 1.3.0 to &gt;= 0.20, &lt; 1.5.0 [#7551](https://github.com/inspec/inspec/pull/7551) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 7.0.79 -->
 - Forport 7277 Postgres session resource fix for special characters in password [#7566](https://github.com/inspec/inspec/pull/7566) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.78 -->
 - Update Artifact test Profiles (#7443) [#7567](https://github.com/inspec/inspec/pull/7567) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.77 -->
 - Foreport-7152 hab: fix hab pipeline for windows [#7569](https://github.com/inspec/inspec/pull/7569) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.77 -->
