@@ -468,13 +468,6 @@ Practical usage examples...
 - **CVEs**: Any security vulnerabilities addressed, security patches, or security-related fixes
 - **Dependency Updates**: Updates to key dependencies, Ruby version changes, or major library upgrades
 
-**Content Structure Guidelines:**
-- **New Features**: Major functionality additions, new resources, new CLI commands, or significant new capabilities
-- **Improvements**: Performance enhancements, usability improvements, code optimizations, or enhanced existing features
-- **Bug Fixes**: Important bug resolutions, critical fixes, or corrections to existing functionality
-- **CVEs**: Any security vulnerabilities addressed, security patches, or security-related fixes
-- **Dependency Updates**: Updates to key dependencies, Ruby version changes, or major library upgrades
-
 **Section Assignment Rules:**
 - **Ruby version upgrades** → ONLY in "Dependency Updates" section
 - **New CLI commands** → ONLY in "New Features" section
