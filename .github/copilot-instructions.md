@@ -683,33 +683,41 @@ When creating PRs:
    git checkout -b {JIRA_ID}
    ```
 
-3. **PR Creation**: Use GitHub CLI with HTML-formatted description
+3. **PR Creation**: Use GitHub CLI with the standard InSpec PR template
    ```bash
-   gh pr create --title "feat: {JIRA_ID} - Brief description" --body "{HTML_DESCRIPTION}"
+   gh pr create --title "feat: {JIRA_ID} - Brief description" --body-file pr_template.md
    ```
 
-4. **PR Description Format**: Follow this format for better consistency
-  <!--- Provide a short summary of your changes in the Title above -->
+4. **PR Description Format**: **MUST** follow this exact template format:
+   ```markdown
+   <!--- Provide a short summary of your changes in the Title above -->
 
-  ## Description
-  <!--- Describe your changes in detail, what problems does it solve? -->
+   ## Description
+   <!--- Describe your changes in detail, what problems does it solve? -->
 
-  ## Related Issue
-  <!--- If you are suggesting a new feature or change, please create an issue first -->
-  <!--- Please link to the issue, discourse, or stackoverflow here: -->
+   ## Related Issue
+   <!--- If you are suggesting a new feature or change, please create an issue first -->
+   <!--- Please link to the issue, discourse, or stackoverflow here: -->
 
-  ## Types of changes
-  <!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
-  - [ ] Bug fix (non-breaking change which fixes an issue)
-  - [ ] New content (non-breaking change)
-  - [ ] Breaking change (a content change which would break existing functionality or processes)
+   ## Types of changes
+   <!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+   - [ ] Bug fix (non-breaking change which fixes an issue)
+   - [ ] New content (non-breaking change)
+   - [ ] Breaking change (a content change which would break existing functionality or processes)
 
-  ## Checklist:
-  <!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
-  <!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
-  - [ ] I have read the **CONTRIBUTING** document.
+   ## Checklist:
+   <!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
+   <!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+   - [ ] I have read the **CONTRIBUTING** document.
+   ```
 
-### 5. MCP Server Integration (atlassian-mcp-server)
+5. **PR Creation Process**:
+   - Create a temporary `pr_template.md` file with the filled template
+   - Use `gh pr create --body-file pr_template.md` to avoid shell escaping issues
+   - Clean up the temporary file after PR creation
+   - **Always use the exact template format above** - do not modify the structure
+
+### 6. MCP Server Integration (atlassian-mcp-server)
 
 For Jira interactions, use the following MCP server functions:
 
@@ -718,7 +726,7 @@ For Jira interactions, use the following MCP server functions:
 - **Add Comments**: `mcp_atlassian-mcp_addCommentToJiraIssue` - Add progress comments
 - **Transition Issue**: `mcp_atlassian-mcp_transitionJiraIssue` - Move issue status
 
-### 6. Files and Areas to Avoid Modifying
+### 7. Files and Areas to Avoid Modifying
 
 **Prohibited Files/Areas**:
 - `VERSION` file (managed by release process)
