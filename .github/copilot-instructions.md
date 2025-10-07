@@ -512,14 +512,6 @@ dev-docs/
 └── ...                     # Other technical guides
 ```
 
-**Purpose:**
-- Technical implementation details
-- Development workflows and processes
-- Internal architecture decisions
-- Contributor guidelines and advanced topics
-
-**Audience**: InSpec core team, contributors, advanced users
-
 #### Documentation Style Guidelines:
 - **Clear headings**: Use descriptive, scannable headings
 - **Active voice**: Write in active voice when possible
@@ -536,44 +528,6 @@ dev-docs/
 - **UI utilities**: `lib/inspec/ui.rb`
 - **Version**: `VERSION` file in project root and `lib/inspec/version.rb`
 
-## Development Commands
-
-```bash
-# Run tests
-bundle exec rake test
-
-# Build gems locally
-bundle exec rake build
-
-# Test CLI changes
-bundle exec inspec version
-bundle exec inspec shell -t local://
-
-# Check style
-bundle exec chefstyle
-
-# Generate coverage
-bundle exec rake coverage
-```
-
-## Key Dependencies
-
-- **Thor** - CLI framework
-- **Train** - Transport abstraction layer
-- **RSpec** - Testing framework (for some tests)
-- **Minitest** - Primary testing framework  
-- **Chef ecosystem gems** - Various Chef/InSpec utilities
-
-## When Writing Code
-
-1. **Follow existing patterns** in similar files
-2. **Add tests** for new functionality
-3. **Update CLI help** for new options
-4. **Consider Ruby version compatibility**
-5. **Use InSpec-specific error handling**
-6. **Follow frozen string literal patterns**
-7. **Test with multiple transport types** when relevant
-
 ## Security Considerations
 
 - **Never log passwords** or sensitive data
@@ -582,7 +536,7 @@ bundle exec rake coverage
 - **Handle network timeouts** gracefully
 - **Escape shell commands** properly
 
-This project emphasizes **security**, **compliance testing**, and **cross-platform compatibility**, so always consider these aspects when contributing code.
+This project emphasizes **security**, so always consider it when contributing code.
 
 ## Task Implementation Workflow
 
