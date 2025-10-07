@@ -699,7 +699,7 @@ Complete process for branch management and PR creation:
    - Clean up the temporary file after PR creation
    - **Always use the exact template format above** - do not modify the structure
 
-### 6. MCP Server Integration (atlassian-mcp-server)
+### 5. MCP Server Integration (atlassian-mcp-server)
 
 For Jira interactions, use the following MCP server functions:
 
@@ -708,7 +708,7 @@ For Jira interactions, use the following MCP server functions:
 - **Add Comments**: `mcp_atlassian-mcp_addCommentToJiraIssue` - Add progress comments
 - **Transition Issue**: `mcp_atlassian-mcp_transitionJiraIssue` - Move issue status
 
-### 7. Files and Areas to Avoid Modifying
+### 6. Files and Areas to Avoid Modifying
 
 **Prohibited Files/Areas**:
 - `VERSION` file (managed by release process)
