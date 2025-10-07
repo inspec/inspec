@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.72 -->
-## [v7.0.72](https://github.com/inspec/inspec/tree/v7.0.72) (2025-10-06)
+<!-- latest_release 7.0.73 -->
+## [v7.0.73](https://github.com/inspec/inspec/tree/v7.0.73) (2025-10-07)
 
 #### Merged Pull Requests
-- Update rubyzip requirement from &gt;= 1.2.2, &lt; 3.0 to &gt;= 1.2.2, &lt; 4.0 [#7550](https://github.com/inspec/inspec/pull/7550) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Foreport-CHEF-18030- Fix GitFetcher to Clear Empty Cache Directory on Fetch [#7498](https://github.com/inspec/inspec/pull/7498) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Foreport-CHEF-18030- Fix GitFetcher to Clear Empty Cache Directory on Fetch [#7498](https://github.com/inspec/inspec/pull/7498) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.73 -->
 - Update rubyzip requirement from &gt;= 1.2.2, &lt; 3.0 to &gt;= 1.2.2, &lt; 4.0 [#7550](https://github.com/inspec/inspec/pull/7550) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 7.0.72 -->
 - Update parslet requirement from &gt;= 1.5, &lt; 2.0 to &gt;= 1.5, &lt; 3.0 [#7552](https://github.com/inspec/inspec/pull/7552) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 7.0.71 -->
 - Update rspec-its requirement from ~&gt; 1.2 to &gt;= 1.2, &lt; 3.0 [#7553](https://github.com/inspec/inspec/pull/7553) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 7.0.70 -->
