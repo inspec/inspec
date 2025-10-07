@@ -74,6 +74,20 @@ describe "Inspec::Resources::PostgresSession" do
     _(ex.message).must_include("PostgreSQL connection error")
   end
 
+  it "fails when no password authentication fails with fatal message" do
+    resource = quick_resource(:postgres_session, :linux, "postgres", "wrongpassword", "localhost", 5432) do |cmd, opts|
+      cmd.strip!
+      case cmd
+      when ("psql -d postgresql://postgres:wrongpassword@localhost:5432/mydatabase -A -t -w -c Select\\ 5\\;") then
+        result(nil, "test/fixtures/cmd/psql-password-authentication-fatal-error", 1)
+      else
+        raise cmd.inspect
+      end
+    end
+    ex = assert_raises(Inspec::Exceptions::ResourceFailed) { resource.query("Select 5;", ["mydatabase"]) }
+    _(ex.message).must_include("PostgreSQL connection error")
+  end
+
   it "returns stderr as output if there is error in the query." do
     resource = quick_resource(:postgres_session, :linux, "postgres", "postgres", "localhost", 5432) do |cmd, opts|
       cmd.strip!
