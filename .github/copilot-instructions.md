@@ -651,7 +651,10 @@ All tasks should follow this prompt-based workflow:
 
 #### Step 4: Committing the code
 1. **Create Branch**: Use Jira ID as branch name (if provided)
-2. **Commit Changes**: Stage and commit all changes. Use meaningful commit messages. Create separate commits for different types of changes (code, tests, docs).
+2. **Stage Changes**: Add all modified files to git staging
+3. **Commit with Signing**: Use `git commit -s` to sign commits as required by InSpec project
+4. **Commit Message Format**: Use meaningful commit messages following conventional commit format
+5. **Separate Commits**: Create separate commits for different types of changes (code, tests, docs)
 6. **Prompt**: **Code committed Successfully**. Next step: Create PR with GitHub CLI. Other steps remaining: PR Creation. Do you want to continue with PR creation?"
 
 #### Step 5: PR Creation
