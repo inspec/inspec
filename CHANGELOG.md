@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.75 -->
-## [v7.0.75](https://github.com/inspec/inspec/tree/v7.0.75) (2025-10-07)
+<!-- latest_release 7.0.76 -->
+## [v7.0.76](https://github.com/inspec/inspec/tree/v7.0.76) (2025-10-07)
 
 #### Merged Pull Requests
-- Foreport-7154 Added fatal message check for postgres_session:query method  [#7564](https://github.com/inspec/inspec/pull/7564) ([Vasu1105](https://github.com/Vasu1105))
+- Foreport-7198 Improved regex to load readme from inspec profiles (#7198) [#7565](https://github.com/inspec/inspec/pull/7565) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Foreport-7198 Improved regex to load readme from inspec profiles (#7198) [#7565](https://github.com/inspec/inspec/pull/7565) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.76 -->
 - Foreport-7154 Added fatal message check for postgres_session:query method  [#7564](https://github.com/inspec/inspec/pull/7564) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.75 -->
 - CHEF-23547 use official distribution in hab plan [#7507](https://github.com/inspec/inspec/pull/7507) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.74 -->
 - Foreport-CHEF-18030- Fix GitFetcher to Clear Empty Cache Directory on Fetch [#7498](https://github.com/inspec/inspec/pull/7498) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.73 -->
