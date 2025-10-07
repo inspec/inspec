@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 7.0.78 -->
+## [v7.0.78](https://github.com/inspec/inspec/tree/v7.0.78) (2025-10-07)
 
 #### Merged Pull Requests
+- Forport 7277 Postgres session resource fix for special characters in password [#7566](https://github.com/inspec/inspec/pull/7566) ([Vasu1105](https://github.com/Vasu1105))
 - Update Artifact test Profiles (#7443) [#7567](https://github.com/inspec/inspec/pull/7567) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Forport 7277 Postgres session resource fix for special characters in password [#7566](https://github.com/inspec/inspec/pull/7566) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.78 -->
 - Update Artifact test Profiles (#7443) [#7567](https://github.com/inspec/inspec/pull/7567) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.77 -->
 - Foreport-7152 hab: fix hab pipeline for windows [#7569](https://github.com/inspec/inspec/pull/7569) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.77 -->
 - Foreport-7198 Improved regex to load readme from inspec profiles (#7198) [#7565](https://github.com/inspec/inspec/pull/7565) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.76 -->
