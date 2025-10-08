@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.84 -->
-## [v7.0.84](https://github.com/inspec/inspec/tree/v7.0.84) (2025-10-08)
+<!-- latest_release 7.0.85 -->
+## [v7.0.85](https://github.com/inspec/inspec/tree/v7.0.85) (2025-10-08)
 
 #### Merged Pull Requests
-- Update ruby version for windows artifact tests [#7581](https://github.com/inspec/inspec/pull/7581) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Foreport-7222 Update regular expression to fix warnings detected by CodeQL [#7573](https://github.com/inspec/inspec/pull/7573) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Foreport-7222 Update regular expression to fix warnings detected by CodeQL [#7573](https://github.com/inspec/inspec/pull/7573) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.85 -->
 - Update ruby version for windows artifact tests [#7581](https://github.com/inspec/inspec/pull/7581) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.84 -->
 - Foreport 7261 Fix code scanning alert no. 63: Use of a broken or weak cryptographic hashing algorithm on sensitive data [#7570](https://github.com/inspec/inspec/pull/7570) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.83 -->
 - Foreport 7349 Issue with reading/writing signed and tar profiles  [#7571](https://github.com/inspec/inspec/pull/7571) ([Nik08](https://github.com/Nik08)) <!-- 7.0.82 -->
