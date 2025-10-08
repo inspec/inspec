@@ -13,7 +13,7 @@ class ParallelCli < Minitest::Test
 
   def test_help_output
     out = run_inspec_process("parallel help")
-    assert_includes out.stdout, "inspec parallel exec o"
+    assert_includes out.stdout, "inspec parallel exec -o"
     assert_exit_code 0, out
   end
 

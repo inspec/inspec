@@ -193,7 +193,7 @@ module Inspec::Resources
     #
     # @return [Array[String,String]]
     def action_list_for(line)
-      action_list = line.scan(/-a ([^,]+),([^ ]+)\s?/).flatten
+      action_list = line.scan(/-a ([^,\s]+),([^,\s]+)(?:\s|$)/).flatten
 
       # Actions and lists can be in either order
       valid_actions = %w{never always}

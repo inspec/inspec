@@ -71,27 +71,24 @@ namespace :test do
   end
 
   task :parallel do
-    n      = (ENV["K"] || 4).to_i
-    warn "Have RUBY_PLATFORM as #{RUBY_PLATFORM}"
-    lock   = Mutex.new
+    n = (ENV["K"] || Etc.nprocessors).to_i
+    warn "Using #{n} threads on RUBY_PLATFORM #{RUBY_PLATFORM}"
+    lock = Mutex.new
     passed = true
 
     tests = Dir[*GLOBS].sort
-    tests.concat([nil] * (n - tests.size % n)) unless # square it up
-      tests.size % 4 == 0
+    # No need to pad jobs, just split evenly
+    jobs = tests.each_slice((tests.size.to_f / n).ceil).to_a
 
-    jobs = tests.each_slice(n).to_a.transpose
-    t0   = Time.now
-    out  = Queue.new
+    t0 = Time.now
+    out = Queue.new
 
-    n_threads_run n, jobs do |job|
-      job.compact!
-      lock.synchronize do
-        warn "Running #{job.size} files in a thread"
-      end
+    n_threads_run jobs.size, jobs do |job|
+      next if job.empty?
 
+      lock.synchronize { warn "Running #{job.size} files in a thread" }
       t1 = Time.now
-      cmd = "bundle exec minitest #{job.join " "}"
+      cmd = "bundle exec ruby -Ilib -Itest #{job.join(" ")}"
       output = `#{cmd} 2>&1`
       t2 = Time.now - t1
 
@@ -107,16 +104,9 @@ namespace :test do
       out << "#{cmd}\n\n#{output}"
     end
 
-    puts "done"
-    puts
-
-    out.length.times do
-      puts out.shift
-      puts
-    end
-
-    puts "Ran in %d seconds" % [ Time.now - t0 ]
-
+    puts "done\n"
+    out.length.times { puts out.shift; puts }
+    puts "Ran in %d seconds" % [Time.now - t0]
     exit 1 unless passed
   end
   task parallel: [:accept_license] # given isolated being green, why is this needed?

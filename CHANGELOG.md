@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.71 -->
-## [v7.0.71](https://github.com/inspec/inspec/tree/v7.0.71) (2025-10-06)
+<!-- latest_release 7.0.85 -->
+## [v7.0.85](https://github.com/inspec/inspec/tree/v7.0.85) (2025-10-08)
 
 #### Merged Pull Requests
-- Update parslet requirement from &gt;= 1.5, &lt; 2.0 to &gt;= 1.5, &lt; 3.0 [#7552](https://github.com/inspec/inspec/pull/7552) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Foreport-7222 Update regular expression to fix warnings detected by CodeQL [#7573](https://github.com/inspec/inspec/pull/7573) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,21 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Foreport-7222 Update regular expression to fix warnings detected by CodeQL [#7573](https://github.com/inspec/inspec/pull/7573) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.85 -->
+- Update ruby version for windows artifact tests [#7581](https://github.com/inspec/inspec/pull/7581) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.84 -->
+- Foreport 7261 Fix code scanning alert no. 63: Use of a broken or weak cryptographic hashing algorithm on sensitive data [#7570](https://github.com/inspec/inspec/pull/7570) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.83 -->
+- Foreport 7349 Issue with reading/writing signed and tar profiles  [#7571](https://github.com/inspec/inspec/pull/7571) ([Nik08](https://github.com/Nik08)) <!-- 7.0.82 -->
+- Forport 7203 fix: Prioritize environment-set license server URL  [#7572](https://github.com/inspec/inspec/pull/7572) ([Nik08](https://github.com/Nik08)) <!-- 7.0.81 -->
+- Attempt to fix windows verify pipeline failures [#7576](https://github.com/inspec/inspec/pull/7576) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.80 -->
+- Update thor requirement from &gt;= 0.20, &lt; 1.3.0 to &gt;= 0.20, &lt; 1.5.0 [#7551](https://github.com/inspec/inspec/pull/7551) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 7.0.79 -->
+- Forport 7277 Postgres session resource fix for special characters in password [#7566](https://github.com/inspec/inspec/pull/7566) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.78 -->
+- Update Artifact test Profiles (#7443) [#7567](https://github.com/inspec/inspec/pull/7567) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.77 -->
+- Foreport-7152 hab: fix hab pipeline for windows [#7569](https://github.com/inspec/inspec/pull/7569) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.77 -->
+- Foreport-7198 Improved regex to load readme from inspec profiles (#7198) [#7565](https://github.com/inspec/inspec/pull/7565) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.76 -->
+- Foreport-7154 Added fatal message check for postgres_session:query method  [#7564](https://github.com/inspec/inspec/pull/7564) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.75 -->
+- CHEF-23547 use official distribution in hab plan [#7507](https://github.com/inspec/inspec/pull/7507) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.74 -->
+- Foreport-CHEF-18030- Fix GitFetcher to Clear Empty Cache Directory on Fetch [#7498](https://github.com/inspec/inspec/pull/7498) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.73 -->
+- Update rubyzip requirement from &gt;= 1.2.2, &lt; 3.0 to &gt;= 1.2.2, &lt; 4.0 [#7550](https://github.com/inspec/inspec/pull/7550) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 7.0.72 -->
 - Update parslet requirement from &gt;= 1.5, &lt; 2.0 to &gt;= 1.5, &lt; 3.0 [#7552](https://github.com/inspec/inspec/pull/7552) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 7.0.71 -->
 - Update rspec-its requirement from ~&gt; 1.2 to &gt;= 1.2, &lt; 3.0 [#7553](https://github.com/inspec/inspec/pull/7553) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 7.0.70 -->
 - Fix inspec habitat tests [#7558](https://github.com/inspec/inspec/pull/7558) ([Nik08](https://github.com/Nik08)) <!-- 7.0.69 -->

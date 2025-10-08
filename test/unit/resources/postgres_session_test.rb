@@ -8,6 +8,11 @@ describe "Inspec::Resources::PostgresSession" do
     resource = load_resource("postgres_session", "myuser", "mypass", "127.0.0.1", 5432)
     _(resource.resource_id).must_equal "postgress_session:User:myuser:Host:127.0.0.1"
   end
+  it "generates the resource_id and verifies create_psql_cmd for passwords with special characters" do
+    resource = load_resource("postgres_session", "myuser", "my@pa$ss", "127.0.0.1", 5432)
+    _(resource.resource_id).must_equal "postgress_session:User:myuser:Host:127.0.0.1"
+    _(resource.send(:create_psql_cmd, "SELECT * FROM STUDENTS;", ["testdb"])).must_equal "psql -d postgresql://myuser:my%40pa%24ss@127.0.0.1:5432/testdb -A -t -w -c SELECT\\ \\*\\ FROM\\ STUDENTS\\;"
+  end
   it "verify postgres_session create_psql_cmd with a basic query" do
     resource = load_resource("postgres_session", "myuser", "mypass", "127.0.0.1", 5432)
     _(resource.send(:create_psql_cmd, "SELECT * FROM STUDENTS;", ["testdb"])).must_equal "psql -d postgresql://myuser:mypass@127.0.0.1:5432/testdb -A -t -w -c SELECT\\ \\*\\ FROM\\ STUDENTS\\;"
@@ -46,6 +51,11 @@ describe "Inspec::Resources::PostgresSession" do
     _(resource.send(:create_psql_cmd, "SELECT * FROM STUDENTS;", ["testdb"])).must_equal "psql -d postgresql://myuser:mypass@/testdb?host=/var/run/postgresql -p 1234 -A -t -w -c SELECT\\ \\*\\ FROM\\ STUDENTS\\;"
   end
 
+  it "encodes the password correctly" do
+    resource = load_resource("postgres_session", "myuser", "my@pa$ss", "127.0.0.1", 5432)
+    _(resource.send(:encoded_password, "my@pa$ss")).must_equal "my%40pa%24ss"
+  end
+
   it "fails when no connection established in linux" do
     resource = quick_resource(:postgres_session, :linux, "postgres", "postgres", "localhost", 5432) do |cmd, opts|
       cmd.strip!
@@ -66,6 +76,20 @@ describe "Inspec::Resources::PostgresSession" do
       case cmd
       when ("psql -d postgresql://postgres:wrongpassword@localhost:5432/mydatabase -A -t -w -c Select\\ 5\\;") then
         result(nil, "test/fixtures/cmd/psql-password-authentication-error", 1)
+      else
+        raise cmd.inspect
+      end
+    end
+    ex = assert_raises(Inspec::Exceptions::ResourceFailed) { resource.query("Select 5;", ["mydatabase"]) }
+    _(ex.message).must_include("PostgreSQL connection error")
+  end
+
+  it "fails when no password authentication fails with fatal message" do
+    resource = quick_resource(:postgres_session, :linux, "postgres", "wrongpassword", "localhost", 5432) do |cmd, opts|
+      cmd.strip!
+      case cmd
+      when ("psql -d postgresql://postgres:wrongpassword@localhost:5432/mydatabase -A -t -w -c Select\\ 5\\;") then
+        result(nil, "test/fixtures/cmd/psql-password-authentication-fatal-error", 1)
       else
         raise cmd.inspect
       end
