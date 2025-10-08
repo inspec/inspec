@@ -39,10 +39,6 @@ module Inspec::DSL
     return unless backend
 
     begin
-      include DeprecatedCoreResourcesList
-      if CORE_RESOURCES_DEPRECATED.include? id
-        Inspec.deprecate(:core_resource_moved_to_rp, "The resource '#{id}' will not be part of the InSpec 7 core.")
-      end
       require "inspec/resources/#{id}"
     rescue LoadError => e
 
@@ -54,7 +50,9 @@ module Inspec::DSL
         # Install if needed
         cfg = Inspec::Config.cached
         unless cfg.final_options[:auto_install_gems]
-          raise Inspec::Plugin::V2::InstallRequiredError, "resource pack gem '#{gem_name}' is required for resource '#{id}' support (consider --auto-install-gems)"
+          # raise Inspec::Plugin::V2::InstallRequiredError, "resource pack gem '#{gem_name}' is required for resource '#{id}' support (consider --auto-install-gems)"
+          Inspec.deprecate(:core_resource_moved_to_rp, "The resource pack gem '#{gem_name}' is required for resource '#{id}' support (consider --auto-install-gems).")
+
         end
 
         Inspec::Plugin::V2::Installer.instance.ensure_installed gem_name

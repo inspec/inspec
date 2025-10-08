@@ -1613,11 +1613,10 @@ EOT
   describe "when running a profile with a core resource that will be deprecated in InSpec 7" do
     let(:out) { inspec("exec " + File.join(profile_path, "deprecated-core-resources") + " --no-create-lockfile") }
     it "issues a change notice warning and runs the profile successfully" do
-      _(stdout).must_include "WARN: CHANGE NOTICE:"
-      _(stdout).must_include "will not be part of the InSpec 7 core."
-      _(stdout).must_include "This resource will be moved to a separate resource pack."
-      _(stdout).must_include "Additional details will be provided with the InSpec 7 release."
-      assert_exit_code 0, out
+      _(stdout).must_include "ERROR: DEPRECATION:"
+      _(stdout).must_match(/is required for resource/)
+      _(stdout).must_include "support (consider --auto-install-gems)"
+      assert_exit_code 3, out
     end
   end
 end

@@ -17,8 +17,6 @@ module DeprecatedCoreResourcesList
     podman_pod
     podman_volume
     rabbitmq_config
-    ssh_config
-    ssh_key
     sybase_conf
     sybase_session
   }.freeze
