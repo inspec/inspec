@@ -74,15 +74,15 @@ Write-Host "--- Installing $pkg_ident/$pkg_artifact"
 hab pkg install -b $project_root/results/$pkg_artifact
 
 Write-Host "--- Downloading Ruby + DevKit"
-Invoke-WebRequest -Uri "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.1.7-1/rubyinstaller-3.1.7-1-x64.exe" -OutFile "c:/rubyinstaller-devkit-3.1.7-1x64.exe"
+Invoke-WebRequest -Uri "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.1.6-1/rubyinstaller-devkit-3.1.6-1-x64.exe" -OutFile "c:/rubyinstaller-devkit-3.1.6-1-x64.exe"
 
 Write-Host "--- Installing Ruby + DevKit"
-Start-Process c:\rubyinstaller-devkit-3.1.7-1x64.exe -ArgumentList '/verysilent /allusers /dir=C:\\ruby317' -Wait
+Start-Process c:\rubyinstaller-devkit-3.1.6-1-x64.exe -ArgumentList '/verysilent /allusers /dir=C:\\ruby316' -Wait
 
 Write-Host "--- Cleaning up installation"
-Remove-Item c:\rubyinstaller-devkit-3.1.7-1x64.exe -Force
+Remove-Item c:\rubyinstaller-devkit-3.1.6-1-x64.exe -Force
 
-$Env:Path += ";C:\ruby317\bin;C:\hab\bin"
+$Env:Path += ";C:\ruby316\bin;C:\hab\bin"
 
 Write-Host "+++ Testing $Plan"
 
