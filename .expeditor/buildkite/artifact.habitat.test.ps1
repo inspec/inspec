@@ -74,15 +74,15 @@ Write-Host "--- Installing $pkg_ident/$pkg_artifact"
 hab pkg install -b $project_root/results/$pkg_artifact
 
 Write-Host "--- Downloading Ruby + DevKit"
-aws s3 cp s3://core-buildkite-cache-chef-prod/rubyinstaller-devkit-2.6.6-1-x64.exe c:/rubyinstaller-devkit-2.6.6-1-x64.exe
+Invoke-WebRequest -Uri "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.1.6-1/rubyinstaller-devkit-3.1.6-1-x64.exe" -OutFile "c:/rubyinstaller-devkit-3.1.6-1-x64.exe"
 
 Write-Host "--- Installing Ruby + DevKit"
-Start-Process c:\rubyinstaller-devkit-2.6.6-1-x64.exe -ArgumentList '/verysilent /dir=C:\\ruby26' -Wait
+Start-Process c:\rubyinstaller-devkit-3.1.6-1-x64.exe -ArgumentList '/verysilent /allusers /dir=C:\\ruby316' -Wait
 
 Write-Host "--- Cleaning up installation"
-Remove-Item c:\rubyinstaller-devkit-2.6.6-1-x64.exe -Force
+Remove-Item c:\rubyinstaller-devkit-3.1.6-1-x64.exe -Force
 
-$Env:Path += ";C:\ruby26\bin;C:\hab\bin"
+$Env:Path += ";C:\ruby316\bin;C:\hab\bin"
 
 Write-Host "+++ Testing $Plan"
 
