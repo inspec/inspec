@@ -66,9 +66,9 @@ module Inspec::Reporters
     # Then it downgrades the 160bit SHA1 to a 128bit
     # then we format it as a valid UUIDv5.
     def uuid_from_string(string)
-      hash = Digest::SHA1.new
+      hash = Digest::SHA256.new
       hash.update(string)
-      ary = hash.digest.unpack("NnnnnN")
+      ary = hash.digest[0, 16].unpack("NnnnnN")
       ary[2] = (ary[2] & 0x0FFF) | (5 << 12)
       ary[3] = (ary[3] & 0x3FFF) | 0x8000
       # rubocop:disable Style/FormatString
