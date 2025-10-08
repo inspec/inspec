@@ -16,41 +16,12 @@ $Properties = 'Caption', 'CSName', 'Version', 'BuildType', 'OSArchitecture'
 Get-CimInstance Win32_OperatingSystem | Select-Object $Properties | Format-Table -AutoSize
 
 Write-Host "--- Installing the version of Habitat required"
-
-function Stop-HabProcess {
-  $habProcess = Get-Process hab -ErrorAction SilentlyContinue
-  if ($habProcess) {
-      Write-Host "Stopping hab process..."
-      Stop-Process -Name hab -Force
-  }
-}
-
-function Install-Habitat {
-  Write-Host "Downloading and installing Habitat..."
-  Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1'))
-}
-
 try {
   hab --version
 }
 catch {
   Set-ExecutionPolicy Bypass -Scope Process -Force
-
-  Stop-HabProcess
-
-  # Remove the existing hab.exe if it exists and if you have permissions
-  $habPath = "C:\ProgramData\Habitat\hab.exe"
-  if (Test-Path $habPath) {
-      Write-Host "Attempting to remove existing hab.exe..."
-      Remove-Item $habPath -Force -ErrorAction SilentlyContinue
-      if (Test-Path $habPath) {
-          Write-Host "Failed to remove hab.exe, re-running script with elevated permissions."
-          Start-Process powershell -Verb runAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
-          exit
-      }
-  }
-
-  Install-Habitat
+  Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1'))
 }
 finally {
   Write-Host ":habitat: I think I have the version I need to build."
