@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.82 -->
-## [v7.0.82](https://github.com/inspec/inspec/tree/v7.0.82) (2025-10-08)
+<!-- latest_release 7.0.83 -->
+## [v7.0.83](https://github.com/inspec/inspec/tree/v7.0.83) (2025-10-08)
 
 #### Merged Pull Requests
-- Foreport 7349 Issue with reading/writing signed and tar profiles  [#7571](https://github.com/inspec/inspec/pull/7571) ([Nik08](https://github.com/Nik08))
+- Foreport 7261 Fix code scanning alert no. 63: Use of a broken or weak cryptographic hashing algorithm on sensitive data [#7570](https://github.com/inspec/inspec/pull/7570) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Foreport 7261 Fix code scanning alert no. 63: Use of a broken or weak cryptographic hashing algorithm on sensitive data [#7570](https://github.com/inspec/inspec/pull/7570) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.83 -->
 - Foreport 7349 Issue with reading/writing signed and tar profiles  [#7571](https://github.com/inspec/inspec/pull/7571) ([Nik08](https://github.com/Nik08)) <!-- 7.0.82 -->
 - Forport 7203 fix: Prioritize environment-set license server URL  [#7572](https://github.com/inspec/inspec/pull/7572) ([Nik08](https://github.com/Nik08)) <!-- 7.0.81 -->
 - Attempt to fix windows verify pipeline failures [#7576](https://github.com/inspec/inspec/pull/7576) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.80 -->
