@@ -13,6 +13,12 @@ gh_repo = "inspec"
 
 Before running Chef InSpec, you must accept the Chef EULA and---starting with **Chef InSpec 6**---add a license key.
 
+{{< note >}}
+
+**InSpec 7 Official Distribution**: Starting with Chef InSpec 7, users of the official distribution can skip licensing requirements.
+
+{{< /note >}}
+
 Chef InSpec accepts a license key using one of two methods:
 
 - by setting a license key with an [environment variable or using the InSpec CLI](#license-key)
