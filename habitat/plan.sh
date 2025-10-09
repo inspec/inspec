@@ -66,6 +66,14 @@ do_install() {
 
   wrap_inspec_bin
 
+  # Copy NOTICE.TXT to the package directory
+  if [[ -f "$PLAN_CONTEXT/../NOTICE.TXT" ]]; then
+    build_line "Copying NOTICE.TXT to package directory"
+    cp "$PLAN_CONTEXT/../NOTICE.TXT" "$pkg_prefix/"
+  else
+    build_line "Warning: NOTICE.TXT not found at $PLAN_CONTEXT/../NOTICE.TXT"
+  fi
+
   # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
   # for omnibus we also install this as part of the package
   gem install ed25519 bcrypt_pbkdf --no-document
