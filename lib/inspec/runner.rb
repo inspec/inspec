@@ -172,7 +172,16 @@ module Inspec
     end
 
     def run(with = nil)
-      ChefLicensing.check_software_entitlement! if Inspec::Dist::EXEC_NAME == "inspec"
+      product_dist_name = Inspec::Dist::PRODUCT_NAME
+      if Inspec::Dist::EXEC_NAME == "inspec"
+        if Inspec::Telemetry::RunContextProbe.guess_run_context == "test-kitchen"
+          product_dist_name = "Chef Workstation"
+          configure_licensing_config_for_kitchen(@conf)
+          # Persist the license key in file when passed via test-kitchen
+          ChefLicensing.fetch_and_persist if @conf[:chef_license_key]
+        end
+        ChefLicensing.check_software_entitlement!
+      end
 
       # Validate if profiles are signed and verified
       # Additional check is required to provide error message in case of inspec exec command (exec command can use multiple profiles as well)
@@ -187,8 +196,11 @@ module Inspec
       Inspec::Telemetry.run_starting(runner: self, conf: @conf)
       load
       run_tests(with)
+    rescue ChefLicensing::LicenseKeyFetcher::LicenseKeyNotFetchedError
+      Inspec::Log.error "#{product_dist_name} cannot execute without valid licenses."
+      Inspec::UI.new.exit(:license_not_set)
     rescue ChefLicensing::SoftwareNotEntitled
-      Inspec::Log.error "License is not entitled to use InSpec."
+      Inspec::Log.error "License is not entitled to use #{product_dist_name}."
       Inspec::UI.new.exit(:license_not_entitled)
     rescue ChefLicensing::Error => e
       Inspec::Log.error e.message

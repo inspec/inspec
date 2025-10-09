@@ -18,10 +18,12 @@ module Inspec
       # Don't perform telemetry action for other InSpec distros
       # Don't perform telemetry action if running under Automate - Automate does LDC tracking for us
       # Don't perform telemetry action if license is a commercial license
+      # Don't perform telemetry action if running under Test Kitchen
 
       if Inspec::Dist::EXEC_NAME != "inspec" ||
           Inspec::Telemetry::RunContextProbe.under_automate? ||
-          license&.license_type&.downcase == "commercial"
+          license&.license_type&.downcase == "commercial" ||
+          Inspec::Telemetry::RunContextProbe.guess_run_context == "test-kitchen"
 
         Inspec::Log.debug "Determined telemetry operation is not applicable and hence aborting it."
         return Inspec::Telemetry::Null
