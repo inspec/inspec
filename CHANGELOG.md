@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.85 -->
-## [v7.0.85](https://github.com/inspec/inspec/tree/v7.0.85) (2025-10-08)
+<!-- latest_release 7.0.87 -->
+## [v7.0.87](https://github.com/inspec/inspec/tree/v7.0.87) (2025-10-09)
 
 #### Merged Pull Requests
-- Foreport-7222 Update regular expression to fix warnings detected by CodeQL [#7573](https://github.com/inspec/inspec/pull/7573) ([Vasu1105](https://github.com/Vasu1105))
+- Foreport-7168  Test kitchen integration  [#7568](https://github.com/inspec/inspec/pull/7568) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,8 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Foreport-7168  Test kitchen integration  [#7568](https://github.com/inspec/inspec/pull/7568) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.87 -->
+- Update ostruct requirement from ~&gt; 0.1.0 to &gt;= 0.1, &lt; 0.7 [#7548](https://github.com/inspec/inspec/pull/7548) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 7.0.86 -->
 - Foreport-7222 Update regular expression to fix warnings detected by CodeQL [#7573](https://github.com/inspec/inspec/pull/7573) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.85 -->
 - Update ruby version for windows artifact tests [#7581](https://github.com/inspec/inspec/pull/7581) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.84 -->
 - Foreport 7261 Fix code scanning alert no. 63: Use of a broken or weak cryptographic hashing algorithm on sensitive data [#7570](https://github.com/inspec/inspec/pull/7570) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.83 -->
