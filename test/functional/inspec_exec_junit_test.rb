@@ -72,7 +72,7 @@ describe "inspec exec with junit formatter" do
   describe "when running the v2 junit reporter" do
     let(:schema) { Nokogiri::XML::Schema(File.read("#{repo_path}/lib/plugins/inspec-reporter-junit/test/fixtures/schema/JUnit-162a883.xsd")) }
     let(:run_result) { run_inspec_process("exec #{profile_name} --reporter junit2") }
-    let(:doc) { Nokogiri::XML(ignore_resource_pack_warning(run_result.stdout)) }
+    let(:doc) { Nokogiri::XML(run_result.stdout) }
 
     describe "when running a basic profile" do
       let(:profile_name) { complete_profile }
