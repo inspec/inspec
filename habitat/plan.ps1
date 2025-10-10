@@ -73,6 +73,15 @@ function Invoke-Install {
                      "*/latest", "latest",
                      "*/JSON-Schema-Test-Suite", "JSON-Schema-Test-Suite")
 
+    # Copy NOTICE.TXT to the package directory
+    $NoticeFile = "$project_root/NOTICE.TXT"
+    if (Test-Path $NoticeFile) {
+        Write-BuildLine "** Copying NOTICE.TXT to package directory"
+        Copy-Item -Path $NoticeFile -Destination $pkg_prefix -Force
+    } else {
+        Write-BuildLine "** Warning: NOTICE.TXT not found at $NoticeFile"
+    }
+
     try {
         Push-Location $pkg_prefix
         bundle config --local gemfile $project_root/Gemfile
