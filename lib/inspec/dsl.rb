@@ -2,6 +2,7 @@
 require "inspec/log"
 require "inspec/plugin/v2"
 require "inspec/utils/deprecated_cloud_resources_list"
+require "inspec/utils/deprecated_core_resources_list"
 
 module Inspec::DSL
   attr_accessor :backend
@@ -49,7 +50,8 @@ module Inspec::DSL
         # Install if needed
         cfg = Inspec::Config.cached
         unless cfg.final_options[:auto_install_gems]
-          raise Inspec::Plugin::V2::InstallRequiredError, "resource pack gem '#{gem_name}' is required for resource '#{id}' support (consider --auto-install-gems)"
+          Inspec.deprecate(:core_resource_moved_to_rp, "The resource pack gem '#{gem_name}' is required for resource '#{id}' support (consider --auto-install-gems).")
+
         end
 
         Inspec::Plugin::V2::Installer.instance.ensure_installed gem_name
