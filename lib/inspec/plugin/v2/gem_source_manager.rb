@@ -37,11 +37,13 @@ module Inspec::Plugin::V2
 
       gem_source = Gem::Source.new(source)
       sources << gem_source unless sources.include?(gem_source)
+    rescue StandardError => e
+      raise StandardError, "Unable to add gem source #{source}: #{e.message}"
     end
 
     def licenses_string
       ChefLicensing.license_keys.join(",")
-    rescue
+    rescue StandardError
       ""
     end
   end
