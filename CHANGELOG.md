@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.91 -->
-## [v7.0.91](https://github.com/inspec/inspec/tree/v7.0.91) (2025-10-10)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Chef 26425 add notices text [#7585](https://github.com/inspec/inspec/pull/7585) ([sathish-progress](https://github.com/sathish-progress))
+- CHEF-26507 Adds copilot instructions file - InSpec 7 [#7592](https://github.com/inspec/inspec/pull/7592) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- CHEF-26507 Adds copilot instructions file - InSpec 7 [#7592](https://github.com/inspec/inspec/pull/7592) ([Nik08](https://github.com/Nik08)) <!-- 7.0.91 -->
 - Chef 26425 add notices text [#7585](https://github.com/inspec/inspec/pull/7585) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.91 -->
 - CHEF-26987 Prevent adding CHEF RUBYGEMS server if license key is empty [#7588](https://github.com/inspec/inspec/pull/7588) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.90 -->
 - CHEF-26188-Foreport deprecation messages for InSpec-7 [#7582](https://github.com/inspec/inspec/pull/7582) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.89 -->
