@@ -412,6 +412,79 @@ Practical usage examples...
 **Important Notes:**
 - Confirm the different sections that needs to be included in the documentation before making any changes.
 
+### GitHub Wiki (Release Notes)
+
+**Location**: https://github.com/inspec/inspec/wiki/Pending-Release-Notes
+
+**CRITICAL FOR RELEASE NOTES TASKS:**
+- **ONLY provide content formatted for manual wiki update**
+- **DO NOT create any files in the repository**
+- **DO NOT update any existing documentation files**
+- **DO NOT update habitat.md, shell.md, _index.md, or create new .md files**
+- **ONLY output the structured content that can be copy-pasted to GitHub Wiki**
+- **NOT controlled by code repository** - Wiki is separate from main codebase
+- **Manually updated** by accessing the GitHub wiki interface directly
+- Follow the content structure below for arranging the content of release notes
+- Provide with the content that could be used to update manually but do not make any changes to the repository itself
+- Use md format for this documentation and linked description of change with a PR. Follow this format "DESCRIPTION. ([#PR NUMBER](https://github.com/inspec/inspec/pull/#PR_NUMBER))"
+- **NEVER create fictional content** - Only document real changes based on actual PRs
+- **NEVER make up performance numbers** - Do not invent "40% faster" or similar claims
+- **NEVER create fictional bug fixes** - Do not mention non-existent memory leaks or made-up issues
+- **ALWAYS ask for actual PR list** before creating content if PRs are not provided
+- **NEVER duplicate the same change across sections** - Each change belongs in only ONE section
+- **ONLY document factual information** from real development work
+
+**Prompt**: Ask for the PRs to mention in release notes content before finalizing
+
+**For Release Notes Tasks - ONLY provide content in this structure:**
+
+```markdown
+## InSpec X.Y.Z Release Notes
+
+### New Features
+- Feature 1 description
+- Feature 2 description
+
+### Improvements
+- Improvement 1 description
+- Improvement 2 description
+
+### Bug Fixes
+- Bug fix 1 description
+- Bug fix 2 description
+
+### CVEs
+- CVE fix 1 description (if any)
+
+### Dependency Updates
+- Dependency update 1
+- Dependency update 2
+```
+
+**Content Structure Guidelines:**
+- **New Features**: Major functionality additions, new resources, new CLI commands, or significant new capabilities
+- **Improvements**: Performance enhancements, usability improvements, code optimizations, or enhanced existing features
+- **Bug Fixes**: Important bug resolutions, critical fixes, or corrections to existing functionality
+- **CVEs**: Any security vulnerabilities addressed, security patches, or security-related fixes
+- **Dependency Updates**: Updates to key dependencies, Ruby version changes, or major library upgrades
+
+**Section Assignment Rules:**
+- **Ruby version upgrades** → ONLY in "Dependency Updates" section
+- **New CLI commands** → ONLY in "New Features" section
+- **Performance improvements** → ONLY in "Improvements" section
+- **Security fixes** → ONLY in "CVEs" section
+- **Bug resolutions** → ONLY in "Bug Fixes" section
+- Each change should appear in EXACTLY ONE section, never multiple sections
+
+**Process:**
+1. Release notes are drafted in the "Pending Release Notes" wiki page
+2. During release process, content is moved to version-specific pages
+3. Updates require direct wiki access, not pull requests
+4. Content is used by automated release scripts
+
+**Prompt**:
+- Ask for the PRs to mention in release notes content before finalizing
+
 ### README Files - Avoid Updates
 
 **Policy**: README files are **rarely updated** and should **not** be modified unless absolutely necessary. So ask to confirm if any changes are needed.
@@ -493,7 +566,7 @@ All tasks should follow this prompt-based workflow:
    - Identify files to be modified/created
    - Plan test strategy
 3. **Provide Summary**: Summarize understanding and ask for confirmation
-4. **Prompt**: **Analysis Complete**. Next step: Start implementation. Other steps remaining: Implementation → Testing → Committing the code → PR Creation → Update JIRA Ticket. Do you want to continue with the implementation?"
+4. **Prompt**: **Analysis Complete**. Next step: Start implementation. Other steps remaining: Implementation → Testing → Committing the code → PR Creation. Do you want to continue with the implementation?"
 
 #### Step 2: Implementation
 1. **Code Implementation**:
@@ -517,7 +590,7 @@ All tasks should follow this prompt-based workflow:
      - Check **Common File Locations** to understand where different types of code should go
      - Review **Files and Areas to Avoid Modifying** before making changes
 2. **Progress Updates**: After each significant change, provide summary
-3. **Prompt**: **Implementation Complete**. Next step: Create unit tests. Other steps remaining: Testing → Committing the code → PR Creation → Update JIRA Ticket. Do you want to continue with creating tests?"
+3. **Prompt**: **Implementation Complete**. Next step: Create unit tests. Other steps remaining: Testing → Committing the code → PR Creation. Do you want to continue with creating tests?"
 
 #### Step 3: Testing
 1. **Create Unit Tests**:
@@ -528,7 +601,7 @@ All tasks should follow this prompt-based workflow:
    - Ensure good test coverage
    - Skip the test cases if the change is a documentation change.
 2. **Run Tests**: Execute tests to verify functionality if test cases were added
-3. **Prompt**: **Tests Complete**. Next step: Committing the code. Other steps remaining: Committing the code → PR Creation → Update JIRA Ticket. Do you want to continue with committing the code?"
+3. **Prompt**: **Tests Complete**. Next step: Committing the code. Other steps remaining: Committing the code → PR Creation. Do you want to continue with committing the code?"
 
 #### Step 4: Committing the code
 1. **Create Branch**: Use Jira ID as branch name (if provided)
@@ -536,21 +609,12 @@ All tasks should follow this prompt-based workflow:
 3. **Commit with Signing**: Use `git commit -s` to sign commits as required by InSpec project
 4. **Commit Message Format**: Use meaningful commit messages following conventional commit format
 5. **Separate Commits**: Create separate commits for different types of changes (code, tests, docs)
-6. **Prompt**: **Code committed Successfully**. Next step: Create PR with GitHub CLI. Other steps remaining: PR Creation → Update JIRA Ticket. Do you want to continue with PR creation?"
+6. **Prompt**: **Code committed Successfully**. Next step: Create PR with GitHub CLI. Other steps remaining: PR Creation. Do you want to continue with PR creation?"
 
 #### Step 5: PR Creation
 1. **Push Branch**: Push to remote repository
 2. **Follow PR Creation Process**: Use the comprehensive process outlined in "GitHub CLI and PR Creation Process" section below
-3. **Prompt**: **PR Created Successfully**. Next step: Update JIRA Ticket. Final step remaining: Update JIRA Ticket. Do you want to continue with updating JIRA?"
-
-#### Step 6: Update JIRA Ticket (Mandatory)
-1. **Update AI Assistance Field**: Use atlassian-mcp-server to mark the work as AI-assisted
-   - Use `mcp_atlassian-mcp_editJiraIssue` tool
-   - Set custom field `customfield_11170` ("Does this Work Include AI Assisted Code?") to "Yes"
-   - **CRITICAL**: Use correct field format: `{"customfield_11170": {"value": "Yes"}}`
-2. **Verify Update**: Confirm the field was updated successfully
-3. **Add Comment (Optional)**: Optionally add a comment with PR link using `mcp_atlassian-mcp_addCommentToJiraIssue`
-4. **Final Prompt**: **JIRA Ticket Updated Successfully**. All steps completed!"
+3. **Final Prompt**: **PR Created Successfully**. All steps completed!"
 
 ### 3. Prompt-Based Execution
 
@@ -590,9 +654,9 @@ Complete process for branch management and PR creation:
    10. revert: Reverting previous changes
    ```
 
-4. **PR Creation**: Use GitHub CLI with dynamic title based on user selection and `ai-assisted` label
+4. **PR Creation**: Use GitHub CLI with dynamic title based on user selection
    ```bash
-   gh pr create --title "{CHANGE_TYPE}: {JIRA_ID} - Brief description" --body-file pr_template.md --label "ai-assisted"
+   gh pr create --title "{CHANGE_TYPE}: {JIRA_ID} - Brief description" --body-file pr_template.md
    ```
 
    Examples:
@@ -606,10 +670,6 @@ Complete process for branch management and PR creation:
 
    ## Description
    <!--- Describe your changes in detail, what problems does it solve? -->
-
-   [Your detailed description here]
-
-   This work was completed with AI assistance following Progress AI policies.
 
    ## Related Issue
    <!--- If you are suggesting a new feature or change, please create an issue first -->
@@ -628,8 +688,8 @@ Complete process for branch management and PR creation:
    ```
 
 6. **Execute PR Creation**:
-   - Create temporary `pr_template.md` with filled template (including AI assistance statement at the end of description)
-   - Run: `gh pr create --title "{CHANGE_TYPE}: {JIRA_ID} - Brief description" --body-file pr_template.md --label "ai-assisted"`
+   - Create temporary `pr_template.md` with filled template
+   - Run: `gh pr create --title "{CHANGE_TYPE}: {JIRA_ID} - Brief description" --body-file pr_template.md`
    - Clean up temporary file
    - **Always use exact template format** - never modify structure
 
