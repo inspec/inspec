@@ -46,6 +46,33 @@ class TestGemSourceManager < Minitest::Test
     assert_equal sources.count(source), 1
   end
 
+  def test_licenses_string_handles_error
+    # Test that licenses_string returns empty string when ChefLicensing.license_keys raises an error
+    ChefLicensing.stub(:license_keys, -> { raise StandardError, "Licensing error" }) do
+      result = @gem_source_manager.send(:licenses_string)
+      assert_equal "", result
+    end
+  end
+
+  def test_chef_rubygems_server_returns_nil_when_licenses_string_empty
+    # Test that chef_rubygems_server returns nil when licenses_string is empty (due to error)
+    ChefLicensing.stub(:license_keys, -> { raise StandardError, "Licensing error" }) do
+      result = @gem_source_manager.send(:chef_rubygems_server)
+      assert_nil result
+    end
+  end
+
+  def test_add_chef_rubygems_server_handles_licensing_error
+    # Test that add_chef_rubygems_server doesn't add a source when licensing fails
+    initial_sources_count = Gem.sources.sources.length
+
+    ChefLicensing.stub(:license_keys, -> { raise StandardError, "Licensing error" }) do
+      @gem_source_manager.add_chef_rubygems_server
+      # Should not add any new sources since chef_rubygems_server returns nil
+      assert_equal initial_sources_count, Gem.sources.sources.length
+    end
+  end
+
   def mapped_uri_string
     Gem.sources.sources.map { _1.uri.to_s }
   end
