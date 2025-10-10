@@ -28,16 +28,23 @@ module Inspec::Plugin::V2
     private
 
     def chef_rubygems_server
-      "https://#{DEFAULT_USERNAME}:#{licenses_string}@#{DEFAULT_CHEF_RUBY_GEMS_SERVER}"
+      # If there are no license keys, return nil to avoid adding an invalid source
+      "https://#{DEFAULT_USERNAME}:#{licenses_string}@#{DEFAULT_CHEF_RUBY_GEMS_SERVER}" unless licenses_string.empty?
     end
 
     def register_source(source)
+      return if source.nil? # If the source is nil, we don't want to add it
+
       gem_source = Gem::Source.new(source)
       sources << gem_source unless sources.include?(gem_source)
+    rescue StandardError => e
+      raise StandardError, "Unable to add gem source #{source}: #{e.message}"
     end
 
     def licenses_string
       ChefLicensing.license_keys.join(",")
+    rescue StandardError
+      ""
     end
   end
 end
