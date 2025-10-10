@@ -1,4 +1,7 @@
 # copyright: 2015, Dominik Richter
+# Copyright © 2015-2025 Progress Software Corporation and/or its subsidiaries or affiliates.
+# All Rights Reserved.
+
 require "inspec/log"
 require "inspec/plugin/v2"
 require "inspec/utils/deprecated_cloud_resources_list"
