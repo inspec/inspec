@@ -693,12 +693,6 @@ Complete process for branch management and PR creation:
    - Clean up temporary file
    - **Always use exact template format** - never modify structure
 
-5. **PR Creation Process**:
-   - Create a temporary `pr_template.md` file with the filled template
-   - Use `gh pr create --body-file pr_template.md` to avoid shell escaping issues
-   - Clean up the temporary file after PR creation
-   - **Always use the exact template format above** - do not modify the structure
-
 ### 5. MCP Server Integration (atlassian-mcp-server)
 
 For Jira interactions, use the following MCP server functions:
