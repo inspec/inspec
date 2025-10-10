@@ -34,6 +34,7 @@ module Inspec::Plugin::V2
 
     def register_source(source)
       return if source.nil? # If the source is nil, we don't want to add it
+
       gem_source = Gem::Source.new(source)
       sources << gem_source unless sources.include?(gem_source)
     end
