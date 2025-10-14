@@ -654,9 +654,9 @@ Complete process for branch management and PR creation:
    10. revert: Reverting previous changes
    ```
 
-4. **PR Creation**: Use GitHub CLI with dynamic title based on user selection
+4. **PR Creation**: Use GitHub CLI with dynamic title based on user selection and `ai-assisted` label
    ```bash
-   gh pr create --title "{CHANGE_TYPE}: {JIRA_ID} - Brief description" --body-file pr_template.md
+   gh pr create --title "{CHANGE_TYPE}: {JIRA_ID} - Brief description" --body-file pr_template.md --label "ai-assisted"
    ```
 
    Examples:
@@ -670,6 +670,10 @@ Complete process for branch management and PR creation:
 
    ## Description
    <!--- Describe your changes in detail, what problems does it solve? -->
+
+   [Your detailed description here]
+
+   This work was completed with AI assistance following Progress AI policies.
 
    ## Related Issue
    <!--- If you are suggesting a new feature or change, please create an issue first -->
@@ -688,8 +692,8 @@ Complete process for branch management and PR creation:
    ```
 
 6. **Execute PR Creation**:
-   - Create temporary `pr_template.md` with filled template
-   - Run: `gh pr create --title "{CHANGE_TYPE}: {JIRA_ID} - Brief description" --body-file pr_template.md`
+   - Create temporary `pr_template.md` with filled template (including AI assistance statement at the end of description)
+   - Run: `gh pr create --title "{CHANGE_TYPE}: {JIRA_ID} - Brief description" --body-file pr_template.md --label "ai-assisted"`
    - Clean up temporary file
    - **Always use exact template format** - never modify structure
 
