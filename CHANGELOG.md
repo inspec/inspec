@@ -1,12 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.92 -->
-## [v7.0.92](https://github.com/inspec/inspec/tree/v7.0.92) (2025-10-13)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- CHEF-27018 - Update copyright text in InSpec 7 source code [#7593](https://github.com/inspec/inspec/pull/7593) ([Nik08](https://github.com/Nik08))
-- CHEF-26507 Adds copilot instructions file - InSpec 7 [#7592](https://github.com/inspec/inspec/pull/7592) ([Nik08](https://github.com/Nik08))
+- Label updates changes for github and jira [#7598](https://github.com/inspec/inspec/pull/7598) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -39,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Label updates changes for github and jira [#7598](https://github.com/inspec/inspec/pull/7598) ([Nik08](https://github.com/Nik08)) <!-- 7.0.92 -->
 - CHEF-27018 - Update copyright text in InSpec 7 source code [#7593](https://github.com/inspec/inspec/pull/7593) ([Nik08](https://github.com/Nik08)) <!-- 7.0.92 -->
 - CHEF-26507 Adds copilot instructions file - InSpec 7 [#7592](https://github.com/inspec/inspec/pull/7592) ([Nik08](https://github.com/Nik08)) <!-- 7.0.91 -->
 - Chef 26425 add notices text [#7585](https://github.com/inspec/inspec/pull/7585) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.91 -->
