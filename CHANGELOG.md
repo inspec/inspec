@@ -5,6 +5,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- CHEF-26507 Adds copilot instructions file  - InSpec 6 [#7506](https://github.com/inspec/inspec/pull/7506) ([Vasu1105](https://github.com/Vasu1105))
 - CHEF-26497 Added dependabot config for inspec 7 branch [#7547](https://github.com/inspec/inspec/pull/7547) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- CHEF-26507 Adds copilot instructions file  - InSpec 6 [#7506](https://github.com/inspec/inspec/pull/7506) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.8.43 -->
 - CHEF-26497 Added dependabot config for inspec 7 branch [#7547](https://github.com/inspec/inspec/pull/7547) ([Nik08](https://github.com/Nik08)) <!-- 6.8.43 -->
 - CHEF-25277 foreport socks5h docs to main [#7530](https://github.com/inspec/inspec/pull/7530) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.8.43 -->
 - Revert &quot;feat: Add GitHub Copilot instructions file&quot; [#7523](https://github.com/inspec/inspec/pull/7523) ([sathish-progress](https://github.com/sathish-progress)) <!-- 6.8.42 -->
