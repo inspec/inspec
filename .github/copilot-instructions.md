@@ -566,7 +566,7 @@ All tasks should follow this prompt-based workflow:
    - Identify files to be modified/created
    - Plan test strategy
 3. **Provide Summary**: Summarize understanding and ask for confirmation
-4. **Prompt**: **Analysis Complete**. Next step: Start implementation. Other steps remaining: Implementation → Testing → Committing the code → PR Creation. Do you want to continue with the implementation?"
+4. **Prompt**: **Analysis Complete**. Next step: Start implementation. Other steps remaining: Implementation → Testing → Committing the code → PR Creation → Update JIRA Ticket. Do you want to continue with the implementation?"
 
 #### Step 2: Implementation
 1. **Code Implementation**:
@@ -590,7 +590,7 @@ All tasks should follow this prompt-based workflow:
      - Check **Common File Locations** to understand where different types of code should go
      - Review **Files and Areas to Avoid Modifying** before making changes
 2. **Progress Updates**: After each significant change, provide summary
-3. **Prompt**: **Implementation Complete**. Next step: Create unit tests. Other steps remaining: Testing → Committing the code → PR Creation. Do you want to continue with creating tests?"
+3. **Prompt**: **Implementation Complete**. Next step: Create unit tests. Other steps remaining: Testing → Committing the code → PR Creation → Update JIRA Ticket. Do you want to continue with creating tests?"
 
 #### Step 3: Testing
 1. **Create Unit Tests**:
@@ -601,7 +601,7 @@ All tasks should follow this prompt-based workflow:
    - Ensure good test coverage
    - Skip the test cases if the change is a documentation change.
 2. **Run Tests**: Execute tests to verify functionality if test cases were added
-3. **Prompt**: **Tests Complete**. Next step: Committing the code. Other steps remaining: Committing the code → PR Creation. Do you want to continue with committing the code?"
+3. **Prompt**: **Tests Complete**. Next step: Committing the code. Other steps remaining: Committing the code → PR Creation → Update JIRA Ticket. Do you want to continue with committing the code?"
 
 #### Step 4: Committing the code
 1. **Create Branch**: Use Jira ID as branch name (if provided)
@@ -609,12 +609,21 @@ All tasks should follow this prompt-based workflow:
 3. **Commit with Signing**: Use `git commit -s` to sign commits as required by InSpec project
 4. **Commit Message Format**: Use meaningful commit messages following conventional commit format
 5. **Separate Commits**: Create separate commits for different types of changes (code, tests, docs)
-6. **Prompt**: **Code committed Successfully**. Next step: Create PR with GitHub CLI. Other steps remaining: PR Creation. Do you want to continue with PR creation?"
+6. **Prompt**: **Code committed Successfully**. Next step: Create PR with GitHub CLI. Other steps remaining: PR Creation → Update JIRA Ticket. Do you want to continue with PR creation?"
 
 #### Step 5: PR Creation
 1. **Push Branch**: Push to remote repository
 2. **Follow PR Creation Process**: Use the comprehensive process outlined in "GitHub CLI and PR Creation Process" section below
-3. **Final Prompt**: **PR Created Successfully**. All steps completed!"
+3. **Prompt**: **PR Created Successfully**. Next step: Update JIRA Ticket. Final step remaining: Update JIRA Ticket. Do you want to continue with updating JIRA?"
+
+#### Step 6: Update JIRA Ticket (Mandatory)
+1. **Update AI Assistance Field**: Use atlassian-mcp-server to mark the work as AI-assisted
+   - Use `mcp_atlassian-mcp_editJiraIssue` tool
+   - Set custom field `customfield_11170` ("Does this Work Include AI Assisted Code?") to "Yes"
+   - **CRITICAL**: Use correct field format: `{"customfield_11170": {"value": "Yes"}}`
+2. **Verify Update**: Confirm the field was updated successfully
+3. **Add Comment (Optional)**: Optionally add a comment with PR link using `mcp_atlassian-mcp_addCommentToJiraIssue`
+4. **Final Prompt**: **JIRA Ticket Updated Successfully**. All steps completed!"
 
 ### 3. Prompt-Based Execution
 
