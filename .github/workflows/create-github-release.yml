@@ -16,26 +16,39 @@ jobs:
           ref: inspec-7
           fetch-depth: 0
 
-      - name: Read version from VERSION file
-        id: get_version
+      - name: Extract latest stable release section from CHANGELOG.md
+        id: changelog
         run: |
-          VERSION=$(cat VERSION | tr -d ' \n')
-          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          # Extract content between latest_stable_release markers
+          awk '/<!-- latest_stable_release/{flag=!flag; next} flag' CHANGELOG.md > release_notes.md
 
-      - name: Form tag name
-        id: tag
+          # Save to environment variable for later use
+          echo "CHANGELOG_CONTENT<<EOF" >> $GITHUB_ENV
+          cat release_notes.md >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Extract version from changelog
+        id: version
         run: |
-          TAG="v${{ steps.get_version.outputs.version }}"
-          echo "tag=${TAG}" >> $GITHUB_OUTPUT
-          echo "Creating release for tag: ${TAG}"
+          # First line of changelog_notes.md
+          first_line=$(head -n1 release_notes.md)
+
+          # Extract version using bash regex
+          if [[ $first_line =~ \#\#\ \[([^\]]+)\] ]]; then
+            VERSION="${BASH_REMATCH[1]}"
+            echo "Extracted version: $VERSION"
+            echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
+          else
+            echo "Version not found!"
+            exit 1
+          fi
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
         with:
-          tag_name: ${{ steps.tag.outputs.tag }}
-          release_name: Release ${{ steps.get_version.outputs.version }}
+          tag_name: ${{ env.RELEASE_VERSION }}
+          release_name: Chef InSpec ${{ env.RELEASE_VERSION }}
           body: |
-            Changelog
-            Version: ${{ steps.get_version.outputs.version }}
+            ${{ env.CHANGELOG_CONTENT }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
