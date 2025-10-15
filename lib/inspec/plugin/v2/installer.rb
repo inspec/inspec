@@ -391,7 +391,7 @@ module Inspec::Plugin::V2
           # And if the requested_gemspec_file has not been downloaded in this default dir do not activate it
           # Activation will be taken care after the downloads
           requested_gemspec_file = File.join(requested_gemspec.gem_dir, "#{requested_gemspec.name}.gemspec")
-          next unless File.exist?(requested_gemspec_file)
+          next unless File.exist?(requested_gemspec_file) || File.exist?(requested_gemspec.spec_file)
 
           # activate the requested gemspec from the Gem::RequestSet
           requested_gemspec.activate unless loaded_recent_most_version_of?(requested_gemspec)
