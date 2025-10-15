@@ -1,0 +1,38 @@
+name: Create GitHub Release
+
+on: workflow_dispatch
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write  # Needed to create a release
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Read version from VERSION file
+        id: get_version
+        run: |
+          VERSION=$(cat VERSION | tr -d ' \n')
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Form tag name
+        id: tag
+        run: |
+          TAG="v${{ steps.get_version.outputs.version }}"
+          echo "tag=${TAG}" >> $GITHUB_OUTPUT
+          echo "Creating release for tag: ${TAG}"
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          release_name: Release ${{ steps.get_version.outputs.version }}
+          body: |
+            Changelog
+            Version: ${{ steps.get_version.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
