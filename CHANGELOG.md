@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 7.0.93 -->
+## [v7.0.93](https://github.com/inspec/inspec/tree/v7.0.93) (2025-10-15)
 
 #### Merged Pull Requests
+- InSpec 7 Expeditor changes - uncommented [#7599](https://github.com/inspec/inspec/pull/7599) ([Nik08](https://github.com/Nik08))
 - Label updates changes for github and jira [#7598](https://github.com/inspec/inspec/pull/7598) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- InSpec 7 Expeditor changes - uncommented [#7599](https://github.com/inspec/inspec/pull/7599) ([Nik08](https://github.com/Nik08)) <!-- 7.0.93 -->
 - Label updates changes for github and jira [#7598](https://github.com/inspec/inspec/pull/7598) ([Nik08](https://github.com/Nik08)) <!-- 7.0.92 -->
 - CHEF-27018 - Update copyright text in InSpec 7 source code [#7593](https://github.com/inspec/inspec/pull/7593) ([Nik08](https://github.com/Nik08)) <!-- 7.0.92 -->
 - CHEF-26507 Adds copilot instructions file - InSpec 7 [#7592](https://github.com/inspec/inspec/pull/7592) ([Nik08](https://github.com/Nik08)) <!-- 7.0.91 -->
