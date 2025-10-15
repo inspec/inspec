@@ -1,12 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.93 -->
-## [v7.0.93](https://github.com/inspec/inspec/tree/v7.0.93) (2025-10-15)
+<!-- latest_release 7.0.94 -->
+## [v7.0.94](https://github.com/inspec/inspec/tree/v7.0.94) (2025-10-15)
 
 #### Merged Pull Requests
-- InSpec 7 Expeditor changes - uncommented [#7599](https://github.com/inspec/inspec/pull/7599) ([Nik08](https://github.com/Nik08))
-- Label updates changes for github and jira [#7598](https://github.com/inspec/inspec/pull/7598) ([Nik08](https://github.com/Nik08))
+- Fix gemspec activation logic to check for alternate spec file [#7597](https://github.com/inspec/inspec/pull/7597) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -39,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Fix gemspec activation logic to check for alternate spec file [#7597](https://github.com/inspec/inspec/pull/7597) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.94 -->
 - InSpec 7 Expeditor changes - uncommented [#7599](https://github.com/inspec/inspec/pull/7599) ([Nik08](https://github.com/Nik08)) <!-- 7.0.93 -->
 - Label updates changes for github and jira [#7598](https://github.com/inspec/inspec/pull/7598) ([Nik08](https://github.com/Nik08)) <!-- 7.0.92 -->
 - CHEF-27018 - Update copyright text in InSpec 7 source code [#7593](https://github.com/inspec/inspec/pull/7593) ([Nik08](https://github.com/Nik08)) <!-- 7.0.92 -->
