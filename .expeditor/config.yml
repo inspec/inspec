@@ -101,6 +101,7 @@ subscriptions:
          - LICENSE
          - "*.gemspec"
          - "*.md"
+         - NOTICE*
      - bash:.expeditor/update_version.sh:
         only_if: built_in:bump_version
         ignore_labels:
