@@ -1,13 +1,7 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.95 -->
-## [v7.0.95](https://github.com/inspec/inspec/tree/v7.0.95) (2025-10-16)
-
-#### Merged Pull Requests
-- Allow all NOTICE changes to be bumped [#7606](https://github.com/inspec/inspec/pull/7606) ([sathish-progress](https://github.com/sathish-progress))
-- Add notice.txt [#7605](https://github.com/inspec/inspec/pull/7605) ([sathish-progress](https://github.com/sathish-progress))
-- CHEF-27163-Add github release pipeline [#7603](https://github.com/inspec/inspec/pull/7603) ([balasubramanian-s](https://github.com/balasubramanian-s))
+<!-- latest_release -->
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -36,75 +30,77 @@
 #### Merged Pull Requests
 - Bump omnibus-software from `4b08f0b` to `3268356` in /omnibus [#6587](https://github.com/inspec/inspec/pull/6587) ([dependabot[bot]](https://github.com/dependabot[bot]))
 
-<!-- release_rollup since=6.8.24 -->
-### Changes since 6.8.24 release
-
-#### Merged Pull Requests
-- Allow all NOTICE changes to be bumped [#7606](https://github.com/inspec/inspec/pull/7606) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.95 -->
-- Add notice.txt [#7605](https://github.com/inspec/inspec/pull/7605) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.94 -->
-- CHEF-27163-Add github release pipeline [#7603](https://github.com/inspec/inspec/pull/7603) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.94 -->
-- Fix gemspec activation logic to check for alternate spec file [#7597](https://github.com/inspec/inspec/pull/7597) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.94 -->
-- InSpec 7 Expeditor changes - uncommented [#7599](https://github.com/inspec/inspec/pull/7599) ([Nik08](https://github.com/Nik08)) <!-- 7.0.93 -->
-- Label updates changes for github and jira [#7598](https://github.com/inspec/inspec/pull/7598) ([Nik08](https://github.com/Nik08)) <!-- 7.0.92 -->
-- CHEF-27018 - Update copyright text in InSpec 7 source code [#7593](https://github.com/inspec/inspec/pull/7593) ([Nik08](https://github.com/Nik08)) <!-- 7.0.92 -->
-- CHEF-26507 Adds copilot instructions file - InSpec 7 [#7592](https://github.com/inspec/inspec/pull/7592) ([Nik08](https://github.com/Nik08)) <!-- 7.0.91 -->
-- Chef 26425 add notices text [#7585](https://github.com/inspec/inspec/pull/7585) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.91 -->
-- CHEF-26987 Prevent adding CHEF RUBYGEMS server if license key is empty [#7588](https://github.com/inspec/inspec/pull/7588) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.90 -->
-- CHEF-26188-Foreport deprecation messages for InSpec-7 [#7582](https://github.com/inspec/inspec/pull/7582) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.89 -->
-- Updated train dependency min version to use socks5h feature [#7586](https://github.com/inspec/inspec/pull/7586) ([Nik08](https://github.com/Nik08)) <!-- 7.0.88 -->
-- Foreport-7168  Test kitchen integration  [#7568](https://github.com/inspec/inspec/pull/7568) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.87 -->
-- Update ostruct requirement from ~&gt; 0.1.0 to &gt;= 0.1, &lt; 0.7 [#7548](https://github.com/inspec/inspec/pull/7548) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 7.0.86 -->
-- Foreport-7222 Update regular expression to fix warnings detected by CodeQL [#7573](https://github.com/inspec/inspec/pull/7573) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.85 -->
-- Update ruby version for windows artifact tests [#7581](https://github.com/inspec/inspec/pull/7581) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.84 -->
-- Foreport 7261 Fix code scanning alert no. 63: Use of a broken or weak cryptographic hashing algorithm on sensitive data [#7570](https://github.com/inspec/inspec/pull/7570) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.83 -->
-- Foreport 7349 Issue with reading/writing signed and tar profiles  [#7571](https://github.com/inspec/inspec/pull/7571) ([Nik08](https://github.com/Nik08)) <!-- 7.0.82 -->
-- Forport 7203 fix: Prioritize environment-set license server URL  [#7572](https://github.com/inspec/inspec/pull/7572) ([Nik08](https://github.com/Nik08)) <!-- 7.0.81 -->
-- Attempt to fix windows verify pipeline failures [#7576](https://github.com/inspec/inspec/pull/7576) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.80 -->
-- Update thor requirement from &gt;= 0.20, &lt; 1.3.0 to &gt;= 0.20, &lt; 1.5.0 [#7551](https://github.com/inspec/inspec/pull/7551) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 7.0.79 -->
-- Forport 7277 Postgres session resource fix for special characters in password [#7566](https://github.com/inspec/inspec/pull/7566) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.78 -->
-- Update Artifact test Profiles (#7443) [#7567](https://github.com/inspec/inspec/pull/7567) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.77 -->
-- Foreport-7152 hab: fix hab pipeline for windows [#7569](https://github.com/inspec/inspec/pull/7569) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.77 -->
-- Foreport-7198 Improved regex to load readme from inspec profiles (#7198) [#7565](https://github.com/inspec/inspec/pull/7565) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.76 -->
-- Foreport-7154 Added fatal message check for postgres_session:query method  [#7564](https://github.com/inspec/inspec/pull/7564) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.0.75 -->
-- CHEF-23547 use official distribution in hab plan [#7507](https://github.com/inspec/inspec/pull/7507) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.74 -->
-- Foreport-CHEF-18030- Fix GitFetcher to Clear Empty Cache Directory on Fetch [#7498](https://github.com/inspec/inspec/pull/7498) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.73 -->
-- Update rubyzip requirement from &gt;= 1.2.2, &lt; 3.0 to &gt;= 1.2.2, &lt; 4.0 [#7550](https://github.com/inspec/inspec/pull/7550) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 7.0.72 -->
-- Update parslet requirement from &gt;= 1.5, &lt; 2.0 to &gt;= 1.5, &lt; 3.0 [#7552](https://github.com/inspec/inspec/pull/7552) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 7.0.71 -->
-- Update rspec-its requirement from ~&gt; 1.2 to &gt;= 1.2, &lt; 3.0 [#7553](https://github.com/inspec/inspec/pull/7553) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 7.0.70 -->
-- Fix inspec habitat tests [#7558](https://github.com/inspec/inspec/pull/7558) ([Nik08](https://github.com/Nik08)) <!-- 7.0.69 -->
-- CHEF-26495 Foreport -7448 Add socks kerberos cli options to inspec [#7554](https://github.com/inspec/inspec/pull/7554) ([Nik08](https://github.com/Nik08)) <!-- 7.0.68 -->
-- CHEF-25173 Pull release notes from v7 wiki page for InSpec 7 [#7540](https://github.com/inspec/inspec/pull/7540) ([Nik08](https://github.com/Nik08)) <!-- 7.0.67 -->
-- CHEF-26157-Revert &quot;Bypass entitlement checks for InSpec7&quot; [#7533](https://github.com/inspec/inspec/pull/7533) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.66 -->
-- CHEF-26493-Update Fallback Resource packs [#7541](https://github.com/inspec/inspec/pull/7541) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.65 -->
-- CHEF-23442 Added support to use trace level with log level option [#7513](https://github.com/inspec/inspec/pull/7513) ([Nik08](https://github.com/Nik08)) <!-- 7.0.64 -->
-- CHEF-23438-Disable Entitlement check for edge case  [#7520](https://github.com/inspec/inspec/pull/7520) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.63 -->
-- CHEF-23438-Bypass entitlement checks for InSpec7 [#7509](https://github.com/inspec/inspec/pull/7509) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.62 -->
-- CHEF-23911 Revert &quot;CHEF-18207 Removed SSH resources and tests&quot; [#7502](https://github.com/inspec/inspec/pull/7502) ([sa-progress](https://github.com/sa-progress)) <!-- 7.0.61 -->
-- Revert &quot;CHEF-21376 Disable licensing and telemetry from InSpec 7&quot; [#7495](https://github.com/inspec/inspec/pull/7495) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.60 -->
-- Reverted testing change for chef-licensing upgrade on Ruby 3.4 [#7479](https://github.com/inspec/inspec/pull/7479) ([Nik08](https://github.com/Nik08)) <!-- 7.0.59 -->
-- CHEF-23231 Upgrade train and train-winrm to latest version - InSpec 7 [#7476](https://github.com/inspec/inspec/pull/7476) ([Nik08](https://github.com/Nik08)) <!-- 7.0.58 -->
-- CHEF-18374 Habitat package upgrade for Ruby 3.4.x - Windows [#7401](https://github.com/inspec/inspec/pull/7401) ([sa-progress](https://github.com/sa-progress)) <!-- 7.0.57 -->
-- Fixes for &#39;Package Not Found &#39; error in Habitat pipelines [#7411](https://github.com/inspec/inspec/pull/7411) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.56 -->
-- Cleanup HAB env &amp; Update HAB Promote channel to base-2025 [#7410](https://github.com/inspec/inspec/pull/7410) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.55 -->
-- CHEF-18373-Habitat package upgrade for Ruby 3.4.x - Linux [#7400](https://github.com/inspec/inspec/pull/7400) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.54 -->
-- Habitat authentication token [#7397](https://github.com/inspec/inspec/pull/7397) ([borisicbs](https://github.com/borisicbs)) <!-- 7.0.53 -->
-- CHEF-18371 Update/ruby upgrade 3.4.2 (exclusive of habitat upgrade) [#7380](https://github.com/inspec/inspec/pull/7380) ([Nik08](https://github.com/Nik08)) <!-- 7.0.52 -->
-- CHEF-21513 Upgrading few tests and doc for min support of Ruby 3.1 - InSpec 7 [#7382](https://github.com/inspec/inspec/pull/7382) ([Nik08](https://github.com/Nik08)) <!-- 7.0.51 -->
-- CHEF-21376 Disable licensing and telemetry from InSpec 7 [#7377](https://github.com/inspec/inspec/pull/7377) ([Nik08](https://github.com/Nik08)) <!-- 7.0.50 -->
-- CHEF-14327 support resource packs with vendor [#7355](https://github.com/inspec/inspec/pull/7355) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.49 -->
-- Fixes for external plugin testing [#7363](https://github.com/inspec/inspec/pull/7363) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 7.0.48 -->
-- CHEF-20736, CHEF-18371 bump up train kubernetes [#7352](https://github.com/inspec/inspec/pull/7352) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.47 -->
-- Foreport to InSpec 7: Waivers error handling fix [#7344](https://github.com/inspec/inspec/pull/7344) ([Nik08](https://github.com/Nik08)) <!-- 7.0.46 -->
-- CHEF-19361 Removed Opa resources from Inspec [#7314](https://github.com/inspec/inspec/pull/7314) ([sa-progress](https://github.com/sa-progress)) <!-- 7.0.45 -->
-- Sonar config for inspec-7 branch [#7348](https://github.com/inspec/inspec/pull/7348) ([Nik08](https://github.com/Nik08)) <!-- 7.0.44 -->
-- Foreport - CHEF-15789 - Improve error handling for audit_policy resource [#7335](https://github.com/inspec/inspec/pull/7335) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.43 -->
-- Foreport: CHEF-20111: Fix inspec check for a profile with only comments or empty file [#7333](https://github.com/inspec/inspec/pull/7333) ([ahasunos](https://github.com/ahasunos)) <!-- 7.0.42 -->
-- CHEF-19348-Update tomlrb version [#7328](https://github.com/inspec/inspec/pull/7328) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.41 -->
-- CHEF-18694 windows hab package fix for in spec 7 [#7327](https://github.com/inspec/inspec/pull/7327) ([sa-progress](https://github.com/sa-progress)) <!-- 7.0.40 -->
-- CHEF-18694 Windows hab pipeline enabled for InSpec 7 [#7270](https://github.com/inspec/inspec/pull/7270) ([Nik08](https://github.com/Nik08)) <!-- 7.0.39 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v7.0.95](https://github.com/inspec/inspec/tree/v7.0.95) (2025-10-16)
+
+#### Merged Pull Requests
+- CHEF-18694 Windows hab pipeline enabled for InSpec 7 [#7270](https://github.com/inspec/inspec/pull/7270) ([Nik08](https://github.com/Nik08))
+- CHEF-18694 windows hab package fix for in spec 7 [#7327](https://github.com/inspec/inspec/pull/7327) ([sa-progress](https://github.com/sa-progress))
+- CHEF-19348-Update tomlrb version [#7328](https://github.com/inspec/inspec/pull/7328) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Foreport: CHEF-20111: Fix inspec check for a profile with only comments or empty file [#7333](https://github.com/inspec/inspec/pull/7333) ([ahasunos](https://github.com/ahasunos))
+- Foreport - CHEF-15789 - Improve error handling for audit_policy resource [#7335](https://github.com/inspec/inspec/pull/7335) ([ahasunos](https://github.com/ahasunos))
+- Sonar config for inspec-7 branch [#7348](https://github.com/inspec/inspec/pull/7348) ([Nik08](https://github.com/Nik08))
+- CHEF-19361 Removed Opa resources from Inspec [#7314](https://github.com/inspec/inspec/pull/7314) ([sa-progress](https://github.com/sa-progress))
+- Foreport to InSpec 7: Waivers error handling fix [#7344](https://github.com/inspec/inspec/pull/7344) ([Nik08](https://github.com/Nik08))
+- CHEF-20736, CHEF-18371 bump up train kubernetes [#7352](https://github.com/inspec/inspec/pull/7352) ([sathish-progress](https://github.com/sathish-progress))
+- Fixes for external plugin testing [#7363](https://github.com/inspec/inspec/pull/7363) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- CHEF-14327 support resource packs with vendor [#7355](https://github.com/inspec/inspec/pull/7355) ([sathish-progress](https://github.com/sathish-progress))
+- CHEF-21376 Disable licensing and telemetry from InSpec 7 [#7377](https://github.com/inspec/inspec/pull/7377) ([Nik08](https://github.com/Nik08))
+- CHEF-21513 Upgrading few tests and doc for min support of Ruby 3.1 - InSpec 7 [#7382](https://github.com/inspec/inspec/pull/7382) ([Nik08](https://github.com/Nik08))
+- CHEF-18371 Update/ruby upgrade 3.4.2 (exclusive of habitat upgrade) [#7380](https://github.com/inspec/inspec/pull/7380) ([Nik08](https://github.com/Nik08))
+- Habitat authentication token [#7397](https://github.com/inspec/inspec/pull/7397) ([borisicbs](https://github.com/borisicbs))
+- CHEF-18373-Habitat package upgrade for Ruby 3.4.x - Linux [#7400](https://github.com/inspec/inspec/pull/7400) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Cleanup HAB env &amp; Update HAB Promote channel to base-2025 [#7410](https://github.com/inspec/inspec/pull/7410) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Fixes for &#39;Package Not Found &#39; error in Habitat pipelines [#7411](https://github.com/inspec/inspec/pull/7411) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- CHEF-18374 Habitat package upgrade for Ruby 3.4.x - Windows [#7401](https://github.com/inspec/inspec/pull/7401) ([sa-progress](https://github.com/sa-progress))
+- CHEF-23231 Upgrade train and train-winrm to latest version - InSpec 7 [#7476](https://github.com/inspec/inspec/pull/7476) ([Nik08](https://github.com/Nik08))
+- Reverted testing change for chef-licensing upgrade on Ruby 3.4 [#7479](https://github.com/inspec/inspec/pull/7479) ([Nik08](https://github.com/Nik08))
+- Revert &quot;CHEF-21376 Disable licensing and telemetry from InSpec 7&quot; [#7495](https://github.com/inspec/inspec/pull/7495) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- CHEF-23911 Revert &quot;CHEF-18207 Removed SSH resources and tests&quot; [#7502](https://github.com/inspec/inspec/pull/7502) ([sa-progress](https://github.com/sa-progress))
+- CHEF-23438-Bypass entitlement checks for InSpec7 [#7509](https://github.com/inspec/inspec/pull/7509) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- CHEF-23438-Disable Entitlement check for edge case  [#7520](https://github.com/inspec/inspec/pull/7520) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- CHEF-23442 Added support to use trace level with log level option [#7513](https://github.com/inspec/inspec/pull/7513) ([Nik08](https://github.com/Nik08))
+- CHEF-26493-Update Fallback Resource packs [#7541](https://github.com/inspec/inspec/pull/7541) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- CHEF-26157-Revert &quot;Bypass entitlement checks for InSpec7&quot; [#7533](https://github.com/inspec/inspec/pull/7533) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- CHEF-25173 Pull release notes from v7 wiki page for InSpec 7 [#7540](https://github.com/inspec/inspec/pull/7540) ([Nik08](https://github.com/Nik08))
+- CHEF-26495 Foreport -7448 Add socks kerberos cli options to inspec [#7554](https://github.com/inspec/inspec/pull/7554) ([Nik08](https://github.com/Nik08))
+- Fix inspec habitat tests [#7558](https://github.com/inspec/inspec/pull/7558) ([Nik08](https://github.com/Nik08))
+- Update rspec-its requirement from ~&gt; 1.2 to &gt;= 1.2, &lt; 3.0 [#7553](https://github.com/inspec/inspec/pull/7553) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update parslet requirement from &gt;= 1.5, &lt; 2.0 to &gt;= 1.5, &lt; 3.0 [#7552](https://github.com/inspec/inspec/pull/7552) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update rubyzip requirement from &gt;= 1.2.2, &lt; 3.0 to &gt;= 1.2.2, &lt; 4.0 [#7550](https://github.com/inspec/inspec/pull/7550) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Foreport-CHEF-18030- Fix GitFetcher to Clear Empty Cache Directory on Fetch [#7498](https://github.com/inspec/inspec/pull/7498) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- CHEF-23547 use official distribution in hab plan [#7507](https://github.com/inspec/inspec/pull/7507) ([sathish-progress](https://github.com/sathish-progress))
+- Foreport-7154 Added fatal message check for postgres_session:query method  [#7564](https://github.com/inspec/inspec/pull/7564) ([Vasu1105](https://github.com/Vasu1105))
+- Foreport-7198 Improved regex to load readme from inspec profiles (#7198) [#7565](https://github.com/inspec/inspec/pull/7565) ([Vasu1105](https://github.com/Vasu1105))
+- Foreport-7152 hab: fix hab pipeline for windows [#7569](https://github.com/inspec/inspec/pull/7569) ([Vasu1105](https://github.com/Vasu1105))
+- Update Artifact test Profiles (#7443) [#7567](https://github.com/inspec/inspec/pull/7567) ([Vasu1105](https://github.com/Vasu1105))
+- Forport 7277 Postgres session resource fix for special characters in password [#7566](https://github.com/inspec/inspec/pull/7566) ([Vasu1105](https://github.com/Vasu1105))
+- Update thor requirement from &gt;= 0.20, &lt; 1.3.0 to &gt;= 0.20, &lt; 1.5.0 [#7551](https://github.com/inspec/inspec/pull/7551) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Attempt to fix windows verify pipeline failures [#7576](https://github.com/inspec/inspec/pull/7576) ([Vasu1105](https://github.com/Vasu1105))
+- Forport 7203 fix: Prioritize environment-set license server URL  [#7572](https://github.com/inspec/inspec/pull/7572) ([Nik08](https://github.com/Nik08))
+- Foreport 7349 Issue with reading/writing signed and tar profiles  [#7571](https://github.com/inspec/inspec/pull/7571) ([Nik08](https://github.com/Nik08))
+- Foreport 7261 Fix code scanning alert no. 63: Use of a broken or weak cryptographic hashing algorithm on sensitive data [#7570](https://github.com/inspec/inspec/pull/7570) ([Vasu1105](https://github.com/Vasu1105))
+- Update ruby version for windows artifact tests [#7581](https://github.com/inspec/inspec/pull/7581) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Foreport-7222 Update regular expression to fix warnings detected by CodeQL [#7573](https://github.com/inspec/inspec/pull/7573) ([Vasu1105](https://github.com/Vasu1105))
+- Update ostruct requirement from ~&gt; 0.1.0 to &gt;= 0.1, &lt; 0.7 [#7548](https://github.com/inspec/inspec/pull/7548) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Foreport-7168  Test kitchen integration  [#7568](https://github.com/inspec/inspec/pull/7568) ([Vasu1105](https://github.com/Vasu1105))
+- Updated train dependency min version to use socks5h feature [#7586](https://github.com/inspec/inspec/pull/7586) ([Nik08](https://github.com/Nik08))
+- CHEF-26188-Foreport deprecation messages for InSpec-7 [#7582](https://github.com/inspec/inspec/pull/7582) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- CHEF-26987 Prevent adding CHEF RUBYGEMS server if license key is empty [#7588](https://github.com/inspec/inspec/pull/7588) ([sathish-progress](https://github.com/sathish-progress))
+- Chef 26425 add notices text [#7585](https://github.com/inspec/inspec/pull/7585) ([sathish-progress](https://github.com/sathish-progress))
+- CHEF-26507 Adds copilot instructions file - InSpec 7 [#7592](https://github.com/inspec/inspec/pull/7592) ([Nik08](https://github.com/Nik08))
+- CHEF-27018 - Update copyright text in InSpec 7 source code [#7593](https://github.com/inspec/inspec/pull/7593) ([Nik08](https://github.com/Nik08))
+- Label updates changes for github and jira [#7598](https://github.com/inspec/inspec/pull/7598) ([Nik08](https://github.com/Nik08))
+- InSpec 7 Expeditor changes - uncommented [#7599](https://github.com/inspec/inspec/pull/7599) ([Nik08](https://github.com/Nik08))
+- Fix gemspec activation logic to check for alternate spec file [#7597](https://github.com/inspec/inspec/pull/7597) ([sathish-progress](https://github.com/sathish-progress))
+- CHEF-27163-Add github release pipeline [#7603](https://github.com/inspec/inspec/pull/7603) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Add notice.txt [#7605](https://github.com/inspec/inspec/pull/7605) ([sathish-progress](https://github.com/sathish-progress))
+- Allow all NOTICE changes to be bumped [#7606](https://github.com/inspec/inspec/pull/7606) ([sathish-progress](https://github.com/sathish-progress))
+<!-- latest_stable_release -->
+
 ## [v7.0.38.beta](https://github.com/inspec/inspec/tree/v7.0.38.beta) (2025-03-05)
 
 #### Merged Pull Requests
@@ -158,7 +154,6 @@
 - Foreport 7284: CHEF-15083: Update groups resource to use `getent` utility [#7290](https://github.com/inspec/inspec/pull/7290) ([ahasunos](https://github.com/ahasunos))
 - Foreport: Fix main pipeline issue on JSON gem update [#7307](https://github.com/inspec/inspec/pull/7307) ([Nik08](https://github.com/Nik08))
 - CHEF-18914 - InSpec 7 release changes with beta tag [#7318](https://github.com/inspec/inspec/pull/7318) ([ahasunos](https://github.com/ahasunos))
-<!-- latest_stable_release -->
 
 ## [v6.8.1](https://github.com/inspec/inspec/tree/v6.8.1) (2024-07-31)
 
