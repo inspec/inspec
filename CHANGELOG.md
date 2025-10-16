@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 7.0.95 -->
+## [v7.0.95](https://github.com/inspec/inspec/tree/v7.0.95) (2025-10-16)
 
 #### Merged Pull Requests
+- Allow all NOTICE changes to be bumped [#7606](https://github.com/inspec/inspec/pull/7606) ([sathish-progress](https://github.com/sathish-progress))
 - Add notice.txt [#7605](https://github.com/inspec/inspec/pull/7605) ([sathish-progress](https://github.com/sathish-progress))
 - CHEF-27163-Add github release pipeline [#7603](https://github.com/inspec/inspec/pull/7603) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
@@ -39,6 +40,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Allow all NOTICE changes to be bumped [#7606](https://github.com/inspec/inspec/pull/7606) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.95 -->
 - Add notice.txt [#7605](https://github.com/inspec/inspec/pull/7605) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.94 -->
 - CHEF-27163-Add github release pipeline [#7603](https://github.com/inspec/inspec/pull/7603) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.94 -->
 - Fix gemspec activation logic to check for alternate spec file [#7597](https://github.com/inspec/inspec/pull/7597) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.94 -->
