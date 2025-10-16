@@ -30,10 +30,14 @@
 #### Merged Pull Requests
 - Bump omnibus-software from `4b08f0b` to `3268356` in /omnibus [#6587](https://github.com/inspec/inspec/pull/6587) ([dependabot[bot]](https://github.com/dependabot[bot]))
 
-<!-- release_rollup -->
+<!-- release_rollup since=base-2025-current -->
+### Changes since base-2025-current release
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [vbase-2025-current](https://github.com/inspec/inspec/tree/vbase-2025-current) (2025-10-16)
+<!-- latest_stable_release -->
+
 ## [v7.0.95](https://github.com/inspec/inspec/tree/v7.0.95) (2025-10-16)
 
 #### Merged Pull Requests
@@ -99,7 +103,6 @@
 - CHEF-27163-Add github release pipeline [#7603](https://github.com/inspec/inspec/pull/7603) ([balasubramanian-s](https://github.com/balasubramanian-s))
 - Add notice.txt [#7605](https://github.com/inspec/inspec/pull/7605) ([sathish-progress](https://github.com/sathish-progress))
 - Allow all NOTICE changes to be bumped [#7606](https://github.com/inspec/inspec/pull/7606) ([sathish-progress](https://github.com/sathish-progress))
-<!-- latest_stable_release -->
 
 ## [v7.0.38.beta](https://github.com/inspec/inspec/tree/v7.0.38.beta) (2025-03-05)
 
