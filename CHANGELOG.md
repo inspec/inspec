@@ -38,6 +38,8 @@
 ## [vbase-2025-current](https://github.com/inspec/inspec/tree/vbase-2025-current) (2025-10-16)
 <!-- latest_stable_release -->
 
+## [vbase-2025-current](https://github.com/inspec/inspec/tree/vbase-2025-current) (2025-10-16)
+
 ## [v7.0.95](https://github.com/inspec/inspec/tree/v7.0.95) (2025-10-16)
 
 #### Merged Pull Requests
