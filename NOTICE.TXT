@@ -1,4 +1,4 @@
-﻿Progress Chef Inspec v7
+Progress Chef Inspec v7
 
 Copyright © 2008-2025 Progress Software Corporation and/or one of its subsidiaries or affiliates. All rights reserved.
 
