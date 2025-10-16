@@ -5,6 +5,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Add notice.txt [#7605](https://github.com/inspec/inspec/pull/7605) ([sathish-progress](https://github.com/sathish-progress))
 - CHEF-27163-Add github release pipeline [#7603](https://github.com/inspec/inspec/pull/7603) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Add notice.txt [#7605](https://github.com/inspec/inspec/pull/7605) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.94 -->
 - CHEF-27163-Add github release pipeline [#7603](https://github.com/inspec/inspec/pull/7603) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.94 -->
 - Fix gemspec activation logic to check for alternate spec file [#7597](https://github.com/inspec/inspec/pull/7597) ([sathish-progress](https://github.com/sathish-progress)) <!-- 7.0.94 -->
 - InSpec 7 Expeditor changes - uncommented [#7599](https://github.com/inspec/inspec/pull/7599) ([Nik08](https://github.com/Nik08)) <!-- 7.0.93 -->
