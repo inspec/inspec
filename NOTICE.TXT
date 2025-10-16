@@ -2267,4 +2267,4 @@ For the list of those files and their copying conditions, see the file LEGAL.
 NOTICE FROM PROGRESS SOFTWARE CORPORATION: Additional notices may be included in the release notes or other documentation that accompanies updates received in connection with support of the Product.
 
 
-Updated 15.Oct.2025
+Updated 16.Oct.2025
