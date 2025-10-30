@@ -48,7 +48,7 @@ module Inspec
         payload = create_wrapper
 
         train_platform = opts[:runner].backend.backend.platform
-        payload[:platform] = train_platform.name
+        payload[:platform] = safe_platform_field(train_platform, :name)
 
         payload[:jobs] = [{
                             type: JOB_TYPE,
@@ -56,10 +56,10 @@ module Inspec
                             # Target platform info
                             environment: {
                               host: obscure(URI(opts[:runner].backend.backend.uri).host) || "unknown",
-                              os: train_platform.name,
-                              version: train_platform.release,
-                              architecture: train_platform.arch || "",
-                              id: train_platform.uuid,
+                              os: safe_platform_field(train_platform, :name) || "unknown",
+                              version: safe_platform_field(train_platform, :release) || "unknown",
+                              architecture: safe_platform_field(train_platform, :arch) || "unknown",
+                              id: safe_platform_field(train_platform, :uuid),
                             },
 
                             runtime: Inspec::VERSION,
@@ -123,6 +123,14 @@ module Inspec
         return nil if cleartext.empty?
 
         Digest::SHA2.new(256).hexdigest(cleartext)
+      end
+
+      # Safely access platform fields that may not exist
+      def safe_platform_field(platform, field)
+        return nil if platform.nil?
+        return nil unless platform.respond_to?(field)
+
+        platform.send(field)
       end
 
       def note_per_run_features(opts)
