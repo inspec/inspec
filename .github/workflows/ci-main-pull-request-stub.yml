@@ -94,10 +94,10 @@ jobs:
       # generate and export Software Bill of Materials (SBOM) in various formats
       generate-sbom: true
       export-github-sbom: true      # SPDX JSON artifact on job instance  
-      perform-blackduck-sca-scan: false # DISABLED: Accuracy not met due to missing Gemfile.lock (cannot be committed)
+      perform-blackduck-sca-scan: true # Re-enabled for SBOM generation (may fail on accuracy)
       blackduck-project-group-name: 'Chef-Agents' # typically one of (Chef), Chef-Agents, Chef-Automate, Chef-Chef360, Chef-Habitat, Chef-Infrastructure-Server, Chef-Shared-Services'
       blackduck-project-name: ${{ github.event.repository.name }} # BlackDuck project name, typically the repository name
-      generate-blackduck-sbom: true # obsolete, use perform-blackduck-sca-scan instead
+      generate-blackduck-sbom: true # Re-enabled for SCA SBOM
         
       generate-msft-sbom: false
       license_scout: false      # Run license scout for license compliance (uses .license_scout.yml)
