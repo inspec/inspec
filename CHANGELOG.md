@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Confgiuring blackduck in inspec 5 branch [#7613](https://github.com/inspec/inspec/pull/7613) ([Vasu1105](https://github.com/Vasu1105))
 - CHEF-25277 add docs for socks feature [#7510](https://github.com/inspec/inspec/pull/7510) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- Confgiuring blackduck in inspec 5 branch [#7613](https://github.com/inspec/inspec/pull/7613) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.23.6 -->
 - CHEF-25277 add docs for socks feature [#7510](https://github.com/inspec/inspec/pull/7510) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.6 -->
 <!-- release_rollup -->
 
