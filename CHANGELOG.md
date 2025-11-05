@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 6.8.44 -->
+## [v6.8.44](https://github.com/inspec/inspec/tree/v6.8.44) (2025-11-05)
 
 #### Merged Pull Requests
+- BACKPORT: Fix inspec habitat tests (#7558) [#7614](https://github.com/inspec/inspec/pull/7614) ([Nik08](https://github.com/Nik08))
 - CHEF-27163-Default pipeline to create InSpec 7 Github Release Pipeline [#7604](https://github.com/inspec/inspec/pull/7604) ([balasubramanian-s](https://github.com/balasubramanian-s))
 - CHEF-26507 Adds copilot instructions file  - InSpec 6 [#7506](https://github.com/inspec/inspec/pull/7506) ([Vasu1105](https://github.com/Vasu1105))
 - CHEF-26497 Added dependabot config for inspec 7 branch [#7547](https://github.com/inspec/inspec/pull/7547) ([Nik08](https://github.com/Nik08))
@@ -40,6 +41,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- BACKPORT: Fix inspec habitat tests (#7558) [#7614](https://github.com/inspec/inspec/pull/7614) ([Nik08](https://github.com/Nik08)) <!-- 6.8.44 -->
 - CHEF-27163-Default pipeline to create InSpec 7 Github Release Pipeline [#7604](https://github.com/inspec/inspec/pull/7604) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 6.8.43 -->
 - CHEF-26507 Adds copilot instructions file  - InSpec 6 [#7506](https://github.com/inspec/inspec/pull/7506) ([Vasu1105](https://github.com/Vasu1105)) <!-- 6.8.43 -->
 - CHEF-26497 Added dependabot config for inspec 7 branch [#7547](https://github.com/inspec/inspec/pull/7547) ([Nik08](https://github.com/Nik08)) <!-- 6.8.43 -->
