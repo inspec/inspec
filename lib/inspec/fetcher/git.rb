@@ -83,7 +83,7 @@ module Inspec::Fetcher
           else
             Inspec::Log.debug("Checkout of #{resolved_ref.nil? ? @remote_url : resolved_ref} successful. " \
                                 "Moving checkout to #{destination_path}")
-            FileUtils.cp_r(working_dir + "/.", destination_path)
+            copy_profile_content_to_cache(working_dir, destination_path)
           end
         end
       end
@@ -98,6 +98,18 @@ module Inspec::Fetcher
       # - directory is completely empty
       # - or it contains only one entry: '.git'
       children.empty? || (children - [".git"]).empty?
+    end
+
+    def copy_profile_content_to_cache(source_dir, destination_dir)
+      # Copy all files from source to destination, excluding .git directory
+      # to avoid permission issues (especially on Windows) and reduce cache size
+      Dir.children(source_dir).each do |entry|
+        next if entry == ".git"
+
+        src_path = File.join(source_dir, entry)
+        dest_path = File.join(destination_dir, entry)
+        FileUtils.cp_r(src_path, dest_path)
+      end
     end
 
     def perform_relative_path_fetch(destination_path, working_dir)

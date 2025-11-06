@@ -92,10 +92,6 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       Mixlib::ShellOut.expects(:new).with("git clone #{git_dep_dir} ./", { cwd: "test-tmp-dir" }).returns(git_output)
     end
 
-    def expect_mv_into_place
-      FileUtils.expects(:cp_r).with("test-tmp-dir/.", "fetchpath")
-    end
-
     it "it should able to resolve" do
       expect_ls_remote_without_ref
       result = fetcher.resolve({ git: git_dep_dir })
@@ -123,11 +119,13 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       expect_ls_remote_without_ref.twice
       expect_clone
       expect_checkout_without_ref
-      expect_mv_into_place
+      # Stub Dir.children for git_only_or_empty? check - directory is not empty
+      Dir.stubs(:children).with("test-tmp-dir").returns(["file1", "file2", ".git"])
+      # Expect individual files to be copied (excluding .git)
+      FileUtils.expects(:cp_r).with("test-tmp-dir/file1", "fetchpath/file1")
+      FileUtils.expects(:cp_r).with("test-tmp-dir/file2", "fetchpath/file2")
       Dir.stubs(:exist?).with("test-tmp-dir").returns(true) # Simulate directory existence
-      Dir.stubs(:children).with("test-tmp-dir").returns(["file1"]) # Simulate non-empty directory
       Dir.stubs(:exist?).with("fetchpath").returns(true) # Simulate directory existence
-      Dir.stubs(:children).with("fetchpath").returns(["file2"]) # Simulate non-empty directory
       FileUtils.stubs(:rm_rf) # Prevent actual deletion and ENOENT
       result = fetcher.resolve({ git: git_dep_dir })
       result.fetch("fetchpath")
@@ -214,6 +212,34 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
     it "returns false when directory does not exist" do
       Dir.stubs(:exist?).with("missing-dir").returns(false)
       _(git_fetcher.send(:git_only_or_empty?, "missing-dir")).must_equal false
+    end
+  end
+
+  describe "#copy_profile_content_to_cache" do
+    let(:git_fetcher) { fetcher.new("https://example.com/repo.git") }
+
+    it "copies all files except .git directory" do
+      Dir.stubs(:children).with("source").returns(["README.md", "inspec.yml", ".git", "controls"])
+      FileUtils.expects(:cp_r).with("source/README.md", "dest/README.md")
+      FileUtils.expects(:cp_r).with("source/inspec.yml", "dest/inspec.yml")
+      FileUtils.expects(:cp_r).with("source/controls", "dest/controls")
+      # .git should NOT be copied - no expectation for it
+
+      git_fetcher.send(:copy_profile_content_to_cache, "source", "dest")
+    end
+
+    it "handles empty directory" do
+      Dir.stubs(:children).with("source").returns([])
+      # No FileUtils.cp_r expectations - nothing should be copied
+
+      git_fetcher.send(:copy_profile_content_to_cache, "source", "dest")
+    end
+
+    it "handles directory with only .git" do
+      Dir.stubs(:children).with("source").returns([".git"])
+      # No FileUtils.cp_r expectations - .git should be filtered out
+
+      git_fetcher.send(:copy_profile_content_to_cache, "source", "dest")
     end
   end
 end
