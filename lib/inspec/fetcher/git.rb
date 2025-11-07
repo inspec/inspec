@@ -125,7 +125,7 @@ module Inspec::Fetcher
         raise Inspec::FetcherFailure, "Cannot find relative path '#{@relative_path}' " \
                                       "within profile in git repo specified by '#{@remote_url}'"
       end
-      FileUtils.cp_r("#{working_dir}/#{@relative_path}", destination_path)
+      copy_profile_content_to_cache("#{working_dir}/#{@relative_path}", destination_path)
     end
 
     def cache_key

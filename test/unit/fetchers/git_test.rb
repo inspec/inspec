@@ -242,4 +242,31 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       git_fetcher.send(:copy_profile_content_to_cache, "source", "dest")
     end
   end
+
+  describe "#perform_relative_path_fetch" do
+    let(:git_fetcher) { fetcher.new("https://example.com/repo.git", relative_path: "profiles/subprofile") }
+
+    it "uses copy_profile_content_to_cache to exclude .git directory" do
+      working_dir = "working"
+      dest_path = "destination"
+      relative_path_source = "#{working_dir}/profiles/subprofile"
+
+      File.stubs(:exist?).with(relative_path_source).returns(true)
+      git_fetcher.expects(:copy_profile_content_to_cache).with(relative_path_source, dest_path)
+
+      git_fetcher.send(:perform_relative_path_fetch, dest_path, working_dir)
+    end
+
+    it "raises error if relative path does not exist" do
+      working_dir = "working"
+      dest_path = "destination"
+      relative_path_source = "#{working_dir}/profiles/subprofile"
+
+      File.stubs(:exist?).with(relative_path_source).returns(false)
+      Dir.stubs(:exist?).with(dest_path).returns(false)
+
+      err = _ { git_fetcher.send(:perform_relative_path_fetch, dest_path, working_dir) }.must_raise Inspec::FetcherFailure
+      _(err.message).must_include "Cannot find relative path 'profiles/subprofile'"
+    end
+  end
 end
