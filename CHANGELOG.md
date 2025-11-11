@@ -1,7 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release -->
+<!-- latest_release 7.0.96 -->
+## [v7.0.96](https://github.com/inspec/inspec/tree/v7.0.96) (2025-11-11)
+
+#### Merged Pull Requests
+- CHEF-26189 Telemetry fix: Handling of train platform data fetching safely [#7611](https://github.com/inspec/inspec/pull/7611) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -32,6 +36,9 @@
 
 <!-- release_rollup since=base-2025-current -->
 ### Changes since base-2025-current release
+
+#### Merged Pull Requests
+- CHEF-26189 Telemetry fix: Handling of train platform data fetching safely [#7611](https://github.com/inspec/inspec/pull/7611) ([Nik08](https://github.com/Nik08)) <!-- 7.0.96 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
