@@ -50,7 +50,7 @@ module InspecPlugins
 
         # set connection flags
         http.use_ssl = (uri.scheme == "https")
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE if insecure
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
         req = Net::HTTP::Post.new(uri.path)
         headers.each do |key, value|
@@ -75,7 +75,7 @@ module InspecPlugins
 
         # set connection flags
         http.use_ssl = (uri.scheme == "https")
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE if insecure
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
         File.open(file_path) do |tar|
           req = Net::HTTP::Post::Multipart.new(uri, "file" => UploadIO.new(tar, "application/x-gzip", File.basename(file_path)))
