@@ -253,11 +253,11 @@ module Inspec
 
           registry = profile_context.resource_registry
           registry.each do |id, r|
-            define_method(id) { |*args| r.new(be, id.to_s, *args) }
+            define_method(id) { |*args, **kwargs| r.new(be, id.to_s, *args, **kwargs) }
 
             next if be.respond_to?(id)
 
-            bec.define_method(id) { |*args| r.new(be, id.to_s, *args) }
+            bec.define_method(id) { |*args, **kwargs| r.new(be, id.to_s, *args, **kwargs) }
           end
         end # add_resource_methods
       end # ClassMethods

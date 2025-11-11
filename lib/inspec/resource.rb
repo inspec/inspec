@@ -121,10 +121,10 @@ module Inspec
         # initialize methods from having to call super, which is,
         # quite frankly, dumb. Avoidable even with some simple
         # documentation.
-        def initialize(backend, name, *args)
+        def initialize(backend, name, *args, **kwargs)
           supersuper_initialize(backend, name) do
             @resource_params = args
-            super(*args)
+            super(*args, **kwargs)
           end
         end
       end
