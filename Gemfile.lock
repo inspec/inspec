@@ -322,7 +322,7 @@ GEM
     base64 (0.3.0)
     bcrypt_pbkdf (1.1.1)
     benchmark (0.4.1)
-    bigdecimal (3.2.3)
+    bigdecimal (3.3.1)
     bson (5.2.0)
     builder (3.3.0)
     byebug (12.0.0)
@@ -369,7 +369,7 @@ GEM
     connection_pool (2.5.4)
     cookstyle (7.32.8)
       rubocop (= 1.25.1)
-    crack (1.0.0)
+    crack (1.0.1)
       bigdecimal
       rexml
     csv (3.3.5)
@@ -804,7 +804,7 @@ GEM
     unf_ext (0.0.8.2)
     unicode-display_width (2.6.0)
     unicode_utils (1.4.0)
-    webmock (3.25.1)
+    webmock (3.26.1)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
