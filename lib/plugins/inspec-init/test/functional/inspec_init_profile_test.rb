@@ -122,4 +122,30 @@ class InitCli < Minitest::Test
       assert_exit_code 0, out
     end
   end
+
+  def test_generating_inspec_profile_with_resource_dependency
+    Dir.mktmpdir do |dir|
+      profile = File.join(dir, "test-profile")
+      out = run_inspec_process("init profile test-profile --resource-dependency inspec-test-resource", prefix: "cd #{dir} &&")
+
+      assert_includes out.stdout, "Creating new profile at"
+      assert_includes out.stdout, profile
+      assert_includes Dir.entries(profile).join, "inspec.yml"
+      assert_includes Dir.entries(profile).join, "README.md"
+
+      inspec_yml = YAML.load_file(File.join(profile, "inspec.yml"))
+      assert_equal "inspec-test-resource", inspec_yml["depends"][0]["name"]
+      assert_equal "inspec-test-resource", inspec_yml["depends"][0]["gem"]
+
+      assert_exit_code 0, out
+    end
+  end
+
+  def test_generating_inspec_profile_with_empty_resource_dependency
+    Dir.mktmpdir do |dir|
+      out = run_inspec_process("init profile test-profile --resource-dependency", prefix: "cd #{dir} &&")
+      assert_includes out.stdout, "Unable to generate profile: No resource pack name provided"
+      assert_exit_code 1, out
+    end
+  end
 end
