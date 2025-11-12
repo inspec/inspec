@@ -244,13 +244,19 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
   end
 
   describe "#perform_relative_path_fetch" do
-    let(:git_fetcher) { fetcher.new("https://example.com/repo.git", relative_path: "profiles/subprofile") }
+    let(:git_fetcher) do
+      # Stub File.exist? for expand_local_path during initialization
+      File.stubs(:exist?).with("https://example.com/repo.git").returns(false)
+      fetcher.new("https://example.com/repo.git", relative_path: "profiles/subprofile")
+    end
 
     it "uses copy_profile_content_to_cache to exclude .git directory" do
       working_dir = "working"
       dest_path = "destination"
       relative_path_source = "#{working_dir}/profiles/subprofile"
 
+      # Stub resolved_ref to avoid git ls-remote call
+      git_fetcher.stubs(:resolved_ref).returns("abc123")
       File.stubs(:exist?).with(relative_path_source).returns(true)
       git_fetcher.expects(:copy_profile_content_to_cache).with(relative_path_source, dest_path)
 
@@ -262,6 +268,8 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       dest_path = "destination"
       relative_path_source = "#{working_dir}/profiles/subprofile"
 
+      # Stub resolved_ref to avoid git ls-remote call
+      git_fetcher.stubs(:resolved_ref).returns("abc123")
       File.stubs(:exist?).with(relative_path_source).returns(false)
       Dir.stubs(:exist?).with(dest_path).returns(false)
 

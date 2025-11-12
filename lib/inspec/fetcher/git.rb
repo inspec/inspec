@@ -2,6 +2,7 @@ require "tmpdir" unless defined?(Dir.mktmpdir)
 require "fileutils" unless defined?(FileUtils)
 require "mixlib/shellout" unless defined?(Mixlib::ShellOut)
 require "inspec/log"
+require "inspec/utils/filtered_copy"
 
 module Inspec::Fetcher
   #
@@ -100,16 +101,12 @@ module Inspec::Fetcher
       children.empty? || (children - [".git"]).empty?
     end
 
-    def copy_profile_content_to_cache(source_dir, destination_dir)
-      # Copy all files from source to destination, excluding .git directory
-      # to avoid permission issues (especially on Windows) and reduce cache size
-      Dir.children(source_dir).each do |entry|
-        next if entry == ".git"
-
-        src_path = File.join(source_dir, entry)
-        dest_path = File.join(destination_dir, entry)
-        FileUtils.cp_r(src_path, dest_path)
-      end
+    def copy_profile_content_to_cache(source_dir, destination_dir, exclusions: [])
+      # Copy all files from source to destination, excluding .git directory by default
+      # to avoid permission issues (especially on Windows) and reduce cache size.
+      # Additional exclusions can be specified via the exclusions parameter.
+      copier = Inspec::Utils::FilteredCopy.new(exclusions: exclusions)
+      copier.copy(source_dir, destination_dir)
     end
 
     def perform_relative_path_fetch(destination_path, working_dir)
