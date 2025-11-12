@@ -2,6 +2,7 @@ require "tmpdir" unless defined?(Dir.mktmpdir)
 require "fileutils" unless defined?(FileUtils)
 require "mixlib/shellout" unless defined?(Mixlib::ShellOut)
 require "inspec/log"
+require "inspec/utils/filtered_copy"
 
 module Inspec::Fetcher
   #
@@ -83,7 +84,7 @@ module Inspec::Fetcher
           else
             Inspec::Log.debug("Checkout of #{resolved_ref.nil? ? @remote_url : resolved_ref} successful. " \
                                 "Moving checkout to #{destination_path}")
-            FileUtils.cp_r(working_dir + "/.", destination_path)
+            copy_profile_content_to_cache(working_dir, destination_path)
           end
         end
       end
@@ -100,6 +101,14 @@ module Inspec::Fetcher
       children.empty? || (children - [".git"]).empty?
     end
 
+    def copy_profile_content_to_cache(source_dir, destination_dir, exclusions: [])
+      # Copy all files from source to destination, excluding .git directory by default
+      # to avoid permission issues (especially on Windows) and reduce cache size.
+      # Additional exclusions can be specified via the exclusions parameter.
+      copier = Inspec::Utils::FilteredCopy.new(exclusions: exclusions)
+      copier.copy(source_dir, destination_dir)
+    end
+
     def perform_relative_path_fetch(destination_path, working_dir)
       Inspec::Log.debug("Checkout of #{resolved_ref.nil? ? @remote_url : resolved_ref} successful. " \
                         "Moving #{@relative_path} to #{destination_path}")
@@ -113,7 +122,7 @@ module Inspec::Fetcher
         raise Inspec::FetcherFailure, "Cannot find relative path '#{@relative_path}' " \
                                       "within profile in git repo specified by '#{@remote_url}'"
       end
-      FileUtils.cp_r("#{working_dir}/#{@relative_path}", destination_path)
+      copy_profile_content_to_cache("#{working_dir}/#{@relative_path}", destination_path)
     end
 
     def cache_key
