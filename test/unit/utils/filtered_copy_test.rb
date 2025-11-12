@@ -52,7 +52,7 @@ describe Inspec::Utils::FilteredCopy do
       FileUtils.expects(:cp_r).with("source/file1.txt", "dest/file1.txt")
       # node_modules, .git, and build should NOT be copied
 
-      sc = copier.new(exclusions: ["node_modules", "build"])
+      sc = copier.new(exclusions: %w{node_modules build})
       result = sc.copy("source", "dest")
       _(result).must_equal 1
     end
@@ -110,7 +110,7 @@ describe Inspec::Utils::FilteredCopy do
 
   describe "#remove_exclusions" do
     it "removes specified exclusions from the list" do
-      sc = copier.new(exclusions: ["temp", "cache"])
+      sc = copier.new(exclusions: %w{temp cache})
       sc.remove_exclusions("temp")
       _(sc.exclusions).wont_include "temp"
       _(sc.exclusions).must_include "cache"
@@ -147,7 +147,7 @@ describe Inspec::Utils::FilteredCopy do
     end
 
     it "returns all current exclusions" do
-      sc = copier.new(exclusions: ["custom1", "custom2"])
+      sc = copier.new(exclusions: %w{custom1 custom2})
       result = sc.exclusions
       _(result).must_include ".git"
       _(result).must_include "custom1"
