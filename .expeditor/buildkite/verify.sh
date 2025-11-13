@@ -35,12 +35,6 @@ fi
 echo "--- pull bundle cache"
 pull_bundle
 
-# Remove Gemfile.lock to allow each platform to generate its own platform-specific lock file
-if [ -f "Gemfile.lock" ]; then
-  echo "--- Removing existing Gemfile.lock to generate platform-specific dependencies"
-  rm -f Gemfile.lock
-fi
-
 echo "--- bundle"
 bundle config --local path vendor/bundle
 bundle config set --local without deploy kitchen
