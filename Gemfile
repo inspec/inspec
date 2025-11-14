@@ -12,6 +12,7 @@
 source "https://rubygems.org"
 
 gem "inspec", path: "."
+gem "tty-markdown"
 
 # This dependency is NOT used for normal gem deployment
 # - instead, inspec-bin gemspec-depends on inspec
@@ -56,3 +57,6 @@ end
 group :deploy do
   gem "inquirer"
 end
+
+# Only for hackathon
+gem "ruby-openai"
