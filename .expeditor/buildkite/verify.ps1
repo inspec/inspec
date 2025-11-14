@@ -4,6 +4,12 @@ Get-CimInstance Win32_OperatingSystem | Select-Object $Properties | Format-Table
 ruby -v
 bundle --version
 
+# Remove Gemfile.lock to allow each platform to generate its own platform-specific lock file
+if (Test-Path "Gemfile.lock") {
+    echo "--- Removing existing Gemfile.lock to generate platform-specific dependencies"
+    Remove-Item "Gemfile.lock" -Force
+}
+
 echo "--- bundle install"
 bundle config set --local without deploy kitchen
 bundle install --jobs=7 --retry=3
