@@ -1,5 +1,6 @@
 require "helper"
 require "inspec/file_provider" # TODO: split
+require "tmpdir"
 
 describe Inspec::MockProvider do
   let(:subject) { Inspec::MockProvider.new(target) }
@@ -74,7 +75,6 @@ describe Inspec::DirProvider do
   end
 
   describe "applied to directories with special characters" do
-    require "tmpdir"
 
     let(:temp_dir) { Dir.mktmpdir("inspec-test") }
     let(:profile_dir_name) { "simple-profile" }
@@ -103,11 +103,14 @@ describe Inspec::DirProvider do
         provider = Inspec::DirProvider.new(target)
 
         # Should find all files including inspec.yml (critical for profile detection)
-        expected_basenames = %w{inspec.yml README.md test.rb lib.rb controls libraries}
+        expected_file_basenames = %w{inspec.yml README.md test.rb lib.rb}
+        expected_directory_basenames = %w{controls libraries}
         found_basenames = provider.files.map { |f| File.basename(f) }
-
-        expected_basenames.each do |basename|
-          _(found_basenames).must_include basename, "Should find #{basename}"
+        expected_file_basenames.each do |basename|
+          _(found_basenames).must_include basename, "Should find file #{basename}"
+        end
+        expected_directory_basenames.each do |basename|
+          _(found_basenames).must_include basename, "Should find directory #{basename}"
         end
       end
 
