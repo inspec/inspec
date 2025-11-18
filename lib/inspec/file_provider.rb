@@ -79,7 +79,8 @@ module Inspec
       @files = if File.file?(path)
                  [path]
                else
-                 Dir[File.join(Shellwords.shellescape(path), "**", "*")]
+                 # Use Dir.glob with base parameter to avoid shell escaping issues
+                 Dir.glob("**/*", base: path).map { |f| File.join(path, f) }
                end
       @path = path
     end
