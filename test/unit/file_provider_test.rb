@@ -72,6 +72,114 @@ describe Inspec::DirProvider do
       _(subject.read(__FILE__)).must_equal File.read(__FILE__)
     end
   end
+
+  describe "applied to directories with special characters" do
+    require "tmpdir"
+
+    let(:temp_dir) { Dir.mktmpdir("inspec-test") }
+    let(:profile_dir_name) { "simple-profile" }
+    let(:target) { File.join(temp_dir, profile_dir_name) }
+
+    after do
+      FileUtils.rm_rf(temp_dir) if Dir.exist?(temp_dir)
+    end
+
+    def setup_test_profile(path)
+      FileUtils.mkdir_p(path)
+      FileUtils.mkdir_p(File.join(path, "controls"))
+      FileUtils.mkdir_p(File.join(path, "libraries"))
+
+      File.write(File.join(path, "inspec.yml"), "name: test\nversion: 0.1.0\n")
+      File.write(File.join(path, "controls", "test.rb"), "control 'test' do\nend\n")
+      File.write(File.join(path, "libraries", "lib.rb"), "# library\n")
+      File.write(File.join(path, "README.md"), "# Test Profile\n")
+    end
+
+    describe "with spaces in path" do
+      let(:profile_dir_name) { "profile with spaces" }
+
+      it "must find all files correctly" do
+        setup_test_profile(target)
+        provider = Inspec::DirProvider.new(target)
+
+        # Should find all files including inspec.yml (critical for profile detection)
+        expected_basenames = %w{inspec.yml README.md test.rb lib.rb controls libraries}
+        found_basenames = provider.files.map { |f| File.basename(f) }
+
+        expected_basenames.each do |basename|
+          _(found_basenames).must_include basename, "Should find #{basename}"
+        end
+      end
+
+      it "must be able to read inspec.yml" do
+        setup_test_profile(target)
+        provider = Inspec::DirProvider.new(target)
+
+        inspec_yml_path = File.join(target, "inspec.yml")
+        content = provider.read(inspec_yml_path)
+        _(content).wont_be_nil
+        _(content).must_include "name: test"
+      end
+    end
+
+    describe "with special characters in path" do
+      let(:profile_dir_name) { "profile-with-special_chars.123" }
+
+      it "must find all files correctly" do
+        setup_test_profile(target)
+        provider = Inspec::DirProvider.new(target)
+
+        # Should find all files including inspec.yml
+        has_inspec_yml = provider.files.any? { |f| File.basename(f) == "inspec.yml" }
+        _(has_inspec_yml).must_equal true, "Should find inspec.yml for profile detection"
+      end
+    end
+
+    describe "simulating cache directory structure" do
+      let(:cache_subdir) { File.join(temp_dir, ".inspec", "cache") }
+      let(:profile_dir_name) { "abcdef123456789" }
+      let(:target) { File.join(cache_subdir, profile_dir_name) }
+
+      it "must work with nested cache-like paths" do
+        setup_test_profile(target)
+        provider = Inspec::DirProvider.new(target)
+
+        # This simulates the INSPEC_CONFIG_DIR/.cache/<hash> structure
+        # that was failing with the old Shellwords.shellescape approach
+        _(provider.files.length).must_be :>, 0
+
+        # Critical: must find inspec.yml for profile recognition
+        has_inspec_yml = provider.files.any? { |f| File.basename(f) == "inspec.yml" }
+        _(has_inspec_yml).must_equal true, "Cache directory should allow profile detection"
+      end
+
+      it "must read files from cache directory" do
+        setup_test_profile(target)
+        provider = Inspec::DirProvider.new(target)
+
+        inspec_yml_path = File.join(target, "inspec.yml")
+        content = provider.read(inspec_yml_path)
+        _(content).wont_be_nil
+        _(content).must_include "name: test"
+      end
+    end
+
+    describe "with quotes in path" do
+      let(:profile_dir_name) { "profile'with'quotes" }
+
+      it "must handle paths with quotes" do
+        setup_test_profile(target)
+        provider = Inspec::DirProvider.new(target)
+
+        # Should not fail due to shell escaping issues
+        _(provider.files.length).must_be :>, 0
+
+        # Should find inspec.yml
+        has_inspec_yml = provider.files.any? { |f| File.basename(f) == "inspec.yml" }
+        _(has_inspec_yml).must_equal true
+      end
+    end
+  end
 end
 
 describe Inspec::ZipProvider do
