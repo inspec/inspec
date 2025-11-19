@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.23.7 -->
+## [v5.23.7](https://github.com/inspec/inspec/tree/v5.23.7) (2025-11-19)
 
 #### Merged Pull Requests
+- Remove mac 12  and update Mac builder [#7615](https://github.com/inspec/inspec/pull/7615) ([poorndm](https://github.com/poorndm))
 - CHEF-21893: Add Gemfile.lock for BlackDuck SCA scanning on InSpec 5.x [#7621](https://github.com/inspec/inspec/pull/7621) ([sa-progress](https://github.com/sa-progress))
 - Confgiuring blackduck in inspec 5 branch [#7613](https://github.com/inspec/inspec/pull/7613) ([Vasu1105](https://github.com/Vasu1105))
 - CHEF-25277 add docs for socks feature [#7510](https://github.com/inspec/inspec/pull/7510) ([sathish-progress](https://github.com/sathish-progress))
@@ -13,6 +14,7 @@
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- Remove mac 12  and update Mac builder [#7615](https://github.com/inspec/inspec/pull/7615) ([poorndm](https://github.com/poorndm)) <!-- 5.23.7 -->
 - CHEF-21893: Add Gemfile.lock for BlackDuck SCA scanning on InSpec 5.x [#7621](https://github.com/inspec/inspec/pull/7621) ([sa-progress](https://github.com/sa-progress)) <!-- 5.23.6 -->
 - Confgiuring blackduck in inspec 5 branch [#7613](https://github.com/inspec/inspec/pull/7613) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.23.6 -->
 - CHEF-25277 add docs for socks feature [#7510](https://github.com/inspec/inspec/pull/7510) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.6 -->
