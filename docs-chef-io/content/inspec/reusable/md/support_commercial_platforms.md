@@ -1,6 +1,6 @@
 | Platform | Architecture | Version |
 | --- | --- | --- |
-| Amazon Linux | `x86_64`, `aarch64` | `2.x` |
+| Amazon Linux | `x86_64`, `aarch64` | `2.x`, `2023` |
 | Debian | `x86_64`, `aarch64` (10.x only) | `9`, `10`, `11` |
 | macOS | `x86_64`, `aarch64` (M1 processors) | `11.x`, `12.x`, `13.x`, `14.x` |
 | Oracle Enterprise Linux | `x86_64`, `aarch64` (7.x / 8.x only) | `6.x`, `7.x`, `8.x` |

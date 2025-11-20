@@ -24,6 +24,22 @@ steps:
           privileged: true
           single-use: true
 
+  - label: "Kitchen: resources-amazonlinux-2023"
+    commands:
+      - .expeditor/buildkite/bk_linux_exec.sh
+      - . /var/lib/buildkite-agent/.asdf/asdf.sh
+      - bundle exec kitchen test resources-amazonlinux-2023
+    artifact_paths:
+      - $PWD/.kitchen/logs/kitchen.log
+    env:
+        KITCHEN_YAML: kitchen.dokken.yml
+        DOCKER: 1
+    expeditor:
+      executor:
+        linux:
+          privileged: true
+          single-use: true
+
   - label: "Kitchen: resources-centos-7"
     commands:
       - .expeditor/buildkite/bk_linux_exec.sh
