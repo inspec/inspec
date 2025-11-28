@@ -34,7 +34,8 @@ group :test do
   gem "concurrent-ruby"
   gem "json_schemer"
   gem "m"
-  gem "minitest-sprint", "~> 1.0"
+  # 1.4.1+ requires min ruby 3.2, InSpec5 does not support Ruby 3.2
+  gem "minitest-sprint", "< 1.4.1"
   gem "minitest", "5.15.0"
   gem "mocha"
   # Pinning this version as it breaking for ruby 3.1.0
