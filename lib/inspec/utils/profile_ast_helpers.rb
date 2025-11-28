@@ -24,6 +24,37 @@ module Inspec
           @memo = memo
         end
 
+        def extract_node_value(node)
+          case node.class.to_s
+          when "RuboCop::AST::HashNode"
+            # Handle hash nodes
+            values = {}
+            node.children.each do |pair_node|
+              values.merge!(pair_node.key.value => extract_node_value(pair_node.value))
+            end
+            values
+          when "RuboCop::AST::ArrayNode"
+            # Handle array nodes
+            node.children.map { |element| extract_node_value(element) }
+          else
+            # Handle simple nodes (strings, numbers, symbols, booleans, nil, etc.)
+            if node.respond_to?(:type)
+              case node.type
+              when :true
+                true
+              when :false
+                false
+              when :nil
+                nil
+              else
+                node.respond_to?(:value) ? node.value : node
+              end
+            else
+              node.respond_to?(:value) ? node.value : node
+            end
+          end
+        end
+
         def collect_input(input_children)
           input_name = input_children.children[2].value
 
@@ -39,15 +70,9 @@ module Inspec
                 if VALID_INPUT_OPTIONS.include?(child_node.key.value)
                   if child_node.value.class == RuboCop::AST::Node && REQUIRED_VALUES_MAP.key?(child_node.value.type)
                     opts.merge!(child_node.key.value => REQUIRED_VALUES_MAP[child_node.value.type])
-                  elsif child_node.value.class == RuboCop::AST::HashNode
-                    # Here value will be a hash
-                    values = {}
-                    child_node.value.children.each do |grand_child_node|
-                      values.merge!(grand_child_node.key.value => grand_child_node.value.value)
-                    end
-                    opts.merge!(child_node.key.value => values)
                   else
-                    opts.merge!(child_node.key.value => child_node.value.value)
+                    # Use the helper method to recursively extract values from any node type
+                    opts.merge!(child_node.key.value => extract_node_value(child_node.value))
                   end
                 end
               end
