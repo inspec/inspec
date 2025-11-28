@@ -36,7 +36,7 @@ group :test do
   gem "m"
   # 1.4.0+ requires min ruby 3.2, InSpec5 does not support Ruby 3.2
   gem "minitest-sprint", "~> 1.3.0" , "< 1.4.0"
-  gem "minitest", "5.15.0"
+  gem "minitest", "5.26.2"
   gem "mocha"
   # Pinning this version as it breaking for ruby 3.1.0
   gem "nokogiri", "< 1.17.2"
