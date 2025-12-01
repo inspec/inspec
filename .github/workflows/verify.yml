@@ -12,7 +12,7 @@ on:
 jobs:
   lint:
     name: Lint Ruby Code
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 60
 
     steps:
@@ -30,15 +30,15 @@ jobs:
 
   test-linux:
     name: Tests - Linux
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 60
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1.172.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.1.7'
           bundler-cache: true
@@ -48,15 +48,15 @@ jobs:
 
   test-isolated:
     name: Isolated Tests - Linux
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 60
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1.172.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.1.7'
           bundler-cache: true
@@ -66,7 +66,7 @@ jobs:
 
   test-windows:
     name: Tests - Windows
-    runs-on: windows-latest
+    runs-on: windows-2019
     timeout-minutes: 60
 
     steps:
