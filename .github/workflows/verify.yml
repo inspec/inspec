@@ -7,20 +7,10 @@ on:
       - inspec-5
 
 jobs:
-  lint-and-test:
-    runs-on: ${{ matrix.os }}
+  lint:
+    name: Lint Ruby Code
+    runs-on: ubuntu-latest
     timeout-minutes: 60
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        ruby: ['3.1.7']
-        task: [lint, test, isolated]
-        exclude:
-          - os: windows-latest
-            task: lint
-          - os: windows-latest
-            task: isolated
 
     steps:
       - name: Checkout code
@@ -29,28 +19,95 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ matrix.ruby }}
+          ruby-version: '3.1.7'
           bundler-cache: true
 
       - name: Run lint
-        if: matrix.task == 'lint' && matrix.os == 'ubuntu-latest'
         run: bundle exec rake test:lint
 
-      - name: Run tests (Linux)
-        if: matrix.task == 'test' && matrix.os == 'ubuntu-latest'
-        run: |
-          chmod +x .github/scripts/verify.sh
-          .github/scripts/verify.sh
+  test-linux:
+    name: Tests - Linux
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
 
-      - name: Run tests (Windows)
-        if: matrix.task == 'test' && matrix.os == 'windows-latest'
-        shell: powershell
-        run: .github/scripts/verify.ps1
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1.7'
+          bundler-cache: true
+
+      - name: Update RubyGems
+        run: sudo gem update -N --system 3.3.3 --force
+
+      - name: Configure bundle
+        run: |
+          bundle config --local path vendor/bundle
+          bundle config set --local without deploy kitchen
+
+      - name: Install dependencies
+        run: bundle install --jobs=7 --retry=3
+
+      - name: Run tests
+        run: bundle exec rake
+
+  test-isolated:
+    name: Isolated Tests - Linux
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1.7'
+          bundler-cache: true
+
+      - name: Update RubyGems
+        run: sudo gem update -N --system 3.3.3 --force
+
+      - name: Configure bundle
+        run: |
+          bundle config --local path vendor/bundle
+          bundle config set --local without deploy kitchen
+
+      - name: Install dependencies
+        run: bundle install --jobs=7 --retry=3
 
       - name: Run isolated tests
-        if: matrix.task == 'isolated' && matrix.os == 'ubuntu-latest'
-        env:
-          RAKE_TASK: test:isolated
+        run: bundle exec rake test:isolated
+
+  test-windows:
+    name: Tests - Windows
+    runs-on: windows-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1.7'
+          bundler-cache: true
+
+      - name: Configure bundle
+        shell: powershell
+        run: bundle config set --local without deploy kitchen
+
+      - name: Install dependencies
+        shell: powershell
+        run: bundle install --jobs=7 --retry=3
+
+      - name: Run tests
+        shell: powershell
         run: |
-          chmod +x .github/scripts/verify.sh
-          .github/scripts/verify.sh
+          bundle exec rake
+          exit $LASTEXITCODE
