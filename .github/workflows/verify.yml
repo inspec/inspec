@@ -1,5 +1,8 @@
 name: Verify Pipeline
 
+permissions:
+  contents: read
+
 on:
   pull_request:
   push:
@@ -14,10 +17,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@d4526a55538b775af234ba4af27118ed6f8f6677 # v1.172.0
         with:
           ruby-version: '3.1.7'
           bundler-cache: true
@@ -32,21 +35,13 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@d4526a55538b775af234ba4af27118ed6f8f6677 # v1.172.0
         with:
           ruby-version: '3.1.7'
           bundler-cache: true
-
-      - name: Configure bundle
-        run: |
-          bundle config --local path vendor/bundle
-          bundle config set --local without deploy kitchen
-
-      - name: Install dependencies
-        run: bundle install --jobs=7 --retry=3
 
       - name: Run tests
         run: bundle exec rake
@@ -58,21 +53,13 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@d4526a55538b775af234ba4af27118ed6f8f6677 # v1.172.0
         with:
           ruby-version: '3.1.7'
           bundler-cache: true
-
-      - name: Configure bundle
-        run: |
-          bundle config --local path vendor/bundle
-          bundle config set --local without deploy kitchen
-
-      - name: Install dependencies
-        run: bundle install --jobs=7 --retry=3
 
       - name: Run isolated tests
         run: bundle exec rake test:isolated
@@ -84,33 +71,16 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@d4526a55538b775af234ba4af27118ed6f8f6677 # v1.172.0
         with:
           ruby-version: '3.1.7'
-          bundler-cache: false
-
-      - name: Cache bundle
-        uses: actions/cache@v3
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-
-      - name: Configure bundle
-        shell: powershell
-        run: bundle config set --local without deploy kitchen
-
-      - name: Install dependencies
-        shell: powershell
-        run: bundle install --jobs=7 --retry=3 --path vendor/bundle
+          bundler-cache: true
 
       - name: Run tests
         shell: powershell
         run: |
           bundle exec rake test:unit
-
-          exit $LASTEXITCODE
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
