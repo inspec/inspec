@@ -90,7 +90,15 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.1.7'
-          bundler-cache: true
+          bundler-cache: false
+
+      - name: Cache bundle
+        uses: actions/cache@v3
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
 
       - name: Configure bundle
         shell: powershell
@@ -98,7 +106,7 @@ jobs:
 
       - name: Install dependencies
         shell: powershell
-        run: bundle install --jobs=7 --retry=3
+        run: bundle install --jobs=7 --retry=3 --path vendor/bundle
 
       - name: Run tests
         shell: powershell
