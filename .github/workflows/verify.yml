@@ -40,9 +40,6 @@ jobs:
           ruby-version: '3.1.7'
           bundler-cache: true
 
-      - name: Update RubyGems
-        run: sudo gem update -N --system 3.3.3 --force
-
       - name: Configure bundle
         run: |
           bundle config --local path vendor/bundle
@@ -68,9 +65,6 @@ jobs:
         with:
           ruby-version: '3.1.7'
           bundler-cache: true
-
-      - name: Update RubyGems
-        run: sudo gem update -N --system 3.3.3 --force
 
       - name: Configure bundle
         run: |
