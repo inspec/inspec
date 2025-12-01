@@ -4,15 +4,17 @@
 ## Unreleased
 
 #### Merged Pull Requests
-- CHEF-21893: Add Gemfile.lock for BlackDuck SCA scanning on InSpec 5.x [#7621](https://github.com/inspec/inspec/pull/7621) ([sa-progress](https://github.com/sa-progress))
-- Confgiuring blackduck in inspec 5 branch [#7613](https://github.com/inspec/inspec/pull/7613) ([Vasu1105](https://github.com/Vasu1105))
-- CHEF-25277 add docs for socks feature [#7510](https://github.com/inspec/inspec/pull/7510) ([sathish-progress](https://github.com/sathish-progress))
+- Pin gem versions for Ruby compatibility in InSpec-5 [#7640](https://github.com/inspec/inspec/pull/7640) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Added instructions file for inspec 5 [#7639](https://github.com/inspec/inspec/pull/7639) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.23.6 -->
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- Pin gem versions for Ruby compatibility in InSpec-5 [#7640](https://github.com/inspec/inspec/pull/7640) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.23.7 -->
+- Added instructions file for inspec 5 [#7639](https://github.com/inspec/inspec/pull/7639) ([Nik08](https://github.com/Nik08)) <!-- 5.23.7 -->
+- Remove mac 12  and update Mac builder [#7615](https://github.com/inspec/inspec/pull/7615) ([poorndm](https://github.com/poorndm)) <!-- 5.23.7 -->
 - CHEF-21893: Add Gemfile.lock for BlackDuck SCA scanning on InSpec 5.x [#7621](https://github.com/inspec/inspec/pull/7621) ([sa-progress](https://github.com/sa-progress)) <!-- 5.23.6 -->
 - Confgiuring blackduck in inspec 5 branch [#7613](https://github.com/inspec/inspec/pull/7613) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.23.6 -->
 - CHEF-25277 add docs for socks feature [#7510](https://github.com/inspec/inspec/pull/7510) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.6 -->
