@@ -12,7 +12,7 @@ on:
 jobs:
   lint:
     name: Lint Ruby Code
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
 
     steps:
@@ -30,7 +30,7 @@ jobs:
 
   test-linux:
     name: Tests - Linux
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
 
     steps:
@@ -48,7 +48,7 @@ jobs:
 
   test-isolated:
     name: Isolated Tests - Linux
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
 
     steps:
