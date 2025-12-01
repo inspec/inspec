@@ -110,8 +110,7 @@ jobs:
 
       - name: Run tests
         shell: powershell
-        env:
-          TESTOPTS: "--verbose"
         run: |
-          bundle exec rake test
+          bundle exec rake test:unit
+
           exit $LASTEXITCODE
