@@ -1,0 +1,51 @@
+name: Verify Pipeline
+
+on:
+  pull_request:
+  push:
+    branches:
+      - inspec-5
+
+jobs:
+  lint-and-test:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        ruby: ['3.1.7']
+        task: [lint, test, isolated]
+        exclude:
+          - os: windows-latest
+            task: lint
+          - os: windows-latest
+            task: isolated
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      - name: Run lint
+        if: matrix.task == 'lint' && matrix.os == 'ubuntu-latest'
+        run: bundle exec rake test:lint
+
+      - name: Run tests
+        if: matrix.task == 'test'
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            .expeditor/buildkite/verify.ps1
+          else
+            .expeditor/buildkite/verify.sh
+          fi
+
+      - name: Run isolated tests
+        if: matrix.task == 'isolated' && matrix.os == 'ubuntu-latest'
+        run: bundle exec rake test:isolated
