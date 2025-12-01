@@ -103,5 +103,5 @@ jobs:
       - name: Run tests
         shell: powershell
         run: |
-          bundle exec rake
+          bundle exec rake test:functional test:unit
           exit $LASTEXITCODE
