@@ -111,5 +111,6 @@ jobs:
       - name: Run tests
         shell: powershell
         run: |
-          bundle exec rake test:functional test:unit
+          # Run tests serially to avoid fork() issues on Windows
+          bundle exec rake test:parallel K=1
           exit $LASTEXITCODE
