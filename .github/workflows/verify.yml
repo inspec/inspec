@@ -36,16 +36,21 @@ jobs:
         if: matrix.task == 'lint' && matrix.os == 'ubuntu-latest'
         run: bundle exec rake test:lint
 
-      - name: Run tests
-        if: matrix.task == 'test'
-        shell: bash
+      - name: Run tests (Linux)
+        if: matrix.task == 'test' && matrix.os == 'ubuntu-latest'
         run: |
-          if [ "$RUNNER_OS" == "Windows" ]; then
-            .expeditor/buildkite/verify.ps1
-          else
-            .expeditor/buildkite/verify.sh
-          fi
+          chmod +x .github/scripts/verify.sh
+          .github/scripts/verify.sh
+
+      - name: Run tests (Windows)
+        if: matrix.task == 'test' && matrix.os == 'windows-latest'
+        shell: powershell
+        run: .github/scripts/verify.ps1
 
       - name: Run isolated tests
         if: matrix.task == 'isolated' && matrix.os == 'ubuntu-latest'
-        run: bundle exec rake test:isolated
+        env:
+          RAKE_TASK: test:isolated
+        run: |
+          chmod +x .github/scripts/verify.sh
+          .github/scripts/verify.sh
