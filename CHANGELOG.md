@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Bump test-kitchen from 3.8.1 to 3.9.1 in /omnibus [#7610](https://github.com/inspec/inspec/pull/7610) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Pin gem versions for Ruby compatibility in InSpec-5 [#7640](https://github.com/inspec/inspec/pull/7640) ([balasubramanian-s](https://github.com/balasubramanian-s))
 - Added instructions file for inspec 5 [#7639](https://github.com/inspec/inspec/pull/7639) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
@@ -12,6 +13,7 @@
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- Bump test-kitchen from 3.8.1 to 3.9.1 in /omnibus [#7610](https://github.com/inspec/inspec/pull/7610) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.23.7 -->
 - Pin gem versions for Ruby compatibility in InSpec-5 [#7640](https://github.com/inspec/inspec/pull/7640) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.23.7 -->
 - Added instructions file for inspec 5 [#7639](https://github.com/inspec/inspec/pull/7639) ([Nik08](https://github.com/Nik08)) <!-- 5.23.7 -->
 - Remove mac 12  and update Mac builder [#7615](https://github.com/inspec/inspec/pull/7615) ([poorndm](https://github.com/poorndm)) <!-- 5.23.7 -->
