@@ -1,20 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.23.8 -->
-## [v5.23.8](https://github.com/inspec/inspec/tree/v5.23.8) (2025-12-02)
+<!-- latest_release 5.23.9 -->
+## [v5.23.9](https://github.com/inspec/inspec/tree/v5.23.9) (2025-12-03)
 
 #### Merged Pull Requests
-- [CHEF-28136] Add Amazon Linux 2023 support [#7636](https://github.com/inspec/inspec/pull/7636) ([sa-progress](https://github.com/sa-progress))
-- Bump omnibus from `39f0b30` to `b9f4c8f` in /omnibus [#7602](https://github.com/inspec/inspec/pull/7602) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- Bump test-kitchen from 3.8.1 to 3.9.1 in /omnibus [#7610](https://github.com/inspec/inspec/pull/7610) ([dependabot[bot]](https://github.com/dependabot[bot]))
-- Pin gem versions for Ruby compatibility in InSpec-5 [#7640](https://github.com/inspec/inspec/pull/7640) ([balasubramanian-s](https://github.com/balasubramanian-s))
-- Added instructions file for inspec 5 [#7639](https://github.com/inspec/inspec/pull/7639) ([Nik08](https://github.com/Nik08))
+- Update multi_json requirement from ~&gt; 1.15.0 to ~&gt; 1.18.0 [#7647](https://github.com/inspec/inspec/pull/7647) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.23.6 -->
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- Update multi_json requirement from ~&gt; 1.15.0 to ~&gt; 1.18.0 [#7647](https://github.com/inspec/inspec/pull/7647) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.23.9 -->
 - [CHEF-28136] Add Amazon Linux 2023 support [#7636](https://github.com/inspec/inspec/pull/7636) ([sa-progress](https://github.com/sa-progress)) <!-- 5.23.8 -->
 - Bump omnibus from `39f0b30` to `b9f4c8f` in /omnibus [#7602](https://github.com/inspec/inspec/pull/7602) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.23.7 -->
 - Bump test-kitchen from 3.8.1 to 3.9.1 in /omnibus [#7610](https://github.com/inspec/inspec/pull/7610) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.23.7 -->
