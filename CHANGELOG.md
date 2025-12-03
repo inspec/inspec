@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.23.9 -->
-## [v5.23.9](https://github.com/inspec/inspec/tree/v5.23.9) (2025-12-03)
+<!-- latest_release 5.23.10 -->
+## [v5.23.10](https://github.com/inspec/inspec/tree/v5.23.10) (2025-12-03)
 
 #### Merged Pull Requests
-- Update multi_json requirement from ~&gt; 1.15.0 to ~&gt; 1.18.0 [#7647](https://github.com/inspec/inspec/pull/7647) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Fix reading/writing tar profiles issue [#7651](https://github.com/inspec/inspec/pull/7651) ([chandra-progress](https://github.com/chandra-progress))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.23.6 -->
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- Fix reading/writing tar profiles issue [#7651](https://github.com/inspec/inspec/pull/7651) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.23.10 -->
 - Update multi_json requirement from ~&gt; 1.15.0 to ~&gt; 1.18.0 [#7647](https://github.com/inspec/inspec/pull/7647) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.23.9 -->
 - [CHEF-28136] Add Amazon Linux 2023 support [#7636](https://github.com/inspec/inspec/pull/7636) ([sa-progress](https://github.com/sa-progress)) <!-- 5.23.8 -->
 - Bump omnibus from `39f0b30` to `b9f4c8f` in /omnibus [#7602](https://github.com/inspec/inspec/pull/7602) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.23.7 -->
