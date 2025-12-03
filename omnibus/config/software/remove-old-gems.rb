@@ -12,7 +12,8 @@ build do
     puts "Removing old versions of rexml < 3.4.2"
     env = with_standard_compiler_flags(with_embedded_path)
 
-    # remove [-a] all rexml < 3.4.2 including [-x] executables and [-I] ignore dependencies
-    command "#{gemfile} uninstall rexml -v \"<3.4.2\" -a -x -I", env: env
+    # remove [-a] all rexml < 3.4.2 and [-I] ignore dependencies
+    # Note: We do NOT use -x flag to avoid removing executables/binstubs
+    command "#{gemfile} uninstall rexml -v \"<3.4.2\" -a -I", env: env
   end
 end
