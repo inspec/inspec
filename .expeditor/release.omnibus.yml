@@ -30,6 +30,8 @@ builder-to-testers-map:
     - el-9-aarch64
   el-9-x86_64:
     - el-9-x86_64
+  el-10-x86_64:
+    - el-10-x86_64
   amazon-2023-aarch64:
     - amazon-2023-aarch64
   amazon-2023-x86_64:
