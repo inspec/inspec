@@ -21,8 +21,8 @@ gem "inspec", path: "."
 gem "inspec-bin", path: "./inspec-bin"
 
 # CHEF-27860: Testing with local train to validate ffi 1.17.x support
-gem "train", git: "https://github.com/chef/train.git", branch: "CHEF-27860-update-ffi-version"
-gem "train-core", git: "https://github.com/chef/train.git", branch: "CHEF-27860-update-ffi-version"
+gem "train", path: "/Users/sbabu/workspace/train"
+gem "train-core", path: "/Users/sbabu/workspace/train"
 
 # inspec tests depend text output that changed in the 3.10 release
 # but our runtime dep is still 3.9+
