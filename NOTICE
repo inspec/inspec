@@ -125,7 +125,6 @@ Dan Wanek | gssapi | 1.3.1 – Open Source | MIT-style License
 Daniel Harrington | chef-gyoku | 1.5.0 – Open Source | MIT-style License
 Daniel Harrington | nori | 2.7.0 – Open Source | MIT-style License
 Dan Wanek | chef-winrm | 2.4.4 | Apache Software License Version 2.0
-Dave Thomas, The Pragmatic Programmers, Eric Hodel, and others | rdoc | 6.4.0 – Open Source | Ruby License
 Dave Thomas, The Pragmatic Programmers, Eric Hodel, and others | rdoc | 6.4.1.1 – Open Source | Ruby License 
 David Chelimsky, Myron Marston, Jon Rowe, Sam Phippen, Xavier Shay, Bradley Schaefer | rspec-support | 3.11.1 – Open Source | MIT-style License
 Dan Kubb | ice_nine | 0.11.2 – Open Source | MIT-style License
@@ -135,8 +134,7 @@ David Chelimsky, Myron Marston, The RSpec Development Team, Steven Baker | rspec
 David Chelimsky, Myron Marston, The RSpec Development Team, Steven Baker | rspec-mocks | 3.11.1 – Open Source | MIT-style License
 David Chelimsky, Myron Marston, The RSpec Development Team, Steven Baker | rspec-mocks | 3.13.5 – Open Source | MIT-style License
 David Chelimsky, Myron Marston, The RSpec Development Team, Steven Baker 
-David Heinemeier Hansson | activesupport | 7.0.3.1 – Open Source | MIT-style License
-David Heinemeier Hansson | activesupport | 7.1.5.1 – Open Source | MIT-style License
+David Heinemeier Hansson | activesupport | 7.2.2.2 – Open Source | MIT-style License
 debug-commons team | ruby-debug-ide | 0.7.3 – Open Source | MIT-style License
 Discourse Construction Kit, Inc. | mini_mime | 1.1.5 – Open Source | MIT-style License
 Dominik Richter | sslshake | 1.3.1 – Open Source | Mozilla Public License Version 2.0
@@ -190,9 +188,7 @@ Jan van der Pas | faraday-rack | 1.0.0 – Open Source | MIT-style License
 Jerry D'Antonio | concurrent-ruby | 1.3.5 – Open Source | MIT-style License
 Jerry D'Antonio | concurrent-ruby | 1.31.10 – Open Source | MIT-style License
 Jim Weirich | builder | 3.3.0 – Open Source | MIT-style License
-Jim Weirich | rake | 0.9.6 – Open Source | MIT-style License
 Jim Weirich | rake | 13.0.6 – Open Source | MIT-style License
-Jim Weirich | rake | 13.2.1 – Open Source | MIT-style License
 Jim Weirich | rake | 13.3.0 – Open Source | MIT-style License
 John Mair (banisterfiend) | method_source | 1.1.0 – Open Source | MIT-style License
 John Mair (banisterfiend)| pry | 0.15.2 – Open Source | MIT-style License
@@ -397,8 +393,6 @@ Yukihiro Matsumoto | reline | 0.3.1 – Open Source | BSD-style License
 Yukihiro Matsumoto | reline | 0.6.2 – Open Source | BSD-style License
 Yukihiro Matsumoto | resolv | 0.2.1 – Open Source | BSD-style License
 Yukihiro Matsumoto | resolv-replace | 0.1.0 – Open Source | BSD-style License
-Yukihiro Matsumoto | rexml | 3.2.5 – Open Source | BSD-style License
-Yukihiro Matsumoto | rexml | 3.3.9 – Open Source | BSD-style License
 Yukihiro Matsumoto | rexml | 3.4.4 – Open Source | BSD-style License
 Yukihiro Matsumoto | rinda | 0.1.1 – Open Source | BSD-style License
 Yukihiro Matsumoto | rss | 0.3.1 – BSD-style License
@@ -586,7 +580,7 @@ Apache Software License Version 2.0. Copyright 2001-2004 The Apache Software Fou
 
 (2) BSD-Style Licenses:
 
-(a) Progress Chef Inspec v5.23 incorporates abbrev v0.1.0, base64 v0.3.0,base64@0.1.1, benchmark v0.2.0, benchmark v0.4.1, bigdecimal v3.1.1, bigdecimal v3.2.2, cgi v0.3.7, date v3.2.2, dbm v1.1.0, debug v1.6.3, delegate v0.2.0, digest v3.1.0, drb v2.1.0, drb v2.2.3, english v0.7.1, erb v2.2.3, etc v1.3.0, fcntl v1.0.1, fiddle v1.1.0, fileutils v1.6.0, find v0.1.1, forwardable v1.3.2, getoptlong v0.1.1, io-console v0.5.11, io-console v0.8.1, io-nonblock	v0.1.0, io-wait v0.2.1, irb v1.4.1, json v2.6.1, json v2.6.2, json v2.13.2, logger v1.7.0, logger v1.5.0, matrix v0.4.2, mutex_m v0.3.0, mutex_m v0.1.1, net-ftp v0.1.4, net-http v0.3.0.1, net-imap v0.2.4, net-pop v0.1.1,  net-protocol v0.1.2, net-smtp v0.3.1.1, nkf v0.1.1, observer v0.1.1, open3 v0.1.1, openssl v3.0.1, optparse v0.2.0, ostruct v0.5.2, pp v0.3.0, prettyprint v0.1.1, prime	v0.1.2, pstore v0.1.1, racc v1.8.1, readline v0.0.3, reline v0.3.1, reline v0.6.2, resolv v0.2.1, resolv-replace v0.1.0, rexml v3.2.5, rexml v3.3.9, rexml v3.4.4, rinda	v0.1.1, rss v0.3.1, rubyzip v2.4.1, time v0.2.2, securerandom v0.2.0, securerandom v0.4.1, shellwords v0.1.0, singleton v0.1.1, stringio v3.0.1.2, stringio	v3.0.2, strscan v3.0.1,
+(a) Progress Chef Inspec v5.23 incorporates abbrev v0.1.0, base64 v0.3.0,base64@0.1.1, benchmark v0.2.0, benchmark v0.4.1, bigdecimal v3.1.1, bigdecimal v3.2.2, cgi v0.3.7, date v3.2.2, dbm v1.1.0, debug v1.6.3, delegate v0.2.0, digest v3.1.0, drb v2.1.0, drb v2.2.3, english v0.7.1, erb v2.2.3, etc v1.3.0, fcntl v1.0.1, fiddle v1.1.0, fileutils v1.6.0, find v0.1.1, forwardable v1.3.2, getoptlong v0.1.1, io-console v0.5.11, io-console v0.8.1, io-nonblock	v0.1.0, io-wait v0.2.1, irb v1.4.1, json v2.6.1, json v2.6.2, json v2.13.2, logger v1.7.0, logger v1.5.0, matrix v0.4.2, mutex_m v0.3.0, mutex_m v0.1.1, net-ftp v0.1.4, net-http v0.3.0.1, net-imap v0.2.4, net-pop v0.1.1,  net-protocol v0.1.2, net-smtp v0.3.1.1, nkf v0.1.1, observer v0.1.1, open3 v0.1.1, openssl v3.0.1, optparse v0.2.0, ostruct v0.5.2, pp v0.3.0, prettyprint v0.1.1, prime	v0.1.2, pstore v0.1.1, racc v1.8.1, readline v0.0.3, reline v0.3.1, reline v0.6.2, resolv v0.2.1, resolv-replace v0.1.0, rexml v3.4.4, rinda	v0.1.1, rss v0.3.1, rubyzip v2.4.1, time v0.2.2, securerandom v0.2.0, securerandom v0.4.1, shellwords v0.1.0, singleton v0.1.1, stringio v3.0.1.2, stringio	v3.0.2, strscan v3.0.1,
 Sync v0.5.0, syslog v0.1.0, tempfile v0.1.2, timeout v0.2.0, tsort v0.1.0, un v0.2.0, uri v0.12.4, weakref v0.1.1, win32ole v1.8.8, yaml v0.2.0 and zlib v2.1.1. Such technologies are subject to the following terms and conditions: 
 Copyright (C) 1993-2013 Yukihiro Matsumoto. All rights reserved.
 Redistribution and use in source and binary forms, with or without
@@ -1759,7 +1753,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-(bt) Progress Chef Inspec v5.23 incorporates activesupport v7.0.3.1.  Such technology is subject to the following terms and conditions:
+(bt) Progress Chef Inspec v5.23 incorporates activesupport v7.2.2.2.  Such technology is subject to the following terms and conditions:
 Copyright (c) 2005-2022 David Heinemeier Hansson
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -1778,32 +1772,13 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-(bu) Progress Chef Inspec v5.23 incorporates activesupport v7.1.5.1.  Such technology is subject to the following terms and conditions:
-Copyright (c) David Heinemeier Hansson
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-(bv) Progress Chef Inspec v5.23 incorporates hashdiff v1.0.1.  Such technology is subject to the following terms and conditions:
+(bu) Progress Chef Inspec v5.23 incorporates hashdiff v1.0.1.  Such technology is subject to the following terms and conditions:
 Copyright (c) 2012 Liu Fengyun
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-(bw) Progress Chef Inspec v5.23 incorporates i18n v1.12.0 and i18n v1.14.7.  Such technologies are subject to the following terms and conditions:
+(bv) Progress Chef Inspec v5.23 incorporates i18n v1.12.0 and i18n v1.14.7.  Such technologies are subject to the following terms and conditions:
 Copyright (c) 2008 The Ruby I18n team
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -2061,7 +2036,7 @@ THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-(cr) Progress Chef Inspec v5.23 incorporates rake v0.9.6, rake v13.2.1, and rake v13.3.0.  Such technologies are subject to the following terms and conditions:
+(cr) Progress Chef Inspec v5.23 incorporates rake v13.0.6 and rake v13.3.0.  Such technologies are subject to the following terms and conditions:
 Copyright (c) 2003, 2004 Jim Weirich
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -2080,26 +2055,7 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-(cs) Progress Chef Inspec v5.23 incorporates rake v13.0.6.  Such technology is subject to the following terms and conditions:
-Copyright (c) Jim Weirich
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-(ct) Progress Chef Inspec v5.23 incorporates rake-compiler v1.2.0.  Such technology is subject to the following terms and conditions:
+(cs) Progress Chef Inspec v5.23 incorporates rake-compiler v1.2.0.  Such technology is subject to the following terms and conditions:
 Copyright (c) 2008-2011 Luis Lavena.
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -2614,7 +2570,7 @@ This Source Code Form is “Incompatible With Secondary Licenses”, as defined 
 
 (6) Ruby License:
 
-Progress Chef Inspec v5.23 incorporates httpclient v2.9.0, highline v3.1.2, options v2.3.2, rdoc v6.4.0, rdoc v6.4.1.1, and socksify v1.8.1. Such technologies are subject to the following terms and conditions:
+Progress Chef Inspec v5.23 incorporates httpclient v2.9.0, highline v3.1.2, options v2.3.2, rdoc v6.4.1.1, and socksify v1.8.1. Such technologies are subject to the following terms and conditions:
 Ruby License
 Other web pages for this license
 https://www.ruby-lang.org/en/about/license.txt
@@ -2637,12 +2593,12 @@ For the list of those files and their copying conditions, see the file LEGAL.
 5. The scripts and library files supplied as input to or produced as output from the software do not automatically fall under the copyright of the software, but belong to whomever generated them, and may be sold commercially, and may be aggregated with this software.
 6. THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
-For rdoc v6.4.0 and rdoc v6.4.1.1:
+For rdoc v6.4.1.1:
 RDoc is Copyright © 2001-2003 Dave Thomas, The Pragmatic Programmers. Portions © 2007-2011 Eric Hodel. Portions copyright others, see individual files and LEGAL.rdoc for details.
 
 RDoc is free software, and may be redistributed under the terms specified in LICENSE.rdoc.
 
-Contents of LEGAL text file for rdoc v6.4.0 and rdoc v6.4.1.1:
+Contents of LEGAL text file for rdoc v6.4.1.1:
 
 Legal Notice Information
 The files in this distribution are covered by the Ruby license (see LICENSE) except the features mentioned below:
