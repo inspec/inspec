@@ -150,7 +150,7 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       _(result.archive_path).must_equal "fetchpath"
     end
 
-    it "raises error if git_only_or_empty? returns true after checkout" do
+    it "raises error if no_content_files? returns true after checkout" do
       expect_ls_remote_without_ref
       expect_clone
       expect_checkout_without_ref
@@ -223,25 +223,25 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       _ { result.resolved_source }.must_raise Inspec::FetcherFailure
     end
   end
-  describe "#git_only_or_empty?" do
+  describe "#no_content_files?" do
     let(:git_fetcher) { fetcher.new("https://example.com/repo.git") }
 
     it "returns true when directory is empty" do
       Dir.stubs(:exist?).with("empty-dir").returns(true)
       Dir.stubs(:children).with("empty-dir").returns([])
-      _(git_fetcher.send(:git_only_or_empty?, "empty-dir")).must_equal true
+      _(git_fetcher.send(:no_content_files?, "empty-dir")).must_equal true
     end
 
     it "returns true when directory contains only .git" do
       Dir.stubs(:exist?).with("git-only-dir").returns(true)
       Dir.stubs(:children).with("git-only-dir").returns([".git"])
-      _(git_fetcher.send(:git_only_or_empty?, "git-only-dir")).must_equal true
+      _(git_fetcher.send(:no_content_files?, "git-only-dir")).must_equal true
     end
 
     it "returns false when directory contains files other than .git" do
       Dir.stubs(:exist?).with("non-empty-dir").returns(true)
       Dir.stubs(:children).with("non-empty-dir").returns([".git", "README.md"])
-      _(git_fetcher.send(:git_only_or_empty?, "non-empty-dir")).must_equal false
+      _(git_fetcher.send(:no_content_files?, "non-empty-dir")).must_equal false
     end
 
     it "returns false when directory does not exist" do

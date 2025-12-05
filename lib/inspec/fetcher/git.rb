@@ -71,7 +71,7 @@ module Inspec::Fetcher
       else
         Dir.mktmpdir do |working_dir|
           checkout(working_dir)
-          if git_only_or_empty?(working_dir)
+          if no_content_files?(working_dir)
             # If the temporary working directory is empty after checkout,
             # this means the git repository did not contain any files (or the checkout failed).
             # In this case, remove the destination directory to avoid
@@ -94,14 +94,13 @@ module Inspec::Fetcher
       @repo_directory
     end
 
-    def git_only_or_empty?(dir)
+    def no_content_files?(dir)
       return false unless Dir.exist?(dir)
 
+      # Check if directory has no content files (excluding .git and other excluded directories)
       children = Dir.children(dir)
-      # Return true if:
-      # - directory is completely empty
-      # - or it contains only one entry: '.git'
-      children.empty? || (children - [".git"]).empty?
+      content_files = children.reject { |child| child == EXCLUDED_DIRECTORIES }
+      content_files.empty?
     end
 
     def perform_relative_path_fetch(destination_path, working_dir)
