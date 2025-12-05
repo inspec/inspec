@@ -125,4 +125,32 @@ describe "Inspec::Resources::Platform" do
     _(resource2).wont_be :supported?, supports
   end
 
+  let(:resource3) { MockLoader.new(:windows2025).load_resource("platform") }
+  it "loads a profile which supports platform-name windows_server_2025*" do
+    supports = [
+      { 'platform-name': "windows_server_2025*" },
+    ]
+    _(resource3).must_be :supported?, supports
+  end
+
+  it "loads a profile which supports platform-name windows_server_2025* with wildcard" do
+    supports = [
+      { 'platform-name': "*2025*" },
+    ]
+    _(resource3).must_be :supported?, supports
+  end
+
+  it "reject a profile which supports platform-name not matching regex windows_server_2025*" do
+    supports = [
+      { 'platform-name': "*2022*" },
+    ]
+    _(resource3).wont_be :supported?, supports
+  end
+
+  it "verifies windows2025 platform properties" do
+    _(resource3.name).must_equal "windows_server_2025_datacenter"
+    _(resource3.family).must_equal "windows"
+    _(resource3.release).must_equal "10.0.26100"
+  end
+
 end
