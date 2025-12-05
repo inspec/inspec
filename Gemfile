@@ -39,7 +39,7 @@ group :test do
   gem "minitest", "5.15.0"
   gem "mocha"
   # Pinning this version as it breaking for ruby 3.1.0
-  gem "nokogiri", "< 1.17.2"
+  gem "nokogiri", "~> 1.16.5", "< 1.17.2"
   # Pinning this version as it breaking for ruby 3.0.0
   gem "pry-byebug", "< 3.12.0"
   gem "pry"
