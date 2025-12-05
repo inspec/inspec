@@ -140,7 +140,7 @@ describe "Inspec::Resources::Platform" do
     _(resource3).must_be :supported?, supports
   end
 
-  it "reject a profile which supports platform-name not matching regex windows_server_2025*" do
+  it "rejects a profile which supports platform-name not matching regex windows_server_2025*" do
     supports = [
       { 'platform-name': "*2022*" },
     ]
@@ -152,5 +152,4 @@ describe "Inspec::Resources::Platform" do
     _(resource3.family).must_equal "windows"
     _(resource3.release).must_equal "10.0.26100"
   end
-
 end
