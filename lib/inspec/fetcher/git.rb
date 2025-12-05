@@ -27,6 +27,9 @@ module Inspec::Fetcher
     name "git"
     priority 200
 
+    # Currently only excluding .git directory - change to array in future if more exclusions are needed
+    EXCLUDED_DIRECTORIES = '.git'
+
     def self.resolve(target, opts = {})
       if target.is_a?(String)
         new(target, opts) if target.start_with?("git@") || target.end_with?(".git")
@@ -84,6 +87,7 @@ module Inspec::Fetcher
             Inspec::Log.debug("Checkout of #{resolved_ref.nil? ? @remote_url : resolved_ref} successful. " \
                                 "Moving checkout to #{destination_path}")
             FileUtils.cp_r(working_dir + "/.", destination_path)
+            remove_excluded_directories(destination_path)
           end
         end
       end
@@ -114,6 +118,7 @@ module Inspec::Fetcher
                                       "within profile in git repo specified by '#{@remote_url}'"
       end
       FileUtils.cp_r("#{working_dir}/#{@relative_path}", destination_path)
+      remove_excluded_directories(destination_path)
     end
 
     def cache_key
@@ -145,6 +150,16 @@ module Inspec::Fetcher
 
     def update_from_opts(opts)
       %i{branch tag ref}.map { |opt_name| update_ivar_from_opt(opt_name, opts) }.any?
+    end
+
+    def remove_excluded_directories(destination_dir)
+      path = File.join(destination_dir, EXCLUDED_DIRECTORIES)
+      begin
+        FileUtils.rm_rf(path)
+      rescue Errno::EACCES, Errno::EPERM => e
+        Inspec::Log.warn("Unable to remove #{EXCLUDED_DIRECTORIES} directory from cache: #{e.message}")
+        Inspec::Log.debug("Cache may contain #{EXCLUDED_DIRECTORIES} directory at #{path}")
+      end
     end
 
     private

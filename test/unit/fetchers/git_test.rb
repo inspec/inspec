@@ -165,6 +165,39 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
       _(err.message).must_include "Profile git dependency failed for test-directory - no files found in the repository."
     end
 
+    it "successfully fetches when repository contains content files beyond .git" do
+      expect_ls_remote_without_ref.twice
+      expect_clone
+      expect_checkout_without_ref
+      expect_mv_into_place
+
+      Dir.stubs(:exist?).with("test-tmp-dir").returns(true)
+      Dir.stubs(:children).with("test-tmp-dir").returns([".git", "inspec.yml", "controls"]) # Simulate repo with content
+      Dir.stubs(:exist?).with("fetchpath").returns(true)
+      Dir.stubs(:children).with("fetchpath").returns(["inspec.yml", "controls"]) # Content after .git removal
+      FileUtils.stubs(:rm_rf) # Prevent actual deletion
+
+      result = fetcher.resolve({ git: git_dep_dir })
+      result.fetch("fetchpath")
+      _(result.archive_path).must_equal "fetchpath"
+    end
+
+    it "calls remove_excluded_directories after successful fetch" do
+      expect_ls_remote_without_ref.twice
+      expect_clone
+      expect_checkout_without_ref
+
+      Dir.stubs(:exist?).with("test-tmp-dir").returns(true)
+      Dir.stubs(:children).with("test-tmp-dir").returns([".git", "inspec.yml", "controls"])
+      Dir.stubs(:exist?).with("fetchpath").returns(true)
+      Dir.stubs(:children).with("fetchpath").returns(["inspec.yml", "controls"])
+      FileUtils.expects(:cp_r).with("test-tmp-dir/.", "fetchpath")
+      FileUtils.expects(:rm_rf).with(File.join("fetchpath", ".git")) # Verify .git removal
+
+      result = fetcher.resolve({ git: git_dep_dir })
+      result.fetch("fetchpath")
+    end
+
   end
 
   describe "when given a invalid repository" do
@@ -213,7 +246,59 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
 
     it "returns false when directory does not exist" do
       Dir.stubs(:exist?).with("missing-dir").returns(false)
-      _(git_fetcher.send(:git_only_or_empty?, "missing-dir")).must_equal false
+      _(git_fetcher.send(:no_content_files?, "missing-dir")).must_equal false
+    end
+
+    it "returns false when directory contains files without .git" do
+      Dir.stubs(:exist?).with("content-dir").returns(true)
+      Dir.stubs(:children).with("content-dir").returns(["README.md", "lib", "spec"])
+      _(git_fetcher.send(:no_content_files?, "content-dir")).must_equal false
+    end
+
+    it "returns true when directory contains only hidden files that are .git" do
+      Dir.stubs(:exist?).with("hidden-git-dir").returns(true)
+      Dir.stubs(:children).with("hidden-git-dir").returns([".git", ".gitignore"])
+      _(git_fetcher.send(:no_content_files?, "hidden-git-dir")).must_equal false
+    end
+  end
+
+  describe "EXCLUDED_DIRECTORIES constant" do
+    it "is defined as string .git" do
+      _(Inspec::Fetcher::Git::EXCLUDED_DIRECTORIES).must_equal '.git'
+    end
+  end
+
+  describe "#remove_excluded_directories" do
+    let(:git_fetcher) { fetcher.new("https://example.com/repo.git") }
+
+    it "removes .git directory from destination" do
+      destination = "/path/to/profile"
+      git_path = File.join(destination, ".git")
+
+      FileUtils.expects(:rm_rf).with(git_path)
+      git_fetcher.send(:remove_excluded_directories, destination)
+    end
+
+    it "handles permission errors gracefully" do
+      destination = "/path/to/profile"
+      git_path = File.join(destination, ".git")
+
+      FileUtils.expects(:rm_rf).with(git_path).raises(Errno::EACCES.new("Permission denied"))
+      Inspec::Log.expects(:warn).with("Unable to remove .git directory from cache: Permission denied - Permission denied")
+      Inspec::Log.expects(:debug).with("Cache may contain .git directory at #{git_path}")
+
+      git_fetcher.send(:remove_excluded_directories, destination)
+    end
+
+    it "handles EPERM errors gracefully" do
+      destination = "/path/to/profile"
+      git_path = File.join(destination, ".git")
+
+      FileUtils.expects(:rm_rf).with(git_path).raises(Errno::EPERM.new("Operation not permitted"))
+      Inspec::Log.expects(:warn).with("Unable to remove .git directory from cache: Operation not permitted - Operation not permitted")
+      Inspec::Log.expects(:debug).with("Cache may contain .git directory at #{git_path}")
+
+      git_fetcher.send(:remove_excluded_directories, destination)
     end
   end
 end
