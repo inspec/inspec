@@ -577,15 +577,11 @@ module Inspec
         src = RuboCop::AST::ProcessedSource.new(control_file_source, RUBY_VERSION.to_f)
         source_location_ref = @source_reader.target.abs_path(control_filename)
 
-        input_collector = Inspec::Profile::AstHelper::InputCollectorOutsideControlBlock.new(@info_from_parse)
-        ctl_id_collector = Inspec::Profile::AstHelper::ControlIDCollector.new(@info_from_parse, source_location_ref,
-                                                                              include_tests: include_tests)
+        # Create unified collector for single-pass AST traversal optimization
+        unified_collector = Inspec::Profile::AstHelper::UnifiedFileCollector.new(@info_from_parse, source_location_ref, include_tests: include_tests)
 
-        # Collect all metadata defined in the control block and inputs defined inside the control block
-        src.ast&.each_node { |n|
-          ctl_id_collector.process(n)
-          input_collector.process(n)
-        }
+        # Single AST traversal instead of multiple passes for better performance
+        src.ast&.each_node { |n| unified_collector.process(n) }
 
         # For each control ID
         #  Look for per-control metadata

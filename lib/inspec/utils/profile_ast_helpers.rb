@@ -20,6 +20,8 @@ module Inspec
           false: false,
         }.freeze
 
+        INPUT_PATTERN = RuboCop::AST::NodePattern.new("(send nil? :input ...)").freeze
+
         def initialize(memo)
           @memo = memo
         end
@@ -78,37 +80,43 @@ module Inspec
         end
 
         def input_pattern_match?(node)
-          RuboCop::AST::NodePattern.new("(send nil? :input ...)").match(node)
+          INPUT_PATTERN.match(node)
         end
       end
 
       class ImpactCollector < CollectorBase
+        IMPACT_PATTERN = RuboCop::AST::NodePattern.new("(send nil? :impact ...)").freeze
+
         def on_send(node)
-          if RuboCop::AST::NodePattern.new("(send nil? :impact ...)").match(node)
+          if IMPACT_PATTERN.match(node)
             memo[:impact] = node.children[2].value
           end
         end
       end
 
       class DescCollector < CollectorBase
+        DESC_PATTERN = RuboCop::AST::NodePattern.new("(send nil? :desc ...)").freeze
+
         def on_send(node)
-          if RuboCop::AST::NodePattern.new("(send nil? :desc ...)").match(node)
+          if DESC_PATTERN.match(node)
             memo[:descriptions] ||= {}
             if node.children[2] && node.children[3]
               # NOTE: This assumes the description is as below
               # desc 'label', 'An optional description with a label' # Pair a part of the description with a label
-              memo[:descriptions] = memo[:descriptions].merge(node.children[2].value => node.children[3].value)
+              memo[:descriptions][node.children[2].value] = node.children[3].value
             else
               memo[:desc] = node.children[2].value
-              memo[:descriptions] = memo[:descriptions].merge(default: node.children[2].value)
+              memo[:descriptions][:default] = node.children[2].value
             end
           end
         end
       end
 
       class TitleCollector < CollectorBase
+        TITLE_PATTERN = RuboCop::AST::NodePattern.new("(send nil? :title ...)").freeze
+
         def on_send(node)
-          if RuboCop::AST::NodePattern.new("(send nil? :title ...)").match(node)
+          if TITLE_PATTERN.match(node)
             # TODO - title may not be a simple string
             memo[:title] = node.children[2].value
           end
@@ -116,6 +124,7 @@ module Inspec
       end
 
       class TagCollector < CollectorBase
+        TAG_PATTERN = RuboCop::AST::NodePattern.new("(send nil? :tag ...)").freeze
 
         ACCPETABLE_TAG_TYPE_TO_VALUES = {
           false: false,
@@ -124,7 +133,7 @@ module Inspec
         }.freeze
 
         def on_send(node)
-          if RuboCop::AST::NodePattern.new("(send nil? :tag ...)").match(node)
+          if TAG_PATTERN.match(node)
             memo[:tags] ||= {}
 
             node.children[2..-1].each do |tag_node|
@@ -137,7 +146,7 @@ module Inspec
 
         def collect_tags(tag_node)
           if tag_node.type == :str || tag_node.type == :sym
-            memo[:tags] = memo[:tags].merge(tag_node.value => nil)
+            memo[:tags][tag_node.value] = nil
           elsif tag_node.type == :hash
             tags_coll = {}
             tag_node.children.each do |child_tag|
@@ -168,16 +177,18 @@ module Inspec
                   value = child_tag.value.value
                 end
               end
-              tags_coll.merge!(key => value)
+              tags_coll[key] = value
             end
-            memo[:tags] = memo[:tags].merge(tags_coll)
+            memo[:tags].merge!(tags_coll)
           end
         end
       end
 
       class RefCollector < CollectorBase
+        REF_PATTERN = RuboCop::AST::NodePattern.new("(send nil? :ref ...)").freeze
+
         def on_send(node)
-          if RuboCop::AST::NodePattern.new("(send nil? :ref ...)").match(node)
+          if REF_PATTERN.match(node)
             # Construct the array of refs hash as below
 
             # "refs": [
@@ -201,7 +212,7 @@ module Inspec
               iterate_child_and_collect_ref(node.children[2].children, references)
             elsif node.children[2].type == :str
               # Case for: ref "ref1", url: "http://",
-              references.merge!(ref: node.children[2].value)
+              references[:ref] = node.children[2].value
               iterate_child_and_collect_ref(node.children[3..-1], references)
             end
 
@@ -217,7 +228,7 @@ module Inspec
             if ref_node.type == :hash
               iterate_hash_node(ref_node, references)
             elsif ref_node.type == :str
-              references.merge!(ref_node.value => nil)
+              references[ref_node.value] = nil
             end
           end
         end
@@ -259,13 +270,15 @@ module Inspec
                 # require 'byebug'; byebug
                 value = child_node.value.value
               end
-              references.merge!(child_node.key.value => value)
+              references[child_node.key.value] = value
             end
           end
         end
       end
 
       class ControlIDCollector < CollectorBase
+        CONTROL_PATTERN = RuboCop::AST::NodePattern.new("(block (send nil? :control ...) ...)").freeze
+
         attr_reader :seen_control_ids, :source_location_ref, :include_tests
         def initialize(memo, source_location_ref, include_tests: false)
           @memo = memo
@@ -275,7 +288,7 @@ module Inspec
         end
 
         def on_block(block_node)
-          if RuboCop::AST::NodePattern.new("(block (send nil? :control ...) ...)").match(block_node)
+          if CONTROL_PATTERN.match(block_node)
             # NOTE: Assuming begin block is at the index 2
             begin_block = block_node.children[2]
             control_node = block_node.children[0]
@@ -303,18 +316,10 @@ module Inspec
             }
             control_data[:checks] = [] if include_tests
 
-            # Scan the code block for per-control metadata
-            collectors = []
-            collectors.push ImpactCollector.new(control_data)
-            collectors.push DescCollector.new(control_data)
-            collectors.push TitleCollector.new(control_data)
-            collectors.push TagCollector.new(control_data)
-            collectors.push RefCollector.new(control_data)
-            collectors.push InputCollectorWithinControlBlock.new(@memo)
-            collectors.push TestsCollector.new(control_data) if include_tests
-
+            # Scan the code block for per-control metadata using unified collector
+            unified_collector = UnifiedControlCollector.new(control_data, @memo, include_tests)
             begin_block.each_node do |node_within_control|
-              collectors.each { |collector| collector.process(node_within_control) }
+              unified_collector.process(node_within_control)
             end
 
             memo[:controls].push control_data
@@ -341,12 +346,14 @@ module Inspec
         # 1. We can have a single class for both the collectors
         # 2. We can have a on_send and on_lvasgn method in the same class
         # :lvasgn in ast stands for "local variable assignment"
+        LVASGN_INPUT_PATTERN = RuboCop::AST::NodePattern.new("(lvasgn _ (send nil? :input ...))").freeze
+
         def on_lvasgn(node)
           # We are looking for the following pattern in the AST
           # (lvasgn :var_name (send nil? :input ...))
           # example: a = input('a') or a = input('a', value: 'b')
           # and not this: a = 1
-          if RuboCop::AST::NodePattern.new("(lvasgn _ (send nil? :input ...))").match(node)
+          if LVASGN_INPUT_PATTERN.match(node)
             input_children = node.children[1]
             collect_input(input_children)
           end
@@ -358,12 +365,296 @@ module Inspec
       end
 
       class TestsCollector < CollectorBase
+        DESCRIBE_PATTERN = RuboCop::AST::NodePattern.new("(block (send nil? :describe ...) ...)").freeze
+        EXPECT_PATTERN = RuboCop::AST::NodePattern.new("(block (send nil? :expect ...) ...)").freeze
 
         def on_block(node)
-          if RuboCop::AST::NodePattern.new("(block (send nil? :describe ...) ...)").match(node) ||
-              RuboCop::AST::NodePattern.new("(block (send nil? :expect ...) ...)").match(node)
+          if DESCRIBE_PATTERN.match(node) || EXPECT_PATTERN.match(node)
             memo[:checks] << node.source
           end
+        end
+      end
+
+      # Unified collector that combines multiple collectors into a single pass
+      # This eliminates the O(N×M) performance issue where N nodes are processed by M collectors
+      class UnifiedControlCollector < CollectorBase
+        IMPACT_PATTERN = ImpactCollector::IMPACT_PATTERN
+        DESC_PATTERN = DescCollector::DESC_PATTERN
+        TITLE_PATTERN = TitleCollector::TITLE_PATTERN
+        TAG_PATTERN = TagCollector::TAG_PATTERN
+        REF_PATTERN = RefCollector::REF_PATTERN
+        INPUT_PATTERN = InputCollectorBase::INPUT_PATTERN
+        DESCRIBE_PATTERN = TestsCollector::DESCRIBE_PATTERN
+        EXPECT_PATTERN = TestsCollector::EXPECT_PATTERN
+        
+        ACCPETABLE_TAG_TYPE_TO_VALUES = TagCollector::ACCPETABLE_TAG_TYPE_TO_VALUES
+
+        def initialize(control_data, memo, include_tests = false)
+          @control_data = control_data
+          @memo = memo
+          @include_tests = include_tests
+        end
+
+        def on_send(node)
+          case node.children[1]
+          when :impact
+            collect_impact(node) if IMPACT_PATTERN.match(node)
+          when :desc
+            collect_desc(node) if DESC_PATTERN.match(node)
+          when :title
+            collect_title(node) if TITLE_PATTERN.match(node)
+          when :tag
+            collect_tag(node) if TAG_PATTERN.match(node)
+          when :ref
+            collect_ref(node) if REF_PATTERN.match(node)
+          when :input
+            collect_input(node) if INPUT_PATTERN.match(node)
+          end
+        end
+
+        def on_block(node)
+          if @include_tests && (DESCRIBE_PATTERN.match(node) || EXPECT_PATTERN.match(node))
+            @control_data[:checks] << node.source
+          end
+        end
+
+        private
+
+        def collect_impact(node)
+          @control_data[:impact] = node.children[2].value
+        end
+
+        def collect_desc(node)
+          @control_data[:descriptions] ||= {}
+          if node.children[2] && node.children[3]
+            @control_data[:descriptions][node.children[2].value] = node.children[3].value
+          else
+            @control_data[:desc] = node.children[2].value
+            @control_data[:descriptions][:default] = node.children[2].value
+          end
+        end
+
+        def collect_title(node)
+          @control_data[:title] = node.children[2].value
+        end
+
+        def collect_tag(node)
+          @control_data[:tags] ||= {}
+          node.children[2..-1].each do |tag_node|
+            collect_tags_from_node(tag_node)
+          end
+        end
+
+        def collect_tags_from_node(tag_node)
+          if tag_node.type == :str || tag_node.type == :sym
+            @control_data[:tags][tag_node.value] = nil
+          elsif tag_node.type == :hash
+            tags_coll = {}
+            tag_node.children.each do |child_tag|
+              key = child_tag.key.value
+              if child_tag.value.type == :array
+                value = child_tag.value.children.map { |child_node| child_node.type == :str ? child_node.children.first : nil }
+              elsif ACCPETABLE_TAG_TYPE_TO_VALUES.key?(child_tag.value.type)
+                value = ACCPETABLE_TAG_TYPE_TO_VALUES[child_tag.value.type]
+              else
+                if child_tag.value.children.first.class == RuboCop::AST::SendNode
+                  value = child_tag.value.children.first.children[1]
+                elsif child_tag.value.children.first.class == RuboCop::AST::Node
+                  value = child_tag.value.children.first.children[0]
+                else
+                  value = child_tag.value.value
+                end
+              end
+              tags_coll[key] = value
+            end
+            @control_data[:tags].merge!(tags_coll)
+          end
+        end
+
+        def collect_ref(node)
+          return unless node.children[2]
+
+          references = {}
+          if node.children[2].type == :begin
+            iterate_child_and_collect_ref(node.children[2].children, references)
+          elsif node.children[2].type == :str
+            references[:ref] = node.children[2].value
+            iterate_child_and_collect_ref(node.children[3..-1], references)
+          end
+
+          @control_data[:refs] ||= []
+          @control_data[:refs] << references
+        end
+
+        def iterate_child_and_collect_ref(child_node, references = {})
+          child_node.each do |ref_node|
+            if ref_node.type == :hash
+              iterate_hash_node(ref_node, references)
+            elsif ref_node.type == :str
+              references[ref_node.value] = nil
+            end
+          end
+        end
+
+        def iterate_hash_node(hash_node, references = {})
+          hash_node.children.each do |child_node|
+            if child_node.type == :pair
+              if child_node.value.children.first.class == RuboCop::AST::SendNode
+                value = child_node.value.children.first.children[1]
+              elsif child_node.value.class == RuboCop::AST::SendNode
+                value = child_node.value.children.first.children[0]
+              else
+                value = child_node.value.value
+              end
+              references[child_node.key.value] = value
+            end
+          end
+        end
+
+        def collect_input(node)
+          input_name = node.children[2].value
+          
+          unless @memo[:inputs].any? { |input| input[:name] == input_name }
+            opts = {
+              value: "Input '#{input_name}' does not have a value. Skipping test.",
+            }
+
+            if node.children[3]&.type == :hash
+              node.children[3].children.each do |child_node|
+                if InputCollectorBase::VALID_INPUT_OPTIONS.include?(child_node.key.value)
+                  if child_node.value.class == RuboCop::AST::Node && InputCollectorBase::REQUIRED_VALUES_MAP.key?(child_node.value.type)
+                    opts[child_node.key.value] = InputCollectorBase::REQUIRED_VALUES_MAP[child_node.value.type]
+                  elsif child_node.value.class == RuboCop::AST::HashNode
+                    values = {}
+                    child_node.value.children.each do |grand_child_node|
+                      values[grand_child_node.key.value] = grand_child_node.value.value
+                    end
+                    opts[child_node.key.value] = values
+                  else
+                    opts[child_node.key.value] = child_node.value.value
+                  end
+                end
+              end
+            end
+
+            @memo[:inputs] ||= []
+            input_hash = {
+              name: input_name,
+              options: opts,
+            }
+            @memo[:inputs] << input_hash
+          end
+        end
+      end
+
+      # Unified file collector that combines InputCollectorOutsideControlBlock and ControlIDCollector
+      # This eliminates duplicate AST traversal for better performance
+      class UnifiedFileCollector < CollectorBase
+        CONTROL_PATTERN = ControlIDCollector::CONTROL_PATTERN
+        INPUT_PATTERN = InputCollectorBase::INPUT_PATTERN
+        LVASGN_INPUT_PATTERN = InputCollectorOutsideControlBlock::LVASGN_INPUT_PATTERN
+
+        def initialize(memo, source_location_ref, include_tests: false)
+          @memo = memo
+          @source_location_ref = source_location_ref
+          @include_tests = include_tests
+          @seen_control_ids = {}
+        end
+
+        def on_send(node)
+          # Handle input collection
+          check_and_collect_input(node) if INPUT_PATTERN.match(node)
+        end
+
+        def on_lvasgn(node)
+          # Handle input assignment: a = input('a')
+          if LVASGN_INPUT_PATTERN.match(node)
+            input_children = node.children[1]
+            collect_input(input_children)
+          end
+        end
+
+        def on_block(block_node)
+          # Handle control collection
+          if CONTROL_PATTERN.match(block_node)
+            collect_control(block_node)
+          end
+        end
+
+        private
+
+        def check_and_collect_input(node)
+          collect_input(node)
+        end
+
+        def collect_input(input_children)
+          input_name = input_children.children[2].value
+
+          unless @memo[:inputs].any? { |input| input[:name] == input_name }
+            opts = {
+              value: "Input '#{input_name}' does not have a value. Skipping test.",
+            }
+
+            if input_children.children[3]&.type == :hash
+              input_children.children[3].children.each do |child_node|
+                if InputCollectorBase::VALID_INPUT_OPTIONS.include?(child_node.key.value)
+                  if child_node.value.class == RuboCop::AST::Node && InputCollectorBase::REQUIRED_VALUES_MAP.key?(child_node.value.type)
+                    opts[child_node.key.value] = InputCollectorBase::REQUIRED_VALUES_MAP[child_node.value.type]
+                  elsif child_node.value.class == RuboCop::AST::HashNode
+                    values = {}
+                    child_node.value.children.each do |grand_child_node|
+                      values[grand_child_node.key.value] = grand_child_node.value.value
+                    end
+                    opts[child_node.key.value] = values
+                  else
+                    opts[child_node.key.value] = child_node.value.value
+                  end
+                end
+              end
+            end
+
+            @memo[:inputs] ||= []
+            input_hash = {
+              name: input_name,
+              options: opts,
+            }
+            @memo[:inputs] << input_hash
+          end
+        end
+
+        def collect_control(block_node)
+          begin_block = block_node.children[2]
+          control_node = block_node.children[0]
+
+          control_id = control_node.children[2].value
+          return if @seen_control_ids[control_id]
+
+          @seen_control_ids[control_id] = true
+
+          control_data = {
+            id: control_id,
+            code: block_node.source,
+            source_location: {
+              line: block_node.first_line,
+              ref: @source_location_ref,
+            },
+            title: nil,
+            desc: nil,
+            descriptions: {},
+            impact: 0.5,
+            refs: [],
+            tags: {},
+          }
+          control_data[:checks] = [] if @include_tests
+
+          # Use unified collector for control metadata
+          unified_collector = UnifiedControlCollector.new(control_data, @memo, @include_tests)
+          begin_block.each_node do |node_within_control|
+            unified_collector.process(node_within_control)
+          end
+
+          @memo[:controls] ||= []
+          @memo[:controls].push control_data
         end
       end
     end
