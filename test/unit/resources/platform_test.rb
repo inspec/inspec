@@ -125,4 +125,36 @@ describe "Inspec::Resources::Platform" do
     _(resource2).wont_be :supported?, supports
   end
 
+  # RHEL 10 x86_64 tests
+  let(:resource3) { MockLoader.new(:rhel10).load_resource("platform") }
+
+  it "verify platform parsing on RHEL 10 x86_64" do
+    _(resource3.name).must_equal "redhat"
+    _(resource3.family).must_equal "redhat"
+    _(resource3.release).must_equal "10.0"
+    _(resource3.arch).must_equal "x86_64"
+  end
+
+  it "verify RHEL 10 x86_64 platform families" do
+    expect = %w{redhat linux unix os}
+    _(resource3.families).must_equal expect
+  end
+
+  it "loads a profile which supports RHEL 10.*" do
+    supports = [
+      { 'os-name': "redhat", 'release': "10.*" },
+    ]
+    _(resource3).must_be :supported?, supports
+  end
+
+  # RHEL 10 aarch64 tests
+  let(:resource4) { MockLoader.new(:rhel10_aarch64).load_resource("platform") }
+
+  it "verify platform parsing on RHEL 10 aarch64" do
+    _(resource4.name).must_equal "redhat"
+    _(resource4.family).must_equal "redhat"
+    _(resource4.release).must_equal "10.0"
+    _(resource4.arch).must_equal "aarch64"
+  end
+
 end
