@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.23.10 -->
-## [v5.23.10](https://github.com/inspec/inspec/tree/v5.23.10) (2025-12-03)
+<!-- latest_release 5.23.11 -->
+## [v5.23.11](https://github.com/inspec/inspec/tree/v5.23.11) (2025-12-08)
 
 #### Merged Pull Requests
-- Fix reading/writing tar profiles issue [#7651](https://github.com/inspec/inspec/pull/7651) ([chandra-progress](https://github.com/chandra-progress))
+- Pin connection_pool to &lt; 3.0.0 in Gemfile to support ruby &gt;=3.1.0  [#7660](https://github.com/inspec/inspec/pull/7660) ([chandra-progress](https://github.com/chandra-progress))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.23.6 -->
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- Pin connection_pool to &lt; 3.0.0 in Gemfile to support ruby &gt;=3.1.0  [#7660](https://github.com/inspec/inspec/pull/7660) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.23.11 -->
 - Fix reading/writing tar profiles issue [#7651](https://github.com/inspec/inspec/pull/7651) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.23.10 -->
 - Update multi_json requirement from ~&gt; 1.15.0 to ~&gt; 1.18.0 [#7647](https://github.com/inspec/inspec/pull/7647) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.23.9 -->
 - [CHEF-28136] Add Amazon Linux 2023 support [#7636](https://github.com/inspec/inspec/pull/7636) ([sa-progress](https://github.com/sa-progress)) <!-- 5.23.8 -->
