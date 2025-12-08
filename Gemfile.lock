@@ -320,6 +320,8 @@ GEM
     azure_mgmt_storage (0.23.0)
       ms_rest_azure (~> 0.12.0)
     base64 (0.3.0)
+    bcrypt_pbkdf (1.1.2-arm64-darwin)
+    bcrypt_pbkdf (1.1.2-x64-mingw-ucrt)
     bcrypt_pbkdf (1.1.2-x86_64-darwin)
     benchmark (0.5.0)
     bigdecimal (3.3.1)
@@ -440,6 +442,9 @@ GEM
     faraday_middleware (1.2.1)
       faraday (~> 1.0)
     ffi (1.16.3)
+    ffi (1.16.3-x64-mingw-ucrt)
+    ffi-win32-extensions (1.0.4)
+      ffi
     fuzzyurl (0.9.0)
     google-apis-admin_directory_v1 (0.46.0)
       google-apis-core (>= 0.11.0, < 2.a)
@@ -534,6 +539,11 @@ GEM
       ffi (< 1.17.0)
     mixlib-shellout (3.3.9)
       chef-utils
+    mixlib-shellout (3.3.9-x64-mingw-ucrt)
+      chef-utils
+      ffi-win32-extensions (~> 1.0.3)
+      win32-process (~> 0.9)
+      wmi-lite (~> 1.0)
     mize (0.6.1)
     mocha (2.8.2)
       ruby2_keywords (>= 0.0.5)
@@ -555,6 +565,10 @@ GEM
     net-scp (4.1.0)
       net-ssh (>= 2.6.5, < 8.0.0)
     net-ssh (7.3.0)
+    nokogiri (1.16.8-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.16.8-x64-mingw-ucrt)
+      racc (~> 1.4)
     nokogiri (1.16.8-x86_64-darwin)
       racc (~> 1.4)
     nori (2.7.0)
@@ -800,18 +814,24 @@ GEM
       concurrent-ruby (~> 1.0)
     uber (0.1.0)
     unf_ext (0.0.8.2)
+    unf_ext (0.0.8.2-x64-mingw-ucrt)
     unicode-display_width (2.6.0)
     unicode_utils (1.4.0)
     webmock (3.26.1)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
+    win32-process (0.10.0)
+      ffi (>= 1.0.0)
     wisper (2.0.1)
+    wmi-lite (1.0.7)
     yajl-ruby (1.4.3)
     yaml-safe_load_stream3 (0.1.2)
     zeitwerk (2.6.18)
 
 PLATFORMS
+  arm64-darwin-24
+  x64-mingw-ucrt
   x86_64-darwin
 
 DEPENDENCIES
