@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.23.11 -->
-## [v5.23.11](https://github.com/inspec/inspec/tree/v5.23.11) (2025-12-08)
+<!-- latest_release 5.23.12 -->
+## [v5.23.12](https://github.com/inspec/inspec/tree/v5.23.12) (2025-12-08)
 
 #### Merged Pull Requests
-- Pin connection_pool to &lt; 3.0.0 in Gemfile to support ruby &gt;=3.1.0  [#7660](https://github.com/inspec/inspec/pull/7660) ([chandra-progress](https://github.com/chandra-progress))
+- Gemfile cleanup [#7661](https://github.com/inspec/inspec/pull/7661) ([chandra-progress](https://github.com/chandra-progress))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.23.6 -->
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- Gemfile cleanup [#7661](https://github.com/inspec/inspec/pull/7661) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.23.12 -->
 - Pin connection_pool to &lt; 3.0.0 in Gemfile to support ruby &gt;=3.1.0  [#7660](https://github.com/inspec/inspec/pull/7660) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.23.11 -->
 - Fix reading/writing tar profiles issue [#7651](https://github.com/inspec/inspec/pull/7651) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.23.10 -->
 - Update multi_json requirement from ~&gt; 1.15.0 to ~&gt; 1.18.0 [#7647](https://github.com/inspec/inspec/pull/7647) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.23.9 -->
