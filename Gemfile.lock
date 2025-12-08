@@ -321,6 +321,8 @@ GEM
       ms_rest_azure (~> 0.12.0)
     base64 (0.3.0)
     bcrypt_pbkdf (1.1.2)
+    bcrypt_pbkdf (1.1.2-x64-mingw-ucrt)
+    bcrypt_pbkdf (1.1.2-x86_64-darwin)
     benchmark (0.5.0)
     bigdecimal (3.3.1)
     bson (5.2.0)
@@ -440,6 +442,7 @@ GEM
     faraday_middleware (1.2.1)
       faraday (~> 1.0)
     ffi (1.16.3)
+    ffi (1.16.3-x64-mingw-ucrt)
     ffi-win32-extensions (1.0.4)
       ffi
     fuzzyurl (0.9.0)
@@ -537,11 +540,6 @@ GEM
       ffi (< 1.17.0)
     mixlib-shellout (3.3.9)
       chef-utils
-    mixlib-shellout (3.3.9-universal-mingw32)
-      chef-utils
-      ffi-win32-extensions (~> 1.0.3)
-      win32-process (~> 0.9)
-      wmi-lite (~> 1.0)
     mixlib-shellout (3.3.9-x64-mingw-ucrt)
       chef-utils
       ffi-win32-extensions (~> 1.0.3)
@@ -570,6 +568,10 @@ GEM
     net-ssh (7.3.0)
     nokogiri (1.16.5)
       mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
+    nokogiri (1.16.5-x64-mingw-ucrt)
+      racc (~> 1.4)
+    nokogiri (1.16.5-x86_64-darwin)
       racc (~> 1.4)
     nori (2.7.0)
       bigdecimal
@@ -814,6 +816,7 @@ GEM
       concurrent-ruby (~> 1.0)
     uber (0.1.0)
     unf_ext (0.0.8.2)
+    unf_ext (0.0.8.2-x64-mingw-ucrt)
     unicode-display_width (2.6.0)
     unicode_utils (1.4.0)
     webmock (3.26.1)
@@ -830,10 +833,7 @@ GEM
 
 PLATFORMS
   ruby
-  x64-mingw
   x64-mingw-ucrt
-  x64-mingw32
-  x86-mingw32
   x86_64-darwin
 
 DEPENDENCIES
