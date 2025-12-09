@@ -101,17 +101,12 @@ try {
 Write-Host "--- Installing $pkg_ident/$pkg_artifact"
 hab pkg install -b $project_root/results/$pkg_artifact
 
-Write-Host "--- Downloading Ruby + DevKit"
-aws s3 cp s3://core-buildkite-cache-chef-prod/rubyinstaller-devkit-2.6.6-1-x64.exe c:/rubyinstaller-devkit-2.6.6-1-x64.exe
+Write-Host "--- Adding package binaries to PATH"
+$pkg_path = hab pkg path chef/inspec
 
-#Using the ruby version from pipeline docker image
-#Write-Host "--- Installing Ruby + DevKit"
-#Start-Process c:\rubyinstaller-devkit-2.6.6-1-x64.exe -ArgumentList '/verysilent /dir=C:\\ruby26' -Wait
-#
-#Write-Host "--- Cleaning up installation"
-#Remove-Item c:\rubyinstaller-devkit-2.6.6-1-x64.exe -Force
-
-#$Env:Path += ";C:\ruby26\bin;C:\hab\bin"
+# Update PATH to include package binaries - this is sufficient as Habitat provides proper wrapper scripts
+$env:PATH = "$pkg_path\bin;$env:PATH"
+Write-Host "PATH updated to include: $pkg_path\bin"
 
 Write-Host "+++ Testing $Plan"
 
