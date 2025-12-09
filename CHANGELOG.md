@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.23.15 -->
-## [v5.23.15](https://github.com/inspec/inspec/tree/v5.23.15) (2025-12-09)
+<!-- latest_release 5.23.16 -->
+## [v5.23.16](https://github.com/inspec/inspec/tree/v5.23.16) (2025-12-09)
 
 #### Merged Pull Requests
-- CHEF-28672 Remove vulnerable net-imap gem [#7654](https://github.com/inspec/inspec/pull/7654) ([Nik08](https://github.com/Nik08))
+- CHEF-28137 add support for windows 2025 [#7659](https://github.com/inspec/inspec/pull/7659) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.23.6 -->
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- CHEF-28137 add support for windows 2025 [#7659](https://github.com/inspec/inspec/pull/7659) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.16 -->
 - CHEF-28672 Remove vulnerable net-imap gem [#7654](https://github.com/inspec/inspec/pull/7654) ([Nik08](https://github.com/Nik08)) <!-- 5.23.15 -->
 - Update  windows  docker image to fix  verify pipeline issue [#7666](https://github.com/inspec/inspec/pull/7666) ([poorndm](https://github.com/poorndm)) <!-- 5.23.14 -->
 - CHEF-28672 Remove vulnerable rexml bundled gems [#7653](https://github.com/inspec/inspec/pull/7653) ([Nik08](https://github.com/Nik08)) <!-- 5.23.13 -->
