@@ -24,4 +24,5 @@ steps:
     expeditor:
       executor:
         windows:
+          image: rubydistros/windows-2019:3.1.7
           privileged: true
