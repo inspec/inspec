@@ -1,5 +1,8 @@
-require "ast"
-require "rubocop-ast"
+# frozen_string_literal: true
+
+require 'ast'
+require 'rubocop-ast'
+
 module Inspec
   class Profile
     class AstHelper
@@ -7,20 +10,21 @@ module Inspec
         include RuboCop::AST::Traversal
 
         attr_reader :memo
+
         def initialize(memo)
           @memo = memo
         end
       end
 
       class InputCollectorBase < CollectorBase
-        VALID_INPUT_OPTIONS = %i{name value type required priority pattern profile sensitive}.freeze
+        VALID_INPUT_OPTIONS = %i[name value type required priority pattern profile sensitive].freeze
 
         REQUIRED_VALUES_MAP = {
           true: true,
-          false: false,
+          false: false
         }.freeze
 
-        INPUT_PATTERN = RuboCop::AST::NodePattern.new("(send nil? :input ...)").freeze
+        INPUT_PATTERN = RuboCop::AST::NodePattern.new('(send nil? :input ...)').freeze
 
         def initialize(memo)
           @memo = memo
@@ -33,15 +37,15 @@ module Inspec
           unless memo[:inputs].any? { |input| input[:name] == input_name }
             # The value will be updated if available in the input_children
             opts = {
-              value: "Input '#{input_name}' does not have a value. Skipping test.",
+              value: "Input '#{input_name}' does not have a value. Skipping test."
             }
 
             if input_children.children[3]&.type == :hash
               input_children.children[3].children.each do |child_node|
                 if VALID_INPUT_OPTIONS.include?(child_node.key.value)
-                  if child_node.value.class == RuboCop::AST::Node && REQUIRED_VALUES_MAP.key?(child_node.value.type)
+                  if child_node.value.instance_of?(RuboCop::AST::Node) && REQUIRED_VALUES_MAP.key?(child_node.value.type)
                     opts.merge!(child_node.key.value => REQUIRED_VALUES_MAP[child_node.value.type])
-                  elsif child_node.value.class == RuboCop::AST::HashNode
+                  elsif child_node.value.instance_of?(RuboCop::AST::HashNode)
                     # Here value will be a hash
                     values = {}
                     child_node.value.children.each do |grand_child_node|
@@ -63,7 +67,7 @@ module Inspec
             memo[:inputs] ||= []
             input_hash = {
               name: input_name,
-              options: opts,
+              options: opts
             }
             memo[:inputs] << input_hash
           end
@@ -85,17 +89,15 @@ module Inspec
       end
 
       class ImpactCollector < CollectorBase
-        IMPACT_PATTERN = RuboCop::AST::NodePattern.new("(send nil? :impact ...)").freeze
+        IMPACT_PATTERN = RuboCop::AST::NodePattern.new('(send nil? :impact ...)').freeze
 
         def on_send(node)
-          if IMPACT_PATTERN.match(node)
-            memo[:impact] = node.children[2].value
-          end
+          memo[:impact] = node.children[2].value if IMPACT_PATTERN.match(node)
         end
       end
 
       class DescCollector < CollectorBase
-        DESC_PATTERN = RuboCop::AST::NodePattern.new("(send nil? :desc ...)").freeze
+        DESC_PATTERN = RuboCop::AST::NodePattern.new('(send nil? :desc ...)').freeze
 
         def on_send(node)
           if DESC_PATTERN.match(node)
@@ -103,7 +105,15 @@ module Inspec
             if node.children[2] && node.children[3]
               # NOTE: This assumes the description is as below
               # desc 'label', 'An optional description with a label' # Pair a part of the description with a label
-              memo[:descriptions][node.children[2].value] = node.children[3].value
+              label = node.children[2].value
+              description = node.children[3].value
+              memo[:descriptions][label] = description
+
+              # If the label is "Default" or "default", also set it as the main desc and :default key
+              if label.to_s.downcase == 'default'
+                memo[:desc] = description
+                memo[:descriptions][:default] = description
+              end
             else
               memo[:desc] = node.children[2].value
               memo[:descriptions][:default] = node.children[2].value
@@ -113,23 +123,23 @@ module Inspec
       end
 
       class TitleCollector < CollectorBase
-        TITLE_PATTERN = RuboCop::AST::NodePattern.new("(send nil? :title ...)").freeze
+        TITLE_PATTERN = RuboCop::AST::NodePattern.new('(send nil? :title ...)').freeze
 
         def on_send(node)
           if TITLE_PATTERN.match(node)
-            # TODO - title may not be a simple string
+            # TODO: - title may not be a simple string
             memo[:title] = node.children[2].value
           end
         end
       end
 
       class TagCollector < CollectorBase
-        TAG_PATTERN = RuboCop::AST::NodePattern.new("(send nil? :tag ...)").freeze
+        TAG_PATTERN = RuboCop::AST::NodePattern.new('(send nil? :tag ...)').freeze
 
         ACCPETABLE_TAG_TYPE_TO_VALUES = {
           false: false,
           true: true,
-          nil: nil,
+          nil: nil
         }.freeze
 
         def on_send(node)
@@ -152,30 +162,52 @@ module Inspec
             tag_node.children.each do |child_tag|
               key = child_tag.key.value
               if child_tag.value.type == :array
-                value = child_tag.value.children.map { |child_node| child_node.type == :str ? child_node.children.first : nil }
+                value = child_tag.value.children.map do |child_node|
+                  child_node.type == :str ? child_node.children.first : nil
+                end
+              elsif child_tag.value.type == :hash
+                # Handle nested hash values (same logic as UnifiedControlCollector)
+                value = {}
+                child_tag.value.children.each do |nested_pair|
+                  # Handle different node types safely, including arrays within nested hashes
+                  nested_value = if nested_pair.value.type == :array
+                                   nested_pair.value.children.map do |child_node|
+                                     child_node.type == :str ? child_node.children.first : nil
+                                   end
+                                 elsif nested_pair.value.respond_to?(:value)
+                                   nested_pair.value.value
+                                 elsif nested_pair.value.type == :true
+                                   true
+                                 elsif nested_pair.value.type == :false
+                                   false
+                                 elsif nested_pair.value.type == :nil
+                                   nil
+                                 else
+                                   nested_pair.value.children&.first
+                                 end
+                  value[nested_pair.key.value] = nested_value
+                end
               elsif ACCPETABLE_TAG_TYPE_TO_VALUES.key?(child_tag.value.type)
                 value = ACCPETABLE_TAG_TYPE_TO_VALUES[child_tag.value.type]
+              elsif child_tag.value.children.first.instance_of?(RuboCop::AST::SendNode)
+                value = child_tag.value.children.first.children[1]
+              # Cases like this: (where there is no assignment of the value to a variable like gcp_project_id)
+              # tag project: gcp_project_id.to_s
+              #
+              # Lecacy evaluates gcp_project_id.to_s and then passes the value to the tag
+              # We are not evaluating the value here, so we are just passing the value as it is
+              #
+              # TODO: Do we need to evaluate the value here?
+              # (byebug) child_tag.value
+              # s(:send,
+              # s(:send, nil, :gcp_project_id), :to_s)
+              elsif child_tag.value.children.first.instance_of?(RuboCop::AST::Node)
+                # Cases like this:
+                # control_id = '1.1'
+                # tag cis_gcp: control_id.to_s
+                value = child_tag.value.children.first.children[0]
               else
-                if child_tag.value.children.first.class == RuboCop::AST::SendNode
-                  # Cases like this: (where there is no assignment of the value to a variable like gcp_project_id)
-                  # tag project: gcp_project_id.to_s
-                  #
-                  # Lecacy evaluates gcp_project_id.to_s and then passes the value to the tag
-                  # We are not evaluating the value here, so we are just passing the value as it is
-                  #
-                  # TODO: Do we need to evaluate the value here?
-                  # (byebug) child_tag.value
-                  # s(:send,
-                  # s(:send, nil, :gcp_project_id), :to_s)
-                  value = child_tag.value.children.first.children[1]
-                elsif child_tag.value.children.first.class == RuboCop::AST::Node
-                  # Cases like this:
-                  # control_id = '1.1'
-                  # tag cis_gcp: control_id.to_s
-                  value = child_tag.value.children.first.children[0]
-                else
-                  value = child_tag.value.value
-                end
+                value = child_tag.value.value
               end
               tags_coll[key] = value
             end
@@ -185,7 +217,7 @@ module Inspec
       end
 
       class RefCollector < CollectorBase
-        REF_PATTERN = RuboCop::AST::NodePattern.new("(send nil? :ref ...)").freeze
+        REF_PATTERN = RuboCop::AST::NodePattern.new('(send nil? :ref ...)').freeze
 
         def on_send(node)
           if REF_PATTERN.match(node)
@@ -248,38 +280,39 @@ module Inspec
           #   s(:send,
           #     s(:send, nil, :cis_url), :to_s)))
           hash_node.children.each do |child_node|
-            if child_node.type == :pair
-              if child_node.value.children.first.class == RuboCop::AST::SendNode
-                # Case like this  (where there is no assignment of the value to a variable like cis_url)
-                # ref 'CIS Benchmark', url: cis_url.to_s
-                # Lecacy evaluates cis_url.to_s and then passes the value to the ref
-                # We are not evaluating the value here, so we are just passing the value as it is
-                #
-                # TODO: Do we need to evaluate the value here?
-                #
-                # (byebug) child_node.value.children.first
-                # s(:send, nil, :cis_url)
-                value = child_node.value.children.first.children[1]
-              elsif child_node.value.class == RuboCop::AST::SendNode
-                # Cases like this:
-                # cis_url = attribute('cis_url')
-                # ref 'CIS Benchmark', url: cis_url.to_s
-                value = child_node.value.children.first.children[0]
-              else
-                # Cases like this: ref 'CIS Benchmark - 2', url: "https://"
-                # require 'byebug'; byebug
-                value = child_node.value.value
-              end
-              references[child_node.key.value] = value
-            end
+            next unless child_node.type == :pair
+
+            value = if child_node.value.children.first.instance_of?(RuboCop::AST::SendNode)
+                      # Case like this  (where there is no assignment of the value to a variable like cis_url)
+                      # ref 'CIS Benchmark', url: cis_url.to_s
+                      # Lecacy evaluates cis_url.to_s and then passes the value to the ref
+                      # We are not evaluating the value here, so we are just passing the value as it is
+                      #
+                      # TODO: Do we need to evaluate the value here?
+                      #
+                      # (byebug) child_node.value.children.first
+                      # s(:send, nil, :cis_url)
+                      child_node.value.children.first.children[1]
+                    elsif child_node.value.instance_of?(RuboCop::AST::SendNode)
+                      # Cases like this:
+                      # cis_url = attribute('cis_url')
+                      # ref 'CIS Benchmark', url: cis_url.to_s
+                      child_node.value.children.first.children[0]
+                    else
+                      # Cases like this: ref 'CIS Benchmark - 2', url: "https://"
+                      # require 'byebug'; byebug
+                      child_node.value.value
+                    end
+            references[child_node.key.value] = value
           end
         end
       end
 
       class ControlIDCollector < CollectorBase
-        CONTROL_PATTERN = RuboCop::AST::NodePattern.new("(block (send nil? :control ...) ...)").freeze
+        CONTROL_PATTERN = RuboCop::AST::NodePattern.new('(block (send nil? :control ...) ...)').freeze
 
         attr_reader :seen_control_ids, :source_location_ref, :include_tests
+
         def initialize(memo, source_location_ref, include_tests: false)
           @memo = memo
           @seen_control_ids = {}
@@ -293,9 +326,9 @@ module Inspec
             begin_block = block_node.children[2]
             control_node = block_node.children[0]
 
-            # TODO - This assumes the control ID is always a plain string, which we know it is often not!
+            # TODO: - This assumes the control ID is always a plain string, which we know it is often not!
             control_id = control_node.children[2].value
-            # TODO - BUG - this keeps seeing the same nodes over and over againa, and so repeating control IDs. We are ignoring duplicate control IDs, which is incorrect.
+            # TODO: - BUG - this keeps seeing the same nodes over and over againa, and so repeating control IDs. We are ignoring duplicate control IDs, which is incorrect.
             return if seen_control_ids[control_id]
 
             seen_control_ids[control_id] = true
@@ -305,24 +338,33 @@ module Inspec
               code: block_node.source,
               source_location: {
                 line: block_node.first_line,
-                ref: source_location_ref,
+                ref: source_location_ref
               },
               title: nil,
               desc: nil,
               descriptions: {},
               impact: 0.5,
               refs: [],
-              tags: {},
+              tags: {}
             }
             control_data[:checks] = [] if include_tests
 
             # Scan the code block for per-control metadata using unified collector
             unified_collector = UnifiedControlCollector.new(control_data, @memo, include_tests)
-            begin_block.each_node do |node_within_control|
-              unified_collector.process(node_within_control)
+            if begin_block.type == :begin
+              # Multiple statements: iterate through children
+              begin_block.children.each do |node_within_control|
+                # Only process AST nodes, skip primitive values
+                unified_collector.process(node_within_control) if node_within_control.respond_to?(:type)
+              end
+            else
+              # Single statement: process the node directly
+              unified_collector.process(begin_block)
             end
 
-            memo[:controls].push control_data
+            # Add the control to the memo
+            @memo[:controls] ||= []
+            @memo[:controls].push control_data
           end
         end
       end
@@ -346,7 +388,7 @@ module Inspec
         # 1. We can have a single class for both the collectors
         # 2. We can have a on_send and on_lvasgn method in the same class
         # :lvasgn in ast stands for "local variable assignment"
-        LVASGN_INPUT_PATTERN = RuboCop::AST::NodePattern.new("(lvasgn _ (send nil? :input ...))").freeze
+        LVASGN_INPUT_PATTERN = RuboCop::AST::NodePattern.new('(lvasgn _ (send nil? :input ...))').freeze
 
         def on_lvasgn(node)
           # We are looking for the following pattern in the AST
@@ -365,13 +407,11 @@ module Inspec
       end
 
       class TestsCollector < CollectorBase
-        DESCRIBE_PATTERN = RuboCop::AST::NodePattern.new("(block (send nil? :describe ...) ...)").freeze
-        EXPECT_PATTERN = RuboCop::AST::NodePattern.new("(block (send nil? :expect ...) ...)").freeze
+        DESCRIBE_PATTERN = RuboCop::AST::NodePattern.new('(block (send nil? :describe ...) ...)').freeze
+        EXPECT_PATTERN = RuboCop::AST::NodePattern.new('(block (send nil? :expect ...) ...)').freeze
 
         def on_block(node)
-          if DESCRIBE_PATTERN.match(node) || EXPECT_PATTERN.match(node)
-            memo[:checks] << node.source
-          end
+          memo[:checks] << node.source if DESCRIBE_PATTERN.match(node) || EXPECT_PATTERN.match(node)
         end
       end
 
@@ -427,7 +467,15 @@ module Inspec
         def collect_desc(node)
           @control_data[:descriptions] ||= {}
           if node.children[2] && node.children[3]
-            @control_data[:descriptions][node.children[2].value] = node.children[3].value
+            label = node.children[2].value
+            description = node.children[3].value
+            @control_data[:descriptions][label] = description
+
+            # If the label is "Default" or "default", also set it as the main desc and :default key
+            if label.to_s.downcase == 'default'
+              @control_data[:desc] = description
+              @control_data[:descriptions][:default] = description
+            end
           else
             @control_data[:desc] = node.children[2].value
             @control_data[:descriptions][:default] = node.children[2].value
@@ -453,23 +501,41 @@ module Inspec
             tag_node.children.each do |child_tag|
               key = child_tag.key.value
               if child_tag.value.type == :array
-                value = child_tag.value.children.map { |child_node| child_node.type == :str ? child_node.children.first : nil }
+                value = child_tag.value.children.map do |child_node|
+                  child_node.type == :str ? child_node.children.first : nil
+                end
               elsif child_tag.value.type == :hash
                 # Handle nested hash values
                 value = {}
                 child_tag.value.children.each do |nested_pair|
-                  value[nested_pair.key.value] = nested_pair.value.value
+                  # Handle different node types safely, including arrays within nested hashes
+                  nested_value = if nested_pair.value.type == :array
+                                   nested_pair.value.children.map do |child_node|
+                                     child_node.type == :str ? child_node.children.first : nil
+                                   end
+                                 elsif nested_pair.value.respond_to?(:value)
+                                   nested_pair.value.value
+                                 elsif nested_pair.value.type == :true
+                                   true
+                                 elsif nested_pair.value.type == :false
+                                   false
+                                 elsif nested_pair.value.type == :nil
+                                   nil
+                                 else
+                                   nested_pair.value.children&.first
+                                 end
+                  value[nested_pair.key.value] = nested_value
                 end
               elsif ACCPETABLE_TAG_TYPE_TO_VALUES.key?(child_tag.value.type)
                 value = ACCPETABLE_TAG_TYPE_TO_VALUES[child_tag.value.type]
               else
-                if child_tag.value.children&.first&.class == RuboCop::AST::SendNode
-                  value = child_tag.value.children.first.children[1]
-                elsif child_tag.value.children&.first&.class == RuboCop::AST::Node
-                  value = child_tag.value.children.first.children[0]
-                else
-                  value = child_tag.value.value
-                end
+                value = if child_tag.value.children&.first&.class == RuboCop::AST::SendNode
+                          child_tag.value.children.first.children[1]
+                        elsif child_tag.value.children&.first&.class == RuboCop::AST::Node
+                          child_tag.value.children.first.children[0]
+                        else
+                          child_tag.value.value
+                        end
               end
               tags_coll[key] = value
             end
@@ -504,16 +570,16 @@ module Inspec
 
         def iterate_hash_node(hash_node, references = {})
           hash_node.children.each do |child_node|
-            if child_node.type == :pair
-              if child_node.value.children.first.class == RuboCop::AST::SendNode
-                value = child_node.value.children.first.children[1]
-              elsif child_node.value.class == RuboCop::AST::SendNode
-                value = child_node.value.children.first.children[0]
-              else
-                value = child_node.value.value
-              end
-              references[child_node.key.value] = value
-            end
+            next unless child_node.type == :pair
+
+            value = if child_node.value.children.first.instance_of?(RuboCop::AST::SendNode)
+                      child_node.value.children.first.children[1]
+                    elsif child_node.value.instance_of?(RuboCop::AST::SendNode)
+                      child_node.value.children.first.children[0]
+                    else
+                      child_node.value.value
+                    end
+            references[child_node.key.value] = value
           end
         end
 
@@ -522,18 +588,24 @@ module Inspec
 
           unless @memo[:inputs].any? { |input| input[:name] == input_name }
             opts = {
-              value: "Input '#{input_name}' does not have a value. Skipping test.",
+              value: "Input '#{input_name}' does not have a value. Skipping test."
             }
 
             if node.children[3]&.type == :hash
               node.children[3].children.each do |child_node|
                 if InputCollectorBase::VALID_INPUT_OPTIONS.include?(child_node.key.value)
-                  if child_node.value.class == RuboCop::AST::Node && InputCollectorBase::REQUIRED_VALUES_MAP.key?(child_node.value.type)
+                  if child_node.value.instance_of?(RuboCop::AST::Node) && InputCollectorBase::REQUIRED_VALUES_MAP.key?(child_node.value.type)
                     opts[child_node.key.value] = InputCollectorBase::REQUIRED_VALUES_MAP[child_node.value.type]
-                  elsif child_node.value.class == RuboCop::AST::HashNode
+                  elsif child_node.value.instance_of?(RuboCop::AST::HashNode)
                     values = {}
                     child_node.value.children.each do |grand_child_node|
-                      values[grand_child_node.key.value] = grand_child_node.value.value
+                      # Handle nested hash values properly
+                      if grand_child_node.value.respond_to?(:value)
+                        values[grand_child_node.key.value] = grand_child_node.value.value
+                      else
+                        # For complex nested structures, convert to string representation
+                        values[grand_child_node.key.value] = grand_child_node.value.to_s
+                      end
                     end
                     opts[child_node.key.value] = values
                   else
@@ -546,7 +618,7 @@ module Inspec
             @memo[:inputs] ||= []
             input_hash = {
               name: input_name,
-              options: opts,
+              options: opts
             }
             @memo[:inputs] << input_hash
           end
@@ -560,7 +632,7 @@ module Inspec
         INPUT_PATTERN = InputCollectorBase::INPUT_PATTERN
         LVASGN_INPUT_PATTERN = InputCollectorOutsideControlBlock::LVASGN_INPUT_PATTERN
 
-        def initialize(memo, source_location_ref, include_tests: false)
+        def initialize(memo, source_location_ref, include_tests = false)
           @memo = memo
           @source_location_ref = source_location_ref
           @include_tests = include_tests
@@ -582,9 +654,7 @@ module Inspec
 
         def on_block(block_node)
           # Handle control collection
-          if CONTROL_PATTERN.match(block_node)
-            collect_control(block_node)
-          end
+          collect_control(block_node) if CONTROL_PATTERN.match(block_node)
         end
 
         private
@@ -598,15 +668,15 @@ module Inspec
 
           unless @memo[:inputs].any? { |input| input[:name] == input_name }
             opts = {
-              value: "Input '#{input_name}' does not have a value. Skipping test.",
+              value: "Input '#{input_name}' does not have a value. Skipping test."
             }
 
             if input_children.children[3]&.type == :hash
               input_children.children[3].children.each do |child_node|
                 if InputCollectorBase::VALID_INPUT_OPTIONS.include?(child_node.key.value)
-                  if child_node.value.class == RuboCop::AST::Node && InputCollectorBase::REQUIRED_VALUES_MAP.key?(child_node.value.type)
+                  if child_node.value.instance_of?(RuboCop::AST::Node) && InputCollectorBase::REQUIRED_VALUES_MAP.key?(child_node.value.type)
                     opts[child_node.key.value] = InputCollectorBase::REQUIRED_VALUES_MAP[child_node.value.type]
-                  elsif child_node.value.class == RuboCop::AST::HashNode
+                  elsif child_node.value.instance_of?(RuboCop::AST::HashNode)
                     values = {}
                     child_node.value.children.each do |grand_child_node|
                       values[grand_child_node.key.value] = grand_child_node.value.value
@@ -622,7 +692,7 @@ module Inspec
             @memo[:inputs] ||= []
             input_hash = {
               name: input_name,
-              options: opts,
+              options: opts
             }
             @memo[:inputs] << input_hash
           end
@@ -642,22 +712,29 @@ module Inspec
             code: block_node.source,
             source_location: {
               line: block_node.first_line,
-              ref: @source_location_ref,
+              ref: @source_location_ref
             },
             title: nil,
             desc: nil,
             descriptions: {},
             impact: 0.5,
             refs: [],
-            tags: {},
+            tags: {}
           }
           control_data[:checks] = [] if @include_tests
 
           # Use unified collector for control metadata
           if begin_block
             unified_collector = UnifiedControlCollector.new(control_data, @memo, @include_tests)
-            begin_block.each_node do |node_within_control|
-              unified_collector.process(node_within_control)
+            if begin_block.type == :begin
+              # Multiple statements: iterate through children
+              begin_block.children.each do |node_within_control|
+                # Only process AST nodes, skip primitive values
+                unified_collector.process(node_within_control) if node_within_control.respond_to?(:type)
+              end
+            else
+              # Single statement: process the node directly
+              unified_collector.process(begin_block)
             end
           end
 

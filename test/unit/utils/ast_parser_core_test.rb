@@ -90,7 +90,7 @@ describe "AST Parser Performance Optimizations - Core Tests" do
   end
 
   describe "UnifiedFileCollector Functionality" do
-    let(:unified_file_collector) { Inspec::Profile::AstHelper::UnifiedFileCollector.new(memo, source_location_ref, include_tests: false) }
+    let(:unified_file_collector) { Inspec::Profile::AstHelper::UnifiedFileCollector.new(memo, source_location_ref, false) }
 
     it "processes input statements correctly" do
       code = "input('test_input', value: 'default', type: 'string')"
@@ -171,7 +171,7 @@ describe "AST Parser Performance Optimizations - Core Tests" do
 
       src = RuboCop::AST::ProcessedSource.new(complex_code, RUBY_VERSION.to_f)
       test_memo = { controls: [], inputs: [] }
-      unified_collector = Inspec::Profile::AstHelper::UnifiedFileCollector.new(test_memo, source_location_ref, include_tests: false)
+      unified_collector = Inspec::Profile::AstHelper::UnifiedFileCollector.new(test_memo, source_location_ref, false)
 
       # Single traversal should collect everything
       src.ast.each_node { |n| unified_collector.process(n) }
