@@ -264,7 +264,7 @@ a7729ce65636d6d8b80159dd5dd7a40fdb6f2501\trefs/tags/anothertag^{}\n")
 
   describe "EXCLUDED_DIRECTORIES constant" do
     it "is defined as string .git" do
-      _(Inspec::Fetcher::Git::EXCLUDED_DIRECTORIES).must_equal '.git'
+      _(Inspec::Fetcher::Git::EXCLUDED_DIRECTORIES).must_equal ".git"
     end
   end
 

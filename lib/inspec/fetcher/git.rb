@@ -28,7 +28,7 @@ module Inspec::Fetcher
     priority 200
 
     # Currently only excluding .git directory - change to array in future if more exclusions are needed
-    EXCLUDED_DIRECTORIES = '.git'
+    EXCLUDED_DIRECTORIES = ".git".freeze
 
     def self.resolve(target, opts = {})
       if target.is_a?(String)
