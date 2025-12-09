@@ -386,7 +386,7 @@ module Inspec
         INPUT_PATTERN = InputCollectorBase::INPUT_PATTERN
         DESCRIBE_PATTERN = TestsCollector::DESCRIBE_PATTERN
         EXPECT_PATTERN = TestsCollector::EXPECT_PATTERN
-        
+
         ACCPETABLE_TAG_TYPE_TO_VALUES = TagCollector::ACCPETABLE_TAG_TYPE_TO_VALUES
 
         def initialize(control_data, memo, include_tests = false)
@@ -454,12 +454,18 @@ module Inspec
               key = child_tag.key.value
               if child_tag.value.type == :array
                 value = child_tag.value.children.map { |child_node| child_node.type == :str ? child_node.children.first : nil }
+              elsif child_tag.value.type == :hash
+                # Handle nested hash values
+                value = {}
+                child_tag.value.children.each do |nested_pair|
+                  value[nested_pair.key.value] = nested_pair.value.value
+                end
               elsif ACCPETABLE_TAG_TYPE_TO_VALUES.key?(child_tag.value.type)
                 value = ACCPETABLE_TAG_TYPE_TO_VALUES[child_tag.value.type]
               else
-                if child_tag.value.children.first.class == RuboCop::AST::SendNode
+                if child_tag.value.children&.first&.class == RuboCop::AST::SendNode
                   value = child_tag.value.children.first.children[1]
-                elsif child_tag.value.children.first.class == RuboCop::AST::Node
+                elsif child_tag.value.children&.first&.class == RuboCop::AST::Node
                   value = child_tag.value.children.first.children[0]
                 else
                   value = child_tag.value.value
@@ -513,7 +519,7 @@ module Inspec
 
         def collect_input(node)
           input_name = node.children[2].value
-          
+
           unless @memo[:inputs].any? { |input| input[:name] == input_name }
             opts = {
               value: "Input '#{input_name}' does not have a value. Skipping test.",
@@ -648,9 +654,11 @@ module Inspec
           control_data[:checks] = [] if @include_tests
 
           # Use unified collector for control metadata
-          unified_collector = UnifiedControlCollector.new(control_data, @memo, @include_tests)
-          begin_block.each_node do |node_within_control|
-            unified_collector.process(node_within_control)
+          if begin_block
+            unified_collector = UnifiedControlCollector.new(control_data, @memo, @include_tests)
+            begin_block.each_node do |node_within_control|
+              unified_collector.process(node_within_control)
+            end
           end
 
           @memo[:controls] ||= []
