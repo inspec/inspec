@@ -523,8 +523,6 @@ module Inspec
     end
 
     # Return data like profile.info(params), but try to do so without evaluating the profile.
-    # When called with check_mode enabled, this method skips expensive SHA256 calculation
-    # which would otherwise trigger loading of all dependencies recursively.
     def info_from_parse(include_tests: false)
       return @info_from_parse unless @info_from_parse.nil?
 
@@ -1126,14 +1124,6 @@ module Inspec
         parent_profile: name,
       }
       Inspec::DependencySet.from_lockfile(lockfile, config, { inputs: @input_values })
-    end
-
-    # Return lightweight lockfile dependency data without loading full profiles
-    # Used for check mode validation where we only need to verify lockfile consistency
-    def lockfile_dependency_names
-      return [] unless lockfile_exists?
-
-      lockfile.deps.map { |dep| dep[:name] }
     end
 
     # Calculate this profile's SHA256 checksum. Includes metadata, dependencies,
