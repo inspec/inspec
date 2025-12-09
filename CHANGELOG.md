@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.23.13 -->
+## [v5.23.13](https://github.com/inspec/inspec/tree/v5.23.13) (2025-12-09)
 
 #### Merged Pull Requests
+- CHEF-28672 Remove vulnerable rexml bundled gems [#7653](https://github.com/inspec/inspec/pull/7653) ([Nik08](https://github.com/Nik08))
 - CHEF-28672 Updated rack to a more secure version [#7652](https://github.com/inspec/inspec/pull/7652) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- CHEF-28672 Remove vulnerable rexml bundled gems [#7653](https://github.com/inspec/inspec/pull/7653) ([Nik08](https://github.com/Nik08)) <!-- 5.23.13 -->
 - CHEF-28672 Updated rack to a more secure version [#7652](https://github.com/inspec/inspec/pull/7652) ([Nik08](https://github.com/Nik08)) <!-- 5.23.12 -->
 - Gemfile cleanup [#7661](https://github.com/inspec/inspec/pull/7661) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.23.12 -->
 - Pin connection_pool to &lt; 3.0.0 in Gemfile to support ruby &gt;=3.1.0  [#7660](https://github.com/inspec/inspec/pull/7660) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.23.11 -->
