@@ -1124,6 +1124,14 @@ module Inspec
       Inspec::DependencySet.from_lockfile(lockfile, config, { inputs: @input_values })
     end
 
+    # Return lightweight lockfile dependency data without loading full profiles
+    # Used for check mode validation where we only need to verify lockfile consistency
+    def lockfile_dependency_names
+      return [] unless lockfile_exists?
+
+      lockfile.deps.map { |dep| dep[:name] }
+    end
+
     # Calculate this profile's SHA256 checksum. Includes metadata, dependencies,
     # libraries, data files, and controls.
     #
