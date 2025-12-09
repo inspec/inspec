@@ -38,8 +38,8 @@ group :test do
   gem "minitest-sprint", "~> 1.3.0" , "< 1.4.0"
   gem "minitest", "5.15.0"
   gem "mocha"
-  # Pinning this version as it breaking for ruby 3.1.0
-  gem "nokogiri", "1.16.5"
+  # Allow patch updates to get Windows pre-compiled binaries and Pinning this version as it breaking for ruby 3.1.0
+  gem "nokogiri", "~> 1.16.5"
   gem "pry-byebug"
   gem "pry"
   gem "rake"
