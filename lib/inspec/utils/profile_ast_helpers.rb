@@ -10,6 +10,25 @@ module Inspec
         def initialize(memo)
           @memo = memo
         end
+
+        # Helper method to recursively extract values from AST nodes
+        def extract_value(node)
+          return node unless node.is_a?(RuboCop::AST::Node)
+
+          case node.class.to_s
+          when "RuboCop::AST::HashNode"
+            hash_values = {}
+            node.children.each do |pair_node|
+              hash_values[pair_node.key.value] = extract_value(pair_node.value)
+            end
+            hash_values
+          when "RuboCop::AST::ArrayNode"
+            node.children.map { |element| extract_value(element) }
+          else
+            # For simple nodes (string, int, boolean, etc.)
+            node.respond_to?(:value) ? node.value : node
+          end
+        end
       end
 
       class InputCollectorBase < CollectorBase
@@ -41,15 +60,9 @@ module Inspec
                 if VALID_INPUT_OPTIONS.include?(child_node.key.value)
                   if child_node.value.class == RuboCop::AST::Node && REQUIRED_VALUES_MAP.key?(child_node.value.type)
                     opts.merge!(child_node.key.value => REQUIRED_VALUES_MAP[child_node.value.type])
-                  elsif child_node.value.class == RuboCop::AST::HashNode
-                    # Here value will be a hash
-                    values = {}
-                    child_node.value.children.each do |grand_child_node|
-                      values.merge!(grand_child_node.key.value => grand_child_node.value.value)
-                    end
-                    opts.merge!(child_node.key.value => values)
                   else
-                    opts.merge!(child_node.key.value => child_node.value.value)
+                    # Use extract_value helper to handle hash, array, and nested structures
+                    opts.merge!(child_node.key.value => extract_value(child_node.value))
                   end
                 end
               end
@@ -530,14 +543,9 @@ module Inspec
                 if InputCollectorBase::VALID_INPUT_OPTIONS.include?(child_node.key.value)
                   if child_node.value.class == RuboCop::AST::Node && InputCollectorBase::REQUIRED_VALUES_MAP.key?(child_node.value.type)
                     opts[child_node.key.value] = InputCollectorBase::REQUIRED_VALUES_MAP[child_node.value.type]
-                  elsif child_node.value.class == RuboCop::AST::HashNode
-                    values = {}
-                    child_node.value.children.each do |grand_child_node|
-                      values[grand_child_node.key.value] = grand_child_node.value.value
-                    end
-                    opts[child_node.key.value] = values
                   else
-                    opts[child_node.key.value] = child_node.value.value
+                    # Use extract_value helper to handle hash, array, and nested structures
+                    opts[child_node.key.value] = extract_value(child_node.value)
                   end
                 end
               end
@@ -606,14 +614,9 @@ module Inspec
                 if InputCollectorBase::VALID_INPUT_OPTIONS.include?(child_node.key.value)
                   if child_node.value.class == RuboCop::AST::Node && InputCollectorBase::REQUIRED_VALUES_MAP.key?(child_node.value.type)
                     opts[child_node.key.value] = InputCollectorBase::REQUIRED_VALUES_MAP[child_node.value.type]
-                  elsif child_node.value.class == RuboCop::AST::HashNode
-                    values = {}
-                    child_node.value.children.each do |grand_child_node|
-                      values[grand_child_node.key.value] = grand_child_node.value.value
-                    end
-                    opts[child_node.key.value] = values
                   else
-                    opts[child_node.key.value] = child_node.value.value
+                    # Use extract_value helper to handle hash, array, and nested structures
+                    opts[child_node.key.value] = extract_value(child_node.value)
                   end
                 end
               end
