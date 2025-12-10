@@ -15,49 +15,48 @@ Get-CimInstance Win32_OperatingSystem | Select-Object $Properties | Format-Table
 
 Write-Host "--- Installing the version of Habitat required"
 
-function Stop-HabProcess {
-  $habProcess = Get-Process hab -ErrorAction SilentlyContinue
-  if ($habProcess) {
-      Write-Host "Stopping hab process..."
-      Stop-Process -Name hab -Force
-  }
-}
-
 function Install-Habitat {
   Write-Host "Downloading and installing Habitat..."
   Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1'))
 }
 
-try {
-  hab --version
-}
-catch {
-  Set-ExecutionPolicy Bypass -Scope Process -Force
+function Refresh-EnvironmentPath {
+  Write-Host "Refreshing environment PATH..."
+  $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
 
-  Stop-HabProcess
-
-  # Remove the existing hab.exe if it exists and if you have permissions
-  $habPath = "C:\ProgramData\Habitat\hab.exe"
-  if (Test-Path $habPath) {
-      Write-Host "Attempting to remove existing hab.exe..."
-      Remove-Item $habPath -Force -ErrorAction SilentlyContinue
-      if (Test-Path $habPath) {
-          Write-Host "Failed to remove hab.exe, re-running script with elevated permissions."
-          Start-Process powershell -Verb runAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
-          exit
-      }
+  # Ensure Habitat is in the PATH
+  if ($env:Path -notlike "*C:\ProgramData\Habitat*") {
+    $env:Path = "C:\ProgramData\Habitat;$env:Path"
   }
 
+  Write-Host "Updated PATH: $env:Path"
+}
+
+function Test-HabCommand {
+  try {
+    $null = Get-Command hab -ErrorAction Stop
+    return $true
+  }
+  catch {
+    return $false
+  }
+}
+
+# Check if hab is already available
+if (-not (Test-HabCommand)) {
+  Write-Host "Habitat not found in PATH, attempting installation..."
+  Set-ExecutionPolicy Bypass -Scope Process -Force
+
   Install-Habitat
-}
-finally {
-  Write-Host ":habitat: I think I have the version I need to build."
+  Refresh-EnvironmentPath
 }
 
-# Set HAB_ORIGIN after Habitat installation
-Write-Host "HAB_ORIGIN set to 'ci' after installation."
+Write-Host ":habitat: Habitat is available"
+hab --version
+
+# Set HAB_ORIGIN for build
+Write-Host "HAB_ORIGIN set to 'ci'."
 $env:HAB_ORIGIN = 'ci'
-
 
 Write-Host "--- Generating fake origin key"
 hab origin key generate $env:HAB_ORIGIN
@@ -110,7 +109,9 @@ Start-Process c:\rubyinstaller-devkit-3.1.7-1x64.exe -ArgumentList '/verysilent 
 Write-Host "--- Cleaning up installation"
 Remove-Item c:\rubyinstaller-devkit-3.1.7-1x64.exe -Force
 
-$Env:Path += ";C:\ruby317\bin;C:\hab\bin"
+# Update PATH to include both Ruby and Habitat
+$env:Path = "C:\ruby317\bin;C:\ProgramData\Habitat;$env:Path"
+Write-Host "Updated PATH with Ruby and Habitat"
 
 Write-Host "+++ Testing $Plan"
 
