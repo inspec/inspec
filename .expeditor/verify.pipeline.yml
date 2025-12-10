@@ -19,7 +19,7 @@ steps:
 
   - label: run-tests-ruby-3.1
     command:
-      - /workdir/.expeditor/buildkite/verify.sh
+      - K=16 RAKE_TASK=test:parallel /workdir/.expeditor/buildkite/verify.sh
     expeditor:
       executor:
         docker:
@@ -27,7 +27,7 @@ steps:
 
   - label: isolated-tests-ruby-3.1
     command:
-      - RAKE_TASK=test:isolated /workdir/.expeditor/buildkite/verify.sh
+      - K=16 RAKE_TASK=test:isolated /workdir/.expeditor/buildkite/verify.sh
     expeditor:
       executor:
         docker:
