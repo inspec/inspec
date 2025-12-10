@@ -57,7 +57,6 @@ builder-to-testers-map:
     - windows-2019-x86_64
     - windows-2016-x86_64
     - windows-2022-x86_64
-    - windows-2025-x86_64
     - windows-10-x86_64
     - windows-11-x86_64
   windows-2025-x86_64:
