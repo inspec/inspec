@@ -4,8 +4,6 @@ Get-CimInstance Win32_OperatingSystem | Select-Object $Properties | Format-Table
 ruby -v
 bundle --version
 
-<<<<<<< HEAD
-=======
 echo "--- download and install vault"
 # Define the version of Vault to install
 $VaultVersion = "1.13.0"
@@ -63,7 +61,6 @@ CheckIfEnvVarIsSet -envVarName $envVarName
 #     $Env:SONAR_TOKEN=vault kv get -field token secret/inspec/sonar
 # }
 
->>>>>>> 2b1fe0646 (Trying refactorign)
 echo "--- bundle install"
 bundle config set --local without deploy
 bundle install --jobs=7 --retry=3
