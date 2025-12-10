@@ -101,12 +101,8 @@ try {
 Write-Host "--- Installing $pkg_ident/$pkg_artifact"
 hab pkg install -b $project_root/results/$pkg_artifact
 
-Write-Host "--- Adding package binaries to PATH"
-$pkg_path = hab pkg path $pkg_ident
-
-# Update PATH to include package binaries - this is sufficient as Habitat provides proper wrapper scripts
-$env:PATH = "$pkg_path\bin;$env:PATH"
 Write-Host "PATH updated to include: $pkg_path\bin"
+$Env:Path += ";C:\ruby317\bin;C:\hab\bin"
 
 Write-Host "+++ Testing $Plan"
 
