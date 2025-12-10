@@ -39,7 +39,7 @@ group :test do
   gem "minitest-sprint", "~> 1.3.0" , "< 1.4.0"
   gem "minitest", "5.15.0"
   gem "mocha"
-  gem "nokogiri", "< 1.17.2"
+  gem "nokogiri", "~> 1.16.5"
   gem "pry-byebug"
   gem "pry"
   gem "rake"
