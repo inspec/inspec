@@ -51,6 +51,8 @@ dependency "gem-permissions"
 dependency "shebang-cleanup"
 # Ensure our SSL cert files are accessible to ruby.
 dependency "openssl-customization"
+# introduced for rexml cleanup
+dependency "remove-old-gems"
 
 dependency "ruby-msys2-devkit" if windows?
 

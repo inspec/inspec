@@ -27,6 +27,7 @@ group :omnibus do
   gem "appbundler"
   gem "ed25519" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
   gem "bcrypt_pbkdf" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
+  gem "net-imap", ">= 0.2.5" # 0.2.5+ required for CVE fix - GHSA-j3g3-5qv5-52mj
 end
 
 group :test do
@@ -38,10 +39,8 @@ group :test do
   gem "minitest-sprint", "~> 1.3.0" , "< 1.4.0"
   gem "minitest", "5.15.0"
   gem "mocha"
-  # Pinning this version as it breaking for ruby 3.1.0
   gem "nokogiri", "< 1.17.2"
-  # Pinning this version as it breaking for ruby 3.0.0
-  gem "pry-byebug", "< 3.12.0"
+  gem "pry-byebug"
   gem "pry"
   gem "rake"
   gem "simplecov"
@@ -50,7 +49,7 @@ group :test do
   gem "signet", "< 0.22.0" # 0.20.0+ requires min ruby 3.1
   # Pinning to 1.15 as multi_json 1.16 require ruby 3.2 version
   # Ref: https://buildkite.com/chef-oss/inspec-inspec-inspec-5-verify/builds/647#019808ca-087b-43bc-b1f9-40a36f59c5f4
-  gem "multi_json", "~> 1.15.0"
+  gem "multi_json", "~> 1.18.0"
 end
 
 group :deploy do
@@ -65,11 +64,6 @@ end
 # Remove this pin when upgrading to Ruby 3.2 or higher.
 gem "zeitwerk", "~> 2.6.0", "< 2.7"
 
-# Pinning dry-core,dry-core,dry-types to < 1.1.0 as it is breaking the build because 1.1.0 is incompatible with the current version, ruby 3.0.x on CI
-gem "dry-types", "<= 1.7.2" if RUBY_VERSION < "3.1.0"
-gem "dry-core", "> 1.0.0", "< 1.1.0" if RUBY_VERSION < "3.1.0"
-gem "dry-inflector", "<= 1.1.0" if RUBY_VERSION < "3.1.0"
-
-# Pinning securerandom to < 0.4.0 as it is breaking the build because 0.4.0 is incompatible with the current version, ruby 3.0.x on CI
-# Remove this pin when upgrading to Ruby 3.1 or higher on CI.
-gem "securerandom", "< 0.4.0" if RUBY_VERSION < "3.1.0"
+# Pinning connection_pool to < 3.0.0 as 3.0.1 requires Ruby >= 3.2.0
+# Remove this pin when upgrading to Ruby 3.2 or higher.
+gem "connection_pool", "< 3.0.0" if RUBY_VERSION < "3.2.0"

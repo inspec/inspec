@@ -38,6 +38,10 @@ builder-to-testers-map:
     - el-10-x86_64
   el-10-aarch64:
     - el-10-aarch64
+  amazon-2023-aarch64:
+    - amazon-2023-aarch64
+  amazon-2023-x86_64:
+    - amazon-2023-x86_64
   mac_os_x-13-arm64:
     - mac_os_x-13-arm64
     - mac_os_x-14-arm64
@@ -60,3 +64,5 @@ builder-to-testers-map:
     - windows-2025-x86_64
     - windows-10-x86_64
     - windows-11-x86_64
+  windows-2025-x86_64:
+    - windows-2025-x86_64

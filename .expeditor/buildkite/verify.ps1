@@ -5,10 +5,10 @@ ruby -v
 bundle --version
 
 echo "--- bundle install"
-bundle config set --local without deploy kitchen
+bundle config set --local without deploy
 bundle install --jobs=7 --retry=3
 
 echo "+++ bundle exec rake test:parallel"
-bundle exec rake test:parallel K=4
+bundle exec rake test:parallel K=20
 
 exit $LASTEXITCODE

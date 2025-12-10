@@ -1,17 +1,29 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.23.17 -->
+## [v5.23.17](https://github.com/inspec/inspec/tree/v5.23.17) (2025-12-10)
 
 #### Merged Pull Requests
-- Pin gem versions for Ruby compatibility in InSpec-5 [#7640](https://github.com/inspec/inspec/pull/7640) ([balasubramanian-s](https://github.com/balasubramanian-s))
-- Added instructions file for inspec 5 [#7639](https://github.com/inspec/inspec/pull/7639) ([Nik08](https://github.com/Nik08))
+- Backport 7576 to fix windows pipeline failure in inspec 5 [#7676](https://github.com/inspec/inspec/pull/7676) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.23.6 -->
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- Backport 7576 to fix windows pipeline failure in inspec 5 [#7676](https://github.com/inspec/inspec/pull/7676) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.23.17 -->
+- CHEF-28137 add support for windows 2025 [#7659](https://github.com/inspec/inspec/pull/7659) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.16 -->
+- CHEF-28672 Remove vulnerable net-imap gem [#7654](https://github.com/inspec/inspec/pull/7654) ([Nik08](https://github.com/Nik08)) <!-- 5.23.15 -->
+- Update  windows  docker image to fix  verify pipeline issue [#7666](https://github.com/inspec/inspec/pull/7666) ([poorndm](https://github.com/poorndm)) <!-- 5.23.14 -->
+- CHEF-28672 Remove vulnerable rexml bundled gems [#7653](https://github.com/inspec/inspec/pull/7653) ([Nik08](https://github.com/Nik08)) <!-- 5.23.13 -->
+- CHEF-28672 Updated rack to a more secure version [#7652](https://github.com/inspec/inspec/pull/7652) ([Nik08](https://github.com/Nik08)) <!-- 5.23.12 -->
+- Gemfile cleanup [#7661](https://github.com/inspec/inspec/pull/7661) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.23.12 -->
+- Pin connection_pool to &lt; 3.0.0 in Gemfile to support ruby &gt;=3.1.0  [#7660](https://github.com/inspec/inspec/pull/7660) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.23.11 -->
+- Fix reading/writing tar profiles issue [#7651](https://github.com/inspec/inspec/pull/7651) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.23.10 -->
+- Update multi_json requirement from ~&gt; 1.15.0 to ~&gt; 1.18.0 [#7647](https://github.com/inspec/inspec/pull/7647) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.23.9 -->
+- [CHEF-28136] Add Amazon Linux 2023 support [#7636](https://github.com/inspec/inspec/pull/7636) ([sa-progress](https://github.com/sa-progress)) <!-- 5.23.8 -->
+- Bump omnibus from `39f0b30` to `b9f4c8f` in /omnibus [#7602](https://github.com/inspec/inspec/pull/7602) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.23.7 -->
+- Bump test-kitchen from 3.8.1 to 3.9.1 in /omnibus [#7610](https://github.com/inspec/inspec/pull/7610) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.23.7 -->
 - Pin gem versions for Ruby compatibility in InSpec-5 [#7640](https://github.com/inspec/inspec/pull/7640) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.23.7 -->
 - Added instructions file for inspec 5 [#7639](https://github.com/inspec/inspec/pull/7639) ([Nik08](https://github.com/Nik08)) <!-- 5.23.7 -->
 - Remove mac 12  and update Mac builder [#7615](https://github.com/inspec/inspec/pull/7615) ([poorndm](https://github.com/poorndm)) <!-- 5.23.7 -->
