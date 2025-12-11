@@ -77,10 +77,20 @@ namespace :test do
     passed = true
 
     tests = Dir[*GLOBS].sort
-    tests.concat([nil] * (n - tests.size % n)) unless # square it up
-      tests.size % 4 == 0
-
-    jobs = tests.each_slice(n).to_a.transpose
+    
+    # Interleave functional and unit tests for better load balancing on Windows
+    # Functional tests spawn processes which are much slower on Windows
+    functional_tests = tests.select { |t| t.include?("test/functional/") }
+    other_tests = tests.reject { |t| t.include?("test/functional/") }
+    
+    # Distribute functional tests across all threads first (round-robin)
+    # Then fill in with other tests to balance the load
+    balanced_tests = []
+    n.times { |i| balanced_tests << [] }
+    functional_tests.each_with_index { |test, idx| balanced_tests[idx % n] << test }
+    other_tests.each_with_index { |test, idx| balanced_tests[idx % n] << test }
+    
+    jobs = balanced_tests
     t0   = Time.now
     out  = Queue.new
 
