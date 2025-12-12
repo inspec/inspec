@@ -41,6 +41,8 @@ build do
   bundle "config set --local without test kitchen", env: env
   bundle "install", env: env
 
+  ruby "post-bundle-install.rb", env: env
+
   gem "build #{name}-core.gemspec", env: env
   gem "install #{name}-core*.gem --no-document", env: env
 
