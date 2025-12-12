@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.23.17 -->
-## [v5.23.17](https://github.com/inspec/inspec/tree/v5.23.17) (2025-12-10)
+<!-- latest_release 5.23.18 -->
+## [v5.23.18](https://github.com/inspec/inspec/tree/v5.23.18) (2025-12-12)
 
 #### Merged Pull Requests
-- Backport 7576 to fix windows pipeline failure in inspec 5 [#7676](https://github.com/inspec/inspec/pull/7676) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-28672  Updated resolv dependency [#7656](https://github.com/inspec/inspec/pull/7656) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.23.6 -->
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- CHEF-28672  Updated resolv dependency [#7656](https://github.com/inspec/inspec/pull/7656) ([Nik08](https://github.com/Nik08)) <!-- 5.23.18 -->
 - Backport 7576 to fix windows pipeline failure in inspec 5 [#7676](https://github.com/inspec/inspec/pull/7676) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.23.17 -->
 - CHEF-28137 add support for windows 2025 [#7659](https://github.com/inspec/inspec/pull/7659) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.16 -->
 - CHEF-28672 Remove vulnerable net-imap gem [#7654](https://github.com/inspec/inspec/pull/7654) ([Nik08](https://github.com/Nik08)) <!-- 5.23.15 -->
