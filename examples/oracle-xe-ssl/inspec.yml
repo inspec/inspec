@@ -1,0 +1,82 @@
+name: oracle-xe-ssl
+title: Oracle XE SSL/TCPS Example Profile
+maintainer: InSpec Team
+copyright: Chef Software, Inc.
+copyright_email: inspec@chef.io
+license: Apache-2.0
+summary: Example InSpec profile demonstrating Oracle Database SSL/TCPS connectivity using TNS aliases and environment variables
+version: 1.0.0
+supports:
+  - platform: unix
+  - platform: windows
+inspec_version: '>= 4.0'
+
+inputs:
+  - name: oracle_user
+    description: Oracle database username
+    type: string
+    required: true
+    sensitive: false
+    
+  - name: oracle_password
+    description: Oracle database password
+    type: string
+    required: true
+    sensitive: true
+    
+  - name: oracle_host
+    description: Oracle database host (for TCP connections)
+    type: string
+    required: false
+    value: 'localhost'
+    
+  - name: oracle_port
+    description: Oracle database port (for TCP connections)
+    type: string
+    required: false
+    value: '1521'
+    
+  - name: oracle_service
+    description: Oracle service name (for TCP connections)
+    type: string
+    required: false
+    value: 'XEPDB1'
+    
+  - name: tns_alias_tcp
+    description: TNS alias for TCP connection (from tnsnames.ora)
+    type: string
+    required: false
+    value: 'XEPDB1_TCP'
+    
+  - name: tns_alias_tcps
+    description: TNS alias for TCPS/SSL connection (from tnsnames.ora)
+    type: string
+    required: false
+    value: 'XEPDB1_TCPS'
+    
+  - name: tns_admin_path
+    description: Path to directory containing tnsnames.ora and sqlnet.ora
+    type: string
+    required: false
+    
+  - name: oracle_home
+    description: ORACLE_HOME environment variable value
+    type: string
+    required: false
+    
+  - name: ld_library_path
+    description: LD_LIBRARY_PATH for Oracle Instant Client libraries
+    type: string
+    required: false
+    
+  - name: sqlplus_bin
+    description: Path to sqlplus binary (optional, defaults to 'sqlplus' in PATH)
+    type: string
+    required: false
+    value: 'sqlplus'
+    
+  - name: debug_mode
+    description: Enable debug output to see masked commands
+    type: boolean
+    required: false
+    value: false
