@@ -27,7 +27,8 @@ group :omnibus do
   gem "appbundler"
   gem "ed25519" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
   gem "bcrypt_pbkdf" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
-  gem "net-imap", ">= 0.2.5" # 0.2.5+ required for CVE fix - GHSA-j3g3-5qv5-52mj
+  # pinning at < 0.6, 0.6 requires ruby 3.2+, InSpec5 does not support Ruby 3.2
+  gem "net-imap", "< 0.6"
 end
 
 group :test do
