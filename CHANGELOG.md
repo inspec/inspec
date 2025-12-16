@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.23.20 -->
-## [v5.23.20](https://github.com/inspec/inspec/tree/v5.23.20) (2025-12-16)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Pin net-imap for ruby 3.1 compatability [#7687](https://github.com/inspec/inspec/pull/7687) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Add min version constraint for net-imap gem [#7688](https://github.com/inspec/inspec/pull/7688) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.23.6 -->
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- Add min version constraint for net-imap gem [#7688](https://github.com/inspec/inspec/pull/7688) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.23.20 -->
 - Pin net-imap for ruby 3.1 compatability [#7687](https://github.com/inspec/inspec/pull/7687) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.23.20 -->
 - CHEF-28138 - Verify and add build support for RHEL 10 [#7649](https://github.com/inspec/inspec/pull/7649) ([poorndm](https://github.com/poorndm)) <!-- 5.23.19 -->
 - CHEF-28672  Updated resolv dependency [#7656](https://github.com/inspec/inspec/pull/7656) ([Nik08](https://github.com/Nik08)) <!-- 5.23.18 -->
