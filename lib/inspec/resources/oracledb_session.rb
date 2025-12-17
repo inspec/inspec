@@ -13,24 +13,27 @@ module Inspec::Resources
     supports platform: "windows"
     desc "Use the oracledb_session InSpec resource to test commands against an Oracle database"
     example <<~EXAMPLE
-      # Basic connection with host and service
-      sql = oracledb_session(user: 'my_user', password: 'password', host: 'localhost', service: 'XEPDB1')
+      # Using password (deprecated pass option)
+      sql = oracledb_session(user: 'my_user', pass: 'password')
       describe sql.query(\"SELECT UPPER(VALUE) AS VALUE FROM V$PARAMETER WHERE UPPER(NAME)='AUDIT_SYS_OPERATIONS'\").row(0).column('value') do
         its('value') { should eq 'TRUE' }
       end
 
-      # Using TNS alias (preferred for TCPS/SSL connections)
+      # CHEF-28019: Using TNS alias (recommended for TCPS/SSL connections)
       sql = oracledb_session(
         user: 'my_user',
         password: 'password',
         tns_alias: 'MYDB_TCPS',
         env: {
           'TNS_ADMIN' => '/path/to/tnsnames',
-          'LD_LIBRARY_PATH' => '/opt/oracle/instantclient:$PATH'
+          'LD_LIBRARY_PATH' => '/opt/oracle/instantclient'
         }
       )
-      
+      describe sql.query('SELECT * FROM dual').row(0).column('dummy') do
+        its('value') { should eq 'X' }
+      end
     EXAMPLE
+
     attr_reader :bin, :db_role, :host, :password, :port, :service,
                 :su_user, :user, :tns_alias, :env_vars
 
@@ -50,11 +53,9 @@ module Inspec::Resources
       @sqlcl_bin = opts[:sqlcl_bin] || nil
       @sqlplus_bin = opts[:sqlplus_bin] || "sqlplus"
       
-      # New options for TNS alias and environment variables (CHEF-28019)
-      # TNS alias: use TNS name from tnsnames.ora (preferred for TCPS/SSL)
-      # env: hash of environment variables to set for the command (e.g., TNS_ADMIN, LD_LIBRARY_PATH)
-      @tns_alias = opts[:tns_alias] || opts["tns_alias"]
-      @env_vars = opts[:env] || opts["env"] || {}
+      # CHEF-28019: Support for TNS alias and environment variables
+      @tns_alias = opts[:tns_alias]
+      @env_vars = opts[:env] || {}
       
       skip_resource "Option 'as_os_user' not available in Windows" if inspec.os.windows? && su_user
       fail_resource "Can't run Oracle checks without authentication" unless su_user || (user || password)
@@ -107,7 +108,9 @@ module Inspec::Resources
 
     private
 
-    # Build command with support for TNS alias, environment variables, and db_role
+    # CHEF-28019: Build command with support for TNS alias and environment variables
+    # Existing behavior: regular user/password, using db_role, or su with db_role
+    # New behavior: TNS alias connections with optional env vars
     def command_builder(format_options, query)
       if @db_role.nil? || @su_user.nil?
         verified_query = verify_query(query)
@@ -116,14 +119,10 @@ module Inspec::Resources
         verified_query = verify_query(escaped_query)
       end
 
-      # Build the connect string (TNS alias or host:port/service)
-      connect_string = build_connect_string
-
       sql_prefix, sql_postfix, oracle_echo_str = "", "", ""
       if inspec.os.windows?
         sql_prefix = %{@'\n#{format_options}\n#{verified_query}\nEXIT\n'@ | }
       else
-        # For TNS alias support, use /nolog then connect inside heredoc
         sql_postfix = %{ <<'EOC'\n#{format_options}\n#{verified_query}\nEXIT\nEOC}
         # oracle_query_string is echoed to be able to extract the query output clearly
         oracle_echo_str = %{echo 'oracle_query_string';}
@@ -136,30 +135,20 @@ module Inspec::Resources
         sql_postfix = %{ <<'EOC'\n#{format_options}\n#{verified_query}\nEXIT\n'EOC'} if shell_is_csh
       end
 
-      # Build environment variable prefix
-      env_prefix = build_env_prefix
-
-      # Build the sqlplus command
-      if @su_user.nil?
-        # For TNS alias, use -s /nolog then connect to allow proper TNS resolution
-        if @tns_alias && !@tns_alias.to_s.empty?
-          heredoc_content = "connect #{connect_string}\n#{format_options}\n#{verified_query}\nEXIT"
-          cmd = %{#{oracle_echo_str}#{sql_prefix}#{bin} -s /nolog <<'INSPECSQL'\n#{heredoc_content}\nINSPECSQL}
-        else
-          # Traditional direct connection for host:port/service
-          cmd = %{#{oracle_echo_str}#{sql_prefix}#{bin} #{connect_string}#{sql_postfix}}
-        end
-        
-        full_cmd = env_prefix.empty? ? cmd : "#{env_prefix} #{cmd}"
+      # CHEF-28019: New path for TNS alias connections
+      if @tns_alias && !@tns_alias.to_s.empty?
+        build_tns_command(format_options, verified_query, oracle_echo_str)
+      # Original paths preserved
+      elsif @db_role.nil?
+        %{#{oracle_echo_str}#{sql_prefix}#{bin} #{user}/#{password}@#{host}:#{port}/#{@service}#{sql_postfix}}
+      elsif @su_user.nil?
+        %{#{oracle_echo_str}#{sql_prefix}#{bin} #{user}/#{password}@#{host}:#{port}/#{@service} as #{@db_role}#{sql_postfix}}
       else
+        # oracle_query_string is echoed to be able to extract the query output clearly
         # su - su_user in certain versions of oracle returns a message
         # Example of msg with query output: The Oracle base remains unchanged with value /oracle\n\nVALUE\n3\n
-        heredoc_content = "connect #{connect_string}\n#{format_options}\n#{verified_query}\nEXIT"
-        cmd = %{su - #{@su_user} -c "#{oracle_echo_str} env ORACLE_SID=#{@service} #{env_prefix} #{@bin} -s /nolog <<'INSPECSQL'\n#{heredoc_content}\nINSPECSQL"}
-        full_cmd = cmd
+        %{su - #{@su_user} -c "#{oracle_echo_str} env ORACLE_SID=#{@service} #{@bin} / as #{@db_role}#{sql_postfix}"}
       end
-
-      full_cmd
     end
 
     def verify_query(query)
@@ -188,53 +177,34 @@ module Inspec::Resources
       end
     end
 
-    # Build the Oracle connect string
-    # Supports TNS alias (preferred for TCPS) or host:port/service format
-    def build_connect_string
-      if @tns_alias && !@tns_alias.to_s.empty?
-        # TNS alias format: user/password@tns_alias
-        connect_str = "#{@user}/#{@password}@#{@tns_alias}"
-        # Add db_role if specified
-        connect_str += " as #{@db_role}" if @db_role && !@su_user
-        connect_str
-      elsif @host && @service
-        # Traditional format: user/password@host:port/service
-        connect_str = "#{@user}/#{@password}@#{@host}:#{@port}/#{@service}"
-        # Add db_role if specified
-        connect_str += " as #{@db_role}" if @db_role && !@su_user
-        connect_str
+    # CHEF-28019: Build TNS alias command with environment variables
+    def build_tns_command(format_options, verified_query, oracle_echo_str)
+      env_prefix = build_env_prefix
+      connect_string = build_connect_string
+      heredoc_content = "connect #{connect_string}\n#{format_options}\n#{verified_query}\nEXIT"
+      
+      if @su_user
+        cmd = %{su - #{@su_user} -c "#{oracle_echo_str} #{env_prefix} #{@bin} -s /nolog <<'INSPECSQL'\n#{heredoc_content}\nINSPECSQL"}
       else
-        # Minimal format: user/password (for local connections)
-        connect_str = "#{@user}/#{@password}"
-        connect_str += " as #{@db_role}" if @db_role && !@su_user
-        connect_str
+        cmd = %{#{oracle_echo_str}#{bin} -s /nolog <<'INSPECSQL'\n#{heredoc_content}\nINSPECSQL}
+        cmd = env_prefix.empty? ? cmd : "#{env_prefix} #{cmd}"
       end
+      
+      cmd
     end
 
-    # Build environment variable prefix for command
-    # Expands $PATH placeholders and properly quotes values for shell
+    # CHEF-28019: Build Oracle connect string for TNS alias
+    def build_connect_string
+      connect_str = "#{@user}/#{@password}@#{@tns_alias}"
+      connect_str += " as #{@db_role}" if @db_role && !@su_user
+      connect_str
+    end
+
+    # CHEF-28019: Build environment variable prefix
     def build_env_prefix
       return "" if @env_vars.nil? || @env_vars.empty?
 
-      # Transform keys to strings and expand $PATH references
-      env_for_prefix = @env_vars.transform_keys(&:to_s).transform_values do |v|
-        vs = v.to_s
-        # Expand $PATH or ${PATH} with current environment PATH
-        if vs.include?('$PATH') || vs.include?('${PATH}')
-          current_path = ENV['PATH'].to_s
-          vs = vs.gsub('${PATH}', current_path).gsub('$PATH', current_path)
-        end
-        vs
-      end
-
-      # Build env prefix with proper shell quoting
-      env_for_prefix.map { |k, v| "#{k}=#{shell_quote(v)}" }.join(' ')
-    end
-
-    # Quote a value for use in a POSIX shell assignment
-    # Single quotes with internal single-quotes escaped
-    def shell_quote(val)
-      "'" + val.to_s.gsub("'", "'\"'\"'") + "'"
+      @env_vars.map { |k, v| "#{k}='#{v}'" }.join(' ')
     end
   end
 end
