@@ -412,34 +412,12 @@ describe "Inspec::Resources::OracledbSession" do
     _(resource.resource_skipped?).must_equal false
   end
 
-  it "password masking works for various password formats" do
-    resource = quick_resource(:oracledb_session, :linux, 
-      user: "USER", 
-      password: "P@ssw0rd!Special#Chars")
-    
-    # Build a sample command with password
-    test_cmd = "sqlplus USER/P@ssw0rd!Special#Chars@MYDB"
-    masked = resource.send(:mask_password_in_command, test_cmd)
-    
-    _(masked).must_include "USER/****@MYDB"
-    _(masked).wont_include "P@ssw0rd!Special#Chars"
-  end
+  # Debug mode and password masking features have been removed
+  # it "password masking works for various password formats" do
+  #   ...
+  # end
 
-  it "last_cmd stores the executed command" do
-    resource = quick_resource(:oracledb_session, :linux, 
-      user: "USER", 
-      password: "password",
-      tns_alias: "MYDB",
-      sqlplus_bin: "/bin/sqlplus") do |cmd|
-      stdout_file "test/fixtures/cmd/oracle-result"
-    end
-
-    _(resource.last_cmd).must_be_nil  # Not set until query is executed
-    
-    resource.query("SELECT 1 FROM DUAL;")
-    
-    _(resource.last_cmd).wont_be_nil
-    _(resource.last_cmd).must_be_kind_of String
-    _(resource.last_cmd).must_include "MYDB"
-  end
+  # it "last_cmd stores the executed command" do
+  #   ...
+  # end
 end
