@@ -30,11 +30,9 @@ module Inspec::Resources
         }
       )
       
-      # With debug mode to see masked command
-      sql = oracledb_session(user: 'my_user', password: 'password', tns_alias: 'MYDB', debug: true)
     EXAMPLE
     attr_reader :bin, :db_role, :host, :password, :port, :service,
-                :su_user, :user, :tns_alias, :env_vars, :last_cmd
+                :su_user, :user, :tns_alias, :env_vars
 
     def initialize(opts = {})
       @user = opts[:user]
@@ -55,11 +53,8 @@ module Inspec::Resources
       # New options for TNS alias and environment variables (CHEF-28019)
       # TNS alias: use TNS name from tnsnames.ora (preferred for TCPS/SSL)
       # env: hash of environment variables to set for the command (e.g., TNS_ADMIN, LD_LIBRARY_PATH)
-      # debug: boolean to emit a masked command for manual debugging
       @tns_alias = opts[:tns_alias] || opts["tns_alias"]
       @env_vars = opts[:env] || opts["env"] || {}
-      @debug = opts[:debug] || false
-      @last_cmd = nil
       
       skip_resource "Option 'as_os_user' not available in Windows" if inspec.os.windows? && su_user
       fail_resource "Can't run Oracle checks without authentication" unless su_user || (user || password)
@@ -164,14 +159,6 @@ module Inspec::Resources
         full_cmd = cmd
       end
 
-      @last_cmd = full_cmd
-      
-      # Debug output with masked password
-      if @debug
-        masked = mask_password_in_command(full_cmd)
-        warn("oracledb_session: debug command (password masked):\n#{masked}")
-      end
-      
       full_cmd
     end
 
@@ -248,15 +235,6 @@ module Inspec::Resources
     # Single quotes with internal single-quotes escaped
     def shell_quote(val)
       "'" + val.to_s.gsub("'", "'\"'\"'") + "'"
-    end
-
-    # Replace password in command for safe debug printing
-    # Masks the password portion in connect strings
-    def mask_password_in_command(text)
-      # Match password between / and @ in connect strings
-      # Pattern: / followed by non-@ characters (excluding / for safety), followed by @
-      # The [^@/] pattern prevents backtracking issues with multiple slashes
-      text.gsub(%r{/[^@/]+@}, '/****@')
     end
   end
 end
