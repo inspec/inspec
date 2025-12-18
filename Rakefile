@@ -71,8 +71,8 @@ namespace :test do
   end
 
   task :parallel do
-    n      = (ENV["K"] || 4).to_i
-    warn "Have RUBY_PLATFORM as #{RUBY_PLATFORM}"
+    n = (ENV["K"] || Etc.nprocessors).to_i
+    warn "Using #{n} threads on RUBY_PLATFORM #{RUBY_PLATFORM}"
     lock   = Mutex.new
     passed = true
 
