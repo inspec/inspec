@@ -9,4 +9,4 @@ version: 0.1.0
 supports:
   platform: os
 gem_dependencies:
-- name: money
+- name: colorize
