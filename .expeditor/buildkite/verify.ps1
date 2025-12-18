@@ -66,6 +66,6 @@ bundle config set --local without deploy kitchen
 bundle install --jobs=7 --retry=3
 
 echo "+++ bundle exec rake test:parallel"
-bundle exec rake test:parallel K=4
+bundle exec rake test:parallel K=16
 
 exit $LASTEXITCODE
