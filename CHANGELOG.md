@@ -1,16 +1,28 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.23.12 -->
-## [v5.23.12](https://github.com/inspec/inspec/tree/v5.23.12) (2025-12-08)
+<!-- latest_release 5.23.21 -->
+## [v5.23.21](https://github.com/inspec/inspec/tree/v5.23.21) (2025-12-18)
 
 #### Merged Pull Requests
-- Gemfile cleanup [#7661](https://github.com/inspec/inspec/pull/7661) ([chandra-progress](https://github.com/chandra-progress))
+- CHEF-29019 Optimise the CI pipeline [#7678](https://github.com/inspec/inspec/pull/7678) ([sathish-progress](https://github.com/sathish-progress))
+- Add min version constraint for net-imap gem [#7688](https://github.com/inspec/inspec/pull/7688) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.23.6 -->
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- CHEF-29019 Optimise the CI pipeline [#7678](https://github.com/inspec/inspec/pull/7678) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.21 -->
+- Add min version constraint for net-imap gem [#7688](https://github.com/inspec/inspec/pull/7688) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.23.20 -->
+- Pin net-imap for ruby 3.1 compatability [#7687](https://github.com/inspec/inspec/pull/7687) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.23.20 -->
+- CHEF-28138 - Verify and add build support for RHEL 10 [#7649](https://github.com/inspec/inspec/pull/7649) ([poorndm](https://github.com/poorndm)) <!-- 5.23.19 -->
+- CHEF-28672  Updated resolv dependency [#7656](https://github.com/inspec/inspec/pull/7656) ([Nik08](https://github.com/Nik08)) <!-- 5.23.18 -->
+- Backport 7576 to fix windows pipeline failure in inspec 5 [#7676](https://github.com/inspec/inspec/pull/7676) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.23.17 -->
+- CHEF-28137 add support for windows 2025 [#7659](https://github.com/inspec/inspec/pull/7659) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.16 -->
+- CHEF-28672 Remove vulnerable net-imap gem [#7654](https://github.com/inspec/inspec/pull/7654) ([Nik08](https://github.com/Nik08)) <!-- 5.23.15 -->
+- Update  windows  docker image to fix  verify pipeline issue [#7666](https://github.com/inspec/inspec/pull/7666) ([poorndm](https://github.com/poorndm)) <!-- 5.23.14 -->
+- CHEF-28672 Remove vulnerable rexml bundled gems [#7653](https://github.com/inspec/inspec/pull/7653) ([Nik08](https://github.com/Nik08)) <!-- 5.23.13 -->
+- CHEF-28672 Updated rack to a more secure version [#7652](https://github.com/inspec/inspec/pull/7652) ([Nik08](https://github.com/Nik08)) <!-- 5.23.12 -->
 - Gemfile cleanup [#7661](https://github.com/inspec/inspec/pull/7661) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.23.12 -->
 - Pin connection_pool to &lt; 3.0.0 in Gemfile to support ruby &gt;=3.1.0  [#7660](https://github.com/inspec/inspec/pull/7660) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.23.11 -->
 - Fix reading/writing tar profiles issue [#7651](https://github.com/inspec/inspec/pull/7651) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.23.10 -->

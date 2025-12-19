@@ -170,6 +170,14 @@ supports:
   - platform-name: windows_server_2019*
 ```
 
+To target the entire Windows 2025 platform family, including Datacenter and Core Servers, use:
+
+```yaml
+name: ssh
+supports:
+  - platform-name: windows_server_2025*
+```
+
 To target anything running on Amazon AWS, use:
 
 ```yaml
