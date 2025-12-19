@@ -43,7 +43,8 @@ group :test do
   gem "m"
   # minitest-sprint 1.4.0+ requires Ruby 3.2+ (uses Data.define)
   gem "minitest-sprint", "~> 1.0", "< 1.4.0"
-  gem "minitest"
+  # allow proper loading of minitest/mock
+  gem "minitest", "~> 5.16"
   gem "mocha"
   gem "nokogiri"
   gem "pry-byebug"
