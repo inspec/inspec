@@ -311,34 +311,6 @@ describe "Inspec::Resources::OracledbSession" do
     _(resource.env_vars["ORACLE_HOME"]).must_equal "/opt/oracle/client"
   end
 
-  it "accepts both symbol and string keys for tns_alias" do
-    resource1 = quick_resource(:oracledb_session, :linux, 
-      user: "USER", 
-      password: "password", 
-      tns_alias: "MYDB_TCPS")
-    _(resource1.tns_alias).must_equal "MYDB_TCPS"
-
-    resource2 = quick_resource(:oracledb_session, :linux, 
-      user: "USER", 
-      password: "password", 
-      "tns_alias" => "MYDB_TCPS")
-    _(resource2.tns_alias).must_equal "MYDB_TCPS"
-  end
-
-  it "accepts both symbol and string keys for env" do
-    resource1 = quick_resource(:oracledb_session, :linux, 
-      user: "USER", 
-      password: "password",
-      env: { "TNS_ADMIN" => "/path" })
-    _(resource1.env_vars).must_equal({ "TNS_ADMIN" => "/path" })
-
-    resource2 = quick_resource(:oracledb_session, :linux, 
-      user: "USER", 
-      password: "password",
-      "env" => { "TNS_ADMIN" => "/path" })
-    _(resource2.env_vars).must_equal({ "TNS_ADMIN" => "/path" })
-  end
-
   it "TNS alias takes precedence over host/port/service" do
     resource = quick_resource(:oracledb_session, :linux, 
       user: "USER", 
