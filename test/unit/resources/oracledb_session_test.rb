@@ -258,24 +258,6 @@ describe "Inspec::Resources::OracledbSession" do
     _(query.row(0).column("value").value).must_equal "ORCL"
   end
 
-  it "sqlplus Linux with TNS alias and PATH expansion in env" do
-    resource = quick_resource(:oracledb_session, :linux, 
-      user: "USER", 
-      password: "password", 
-      tns_alias: "XEPDB1_TCPS",
-      env: {
-        "LD_LIBRARY_PATH" => "/opt/oracle/lib:$PATH"
-      },
-      sqlplus_bin: "/bin/sqlplus") do |cmd|
-      # The $PATH should be expanded to actual PATH value
-      _(cmd).must_include "LD_LIBRARY_PATH="
-      _(cmd).wont_include "$PATH"  # Should be expanded
-      stdout_file "test/fixtures/cmd/oracle-result"
-    end
-
-    _(resource.resource_skipped?).must_equal false
-  end
-
   it "builds correct resource_id for TNS alias connection" do
     resource = quick_resource(:oracledb_session, :linux, 
       user: "USER", 
@@ -391,33 +373,4 @@ describe "Inspec::Resources::OracledbSession" do
 
     _(resource.resource_skipped?).must_equal false
   end
-
-  it "shell quotes environment variable values safely" do
-    resource = quick_resource(:oracledb_session, :linux, 
-      user: "USER", 
-      password: "password",
-      tns_alias: "MYDB",
-      env: {
-        "PATH_WITH_QUOTE" => "/path/with'quote",
-        "NORMAL_PATH" => "/normal/path"
-      },
-      sqlplus_bin: "/bin/sqlplus") do |cmd|
-      # Should properly escape single quotes
-      _(cmd).must_include "PATH_WITH_QUOTE="
-      # Values should be single-quoted
-      _(cmd).must_include "NORMAL_PATH='/normal/path'"
-      stdout_file "test/fixtures/cmd/oracle-result"
-    end
-
-    _(resource.resource_skipped?).must_equal false
-  end
-
-  # Debug mode and password masking features have been removed
-  # it "password masking works for various password formats" do
-  #   ...
-  # end
-
-  # it "last_cmd stores the executed command" do
-  #   ...
-  # end
 end

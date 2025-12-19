@@ -33,7 +33,16 @@ A `oracledb_session` resource block declares the username and PASSWORD to use fo
 
 where
 
-- `oracledb_session` declares a username and PASSWORD with permission to run the query (required), and an optional parameters for host (default: `localhost`), system identifier (SID) (default: `nil`), which uses the default SID, and path to the sqlplus binary (default: `sqlplus`).
+- `oracledb_session` declares a username and PASSWORD with permission to run the query (required), and optional parameters for:
+  - host (default: `localhost`)
+  - port (default: `1521`)
+  - service: the Oracle service name or SID
+  - tns_alias: TNS alias from tnsnames.ora (recommended for TCPS/SSL connections)
+  - env: hash of environment variables (e.g., TNS_ADMIN, LD_LIBRARY_PATH, ORACLE_HOME)
+  - as_db_role: database role (e.g., sysdba, sysoper)
+  - as_os_user: OS user to switch to before running queries (Unix/Linux only)
+  - sqlplus_bin: path to sqlplus binary (default: `sqlplus`)
+  - sqlcl_bin: path to sqlcl binary (if using SQLcl instead of sqlplus)
 - it is possible to run queries as sysdba/sysoper by using `as_db_role option`, see examples
 - SQLcl can be used in place of sqlplus. Use the `sqlcl_bin` option to set the sqlcl binary path instead of `sqlplus_bin`.
 - `query('QUERY')` contains the query to be run
@@ -101,6 +110,25 @@ The following examples show how to use this Chef InSpec audit resource.
         its('owner') { should eq file_row['owner']}
       end
     end
+
+### Test using TNS alias for TCPS/SSL connections
+
+    sql = oracledb_session(
+      user: 'system',
+      password: 'Oracle123',
+      tns_alias: 'XEPDB1_TCPS',
+      env: {
+        'TNS_ADMIN' => '/opt/oracle/network/admin',
+        'LD_LIBRARY_PATH' => '/opt/oracle/instantclient',
+        'ORACLE_HOME' => '/opt/oracle'
+      }
+    )
+
+    describe sql.query('SELECT * FROM dual;').row(0).column('dummy') do
+      its('value') { should eq 'X' }
+    end
+
+    NOTE: The `tns_alias` option is recommended for TCPS/SSL connections as it allows proper TNS name resolution from tnsnames.ora. When using `tns_alias`, the `env` hash can be used to set required environment variables like `TNS_ADMIN` (path to tnsnames.ora and wallet files).
 
 ## Matchers
 
