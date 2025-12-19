@@ -41,7 +41,8 @@ group :test do
   gem "concurrent-ruby"
   gem "json_schemer"
   gem "m"
-  gem "minitest-sprint", "~> 1.0"
+  # minitest-sprint 1.4.0+ requires Ruby 3.2+ (uses Data.define)
+  gem "minitest-sprint", "~> 1.0", "< 1.4.0"
   gem "minitest"
   gem "mocha"
   gem "nokogiri"
