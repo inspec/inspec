@@ -1,9 +1,9 @@
 PATH
   remote: .
   specs:
-    inspec (5.23.17)
+    inspec (5.23.22)
       faraday_middleware (>= 0.12.2, < 1.3)
-      inspec-core (= 5.23.17)
+      inspec-core (= 5.23.22)
       mongo (= 2.21.3)
       progress_bar (~> 1.3.3)
       rake
@@ -12,7 +12,7 @@ PATH
       train-habitat (~> 0.1)
       train-kubernetes (< 0.3.1)
       train-winrm (~> 0.4.0)
-    inspec-core (5.23.17)
+    inspec-core (5.23.22)
       addressable (< 2.8.8)
       chef-telemetry (~> 1.0, >= 1.0.8)
       cookstyle
@@ -40,8 +40,8 @@ PATH
 PATH
   remote: inspec-bin
   specs:
-    inspec-bin (5.23.17)
-      inspec (= 5.23.17)
+    inspec-bin (5.23.22)
+      inspec (= 5.23.22)
 
 GEM
   remote: https://rubygems.org/
@@ -855,7 +855,7 @@ DEPENDENCIES
   minitest-sprint (~> 1.3.0, < 1.4.0)
   mocha
   multi_json (~> 1.18.0)
-  net-imap (>= 0.2.5)
+  net-imap (>= 0.2.5, < 0.6)
   nokogiri (< 1.17.2)
   pry
   pry-byebug
