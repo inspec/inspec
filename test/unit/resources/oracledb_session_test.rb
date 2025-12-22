@@ -196,7 +196,7 @@ describe "Inspec::Resources::OracledbSession" do
   end
 
   # CHEF-28019: Tests for TNS alias and TCPS/SSL support
-  
+
   it "sqlplus Linux with TNS alias" do
     resource = quick_resource(:oracledb_session, :linux, user: "USER", password: "password", tns_alias: "XEPDB1_TCPS", sqlplus_bin: "/bin/sqlplus") do |cmd|
       cmd.strip!
@@ -233,23 +233,23 @@ describe "Inspec::Resources::OracledbSession" do
   end
 
   it "sqlplus Linux with TNS alias and environment variables" do
-    resource = quick_resource(:oracledb_session, :linux, 
-      user: "USER", 
-      password: "password", 
+    resource = quick_resource(:oracledb_session, :linux,
+      user: "USER",
+      password: "password",
       tns_alias: "XEPDB1_TCPS",
       env: {
         "TNS_ADMIN" => "/opt/oracle/network/admin",
-        "LD_LIBRARY_PATH" => "/opt/oracle/lib"
+        "LD_LIBRARY_PATH" => "/opt/oracle/lib",
       },
       sqlplus_bin: "/bin/sqlplus") do |cmd|
-      cmd.strip!
-      case cmd
-      when "TNS_ADMIN='/opt/oracle/network/admin' LD_LIBRARY_PATH='/opt/oracle/lib' echo 'oracle_query_string';/bin/sqlplus -S -s /nolog <<'INSPECSQL'\nconnect USER/password@XEPDB1_TCPS\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nINSPECSQL" then
-        stdout_file "test/fixtures/cmd/oracle-result"
-      else
-        raise cmd.inspect
+        cmd.strip!
+        case cmd
+        when "TNS_ADMIN='/opt/oracle/network/admin' LD_LIBRARY_PATH='/opt/oracle/lib' echo 'oracle_query_string';/bin/sqlplus -S -s /nolog <<'INSPECSQL'\nconnect USER/password@XEPDB1_TCPS\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nINSPECSQL" then
+          stdout_file "test/fixtures/cmd/oracle-result"
+        else
+          raise cmd.inspect
+        end
       end
-    end
 
     _(resource.resource_skipped?).must_equal false
     _(resource.env_vars).must_equal({ "TNS_ADMIN" => "/opt/oracle/network/admin", "LD_LIBRARY_PATH" => "/opt/oracle/lib" })
@@ -259,12 +259,12 @@ describe "Inspec::Resources::OracledbSession" do
   end
 
   it "builds correct resource_id for TNS alias connection" do
-    resource = quick_resource(:oracledb_session, :linux, 
-      user: "USER", 
-      password: "password", 
+    resource = quick_resource(:oracledb_session, :linux,
+      user: "USER",
+      password: "password",
       tns_alias: "XEPDB1_TCPS",
       sqlplus_bin: "/bin/sqlplus")
-    
+
     # When using TNS alias, resource_id should show the alias
     # Note: Current implementation shows localhost-1521-USER
     # This test documents the current behavior
@@ -272,36 +272,36 @@ describe "Inspec::Resources::OracledbSession" do
   end
 
   it "sqlplus Linux with os_user and TNS alias" do
-    resource = quick_resource(:oracledb_session, :linux, 
+    resource = quick_resource(:oracledb_session, :linux,
       user: "USER",
       password: "password",
       tns_alias: "XEPDB1_TCPS",
       as_os_user: "oracle",
       env: { "TNS_ADMIN" => "/opt/oracle/network/admin" },
       sqlplus_bin: "/bin/sqlplus") do |cmd|
-      cmd.strip!
-      # Should use heredoc with connect inside su command
-      _(cmd).must_include "su - oracle"
-      _(cmd).must_include "connect USER/password@XEPDB1_TCPS"
-      _(cmd).must_include "TNS_ADMIN="
-      _(cmd).must_include "/nolog"
-      stdout_file "test/fixtures/cmd/oracle-result"
-    end
+        cmd.strip!
+        # Should use heredoc with connect inside su command
+        _(cmd).must_include "su - oracle"
+        _(cmd).must_include "connect USER/password@XEPDB1_TCPS"
+        _(cmd).must_include "TNS_ADMIN="
+        _(cmd).must_include "/nolog"
+        stdout_file "test/fixtures/cmd/oracle-result"
+      end
 
     _(resource.resource_skipped?).must_equal false
   end
 
   it "verify TNS alias and env configuration" do
-    resource = quick_resource(:oracledb_session, :linux, 
-      user: "system", 
-      password: "Oracle123", 
+    resource = quick_resource(:oracledb_session, :linux,
+      user: "system",
+      password: "Oracle123",
       tns_alias: "XEPDB1_TCPS",
       env: {
         "TNS_ADMIN" => "/opt/oracle/client/network/admin",
         "LD_LIBRARY_PATH" => "/opt/oracle/client/lib",
-        "ORACLE_HOME" => "/opt/oracle/client"
+        "ORACLE_HOME" => "/opt/oracle/client",
       })
-    
+
     _(resource.user).must_equal "system"
     _(resource.password).must_equal "Oracle123"
     _(resource.tns_alias).must_equal "XEPDB1_TCPS"
@@ -312,36 +312,36 @@ describe "Inspec::Resources::OracledbSession" do
   end
 
   it "TNS alias takes precedence over host/port/service" do
-    resource = quick_resource(:oracledb_session, :linux, 
-      user: "USER", 
+    resource = quick_resource(:oracledb_session, :linux,
+      user: "USER",
       password: "password",
       host: "dbserver",
       port: "1521",
       service: "ORCL",
       tns_alias: "XEPDB1_TCPS",
       sqlplus_bin: "/bin/sqlplus") do |cmd|
-      # Should use TNS alias, not host:port/service
-      _(cmd).must_include "@XEPDB1_TCPS"
-      _(cmd).wont_include "dbserver:1521/ORCL"
-      stdout_file "test/fixtures/cmd/oracle-result"
-    end
+        # Should use TNS alias, not host:port/service
+        _(cmd).must_include "@XEPDB1_TCPS"
+        _(cmd).wont_include "dbserver:1521/ORCL"
+        stdout_file "test/fixtures/cmd/oracle-result"
+      end
 
     _(resource.resource_skipped?).must_equal false
   end
 
   it "handles empty TNS alias gracefully" do
-    resource = quick_resource(:oracledb_session, :linux, 
-      user: "USER", 
+    resource = quick_resource(:oracledb_session, :linux,
+      user: "USER",
       password: "password",
       host: "localhost",
       service: "ORCL",
-      tns_alias: "",  # Empty string
+      tns_alias: "", # Empty string
       sqlplus_bin: "/bin/sqlplus") do |cmd|
-      # Should fall back to host:port/service
-      _(cmd).must_include "localhost:1521/ORCL"
-      _(cmd).wont_include "/nolog"
-      stdout_file "test/fixtures/cmd/oracle-result"
-    end
+        # Should fall back to host:port/service
+        _(cmd).must_include "localhost:1521/ORCL"
+        _(cmd).wont_include "/nolog"
+        stdout_file "test/fixtures/cmd/oracle-result"
+      end
 
     _(resource.resource_skipped?).must_equal false
   end

@@ -52,11 +52,11 @@ module Inspec::Resources
       @db_role = opts[:as_db_role]
       @sqlcl_bin = opts[:sqlcl_bin] || nil
       @sqlplus_bin = opts[:sqlplus_bin] || "sqlplus"
-      
+
       # CHEF-28019: Support for TNS alias and environment variables
       @tns_alias = opts[:tns_alias]
       @env_vars = opts[:env] || {}
-      
+
       skip_resource "Option 'as_os_user' not available in Windows" if inspec.os.windows? && su_user
       fail_resource "Can't run Oracle checks without authentication" unless su_user || (user || password)
     end
@@ -182,14 +182,14 @@ module Inspec::Resources
       env_prefix = build_env_prefix
       connect_string = build_connect_string
       heredoc_content = "connect #{connect_string}\n#{format_options}\n#{verified_query}\nEXIT"
-      
+
       if @su_user
         cmd = %{su - #{@su_user} -c "#{oracle_echo_str} #{env_prefix} #{@bin} -s /nolog <<'INSPECSQL'\n#{heredoc_content}\nINSPECSQL"}
       else
         cmd = %{#{oracle_echo_str}#{bin} -s /nolog <<'INSPECSQL'\n#{heredoc_content}\nINSPECSQL}
         cmd = env_prefix.empty? ? cmd : "#{env_prefix} #{cmd}"
       end
-      
+
       cmd
     end
 
@@ -204,7 +204,7 @@ module Inspec::Resources
     def build_env_prefix
       return "" if @env_vars.nil? || @env_vars.empty?
 
-      @env_vars.map { |k, v| "#{k}='#{v}'" }.join(' ')
+      @env_vars.map { |k, v| "#{k}='#{v}'" }.join(" ")
     end
   end
 end
