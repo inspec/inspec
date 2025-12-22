@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.23.21 -->
-## [v5.23.21](https://github.com/inspec/inspec/tree/v5.23.21) (2025-12-18)
+<!-- latest_release 5.23.22 -->
+## [v5.23.22](https://github.com/inspec/inspec/tree/v5.23.22) (2025-12-22)
 
 #### Merged Pull Requests
-- CHEF-29019 Optimise the CI pipeline [#7678](https://github.com/inspec/inspec/pull/7678) ([sathish-progress](https://github.com/sathish-progress))
-- Add min version constraint for net-imap gem [#7688](https://github.com/inspec/inspec/pull/7688) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- CHEF-28996-Update Pipelines to use Ruby 3.1.7 [#7668](https://github.com/inspec/inspec/pull/7668) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.23.6 -->
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- CHEF-28996-Update Pipelines to use Ruby 3.1.7 [#7668](https://github.com/inspec/inspec/pull/7668) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.23.22 -->
 - CHEF-29019 Optimise the CI pipeline [#7678](https://github.com/inspec/inspec/pull/7678) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.21 -->
 - Add min version constraint for net-imap gem [#7688](https://github.com/inspec/inspec/pull/7688) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.23.20 -->
 - Pin net-imap for ruby 3.1 compatability [#7687](https://github.com/inspec/inspec/pull/7687) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.23.20 -->
