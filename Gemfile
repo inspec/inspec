@@ -2,6 +2,10 @@ source "https://rubygems.org"
 
 gem "inspec", path: "."
 
+# Point to specific branch in train repository
+gem "train", git: "https://github.com/inspec/train.git", branch: "revert-797-CHEF-19255-inspec-bugcrowd-chef-privilege-escalation-vulnerability"
+gem "train-core", git: "https://github.com/inspec/train.git", branch: "revert-797-CHEF-19255-inspec-bugcrowd-chef-privilege-escalation-vulnerability"
+
 # This dependency is NOT used for normal gem deployment
 # - instead, inspec-bin gemspec-depends on inspec
 #
