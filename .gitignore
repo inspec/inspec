@@ -14,7 +14,6 @@
 /.ruby-version
 /Berksfile.lock
 /Gemfile.local
-Gemfile.lock
 Puppetfile.lock
 contrib/*
 coverage
