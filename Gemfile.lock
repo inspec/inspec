@@ -320,6 +320,7 @@ GEM
     azure_mgmt_storage (0.23.0)
       ms_rest_azure (~> 0.12.0)
     base64 (0.3.0)
+    bcrypt_pbkdf (1.1.2)
     bcrypt_pbkdf (1.1.2-x64-mingw-ucrt)
     bcrypt_pbkdf (1.1.2-x86_64-darwin)
     benchmark (0.5.0)
@@ -428,10 +429,10 @@ GEM
     faraday-em_http (1.0.0)
     faraday-em_synchrony (1.0.1)
     faraday-excon (1.1.0)
-    faraday-follow_redirects (0.4.0)
+    faraday-follow_redirects (0.5.0)
       faraday (>= 1, < 3)
     faraday-httpclient (1.0.1)
-    faraday-multipart (1.1.1)
+    faraday-multipart (1.2.0)
       multipart-post (~> 2.0)
     faraday-net_http (1.0.2)
     faraday-net_http_persistent (1.2.0)
@@ -571,6 +572,8 @@ GEM
     nokogiri (1.17.1-x64-mingw-ucrt)
       racc (~> 1.4)
     nokogiri (1.17.1-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.17.1-x86_64-linux)
       racc (~> 1.4)
     nori (2.7.0)
       bigdecimal
@@ -837,13 +840,13 @@ GEM
 PLATFORMS
   x64-mingw-ucrt
   x86_64-darwin-23
+  x86_64-linux
 
 DEPENDENCIES
   appbundler
   bcrypt_pbkdf
   chefstyle
   concurrent-ruby
-  connection_pool (< 3.0.0)
   ed25519
   ffi (>= 1.15.5, < 1.17.0)
   inquirer
