@@ -36,13 +36,11 @@ jobs:
       contents: read
 
     with:   
-      visibility: ${{ github.event.repository.visibility }}   #  private, public, or internal
+      visibility: '5.23.22' # private, public, or internal
       # go-private-modules: GOPRIVATE for Go private modules, default is 'github.com/progress-platform-services/*
-
-      # if version specified, it takes precedence; can be a semver like 1.0.2-xyz or a tag like "latest"
-      version: '5.23.22' # ${{ github.event.repository.version }}
-      detect-version-source-type: 'none' # options include "none" (do not detect), "file", "github-tag" or "github-release"
-      detect-version-source-parameter: '' # use for file name
+      
+      detect-version-source-type: 'file' # options include "none" (do not detect), "file", "github-tag" or "github-release"
+      detect-version-source-parameter: 'VERSION' # use for file name
       language: 'ruby'  # options include "autodetect", "ruby", "go", "node", "python", "java", "dotnet", "c/c++", "other"
 
       # complexity-checks
@@ -97,7 +95,6 @@ jobs:
       perform-blackduck-sca-scan: true # Re-enabled for SBOM generation (may fail on accuracy)
       blackduck-project-group-name: 'Chef-Agents' # typically one of (Chef), Chef-Agents, Chef-Automate, Chef-Chef360, Chef-Habitat, Chef-Infrastructure-Server, Chef-Shared-Services'
       blackduck-project-name: ${{ github.event.repository.name }} # BlackDuck project name, typically the repository name
-      generate-blackduck-sbom: true # Re-enabled for SCA SBOM
         
       generate-msft-sbom: false
       license_scout: false      # Run license scout for license compliance (uses .license_scout.yml)
