@@ -12,6 +12,8 @@ steps:
   - label: lint-ruby-3.1
     command:
       - RAKE_TASK=test:lint /workdir/.expeditor/buildkite/verify.sh
+    env:
+      SKIP_BUNDLE_CACHE: 1
     expeditor:
       executor:
         docker:

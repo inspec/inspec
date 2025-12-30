@@ -68,6 +68,3 @@ gem "zeitwerk", "~> 2.6.0", "< 2.7"
 # Pinning connection_pool to < 3.0.0 as 3.0.1 requires Ruby >= 3.2.0
 # Remove this pin when upgrading to Ruby 3.2 or higher.
 gem "connection_pool", ">= 2.5", "< 3.0.0"
-
-# pinning dry-core to <= 1.1.0 as 1.2.0 requires Ruby >= 3.2.0
-gem "dry-core", ">= 1.0", "<= 1.1.0"
