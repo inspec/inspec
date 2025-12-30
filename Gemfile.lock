@@ -446,7 +446,6 @@ GEM
     faraday_middleware (1.2.1)
       faraday (~> 1.0)
     ffi (1.16.3)
-    ffi (1.16.3-x64-mingw-ucrt)
     ffi-win32-extensions (1.0.4)
       ffi
     fuzzyurl (0.9.0)
@@ -533,6 +532,7 @@ GEM
       rake
     method_source (1.1.0)
     mini_mime (1.1.5)
+    mini_portile2 (2.8.9)
     minitest (5.15.0)
     minitest-sprint (1.3.0)
       path_expander (~> 1.1)
@@ -829,7 +829,6 @@ GEM
       concurrent-ruby (~> 1.0)
     uber (0.1.0)
     unf_ext (0.0.8.2)
-    unf_ext (0.0.8.2-x64-mingw-ucrt)
     unicode-display_width (2.6.0)
     unicode_utils (1.4.0)
     webmock (3.26.1)
@@ -856,7 +855,7 @@ DEPENDENCIES
   bcrypt_pbkdf
   chefstyle
   concurrent-ruby
-  connection_pool (< 3.0.0)
+  connection_pool (>= 2.5, < 3.0)
   ed25519
   ffi (>= 1.15.5, < 1.17.0)
   inquirer
