@@ -17,7 +17,7 @@ permissions:
   contents: read
   
 env:
-  STUB_VERSION: "1.0.7" 
+  STUB_VERSION: "1.0.5" 
 
 jobs: 
   echo_version:
@@ -29,20 +29,20 @@ jobs:
           echo "CI main pull request stub version $STUB_VERSION"
 
   call-ci-inspec-5-pr-check-pipeline:
-    uses: chef/common-github-actions/.github/workflows/ci-main-pull-request.yml@main
+    uses: chef/common-github-actions/.github/workflows/ci-main-pull-request.yml@755c08361e6b260968c90976411e9b2960274324
     secrets: inherit
     permissions: 
       id-token: write
       contents: read
 
     with:   
-      visibility: ${{ github.event.repository.visibility }}   # private, public, or internal - FIXED: use actual repository visibility
+      visibility: ${{ github.event.repository.visibility }}   #  private, public, or internal
       # go-private-modules: GOPRIVATE for Go private modules, default is 'github.com/progress-platform-services/*
 
       # if version specified, it takes precedence; can be a semver like 1.0.2-xyz or a tag like "latest"
-      version: '5.23.22' # ${{ github.event.repository.version }} - FIXED: moved from visibility field
-      detect-version-source-type: 'file' # options include "none" (do not detect), "file", "github-tag" or "github-release"
-      detect-version-source-parameter: 'VERSION' # use for file name
+      version: '5.23.6' # ${{ github.event.repository.version }}
+      detect-version-source-type: 'none' # options include "none" (do not detect), "file", "github-tag" or "github-release"
+      detect-version-source-parameter: '' # use for file name
       language: 'ruby'  # options include "autodetect", "ruby", "go", "node", "python", "java", "dotnet", "c/c++", "other"
 
       # complexity-checks
