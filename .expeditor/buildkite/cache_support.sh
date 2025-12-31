@@ -28,7 +28,13 @@ install_cache_deps() {
 
 pull_bundle() {
     if [ -z "${SKIP_BUNDLE_CACHE:-}" ]; then
-        pull_s3_file "bundle.tar.gz"
+        shasum -a 256 Gemfile.lock > Gemfile.lock.sha256
+
+        if [ -n "${RESET_BUNDLE_CACHE:-}" ]; then
+            echo "RESET_BUNDLE_CACHE is set. Will rebuild cache."
+            return
+        fi
+
         pull_s3_file "bundle.sha256"
 
         if [ -f bundle.tar.gz ]; then
