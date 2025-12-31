@@ -575,6 +575,8 @@ GEM
       racc (~> 1.4)
     nokogiri (1.17.1-x86_64-darwin)
       racc (~> 1.4)
+    nokogiri (1.17.1-x86_64-linux)
+      racc (~> 1.4)
     nori (2.7.0)
       bigdecimal
     options (2.3.2)
@@ -839,9 +841,12 @@ GEM
     zeitwerk (2.6.18)
 
 PLATFORMS
+  arm64-darwin-21
+  arm64-darwin-23
   arm64-darwin-24
   x64-mingw-ucrt
   x86_64-darwin-23
+  x86_64-linux
 
 DEPENDENCIES
   chefstyle
