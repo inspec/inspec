@@ -37,13 +37,15 @@ pull_bundle() {
 
         pull_s3_file "bundle.sha256"
 
-        if [ -f bundle.tar.gz ]; then
-            tar -xzf bundle.tar.gz
-            mv Gemfile.lock Gemfile.lock.old || true
-        fi
-
-        if [ -n "${RESET_BUNDLE_CACHE:-}" ]; then
-            rm bundle.sha256
+        if test -f bundle.sha256 && diff -q Gemfile.lock.sha256 bundle.sha256 > /dev/null 2>&1; then
+            echo "Gemfile.lock matches cache. Pulling cached vendor bundle."
+            pull_s3_file "bundle.tar.gz"
+            if [ -f bundle.tar.gz ]; then
+                # Extract the vendor/ directory, preserve committed Gemfile.lock
+                tar -xzf bundle.tar.gz vendor/
+            fi
+        else
+            echo "Gemfile.lock has changed or no cache exists. Will run fresh bundle install."
         fi
     fi
 }
