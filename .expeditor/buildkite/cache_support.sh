@@ -58,9 +58,10 @@ push_bundle() {
         if test -f bundle.sha256 && diff -q Gemfile.lock.sha256 bundle.sha256 > /dev/null 2>&1; then
             echo "Gemfile.lock unchanged. Skipping cache upload."
         else
-            echo "Bundled gems have changed. Uploading to s3"
-            shasum -a 256 Gemfile.lock > bundle.sha256
-            tar -czf bundle.tar.gz Gemfile.lock vendor/
+            echo "Gemfile.lock has changed. Uploading new cache to S3."
+            # Cache the vendor/ directory
+            cp Gemfile.lock.sha256 bundle.sha256
+            tar -czf bundle.tar.gz vendor/
             push_s3_file bundle.tar.gz
             push_s3_file bundle.sha256
         fi
