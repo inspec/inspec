@@ -52,8 +52,11 @@ pull_bundle() {
 
 push_bundle() {
     if [ -z "${SKIP_BUNDLE_CACHE:-}" ]; then
-        if test -f bundle.sha256 && shasum --check bundle.sha256 --status; then
-            echo "Bundled gems have not changed. Skipping upload to s3"
+        shasum -a 256 Gemfile.lock > Gemfile.lock.sha256
+
+        # Compare with cached checksum to decide if upload is needed
+        if test -f bundle.sha256 && diff -q Gemfile.lock.sha256 bundle.sha256 > /dev/null 2>&1; then
+            echo "Gemfile.lock unchanged. Skipping cache upload."
         else
             echo "Bundled gems have changed. Uploading to s3"
             shasum -a 256 Gemfile.lock > bundle.sha256
