@@ -28,28 +28,40 @@ install_cache_deps() {
 
 pull_bundle() {
     if [ -z "${SKIP_BUNDLE_CACHE:-}" ]; then
-        pull_s3_file "bundle.tar.gz"
-        pull_s3_file "bundle.sha256"
-
-        if [ -f bundle.tar.gz ]; then
-            tar -xzf bundle.tar.gz
-            mv Gemfile.lock Gemfile.lock.old || true
-        fi
+        shasum -a 256 Gemfile.lock > Gemfile.lock.sha256
 
         if [ -n "${RESET_BUNDLE_CACHE:-}" ]; then
-            rm bundle.sha256
+            echo "RESET_BUNDLE_CACHE is set. Will rebuild cache."
+            return
+        fi
+
+        pull_s3_file "bundle.sha256"
+
+        if test -f bundle.sha256 && diff -q Gemfile.lock.sha256 bundle.sha256 > /dev/null 2>&1; then
+            echo "Gemfile.lock matches cache. Pulling cached vendor bundle."
+            pull_s3_file "bundle.tar.gz"
+            if [ -f bundle.tar.gz ]; then
+                # Extract the vendor/ directory, preserve committed Gemfile.lock
+                tar -xzf bundle.tar.gz vendor/
+            fi
+        else
+            echo "Gemfile.lock has changed or no cache exists. Will run fresh bundle install."
         fi
     fi
 }
 
 push_bundle() {
     if [ -z "${SKIP_BUNDLE_CACHE:-}" ]; then
-        if test -f bundle.sha256 && shasum --check bundle.sha256 --status; then
-            echo "Bundled gems have not changed. Skipping upload to s3"
+        shasum -a 256 Gemfile.lock > Gemfile.lock.sha256
+
+        # Compare with cached checksum to decide if upload is needed
+        if test -f bundle.sha256 && diff -q Gemfile.lock.sha256 bundle.sha256 > /dev/null 2>&1; then
+            echo "Gemfile.lock unchanged. Skipping cache upload."
         else
-            echo "Bundled gems have changed. Uploading to s3"
-            shasum -a 256 Gemfile.lock > bundle.sha256
-            tar -czf bundle.tar.gz Gemfile.lock vendor/
+            echo "Gemfile.lock has changed. Uploading new cache to S3."
+            # Cache the vendor/ directory
+            cp Gemfile.lock.sha256 bundle.sha256
+            tar -czf bundle.tar.gz vendor/
             push_s3_file bundle.tar.gz
             push_s3_file bundle.sha256
         fi
