@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.23.23 -->
-## [v5.23.23](https://github.com/inspec/inspec/tree/v5.23.23) (2025-12-24)
+<!-- latest_release 5.23.24 -->
+## [v5.23.24](https://github.com/inspec/inspec/tree/v5.23.24) (2026-01-05)
 
 #### Merged Pull Requests
-- CHEF-28708 | Enabling Gemfile.lock and bundle with v-2.5.23 [#7667](https://github.com/inspec/inspec/pull/7667) ([chandra-progress](https://github.com/chandra-progress))
+- CHEF-29503 update bundle cache logic [#7706](https://github.com/inspec/inspec/pull/7706) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.23.6 -->
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- CHEF-29503 update bundle cache logic [#7706](https://github.com/inspec/inspec/pull/7706) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.24 -->
 - CHEF-28708 | Enabling Gemfile.lock and bundle with v-2.5.23 [#7667](https://github.com/inspec/inspec/pull/7667) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.23.23 -->
 - CHEF-28996-Update Pipelines to use Ruby 3.1.7 [#7668](https://github.com/inspec/inspec/pull/7668) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.23.22 -->
 - CHEF-29019 Optimise the CI pipeline [#7678](https://github.com/inspec/inspec/pull/7678) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.21 -->
