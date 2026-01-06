@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.23.25 -->
-## [v5.23.25](https://github.com/inspec/inspec/tree/v5.23.25) (2026-01-06)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Update gem versions in Gemfile.lock as part of version bump pipeline [#7704](https://github.com/inspec/inspec/pull/7704) ([sathish-progress](https://github.com/sathish-progress))
+- Updates configuration for sbom generation [#7700](https://github.com/inspec/inspec/pull/7700) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.23.6 -->
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- Updates configuration for sbom generation [#7700](https://github.com/inspec/inspec/pull/7700) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.23.25 -->
 - Update gem versions in Gemfile.lock as part of version bump pipeline [#7704](https://github.com/inspec/inspec/pull/7704) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.25 -->
 - CHEF-29503 update bundle cache logic [#7706](https://github.com/inspec/inspec/pull/7706) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.24 -->
 - CHEF-28708 | Enabling Gemfile.lock and bundle with v-2.5.23 [#7667](https://github.com/inspec/inspec/pull/7667) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.23.23 -->
