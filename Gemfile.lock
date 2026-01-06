@@ -445,8 +445,10 @@ GEM
     faraday-retry (1.0.3)
     faraday_middleware (1.2.1)
       faraday (~> 1.0)
-    ffi (1.16.3)
-    ffi (1.16.3-x64-mingw-ucrt)
+    ffi (1.17.3-arm64-darwin)
+    ffi (1.17.3-x64-mingw-ucrt)
+    ffi (1.17.3-x86_64-darwin)
+    ffi (1.17.3-x86_64-linux-gnu)
     ffi-win32-extensions (1.0.4)
       ffi
     fuzzyurl (0.9.0)
@@ -539,8 +541,7 @@ GEM
     mixlib-cli (2.1.8)
     mixlib-config (3.0.27)
       tomlrb
-    mixlib-log (3.1.2.1)
-      ffi (< 1.17.0)
+    mixlib-log (3.0.9)
     mixlib-shellout (3.3.9)
       chef-utils
     mixlib-shellout (3.3.9-x64-mingw-ucrt)
@@ -858,7 +859,7 @@ DEPENDENCIES
   concurrent-ruby
   connection_pool (>= 2.5, < 3.0)
   ed25519
-  ffi (>= 1.15.5, < 1.17.0)
+  ffi (>= 1.15.5, < 1.18.0)
   inquirer
   inspec!
   inspec-bin!
