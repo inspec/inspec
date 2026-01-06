@@ -856,7 +856,7 @@ DEPENDENCIES
   bcrypt_pbkdf
   chefstyle
   concurrent-ruby
-  connection_pool (< 3.0.0)
+  connection_pool (>= 2.5, < 3.0)
   ed25519
   ffi (>= 1.15.5, < 1.17.0)
   inquirer
