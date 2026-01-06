@@ -22,6 +22,10 @@ gem "unf_ext", "= 0.0.8.2"
 # but our runtime dep is still 3.9+
 gem "rspec", ">= 3.10"
 
+
+gem "train", git: "https://github.com/inspec/train.git", branch: "fix-pipe-broken-issue"
+gem "train-core", git: "https://github.com/inspec/train.git", branch: "fix-pipe-broken-issue"
+
 group :omnibus do
   gem "rb-readline"
   gem "appbundler"
