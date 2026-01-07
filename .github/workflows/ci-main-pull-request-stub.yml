@@ -7,9 +7,9 @@ name: CI Pull Request on InSpec 5 Branch
 
 on: 
   pull_request:
-    branches: [  vj/verify-group-name-failure, release/** ]
+    branches: [  inspec-5, release/** ]
   push:
-    branches: [  vj/verify-group-name-failure, release/** ]
+    branches: [  inspec-5, release/** ]
 
   workflow_dispatch:
 
@@ -60,8 +60,7 @@ jobs:
       # requires these secrets: POLARIS_SERVER_URL, POLARIS_ACCESS_TOKEN
       perform-blackduck-polaris: true
       polaris-application-name: "Chef-Agents"  # one of these: Chef-Agents, Chef-Automate, Chef-Chef360, Chef-Habitat, Chef-Infrastructure-Server, Chef-Shared-Services, Chef-Other
-      polaris-project-name: 'inspec-5'
-      # polaris-blackduck-executable: 'path/to/blackduck/binary'
+      polaris-project-name: 'Chef-Inspec'
       # polaris-executable-detect-path: 'path/to/detect'
  
       # perform application build and unit testing, will use custom repository properties when implemented for chef-primary-application, chef-build-profile, and chef-build-language
@@ -80,7 +79,7 @@ jobs:
       # report to central developer dashboard
       report-to-atlassian-dashboard: false
       # quality-product-name: 'Chef-client'   # product name for quality reporting, like Chef360, Courier, Inspec
-      quality-product-name: 'inspec-5' # like 'Chef-360' - the product name for quality reporting, like Chef360, Courier, Inspec
+      quality-product-name: 'Chef-Inspec' # like 'Chef-360' - the product name for quality reporting, like Chef360, Courier, Inspec
       # quality-sonar-app-name: 'YourSonarAppName'
       # quality-testing-type: 'Integration' like Unit, Integration, e2e, api, Performance, Security
       # quality-service-name: 'YourServiceOrRepoName'
@@ -96,7 +95,7 @@ jobs:
       export-github-sbom: true      # SPDX JSON artifact on job instance  
       perform-blackduck-sca-scan: true # Re-enabled for SBOM generation (may fail on accuracy)
       blackduck-project-group-name: 'Chef-Agents' # typically one of (Chef), Chef-Agents, Chef-Automate, Chef-Chef360, Chef-Habitat, Chef-Infrastructure-Server, Chef-Shared-Services'
-      blackduck-project-name: chef-inspec # BlackDuck project name, typically the repository name
+      blackduck-project-name: chef-inspec # BlackDuck project name, typically the repository name - using chef-inspec as using 'inspec' a name in sbominator fails to generate the notice file with invalid group error
       generate-blackduck-sbom: true # Re-enabled for SCA SBOM
         
       generate-msft-sbom: false
