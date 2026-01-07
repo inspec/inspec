@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.23.26 -->
-## [v5.23.26](https://github.com/inspec/inspec/tree/v5.23.26) (2026-01-06)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Update connection_pool dependency to be compatible with Ruby 3.1 [#7703](https://github.com/inspec/inspec/pull/7703) ([sathish-progress](https://github.com/sathish-progress))
-- Updates configuration for sbom generation [#7700](https://github.com/inspec/inspec/pull/7700) ([Vasu1105](https://github.com/Vasu1105))
+- Fix github workflow for sbom generation  [#7711](https://github.com/inspec/inspec/pull/7711) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.23.6 -->
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- Fix github workflow for sbom generation  [#7711](https://github.com/inspec/inspec/pull/7711) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.23.26 -->
 - Update connection_pool dependency to be compatible with Ruby 3.1 [#7703](https://github.com/inspec/inspec/pull/7703) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.26 -->
 - Updates configuration for sbom generation [#7700](https://github.com/inspec/inspec/pull/7700) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.23.25 -->
 - Update gem versions in Gemfile.lock as part of version bump pipeline [#7704](https://github.com/inspec/inspec/pull/7704) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.25 -->
