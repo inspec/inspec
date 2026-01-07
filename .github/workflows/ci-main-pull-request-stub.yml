@@ -7,9 +7,9 @@ name: CI Pull Request on InSpec 5 Branch
 
 on: 
   pull_request:
-    branches: [ inspec-5, release/** ]
+    branches: [ sa/sbom_generation, release/** ]
   push:
-    branches: [ inspec-5, release/** ]
+    branches: [ sa/sbom_generation, release/** ]
 
   workflow_dispatch:
 
