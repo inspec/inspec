@@ -110,7 +110,7 @@ module Inspec::Resources
 
     # CHEF-28019: Build command with support for TNS alias and environment variables
     # Existing behavior: regular user/password, using db_role, or su with db_role
-    # New behavior: TNS alias connections with optional env vars
+    # Added New behavior: TNS alias connections with optional env vars
     def command_builder(format_options, query)
       if @db_role.nil? || @su_user.nil?
         verified_query = verify_query(query)
