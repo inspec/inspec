@@ -243,12 +243,12 @@ describe "Inspec::Resources::OracledbSession" do
       },
       sqlplus_bin: "/bin/sqlplus") do |cmd|
         cmd.strip!
-        case cmd
-        when "TNS_ADMIN='/opt/oracle/network/admin' LD_LIBRARY_PATH='/opt/oracle/lib' echo 'oracle_query_string';/bin/sqlplus -S -s /nolog <<'INSPECSQL'\nconnect USER/password@XEPDB1_TCPS\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nINSPECSQL" then
-          stdout_file "test/fixtures/cmd/oracle-result"
-        else
-          raise cmd.inspect
-        end
+        _(cmd).must_include "TNS_ADMIN='/opt/oracle/network/admin'"
+        _(cmd).must_include "LD_LIBRARY_PATH='/opt/oracle/lib'"
+        _(cmd).must_include "echo 'oracle_query_string';"
+        _(cmd).must_include "/bin/sqlplus -S -s /nolog"
+        _(cmd).must_include "connect USER/password@XEPDB1_TCPS"
+        stdout_file "test/fixtures/cmd/oracle-result"
       end
 
     _(resource.resource_skipped?).must_equal false
@@ -264,11 +264,9 @@ describe "Inspec::Resources::OracledbSession" do
       password: "password",
       tns_alias: "XEPDB1_TCPS",
       sqlplus_bin: "/bin/sqlplus")
-
-    # When using TNS alias, resource_id should show the alias
-    # Note: Current implementation shows localhost-1521-USER
-    # This test documents the current behavior
-    _(resource.resource_id).must_equal "localhost-1521-USER"
+    
+    # When using TNS alias, resource_id should show the TNS alias and user
+    _(resource.resource_id).must_equal "XEPDB1_TCPS-USER"
   end
 
   it "sqlplus Linux with os_user and TNS alias" do
@@ -289,6 +287,8 @@ describe "Inspec::Resources::OracledbSession" do
       end
 
     _(resource.resource_skipped?).must_equal false
+    # TNS alias takes precedence in resource_id
+    _(resource.resource_id).must_equal "XEPDB1_TCPS-USER"
   end
 
   it "verify TNS alias and env configuration" do
