@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.24.0 -->
+## [v5.24.0](https://github.com/inspec/inspec/tree/v5.24.0) (2026-01-09)
 
 #### Merged Pull Requests
+- CHEF-28019: Enable TCPS Connection to Oracle DB [#7684](https://github.com/inspec/inspec/pull/7684) ([sa-progress](https://github.com/sa-progress))
 - Fix github workflow for sbom generation  [#7711](https://github.com/inspec/inspec/pull/7711) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- CHEF-28019: Enable TCPS Connection to Oracle DB [#7684](https://github.com/inspec/inspec/pull/7684) ([sa-progress](https://github.com/sa-progress)) <!-- 5.24.0 -->
 - Fix github workflow for sbom generation  [#7711](https://github.com/inspec/inspec/pull/7711) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.23.26 -->
 - Update connection_pool dependency to be compatible with Ruby 3.1 [#7703](https://github.com/inspec/inspec/pull/7703) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.26 -->
 - Updates configuration for sbom generation [#7700](https://github.com/inspec/inspec/pull/7700) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.23.25 -->
