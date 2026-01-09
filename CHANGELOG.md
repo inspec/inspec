@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.24.0 -->
-## [v5.24.0](https://github.com/inspec/inspec/tree/v5.24.0) (2026-01-09)
+<!-- latest_release 5.24.1 -->
+## [v5.24.1](https://github.com/inspec/inspec/tree/v5.24.1) (2026-01-09)
 
 #### Merged Pull Requests
-- CHEF-28019: Enable TCPS Connection to Oracle DB [#7684](https://github.com/inspec/inspec/pull/7684) ([sa-progress](https://github.com/sa-progress))
-- Fix github workflow for sbom generation  [#7711](https://github.com/inspec/inspec/pull/7711) ([Vasu1105](https://github.com/Vasu1105))
+- fixing openssl 3.2.6 [CVE-2025-9230] [#7719](https://github.com/inspec/inspec/pull/7719) ([sean-sype-simmons](https://github.com/sean-sype-simmons))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.23.6 -->
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- fixing openssl 3.2.6 [CVE-2025-9230] [#7719](https://github.com/inspec/inspec/pull/7719) ([sean-sype-simmons](https://github.com/sean-sype-simmons)) <!-- 5.24.1 -->
 - CHEF-28019: Enable TCPS Connection to Oracle DB [#7684](https://github.com/inspec/inspec/pull/7684) ([sa-progress](https://github.com/sa-progress)) <!-- 5.24.0 -->
 - Fix github workflow for sbom generation  [#7711](https://github.com/inspec/inspec/pull/7711) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.23.26 -->
 - Update connection_pool dependency to be compatible with Ruby 3.1 [#7703](https://github.com/inspec/inspec/pull/7703) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.26 -->
