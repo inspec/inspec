@@ -189,7 +189,7 @@ module Inspec::Resources
         cmd = %{su - #{@su_user} -c "#{oracle_echo_str} #{env_prefix} #{@bin} -s /nolog <<'INSPECSQL'\n#{heredoc_content}\nINSPECSQL"}
       else
         cmd = %{#{oracle_echo_str}#{bin} -s /nolog <<'INSPECSQL'\n#{heredoc_content}\nINSPECSQL}
-        cmd = env_prefix.empty? ? cmd : "#{env_prefix} #{cmd}"
+        cmd = "#{env_prefix} #{cmd}" unless env_prefix.empty?
       end
 
       cmd
