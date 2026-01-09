@@ -98,9 +98,9 @@ module Inspec::Resources
 
     def resource_id
       if @tns_alias && !@tns_alias.empty?
-        "#{@tns_alias}-#{@user}"  # e.g., "XEPDB1_TCPS-USER"
+        "#{@tns_alias}-#{@user}" # e.g., "XEPDB1_TCPS-USER"
       elsif @user
-        "#{@host}-#{@port}-#{@user}"  # e.g., "localhost-1521-USER"
+        "#{@host}-#{@port}-#{@user}" # e.g., "localhost-1521-USER"
       elsif @su_user
         "#{@host}-#{@port}-#{@su_user}"
       else
