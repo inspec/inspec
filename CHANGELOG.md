@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.24.1 -->
-## [v5.24.1](https://github.com/inspec/inspec/tree/v5.24.1) (2026-01-09)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- fixing openssl 3.2.6 [CVE-2025-9230] [#7719](https://github.com/inspec/inspec/pull/7719) ([sean-sype-simmons](https://github.com/sean-sype-simmons))
+- Bump ffi-yajl from 2.6.0 to 2.7.6 in /omnibus [#7727](https://github.com/inspec/inspec/pull/7727) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.23.6 -->
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- Bump ffi-yajl from 2.6.0 to 2.7.6 in /omnibus [#7727](https://github.com/inspec/inspec/pull/7727) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.24.1 -->
 - fixing openssl 3.2.6 [CVE-2025-9230] [#7719](https://github.com/inspec/inspec/pull/7719) ([sean-sype-simmons](https://github.com/sean-sype-simmons)) <!-- 5.24.1 -->
 - CHEF-28019: Enable TCPS Connection to Oracle DB [#7684](https://github.com/inspec/inspec/pull/7684) ([sa-progress](https://github.com/sa-progress)) <!-- 5.24.0 -->
 - Fix github workflow for sbom generation  [#7711](https://github.com/inspec/inspec/pull/7711) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.23.26 -->
