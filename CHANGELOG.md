@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Added zlib depenedency in omnibus overrides [#7735](https://github.com/inspec/inspec/pull/7735) ([Nik08](https://github.com/Nik08))
 - Revert &quot;Bump ffi-yajl from 2.6.0 to 2.7.6 in /omnibus&quot; [#7734](https://github.com/inspec/inspec/pull/7734) ([Nik08](https://github.com/Nik08))
 - Bump ffi-yajl from 2.6.0 to 2.7.6 in /omnibus [#7727](https://github.com/inspec/inspec/pull/7727) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
@@ -12,6 +13,7 @@
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- Added zlib depenedency in omnibus overrides [#7735](https://github.com/inspec/inspec/pull/7735) ([Nik08](https://github.com/Nik08)) <!-- 5.24.1 -->
 - Revert &quot;Bump ffi-yajl from 2.6.0 to 2.7.6 in /omnibus&quot; [#7734](https://github.com/inspec/inspec/pull/7734) ([Nik08](https://github.com/Nik08)) <!-- 5.24.1 -->
 - Bump ffi-yajl from 2.6.0 to 2.7.6 in /omnibus [#7727](https://github.com/inspec/inspec/pull/7727) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.24.1 -->
 - fixing openssl 3.2.6 [CVE-2025-9230] [#7719](https://github.com/inspec/inspec/pull/7719) ([sean-sype-simmons](https://github.com/sean-sype-simmons)) <!-- 5.24.1 -->
