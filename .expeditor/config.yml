@@ -164,8 +164,8 @@ subscriptions:
      - built_in:create_github_release
      - built_in:promote_docker_images
      - built_in:promote_habitat_packages
-     - bash:.expeditor/publish-release-notes.sh:
-        post_commit: true
+   #   - bash:.expeditor/publish-release-notes.sh:
+   #      post_commit: true
      - purge_packages_chef_io_fastly:{{target_channel}}/inspec/latest:
         post_commit: true
      - bash:.expeditor/announce-release.sh:
