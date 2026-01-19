@@ -44,7 +44,9 @@ group :test do
   gem "minitest-sprint", "~> 1.0"
   gem "minitest"
   gem "mocha"
-  gem "nokogiri"
+  # Pinning nokogiri to < 1.17.2 for Ruby 3.1.0 compatibility
+  # nokogiri >= 1.17.2 may have issues with Ruby 3.1.0
+  gem "nokogiri", "< 1.17.2"
   gem "pry-byebug"
   gem "pry"
   gem "rake"
