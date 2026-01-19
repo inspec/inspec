@@ -97,16 +97,6 @@ The difference between the gems is as follows:
 * `inspec-core` is a library gem, with lightweight dependencies and no compilation required at install time, and is not encumbered by commercial licensing
 * `inspec-core-bin` contains an `inspec` executable and is encumbered by commercial licensing
 
-### Update Pending Release Notes
-
-As you merge each pull request, update the [Pending Release Notes](https://github.com/inspec/inspec/wiki/Pending-Release-Notes). Some guidelines:
-
-* Do not include minor or non-customer visible changes, such as CI changes or test harness changes.
-* Do include bug fixes, features, and other things that impact the user.
-* Your words will be edited by the Docs team, but try help them along by keeping it human oriented; this isn't the technical-oriented CHANGELOG.
-* Add the PR number as a reference for the Docs team. They will typically remove them, but they may need to get more context by looking up the originating PR.
-* It's preferable to add notes as things merge, lest they be forgotten; sifting through a pile of merged PRs in a rush is a chore!
-
 ### Known Expeditor issues and resolutions
 
 Generally, expeditor issues and failures that appear unrelated to the InSpec PR should be flagged internally to `#releng-support` or `#expeditor-support`.
@@ -122,6 +112,8 @@ Occasionally there may be an unexplainable expeditor error. One thing to quickly
 Promotion should only be attempted if you have a set of green artifacts in #inspec-notify.
 
 ### Notify Docs Team
+
+InSpec release notes are published from the [chef-web-docs repository](https://github.com/chef/chef-web-docs/blob/main/content/release_notes/inspec.md).
 
 Let the Docs team (@docs-team) know that a release is planned and that editing of the release notes is needed. All content should be completed at least one day before release. The Docs team will polish up the words and remove any unused sections.
 
