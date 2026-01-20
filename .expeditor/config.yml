@@ -140,12 +140,8 @@ subscriptions:
      - built_in:publish_rubygems
    #   - built_in:create_github_release # This does not work under project_promoted workload
      - built_in:promote_habitat_packages
-     - bash:.expeditor/publish-release-notes.sh:
-        post_commit: true
      - purge_packages_chef_io_fastly:{{target_channel}}/inspec/latest:
         post_commit: true
-   #   - bash:.expeditor/announce-release.sh: # Keeping this disabled until complete GA
-   #      post_commit: true
      - built_in:notify_chefio_slack_channels
 
   - workload: pull_request_opened:{{github_repo}}:{{release_branch}}:*
