@@ -103,10 +103,11 @@ namespace :test do
       t1 = Time.now
       cmd = "bundle exec minitest #{job.join " "}"
       output = `#{cmd} 2>&1`
+      success = $?.success? # Capture immediately after cmd output to avoid race condition
       t2 = Time.now - t1
 
       lock.synchronize do
-        if $?.success?
+        if success
           warn "Finished #{job.size} files successfully in %d seconds" % [t2]
         else
           passed = false
