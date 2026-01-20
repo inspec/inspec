@@ -73,22 +73,35 @@ namespace :test do
   task :parallel do
     n = (ENV["K"] || Etc.nprocessors).to_i
     warn "Using #{n} threads on RUBY_PLATFORM #{RUBY_PLATFORM}"
-    lock = Mutex.new
+    lock   = Mutex.new
     passed = true
 
     tests = Dir[*GLOBS].sort
-    # No need to pad jobs, just split evenly
-    jobs = tests.each_slice((tests.size.to_f / n).ceil).to_a
 
-    t0 = Time.now
-    out = Queue.new
+    # Interleave functional and unit tests for better load balancing on Windows
+    # Functional tests spawn processes which are much slower on Windows
+    functional_tests = tests.select { |t| t.include?("test/functional/") }
+    other_tests = tests.reject { |t| t.include?("test/functional/") }
 
-    n_threads_run jobs.size, jobs do |job|
-      next if job.empty?
+    # Distribute functional tests across all threads first (round-robin)
+    # Then fill in with other tests to balance the load
+    balanced_tests = []
+    n.times { |i| balanced_tests << [] }
+    functional_tests.each_with_index { |test, idx| balanced_tests[idx % n] << test }
+    other_tests.each_with_index { |test, idx| balanced_tests[idx % n] << test }
 
-      lock.synchronize { warn "Running #{job.size} files in a thread" }
+    jobs = balanced_tests
+    t0   = Time.now
+    out  = Queue.new
+
+    n_threads_run n, jobs do |job|
+      job.compact!
+      lock.synchronize do
+        warn "Running #{job.size} files in a thread"
+      end
+
       t1 = Time.now
-      cmd = "bundle exec ruby -Ilib -Itest #{job.join(" ")}"
+      cmd = "bundle exec minitest #{job.join " "}"
       output = `#{cmd} 2>&1`
       t2 = Time.now - t1
 
@@ -104,9 +117,16 @@ namespace :test do
       out << "#{cmd}\n\n#{output}"
     end
 
-    puts "done\n"
-    out.length.times { puts out.shift; puts }
-    puts "Ran in %d seconds" % [Time.now - t0]
+    puts "done"
+    puts
+
+    out.length.times do
+      puts out.shift
+      puts
+    end
+
+    puts "Ran in %d seconds" % [ Time.now - t0 ]
+
     exit 1 unless passed
   end
   task parallel: [:accept_license] # given isolated being green, why is this needed?
