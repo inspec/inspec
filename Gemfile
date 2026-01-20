@@ -29,6 +29,14 @@ gem "ffi", ">= 1.15.5", "< 1.17.0"
 # but our runtime dep is still 3.9+
 gem "rspec", ">= 3.10"
 
+# Build is failing - see: https://buildkite.com/chef-oss/inspec-inspec-inspec-5-verify/builds/442
+# Error: zeitwerk-2.7.1 requires Ruby >= 3.2, which is incompatible with the current version (Ruby 3.0.7p220)
+# Dependency chain:
+# zeitwerk → dry-configurable, dry-struct, dry-types → k8s-ruby → train-kubernetes
+# Pinning zeitwerk to ~> 2.6 to avoid Ruby >= 3.2 requirement.
+# Remove this pin when upgrading to Ruby 3.2 or higher.
+gem "zeitwerk", "~> 2.6.0", "< 2.7"
+
 # group :omnibus do
 #   gem "rb-readline"
 #   gem "appbundler"
