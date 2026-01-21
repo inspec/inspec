@@ -25,6 +25,10 @@ gem "inspec-bin", path: "./inspec-bin"
 
 gem "ffi", ">= 1.15.5", "< 1.17.0"
 
+# Pin mixlib-shellout to avoid Windows-specific gem requirements in 3.4.x
+# Version 3.4.x requires additional Windows gems (win32-process, ffi-win32-extensions)
+gem "mixlib-shellout", "~> 3.3.8"
+
 # inspec tests depend text output that changed in the 3.10 release
 # but our runtime dep is still 3.9+
 gem "rspec", ">= 3.10"
@@ -55,8 +59,6 @@ group :test do
   gem "simplecov_json_formatter"
   gem "webmock"
 
-  # Windows-specific dependencies for mixlib-shellout
-  gem "win32-process", "~> 0.9" if Gem.win_platform?
 end
 
 group :deploy do
