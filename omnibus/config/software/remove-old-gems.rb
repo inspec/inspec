@@ -30,4 +30,17 @@ build do
     # Note: We do NOT use -x flag to avoid removing executables/binstubs
     command "#{gembin} uninstall net-imap -v \"<0.2.5\" -a -I", env: env
   end
+
+  block "Removing rbs gem - not needed at runtime and contains vulnerable dependencies" do
+    gembin = "#{install_dir}/embedded/bin/gem"
+
+    next unless File.exist?(gembin)
+
+    puts "Removing rbs gem"
+    env = with_standard_compiler_flags(with_embedded_path)
+
+    # RBS is a Ruby default gem for type checking - not needed at runtime
+    # Its bundled Gemfile.lock contains vulnerable versions of rexml, rdoc, activesupport
+    command "#{gembin} uninstall rbs -a -I --force", env: env, returns: [0, 1]
+  end
 end
