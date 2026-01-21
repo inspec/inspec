@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.97 -->
-## [v7.0.97](https://github.com/inspec/inspec/tree/v7.0.97) (2026-01-20)
+<!-- latest_release 7.0.98 -->
+## [v7.0.98](https://github.com/inspec/inspec/tree/v7.0.98) (2026-01-21)
 
 #### Merged Pull Requests
-- Remove release notes Expeditor actions InSpec 7 [#7725](https://github.com/inspec/inspec/pull/7725) ([IanMadd](https://github.com/IanMadd))
+- FOREPORT Updated test and dependency version in fixture to solve gem conflict issue [#7742](https://github.com/inspec/inspec/pull/7742) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since base-2025-current release
 
 #### Merged Pull Requests
+- FOREPORT Updated test and dependency version in fixture to solve gem conflict issue [#7742](https://github.com/inspec/inspec/pull/7742) ([Nik08](https://github.com/Nik08)) <!-- 7.0.98 -->
 - Remove release notes Expeditor actions InSpec 7 [#7725](https://github.com/inspec/inspec/pull/7725) ([IanMadd](https://github.com/IanMadd)) <!-- 7.0.97 -->
 - CHEF-26189 Telemetry fix: Handling of train platform data fetching safely [#7611](https://github.com/inspec/inspec/pull/7611) ([Nik08](https://github.com/Nik08)) <!-- 7.0.96 -->
 <!-- release_rollup -->
