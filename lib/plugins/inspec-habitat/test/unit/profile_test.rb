@@ -1,6 +1,7 @@
 require "mixlib/log"
 require "fileutils" unless defined?(FileUtils)
 require "minitest/autorun"
+require "minitest/mock"
 require "inspec/backend"
 require_relative "../../lib/inspec-habitat/profile"
 require "inspec/feature"
