@@ -31,16 +31,23 @@ build do
     command "#{gembin} uninstall net-imap -v \"<0.2.5\" -a -I", env: env
   end
 
-  block "Removing rbs gem - not needed at runtime and contains vulnerable dependencies" do
-    gembin = "#{install_dir}/embedded/bin/gem"
+  block "Remove Gemfile.lock files from installed gems" do
+    require "fileutils"
 
-    next unless File.exist?(gembin)
+    puts "Removing Gemfile.lock files from installed gems..."
+    puts "These are development artifacts and not actual runtime dependencies."
 
-    puts "Removing rbs gem"
-    env = with_standard_compiler_flags(with_embedded_path)
+    gems_dir = "#{install_dir}/embedded/lib/ruby/gems"
 
-    # RBS is a Ruby default gem for type checking - not needed at runtime
-    # Its bundled Gemfile.lock contains vulnerable versions of rexml, rdoc, activesupport
-    command "#{gembin} uninstall rbs -a -I --force", env: env, returns: [0, 1]
+    # Find and remove all Gemfile.lock files within installed gems
+    # These include: gems/*/Gemfile.lock, gems/**/Gemfile.lock
+    lockfiles = Dir.glob("#{gems_dir}/**/Gemfile.lock")
+
+    lockfiles.each do |lockfile|
+      puts "  Removing: #{lockfile.sub(install_dir, "")}"
+      FileUtils.rm_f(lockfile)
+    end
+
+    puts "Removed #{lockfiles.length} Gemfile.lock file(s)"
   end
 end
