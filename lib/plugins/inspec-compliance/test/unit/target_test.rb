@@ -1,4 +1,5 @@
 require "minitest/autorun"
+require "minitest/mock"
 require "mocha/minitest"
 require_relative "../../lib/inspec-compliance/api"
 
