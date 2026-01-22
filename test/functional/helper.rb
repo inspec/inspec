@@ -121,7 +121,7 @@ module FunctionalHelper
   end
 
   def self.inspec_cache
-    @inspec_cache ||= {}
+    Thread.current[:inspec_cache] ||= {}
   end
 
   def inspec_cache
