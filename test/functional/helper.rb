@@ -23,7 +23,29 @@ module FunctionalHelper
   libdir = File.expand_path "lib"
   let(:exec_inspec) { [Gem.ruby, "-I#{libdir}", inspec_path].join " " }
   let(:mock_path) { File.join(repo_path, "test", "fixtures") }
-  let(:profile_path) { File.join(mock_path, "profiles") }
+
+  # In parallel mode, copy profiles to isolated temp dir to avoid Windows file locking.
+  # Temp dir is cleaned by OS; explicit cleanup risks deleting while tests run.
+  @isolated_profile_path = nil
+  @isolated_profile_mutex = Mutex.new
+
+  def self.isolated_profile_path(mock_path)
+    @isolated_profile_mutex.synchronize do
+      @isolated_profile_path ||= begin
+        src = File.join(mock_path, "profiles")
+        dest = Dir.mktmpdir("inspec-profiles-#{$$}")
+        FileUtils.cp_r(src, dest)
+        File.join(dest, "profiles")
+      end
+    end
+  end
+
+  let(:profile_path) do
+    src = File.join(mock_path, "profiles")
+    return src unless (ENV["K"] || "1").to_i > 1
+    FunctionalHelper.isolated_profile_path(mock_path)
+  end
+
   let(:examples_path) { File.join(profile_path, "old-examples") }
   let(:integration_test_path) { File.join(repo_path, "test", "integration", "default") }
   let(:all_profiles) { Dir.glob("#{profile_path}/**/inspec.yml") }
