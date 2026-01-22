@@ -54,6 +54,14 @@ group :test do
   gem "simplecov"
   gem "simplecov_json_formatter"
   gem "webmock"
+
+  # Windows-specific dependencies - only needed if using mixlib-shellout >= 3.4
+  # With mixlib-shellout pinned to 3.3.x, these are not required
+  if Gem.win_platform?
+    gem "win32-process", "~> 0.9"
+    gem "ffi-win32-extensions", "~> 1.0"
+    gem "win32-api", "~> 1.9"
+  end
 end
 
 group :deploy do
