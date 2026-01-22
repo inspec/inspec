@@ -1,20 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.24.2 -->
-## [v5.24.2](https://github.com/inspec/inspec/tree/v5.24.2) (2026-01-20)
+<!-- latest_release 5.24.3 -->
+## [v5.24.3](https://github.com/inspec/inspec/tree/v5.24.3) (2026-01-22)
 
 #### Merged Pull Requests
-- CHEF-19255 update train [#7733](https://github.com/inspec/inspec/pull/7733) ([sathish-progress](https://github.com/sathish-progress))
-- Remove release notes Expeditor actions from InSpec 5 [#7723](https://github.com/inspec/inspec/pull/7723) ([IanMadd](https://github.com/IanMadd))
-- Added zlib depenedency in omnibus overrides [#7735](https://github.com/inspec/inspec/pull/7735) ([Nik08](https://github.com/Nik08))
-- Revert &quot;Bump ffi-yajl from 2.6.0 to 2.7.6 in /omnibus&quot; [#7734](https://github.com/inspec/inspec/pull/7734) ([Nik08](https://github.com/Nik08))
-- Bump ffi-yajl from 2.6.0 to 2.7.6 in /omnibus [#7727](https://github.com/inspec/inspec/pull/7727) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Remove gemfilelock from deps [#7751](https://github.com/inspec/inspec/pull/7751) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.23.6 -->
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- Remove gemfilelock from deps [#7751](https://github.com/inspec/inspec/pull/7751) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.24.3 -->
 - CHEF-19255 update train [#7733](https://github.com/inspec/inspec/pull/7733) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.24.2 -->
 - Remove release notes Expeditor actions from InSpec 5 [#7723](https://github.com/inspec/inspec/pull/7723) ([IanMadd](https://github.com/IanMadd)) <!-- 5.24.1 -->
 - Added zlib depenedency in omnibus overrides [#7735](https://github.com/inspec/inspec/pull/7735) ([Nik08](https://github.com/Nik08)) <!-- 5.24.1 -->
