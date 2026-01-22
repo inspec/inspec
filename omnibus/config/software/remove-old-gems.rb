@@ -30,4 +30,24 @@ build do
     # Note: We do NOT use -x flag to avoid removing executables/binstubs
     command "#{gembin} uninstall net-imap -v \"<0.2.5\" -a -I", env: env
   end
+
+  block "Remove Gemfile.lock files from installed gems" do
+    require "fileutils"
+
+    puts "Removing Gemfile.lock files from installed gems..."
+    puts "These are development artifacts and not actual runtime dependencies."
+
+    gems_dir = "#{install_dir}/embedded/lib/ruby/gems"
+
+    # Find and remove all Gemfile.lock files within installed gems
+    # These include: gems/*/Gemfile.lock, gems/**/Gemfile.lock
+    lockfiles = Dir.glob("#{gems_dir}/**/Gemfile.lock")
+
+    lockfiles.each do |lockfile|
+      puts "  Removing: #{lockfile.sub(install_dir, "")}"
+      FileUtils.rm_f(lockfile)
+    end
+
+    puts "Removed #{lockfiles.length} Gemfile.lock file(s)"
+  end
 end
