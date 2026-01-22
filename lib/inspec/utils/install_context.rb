@@ -19,8 +19,6 @@ module Inspec
       "unknown"
     end
 
-    private
-
     def chef_workstation_install?
       !!(src_root.start_with?("/opt/chef-workstation") || src_root.start_with?("C:/opscode/chef-workstation"))
     end
