@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.99 -->
-## [v7.0.99](https://github.com/inspec/inspec/tree/v7.0.99) (2026-01-22)
+<!-- latest_release 7.0.100 -->
+## [v7.0.100](https://github.com/inspec/inspec/tree/v7.0.100) (2026-01-23)
 
 #### Merged Pull Requests
-- Pipeline issue fixes for InSpec 7 [#7749](https://github.com/inspec/inspec/pull/7749) ([Nik08](https://github.com/Nik08))
+- Revert mixlib-shellout version pinning [#7752](https://github.com/inspec/inspec/pull/7752) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since base-2025-current release
 
 #### Merged Pull Requests
+- Revert mixlib-shellout version pinning [#7752](https://github.com/inspec/inspec/pull/7752) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.100 -->
 - Pipeline issue fixes for InSpec 7 [#7749](https://github.com/inspec/inspec/pull/7749) ([Nik08](https://github.com/Nik08)) <!-- 7.0.99 -->
 - FOREPORT Updated test and dependency version in fixture to solve gem conflict issue [#7742](https://github.com/inspec/inspec/pull/7742) ([Nik08](https://github.com/Nik08)) <!-- 7.0.98 -->
 - Remove release notes Expeditor actions InSpec 7 [#7725](https://github.com/inspec/inspec/pull/7725) ([IanMadd](https://github.com/IanMadd)) <!-- 7.0.97 -->
