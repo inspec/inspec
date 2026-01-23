@@ -27,7 +27,7 @@ gem "ffi", ">= 1.15.5", "< 1.17.0"
 
 # Pin mixlib-shellout to avoid Windows-specific gem requirements in 3.4.x
 # Version 3.4.x requires additional Windows gems (win32-process, ffi-win32-extensions)
-gem "mixlib-shellout", "~> 3.3.8"
+gem "mixlib-shellout", "~> 3.4.10"
 
 # inspec tests depend text output that changed in the 3.10 release
 # but our runtime dep is still 3.9+
