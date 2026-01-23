@@ -66,6 +66,6 @@ bundle config set --local without deploy
 bundle install --jobs=7 --retry=3
 
 echo "+++ bundle exec rake test:parallel"
-bundle exec rake test:parallel K=20
+bundle exec rake test:parallel K=6
 
 exit $LASTEXITCODE
