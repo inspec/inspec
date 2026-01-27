@@ -149,9 +149,15 @@ module Inspec::Resources
         def response
           return @response if @response
 
-          Faraday.ignore_env_proxy = true if proxy == "disable"
+          # Prepare headers with basic auth if credentials are provided
+          headers = request_headers.dup
+          if username && password
+            require "base64" unless defined?(Base64)
+            encoded = Base64.strict_encode64("#{username}:#{password}")
+            headers["Authorization"] = "Basic #{encoded}"
+          end
 
-          conn = Faraday.new(url: url, headers: request_headers, params: params, ssl: { verify: ssl_verify? }) do |builder|
+          conn = Faraday.new(url: url, headers: headers, params: params, ssl: { verify: ssl_verify? }) do |builder|
             builder.request :url_encoded
             builder.use Faraday::FollowRedirects::Middleware, limit: max_redirects unless max_redirects.nil?
             builder.adapter Faraday.default_adapter
@@ -161,8 +167,6 @@ module Inspec::Resources
             conn.proxy = proxy
           end
 
-          # set basic authentication
-          conn.basic_auth username, password unless username.nil? || password.nil?
 
           # set default timeout
           conn.options.timeout      = read_timeout  # open/read timeout in seconds

@@ -30,6 +30,16 @@ describe "Inspec::Resources::Http" do
         _(worker.body).must_equal "auth ok"
         _(worker.resource_id).must_equal "http://www.example.com"
       end
+
+      it "sets Authorization header with Base64 encoded credentials" do
+        expected_auth = "Basic #{Base64.strict_encode64('user:pass')}"
+        stub_request(:get, domain)
+          .with(headers: { "Authorization" => expected_auth })
+          .to_return(status: 200, body: "auth ok")
+
+        _(worker.status).must_equal 200
+        _(worker.body).must_equal "auth ok"
+      end
     end
 
     describe "request with redirect enabled" do
