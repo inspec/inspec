@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.100 -->
-## [v7.0.100](https://github.com/inspec/inspec/tree/v7.0.100) (2026-01-23)
+<!-- latest_release 7.0.101 -->
+## [v7.0.101](https://github.com/inspec/inspec/tree/v7.0.101) (2026-01-27)
 
 #### Merged Pull Requests
-- Revert mixlib-shellout version pinning [#7752](https://github.com/inspec/inspec/pull/7752) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- FOREPORT - Chef 28019/oracle tns ssl backport to inspec7 [#7732](https://github.com/inspec/inspec/pull/7732) ([sa-progress](https://github.com/sa-progress))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since base-2025-current release
 
 #### Merged Pull Requests
+- FOREPORT - Chef 28019/oracle tns ssl backport to inspec7 [#7732](https://github.com/inspec/inspec/pull/7732) ([sa-progress](https://github.com/sa-progress)) <!-- 7.0.101 -->
 - Revert mixlib-shellout version pinning [#7752](https://github.com/inspec/inspec/pull/7752) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.100 -->
 - Pipeline issue fixes for InSpec 7 [#7749](https://github.com/inspec/inspec/pull/7749) ([Nik08](https://github.com/Nik08)) <!-- 7.0.99 -->
 - FOREPORT Updated test and dependency version in fixture to solve gem conflict issue [#7742](https://github.com/inspec/inspec/pull/7742) ([Nik08](https://github.com/Nik08)) <!-- 7.0.98 -->
