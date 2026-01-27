@@ -13,6 +13,9 @@ source "https://rubygems.org"
 
 gem "inspec", path: "."
 
+# Testing train azure changes
+gem "train", git: "https://github.com/inspec/train", branch: "CHEF-28703-update-azure-gems-to-v2"
+gem "train-core", git: "https://github.com/inspec/train", branch: "CHEF-28703-update-azure-gems-to-v2"
 # This dependency is NOT used for normal gem deployment
 # - instead, inspec-bin gemspec-depends on inspec
 #
