@@ -32,7 +32,7 @@ describe "Inspec::Resources::Http" do
       end
 
       it "sets Authorization header with Base64 encoded credentials" do
-        expected_auth = "Basic #{Base64.strict_encode64('user:pass')}"
+        expected_auth = "Basic #{Base64.strict_encode64("user:pass")}"
         stub_request(:get, domain)
           .with(headers: { "Authorization" => expected_auth })
           .to_return(status: 200, body: "auth ok")

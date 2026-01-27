@@ -167,7 +167,6 @@ module Inspec::Resources
             conn.proxy = proxy
           end
 
-
           # set default timeout
           conn.options.timeout      = read_timeout  # open/read timeout in seconds
           conn.options.open_timeout = open_timeout  # connection open timeout in seconds
