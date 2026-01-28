@@ -1,62 +1,59 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.24.5 -->
-## [v5.24.5](https://github.com/inspec/inspec/tree/v5.24.5) (2026-01-28)
-
-#### Merged Pull Requests
-- Pr to bump version [#7765](https://github.com/inspec/inspec/pull/7765) ([Nik08](https://github.com/Nik08))
-- Updating to latest NOTICE text [#7764](https://github.com/inspec/inspec/pull/7764) ([Vasu1105](https://github.com/Vasu1105))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=5.23.6 -->
-### Changes since 5.23.6 release
-
-#### Merged Pull Requests
-- Pr to bump version [#7765](https://github.com/inspec/inspec/pull/7765) ([Nik08](https://github.com/Nik08)) <!-- 5.24.5 -->
-- Updating to latest NOTICE text [#7764](https://github.com/inspec/inspec/pull/7764) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.24.4 -->
-- Fixes warning which shows up after inspec execution while using winrm transport [#7753](https://github.com/inspec/inspec/pull/7753) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.24.4 -->
-- Remove gemfilelock from deps [#7751](https://github.com/inspec/inspec/pull/7751) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.24.3 -->
-- CHEF-19255 update train [#7733](https://github.com/inspec/inspec/pull/7733) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.24.2 -->
-- Remove release notes Expeditor actions from InSpec 5 [#7723](https://github.com/inspec/inspec/pull/7723) ([IanMadd](https://github.com/IanMadd)) <!-- 5.24.1 -->
-- Added zlib depenedency in omnibus overrides [#7735](https://github.com/inspec/inspec/pull/7735) ([Nik08](https://github.com/Nik08)) <!-- 5.24.1 -->
-- Revert &quot;Bump ffi-yajl from 2.6.0 to 2.7.6 in /omnibus&quot; [#7734](https://github.com/inspec/inspec/pull/7734) ([Nik08](https://github.com/Nik08)) <!-- 5.24.1 -->
-- Bump ffi-yajl from 2.6.0 to 2.7.6 in /omnibus [#7727](https://github.com/inspec/inspec/pull/7727) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.24.1 -->
-- fixing openssl 3.2.6 [CVE-2025-9230] [#7719](https://github.com/inspec/inspec/pull/7719) ([sean-sype-simmons](https://github.com/sean-sype-simmons)) <!-- 5.24.1 -->
-- CHEF-28019: Enable TCPS Connection to Oracle DB [#7684](https://github.com/inspec/inspec/pull/7684) ([sa-progress](https://github.com/sa-progress)) <!-- 5.24.0 -->
-- Fix github workflow for sbom generation  [#7711](https://github.com/inspec/inspec/pull/7711) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.23.26 -->
-- Update connection_pool dependency to be compatible with Ruby 3.1 [#7703](https://github.com/inspec/inspec/pull/7703) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.26 -->
-- Updates configuration for sbom generation [#7700](https://github.com/inspec/inspec/pull/7700) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.23.25 -->
-- Update gem versions in Gemfile.lock as part of version bump pipeline [#7704](https://github.com/inspec/inspec/pull/7704) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.25 -->
-- CHEF-29503 update bundle cache logic [#7706](https://github.com/inspec/inspec/pull/7706) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.24 -->
-- CHEF-28708 | Enabling Gemfile.lock and bundle with v-2.5.23 [#7667](https://github.com/inspec/inspec/pull/7667) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.23.23 -->
-- CHEF-28996-Update Pipelines to use Ruby 3.1.7 [#7668](https://github.com/inspec/inspec/pull/7668) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.23.22 -->
-- CHEF-29019 Optimise the CI pipeline [#7678](https://github.com/inspec/inspec/pull/7678) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.21 -->
-- Add min version constraint for net-imap gem [#7688](https://github.com/inspec/inspec/pull/7688) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.23.20 -->
-- Pin net-imap for ruby 3.1 compatability [#7687](https://github.com/inspec/inspec/pull/7687) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.23.20 -->
-- CHEF-28138 - Verify and add build support for RHEL 10 [#7649](https://github.com/inspec/inspec/pull/7649) ([poorndm](https://github.com/poorndm)) <!-- 5.23.19 -->
-- CHEF-28672  Updated resolv dependency [#7656](https://github.com/inspec/inspec/pull/7656) ([Nik08](https://github.com/Nik08)) <!-- 5.23.18 -->
-- Backport 7576 to fix windows pipeline failure in inspec 5 [#7676](https://github.com/inspec/inspec/pull/7676) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.23.17 -->
-- CHEF-28137 add support for windows 2025 [#7659](https://github.com/inspec/inspec/pull/7659) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.16 -->
-- CHEF-28672 Remove vulnerable net-imap gem [#7654](https://github.com/inspec/inspec/pull/7654) ([Nik08](https://github.com/Nik08)) <!-- 5.23.15 -->
-- Update  windows  docker image to fix  verify pipeline issue [#7666](https://github.com/inspec/inspec/pull/7666) ([poorndm](https://github.com/poorndm)) <!-- 5.23.14 -->
-- CHEF-28672 Remove vulnerable rexml bundled gems [#7653](https://github.com/inspec/inspec/pull/7653) ([Nik08](https://github.com/Nik08)) <!-- 5.23.13 -->
-- CHEF-28672 Updated rack to a more secure version [#7652](https://github.com/inspec/inspec/pull/7652) ([Nik08](https://github.com/Nik08)) <!-- 5.23.12 -->
-- Gemfile cleanup [#7661](https://github.com/inspec/inspec/pull/7661) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.23.12 -->
-- Pin connection_pool to &lt; 3.0.0 in Gemfile to support ruby &gt;=3.1.0  [#7660](https://github.com/inspec/inspec/pull/7660) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.23.11 -->
-- Fix reading/writing tar profiles issue [#7651](https://github.com/inspec/inspec/pull/7651) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.23.10 -->
-- Update multi_json requirement from ~&gt; 1.15.0 to ~&gt; 1.18.0 [#7647](https://github.com/inspec/inspec/pull/7647) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.23.9 -->
-- [CHEF-28136] Add Amazon Linux 2023 support [#7636](https://github.com/inspec/inspec/pull/7636) ([sa-progress](https://github.com/sa-progress)) <!-- 5.23.8 -->
-- Bump omnibus from `39f0b30` to `b9f4c8f` in /omnibus [#7602](https://github.com/inspec/inspec/pull/7602) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.23.7 -->
-- Bump test-kitchen from 3.8.1 to 3.9.1 in /omnibus [#7610](https://github.com/inspec/inspec/pull/7610) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 5.23.7 -->
-- Pin gem versions for Ruby compatibility in InSpec-5 [#7640](https://github.com/inspec/inspec/pull/7640) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.23.7 -->
-- Added instructions file for inspec 5 [#7639](https://github.com/inspec/inspec/pull/7639) ([Nik08](https://github.com/Nik08)) <!-- 5.23.7 -->
-- Remove mac 12  and update Mac builder [#7615](https://github.com/inspec/inspec/pull/7615) ([poorndm](https://github.com/poorndm)) <!-- 5.23.7 -->
-- CHEF-21893: Add Gemfile.lock for BlackDuck SCA scanning on InSpec 5.x [#7621](https://github.com/inspec/inspec/pull/7621) ([sa-progress](https://github.com/sa-progress)) <!-- 5.23.6 -->
-- Confgiuring blackduck in inspec 5 branch [#7613](https://github.com/inspec/inspec/pull/7613) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.23.6 -->
-- CHEF-25277 add docs for socks feature [#7510](https://github.com/inspec/inspec/pull/7510) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.23.6 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v5.24.5](https://github.com/inspec/inspec/tree/v5.24.5) (2026-01-28)
+
+#### Merged Pull Requests
+- CHEF-25277 add docs for socks feature [#7510](https://github.com/inspec/inspec/pull/7510) ([sathish-progress](https://github.com/sathish-progress))
+- Confgiuring blackduck in inspec 5 branch [#7613](https://github.com/inspec/inspec/pull/7613) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-21893: Add Gemfile.lock for BlackDuck SCA scanning on InSpec 5.x [#7621](https://github.com/inspec/inspec/pull/7621) ([sa-progress](https://github.com/sa-progress))
+- Remove mac 12  and update Mac builder [#7615](https://github.com/inspec/inspec/pull/7615) ([poorndm](https://github.com/poorndm))
+- Added instructions file for inspec 5 [#7639](https://github.com/inspec/inspec/pull/7639) ([Nik08](https://github.com/Nik08))
+- Pin gem versions for Ruby compatibility in InSpec-5 [#7640](https://github.com/inspec/inspec/pull/7640) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Bump test-kitchen from 3.8.1 to 3.9.1 in /omnibus [#7610](https://github.com/inspec/inspec/pull/7610) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump omnibus from `39f0b30` to `b9f4c8f` in /omnibus [#7602](https://github.com/inspec/inspec/pull/7602) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- [CHEF-28136] Add Amazon Linux 2023 support [#7636](https://github.com/inspec/inspec/pull/7636) ([sa-progress](https://github.com/sa-progress))
+- Update multi_json requirement from ~&gt; 1.15.0 to ~&gt; 1.18.0 [#7647](https://github.com/inspec/inspec/pull/7647) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Fix reading/writing tar profiles issue [#7651](https://github.com/inspec/inspec/pull/7651) ([chandra-progress](https://github.com/chandra-progress))
+- Pin connection_pool to &lt; 3.0.0 in Gemfile to support ruby &gt;=3.1.0  [#7660](https://github.com/inspec/inspec/pull/7660) ([chandra-progress](https://github.com/chandra-progress))
+- Gemfile cleanup [#7661](https://github.com/inspec/inspec/pull/7661) ([chandra-progress](https://github.com/chandra-progress))
+- CHEF-28672 Updated rack to a more secure version [#7652](https://github.com/inspec/inspec/pull/7652) ([Nik08](https://github.com/Nik08))
+- CHEF-28672 Remove vulnerable rexml bundled gems [#7653](https://github.com/inspec/inspec/pull/7653) ([Nik08](https://github.com/Nik08))
+- Update  windows  docker image to fix  verify pipeline issue [#7666](https://github.com/inspec/inspec/pull/7666) ([poorndm](https://github.com/poorndm))
+- CHEF-28672 Remove vulnerable net-imap gem [#7654](https://github.com/inspec/inspec/pull/7654) ([Nik08](https://github.com/Nik08))
+- CHEF-28137 add support for windows 2025 [#7659](https://github.com/inspec/inspec/pull/7659) ([sathish-progress](https://github.com/sathish-progress))
+- Backport 7576 to fix windows pipeline failure in inspec 5 [#7676](https://github.com/inspec/inspec/pull/7676) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-28672  Updated resolv dependency [#7656](https://github.com/inspec/inspec/pull/7656) ([Nik08](https://github.com/Nik08))
+- CHEF-28138 - Verify and add build support for RHEL 10 [#7649](https://github.com/inspec/inspec/pull/7649) ([poorndm](https://github.com/poorndm))
+- Pin net-imap for ruby 3.1 compatability [#7687](https://github.com/inspec/inspec/pull/7687) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Add min version constraint for net-imap gem [#7688](https://github.com/inspec/inspec/pull/7688) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- CHEF-29019 Optimise the CI pipeline [#7678](https://github.com/inspec/inspec/pull/7678) ([sathish-progress](https://github.com/sathish-progress))
+- CHEF-28996-Update Pipelines to use Ruby 3.1.7 [#7668](https://github.com/inspec/inspec/pull/7668) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- CHEF-28708 | Enabling Gemfile.lock and bundle with v-2.5.23 [#7667](https://github.com/inspec/inspec/pull/7667) ([chandra-progress](https://github.com/chandra-progress))
+- CHEF-29503 update bundle cache logic [#7706](https://github.com/inspec/inspec/pull/7706) ([sathish-progress](https://github.com/sathish-progress))
+- Update gem versions in Gemfile.lock as part of version bump pipeline [#7704](https://github.com/inspec/inspec/pull/7704) ([sathish-progress](https://github.com/sathish-progress))
+- Updates configuration for sbom generation [#7700](https://github.com/inspec/inspec/pull/7700) ([Vasu1105](https://github.com/Vasu1105))
+- Update connection_pool dependency to be compatible with Ruby 3.1 [#7703](https://github.com/inspec/inspec/pull/7703) ([sathish-progress](https://github.com/sathish-progress))
+- Fix github workflow for sbom generation  [#7711](https://github.com/inspec/inspec/pull/7711) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-28019: Enable TCPS Connection to Oracle DB [#7684](https://github.com/inspec/inspec/pull/7684) ([sa-progress](https://github.com/sa-progress))
+- fixing openssl 3.2.6 [CVE-2025-9230] [#7719](https://github.com/inspec/inspec/pull/7719) ([sean-sype-simmons](https://github.com/sean-sype-simmons))
+- Bump ffi-yajl from 2.6.0 to 2.7.6 in /omnibus [#7727](https://github.com/inspec/inspec/pull/7727) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Revert &quot;Bump ffi-yajl from 2.6.0 to 2.7.6 in /omnibus&quot; [#7734](https://github.com/inspec/inspec/pull/7734) ([Nik08](https://github.com/Nik08))
+- Added zlib depenedency in omnibus overrides [#7735](https://github.com/inspec/inspec/pull/7735) ([Nik08](https://github.com/Nik08))
+- Remove release notes Expeditor actions from InSpec 5 [#7723](https://github.com/inspec/inspec/pull/7723) ([IanMadd](https://github.com/IanMadd))
+- CHEF-19255 update train [#7733](https://github.com/inspec/inspec/pull/7733) ([sathish-progress](https://github.com/sathish-progress))
+- Remove gemfilelock from deps [#7751](https://github.com/inspec/inspec/pull/7751) ([sathish-progress](https://github.com/sathish-progress))
+- Fixes warning which shows up after inspec execution while using winrm transport [#7753](https://github.com/inspec/inspec/pull/7753) ([Vasu1105](https://github.com/Vasu1105))
+- Updating to latest NOTICE text [#7764](https://github.com/inspec/inspec/pull/7764) ([Vasu1105](https://github.com/Vasu1105))
+- Pr to bump version [#7765](https://github.com/inspec/inspec/pull/7765) ([Nik08](https://github.com/Nik08))
+<!-- latest_stable_release -->
+
 ## [v5.23.6](https://github.com/inspec/inspec/tree/v5.23.6) (2025-09-23)
 
 #### Merged Pull Requests
@@ -69,7 +66,6 @@
 - Add Omnibus build support for macOS 13 and 14 on ARM64 architecture. [#7524](https://github.com/inspec/inspec/pull/7524) ([balasubramanian-s](https://github.com/balasubramanian-s))
 - Update Artifact test Profiles - InSpec-5 [#7535](https://github.com/inspec/inspec/pull/7535) ([balasubramanian-s](https://github.com/balasubramanian-s))
 - CHEF-25165 NOTICE file for InSpec omnibus package [#7488](https://github.com/inspec/inspec/pull/7488) ([Nik08](https://github.com/Nik08))
-<!-- latest_stable_release -->
 
 ## [v5.22.95](https://github.com/inspec/inspec/tree/v5.22.95) (2025-08-05)
 
