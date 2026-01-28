@@ -17,7 +17,35 @@ Write-Host "--- Installing the version of Habitat required"
 
 function Install-Habitat {
   Write-Host "Downloading and installing Habitat..."
+
+  # Suppress errors from the installer script that might try to remove locked files
+  $ErrorActionPreference = 'Continue'
   Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1'))
+  $ErrorActionPreference = 'Stop'
+
+  # Add Habitat to PATH for current session
+  $habPath = "C:\ProgramData\Habitat"
+  if (Test-Path $habPath) {
+    $env:Path = "$habPath;$env:Path"
+    Write-Host "Added $habPath to PATH"
+  }
+
+  # Wait for installation to complete and avoid racing conditions
+  Start-Sleep -Seconds 2
+
+  # Verify installation
+  $habVersion = hab --version 2>&1
+  if ($LASTEXITCODE -eq 0) {
+    Write-Host ":habitat: Installed Habitat version: $habVersion"
+  } else {
+    Write-Host "Warning: Could not verify Habitat installation"
+  }
+}
+
+# Ensure Habitat is in PATH before checking
+$habPath = "C:\ProgramData\Habitat"
+if (Test-Path $habPath) {
+  $env:Path = "$habPath;$env:Path"
 }
 
 try {
@@ -32,10 +60,6 @@ catch {
   Write-Host "Installing Habitat ...."
   Set-ExecutionPolicy Bypass -Scope Process -Force
   Install-Habitat
-}
-finally {
-  $habVersion = hab --version 2>&1
-  Write-Host ":habitat: Using Habitat version: $habVersion"
 }
 
 # Set HAB_ORIGIN after Habitat installation
