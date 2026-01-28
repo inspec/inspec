@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.24.4 -->
-## [v5.24.4](https://github.com/inspec/inspec/tree/v5.24.4) (2026-01-23)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Fixes warning which shows up after inspec execution while using winrm transport [#7753](https://github.com/inspec/inspec/pull/7753) ([Vasu1105](https://github.com/Vasu1105))
+- Updating to latest NOTICE text [#7764](https://github.com/inspec/inspec/pull/7764) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.23.6 -->
 ### Changes since 5.23.6 release
 
 #### Merged Pull Requests
+- Updating to latest NOTICE text [#7764](https://github.com/inspec/inspec/pull/7764) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.24.4 -->
 - Fixes warning which shows up after inspec execution while using winrm transport [#7753](https://github.com/inspec/inspec/pull/7753) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.24.4 -->
 - Remove gemfilelock from deps [#7751](https://github.com/inspec/inspec/pull/7751) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.24.3 -->
 - CHEF-19255 update train [#7733](https://github.com/inspec/inspec/pull/7733) ([sathish-progress](https://github.com/sathish-progress)) <!-- 5.24.2 -->
