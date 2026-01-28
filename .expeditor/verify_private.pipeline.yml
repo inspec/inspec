@@ -36,15 +36,6 @@ steps:
         docker:
           image: ruby:3.4.2-bullseye
 
-  - label: run-tests-ruby-3.4.2
-    command:
-      - /workdir/.expeditor/buildkite/verify.sh
-    expeditor:
-      secrets: true
-      executor:
-        docker:
-          image: ruby:3.4.2-bullseye
-
   - label: isolated-tests-ruby-3.1
     command:
       - RAKE_TASK=test:isolated /workdir/.expeditor/buildkite/verify.sh
@@ -53,15 +44,6 @@ steps:
       executor:
         docker:
           image: ruby:3.1.7-bullseye
-
-  - label: isolated-tests-ruby-3.4.2
-    command:
-      - RAKE_TASK=test:isolated /workdir/.expeditor/buildkite/verify.sh
-    expeditor:
-      secrets: true
-      executor:
-        docker:
-          image: ruby:3.4.2-bullseye
 
   - label: isolated-tests-ruby-3.4.2
     command:
@@ -83,7 +65,7 @@ steps:
             - BUILDKITE
           host_os: windows
           shell: ["powershell", "-Command"]
-          image: rubydistros/windows-2019:3.1
+          image: rubydistros/windows-2019:3.1.7
 
   - label: run-tests-ruby-3.4-windows
     command:
