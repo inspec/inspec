@@ -16,7 +16,7 @@ steps:
       secrets: true
       executor:
         docker:
-          image: ruby:3.1-bullseye
+          image: ruby:3.1.7-bullseye
 
   - label: run-tests-ruby-3.1
     command:
@@ -25,7 +25,7 @@ steps:
       secrets: true
       executor:
         docker:
-          image: ruby:3.1-bullseye
+          image: ruby:3.1.7-bullseye
 
   - label: run-tests-ruby-3.4.2
     command:
@@ -43,7 +43,7 @@ steps:
       secrets: true
       executor:
         docker:
-          image: ruby:3.1-bullseye
+          image: ruby:3.1.7-bullseye
 
   - label: isolated-tests-ruby-3.4.2
     command:
@@ -65,7 +65,7 @@ steps:
             - BUILDKITE
           host_os: windows
           shell: ["powershell", "-Command"]
-          image: rubydistros/windows-2019:3.1
+          image: rubydistros/windows-2019:3.1.7
 
   - label: run-tests-ruby-3.4-windows
     command:
