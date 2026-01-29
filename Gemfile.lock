@@ -351,15 +351,15 @@ GEM
       concurrent-ruby (~> 1.0)
     chef-utils (18.9.4)
       concurrent-ruby
-    chef-winrm (2.4.4)
+    chef-winrm (2.5.0)
       builder (>= 2.1.2)
       chef-gyoku (~> 1.5)
       erubi (~> 1.8)
       gssapi (~> 1.2)
       httpclient (~> 2.2, >= 2.2.0.2)
       logging (>= 1.6.1, < 3.0)
-      nori (= 2.7.0)
-      rexml (~> 3.3)
+      nori (~> 2.7)
+      rexml (>= 3.4.2, < 4.0)
       rubyntlm (~> 0.6.0, >= 0.6.3)
     chef-winrm-elevated (1.2.5)
       chef-winrm (>= 2.3.11)
@@ -451,6 +451,9 @@ GEM
     faraday_middleware (1.2.1)
       faraday (~> 1.0)
     ffi (1.16.3)
+    ffi (1.16.3-x64-mingw-ucrt)
+    ffi-win32-extensions (1.0.4)
+      ffi
     fuzzyurl (0.9.0)
     google-apis-admin_directory_v1 (0.46.0)
       google-apis-core (>= 0.11.0, < 2.a)
@@ -546,6 +549,11 @@ GEM
       ffi (>= 1.15.5)
     mixlib-shellout (3.4.10)
       chef-utils
+    mixlib-shellout (3.4.10-x64-mingw-ucrt)
+      chef-utils
+      ffi-win32-extensions (~> 1.0.3)
+      win32-process (~> 0.9)
+      wmi-lite (~> 1.0)
     mize (0.6.1)
     mocha (3.0.1)
       ruby2_keywords (>= 0.0.5)
@@ -564,11 +572,25 @@ GEM
     net-scp (4.1.0)
       net-ssh (>= 2.6.5, < 8.0.0)
     net-ssh (7.3.0)
+    nokogiri (1.18.10-aarch64-linux-gnu)
+      racc (~> 1.4)
+    nokogiri (1.18.10-aarch64-linux-musl)
+      racc (~> 1.4)
+    nokogiri (1.18.10-arm-linux-gnu)
+      racc (~> 1.4)
+    nokogiri (1.18.10-arm-linux-musl)
+      racc (~> 1.4)
     nokogiri (1.18.10-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.18.10-x64-mingw-ucrt)
       racc (~> 1.4)
     nokogiri (1.18.10-x86_64-darwin)
       racc (~> 1.4)
-    nori (2.7.0)
+    nokogiri (1.18.10-x86_64-linux-gnu)
+      racc (~> 1.4)
+    nokogiri (1.18.10-x86_64-linux-musl)
+      racc (~> 1.4)
+    nori (2.7.1)
       bigdecimal
     options (2.3.2)
     os (1.1.4)
@@ -581,7 +603,7 @@ GEM
     pastel (0.8.0)
       tty-color (~> 0.5)
     path_expander (1.1.3)
-    prism (1.8.0)
+    prism (1.9.0)
     progress_bar (1.3.4)
       highline (>= 1.6)
       options (~> 2.3.0)
@@ -625,7 +647,7 @@ GEM
     rspec-mocks (3.13.7)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-support (3.13.6)
+    rspec-support (3.13.7)
     rubocop (1.25.1)
       parallel (~> 1.10)
       parser (>= 3.1.0.0)
@@ -665,7 +687,7 @@ GEM
       unicode_utils (~> 1.4)
     strings-ansi (0.2.0)
     sync (0.5.0)
-    syslog (0.3.0)
+    syslog (0.4.0)
       logger
     term-ansicolor (1.11.3)
       tins (~> 1)
@@ -790,10 +812,10 @@ GEM
     train-kubernetes (0.3.1)
       k8s-ruby (>= 0.17.2)
       train (~> 3.0)
-    train-winrm (0.4.0)
-      chef-winrm (~> 2.4.4)
-      chef-winrm-elevated (~> 1.2.5)
-      chef-winrm-fs (~> 1.4.1)
+    train-winrm (0.4.3)
+      chef-winrm (>= 2.4.4, < 3.0)
+      chef-winrm-elevated (>= 1.2.5, < 2.0)
+      chef-winrm-fs (>= 1.4.1, < 2.0)
       socksify (~> 1.8)
     tty-box (0.7.0)
       pastel (~> 0.8)
@@ -824,14 +846,24 @@ GEM
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
+    win32-process (0.10.0)
+      ffi (>= 1.0.0)
     wisper (2.0.1)
+    wmi-lite (1.0.7)
     yajl-ruby (1.4.3)
     yaml-safe_load_stream3 (0.1.2)
     zeitwerk (2.6.18)
 
 PLATFORMS
+  aarch64-linux-gnu
+  aarch64-linux-musl
+  arm-linux-gnu
+  arm-linux-musl
   arm64-darwin
+  x64-mingw-ucrt
   x86_64-darwin
+  x86_64-linux-gnu
+  x86_64-linux-musl
 
 DEPENDENCIES
   chefstyle
@@ -856,4 +888,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   2.6.9
+   2.5.11
