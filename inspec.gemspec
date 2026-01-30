@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "inspec-core", "= #{Inspec::VERSION}"
 
-  spec.add_dependency "train", "~> 3.16", ">= 3.16.1"
+  # spec.add_dependency "train", "~> 3.16", ">= 3.16.1"
   spec.add_dependency "rake"
 
   # progress bar streaming reporter plugin support
@@ -40,7 +40,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "train-habitat",    "~> 0.1"
   spec.add_dependency "train-aws",        "~> 0.2"
   spec.add_dependency "train-winrm",      "~> 0.4.0" # socks5h changes in 0.4.0
-  spec.add_dependency "train-kubernetes", "< 0.3.1" # 0.3.1+ requires min ruby 3.1
+  # spec.add_dependency "train-kubernetes", "< 0.3.1" # 0.3.1+ requires min ruby 3.1
 
   spec.add_dependency "mongo", "= 2.21.3" # 2.14 introduces a broken symlink in mongo-2.14.0/spec/support/ocsp
 

@@ -54,5 +54,5 @@ Gem::Specification.new do |spec|
   # However, it has been moved to 'inspec-core.gemspec' due to a dependency on the 'ast' gem,
   # which was causing a LoadError ('cannot load such file -- ast') for users/applications using 'inspec-core'.
   spec.add_dependency "cookstyle"
-  spec.add_dependency "train-core", "~> 3.16", ">= 3.16.1"
+  # spec.add_dependency "train-core", "~> 3.16", ">= 3.16.1"
 end
