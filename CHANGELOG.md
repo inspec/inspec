@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.102 -->
-## [v7.0.102](https://github.com/inspec/inspec/tree/v7.0.102) (2026-01-28)
+<!-- latest_release 7.0.103 -->
+## [v7.0.103](https://github.com/inspec/inspec/tree/v7.0.103) (2026-02-03)
 
 #### Merged Pull Requests
-- FOREPORT CHEF-28996-Update Pipelines to use Ruby 3.1.7  [#7763](https://github.com/inspec/inspec/pull/7763) ([Nik08](https://github.com/Nik08))
+- Remove Gemfile.lock from .gitignore for BlackDuck integration [#7768](https://github.com/inspec/inspec/pull/7768) ([sa-progress](https://github.com/sa-progress))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since base-2025-current release
 
 #### Merged Pull Requests
+- Remove Gemfile.lock from .gitignore for BlackDuck integration [#7768](https://github.com/inspec/inspec/pull/7768) ([sa-progress](https://github.com/sa-progress)) <!-- 7.0.103 -->
 - FOREPORT CHEF-28996-Update Pipelines to use Ruby 3.1.7  [#7763](https://github.com/inspec/inspec/pull/7763) ([Nik08](https://github.com/Nik08)) <!-- 7.0.102 -->
 - FOREPORT - Chef 28019/oracle tns ssl backport to inspec7 [#7732](https://github.com/inspec/inspec/pull/7732) ([sa-progress](https://github.com/sa-progress)) <!-- 7.0.101 -->
 - Revert mixlib-shellout version pinning [#7752](https://github.com/inspec/inspec/pull/7752) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.100 -->
