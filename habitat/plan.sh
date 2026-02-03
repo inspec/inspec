@@ -78,6 +78,9 @@ do_install() {
   # for omnibus we also install this as part of the package
   gem install ed25519 bcrypt_pbkdf --no-document
 
+  # Clean up stray Gemfile.lock from lint_roller gem to appease security scanners
+  ruby "$HAB_CACHE_SRC_PATH/$pkg_dirname/scripts/cleanup_lint_roller.rb"
+
   # Certain gems (timeliness) are getting installed with world writable files
   # This is removing write bits for group and other.
   find "$GEM_HOME" -xdev -perm -0002 -type f -print 2>/dev/null | xargs -I '{}' chmod go-w '{}'
