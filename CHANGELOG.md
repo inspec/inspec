@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.103 -->
-## [v7.0.103](https://github.com/inspec/inspec/tree/v7.0.103) (2026-02-03)
+<!-- latest_release 7.0.104 -->
+## [v7.0.104](https://github.com/inspec/inspec/tree/v7.0.104) (2026-02-03)
 
 #### Merged Pull Requests
-- Remove Gemfile.lock from .gitignore for BlackDuck integration [#7768](https://github.com/inspec/inspec/pull/7768) ([sa-progress](https://github.com/sa-progress))
+- Adding a script to clean lint_roller gem from hab packaging [#7770](https://github.com/inspec/inspec/pull/7770) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since base-2025-current release
 
 #### Merged Pull Requests
+- Adding a script to clean lint_roller gem from hab packaging [#7770](https://github.com/inspec/inspec/pull/7770) ([Nik08](https://github.com/Nik08)) <!-- 7.0.104 -->
 - Remove Gemfile.lock from .gitignore for BlackDuck integration [#7768](https://github.com/inspec/inspec/pull/7768) ([sa-progress](https://github.com/sa-progress)) <!-- 7.0.103 -->
 - FOREPORT CHEF-28996-Update Pipelines to use Ruby 3.1.7  [#7763](https://github.com/inspec/inspec/pull/7763) ([Nik08](https://github.com/Nik08)) <!-- 7.0.102 -->
 - FOREPORT - Chef 28019/oracle tns ssl backport to inspec7 [#7732](https://github.com/inspec/inspec/pull/7732) ([sa-progress](https://github.com/sa-progress)) <!-- 7.0.101 -->
