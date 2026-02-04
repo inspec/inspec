@@ -64,7 +64,7 @@ function Invoke-Install {
     Write-BuildLine "** Installing chef-official-distribution gem from artifactory"
     $ArtifactoryUrl = "https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/"
     gem sources --add $ArtifactoryUrl
-    gem install chef-official-distribution
+    gem install chef-official-distribution --ignore-dependencies --no-document
     gem sources --remove $ArtifactoryUrl
 
     # Verify chef-official-distribution installation
