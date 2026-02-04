@@ -33,7 +33,7 @@ A `mssql_session` resource block declares the username and password to use for t
 
 where
 
-- `mssql_session` declares a username and password with permission to run the query. Omitting the username or password parameters results in the use of Windows authentication as the user Chef InSpec is executing as. You may also optionally pass a host and instance name. If omitted, they will default to host: localhost and the default instance.
+- `mssql_session` declares a username and password with permission to run the query. Omitting the username or password parameters results in the use of Windows authentication as the user Chef InSpec is executing as. You may also optionally pass a host and instance name. If omitted, they will default to host: localhost and the default instance. Set `trust_server_certificate: true` to pass `-C` to `sqlcmd`.
 - `query('QUERY')` contains the query to be run
 - `its('value') { should eq('') }` compares the results of the query against the expected result in the test
 
@@ -71,6 +71,14 @@ The following examples show how to use this Chef InSpec audit resource.
 
     describe sql.query("SELECT Name AS result FROM Product WHERE ProductID == 1").row(0).column('result') do
       its("value") { should eq 'foo' }
+    end
+
+### Trust the SQL Server certificate
+
+    sql = mssql_session(user: 'my_user', password: 'password', trust_server_certificate: true)
+
+    describe sql.query("SELECT SERVERPROPERTY('ProductVersion') as result").row(0).column('result') do
+      its("value") { should_not be_empty }
     end
 
 ## Matchers

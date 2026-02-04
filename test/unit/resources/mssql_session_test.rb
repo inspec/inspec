@@ -9,6 +9,7 @@ describe "Inspec::Resources::MssqlSession" do
     _(resource.user).must_equal "sa"
     _(resource.password).must_equal "yourStrong(!)Password"
     _(resource.host).must_equal "localhost"
+    _(resource.trust_server_certificate).must_equal false
   end
 
   it "verify mssql_session configuration with custom hostname" do
@@ -61,6 +62,11 @@ describe "Inspec::Resources::MssqlSession" do
     _(resource.local_mode).must_equal true
   end
 
+  it "verify mssql_session configuration with trust_server_certificate enabled" do
+    resource = load_resource("mssql_session", user: "sa", password: "yourStrong(!)Password", trust_server_certificate: true)
+    _(resource.trust_server_certificate).must_equal true
+  end
+
   it "run a SQL query" do
     resource = load_resource("mssql_session", user: "sa", password: "yourStrong(!)Password", host: "localhost", port: "1433")
     query = resource.query("SELECT SERVERPROPERTY('ProductVersion') as result")
@@ -81,5 +87,20 @@ describe "Inspec::Resources::MssqlSession" do
 
     query = resource.query("SELECT * FROM example as result")
     _(query.row(1).column("result").value).must_include "multiline"
+  end
+
+  it "run a SQL query with trust_server_certificate enabled" do
+    resource = quick_resource(:mssql_session, :linux, user: "sa", password: "yourStrong(!)Password", host: "localhost", port: "1433", trust_server_certificate: true) do |cmd|
+      cmd.strip!
+      case cmd
+      when "sqlcmd -Q \"set nocount on; SELECT SERVERPROPERTY('ProductVersion') as result\" -W -w 1024 -s ',' -C -U 'sa' -P 'yourStrong(!)Password' -S 'localhost,1433'" then
+        stdout_file "test/fixtures/cmd/mssql-result"
+      else
+        raise cmd.inspect
+      end
+    end
+
+    query = resource.query("SELECT SERVERPROPERTY('ProductVersion') as result")
+    _(query.row(0).column("result").value).must_equal "14.0.600.250"
   end
 end
