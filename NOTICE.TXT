@@ -1,4 +1,4 @@
-Progress Chef InSpec 7.0.107
+Progress Chef InSpec 7.0
 
 Portions of the Products include certain open source and commercial third-party
 components listed below ("Third-Party Components"). The authors of the
@@ -448,7 +448,7 @@ conditions:
 
 (1) Apache License 2.0:
 
-Progress Chef InSpec 7.0.107 incorporates AWS SDK for Ruby 1.102.0, AWS SDK for
+Progress Chef InSpec 7.0 incorporates AWS SDK for Ruby 1.102.0, AWS SDK for
 Ruby 1.103.0, AWS SDK for Ruby 1.107.0, AWS SDK for Ruby 1.113.0, AWS SDK for
 Ruby 1.117.0, AWS SDK for Ruby 1.12.1, AWS SDK for Ruby 1.131.0, AWS SDK for
 Ruby 1.135.0, AWS SDK for Ruby 1.162.0, AWS SDK for Ruby 1.20.0, AWS SDK for
@@ -693,7 +693,7 @@ aws-sdk-core-ruby 3.234.0:
 
 (2) Artistic License 1.0:
 
-Progress Chef InSpec 7.0.107 incorporates Habitat core_perl 5.40.1.
+Progress Chef InSpec 7.0 incorporates Habitat core_perl 5.40.1.
 
   The Artistic License
   ====================
@@ -811,7 +811,7 @@ Progress Chef InSpec 7.0.107 incorporates Habitat core_perl 5.40.1.
 
 (3) Artistic License 2.0:
 
-Progress Chef InSpec 7.0.107 incorporates win32-process 0.10.0.
+Progress Chef InSpec 7.0 incorporates win32-process 0.10.0.
 
   Artistic License 2.0
   ====================
@@ -998,7 +998,7 @@ Progress Chef InSpec 7.0.107 incorporates win32-process 0.10.0.
 
 (4) BSD 2-Clause "Simplified" License:
 
-Progress Chef InSpec 7.0.107 incorporates Habitat core_ruby3_4 3.4.8, HighLine
+Progress Chef InSpec 7.0 incorporates Habitat core_ruby3_4 3.4.8, HighLine
 3.1.2, JSON for Ruby 2.18.0, Ruby-SOCKSify 1.8.1, RubyZip 2.4.1,
 ahoward/options 2.3.2, base64 0.3.0, bigdecimal 3.3.1, byebug 11.1.3,
 io-console 0.8.2, mutex_m 0.3.0, nahi's httpclient 2.9.0, ostruct 0.6.3, pstore
@@ -1032,7 +1032,7 @@ ruby/rexml 3.4.4, ruby2_keywords 0.0.5, securerandom 0.4.1, and syslog 0.3.0.
 
 (5) BSD 3-Clause "New" or "Revised" License:
 
-Progress Chef InSpec 7.0.107 incorporates unicode_utils 1.4.0.
+Progress Chef InSpec 7.0 incorporates unicode_utils 1.4.0.
 
   Copyright (c) , Stefan Lang All rights reserved.
 
@@ -1066,7 +1066,7 @@ Progress Chef InSpec 7.0.107 incorporates unicode_utils 1.4.0.
 
 (6) BSD 3-Clause "New" or "Revised" License:
 
-Progress Chef InSpec 7.0.107 incorporates ffi 1.16.3.
+Progress Chef InSpec 7.0 incorporates ffi 1.16.3.
 
   Copyright (c) , Wayne Meissner All rights reserved.
 
@@ -1100,7 +1100,7 @@ Progress Chef InSpec 7.0.107 incorporates ffi 1.16.3.
 
 (7) BSD 3-Clause No Modification:
 
-Progress Chef InSpec 7.0.107 incorporates Habitat core_libcap 2.73, Habitat
+Progress Chef InSpec 7.0 incorporates Habitat core_libcap 2.73, Habitat
 core_libpcre2 10.42, Habitat core_pcre2 10.42, and Habitat core_zstd 1.5.7.
 
   Copyright (c) , The Habitat Maintainers <humans@habitat.sh> All rights
@@ -1136,7 +1136,7 @@ core_libpcre2 10.42, Habitat core_pcre2 10.42, and Habitat core_zstd 1.5.7.
 
 (8) Bzip2 License:
 
-Progress Chef InSpec 7.0.107 incorporates Habitat core_bzip2 1.0.8.
+Progress Chef InSpec 7.0 incorporates Habitat core_bzip2 1.0.8.
 
   bzip2 License
   =============
@@ -1177,7 +1177,7 @@ Progress Chef InSpec 7.0.107 incorporates Habitat core_bzip2 1.0.8.
 
 (9) Do What The F*ck You Want To Public License:
 
-Progress Chef InSpec 7.0.107 incorporates paul/progress_bar 1.3.4.
+Progress Chef InSpec 7.0 incorporates paul/progress_bar 1.3.4.
 
   Do What You Want License
   ========================
@@ -1194,7 +1194,7 @@ Progress Chef InSpec 7.0.107 incorporates paul/progress_bar 1.3.4.
 
 (10) GNU General Public License v2.0 only:
 
-Progress Chef InSpec 7.0.107 incorporates Habitat core_git 2.53.
+Progress Chef InSpec 7.0 incorporates Habitat core_git 2.53.
 
   The GNU General Public License (GPL)
   ====================================
@@ -1470,7 +1470,7 @@ Progress Chef InSpec 7.0.107 incorporates Habitat core_git 2.53.
 
 (11) GNU General Public License v2.0 or later:
 
-Progress Chef InSpec 7.0.107 incorporates Habitat core_xz 5.8.1.
+Progress Chef InSpec 7.0 incorporates Habitat core_xz 5.8.1.
 
   The GNU General Public License (GPL)
   ====================================
@@ -1816,7 +1816,7 @@ Progress Chef InSpec 7.0.107 incorporates Habitat core_xz 5.8.1.
 
 (12) GNU General Public License v2.0 with Linux Syscall Note:
 
-Progress Chef InSpec 7.0.107 incorporates Habitat core_linux-headers 5.19.8.
+Progress Chef InSpec 7.0 incorporates Habitat core_linux-headers 5.19.8.
 
   The GNU General Public License v2.0 w/Linux-syscall-note
   ========================================================
@@ -2104,7 +2104,7 @@ Progress Chef InSpec 7.0.107 incorporates Habitat core_linux-headers 5.19.8.
 
 (13) GNU General Public License v3.0 only:
 
-Progress Chef InSpec 7.0.107 incorporates Habitat core_bash 5.2.37, Habitat
+Progress Chef InSpec 7.0 incorporates Habitat core_bash 5.2.37, Habitat
 core_coreutils 9.7, Habitat core_grep 3.11, Habitat core_less 668, and Habitat
 core_readline 8.2.13.
 
@@ -2769,7 +2769,7 @@ core_readline 8.2.13.
 
 (14) GNU General Public License v3.0 or later:
 
-Progress Chef InSpec 7.0.107 incorporates Habitat core_diffutils 3.11, Habitat
+Progress Chef InSpec 7.0 incorporates Habitat core_diffutils 3.11, Habitat
 core_gdbm 1.24, Habitat core_gettext 0.24, Habitat core_gzip 1.14, Habitat
 core_libidn2 2.3.3, and Habitat core_sed 4.9.
 
@@ -3428,7 +3428,7 @@ core_libidn2 2.3.3, and Habitat core_sed 4.9.
 
 (15) GNU General Public License v3.0 w/GCC Runtime Library exception:
 
-Progress Chef InSpec 7.0.107 incorporates Habitat core_gcc-libs 14.3.0.
+Progress Chef InSpec 7.0 incorporates Habitat core_gcc-libs 14.3.0.
 
   GCC RUNTIME LIBRARY EXCEPTION
   =============================
@@ -4107,7 +4107,7 @@ Progress Chef InSpec 7.0.107 incorporates Habitat core_gcc-libs 14.3.0.
 
 (16) GNU Lesser General Public License v2.1 only:
 
-Progress Chef InSpec 7.0.107 incorporates Habitat core_acl 2.3.2, Habitat
+Progress Chef InSpec 7.0 incorporates Habitat core_acl 2.3.2, Habitat
 core_attr 2.5.2, Habitat core_glibc 2.41, and Habitat core_nss-myhostname 0.3.
 
   GNU Lesser General Public License Version 2.1 Only
@@ -4627,7 +4627,7 @@ core_attr 2.5.2, Habitat core_glibc 2.41, and Habitat core_nss-myhostname 0.3.
 
 (17) GNU Lesser General Public License v3.0 only:
 
-Progress Chef InSpec 7.0.107 incorporates Habitat core_gmp 6.3.0.
+Progress Chef InSpec 7.0 incorporates Habitat core_gmp 6.3.0.
 
   GNU Lesser General Public License Version 3.0 Only
   --------------------------------------------------
@@ -5462,7 +5462,7 @@ Progress Chef InSpec 7.0.107 incorporates Habitat core_gmp 6.3.0.
 
 (18) GNU Lesser General Public License v3.0 or later:
 
-Progress Chef InSpec 7.0.107 incorporates Habitat core_libunistring 1.0.
+Progress Chef InSpec 7.0 incorporates Habitat core_libunistring 1.0.
 
   GNU LESSER GENERAL PUBLIC LICENSE
   =================================
@@ -6289,7 +6289,7 @@ Progress Chef InSpec 7.0.107 incorporates Habitat core_libunistring 1.0.
 
 (19) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates ice_nine 0.11.2.
+Progress Chef InSpec 7.0 incorporates ice_nine 0.11.2.
 
   The MIT License
   ===============
@@ -6315,7 +6315,7 @@ Progress Chef InSpec 7.0.107 incorporates ice_nine 0.11.2.
 
 (20) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates Rake 13.3.1.
+Progress Chef InSpec 7.0 incorporates Rake 13.3.1.
 
   The MIT License
   ===============
@@ -6341,7 +6341,7 @@ Progress Chef InSpec 7.0.107 incorporates Rake 13.3.1.
 
 (21) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates faraday-multipart 1.2.0 and
+Progress Chef InSpec 7.0 incorporates faraday-multipart 1.2.0 and
 faraday-retry 1.0.3.
 
   The MIT License
@@ -6368,7 +6368,7 @@ faraday-retry 1.0.3.
 
 (22) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates rspec-support 3.13.7.
+Progress Chef InSpec 7.0 incorporates rspec-support 3.13.7.
 
   The MIT License
   ===============
@@ -6395,7 +6395,7 @@ Progress Chef InSpec 7.0.107 incorporates rspec-support 3.13.7.
 
 (23) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates simplecov 0.22.0.
+Progress Chef InSpec 7.0 incorporates simplecov 0.22.0.
 
   The MIT License
   ===============
@@ -6421,7 +6421,7 @@ Progress Chef InSpec 7.0.107 incorporates simplecov 0.22.0.
 
 (24) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates savonrb/nori 2.7.1.
+Progress Chef InSpec 7.0 incorporates savonrb/nori 2.7.1.
 
   The MIT License
   ===============
@@ -6447,7 +6447,7 @@ Progress Chef InSpec 7.0.107 incorporates savonrb/nori 2.7.1.
 
 (25) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates regexp_parser 2.11.3.
+Progress Chef InSpec 7.0 incorporates regexp_parser 2.11.3.
 
   The MIT License
   ===============
@@ -6473,7 +6473,7 @@ Progress Chef InSpec 7.0.107 incorporates regexp_parser 2.11.3.
 
 (26) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates pastel 0.8.0, strings 0.2.1,
+Progress Chef InSpec 7.0 incorporates pastel 0.8.0, strings 0.2.1,
 strings-ansi 0.2.0, tty 0.23.1, tty 0.6.0, tty-command 0.7.0, tty-command
 0.9.0, tty-cursor 0.7.1, tty-screen 0.8.2, tty-spinner 0.9.3, and tty-table
 0.12.0.
@@ -6502,7 +6502,7 @@ strings-ansi 0.2.0, tty 0.23.1, tty 0.6.0, tty-command 0.7.0, tty-command
 
 (27) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates halostatue/diff-lcs 1.6.2.
+Progress Chef InSpec 7.0 incorporates halostatue/diff-lcs 1.6.2.
 
   The MIT License
   ===============
@@ -6528,7 +6528,7 @@ Progress Chef InSpec 7.0.107 incorporates halostatue/diff-lcs 1.6.2.
 
 (28) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates declarative 0.0.20, representable
+Progress Chef InSpec 7.0 incorporates declarative 0.0.20, representable
 3.2.0, trailblazer-option 0.1.2, and uber 0.1.0.
 
   The MIT License
@@ -6555,7 +6555,7 @@ Progress Chef InSpec 7.0.107 incorporates declarative 0.0.20, representable
 
 (29) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates hashdiff 1.2.1.
+Progress Chef InSpec 7.0 incorporates hashdiff 1.2.1.
 
   The MIT License
   ===============
@@ -6581,7 +6581,7 @@ Progress Chef InSpec 7.0.107 incorporates hashdiff 1.2.1.
 
 (30) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates dry-inflector 1.2.0.
+Progress Chef InSpec 7.0 incorporates dry-inflector 1.2.0.
 
   The MIT License
   ===============
@@ -6607,7 +6607,7 @@ Progress Chef InSpec 7.0.107 incorporates dry-inflector 1.2.0.
 
 (31) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates retriable 3.1.2.
+Progress Chef InSpec 7.0 incorporates retriable 3.1.2.
 
   The MIT License
   ===============
@@ -6633,7 +6633,7 @@ Progress Chef InSpec 7.0.107 incorporates retriable 3.1.2.
 
 (32) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates adzap/timeliness 0.3.10.
+Progress Chef InSpec 7.0 incorporates adzap/timeliness 0.3.10.
 
   The MIT License
   ===============
@@ -6659,7 +6659,7 @@ Progress Chef InSpec 7.0.107 incorporates adzap/timeliness 0.3.10.
 
 (33) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates zeitwerk 2.6.18.
+Progress Chef InSpec 7.0 incorporates zeitwerk 2.6.18.
 
   The MIT License
   ===============
@@ -6685,7 +6685,7 @@ Progress Chef InSpec 7.0.107 incorporates zeitwerk 2.6.18.
 
 (34) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates Ruby Public Suffix 6.0.2.
+Progress Chef InSpec 7.0 incorporates Ruby Public Suffix 6.0.2.
 
   The MIT License
   ===============
@@ -6711,7 +6711,7 @@ Progress Chef InSpec 7.0.107 incorporates Ruby Public Suffix 6.0.2.
 
 (35) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates ast 2.4.3 and parser 3.3.10.1.
+Progress Chef InSpec 7.0 incorporates ast 2.4.3 and parser 3.3.10.1.
 
   The MIT License
   ===============
@@ -6737,7 +6737,7 @@ Progress Chef InSpec 7.0.107 incorporates ast 2.4.3 and parser 3.3.10.1.
 
 (36) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates erubi 1.13.1.
+Progress Chef InSpec 7.0 incorporates erubi 1.13.1.
 
   The MIT License
   ===============
@@ -6763,7 +6763,7 @@ Progress Chef InSpec 7.0.107 incorporates erubi 1.13.1.
 
 (37) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates jfelchner/ruby-progressbar 1.13.0.
+Progress Chef InSpec 7.0 incorporates jfelchner/ruby-progressbar 1.13.0.
 
   The MIT License
   ===============
@@ -6789,7 +6789,7 @@ Progress Chef InSpec 7.0.107 incorporates jfelchner/ruby-progressbar 1.13.0.
 
 (38) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates unicode-display_width 2.6.0.
+Progress Chef InSpec 7.0 incorporates unicode-display_width 2.6.0.
 
   The MIT License
   ===============
@@ -6815,7 +6815,7 @@ Progress Chef InSpec 7.0.107 incorporates unicode-display_width 2.6.0.
 
 (39) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates rubychan's coderay 1.1.3.
+Progress Chef InSpec 7.0 incorporates rubychan's coderay 1.1.3.
 
   The MIT License
   ===============
@@ -6841,7 +6841,7 @@ Progress Chef InSpec 7.0.107 incorporates rubychan's coderay 1.1.3.
 
 (40) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates mize 0.6.1 and tins 1.51.1.
+Progress Chef InSpec 7.0 incorporates mize 0.6.1 and tins 1.51.1.
 
   The MIT License
   ===============
@@ -6867,7 +6867,7 @@ Progress Chef InSpec 7.0.107 incorporates mize 0.6.1 and tins 1.51.1.
 
 (41) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates Habitat core_curl 8.18.0, Habitat
+Progress Chef InSpec 7.0 incorporates Habitat core_curl 8.18.0, Habitat
 core_expat 2.7.1, Habitat core_libffi 3.4.7, Habitat core_libpsl 0.21.1,
 Habitat core_libyaml 0.2.5, Habitat core_ncurses 6.5, and Habitat core_nghttp2
 1.65.0.
@@ -6896,7 +6896,7 @@ Habitat core_libyaml 0.2.5, Habitat core_ncurses 6.5, and Habitat core_nghttp2
 
 (42) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates pry-byebug 3.8.0.
+Progress Chef InSpec 7.0 incorporates pry-byebug 3.8.0.
 
   The MIT License
   ===============
@@ -6922,7 +6922,7 @@ Progress Chef InSpec 7.0.107 incorporates pry-byebug 3.8.0.
 
 (43) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates connection_pool 2.5.5.
+Progress Chef InSpec 7.0 incorporates connection_pool 2.5.5.
 
   The MIT License
   ===============
@@ -6948,7 +6948,7 @@ Progress Chef InSpec 7.0.107 incorporates connection_pool 2.5.5.
 
 (44) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates sickill's rainbow 3.1.1.
+Progress Chef InSpec 7.0 incorporates sickill's rainbow 3.1.1.
 
   The MIT License
   ===============
@@ -6974,7 +6974,7 @@ Progress Chef InSpec 7.0.107 incorporates sickill's rainbow 3.1.1.
 
 (45) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates sync 0.5.0.
+Progress Chef InSpec 7.0 incorporates sync 0.5.0.
 
   The MIT License
   ===============
@@ -7000,7 +7000,7 @@ Progress Chef InSpec 7.0.107 incorporates sync 0.5.0.
 
 (46) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates method_source 1.1.0.
+Progress Chef InSpec 7.0 incorporates method_source 1.1.0.
 
   The MIT License
   ===============
@@ -7026,7 +7026,7 @@ Progress Chef InSpec 7.0.107 incorporates method_source 1.1.0.
 
 (47) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates technoweenie's faraday 1.10.4.
+Progress Chef InSpec 7.0 incorporates technoweenie's faraday 1.10.4.
 
   The MIT License
   ===============
@@ -7052,7 +7052,7 @@ Progress Chef InSpec 7.0.107 incorporates technoweenie's faraday 1.10.4.
 
 (48) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates TwP's inifile 3.0.0, TwP's logging
+Progress Chef InSpec 7.0 incorporates TwP's inifile 3.0.0, TwP's logging
 2.4.0, and little-plugger 1.1.4.
 
   The MIT License
@@ -7079,7 +7079,7 @@ Progress Chef InSpec 7.0.107 incorporates TwP's inifile 3.0.0, TwP's logging
 
 (49) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates docile 1.4.1.
+Progress Chef InSpec 7.0 incorporates docile 1.4.1.
 
   The MIT License
   ===============
@@ -7105,7 +7105,7 @@ Progress Chef InSpec 7.0.107 incorporates docile 1.4.1.
 
 (50) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates concurrent-ruby 1.3.6.
+Progress Chef InSpec 7.0 incorporates concurrent-ruby 1.3.6.
 
   The MIT License
   ===============
@@ -7131,7 +7131,7 @@ Progress Chef InSpec 7.0.107 incorporates concurrent-ruby 1.3.6.
 
 (51) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates tomlrb 1.3.0.
+Progress Chef InSpec 7.0 incorporates tomlrb 1.3.0.
 
   The MIT License
   ===============
@@ -7157,7 +7157,7 @@ Progress Chef InSpec 7.0.107 incorporates tomlrb 1.3.0.
 
 (52) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates Ruby on Rails 7.2.3.
+Progress Chef InSpec 7.0 incorporates Ruby on Rails 7.2.3.
 
   The MIT License
   ===============
@@ -7183,7 +7183,7 @@ Progress Chef InSpec 7.0.107 incorporates Ruby on Rails 7.2.3.
 
 (53) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates joshbuddy's jsonpath 1.1.5.
+Progress Chef InSpec 7.0 incorporates joshbuddy's jsonpath 1.1.5.
 
   The MIT License
   ===============
@@ -7209,7 +7209,7 @@ Progress Chef InSpec 7.0.107 incorporates joshbuddy's jsonpath 1.1.5.
 
 (54) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates minitest 5.27.0, minitest-mock
+Progress Chef InSpec 7.0 incorporates minitest 5.27.0, minitest-mock
 5.27.0, minitest-sprint 1.4.0, and path_expander 1.1.3.
 
   The MIT License
@@ -7236,7 +7236,7 @@ Progress Chef InSpec 7.0.107 incorporates minitest 5.27.0, minitest-mock
 
 (55) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates jnunemaker's crack 1.0.1.
+Progress Chef InSpec 7.0 incorporates jnunemaker's crack 1.0.1.
 
   The MIT License
   ===============
@@ -7262,7 +7262,7 @@ Progress Chef InSpec 7.0.107 incorporates jnunemaker's crack 1.0.1.
 
 (56) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates json_schemer 2.5.0.
+Progress Chef InSpec 7.0 incorporates json_schemer 2.5.0.
 
   The MIT License
   ===============
@@ -7288,7 +7288,7 @@ Progress Chef InSpec 7.0.107 incorporates json_schemer 2.5.0.
 
 (57) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates lostisland/faraday_middleware 1.2.1.
+Progress Chef InSpec 7.0 incorporates lostisland/faraday_middleware 1.2.1.
 
   The MIT License
   ===============
@@ -7314,7 +7314,7 @@ Progress Chef InSpec 7.0.107 incorporates lostisland/faraday_middleware 1.2.1.
 
 (58) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates simplecov_json_formatter 0.1.4.
+Progress Chef InSpec 7.0 incorporates simplecov_json_formatter 0.1.4.
 
   The MIT License
   ===============
@@ -7340,7 +7340,7 @@ Progress Chef InSpec 7.0.107 incorporates simplecov_json_formatter 0.1.4.
 
 (59) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates hana 1.3.7.
+Progress Chef InSpec 7.0 incorporates hana 1.3.7.
 
   The MIT License
   ===============
@@ -7366,7 +7366,7 @@ Progress Chef InSpec 7.0.107 incorporates hana 1.3.7.
 
 (60) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates TZInfo 2.0.6.
+Progress Chef InSpec 7.0 incorporates TZInfo 2.0.6.
 
   The MIT License
   ===============
@@ -7392,7 +7392,7 @@ Progress Chef InSpec 7.0.107 incorporates TZInfo 2.0.6.
 
 (61) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates Parslet 2.0.0.
+Progress Chef InSpec 7.0 incorporates Parslet 2.0.0.
 
   The MIT License
   ===============
@@ -7418,7 +7418,7 @@ Progress Chef InSpec 7.0.107 incorporates Parslet 2.0.0.
 
 (62) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates dry-core 1.1.0.
+Progress Chef InSpec 7.0 incorporates dry-core 1.1.0.
 
   The MIT License
   ===============
@@ -7444,7 +7444,7 @@ Progress Chef InSpec 7.0.107 incorporates dry-core 1.1.0.
 
 (63) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates faraday-cookie_jar 0.0.8.
+Progress Chef InSpec 7.0 incorporates faraday-cookie_jar 0.0.8.
 
   The MIT License
   ===============
@@ -7470,7 +7470,7 @@ Progress Chef InSpec 7.0.107 incorporates faraday-cookie_jar 0.0.8.
 
 (64) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates simpleidn 0.2.3.
+Progress Chef InSpec 7.0 incorporates simpleidn 0.2.3.
 
   The MIT License
   ===============
@@ -7496,7 +7496,7 @@ Progress Chef InSpec 7.0.107 incorporates simpleidn 0.2.3.
 
 (65) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates gssapi 1.3.1.
+Progress Chef InSpec 7.0 incorporates gssapi 1.3.1.
 
   The MIT License
   ===============
@@ -7522,7 +7522,7 @@ Progress Chef InSpec 7.0.107 incorporates gssapi 1.3.1.
 
 (66) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates simplecov-html 0.13.2.
+Progress Chef InSpec 7.0 incorporates simplecov-html 0.13.2.
 
   The MIT License
   ===============
@@ -7548,7 +7548,7 @@ Progress Chef InSpec 7.0.107 incorporates simplecov-html 0.13.2.
 
 (67) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates faraday-net_http 1.0.2.
+Progress Chef InSpec 7.0 incorporates faraday-net_http 1.0.2.
 
   The MIT License
   ===============
@@ -7574,7 +7574,7 @@ Progress Chef InSpec 7.0.107 incorporates faraday-net_http 1.0.2.
 
 (68) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates rubyntlm 0.6.5.
+Progress Chef InSpec 7.0 incorporates rubyntlm 0.6.5.
 
   The MIT License
   ===============
@@ -7600,7 +7600,7 @@ Progress Chef InSpec 7.0.107 incorporates rubyntlm 0.6.5.
 
 (69) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates grosser's parallel 1.27.0.
+Progress Chef InSpec 7.0 incorporates grosser's parallel 1.27.0.
 
   The MIT License
   ===============
@@ -7626,7 +7626,7 @@ Progress Chef InSpec 7.0.107 incorporates grosser's parallel 1.27.0.
 
 (70) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates hashie 5.1.0.
+Progress Chef InSpec 7.0 incorporates hashie 5.1.0.
 
   The MIT License
   ===============
@@ -7652,7 +7652,7 @@ Progress Chef InSpec 7.0.107 incorporates hashie 5.1.0.
 
 (71) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates mwunsch's prism 1.9.0.
+Progress Chef InSpec 7.0 incorporates mwunsch's prism 1.9.0.
 
   The MIT License
   ===============
@@ -7678,7 +7678,7 @@ Progress Chef InSpec 7.0.107 incorporates mwunsch's prism 1.9.0.
 
 (72) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates faraday-em_http 1.0.0,
+Progress Chef InSpec 7.0 incorporates faraday-em_http 1.0.0,
 faraday-em_synchrony 1.0.1, faraday-excon 1.1.0, faraday-httpclient 1.0.1,
 faraday-patron 1.0.0, and faraday-rack 1.0.0.
 
@@ -7706,7 +7706,7 @@ faraday-patron 1.0.0, and faraday-rack 1.0.0.
 
 (73) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates m 1.7.0.
+Progress Chef InSpec 7.0 incorporates m 1.7.0.
 
   The MIT License
   ===============
@@ -7732,7 +7732,7 @@ Progress Chef InSpec 7.0.107 incorporates m 1.7.0.
 
 (74) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates nokogiri 1.18.10-aarch64-linux-gnu.
+Progress Chef InSpec 7.0 incorporates nokogiri 1.18.10-aarch64-linux-gnu.
 
   The MIT License
   ===============
@@ -7760,7 +7760,7 @@ Progress Chef InSpec 7.0.107 incorporates nokogiri 1.18.10-aarch64-linux-gnu.
 
 (75) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates nicksieger's multipart-post 2.4.1.
+Progress Chef InSpec 7.0 incorporates nicksieger's multipart-post 2.4.1.
 
   The MIT License
   ===============
@@ -7793,7 +7793,7 @@ Progress Chef InSpec 7.0.107 incorporates nicksieger's multipart-post 2.4.1.
 
 (76) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates webmock 3.26.1.
+Progress Chef InSpec 7.0 incorporates webmock 3.26.1.
 
   The MIT License
   ===============
@@ -7819,7 +7819,7 @@ Progress Chef InSpec 7.0.107 incorporates webmock 3.26.1.
 
 (77) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates dry-logic 1.6.0, dry-struct 1.8.0,
+Progress Chef InSpec 7.0 incorporates dry-logic 1.6.0, dry-struct 1.8.0,
 and dry-types 1.8.3.
 
   The MIT License
@@ -7846,7 +7846,7 @@ and dry-types 1.8.3.
 
 (78) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates excon 0.112.0.
+Progress Chef InSpec 7.0 incorporates excon 0.112.0.
 
   The MIT License
   ===============
@@ -7873,7 +7873,7 @@ Progress Chef InSpec 7.0.107 incorporates excon 0.112.0.
 
 (79) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates faraday-net_http_persistent 1.2.0.
+Progress Chef InSpec 7.0 incorporates faraday-net_http_persistent 1.2.0.
 
   The MIT License
   ===============
@@ -7899,7 +7899,7 @@ Progress Chef InSpec 7.0.107 incorporates faraday-net_http_persistent 1.2.0.
 
 (80) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates recursive-open-struct 1.3.1.
+Progress Chef InSpec 7.0 incorporates recursive-open-struct 1.3.1.
 
   The MIT License
   ===============
@@ -7925,7 +7925,7 @@ Progress Chef InSpec 7.0.107 incorporates recursive-open-struct 1.3.1.
 
 (81) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates rdp's os 1.1.4.
+Progress Chef InSpec 7.0 incorporates rdp's os 1.1.4.
 
   The MIT License
   ===============
@@ -7951,7 +7951,7 @@ Progress Chef InSpec 7.0.107 incorporates rdp's os 1.1.4.
 
 (82) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates yajl-ruby 1.4.3.
+Progress Chef InSpec 7.0 incorporates yajl-ruby 1.4.3.
 
   The MIT License
   ===============
@@ -7977,7 +7977,7 @@ Progress Chef InSpec 7.0.107 incorporates yajl-ruby 1.4.3.
 
 (83) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates RSpec 3.13.2, RSpec 3.13.5, and RSpec
+Progress Chef InSpec 7.0 incorporates RSpec 3.13.2, RSpec 3.13.5, and RSpec
 3.13.7.
 
   The MIT License
@@ -8004,7 +8004,7 @@ Progress Chef InSpec 7.0.107 incorporates RSpec 3.13.2, RSpec 3.13.5, and RSpec
 
 (84) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates ruby-i18n 1.14.8.
+Progress Chef InSpec 7.0 incorporates ruby-i18n 1.14.8.
 
   The MIT License
   ===============
@@ -8031,7 +8031,7 @@ Progress Chef InSpec 7.0.107 incorporates ruby-i18n 1.14.8.
 
 (85) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates Pry REPL 0.16.0.
+Progress Chef InSpec 7.0 incorporates Pry REPL 0.16.0.
 
   The MIT License
   ===============
@@ -8058,7 +8058,7 @@ Progress Chef InSpec 7.0.107 incorporates Pry REPL 0.16.0.
 
 (86) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates net-scp 4.1.0 and ruby-net-ssh 7.3.0.
+Progress Chef InSpec 7.0 incorporates net-scp 4.1.0 and ruby-net-ssh 7.3.0.
 
   The MIT License
   ===============
@@ -8084,7 +8084,7 @@ Progress Chef InSpec 7.0.107 incorporates net-scp 4.1.0 and ruby-net-ssh 7.3.0.
 
 (87) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates jimweirich's builder 3.3.0.
+Progress Chef InSpec 7.0 incorporates jimweirich's builder 3.3.0.
 
   The MIT License
   ===============
@@ -8110,7 +8110,7 @@ Progress Chef InSpec 7.0.107 incorporates jimweirich's builder 3.3.0.
 
 (88) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates docker-api 2.4.0.
+Progress Chef InSpec 7.0 incorporates docker-api 2.4.0.
 
   The MIT License
   ===============
@@ -8136,7 +8136,7 @@ Progress Chef InSpec 7.0.107 incorporates docker-api 2.4.0.
 
 (89) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates chef-gyoku 1.5.0.
+Progress Chef InSpec 7.0 incorporates chef-gyoku 1.5.0.
 
   The MIT License
   ===============
@@ -8162,7 +8162,7 @@ Progress Chef InSpec 7.0.107 incorporates chef-gyoku 1.5.0.
 
 (90) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates wisper 2.0.1.
+Progress Chef InSpec 7.0 incorporates wisper 2.0.1.
 
   The MIT License
   ===============
@@ -8188,7 +8188,7 @@ Progress Chef InSpec 7.0.107 incorporates wisper 2.0.1.
 
 (91) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates rspec-its 2.0.0.
+Progress Chef InSpec 7.0 incorporates rspec-its 2.0.0.
 
   The MIT License
   ===============
@@ -8214,7 +8214,7 @@ Progress Chef InSpec 7.0.107 incorporates rspec-its 2.0.0.
 
 (92) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates azure-sdk-for-python 0.18.2,
+Progress Chef InSpec 7.0 incorporates azure-sdk-for-python 0.18.2,
 azure-sdk-for-python 0.23.0, azure_graph_rbac 0.17.2, azure_mgmt_key_vault
 0.17.7, azure_mgmt_security 0.19.0, ms_rest 0.7.6, and ms_rest_azure 0.12.0.
 
@@ -8242,7 +8242,7 @@ azure-sdk-for-python 0.23.0, azure_graph_rbac 0.17.2, azure_mgmt_key_vault
 
 (93) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates faraday-follow_redirects 0.5.0.
+Progress Chef InSpec 7.0 incorporates faraday-follow_redirects 0.5.0.
 
   The MIT License
   ===============
@@ -8268,7 +8268,7 @@ Progress Chef InSpec 7.0.107 incorporates faraday-follow_redirects 0.5.0.
 
 (94) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates http-cookie 1.1.0.
+Progress Chef InSpec 7.0 incorporates http-cookie 1.1.0.
 
   The MIT License
   ===============
@@ -8294,7 +8294,7 @@ Progress Chef InSpec 7.0.107 incorporates http-cookie 1.1.0.
 
 (95) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates mini_mime 1.1.5.
+Progress Chef InSpec 7.0 incorporates mini_mime 1.1.5.
 
   The MIT License
   ===============
@@ -8320,7 +8320,7 @@ Progress Chef InSpec 7.0.107 incorporates mini_mime 1.1.5.
 
 (96) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates multi_json 1.19.1.
+Progress Chef InSpec 7.0 incorporates multi_json 1.19.1.
 
   The MIT License
   ===============
@@ -8346,7 +8346,7 @@ Progress Chef InSpec 7.0.107 incorporates multi_json 1.19.1.
 
 (97) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates RSpec 3.13.6.
+Progress Chef InSpec 7.0 incorporates RSpec 3.13.6.
 
   The MIT License
   ===============
@@ -8372,7 +8372,7 @@ Progress Chef InSpec 7.0.107 incorporates RSpec 3.13.6.
 
 (98) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates dry-configurable 1.3.0.
+Progress Chef InSpec 7.0 incorporates dry-configurable 1.3.0.
 
   The MIT License
   ===============
@@ -8398,7 +8398,7 @@ Progress Chef InSpec 7.0.107 incorporates dry-configurable 1.3.0.
 
 (99) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates mocha 3.0.1.
+Progress Chef InSpec 7.0 incorporates mocha 3.0.1.
 
   The MIT License
   ===============
@@ -8424,7 +8424,7 @@ Progress Chef InSpec 7.0.107 incorporates mocha 3.0.1.
 
 (100) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates Thor 1.4.0.
+Progress Chef InSpec 7.0 incorporates Thor 1.4.0.
 
   The MIT License
   ===============
@@ -8450,7 +8450,7 @@ Progress Chef InSpec 7.0.107 incorporates Thor 1.4.0.
 
 (101) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates fuzzyurl 0.9.0.
+Progress Chef InSpec 7.0 incorporates fuzzyurl 0.9.0.
 
   The MIT License
   ===============
@@ -8476,7 +8476,7 @@ Progress Chef InSpec 7.0.107 incorporates fuzzyurl 0.9.0.
 
 (102) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates rubocop 1.25.1 and rubocop-ast 1.49.0.
+Progress Chef InSpec 7.0 incorporates rubocop 1.25.1 and rubocop-ast 1.49.0.
 
   The MIT License
   ===============
@@ -8502,7 +8502,7 @@ Progress Chef InSpec 7.0.107 incorporates rubocop 1.25.1 and rubocop-ast 1.49.0.
 
 (103) MIT License:
 
-Progress Chef InSpec 7.0.107 incorporates ruby-jwt 2.10.2.
+Progress Chef InSpec 7.0 incorporates ruby-jwt 2.10.2.
 
   The MIT License
   ===============
@@ -8528,7 +8528,7 @@ Progress Chef InSpec 7.0.107 incorporates ruby-jwt 2.10.2.
 
 (104) Mozilla Public License 2.0:
 
-Progress Chef InSpec 7.0.107 incorporates Habitat core_cacerts 2025-05-20,
+Progress Chef InSpec 7.0 incorporates Habitat core_cacerts 2025-05-20,
 public_suffix_service 0.6.20240107, and sslshake 1.3.1.
 
   Mozilla Public License Version 2.0
@@ -8947,7 +8947,7 @@ public_suffix_service 0.6.20240107, and sslshake 1.3.1.
 
 (105) OpenSSL License:
 
-Progress Chef InSpec 7.0.107 incorporates Habitat core_openssl 3.5.5.
+Progress Chef InSpec 7.0 incorporates Habitat core_openssl 3.5.5.
 
   OpenSSL Project License
   =======================
@@ -9009,7 +9009,7 @@ Progress Chef InSpec 7.0.107 incorporates Habitat core_openssl 3.5.5.
 
 (106) SSH OpenSSH license:
 
-Progress Chef InSpec 7.0.107 incorporates Habitat core_openssh 10.0p1.
+Progress Chef InSpec 7.0 incorporates Habitat core_openssh 10.0p1.
 
   SSH OpenSSH license
   ===================
@@ -9082,7 +9082,7 @@ Progress Chef InSpec 7.0.107 incorporates Habitat core_openssh 10.0p1.
 
 (107) zlib License:
 
-Progress Chef InSpec 7.0.107 incorporates Habitat core_zlib 1.3.1.
+Progress Chef InSpec 7.0 incorporates Habitat core_zlib 1.3.1.
 
   The zlib/libpng License
   =======================
@@ -9112,7 +9112,7 @@ Product:
 
 (1) Internal Progress Product License:
 
-Progress Chef InSpec 7.0.107 incorporates chef-telemetry 1.1.1, mixlib-config
+Progress Chef InSpec 7.0 incorporates chef-telemetry 1.1.1, mixlib-config
 3.0.27, and mixlib-log 3.2.3.
 
   See Progress License
