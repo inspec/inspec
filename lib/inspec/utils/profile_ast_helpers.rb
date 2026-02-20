@@ -338,8 +338,11 @@ module Inspec
             collectors.push InputCollectorWithinControlBlock.new(@memo)
             collectors.push TestsCollector.new(control_data) if include_tests
 
-            begin_block.each_node do |node_within_control|
-              collectors.each { |collector| collector.process(node_within_control) }
+            # Handle empty control blocks (e.g., control "id" do end)
+            if begin_block
+              begin_block.each_node do |node_within_control|
+                collectors.each { |collector| collector.process(node_within_control) }
+              end
             end
 
             memo[:controls].push control_data
