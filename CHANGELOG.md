@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.106 -->
-## [v7.0.106](https://github.com/inspec/inspec/tree/v7.0.106) (2026-02-10)
+<!-- latest_release 7.0.107 -->
+## [v7.0.107](https://github.com/inspec/inspec/tree/v7.0.107) (2026-02-20)
 
 #### Merged Pull Requests
-- PR for version bump [#7783](https://github.com/inspec/inspec/pull/7783) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Update NOTICE for v7.0.107 [#7789](https://github.com/inspec/inspec/pull/7789) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since base-2025-current release
 
 #### Merged Pull Requests
+- Update NOTICE for v7.0.107 [#7789](https://github.com/inspec/inspec/pull/7789) ([Nik08](https://github.com/Nik08)) <!-- 7.0.107 -->
 - PR for version bump [#7783](https://github.com/inspec/inspec/pull/7783) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.106 -->
 - Ignore dependencies flag usage for external gems [#7775](https://github.com/inspec/inspec/pull/7775) ([Nik08](https://github.com/Nik08)) <!-- 7.0.105 -->
 - Foreport - Fix github workflow for sbom generation  (#7711) [#7774](https://github.com/inspec/inspec/pull/7774) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 7.0.104 -->
