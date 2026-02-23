@@ -29,6 +29,8 @@ gem "ffi", ">= 1.15.5", "< 1.17.0"
 # but our runtime dep is still 3.9+
 gem "rspec", ">= 3.10"
 
+gem "bigdecimal", "< 4.0" # Match Ruby 3.1's default gem version to avoid activation conflicts
+
 group :omnibus do
   gem "rb-readline"
   gem "appbundler"
@@ -41,7 +43,8 @@ group :test do
   gem "concurrent-ruby"
   gem "json_schemer"
   gem "m"
-  gem "minitest-sprint", "~> 1.0"
+  # 1.4.0+ requires min ruby 3.2
+  gem "minitest-sprint", "~> 1.3.0"
   gem "minitest", "5.15.0"
   gem "mocha"
   gem "nokogiri"
