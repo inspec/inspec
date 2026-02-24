@@ -8,9 +8,9 @@ name: CI Pull Request on InSpec 7 Branch
 on: 
   pull_request:
     # branches: [ main, release/** ]
-    branches: [ inspec-7 ]
+    branches: [ nm/bump-inspec-7-version-bump ]
   push:
-    branches: [ inspec-7 ]
+    branches: [ nm/bump-inspec-7-version-bump ]
 
   workflow_dispatch:
 
@@ -41,7 +41,7 @@ jobs:
       # go-private-modules: GOPRIVATE for Go private modules, default is 'github.com/progress-platform-services/*
 
       # if version specified, it takes precedence; can be a semver like 1.0.2-xyz or a tag like "latest"
-      version: '7.0.63' # ${{ github.event.repository.version }}
+      version: '7.0.106' # ${{ github.event.repository.version }}
       detect-version-source-type: 'none' # options include "none" (do not detect), "file", "github-tag" or "github-release"
       detect-version-source-parameter: '' # use for file name
       language: 'ruby'  # Go, Ruby, Rust, JavaScript, TypeScript, Python, Java, C#, PHP, other - used for build and SonarQube language setting
