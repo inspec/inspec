@@ -29,8 +29,6 @@ gem "ffi", ">= 1.15.5", "< 1.17.0"
 # but our runtime dep is still 3.9+
 gem "rspec", ">= 3.10"
 
-gem "bigdecimal", "< 4.0" # Match Ruby 3.1's default gem version to avoid activation conflicts
-
 group :omnibus do
   gem "rb-readline"
   gem "appbundler"
