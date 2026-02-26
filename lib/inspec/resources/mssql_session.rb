@@ -30,9 +30,15 @@ module Inspec::Resources
         its('value') { should_not be_empty }
         its('value') { should cmp == 1 }
       end
+
+      # Trust the SQL Server TLS certificate when using sqlcmd
+      sql_tls = mssql_session(user: 'myuser', password: 'mypassword', trust_server_certificate: true)
+      describe sql_tls.query(\"SELECT SERVERPROPERTY('ProductVersion') as \\\"version\\\";\").row(0).column('version') do
+        its('value') { should_not be_empty }
+      end
     EXAMPLE
 
-    attr_reader :user, :password, :host, :port, :instance, :local_mode, :db_name
+    attr_reader :user, :password, :host, :port, :instance, :local_mode, :db_name, :trust_server_certificate
     def initialize(opts = {})
       @user = opts[:user]
       @password = opts[:password] || opts[:pass]
@@ -46,6 +52,7 @@ module Inspec::Resources
       end
       @instance = opts[:instance]
       @db_name = opts[:db_name]
+      @trust_server_certificate = !!opts[:trust_server_certificate] # rubocop:disable Style/DoubleNegation
 
       # check if sqlcmd is available
       raise Inspec::Exceptions::ResourceSkipped, "sqlcmd is missing" unless inspec.command("sqlcmd").exist?
@@ -57,6 +64,7 @@ module Inspec::Resources
       escaped_query = q.gsub(/\\/, "\\\\").gsub(/"/, '""').gsub(/\$/, '\\$')
       # surpress 'x rows affected' in SQLCMD with 'set nocount on;'
       cmd_string = "sqlcmd -Q \"set nocount on; #{escaped_query}\" -W -w 1024 -s ','"
+      cmd_string += " -C" if trust_server_certificate?
       cmd_string += " -U '#{@user}' -P '#{@password}'" unless @user.nil? || @password.nil?
       cmd_string += " -d '#{@db_name}'" unless @db_name.nil?
       unless local_mode?
@@ -92,6 +100,10 @@ module Inspec::Resources
 
     def local_mode?
       !!@local_mode # rubocop:disable Style/DoubleNegation
+    end
+
+    def trust_server_certificate?
+      @trust_server_certificate
     end
 
     def test_connection
