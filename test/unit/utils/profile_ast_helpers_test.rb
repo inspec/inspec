@@ -193,3 +193,45 @@ describe Inspec::Profile::AstHelper::InputCollectorBase do
     end
   end
 end
+
+describe Inspec::Profile::AstHelper::ControlIDCollector do
+  let(:source_location_ref) { "/tmp/controls.rb" }
+  let(:memo) { { controls: [], inputs: [] } }
+
+  def process_controls(code, include_tests: false)
+    ast = RuboCop::AST::ProcessedSource.new(code, RUBY_VERSION.to_f).ast
+    collector = Inspec::Profile::AstHelper::ControlIDCollector.new(memo, source_location_ref,
+                                                                  include_tests: include_tests)
+    ast.each_node { |node| collector.process(node) }
+  end
+
+  it "collects an empty control block" do
+    code = <<~RUBY
+      control "empty-control" do
+      end
+    RUBY
+
+    process_controls(code)
+
+    _(memo[:controls].length).must_equal 1
+    control = memo[:controls].first
+    _(control[:id]).must_equal "empty-control"
+    _(control[:title]).must_be_nil
+    _(control[:desc]).must_be_nil
+    _(control[:descriptions]).must_equal({})
+    _(control[:tags]).must_equal({})
+    _(control[:refs]).must_equal([])
+  end
+
+  it "initializes checks when include_tests is enabled" do
+    code = <<~RUBY
+      control "empty-with-checks" do
+      end
+    RUBY
+
+    process_controls(code, include_tests: true)
+
+    _(memo[:controls].length).must_equal 1
+    _(memo[:controls].first[:checks]).must_equal []
+  end
+end
