@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release 5.24.6 -->
+## [v5.24.6](https://github.com/inspec/inspec/tree/v5.24.6) (2026-02-26)
+
+#### Merged Pull Requests
+- Add trust_server_certificate option to mssql_session [#7791](https://github.com/inspec/inspec/pull/7791) ([Danyyer](https://github.com/Danyyer))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=5.24.5 -->
+### Changes since 5.24.5 release
+
+#### Merged Pull Requests
+- Add trust_server_certificate option to mssql_session [#7791](https://github.com/inspec/inspec/pull/7791) ([Danyyer](https://github.com/Danyyer)) <!-- 5.24.6 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
