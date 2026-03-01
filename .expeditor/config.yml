@@ -164,11 +164,7 @@ subscriptions:
      - built_in:publish_rubygems
      - built_in:create_github_release
      # - built_in:promote_habitat_packages # disable habitat package promotion
-     - bash:.expeditor/publish-release-notes.sh:
-        post_commit: true
      - purge_packages_chef_io_fastly:{{target_channel}}/inspec/latest:
-        post_commit: true
-     - bash:.expeditor/announce-release.sh:
         post_commit: true
      - built_in:notify_chefio_slack_channels
   - workload: pull_request_opened:{{github_repo}}:{{release_branch}}:*
