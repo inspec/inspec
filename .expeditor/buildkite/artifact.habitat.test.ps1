@@ -15,43 +15,51 @@ Get-CimInstance Win32_OperatingSystem | Select-Object $Properties | Format-Table
 
 Write-Host "--- Installing the version of Habitat required"
 
-function Stop-HabProcess {
-  $habProcess = Get-Process hab -ErrorAction SilentlyContinue
-  if ($habProcess) {
-      Write-Host "Stopping hab process..."
-      Stop-Process -Name hab -Force
+function Install-Habitat {
+  Write-Host "Downloading and installing Habitat..."
+
+  # Suppress errors from the installer script that might try to remove locked files
+  $ErrorActionPreference = 'Continue'
+  Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1'))
+  $ErrorActionPreference = 'Stop'
+
+  # Add Habitat to PATH for current session
+  $habPath = "C:\ProgramData\Habitat"
+  if (Test-Path $habPath) {
+    $env:Path = "$habPath;$env:Path"
+    Write-Host "Added $habPath to PATH"
+  }
+
+  # Wait for installation to complete and avoid racing conditions
+  Start-Sleep -Seconds 2
+
+  # Verify installation
+  $habVersion = hab --version 2>&1
+  if ($LASTEXITCODE -eq 0) {
+    Write-Host ":habitat: Installed Habitat version: $habVersion"
+  } else {
+    Write-Host "Warning: Could not verify Habitat installation"
   }
 }
 
-function Install-Habitat {
-  Write-Host "Downloading and installing Habitat..."
-  Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1'))
+# Ensure Habitat is in PATH before checking
+$habPath = "C:\ProgramData\Habitat"
+if (Test-Path $habPath) {
+  $env:Path = "$habPath;$env:Path"
 }
 
 try {
-  hab --version
+  $habVersion = hab --version 2>&1
+  if ($LASTEXITCODE -eq 0) {
+    Write-Host "Habitat is already installed: $habVersion"
+  } else {
+    throw "hab command failed"
+  }
 }
 catch {
+  Write-Host "Installing Habitat ...."
   Set-ExecutionPolicy Bypass -Scope Process -Force
-
-  Stop-HabProcess
-
-  # Remove the existing hab.exe if it exists and if you have permissions
-  $habPath = "C:\ProgramData\Habitat\hab.exe"
-  if (Test-Path $habPath) {
-      Write-Host "Attempting to remove existing hab.exe..."
-      Remove-Item $habPath -Force -ErrorAction SilentlyContinue
-      if (Test-Path $habPath) {
-          Write-Host "Failed to remove hab.exe, re-running script with elevated permissions."
-          Start-Process powershell -Verb runAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
-          exit
-      }
-  }
-
   Install-Habitat
-}
-finally {
-  Write-Host ":habitat: I think I have the version I need to build."
 }
 
 # Set HAB_ORIGIN after Habitat installation
