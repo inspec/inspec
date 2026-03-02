@@ -1,21 +1,19 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.24.7 -->
-## [v5.24.7](https://github.com/inspec/inspec/tree/v5.24.7) (2026-02-26)
-
-#### Merged Pull Requests
-- CHEF-27810 AST parser fixes [#7641](https://github.com/inspec/inspec/pull/7641) ([Nik08](https://github.com/Nik08))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=5.24.5 -->
-### Changes since 5.24.5 release
-
-#### Merged Pull Requests
-- CHEF-27810 AST parser fixes [#7641](https://github.com/inspec/inspec/pull/7641) ([Nik08](https://github.com/Nik08)) <!-- 5.24.7 -->
-- Add trust_server_certificate option to mssql_session [#7791](https://github.com/inspec/inspec/pull/7791) ([Danyyer](https://github.com/Danyyer)) <!-- 5.24.6 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v5.24.7](https://github.com/inspec/inspec/tree/v5.24.7) (2026-03-02)
+
+#### Merged Pull Requests
+- Add trust_server_certificate option to mssql_session [#7791](https://github.com/inspec/inspec/pull/7791) ([Danyyer](https://github.com/Danyyer))
+- CHEF-27810 AST parser fixes [#7641](https://github.com/inspec/inspec/pull/7641) ([Nik08](https://github.com/Nik08))
+<!-- latest_stable_release -->
+
 ## [v5.24.5](https://github.com/inspec/inspec/tree/v5.24.5) (2026-01-28)
 
 #### Merged Pull Requests
@@ -61,7 +59,6 @@
 - Fixes warning which shows up after inspec execution while using winrm transport [#7753](https://github.com/inspec/inspec/pull/7753) ([Vasu1105](https://github.com/Vasu1105))
 - Updating to latest NOTICE text [#7764](https://github.com/inspec/inspec/pull/7764) ([Vasu1105](https://github.com/Vasu1105))
 - Pr to bump version [#7765](https://github.com/inspec/inspec/pull/7765) ([Nik08](https://github.com/Nik08))
-<!-- latest_stable_release -->
 
 ## [v5.23.6](https://github.com/inspec/inspec/tree/v5.23.6) (2025-09-23)
 
