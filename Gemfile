@@ -59,3 +59,5 @@ end
 group :deploy do
   gem "inquirer"
 end
+
+gem "chef-licensing", github: "chef/chef-licensing", branch: "bugfix-license_url-split", glob: "components/ruby/chef-licensing.gemspec"
