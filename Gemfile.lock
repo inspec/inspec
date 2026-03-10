@@ -578,11 +578,11 @@ GEM
     net-scp (4.1.0)
       net-ssh (>= 2.6.5, < 8.0.0)
     net-ssh (7.3.0)
-    nokogiri (1.18.10-aarch64-linux)
+    nokogiri (1.18.10-aarch64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.18.10-aarch64-linux-musl)
       racc (~> 1.4)
-    nokogiri (1.18.10-arm-linux)
+    nokogiri (1.18.10-arm-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.18.10-arm-linux-musl)
       racc (~> 1.4)
@@ -592,7 +592,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.10-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.18.10-x86_64-linux)
+    nokogiri (1.18.10-x86_64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.18.10-x86_64-linux-musl)
       racc (~> 1.4)
@@ -861,14 +861,14 @@ GEM
     zeitwerk (2.6.18)
 
 PLATFORMS
-  aarch64-linux
+  aarch64-linux-gnu
   aarch64-linux-musl
-  arm-linux
+  arm-linux-gnu
   arm-linux-musl
   arm64-darwin
   x64-mingw-ucrt
   x86_64-darwin
-  x86_64-linux
+  x86_64-linux-gnu
   x86_64-linux-musl
 
 DEPENDENCIES
