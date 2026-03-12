@@ -61,6 +61,14 @@ jobs:
           hab pkg upload --auth $HAB_AUTH_TOKEN results/$pkg_artifact --channel LTS-2024-current
           echo "--- push complete!!"
 
+      - name: Upload Build Metadata (Linux)
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: habitat-build-metadata-linux
+          path: results/last_build.env
+          retention-days: 90
+
       - name: Build and Upload Habitat Package
         if: ${{ matrix.os == 'windows-latest' }}
         shell: pwsh
@@ -76,3 +84,29 @@ jobs:
           . results\last_build.ps1
           hab pkg upload results\$pkg_artifact --auth $env:HAB_AUTH_TOKEN --channel LTS-2024-current
           Write-Output "--- push complete!!"
+
+      - name: Upload Build Metadata (Windows)
+        if: ${{ matrix.os == 'windows-latest' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: habitat-build-metadata-windows
+          path: results/last_build.ps1
+          retention-days: 90
+
+  print-run-id:
+    needs: agent-matrix
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Run ID for Promotion
+        run: |
+          echo "================================================================"
+          echo "Build Complete! Use this Run ID for promotion workflow:"
+          echo ""
+          echo "  Run ID: ${{ github.run_id }}"
+          echo ""
+          echo "To promote packages to LTS-2024 channel:"
+          echo "  1. Go to Actions tab"
+          echo "  2. Select 'Promote Habitat Packages to LTS-2024 Channel'"
+          echo "  3. Click 'Run workflow'"
+          echo "  4. Enter Run ID: ${{ github.run_id }}"
+          echo "================================================================"
