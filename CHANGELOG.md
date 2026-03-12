@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 6.8.47 -->
-## [v6.8.47](https://github.com/inspec/inspec/tree/v6.8.47) (2026-01-28)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Remove release notes Expeditor actions [#7724](https://github.com/inspec/inspec/pull/7724) ([IanMadd](https://github.com/IanMadd))
+- Pipeline for non-default branch github action runs [#7797](https://github.com/inspec/inspec/pull/7797) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 6.8.24 release
 
 #### Merged Pull Requests
+- Pipeline for non-default branch github action runs [#7797](https://github.com/inspec/inspec/pull/7797) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 6.8.47 -->
 - Remove release notes Expeditor actions [#7724](https://github.com/inspec/inspec/pull/7724) ([IanMadd](https://github.com/IanMadd)) <!-- 6.8.47 -->
 - Bump rexml from 3.3.9 to 3.4.2 in /omnibus [#7534](https://github.com/inspec/inspec/pull/7534) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 6.8.46 -->
 - BACKPORT: CHEF-26189 Telemetry fix: Handling of train platform data fetching safely [#7612](https://github.com/inspec/inspec/pull/7612) ([Nik08](https://github.com/Nik08)) <!-- 6.8.45 -->
