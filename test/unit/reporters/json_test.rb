@@ -119,6 +119,31 @@ describe Inspec::Reporters::Json do
     end
   end
 
+  describe "#extract_resource_id" do
+    it "returns resource_id from objects that implement it" do
+      fake_resource = Struct.new(:resource_id).new("custom-id")
+      result = report.send(:extract_resource_id, { resource_title: fake_resource })
+      _(result).must_equal "custom-id"
+    end
+
+    it "returns trimmed string when resource_class prefix matches" do
+      result = report.send(:extract_resource_id, { resource_title: "File /tmp", resource_class: "File" })
+      _(result).must_equal "/tmp"
+    end
+
+    it "falls back to original when trimming empties the string, still capped" do
+      result = report.send(:extract_resource_id, { resource_title: "File", resource_class: "File" })
+      _(result).must_equal "File"
+    end
+
+    it "caps long string resource titles to a reasonable length" do
+      long_title = "a" * 500
+      result = report.send(:extract_resource_id, { resource_title: long_title })
+      _(result.length).must_equal 256
+      _(result).must_equal("a" * 256)
+    end
+  end
+
   describe "#profiles" do
     it "confirm profile_groups output" do
       hash = {
