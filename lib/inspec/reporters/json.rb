@@ -62,8 +62,13 @@ module Inspec::Reporters
       if resource_obj.is_a?(String)
         orig_str = resource_obj
         # Try to trim off the resource class - eg "File /some/path" => "/some/path"
-        trimmed_str = orig_str.sub(/^#{r[:resource_class]}/i, "").strip
-        trimmed_str.empty? ? orig_str : trimmed_str
+        resource_class = r[:resource_class].to_s
+        trimmed_str = orig_str.sub(/^#{Regexp.escape(resource_class)}/i, "").strip
+
+        # Cap the resource_id to a reasonable length to avoid bloating reports
+        max_length = 256
+        candidate = trimmed_str.empty? ? orig_str : trimmed_str
+        candidate.length > max_length ? candidate[0, max_length] : candidate
       else
         # Boo, InSpec is crazy, and we don't know what it possibly could be.
         # Failsafe for resource_id is empty string.
