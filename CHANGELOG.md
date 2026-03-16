@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release unreleased -->
+## Unreleased
+
+#### Merged Pull Requests
+- Pin hab version for CI - Expeditor [#7802](https://github.com/inspec/inspec/pull/7802) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=5.24.7 -->
+### Changes since 5.24.7 release
+
+#### Merged Pull Requests
+- Pin hab version for CI - Expeditor [#7802](https://github.com/inspec/inspec/pull/7802) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.24.7 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
