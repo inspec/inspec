@@ -30,13 +30,26 @@ echo "The value for project_root is: $project_root"
 export HAB_NONINTERACTIVE=true
 export HAB_NOCOLORING=true
 export HAB_STUDIO_SECRET_HAB_NONINTERACTIVE=true
+export HAB_VERSION="1.6.1245"
 
 echo "--- system details"
 uname -a
 
 echo "--- Installing Habitat"
 id -a
-curl https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.sh | bash
+
+# Download Habitat install script to a file to avoid pipe errors
+echo "--- Downloading Habitat install script"
+curl -sSLf -o /tmp/hab_install.sh https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.sh
+
+# Make it executable
+chmod +x /tmp/hab_install.sh
+
+# Execute the install script
+bash /tmp/hab_install.sh -v "$HAB_VERSION" -t "x86_64-linux"
+
+# Clean up
+rm -f /tmp/hab_install.sh
 
 # Set HAB_ORIGIN after Habitat installation
 echo "--- Setting HAB_ORIGIN to 'ci' after installation"
