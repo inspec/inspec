@@ -126,6 +126,13 @@ describe Inspec::Reporters::Json do
       _(result).must_equal "custom-id"
     end
 
+    it "prefers resource.resource_id over resource_title when available" do
+      resource = Struct.new(:resource_id).new("from-resource")
+      title    = Struct.new(:resource_id).new("from-title")
+      result = report.send(:extract_resource_id, { resource: resource, resource_title: title })
+      _(result).must_equal "from-resource"
+    end
+
     it "returns trimmed string when resource_class prefix matches" do
       result = report.send(:extract_resource_id, { resource_title: "File /tmp", resource_class: "File" })
       _(result).must_equal "/tmp"

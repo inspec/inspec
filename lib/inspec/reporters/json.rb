@@ -55,6 +55,11 @@ module Inspec::Reporters
     def extract_resource_id(r)
       # According to the RunData API, this is supposed to be an anonymous
       # class that represents a resource, with embedded instance methods....
+      # Prefer resource object if present and exposes resource_id
+      resource_candidate = r[:resource]
+      return resource_candidate.resource_id if resource_candidate.respond_to?(:resource_id)
+
+      # Fall back to resource_title
       resource_obj = r[:resource_title]
       return resource_obj.resource_id if resource_obj.respond_to?(:resource_id)
 
