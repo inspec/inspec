@@ -52,6 +52,7 @@ jobs:
 
       # trufflehog secret scanning
       perform-trufflehog-scan: true
+      fail-trufflehog-on-secrets-found: true
       
       # ADDED TRIVY SCAN
       perform-trivy-scan: true
