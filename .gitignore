@@ -36,4 +36,5 @@ results/
 terraform.tfstate*
 terraform.tfstate.backup
 terraform.tfvars
-test/**/*.lock
+test/**/*.lockcontext/reference-repos/*
+context/reference-repos/**
