@@ -53,6 +53,7 @@ jobs:
 
       # trufflehog secret scanning
       perform-trufflehog-scan: true
+      fail-trufflehog-on-secrets-found: true
       
       # trivy dependency and container scanning
       perform-trivy-scan: true
