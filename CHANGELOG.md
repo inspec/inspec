@@ -5,6 +5,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Update common github actions to use main [#7807](https://github.com/inspec/inspec/pull/7807) ([Nik08](https://github.com/Nik08))
 - CHEF-31158 Setup common config to block PR merges if trufflehog fails [#7803](https://github.com/inspec/inspec/pull/7803) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 7.0.107 release
 
 #### Merged Pull Requests
+- Update common github actions to use main [#7807](https://github.com/inspec/inspec/pull/7807) ([Nik08](https://github.com/Nik08)) <!-- 7.0.107 -->
 - CHEF-31158 Setup common config to block PR merges if trufflehog fails [#7803](https://github.com/inspec/inspec/pull/7803) ([Nik08](https://github.com/Nik08)) <!-- 7.0.107 -->
 <!-- release_rollup -->
 
