@@ -1,7 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release -->
+<!-- latest_release unreleased -->
+## Unreleased
+
+#### Merged Pull Requests
+- CHEF-31158 Setup common config to block PR merges if trufflehog fails [#7803](https://github.com/inspec/inspec/pull/7803) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -30,7 +34,11 @@
 #### Merged Pull Requests
 - Bump omnibus-software from `4b08f0b` to `3268356` in /omnibus [#6587](https://github.com/inspec/inspec/pull/6587) ([dependabot[bot]](https://github.com/dependabot[bot]))
 
-<!-- release_rollup -->
+<!-- release_rollup since=7.0.107 -->
+### Changes since 7.0.107 release
+
+#### Merged Pull Requests
+- CHEF-31158 Setup common config to block PR merges if trufflehog fails [#7803](https://github.com/inspec/inspec/pull/7803) ([Nik08](https://github.com/Nik08)) <!-- 7.0.107 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
