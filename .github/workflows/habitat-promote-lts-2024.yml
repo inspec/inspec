@@ -12,7 +12,7 @@ env:
   BLDR_URL: 'https://bldr.habitat.sh/'
   HAB_ORIGIN: 'chef'
   HAB_AUTH_TOKEN: ${{ secrets.HAB_AUTH_TOKEN }}
-  HABITAT_VERSION_SET: '1.6.1245'
+  HABITAT_VERSION: 'latest'
   CHEF_LICENSE: "accept-no-persist"
   HAB_LICENSE: "accept-no-persist"
   HAB_NONINTERACTIVE: "true"
@@ -46,8 +46,8 @@ jobs:
         env:
           HAB_AUTH_TOKEN: ${{ secrets.HAB_AUTH_TOKEN }}
         run: |
-          echo "--- Installing Habitat on Linux with version: $HABITAT_VERSION_SET"
-          curl https://raw.githubusercontent.com/habitat-sh/habitat/master/components/hab/install.sh | sudo -E bash -s -- -v "$HABITAT_VERSION_SET" -t "x86_64-linux"
+          echo "--- Installing Habitat on Linux with version: $HABITAT_VERSION"
+          curl https://raw.githubusercontent.com/habitat-sh/habitat/master/components/hab/install.sh | sudo -E bash -s -- -v "$HABITAT_VERSION" -t "x86_64-linux"
 
       - name: Promote Linux Package to LTS-2024
         shell: bash
@@ -57,7 +57,7 @@ jobs:
           echo "--- Promoting Linux package: $pkg_ident"
           echo "--- From channel: LTS-2024-current"
           echo "--- To channel: LTS-2024"
-          hab pkg promote --auth $HAB_AUTH_TOKEN $pkg_ident LTS-2024-current LTS-2024
+          hab pkg promote --auth $HAB_AUTH_TOKEN $pkg_ident LTS-2024
           echo "--- Linux promotion complete!"
 
       - name: Promote Windows Package to LTS-2024
@@ -68,5 +68,5 @@ jobs:
           echo "--- Promoting Windows package: $PKG_IDENT"
           echo "--- From channel: LTS-2024-current"
           echo "--- To channel: LTS-2024"
-          hab pkg promote --auth $HAB_AUTH_TOKEN $PKG_IDENT LTS-2024-current LTS-2024
+          hab pkg promote --auth $HAB_AUTH_TOKEN $PKG_IDENT LTS-2024
           echo "--- Windows promotion complete!"

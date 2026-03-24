@@ -6,7 +6,7 @@ env:
   BLDR_URL: 'https://bldr.habitat.sh/'
   HAB_ORIGIN: 'chef'
   HAB_AUTH_TOKEN: ${{ secrets.HAB_AUTH_TOKEN }}
-  HAB_VERSION: '1.6.1245'
+  HAB_VERSION: 'latest'
   CHEF_LICENSE: "accept-no-persist"
   HAB_LICENSE: "accept-no-persist"
   HAB_NONINTERACTIVE: "true"
