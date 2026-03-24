@@ -7,6 +7,15 @@ on:
         description: 'Run ID of the build workflow that created the packages'
         required: true
         type: string
+      platform:
+        description: 'Platform to promote'
+        required: true
+        type: choice
+        options:
+          - both
+          - linux
+          - windows
+        default: both
 
 env:
   BLDR_URL: 'https://bldr.habitat.sh/'
@@ -26,6 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download Linux Build Metadata
+        if: inputs.platform == 'both' || inputs.platform == 'linux'
         uses: actions/download-artifact@v4
         with:
           name: habitat-build-metadata-linux
@@ -34,6 +44,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download Windows Build Metadata
+        if: inputs.platform == 'both' || inputs.platform == 'windows'
         uses: actions/download-artifact@v4
         with:
           name: habitat-build-metadata-windows
@@ -50,6 +61,7 @@ jobs:
           curl https://raw.githubusercontent.com/habitat-sh/habitat/master/components/hab/install.sh | sudo -E bash -s -- -v "$HABITAT_VERSION" -t "x86_64-linux"
 
       - name: Promote Linux Package to LTS-2024
+        if: inputs.platform == 'both' || inputs.platform == 'linux'
         shell: bash
         run: |
           hab license accept
@@ -61,12 +73,13 @@ jobs:
           echo "--- Linux promotion complete!"
 
       - name: Promote Windows Package to LTS-2024
-        shell: bash
+        if: inputs.platform == 'both' || inputs.platform == 'windows'
+        shell: pwsh
         run: |
-          # Extract pkg_ident from PowerShell metadata file
-          PKG_IDENT=$(grep -oP '(?<=\$pkg_ident = ")[^"]+' metadata-windows/last_build.ps1)
-          echo "--- Promoting Windows package: $PKG_IDENT"
-          echo "--- From channel: LTS-2024-current"
-          echo "--- To channel: LTS-2024"
-          hab pkg promote --auth $HAB_AUTH_TOKEN $PKG_IDENT LTS-2024
-          echo "--- Windows promotion complete!"
+          . metadata-windows/last_build.ps1
+          Write-Output "--- Promoting Windows package: $pkg_ident"
+          Write-Output "--- Package target: $pkg_target"
+          Write-Output "--- From channel: LTS-2024-current"
+          Write-Output "--- To channel: LTS-2024"
+          hab pkg promote --auth $env:HAB_AUTH_TOKEN $pkg_ident LTS-2024 $pkg_target
+          Write-Output "--- Windows promotion complete!"
