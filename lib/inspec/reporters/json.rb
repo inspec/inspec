@@ -55,6 +55,11 @@ module Inspec::Reporters
     def extract_resource_id(r)
       # According to the RunData API, this is supposed to be an anonymous
       # class that represents a resource, with embedded instance methods....
+      # Prefer resource object if present and exposes resource_id
+      resource_candidate = r[:resource]
+      return resource_candidate.resource_id if resource_candidate.respond_to?(:resource_id)
+
+      # Fall back to resource_title
       resource_obj = r[:resource_title]
       return resource_obj.resource_id if resource_obj.respond_to?(:resource_id)
 
@@ -62,8 +67,13 @@ module Inspec::Reporters
       if resource_obj.is_a?(String)
         orig_str = resource_obj
         # Try to trim off the resource class - eg "File /some/path" => "/some/path"
-        trimmed_str = orig_str.sub(/^#{r[:resource_class]}/i, "").strip
-        trimmed_str.empty? ? orig_str : trimmed_str
+        resource_class = r[:resource_class].to_s
+        trimmed_str = orig_str.sub(/^#{Regexp.escape(resource_class)}/i, "").strip
+
+        # Cap the resource_id to a reasonable length to avoid bloating reports
+        max_length = 256
+        candidate = trimmed_str.empty? ? orig_str : trimmed_str
+        candidate.length > max_length ? candidate[0, max_length] : candidate
       else
         # Boo, InSpec is crazy, and we don't know what it possibly could be.
         # Failsafe for resource_id is empty string.
