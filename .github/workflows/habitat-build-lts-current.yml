@@ -6,7 +6,7 @@ env:
   BLDR_URL: 'https://bldr.habitat.sh/'
   HAB_ORIGIN: 'chef'
   HAB_AUTH_TOKEN: ${{ secrets.HAB_AUTH_TOKEN }}
-  HABITAT_VERSION_SET: 'latest'
+  HAB_VERSION: 'latest'
   CHEF_LICENSE: "accept-no-persist"
   HAB_LICENSE: "accept-no-persist"
   HAB_NONINTERACTIVE: "true"
@@ -34,17 +34,21 @@ jobs:
       - name: Install Habitat
         shell: bash
         if: ${{ matrix.os == 'ubuntu-latest' }}
+        env:
+          HAB_AUTH_TOKEN: ${{ secrets.HAB_AUTH_TOKEN }}
         run: |
-          echo "--- Installing Habitat on Linux with version: $HABITAT_VERSION_SET"
-          curl https://raw.githubusercontent.com/habitat-sh/habitat/master/components/hab/install.sh | sudo bash -s -- -v "$HABITAT_VERSION_SET" -t "x86_64-linux"
+          echo "--- Installing Habitat on Linux with version: $HAB_VERSION"
+          curl https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.sh | sudo -E bash -s -- -v "$HAB_VERSION" -t "x86_64-linux"
 
       - name: Install Habitat
         shell: pwsh
         if: ${{ matrix.os == 'windows-latest' }}
+        env:
+          HAB_AUTH_TOKEN: ${{ secrets.HAB_AUTH_TOKEN }}
         run: |
-          Write-Output "--- Installing Habitat on Windows with version: $env:HABITAT_VERSION_SET"
+          Write-Output "--- Installing Habitat on Windows with version: $env:HAB_VERSION"
           $env:HAB_LICENSE = "accept-no-persist"
-          Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1) } -Version $env:HABITAT_VERSION_SET"
+          Invoke-Expression "& { $(Invoke-RestMethod https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1) } -Version $env:HAB_VERSION"
 
       - name: Build and Upload Habitat Package
         if: ${{ matrix.os == 'ubuntu-latest' }}
@@ -52,6 +56,7 @@ jobs:
         env:
           HAB_REFRESH_CHANNEL: "LTS-2024"
           HAB_BLDR_CHANNEL: "LTS-2024"
+          HAB_AUTH_TOKEN: ${{ secrets.HAB_AUTH_TOKEN }}
         run: |
           hab license accept
           hab origin key download $HAB_ORIGIN
@@ -61,12 +66,21 @@ jobs:
           hab pkg upload --auth $HAB_AUTH_TOKEN results/$pkg_artifact --channel LTS-2024-current
           echo "--- push complete!!"
 
+      - name: Upload Build Metadata (Linux)
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: habitat-build-metadata-linux
+          path: results/last_build.env
+          retention-days: 90
+
       - name: Build and Upload Habitat Package
         if: ${{ matrix.os == 'windows-latest' }}
         shell: pwsh
         env:
           HAB_REFRESH_CHANNEL: "LTS-2024"
           HAB_BLDR_CHANNEL: "LTS-2024"
+          HAB_AUTH_TOKEN: ${{ secrets.HAB_AUTH_TOKEN }}
         run: |
           $env:Path += ";C:\ProgramData\Habitat"
           hab license accept
@@ -76,3 +90,29 @@ jobs:
           . results\last_build.ps1
           hab pkg upload results\$pkg_artifact --auth $env:HAB_AUTH_TOKEN --channel LTS-2024-current
           Write-Output "--- push complete!!"
+
+      - name: Upload Build Metadata (Windows)
+        if: ${{ matrix.os == 'windows-latest' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: habitat-build-metadata-windows
+          path: results/last_build.ps1
+          retention-days: 90
+
+  print-run-id:
+    needs: agent-matrix
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Run ID for Promotion
+        run: |
+          echo "================================================================"
+          echo "Build Complete! Use this Run ID for promotion workflow:"
+          echo ""
+          echo "  Run ID: ${{ github.run_id }}"
+          echo ""
+          echo "To promote packages to LTS-2024 channel:"
+          echo "  1. Go to Actions tab"
+          echo "  2. Select 'Promote Habitat Packages to LTS-2024 Channel'"
+          echo "  3. Click 'Run workflow'"
+          echo "  4. Enter Run ID: ${{ github.run_id }}"
+          echo "================================================================"
