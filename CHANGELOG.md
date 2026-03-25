@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- CHEF-32270-Github Action Pipeline for hab pkg promote [#7796](https://github.com/inspec/inspec/pull/7796) ([balasubramanian-s](https://github.com/balasubramanian-s))
 - Pin hab version for CI - Expeditor [#7802](https://github.com/inspec/inspec/pull/7802) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.24.7 release
 
 #### Merged Pull Requests
+- CHEF-32270-Github Action Pipeline for hab pkg promote [#7796](https://github.com/inspec/inspec/pull/7796) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.24.7 -->
 - Pin hab version for CI - Expeditor [#7802](https://github.com/inspec/inspec/pull/7802) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.24.7 -->
 <!-- release_rollup -->
 
