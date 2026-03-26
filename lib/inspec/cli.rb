@@ -37,7 +37,7 @@ end
 
 class Inspec::InspecCLI < Inspec::BaseCLI
   class_option :log_level, aliases: :l, type: :string,
-               desc: "Set the log level: info (default), debug, warn, error"
+               desc: "Set the log level: info (default), verbose, debug, trace, warn, error, fatal"
 
   class_option :log_location, type: :string,
                desc: "Location to send diagnostic log messages to. (default: $stdout or Inspec::Log.error)"

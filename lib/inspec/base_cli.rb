@@ -378,17 +378,13 @@ module Inspec
     end
 
     # get the log level
-    # DEBUG < INFO < WARN < ERROR < FATAL < UNKNOWN
+    # TRACE < DEBUG < VERBOSE < INFO < WARN < ERROR < FATAL
     def get_log_level(level)
-      valid = %w{trace debug info warn error fatal}
+      valid = %w{trace debug verbose info warn error fatal}
 
-      if valid.include?(level)
-        l = level
-      else
-        l = "info"
-      end
+      l = valid.include?(level) ? level : "info"
 
-      Mixlib::Log.const_get(l.upcase)
+      Mixlib::Log::Logging::LEVELS[l.to_sym]
     end
 
     def pretty_handle_exception(exception)

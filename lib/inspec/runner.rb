@@ -194,6 +194,7 @@ module Inspec
         end
       }
 
+      Inspec::Log.verbose "Running profile: #{@target_profiles.map { |p| p.metadata.params[:name] }.join(', ')}"
       Inspec::Log.debug "Starting run with targets: #{@target_profiles.map(&:to_s)}"
       Inspec::Telemetry.run_starting(runner: self, conf: @conf)
       load
@@ -244,6 +245,7 @@ module Inspec
     end
 
     def run_tests(with = nil)
+      Inspec::Log.debug "Running #{@target_profiles.size} profile(s)"
       @run_data = @test_collector.run(with)
       # dont output anything if we want a report
       render_output(@run_data) unless @conf["report"]
@@ -367,6 +369,7 @@ module Inspec
     end
 
     def register_rule(rule)
+      Inspec::Log.debug "Evaluating control: #{Inspec::Rule.rule_id(rule)}"
       Inspec::Log.debug "Registering rule #{rule}"
       @rules << rule
       checks = ::Inspec::Rule.prepare_checks(rule)

@@ -49,6 +49,8 @@ module Inspec
     ######
     def self.run_starting(opts)
       @@config ||= opts[:conf]
+      Inspec::Log.verbose "Telemetry: run starting"
+      Inspec::Log.debug "Telemetry: run starting with conf #{opts[:conf]&.final_options&.keys&.inspect}"
       instance.run_starting(opts)
     rescue StandardError => e
       Inspec::Log.debug "Encountered error in Telemetry start run call -> #{e.message}"
@@ -56,6 +58,8 @@ module Inspec
 
     def self.run_ending(opts)
       @@config ||= opts[:conf]
+      Inspec::Log.verbose "Telemetry: run ending"
+      Inspec::Log.trace "Telemetry: run ending details - exit code will follow"
       instance.run_ending(opts)
     rescue StandardError => e
       Inspec::Log.debug "Encountered error in Telemetry end run call -> #{e.message}"
