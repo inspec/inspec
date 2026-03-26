@@ -11,23 +11,70 @@ gh_repo = "inspec"
     weight = 120
 +++
 
-## Exit code 5
+## Debugging using Logs
+
+Chef InSpec supports the following log levels for the `--log-level` CLI option, from least to most verbose:
+
+| Level | Description |
+|-------|-------------|
+| `fatal` | Only fatal errors |
+| `error` | Errors |
+| `warn` | Warnings (default) |
+| `info` | Informational messages |
+| `verbose` | Higher-detail informational messages |
+| `debug` | Debug messages useful for diagnosing problems |
+| `trace` | Fine-grained execution tracing (most verbose) |
+
+Example:
+
+```bash
+inspec exec my-profile --log-level debug
+```
+
+Log output is sent to `$stderr` when a structured reporter (such as `--reporter json`) is active, and to `$stdout` otherwise.
+
+
+## Exit Code Errors
+
+### Exit code 5
 
 You tried to execute a function with a signed profile, but the signature is either bad or InSpec couldn't find the validation key.
 For more information, see the [profile signing documentation](/inspec/signing/).
 
-## Exit code 6
+### Exit code 6
 
 You enabled mandatory profile signing and tried to execute a function with an unsigned profile.
 For more information, see the [profile signing documentation](/inspec/signing/).
 
-## Exit code 174
+### Exit code 174
 
 Exit code 174 comes from running Chef InSpec 6 or greater without setting a Chef License key.
 See the [InSpec install documentation](/inspec/install/) for setting a Chef License key.
 See the [Chef License documentation](/licensing/) for more information about Chef licensing.
 
-## Undefined Local Variable or Method Error for Cloud Resource
+## Other Errors
+
+## Unable to resolve dependency: user requested 'inspec-{RESOURCE_NAME}-resources (> 0)'
+
+Chef InSpec profiles can include dependencies on gem-based resource packs from **InSpec version 7**. If this error occurs, resolve it using the following steps:
+
+- Verify the gem details:
+
+  Specify the correct gem name and version in the `inspec.yml` file.
+
+- Check gem availability:
+
+  Confirm the gem's presence on RubyGems.org, or if a private server is used, contact the Customer Success Manager or Support Team regarding its availability on Chef's Private RubyGem server.
+
+- Network connectivity:
+
+  Test the internet connection to ensure access to the gem sources.
+
+- Authentication issues:
+
+  To avoid unauthorized access issues, validate credentials and access permissions for Chef's Private RubyGem server.
+
+### Undefined Local Variable or Method Error for Cloud Resource
 
 This error is a result of invoking a resource from one of the cloud resource packs without initializing an InSpec profile with that resource pack (AWS, Azure, or GCP) as a dependency.
 
@@ -39,7 +86,9 @@ See the relevant resource pack readme for instructions:
 - [inspec-azure README](https://github.com/inspec/inspec-azure#use-the-resources)
 - [inspec-gcp README](https://github.com/inspec/inspec-gcp#use-the-resources)
 
-## License is not entitled to use InSpec
+## Licensing Errors
+
+### License is not entitled to use InSpec
 
 The license key set with Chef InSpec is not entitled to use Chef InSpec. Each license key is entitled to one or more Chef products. To view the products that your key is entitled to, run the `inspec license list` command, which will list your license entitlements.
 
@@ -47,7 +96,7 @@ To resolve this issue, set a license key that is entitled to Chef InSpec.
 
 See the [Chef Licensing documentation](/licensing/) for more information.
 
-## Unable to connect to the licensing server. InSpec requires server communication to operate
+### Unable to connect to the licensing server. InSpec requires server communication to operate
 
 Chef InSpec cannot connect to Chef's licensing service or a user-deployed Chef Local License Service.
 This service is responsible for validating the Chef license key set with Chef InSpec.
@@ -76,7 +125,7 @@ Check the following possible causes of this issue:
 
 If the issue persists, please reach out to Chef's Customer Success managers or Support Team.
 
-## Invalid File Format Version
+### Invalid File Format Version
 
 Chef licensing data is stored on the `$HOME/.chef/licenses.yaml` file.
 
@@ -85,30 +134,10 @@ The `licenses.yaml` file must have the latest supported file format version.
 
 Restore the file to the original state to resolve this issue.
 
-## License file contents are corrupted
+### License file contents are corrupted
 
 Chef licensing data is stored on the `$HOME/.chef/licenses.yaml` file.
 
 The `licenses.yaml` file is malformed and corrupt.
 
 Restore the file content to its original state to resolve this issue.
-
-## Unable to resolve dependency: user requested 'inspec-{RESOURCE_NAME}-resources (> 0)'
-
-Chef InSpec profiles can include dependencies on gem-based resource packs from **InSpec version 7**. If this error occurs, resolve it using the following steps:
-
-- Verify the gem details:
-
-  Specify the correct gem name and version in the `inspec.yml` file.
-
-- Check gem availability:
-
-  Confirm the gem's presence on RubyGems.org, or if a private server is used, contact the Customer Success Manager or Support Team regarding its availability on Chef's Private RubyGem server.
-
-- Network connectivity:
-
-  Test the internet connection to ensure access to the gem sources.
-
-- Authentication issues:
-
-  To avoid unauthorized access issues, validate credentials and access permissions for Chef's Private RubyGem server.
