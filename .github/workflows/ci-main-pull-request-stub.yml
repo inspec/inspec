@@ -57,6 +57,11 @@ jobs:
       
       # trivy dependency and container scanning
       perform-trivy-scan: true
+
+      # grype vulnerability scanning
+      perform-grype-scan: true
+      grype-fail-on-high: true
+      grype-fail-on-critical: true
       
       # BlackDuck SAST (Polaris) and SCA scans (requires a build or download to do SAST)
       # requires these secrets: POLARIS_SERVER_URL, POLARIS_ACCESS_TOKEN
