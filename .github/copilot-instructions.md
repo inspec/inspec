@@ -6,9 +6,9 @@ InSpec is an open-source infrastructure testing framework written in Ruby. It pr
 
 ## Additional Context Required
 
-VERY IMPORTANT: If `context/reference-repos/shared-context/chef-global/standards` does not exist, abort the requested task immediately and do not attempt to continue. Insist the user run the initialize agent if at the CoPilot CLI, or run the /initialize prompt if in the VSCode chat.
+VERY IMPORTANT: If `context/reference-repos/shared-context/chef-global/standards/workflow.md` does not exist, abort the requested task immediately and do not attempt to continue. Insist the user run the /initialize skill to set up the repo proor to doing any work.  Note that this file is gitignored, and file_search will not find it - you must use file_read to check its contents.
 
-To get started with AI-driven development, you must initialize the repo with the `initialize` agent or /initialize prompt. This will set up your environment, clone reference repos, and ensure you have the necessary tools installed. The remainder of this document assumes you have done this.
+To get started with AI-driven development, you must initialize the repo with the `initialize` skill. This will set up your environment, clone reference repos, and ensure you have the necessary tools installed. The remainder of this document assumes you have done this.
 
 For more details about this project and where it fits in to our universe, see:
 - Domain knowledge: `context/reference-repos/shared-context/*/domains`
