@@ -229,6 +229,17 @@ describe "Resource Pack Plugin support" do
       assert_json_controls_passing
     end
   end
+
+  describe "loading via profile gem dependency with legacy libraries/ layout" do
+    let(:fixture_path) { File.join(profile_path, "dependencies", "uses-resource-pack-legacy-gem") }
+    let(:run_result) { run_inspec_process("exec #{fixture_path}", json: true, env: { INSPEC_CONFIG_DIR: File.join(config_dir_path, "empty") }) }
+
+    it "loads resources from legacy libraries/ directory" do
+      _(run_result.stderr).must_be_empty
+      _(run_result.exit_status).must_equal 0
+      assert_json_controls_passing
+    end
+  end
 end
 
 #=========================================================================================#

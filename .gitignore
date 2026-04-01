@@ -1,4 +1,5 @@
 *.gem
+!test/fixtures/**/*.gem
 *.swp
 .attribute.yml
 .bundle
