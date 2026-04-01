@@ -55,9 +55,10 @@ module SourceReaders
 
     def load_libs
       # Legacy resource packs (inspec-gcp, inspec-aws, etc) have resources in old locations
-      load_all(%r{^libraries/.*\.rb$})
-      # New resource packs have them here
-      load_all(%r{^lib/.*/resources/.*\.rb$})
+      load_all(%r{^libraries/.*\.rb$}).merge(
+        # New resource packs have them here
+        load_all(%r{^lib/.*/resources/.*\.rb$})
+      )
     end
 
     def load_readme
