@@ -221,7 +221,7 @@ describe "Resource Pack Plugin support" do
 
   describe "loading via profile gem dependency" do
     let(:fixture_path) { File.join(profile_path, "dependencies", "uses-resource-pack-gem") }
-    let(:run_result) { run_inspec_process("exec #{fixture_path}", json: true) }
+    let(:run_result) { run_inspec_process("exec #{fixture_path}", json: true, env: { "INSPEC_CONFIG_DIR" => File.join(config_dir_path, "empty") }) }
 
     it "runs the resource pack plugin type successfully" do
       _(run_result.stderr).must_be_empty
@@ -232,7 +232,7 @@ describe "Resource Pack Plugin support" do
 
   describe "loading via profile gem dependency with .rb entry point path" do
     let(:fixture_path) { File.join(profile_path, "dependencies", "uses-resource-pack-rb-path") }
-    let(:run_result) { run_inspec_process("exec #{fixture_path}", json: true) }
+    let(:run_result) { run_inspec_process("exec #{fixture_path}", json: true, env: { "INSPEC_CONFIG_DIR" => File.join(config_dir_path, "empty") }) }
 
     it "loads resources directly from the .rb entry point without gem installation" do
       _(run_result.stderr).must_be_empty

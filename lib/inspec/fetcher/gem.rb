@@ -22,53 +22,27 @@ module Inspec::Fetcher
       @gem_name = target[:gem]
       @version = target[:version] # optional
       @source = target[:source] # optional
-      @gem_path = target[:path] # optional, sets local path installation mode
+      @gem_path = target[:path] || target[:gem_path] # optional, sets local path installation mode
       @backend = opts[:backend]
       @archive_shasum = nil
+
+      # Only validate the declared path (target[:path]) from inspec.yml, not a resolved gem_path
+      # that may carry a version from a previously-installed gem.
+      if target[:path]&.end_with?(".rb") && @version
+        raise ArgumentError, "The 'version' key is not permitted when 'path' points to a " \
+                              ".rb entry point (#{@gem_path}). Version constraints apply only " \
+                              "to installed gems."
+      end
     end
 
     def fetch(path)
-      plugin_installer = Inspec::Plugin::V2::Installer.instance
-
       Inspec::Log.debug("GemFetcher fetching #{@gem_name} v" + (@version || "ANY"))
 
-      have_plugin = if @version
-                      plugin_installer.plugin_version_installed?(@gem_name, @version)
-                    else
-                      plugin_installer.plugin_installed?(@gem_name)
-                    end
-
-      unless have_plugin
-        # Install
-        # TODO - error handling?
-        Inspec::Log.debug("GemFetcher - install request for #{@gem_name}")
-        if @gem_path
-          # No version permitted
-          plugin_installer.install(@gem_name, gem: @gem_name, path: @gem_path)
-        else
-          # Passing an extra gem argument to enable detecting gem based plugins
-          plugin_installer.install(@gem_name, version: @version, source: @source, gem: @gem_name)
-        end
+      if rb_entry_point?
+        fetch_rb_entry_point(path)
+      else
+        fetch_gem(path)
       end
-
-      # Usually this `path` is cache path
-      # We want to copy installed gem to cache path so it can be vendored
-      # and read again as a cache
-      if path
-        loader = Inspec::Plugin::V2::Loader.new
-        gem_dir_path = loader.find_gem_directory(@gem_name, @version)
-        if gem_dir_path
-          # Cache the gem file
-          FileUtils.mkdir_p(path)
-          FileUtils.cp_r(gem_dir_path, path)
-          @archive_path = path
-        else
-          @archive_path = @target
-        end
-      end
-
-      # Should the plugin activate? No, it should only be "fetched" (installed)
-      # Activation would load resource libararies and would effectively execute the profile
 
       @target
     end
@@ -110,8 +84,72 @@ module Inspec::Fetcher
 
     private
 
+    # Returns true when the dependency specifies a .rb entry point path (development mode).
+    # In this mode the file is required directly from disk with no gem installation.
+    def rb_entry_point?
+      @gem_path&.end_with?(".rb")
+    end
+
+    # Handle a .rb entry point: require the loader file directly from its location on disk.
+    # No gem installation occurs. The file is expected to register an InSpec plugin activator.
+    # Vendoring is not supported for .rb entry points — the source tree must be present at runtime.
+    def fetch_rb_entry_point(cache_path)
+      unless File.exist?(@gem_path)
+        raise "Gem-based resource pack entry point not found: #{@gem_path}"
+      end
+
+      Inspec::Log.debug("GemFetcher: loading .rb entry point directly: #{@gem_path}")
+      require File.expand_path(@gem_path)
+
+      # Derive the gem root by going two directories up from the .rb file
+      # (e.g. lib/inspec-my-pack.rb => lib/ => gem_root/)
+      @archive_path = File.expand_path(File.join(File.dirname(@gem_path), ".."))
+    end
+
+    # Handle a standard gem installation (from RubyGems or a local .gem file).
+    def fetch_gem(cache_path)
+      plugin_installer = Inspec::Plugin::V2::Installer.instance
+
+      have_plugin = if @version
+                      plugin_installer.plugin_version_installed?(@gem_name, @version)
+                    else
+                      plugin_installer.plugin_installed?(@gem_name)
+                    end
+
+      unless have_plugin
+        # TODO - error handling?
+        Inspec::Log.debug("GemFetcher - install request for #{@gem_name}")
+        if @gem_path
+          plugin_installer.install(@gem_name, gem: @gem_name, path: @gem_path)
+        else
+          # Passing an extra gem argument to enable detecting gem based plugins
+          plugin_installer.install(@gem_name, version: @version, source: @source, gem: @gem_name)
+        end
+      end
+
+      # Usually this `cache_path` is cache path
+      # We want to copy installed gem to cache path so it can be vendored
+      # and read again as a cache
+      if cache_path
+        loader = Inspec::Plugin::V2::Loader.new
+        gem_dir_path = loader.find_gem_directory(@gem_name, @version)
+        if gem_dir_path
+          # Cache the gem file
+          FileUtils.mkdir_p(cache_path)
+          FileUtils.cp_r(gem_dir_path, cache_path)
+          @archive_path = cache_path
+        else
+          @archive_path = @target
+        end
+      end
+
+      # Should the plugin activate? No, it should only be "fetched" (installed)
+      # Activation would load resource libararies and would effectively execute the profile
+    end
+
     def gem_version
       @version || Inspec::Plugin::V2::Loader.find_gemspec_of(@gem_name)&.version&.to_s
     end
   end
 end
+
