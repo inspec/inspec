@@ -19,8 +19,24 @@ permissions:
   
 env:
   STUB_VERSION: "1.0.5" 
+  HAB_PUBLIC_BLDR_PAT: ${{ secrets.HAB_AUTH_TOKEN }}  # bind HAB_AUTH_TOKEN to HAB_PUBLIC_BLDR_PAT for Habitat Builder auth
+  HAB_AUTH_TOKEN: ${{ secrets.HAB_AUTH_TOKEN }}  # providing HAB_AUTH_TOKEN for Habitat Builder auth as inputs
 
 jobs: 
+  read-version:
+    name: 'Read VERSION file'
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.read-version.outputs.version }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Read VERSION file
+        id: read-version
+        run: |
+          echo "version=$(cat VERSION)" >> "$GITHUB_OUTPUT"
+
   echo_version:
     name: 'Echo stub version'
     runs-on: ubuntu-latest
@@ -30,7 +46,8 @@ jobs:
           echo "CI main pull request stub version $STUB_VERSION"
 
   call-ci-inspec-7-pr-check-pipeline:
-    uses: chef/common-github-actions/.github/workflows/ci-main-pull-request.yml@main
+    needs: read-version
+    uses: chef/common-github-actions/.github/workflows/ci-main-pull-request.yml@fix/grype-hab-token-fallback
     secrets: inherit
     permissions: 
       id-token: write
@@ -41,7 +58,7 @@ jobs:
       # go-private-modules: GOPRIVATE for Go private modules, default is 'github.com/progress-platform-services/*
 
       # if version specified, it takes precedence; can be a semver like 1.0.2-xyz or a tag like "latest"
-      version: '7.0.63' # ${{ github.event.repository.version }}
+      version: ${{ needs.read-version.outputs.version }} # ${{ github.event.repository.version }}
       detect-version-source-type: 'none' # options include "none" (do not detect), "file", "github-tag" or "github-release"
       detect-version-source-parameter: '' # use for file name
       language: 'ruby'  # Go, Ruby, Rust, JavaScript, TypeScript, Python, Java, C#, PHP, other - used for build and SonarQube language setting
@@ -93,6 +110,17 @@ jobs:
       package-binaries: false     # Package binaries (e.g., RPM, DEB, MSI, dpkg + signing + SHA)
       habitat-build: false        # Create Habitat packages
       publish-packages: false     # Publish packages (e.g., container from Dockerfile to ECR, go-releaser binary to releases page, omnibus to artifactory, gems, choco, homebrew, other app stores)
+
+      # Perform grype scan on hab packages
+      perform-grype-hab-scan: true      # Enable/disable Habitat package scan
+      grype-hab-build-package: false    # Build package before scanning (default: false)
+      grype-hab-origin: 'chef' # Habitat package origin (REQUIRED)
+      grype-hab-package: 'inspec' # Habitat package name (REQUIRED)
+      grype-hab-version: ${{ needs.read-version.outputs.version }}       # Package version (REQUIRED)
+      grype-hab-channel: 'unstable'     # Habitat channel: stable, unstable (default: 'unstable')
+      grype-hab-scan-linux: true        # Scan Linux packages (default: true)
+      grype-hab-scan-windows: true      # Scan Windows packages (default: false)
+      grype-hab-scan-macos: false       # Scan macOS packages (default: false)
 
       # generate and export Software Bill of Materials (SBOM) in various formats
       generate-sbom: true
