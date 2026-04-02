@@ -595,7 +595,7 @@ GEM
     options (2.3.2)
     os (1.1.4)
     ostruct (0.6.3)
-    parallel (1.27.0)
+    parallel (1.28.0)
     parser (3.3.10.1)
       ast (~> 2.4.1)
       racc
