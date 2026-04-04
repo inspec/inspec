@@ -82,4 +82,19 @@ describe "Inspec::Resources::MssqlSession" do
     query = resource.query("SELECT * FROM example as result")
     _(query.row(1).column("result").value).must_include "multiline"
   end
+
+  it "verify mssql_session with trust_cert option" do
+    resource = quick_resource(:mssql_session, :linux, user: "sa", password: "yourStrong(!)Password", host: "localhost", port: "1433", trust_cert: true) do |cmd|
+      cmd.strip!
+      case cmd
+      when "sqlcmd -Q \"set nocount on; SELECT * FROM example\" -W -w 1024 -s ',' -U 'sa' -P 'yourStrong(!)Password' -C -S 'localhost,1433'" then
+        stdout "result\n------\n1\n"
+      else
+        raise cmd.inspect
+      end
+    end
+
+    _(resource.trust_cert).must_equal true
+    resource.query("SELECT * FROM example")
+  end
 end
