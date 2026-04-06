@@ -117,6 +117,17 @@ module Inspec::Fetcher
                     end
 
       unless have_plugin
+        # Before attempting a remote install, check whether the gem has been registered
+        # as a path-based plugin (e.g. via 'inspec plugin install lib/myplugin.rb').
+        # If so, load from that entry point directly rather than trying to install from
+        # RubyGems — the same code path used when 'path: file.rb' is declared explicitly.
+        if (entry_point = path_based_plugin_entry_point(@gem_name))
+          Inspec::Log.debug("GemFetcher: #{@gem_name} is registered as a path-based plugin, loading from #{entry_point}")
+          @gem_path = entry_point
+          fetch_rb_entry_point(cache_path)
+          return
+        end
+
         # TODO - error handling?
         Inspec::Log.debug("GemFetcher - install request for #{@gem_name}")
         if @gem_path
@@ -149,6 +160,19 @@ module Inspec::Fetcher
 
     def gem_version
       @version || Inspec::Plugin::V2::Loader.find_gemspec_of(@gem_name)&.version&.to_s
+    end
+
+    # Returns the entry_point path for gem_name if it is registered in the plugin
+    # registry as a path-based plugin (installation_type :path), otherwise nil.
+    # This lets a profile declare 'gem: foo' without 'path:' and still resolve
+    # against a plugin installed via 'inspec plugin install lib/foo.rb'.
+    def path_based_plugin_entry_point(gem_name)
+      registry = Inspec::Plugin::V2::Registry.instance
+      status = registry[gem_name.to_sym]
+      return nil unless status
+      return nil unless status.installation_type == :path
+
+      status.entry_point
     end
   end
 end
