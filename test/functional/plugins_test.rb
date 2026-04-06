@@ -240,6 +240,17 @@ describe "Resource Pack Plugin support" do
       assert_json_controls_passing
     end
   end
+
+  describe "loading gem dependency when gem is installed as path-based plugin (no path: in inspec.yml)" do
+    let(:fixture_path) { File.join(profile_path, "dependencies", "uses-resource-pack-gem-via-path-plugin") }
+    let(:run_result) { run_inspec_with_plugin("exec #{fixture_path}", plugin_path: resource_pack_plugin_path) }
+
+    it "resolves gem dependency from path-based plugin registry entry" do
+      _(run_result.stderr).must_be_empty
+      _(run_result.exit_status).must_equal 0
+      assert_json_controls_passing
+    end
+  end
 end
 
 #=========================================================================================#

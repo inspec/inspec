@@ -1,0 +1,13 @@
+name: uses-resource-pack-gem-via-path-plugin
+title: InSpec Profile
+maintainer: The Authors
+copyright: The Authors
+copyright_email: you@example.com
+license: Apache-2.0
+summary: Profile that uses a gem dependency without path:, relying on a path-based plugin install
+version: 0.1.0
+supports:
+  platform: os
+depends:
+ - name: inspec-test-resources
+   gem: inspec-test-resources
