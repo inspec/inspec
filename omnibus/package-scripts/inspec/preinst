@@ -1,7 +1,0 @@
-#!/bin/sh
-#
-# Perform necessary inspec setup steps
-# before package is installed.
-#
-
-echo "You're about to install InSpec!"
