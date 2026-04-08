@@ -47,7 +47,7 @@ jobs:
 
   call-ci-inspec-7-pr-check-pipeline:
     needs: read-version
-    uses: chef/common-github-actions/.github/workflows/ci-main-pull-request.yml@fix/grype-hab-token-fallback
+    uses: chef/common-github-actions/.github/workflows/ci-main-pull-request.yml@main
     secrets: inherit
     permissions: 
       id-token: write
