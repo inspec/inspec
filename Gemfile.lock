@@ -415,7 +415,7 @@ GEM
     ed25519 (1.4.0)
     erubi (1.13.1)
     excon (0.112.0)
-    faraday (1.10.4)
+    faraday (1.10.5)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
