@@ -187,6 +187,25 @@ describe "waivers" do
     end
   end
 
+  describe "with run:false waivers" do
+    it "does not eagerly evaluate waived control bodies" do
+      Dir.mktmpdir do |tmp_dir|
+        marker_file = File.join(tmp_dir, "waiver-eager-eval-marker")
+        result = run_inspec_process(
+          "exec #{waivers_profiles_path}/eager-eval --waiver-file #{waivers_profiles_path}/eager-eval/files/waiver.yaml",
+          json: true,
+          env: { "INSPEC_WAIVER_EAGER_MARKER" => marker_file }
+        )
+
+        control = @json.dig("profiles", 0, "controls", 0)
+        assert_equal "01_waived_eager_eval", control["id"]
+        assert_equal "skipped", control.dig("results", 0, "status")
+        refute File.exist?(marker_file)
+        assert_exit_code 0, result
+      end
+    end
+  end
+
   describe "an input and control with the same name" do
     # This is a test for a regression articulated here:
     # https://github.com/inspec/inspec/issues/4936
