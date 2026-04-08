@@ -336,4 +336,25 @@ describe "waivers" do
       assert_includes result.stderr, "invalid YAML or contents is not a Hash"
     end
   end
+
+  describe "eager evaluation controls with waivers" do
+    let(:profile_name) { "eager-eval" }
+    let(:waiver_file) { "waivers.yaml" }
+
+    it "skips eagerly-evaluated controls when waived with run false" do
+      assert_test_outcome "skipped", "01_eager_waived_not_ran"
+    end
+
+    it "runs eagerly-evaluated controls that are not waived" do
+      assert_test_outcome "passed", "02_eager_not_waived"
+    end
+
+    it "runs eagerly-evaluated controls when waived with run true" do
+      assert_test_outcome "passed", "03_eager_waived_ran"
+    end
+
+    it "skips lazily-evaluated controls when waived with run false" do
+      assert_test_outcome "skipped", "04_lazy_waived_not_ran"
+    end
+  end
 end

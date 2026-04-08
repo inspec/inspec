@@ -1,0 +1,11 @@
+01_eager_waived_not_ran:
+  justification: Heavy control should not run
+  run: false
+
+03_eager_waived_ran:
+  justification: This waiver allows running
+  run: true
+
+04_lazy_waived_not_ran:
+  justification: Lazy eval control should not run
+  run: false
