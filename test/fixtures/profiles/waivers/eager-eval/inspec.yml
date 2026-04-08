@@ -1,0 +1,6 @@
+name: eager-eval
+license: Apache-2.0
+summary: A profile to verify that waived controls with run false skip eager resource evaluation
+version: 0.1.0
+supports:
+  platform: os
