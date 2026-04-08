@@ -48,11 +48,19 @@ module Inspec
       return unless block_given?
 
       begin
-        instance_eval(&block)
-
-        # By applying waivers *after* the instance eval, we assure that
-        # waivers have higher precedence than only_if.
+        # Pre-check: apply waivers before evaluating the control block.
+        # If the control is waived with run: false, skip the block entirely
+        # to avoid eager resource evaluation (e.g., `command('find /').stdout`
+        # executing expensive commands for waived controls).
         __apply_waivers
+
+        unless @__skip_rule[:result] && @__skip_rule[:type] == :waiver
+          instance_eval(&block)
+
+          # Re-apply waivers after instance eval to ensure waivers have
+          # higher precedence than only_if.
+          __apply_waivers
+        end
 
       rescue SystemStackError, StandardError => e
         # We've encountered an exception while trying to eval the code inside the
