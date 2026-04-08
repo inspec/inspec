@@ -16,6 +16,8 @@ steps:
       executor:
         docker:
           image: ruby:3.1.7-bullseye
+          environment:
+            - GITHUB_TOKEN
 
   - label: run-tests-ruby-3.1
     command:
@@ -24,6 +26,8 @@ steps:
       executor:
         docker:
           image: ruby:3.1.7-bullseye
+          environment:
+            - GITHUB_TOKEN
 
   - label: isolated-tests-ruby-3.1
     command:
@@ -32,6 +36,8 @@ steps:
       executor:
         docker:
           image: ruby:3.1.7-bullseye
+          environment:
+            - GITHUB_TOKEN
 
   - label: run-tests-ruby-3.1-windows
     command:
@@ -41,6 +47,7 @@ steps:
         docker:
           environment:
             - BUILDKITE
+            - GITHUB_TOKEN
           host_os: windows
           shell: ["powershell", "-Command"]
           image: rubydistros/windows-2019:3.1.7
