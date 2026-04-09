@@ -36,22 +36,22 @@ pipelines:
       description: Pull Request validation tests
       trigger: pull_request
       env:
-      - LANG: "C.UTF-8"
-      - SLOW: 1
-      - NO_AWS: 1
-      - MT_CPU: 5
-      - ARTIFACTORY_BASE_URL: https://artifactory-internal.ps.chef.co
+       - LANG: "C.UTF-8"
+       - SLOW: 1
+       - NO_AWS: 1
+       - MT_CPU: 5
+       - ARTIFACTORY_BASE_URL: https://artifactory-internal.ps.chef.co
  - coverage:
       description: Unit test coverage
       public: false
       # Private due to use of tokens
       trigger: pull_request
       env:
-      - LANG: "C.UTF-8"
-      - SLOW: 1
-      - NO_AWS: 1
-      - MT_CPU: 5
-      - ARTIFACTORY_BASE_URL: https://artifactory-internal.ps.chef.co
+       - LANG: "C.UTF-8"
+       - SLOW: 1
+       - NO_AWS: 1
+       - MT_CPU: 5
+       - ARTIFACTORY_BASE_URL: https://artifactory-internal.ps.chef.co
  - omnibus/release:
     env:
      # The git cache is corrupt more often than not. This always purges the cache.
