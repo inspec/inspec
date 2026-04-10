@@ -14,6 +14,11 @@ Write-Host "--- system details"
 $Properties = 'Caption', 'CSName', 'Version', 'BuildType', 'OSArchitecture'
 Get-CimInstance Win32_OperatingSystem | Select-Object $Properties | Format-Table -AutoSize
 
+Write-Host "--- configuring git credentials"
+if ($env:GITHUB_TOKEN) {
+    git config --global url."https://x-access-token:$($env:GITHUB_TOKEN)@github.com/".insteadOf "https://github.com/"
+}
+
 Write-Host "--- Installing the version of Habitat required"
 
 function Stop-HabProcess {

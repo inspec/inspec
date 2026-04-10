@@ -32,6 +32,11 @@ if [ -n "${CI_ENABLE_COVERAGE:-}" ]; then
   export SONAR_TOKEN=$($VAULT_HOME/vault kv get -field token secret/inspec/sonar)
 fi
 
+echo "--- configuring git credentials"
+if [ -n "${GITHUB_TOKEN:-}" ]; then
+  git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
+fi
+
 echo "--- pull bundle cache"
 pull_bundle
 
