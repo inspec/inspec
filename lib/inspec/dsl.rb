@@ -44,7 +44,7 @@ module Inspec::DSL
     begin
       include DeprecatedCoreResourcesList
       if CORE_RESOURCES_DEPRECATED.include? id
-        Inspec.deprecate(:core_resource_moved_to_rp, "The resource '#{id}' will not be part of the InSpec 7 core.")
+        Inspec.deprecate(:core_resource_moved_to_rp, "The resource '#{id}' is not part of the InSpec core. This resource has been moved to a separate gem.")
       end
       require "inspec/resources/#{id}"
     rescue LoadError => e

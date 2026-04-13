@@ -1610,9 +1610,9 @@ EOT
     end
   end
 
-  describe "when running a profile with a core resource that will be deprecated in InSpec 7" do
+  describe "when running a profile with a core resource that has been moved out of InSpec core" do
     let(:out) { inspec("exec " + File.join(profile_path, "deprecated-core-resources") + " --no-create-lockfile") }
-    it "issues a change notice warning and runs the profile successfully" do
+    it "issues a deprecation warning and runs the profile successfully" do
       _(stdout).must_include "ERROR: DEPRECATION:"
       _(stdout).must_match(/is required for resource/)
       _(stdout).must_include "support (consider --auto-install-gems)"

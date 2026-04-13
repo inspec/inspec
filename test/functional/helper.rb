@@ -95,7 +95,7 @@ module FunctionalHelper
   end
 
   def ignore_resource_pack_warning(output)
-    output.split("\n").reject { |l| l.include? " CHANGE NOTICE: " }.join("\n")
+    output.split("\n").reject { |l| l.include? " DEPRECATION: " }.join("\n")
   end
 
   def assert_json_controls_passing(_result = nil) # dummy arg
