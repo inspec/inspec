@@ -96,9 +96,15 @@ The difference between the gems is as follows:
 
 ### A release is promoted
 
-When expeditor is told to promote a release, using the slack command `/expeditor promote inspec/inspec:master 4.36.4` (for example), Expeditor automatically promotes the Habitat packages from the unstable channel to the stable channel, publishing them to the various downloads sites. It also creates the `artifact_published:stable` event, which has numerous [actions subscribed](https://github.com/inspec/inspec/blob/8a93f08a13d6bde8f87e447ff4246801bef80f8c/.expeditor/config.yml#L158).
+When a release is promoted, using the slack command `/expeditor promote inspec/inspec:inspec-7 7.0.108` (for example), Expeditor fires the `project_promoted` workload. This triggers the following actions:
 
-Some of the more important ones:
+- **`built_in:rollover_changelog`** — Rolls over the CHANGELOG for the next release cycle.
+- **`built_in:publish_rubygems`** — Publishes the `inspec`, `inspec-bin`, `inspec-core`, and `inspec-core-bin` gems to rubygems.org.
+- **`built_in:promote_habitat_packages`** — Promotes the Habitat `.hart` packages from the `base-2025-current` channel to the `base-2025` channel. Note: when a Hab build completes after a PR merge, packages are first promoted from `unstable` to `base-2025-current`; the `project_promoted` step moves them from `base-2025-current` to `base-2025`.
+- **`purge_packages_chef_io_fastly`** — Purges the Fastly CDN cache for the promoted channel so downloads.chef.io reflects the new release immediately.
+- **`built_in:notify_chefio_slack_channels`** — Sends a Slack notification to the relevant Chef.io channels on successful promotion.
+
+Some of the more important downstream effects:
 
 #### Update and publish the docker image
 
