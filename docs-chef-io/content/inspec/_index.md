@@ -56,7 +56,8 @@ Chef offers [premium CIS- and STIG-based profiles](https://www.chef.io/products/
 
 ### Learning
 
-- [Chef Training](https://www.chef.io/training)
+- [Learn Chef: Test Expectations with Chef InSpec](https://learn.chef.io/courses/course-v1:chef+Inspec101+Perpetual/about)
+- [Learn Chef: Extending InSpec: InSpec Wrappers and Custom Resources](https://learn.chef.io/courses/course-v1:chef+InSpec201+Perpetual/about)
 - [Chef InSpec webinars](https://www.chef.io/webinars?products=chef-inspec&page=1)
 - [Chef Resource Library](https://www.chef.io/resources?products=chef-inspec&page=1)
 

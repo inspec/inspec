@@ -805,7 +805,7 @@ describe "inspec exec" do
     let(:controls) { json["profiles"][0]["controls"] }
 
     it "completes the run with failed controls but no exception" do
-      _(ignore_resource_pack_warning(stderr)).must_be_empty
+      _(stderr).must_be_empty
 
       _(controls.count).must_equal 10
       _(controls.select { |c| c["results"][0]["status"] == "failed" }.count).must_be :>, 1
