@@ -13,7 +13,7 @@ gh_repo = "inspec"
 
 Use Chef InSpec as a [Test Kitchen](https://kitchen.ci/) verifier with `kitchen-inspec`.
 
-For hands-on examples, learn how to use Test Kitchen to run Chef InSpec profiles on the Learn Chef course [Validate Infrastructure Code with Test Kitchen](https://learn.chef.io/courses/course-v1:chef+LocalDev101+Perpetual/about).
+For hands-on examples, learn how to use Test Kitchen to run Chef InSpec profiles on the Learn Chef course [Validate Infrastructure Code with Test Kitchen](https://www.chef.io/training/tutorials).
 
 Add the Chef InSpec verifier to the `.kitchen.yml` file:
 

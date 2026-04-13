@@ -65,10 +65,10 @@ The Chef InSpec package is available for MacOS, RedHat, Ubuntu and Windows. Down
 
 ```text
 # RedHat, Ubuntu, and macOS
-curl https://chefdownload-commerical.chef.io/install.sh?license_id=<LICENSE_ID> | sudo bash -s -- -P inspec
+curl https://chefdownload-commercial.chef.io/install.sh?license_id=<LICENSE_ID> | sudo bash -s -- -P inspec
 
 # Windows
-. { iwr -useb https://chefdownload-commerical.chef.io/install.ps1?license_id=<LICENSE_ID> } | iex; install -project inspec
+. { iwr -useb https://chefdownload-commercial.chef.io/install.ps1?license_id=<LICENSE_ID> } | iex; install -project inspec
 ```
 
 Replace `<LICENSE_ID>` with your license ID.
@@ -317,7 +317,7 @@ Remote Targets
 | CentOS                       | 6, 7, 8                                          | i386, x86_64  |
 | Debian                       | 9, 10                                            | i386, x86_64  |
 | FreeBSD                      | 9, 10, 11                                        | i386, amd64   |
-| macOS                        | 11.0                                             | x86_64        |
+| macOS                        | 12.0                                             | x86_64, amd64       |
 | Oracle Enterprise Linux      | 6, 7, 8                                          | i386, x86_64  |
 | Red Hat Enterprise Linux     | 7, 8, 9                                          | i386, x86_64  |
 | Solaris                      | 10, 11                                           | sparc, x86    |
@@ -339,7 +339,7 @@ In addition, runtime support is provided for:
 
 | Platform | Versions | Arch   |
 | -------- | -------- | ------ |
-| macOS    | 11+      | x86_64, arm64 |
+| macOS    | 12      | x86_64, arm64 |
 | Debian   | 9, 10    | x86_64, aarch64 |
 | RHEL     | 7, 8, 9  | x86_64, aarch64 |
 | Fedora   | 29+      | x86_64, aarch64 |

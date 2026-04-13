@@ -42,6 +42,10 @@ module Inspec::DSL
     return unless backend
 
     begin
+      include DeprecatedCoreResourcesList
+      if CORE_RESOURCES_DEPRECATED.include? id
+        Inspec.deprecate(:core_resource_moved_to_rp, "The resource '#{id}' will not be part of the InSpec 7 core.")
+      end
       require "inspec/resources/#{id}"
     rescue LoadError => e
 

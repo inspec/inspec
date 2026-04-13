@@ -16,7 +16,7 @@ Each profile is a standalone structure with its own distribution and execution f
 
 Chef InSpec supports complex test and compliance profiles, which organize controls to support dependency management and code reuse.
 
-For hands-on examples, check out [Test Expectations with Chef InSpec](https://learn.chef.io/courses/course-v1:chef+Inspec101+Perpetual/about) on Learn Chef to learn more about how profiles are structured.
+For hands-on examples, check out [Test Expectations with Chef InSpec](https://www.chef.io/training/tutorials) on Learn Chef to learn more about how profiles are structured.
 
 ## Initialize a new profile
 
