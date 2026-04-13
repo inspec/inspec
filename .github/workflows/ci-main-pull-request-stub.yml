@@ -1,16 +1,16 @@
-# stub to call common GitHub Action (GA) as part of Continuous Integration (CI) Pull Request process checks for InSpec-7 branch
+# stub to call common GitHub Action (GA) as part of Continuous Integration (CI) Pull Request process checks for main branch
 # inputs are described in the chef/common-github-actions/<GA.yml> with same name as this stub
 #
 # secrets are inherited from the calling workflow, typically SONAR_TOKEN, SONAR_HOST_URL, GH_TOKEN, AKEYLESS_JWT_ID, POLARIS_SERVER_URL and POLARIS_ACCESS_TOKEN
 
-name: CI Pull Request on InSpec 7 Branch
+name: CI Pull Request on main Branch
 
 on: 
   pull_request:
     # branches: [ main, release/** ]
-    branches: [ inspec-7 ]
+    branches: [ main ]
   push:
-    branches: [ inspec-7 ]
+    branches: [ main ]
 
   workflow_dispatch:
 
@@ -45,7 +45,7 @@ jobs:
         run: |
           echo "CI main pull request stub version $STUB_VERSION"
 
-  call-ci-inspec-7-pr-check-pipeline:
+  call-ci-main-pr-check-pipeline:
     needs: read-version
     uses: chef/common-github-actions/.github/workflows/ci-main-pull-request.yml@main
     secrets: inherit

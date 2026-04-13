@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: inspec-7
+          ref: main
           fetch-depth: 0
 
       - name: Extract latest stable release section from CHANGELOG.md
