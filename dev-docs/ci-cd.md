@@ -71,16 +71,6 @@ Here are the Expeditor control labels, and the circumstances under which they sh
  * Expeditor: Bump Major Version - Use when a major release is made - rarely used.
  * Expeditor: Skip Version Bump - Use for non-code-change PRs, such as website or CI changes.
 
-#### Build Omnibus Packages
-
-This is controlled by the `trigger_pipeline:omnibus/release` subscription.
-
-The Omnibus build creates operating-system-specific packages for each platform on which we release Chef InSpec. Its [expeditor configuration](https://github.com/inspec/inspec/blob/44fe144732e1e0abb2594957a880c5f1821e7774/.expeditor/config.yml#L133) drives a [Buildkite configuration](https://github.com/inspec/inspec/blob/main/.expeditor/release.omnibus.yml), which lists exactly which platforms to build.
-
-The Omnibus build is generally reliable, if somewhat slow.
-
-When the omnibus build succeeds, omnitruck delivers the packages to various package repos in `unstable` channels for public consumption.  The packages are also delivered to [Artifactory](http://artifactory.chef.co/ui/repos/tree/General/omnibus-unstable-local%2Fcom%2Fgetchef%2Finspec) (VPN required)
-
 #### Chef Habitat Build
 
 The Chef Habitat build creates Habitat .hart packages for Linux and Windows. The [Expeditor configuration](https://github.com/inspec/inspec/blob/44fe144732e1e0abb2594957a880c5f1821e7774/.expeditor/config.yml#L138) drives a [Buildkite configuration](https://github.com/inspec/inspec/blob/main/.expeditor/build.habitat.yml).
@@ -106,7 +96,7 @@ The difference between the gems is as follows:
 
 ### A release is promoted
 
-When expeditor is told to promote a release, using the slack command `/expeditor promote inspec/inspec:master 4.36.4` (for example), Expeditor automatically promotes the Omnibus packages from the unstable channel to the stable channel, publishing them to the various downloads sites. It also creates the `artifact_published:stable` event, which has numerous [actions subscribed](https://github.com/inspec/inspec/blob/8a93f08a13d6bde8f87e447ff4246801bef80f8c/.expeditor/config.yml#L158).
+When expeditor is told to promote a release, using the slack command `/expeditor promote inspec/inspec:master 4.36.4` (for example), Expeditor automatically promotes the Habitat packages from the unstable channel to the stable channel, publishing them to the various downloads sites. It also creates the `artifact_published:stable` event, which has numerous [actions subscribed](https://github.com/inspec/inspec/blob/8a93f08a13d6bde8f87e447ff4246801bef80f8c/.expeditor/config.yml#L158).
 
 Some of the more important ones:
 
