@@ -132,4 +132,25 @@ EOF
       _(options["kerberos_service"]).must_equal "HTTP"
     end
   end
+
+  describe "CLI option ordering" do
+    def visible_option_names(command_name)
+      require "inspec/cli"
+      cmd = Inspec::InspecCLI.commands[command_name]
+      cmd.options.keys.reject { |k| cmd.options[k].hide }.map(&:to_s)
+    end
+
+    it "exec command options are sorted alphabetically" do
+      names = visible_option_names("exec")
+      _(names).must_equal names.sort,
+        "exec command options are not sorted alphabetically. " \
+        "Run `bundle exec inspec exec --help` to see current order."
+    end
+
+    it "detect command options are sorted alphabetically" do
+      names = visible_option_names("detect")
+      _(names).must_equal names.sort,
+        "detect command options are not sorted alphabetically."
+    end
+  end
 end
