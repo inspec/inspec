@@ -90,44 +90,14 @@ module Inspec
     end
 
     def self.target_options # rubocop:disable Metrics/MethodLength
-      option :target, aliases: :t, type: :string,
-        desc: "Simple targeting option using URIs, e.g. ssh://user:pass@host:port"
       option :backend, aliases: :b, type: :string,
         desc: "Choose a backend: local, ssh, winrm, docker."
-      option :host, type: :string,
-        desc: "Specify a remote host which is tested."
-      option :port, aliases: :p, type: :numeric,
-        desc: "Specify the login port for a remote scan."
-      option :user, type: :string,
-        desc: "The login user for a remote scan."
-      option :password, type: :string, lazy_default: -1,
-        desc: "Login password for a remote scan, if required."
-      option :enable_password, type: :string, lazy_default: -1,
-        desc: "Password for enable mode on Cisco IOS devices."
-      option :key_files, aliases: :i, type: :array,
-        desc: "Login key or certificate file for a remote scan."
-      option :path, type: :string,
-        desc: "Login path to use when connecting to the target (WinRM)."
-      option :sudo, type: :boolean,
-        desc: "Run scans with sudo. Only activates on Unix and non-root user."
-      option :sudo_password, type: :string, lazy_default: -1,
-        desc: "Specify a sudo password, if it is required."
-      option :sudo_options, type: :string,
-        desc: "Additional sudo options for a remote scan."
-      option :sudo_command, type: :string,
-        desc: "Alternate command for sudo."
-      option :shell, type: :boolean,
-        desc: "Run scans in a subshell. Only activates on Unix."
-      option :shell_options, type: :string,
-        desc: "Additional shell options."
-      option :shell_command, type: :string,
-        desc: "Specify a particular shell to use."
-      option :ssl, type: :boolean,
-        desc: "Use SSL for transport layer encryption (WinRM)."
-      option :ssl_peer_fingerprint, type: :string,
-        desc: "Specify SSL peer fingerprint in place of certificates for SSL authentication (WinRM)."
-      option :self_signed, type: :boolean,
-        desc: "Allow remote scans with self-signed certificates (WinRM)."
+      option :bastion_host, type: :string,
+        desc: "Specifies the bastion host if applicable."
+      option :bastion_port, type: :string,
+        desc: "Specifies the bastion port if applicable."
+      option :bastion_user, type: :string,
+        desc: "Specifies the bastion user if applicable."
       option :ca_trust_file, type: :string,
         desc: "Specify CA certificate required for SSL authentication (WinRM)."
       option :client_cert, type: :string,
@@ -136,56 +106,86 @@ module Inspec
         desc: "Specify client key required with client cert for SSL authentication"
       option :client_key_pass, type: :string, lazy_default: -1,
         desc: "Specify client cert password, if required for SSL authentication"
-      option :winrm_transport, type: :string, default: "negotiate",
-        desc: "Specify which transport to use, defaults to negotiate (WinRM)."
-      option :winrm_disable_sspi, type: :boolean,
-        desc: "Whether to use disable sspi authentication, defaults to false (WinRM)."
-      option :winrm_basic_auth_only, type: :boolean,
-        desc: "Whether to use basic authentication, defaults to false (WinRM)."
       option :config, type: :string,
         desc: "Read configuration from JSON file (`-` reads from stdin)."
-      option :json_config, type: :string, hide: true
-      option :proxy_command, type: :string,
-        desc: "Specifies the command to use to connect to the server."
-      option :bastion_host, type: :string,
-        desc: "Specifies the bastion host if applicable."
-      option :bastion_user, type: :string,
-        desc: "Specifies the bastion user if applicable."
-      option :bastion_port, type: :string,
-        desc: "Specifies the bastion port if applicable."
-      option :insecure, type: :boolean, default: false,
-        desc: "Disable SSL verification on select targets."
-      option :target_id, type: :string,
-        desc: "Provide an ID which will be included on reports - deprecated"
-      option :winrm_shell_type, type: :string, default: "powershell",
-        desc: "Specify which shell type to use (powershell, elevated, or cmd), which defaults to powershell (WinRM)."
       option :docker_url, type: :string,
         desc: "Provides path to Docker API endpoint (Docker). Defaults to unix:///var/run/docker.sock on Unix systems and tcp://localhost:2375 on Windows."
-      option :ssh_config_file, type: :array,
-        desc: "A list of paths to the ssh config file, e.g ~/.ssh/config or /etc/ssh/ssh_config."
+      option :enable_password, type: :string, lazy_default: -1,
+        desc: "Password for enable mode on Cisco IOS devices."
+      option :host, type: :string,
+        desc: "Specify a remote host which is tested."
+      option :insecure, type: :boolean, default: false,
+        desc: "Disable SSL verification on select targets."
+      option :json_config, type: :string, hide: true
+      option :kerberos_realm, type: :string,
+        desc: "Kerberos realm used for authentication."
+      option :kerberos_service, type: :string,
+        desc: "Kerberos service principal name (e.g., HTTP, HOST)."
+      option :key_files, aliases: :i, type: :array,
+        desc: "Login key or certificate file for a remote scan."
+      option :password, type: :string, lazy_default: -1,
+        desc: "Login password for a remote scan, if required."
+      option :path, type: :string,
+        desc: "Login path to use when connecting to the target (WinRM)."
       option :podman_url, type: :string,
         desc: "Provides the path to the Podman API endpoint. Defaults to unix:///run/user/$UID/podman/podman.sock for rootless container, unix:///run/podman/podman.sock for rootful container (for this you need to execute inspec as root user)."
-      option :socks_proxy, type: :string,
-         desc: "SOCKS5H proxy URL to tunnel the WinRM connection (e.g., socks5h://proxy-host:1080)."
-      option :socks_user, type: :string,
-         desc: "Username for authenticating with the SOCKS5 proxy."
+      option :port, aliases: :p, type: :numeric,
+        desc: "Specify the login port for a remote scan."
+      option :proxy_command, type: :string,
+        desc: "Specifies the command to use to connect to the server."
+      option :self_signed, type: :boolean,
+        desc: "Allow remote scans with self-signed certificates (WinRM)."
+      option :shell, type: :boolean,
+        desc: "Run scans in a subshell. Only activates on Unix."
+      option :shell_command, type: :string,
+        desc: "Specify a particular shell to use."
+      option :shell_options, type: :string,
+        desc: "Additional shell options."
       option :socks_password, type: :string, lazy_default: -1,
-         desc: "Password for authenticating with the SOCKS5 proxy."
-      option :kerberos_realm, type: :string,
-         desc: "Kerberos realm used for authentication."
-      option :kerberos_service, type: :string,
-         desc: "Kerberos service principal name (e.g., HTTP, HOST)."
+        desc: "Password for authenticating with the SOCKS5 proxy."
+      option :socks_proxy, type: :string,
+        desc: "SOCKS5H proxy URL to tunnel the WinRM connection (e.g., socks5h://proxy-host:1080)."
+      option :socks_user, type: :string,
+        desc: "Username for authenticating with the SOCKS5 proxy."
+      option :ssh_config_file, type: :array,
+        desc: "A list of paths to the ssh config file, e.g ~/.ssh/config or /etc/ssh/ssh_config."
+      option :ssl, type: :boolean,
+        desc: "Use SSL for transport layer encryption (WinRM)."
+      option :ssl_peer_fingerprint, type: :string,
+        desc: "Specify SSL peer fingerprint in place of certificates for SSL authentication (WinRM)."
+      option :sudo, type: :boolean,
+        desc: "Run scans with sudo. Only activates on Unix and non-root user."
+      option :sudo_command, type: :string,
+        desc: "Alternate command for sudo."
+      option :sudo_options, type: :string,
+        desc: "Additional sudo options for a remote scan."
+      option :sudo_password, type: :string, lazy_default: -1,
+        desc: "Specify a sudo password, if it is required."
+      option :target, aliases: :t, type: :string,
+        desc: "Simple targeting option using URIs, e.g. ssh://user:pass@host:port"
+      option :target_id, type: :string,
+        desc: "Provide an ID which will be included on reports - deprecated"
+      option :user, type: :string,
+        desc: "The login user for a remote scan."
+      option :winrm_basic_auth_only, type: :boolean,
+        desc: "Whether to use basic authentication, defaults to false (WinRM)."
+      option :winrm_disable_sspi, type: :boolean,
+        desc: "Whether to use disable sspi authentication, defaults to false (WinRM)."
+      option :winrm_shell_type, type: :string, default: "powershell",
+        desc: "Specify which shell type to use (powershell, elevated, or cmd), which defaults to powershell (WinRM)."
+      option :winrm_transport, type: :string, default: "negotiate",
+        desc: "Specify which transport to use, defaults to negotiate (WinRM)."
     end
 
     def self.profile_options
+      option :allow_unsigned_profiles, type: :boolean, default: false,
+        desc: "Allow unsigned profiles to be used in InSpec command."
+      option :auto_install_gems, type: :boolean, default: false,
+        desc: "Auto installs gem dependencies of the profile or resource pack."
       option :profiles_path, type: :string,
         desc: "Folder which contains referenced profiles."
       option :vendor_cache, type: :string,
         desc: "Use the given path for caching dependencies, (default: ~/.inspec/cache)."
-      option :auto_install_gems, type: :boolean, default: false,
-        desc: "Auto installs gem dependencies of the profile or resource pack."
-      option :allow_unsigned_profiles, type: :boolean, default: false,
-        desc: "Allow unsigned profiles to be used in InSpec command."
     end
 
     def self.supermarket_options
@@ -197,58 +197,81 @@ module Inspec
       target_options
       profile_options
       supermarket_options
-      option :controls, type: :array,
-        desc: "A list of control names to run, or a list of /regexes/ to match against control names. Ignore all other tests."
-      option :tags, type: :array,
-        desc: "A list of tags names that are part of controls to filter and run controls, or a list of /regexes/ to match against tags names of controls. Ignore all other tests."
-      option :reporter, type: :array,
-        banner: "one two:/output/file/path",
-        desc: "Enable one or more output reporters: cli, documentation, html, progress, progress-bar, json, json-min, json-rspec, junit, yaml"
-      option :reporter_message_truncation, type: :string,
-        desc: "Number of characters to truncate failure messages and code_desc in report data to (default: no truncation)"
-      option :reporter_backtrace_inclusion, type: :boolean,
-        desc: "Include a code backtrace in report data (default: true)"
-      option :input, type: :array, banner: "name1=value1 name2=value2",
-        desc: "Specify one or more inputs directly on the command line, as --input NAME=VALUE. Accepts single-quoted YAML and JSON structures."
-      option :input_file, type: :array,
-        desc: "Load one or more input files, a YAML file with values for the profile to use."
-      option :waiver_file, type: :array,
-        desc: "Load one or more waiver files."
       option :attrs, type: :array,
         desc: "Legacy name for --input-file - deprecated."
-      option :create_lockfile, type: :boolean,
-        desc: "Write out a lockfile based on this execution (unless one already exists)"
       option :backend_cache, type: :boolean,
         desc: "Allow caching for backend command output. (default: true)."
-      option :show_progress, type: :boolean,
-        desc: "Show progress while executing tests."
-      option :distinct_exit, type: :boolean, default: true,
-        desc: "Exit with code 101 if any tests fail, and 100 if any are skipped (default).  If disabled, exit 0 on skips and 1 for failures."
-      option :silence_deprecations, type: :array,
-        banner: "[all]|[GROUP GROUP...]",
-        desc: "Suppress deprecation warnings. See install_dir/etc/deprecations.json for a list of GROUPs or use 'all'."
+      option :command_timeout, type: :numeric,
+        desc: "Maximum seconds to allow commands to run during execution.",
+        long_desc: "Maximum seconds to allow commands to run during execution. A timed out command is considered an error."
+      option :controls, type: :array,
+        desc: "A list of control names to run, or a list of /regexes/ to match against control names. Ignore all other tests."
+      option :create_lockfile, type: :boolean,
+        desc: "Write out a lockfile based on this execution (unless one already exists)"
       option :diff, type: :boolean, default: true,
         desc: "Use --no-diff to suppress 'diff' output of failed textual test results."
-      option :sort_results_by, type: :string, default: "file", banner: "--sort-results-by=none|control|file|random",
-        desc: "After normal execution order, results are sorted by control ID, or by file (default), or randomly. None uses legacy unsorted mode."
+      option :distinct_exit, type: :boolean, default: true,
+        desc: "Exit with code 101 if any tests fail, and 100 if any are skipped (default).  If disabled, exit 0 on skips and 1 for failures."
+      option :enhanced_outcomes, type: :boolean,
+        desc: "Show enhanced outcomes in output"
       option :filter_empty_profiles, type: :boolean, default: false,
         desc: "Filter empty profiles (profiles without controls) from the report."
       option :filter_waived_controls, type: :boolean,
         desc: "Do not execute waived controls in InSpec at all. Must use with --waiver-file. Ignores the `run` setting of the waiver file."
-      option :retain_waiver_data, type: :boolean,
-        desc: "EXPERIMENTAL: Only works in conjunction with --filter-waived-controls, retains waiver data about controls that were skipped"
-      option :command_timeout, type: :numeric,
-        desc: "Maximum seconds to allow commands to run during execution.",
-        long_desc: "Maximum seconds to allow commands to run during execution. A timed out command is considered an error."
+      option :input, type: :array, banner: "name1=value1 name2=value2",
+        desc: "Specify one or more inputs directly on the command line, as --input NAME=VALUE. Accepts single-quoted YAML and JSON structures."
+      option :input_file, type: :array,
+        desc: "Load one or more input files, a YAML file with values for the profile to use."
+      option :reporter, type: :array,
+        banner: "one two:/output/file/path",
+        desc: "Enable one or more output reporters: cli, documentation, html, progress, progress-bar, json, json-min, json-rspec, junit, yaml"
+      option :reporter_backtrace_inclusion, type: :boolean,
+        desc: "Include a code backtrace in report data (default: true)"
       option :reporter_include_source, type: :boolean, default: false,
         desc: "Include full source code of controls in the CLI report"
-      option :enhanced_outcomes, type: :boolean,
-        desc: "Show enhanced outcomes in output"
+      option :reporter_message_truncation, type: :string,
+        desc: "Number of characters to truncate failure messages and code_desc in report data to (default: no truncation)"
+      option :retain_waiver_data, type: :boolean,
+        desc: "EXPERIMENTAL: Only works in conjunction with --filter-waived-controls, retains waiver data about controls that were skipped"
+      option :show_progress, type: :boolean,
+        desc: "Show progress while executing tests."
+      option :silence_deprecations, type: :array,
+        banner: "[all]|[GROUP GROUP...]",
+        desc: "Suppress deprecation warnings. See install_dir/etc/deprecations.json for a list of GROUPs or use 'all'."
+      option :sort_results_by, type: :string, default: "file", banner: "--sort-results-by=none|control|file|random",
+        desc: "After normal execution order, results are sorted by control ID, or by file (default), or randomly. None uses legacy unsorted mode."
+      option :tags, type: :array,
+        desc: "A list of tags names that are part of controls to filter and run controls, or a list of /regexes/ to match against tags names of controls. Ignore all other tests."
+      option :waiver_file, type: :array,
+        desc: "Load one or more waiver files."
+      sort_options!
     end
 
     def self.audit_log_options
       option :audit_log_location, type: :string,
       desc: "Audit log location to send diagnostic log messages to. (default: '~/.inspec/logs/inspec-audit.log')"
+    end
+
+    # Sorts the accumulated pending method options alphabetically.
+    # Call this at the end of any class-body option setup block (before `def command`)
+    # to ensure `--help` displays options in alphabetical order.
+    def self.sort_options!
+      return unless @method_options
+
+      @method_options = @method_options.sort_by { |k, _| k.to_s }.to_h
+    end
+
+    # Sort command options alphabetically before displaying help.
+    # This handles both built-in options and any options injected by plugins
+    # after the class is defined.
+    def self.command_help(shell, command_name)
+      meth = normalize_command_name(command_name)
+      command = all_commands[meth]
+      if command
+        sorted = command.options.sort_by { |k, _| k.to_s }.to_h
+        command.instance_variable_set(:@options, sorted)
+      end
+      super(shell, command_name)
     end
 
     def self.help(*args)

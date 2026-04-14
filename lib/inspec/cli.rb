@@ -422,6 +422,7 @@ class Inspec::InspecCLI < Inspec::BaseCLI
   desc "detect", "detects the target OS."
   target_options
   option :format, type: :string
+  sort_options!
   def detect
     Inspec.with_feature("inspec-cli-detect") {
       begin

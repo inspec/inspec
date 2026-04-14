@@ -134,23 +134,27 @@ EOF
   end
 
   describe "CLI option ordering" do
-    def visible_option_names(command_name)
+    def sorted_help_option_names(command_name)
       require "inspec/cli"
-      cmd = Inspec::InspecCLI.commands[command_name]
-      cmd.options.keys.reject { |k| cmd.options[k].hide }.map(&:to_s)
+      require "stringio"
+      io = StringIO.new
+      shell = Thor::Shell::Basic.new
+      shell.instance_variable_set(:@stdout, io)
+      Inspec::InspecCLI.command_help(shell, command_name)
+      output = io.string
+      output.scan(/\[?--([a-z][a-z0-9_-]+)/).flatten.map { |n| n.tr("-", "_") }.uniq
     end
 
-    it "exec command options are sorted alphabetically" do
-      names = visible_option_names("exec")
+    it "exec command options are sorted alphabetically in --help output" do
+      names = sorted_help_option_names("exec")
       _(names).must_equal names.sort,
-        "exec command options are not sorted alphabetically. " \
-        "Run `bundle exec inspec exec --help` to see current order."
+        "exec command --help options are not sorted alphabetically."
     end
 
-    it "detect command options are sorted alphabetically" do
-      names = visible_option_names("detect")
+    it "detect command options are sorted alphabetically in --help output" do
+      names = sorted_help_option_names("detect")
       _(names).must_equal names.sort,
-        "detect command options are not sorted alphabetically."
+        "detect command --help options are not sorted alphabetically."
     end
   end
 end
