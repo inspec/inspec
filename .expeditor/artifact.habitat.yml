@@ -15,8 +15,10 @@ steps:
     expeditor:
       executor:
         docker:
-          image: ruby:3.1-bullseye
+          image: ruby:3.4.2-bullseye
           privileged: true
+          environment:
+            - HAB_AUTH_TOKEN
 
   - label: ":windows: Validate Habitat Builds of Chef InSpec"
     commands:
@@ -25,3 +27,5 @@ steps:
       executor:
         windows:
           privileged: true
+          environment:
+            - HAB_AUTH_TOKEN

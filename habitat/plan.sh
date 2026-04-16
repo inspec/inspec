@@ -1,3 +1,5 @@
+export HAB_BLDR_CHANNEL="base-2025"
+export HAB_REFRESH_CHANNEL="base-2025"
 pkg_name=inspec
 pkg_origin=chef
 pkg_version=$(cat "$PLAN_CONTEXT/../VERSION")
@@ -10,7 +12,7 @@ pkg_license=('Apache-2.0')
 pkg_deps=(
   core/coreutils
   core/git
-  core/ruby31
+  core/ruby3_4
   core/bash
 )
 pkg_build_deps=(
@@ -21,12 +23,16 @@ pkg_build_deps=(
 )
 pkg_bin_dirs=(bin)
 
+do_prepare(){
+  export HAB_STUDIO_SECRET_NODE_OPTIONS="--dns-result-order=ipv4first"
+}
+
 do_setup_environment() {
   build_line 'Setting GEM_HOME="$pkg_prefix/lib"'
   export GEM_HOME="$pkg_prefix/lib"
 
-  build_line "Setting GEM_PATH=$GEM_HOME"
-  export GEM_PATH="$GEM_HOME"
+  build_line "Setting GEM_PATH=$GEM_HOME:${INSPEC_CONFIG_DIR:-~/.inspec}"
+  export GEM_PATH="$GEM_HOME:${INSPEC_CONFIG_DIR:-~/.inspec}"
 }
 
 do_unpack() {
@@ -45,6 +51,11 @@ do_build() {
 }
 
 do_install() {
+  export ARTIFACTORY_URL="https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/"
+  gem sources --add "$ARTIFACTORY_URL"
+  gem install chef-official-distribution --ignore-dependencies --no-document
+  gem sources --remove "$ARTIFACTORY_URL"
+
   # MUST install inspec first because inspec-bin depends on it via gemspec
   pushd "$HAB_CACHE_SRC_PATH/$pkg_dirname/"
     gem install inspec-*.gem --no-document
@@ -55,9 +66,20 @@ do_install() {
 
   wrap_inspec_bin
 
+  # Copy NOTICE.TXT to the package directory
+  if [[ -f "$PLAN_CONTEXT/../NOTICE.TXT" ]]; then
+    build_line "Copying NOTICE.TXT to package directory"
+    cp "$PLAN_CONTEXT/../NOTICE.TXT" "$pkg_prefix/"
+  else
+    build_line "Warning: NOTICE.TXT not found at $PLAN_CONTEXT/../NOTICE.TXT"
+  fi
+
   # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
   # for omnibus we also install this as part of the package
   gem install ed25519 bcrypt_pbkdf --no-document
+
+  # Clean up stray Gemfile.lock from lint_roller gem to appease security scanners
+  ruby "$HAB_CACHE_SRC_PATH/$pkg_dirname/scripts/cleanup_lint_roller.rb"
 
   # Certain gems (timeliness) are getting installed with world writable files
   # This is removing write bits for group and other.
@@ -80,7 +102,7 @@ export PATH="/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH
 export GEM_HOME="$GEM_HOME"
 export GEM_PATH="$GEM_PATH"
 
-exec $(pkg_path_for core/ruby31)/bin/ruby $real_bin \$@
+exec $(pkg_path_for core/ruby3_4)/bin/ruby $real_bin \$@
 EOF
   chmod -v 755 "$bin"
 }

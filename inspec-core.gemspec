@@ -35,11 +35,11 @@ Source code obtained from the Chef GitHub repository is made available under Apa
   spec.add_dependency "license-acceptance",       ">= 0.2.13", "< 3.0"
   # TODO: We should remove the thor pinning in next upcoming releases currently it's breaking our unit test in cli_args_test for aliases due to
   # recent changes made in thor library REF: https://github.com/rails/thor/releases/tag/v1.3.0 & https://github.com/rails/thor/pull/800
-  spec.add_dependency "thor",                     ">= 0.20", "< 1.3.0"
+  spec.add_dependency "thor",                     ">= 0.20", "< 1.5.0"
   spec.add_dependency "method_source",            ">= 0.8", "< 2.0"
-  spec.add_dependency "rubyzip",                  ">= 1.2.2", "< 3.0"
+  spec.add_dependency "rubyzip",                  ">= 1.2.2", "< 4.0"
   spec.add_dependency "rspec",                    ">= 3.9", "<= 3.14"
-  spec.add_dependency "rspec-its",                "~> 1.2"
+  spec.add_dependency "rspec-its",                ">= 1.2", "< 3.0"
   spec.add_dependency "pry",                      "~> 0.13"
   spec.add_dependency "hashie",                   ">= 3.4", "< 6.0"
   spec.add_dependency "mixlib-log",               "~> 3.0"
@@ -49,11 +49,18 @@ Source code obtained from the Chef GitHub repository is made available under Apa
   spec.add_dependency "faraday-follow_redirects", "~> 0.3"
   spec.add_dependency "tty-table",                "~> 0.10"
   spec.add_dependency "tty-prompt",               "~> 0.17"
-  spec.add_dependency "tomlrb",                   ">= 1.2", "< 2.1"
+  spec.add_dependency "tomlrb",                   ">= 1.3", "< 2.1"
   spec.add_dependency "addressable",              "~> 2.4"
-  spec.add_dependency "parslet",                  ">= 1.5", "< 2.0" # Pinned < 2.0, see #5389
+  spec.add_dependency "parslet",                  ">= 1.5", "< 3.0" # Pinned < 2.0, see #5389
   spec.add_dependency "semverse",                 "~> 3.0"
   spec.add_dependency "multipart-post",           "~> 2.0"
+
+  # Gem dependency needed with Ruby 3.4 upgrade
+  # TODO : Remove the dependency on mutex_m once the 'chef-licensing' gem is released with the fix
+  # spec.add_dependency "mutex_m",                  "~> 0.2.0"
+  spec.add_dependency "syslog",                   "~> 0.1"
+  spec.add_dependency "csv",                      "~> 3.0"
+  spec.add_dependency "ostruct",                  ">= 0.1", "< 0.7"
 
   # cookstyle support for inspec check
   # This was initially included in 'inspec.gemspec' to keep 'chef-client' lightweight.
@@ -61,7 +68,7 @@ Source code obtained from the Chef GitHub repository is made available under Apa
   # which was causing a LoadError ('cannot load such file -- ast') for users/applications using 'inspec-core'.
   spec.add_dependency "cookstyle"
 
-  spec.add_dependency "train-core", ">= 3.11.0"
+  spec.add_dependency "train-core", "~> 3.16", ">= 3.16.1"
   # Minimum major version 1 is required for Chef licensing telemetry
-  spec.add_dependency "chef-licensing", ">= 1.0.2"
+  spec.add_dependency "chef-licensing", ">= 1.2.0"
 end

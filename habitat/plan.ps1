@@ -1,5 +1,7 @@
 # https://stackoverflow.com/questions/9948517
 # TODO: Set-StrictMode -Version Latest
+$env:HAB_BLDR_CHANNEL = "base-2025"
+$env:HAB_REFRESH_CHANNEL = "base-2025"
 $ErrorActionPreference = "Stop"
 $PSDefaultParameterValues['*:ErrorAction']='Stop'
 
@@ -15,7 +17,7 @@ $pkg_maintainer="The Chef Maintainers <humans@chef.io>"
 $pkg_license=('Apache-2.0')
 
 $pkg_deps=@(
-  "chef/ruby31-plus-devkit"
+  "core/ruby3_4-plus-devkit"
   "core/git"
 )
 $pkg_bin_dirs=@("bin"
@@ -45,6 +47,10 @@ function Invoke-Build {
 
         Write-BuildLine " ** Using bundler to retrieve the Ruby dependencies"
         bundle install
+
+        Write-BuildLine " ** Cleaning up lint_roller Gemfile.lock"
+        ruby .\scripts\cleanup_lint_roller.rb
+
         If ($lastexitcode -ne 0) { Exit $lastexitcode }
         Write-BuildLine " ** Running the inspec project's 'rake install' to install the path-based gems so they look like any other installed gem."
         bundle exec rake install # this needs to be 'bundle exec'd because a Rakefile makes reference to Bundler
@@ -55,17 +61,39 @@ function Invoke-Build {
 }
 
 function Invoke-Install {
+    Write-BuildLine "** Installing chef-official-distribution gem from artifactory"
+    $ArtifactoryUrl = "https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/"
+    gem sources --add $ArtifactoryUrl
+    gem install chef-official-distribution --ignore-dependencies --no-document
+    gem sources --remove $ArtifactoryUrl
+
+    # Verify chef-official-distribution installation
+    Write-BuildLine "** Verifying chef-official-distribution installation"
+    gem list chef-official-distribution
+    If ($lastexitcode -ne 0) { Exit $lastexitcode }
+
     Write-BuildLine "** Copy built & cached gems to install directory"
     Copy-Item -Path "$HAB_CACHE_SRC_PATH/$pkg_dirname/*" -Destination $pkg_prefix -Recurse -Force -Exclude @("gem_make.out", "mkmf.log", "Makefile",
                      "*/latest", "latest",
                      "*/JSON-Schema-Test-Suite", "JSON-Schema-Test-Suite")
+
+    # Copy NOTICE.TXT to the package directory
+    $NoticeFile = "$project_root/NOTICE.TXT"
+    if (Test-Path $NoticeFile) {
+        Write-BuildLine "** Copying NOTICE.TXT to package directory"
+        Copy-Item -Path $NoticeFile -Destination $pkg_prefix -Force
+    } else {
+        Write-BuildLine "** Warning: NOTICE.TXT not found at $NoticeFile"
+    }
 
     try {
         Push-Location $pkg_prefix
         bundle config --local gemfile $project_root/Gemfile
         foreach($gem in ("inspec-core", "inspec", "inspec-bin")) {
             Write-BuildLine "** generating binstubs for $gem with precise version pins"
-            Invoke-Expression -Command "appbundler.bat $project_root $pkg_prefix/bin $gem"
+            gem install --install-dir $env:GEM_HOME appbundler
+            Write-BuildLine "** Generating binstubs for $gem with precise version pins"
+            Invoke-Expression -Command "$env:GEM_HOME/bin/appbundler.bat $project_root $pkg_prefix/bin $gem"
             If ($lastexitcode -ne 0) { Exit $lastexitcode }
         }
     } finally {

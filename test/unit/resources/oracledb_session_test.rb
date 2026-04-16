@@ -194,4 +194,231 @@ describe "Inspec::Resources::OracledbSession" do
       _(resource.resource_id).must_equal "localhost-1527-USER"
     end
   end
+
+  # CHEF-28019: Tests for TNS alias and TCPS/SSL support
+
+  it "sqlplus Linux with TNS alias" do
+    resource = quick_resource(:oracledb_session, :linux, user: "USER", password: "password", tns_alias: "XEPDB1_TCPS", sqlplus_bin: "/bin/sqlplus") do |cmd|
+      cmd.strip!
+      case cmd
+      when "echo 'oracle_query_string';/bin/sqlplus -S -s /nolog <<'INSPECSQL'\nconnect USER/password@XEPDB1_TCPS\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nINSPECSQL" then
+        stdout_file "test/fixtures/cmd/oracle-result"
+      else
+        raise cmd.inspect
+      end
+    end
+
+    _(resource.resource_skipped?).must_equal false
+    _(resource.tns_alias).must_equal "XEPDB1_TCPS"
+    query = resource.query("SELECT NAME AS VALUE FROM v$database;")
+    _(query.size).must_equal 1
+    _(query.row(0).column("value").value).must_equal "ORCL"
+  end
+
+  it "sqlplus Linux with TNS alias and db_role" do
+    resource = quick_resource(:oracledb_session, :linux, user: "USER", password: "password", tns_alias: "XEPDB1_TCPS", as_db_role: "SYSDBA", sqlplus_bin: "/bin/sqlplus") do |cmd|
+      cmd.strip!
+      case cmd
+      when "echo 'oracle_query_string';/bin/sqlplus -S -s /nolog <<'INSPECSQL'\nconnect USER/password@XEPDB1_TCPS as SYSDBA\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nINSPECSQL" then
+        stdout_file "test/fixtures/cmd/oracle-result"
+      else
+        raise cmd.inspect
+      end
+    end
+
+    _(resource.resource_skipped?).must_equal false
+    query = resource.query("SELECT NAME AS VALUE FROM v$database;")
+    _(query.size).must_equal 1
+    _(query.row(0).column("value").value).must_equal "ORCL"
+  end
+
+  it "sqlplus Linux with TNS alias and environment variables" do
+    resource = quick_resource(:oracledb_session, :linux,
+      user: "USER",
+      password: "password",
+      tns_alias: "XEPDB1_TCPS",
+      env: {
+        "TNS_ADMIN" => "/opt/oracle/network/admin",
+        "LD_LIBRARY_PATH" => "/opt/oracle/lib",
+      },
+      sqlplus_bin: "/bin/sqlplus") do |cmd|
+        cmd.strip!
+        # Verify the command includes the expected environment variables and connection details
+        if cmd.include?("TNS_ADMIN='/opt/oracle/network/admin'") &&
+            cmd.include?("LD_LIBRARY_PATH='/opt/oracle/lib'") &&
+            cmd.include?("echo 'oracle_query_string';") &&
+            cmd.include?("/bin/sqlplus -S -s /nolog") &&
+            cmd.include?("connect USER/password@XEPDB1_TCPS")
+          stdout_file "test/fixtures/cmd/oracle-result"
+        else
+          raise cmd.inspect
+        end
+      end
+
+    _(resource.resource_skipped?).must_equal false
+    _(resource.env_vars).must_equal({ "TNS_ADMIN" => "/opt/oracle/network/admin", "LD_LIBRARY_PATH" => "/opt/oracle/lib" })
+    query = resource.query("SELECT NAME AS VALUE FROM v$database;")
+    _(query.size).must_equal 1
+    _(query.row(0).column("value").value).must_equal "ORCL"
+  end
+
+  it "builds correct resource_id for TNS alias connection" do
+    resource = quick_resource(:oracledb_session, :linux,
+      user: "USER",
+      password: "password",
+      tns_alias: "XEPDB1_TCPS",
+      sqlplus_bin: "/bin/sqlplus")
+
+    # When using TNS alias, resource_id should show the TNS alias and user
+    _(resource.resource_id).must_equal "XEPDB1_TCPS-USER"
+  end
+
+  it "sqlplus Linux with os_user and TNS alias" do
+    resource = quick_resource(:oracledb_session, :linux,
+      user: "USER",
+      password: "password",
+      tns_alias: "XEPDB1_TCPS",
+      as_os_user: "oracle",
+      env: { "TNS_ADMIN" => "/opt/oracle/network/admin" },
+      sqlplus_bin: "/bin/sqlplus") do |cmd|
+        cmd.strip!
+        # Should use heredoc with connect inside su command
+        _(cmd).must_include "su - oracle"
+        _(cmd).must_include "connect USER/password@XEPDB1_TCPS"
+        _(cmd).must_include "TNS_ADMIN="
+        _(cmd).must_include "/nolog"
+        stdout_file "test/fixtures/cmd/oracle-result"
+      end
+
+    _(resource.resource_skipped?).must_equal false
+    # TNS alias takes precedence in resource_id
+    _(resource.resource_id).must_equal "XEPDB1_TCPS-USER"
+  end
+
+  it "verify TNS alias and env configuration" do
+    resource = quick_resource(:oracledb_session, :linux,
+      user: "system",
+      password: "Oracle123",
+      tns_alias: "XEPDB1_TCPS",
+      env: {
+        "TNS_ADMIN" => "/opt/oracle/client/network/admin",
+        "LD_LIBRARY_PATH" => "/opt/oracle/client/lib",
+        "ORACLE_HOME" => "/opt/oracle/client",
+      })
+
+    _(resource.user).must_equal "system"
+    _(resource.password).must_equal "Oracle123"
+    _(resource.tns_alias).must_equal "XEPDB1_TCPS"
+    _(resource.env_vars).must_be_kind_of Hash
+    _(resource.env_vars["TNS_ADMIN"]).must_equal "/opt/oracle/client/network/admin"
+    _(resource.env_vars["LD_LIBRARY_PATH"]).must_equal "/opt/oracle/client/lib"
+    _(resource.env_vars["ORACLE_HOME"]).must_equal "/opt/oracle/client"
+  end
+
+  it "TNS alias takes precedence over host/port/service" do
+    resource = quick_resource(:oracledb_session, :linux,
+      user: "USER",
+      password: "password",
+      host: "dbserver",
+      port: "1521",
+      service: "ORCL",
+      tns_alias: "XEPDB1_TCPS",
+      sqlplus_bin: "/bin/sqlplus") do |cmd|
+        # Should use TNS alias, not host:port/service
+        _(cmd).must_include "@XEPDB1_TCPS"
+        _(cmd).wont_include "dbserver:1521/ORCL"
+        stdout_file "test/fixtures/cmd/oracle-result"
+      end
+
+    _(resource.resource_skipped?).must_equal false
+  end
+
+  it "handles empty TNS alias gracefully" do
+    resource = quick_resource(:oracledb_session, :linux,
+      user: "USER",
+      password: "password",
+      host: "localhost",
+      service: "ORCL",
+      tns_alias: "", # Empty string
+      sqlplus_bin: "/bin/sqlplus") do |cmd|
+        # Should fall back to host:port/service
+        _(cmd).must_include "localhost:1521/ORCL"
+        _(cmd).wont_include "/nolog"
+        stdout_file "test/fixtures/cmd/oracle-result"
+      end
+
+    _(resource.resource_skipped?).must_equal false
+  end
+
+  # Test TNS + db_role + su_user - db_role should be excluded from connect string when su_user is present
+  it "sqlplus Linux with TNS alias, db_role, and su_user excludes db_role from connect string" do
+    resource = quick_resource(:oracledb_session, :linux,
+      user: "USER",
+      password: "password",
+      tns_alias: "XEPDB1_TCPS",
+      as_db_role: "SYSDBA",
+      as_os_user: "oracle",
+      sqlplus_bin: "/bin/sqlplus") do |cmd|
+        cmd.strip!
+        # Should use su with oracle user
+        _(cmd).must_include "su - oracle"
+        # Connect string should NOT include "as SYSDBA" when su_user is present
+        _(cmd).must_include "connect USER/password@XEPDB1_TCPS\n"
+        _(cmd).wont_include "as SYSDBA"
+        _(cmd).must_include "/nolog"
+        stdout_file "test/fixtures/cmd/oracle-result"
+      end
+
+    _(resource.resource_skipped?).must_equal false
+    _(resource.resource_id).must_equal "XEPDB1_TCPS-USER"
+  end
+
+  # Test TNS + db_role + env - combining all three features
+  it "sqlplus Linux with TNS alias, db_role, and environment variables" do
+    resource = quick_resource(:oracledb_session, :linux,
+      user: "USER",
+      password: "password",
+      tns_alias: "XEPDB1_TCPS",
+      as_db_role: "SYSDBA",
+      env: {
+        "TNS_ADMIN" => "/opt/oracle/network/admin",
+        "ORACLE_HOME" => "/opt/oracle",
+      },
+      sqlplus_bin: "/bin/sqlplus") do |cmd|
+        cmd.strip!
+        # Should include environment variables
+        _(cmd).must_include "TNS_ADMIN='/opt/oracle/network/admin'"
+        _(cmd).must_include "ORACLE_HOME='/opt/oracle'"
+        # Should include db_role in connect string (no su_user)
+        _(cmd).must_include "connect USER/password@XEPDB1_TCPS as SYSDBA"
+        _(cmd).must_include "/nolog"
+        stdout_file "test/fixtures/cmd/oracle-result"
+      end
+
+    _(resource.resource_skipped?).must_equal false
+    _(resource.resource_id).must_equal "XEPDB1_TCPS-USER"
+  end
+
+  # Test special characters in password
+  it "sqlplus Linux with TNS alias and special characters in password" do
+    resource = quick_resource(:oracledb_session, :linux,
+      user: "USER",
+      password: "P@ssw0rd!#$%",
+      tns_alias: "XEPDB1_TCPS",
+      sqlplus_bin: "/bin/sqlplus") do |cmd|
+        cmd.strip!
+        # Password with special characters should be included in connect string
+        if cmd.include?("connect USER/P@ssw0rd!#$%@XEPDB1_TCPS") &&
+            cmd.include?("/nolog")
+          stdout_file "test/fixtures/cmd/oracle-result"
+        else
+          raise cmd.inspect
+        end
+      end
+
+    _(resource.resource_skipped?).must_equal false
+    query = resource.query("SELECT NAME AS VALUE FROM v$database;")
+    _(query.size).must_equal 1
+    _(query.row(0).column("value").value).must_equal "ORCL"
+  end
 end

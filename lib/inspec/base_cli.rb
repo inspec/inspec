@@ -165,6 +165,16 @@ module Inspec
         desc: "A list of paths to the ssh config file, e.g ~/.ssh/config or /etc/ssh/ssh_config."
       option :podman_url, type: :string,
         desc: "Provides the path to the Podman API endpoint. Defaults to unix:///run/user/$UID/podman/podman.sock for rootless container, unix:///run/podman/podman.sock for rootful container (for this you need to execute inspec as root user)."
+      option :socks_proxy, type: :string,
+         desc: "SOCKS5H proxy URL to tunnel the WinRM connection (e.g., socks5h://proxy-host:1080)."
+      option :socks_user, type: :string,
+         desc: "Username for authenticating with the SOCKS5 proxy."
+      option :socks_password, type: :string, lazy_default: -1,
+         desc: "Password for authenticating with the SOCKS5 proxy."
+      option :kerberos_realm, type: :string,
+         desc: "Kerberos realm used for authentication."
+      option :kerberos_service, type: :string,
+         desc: "Kerberos service principal name (e.g., HTTP, HOST)."
     end
 
     def self.profile_options
@@ -370,7 +380,7 @@ module Inspec
     # get the log level
     # DEBUG < INFO < WARN < ERROR < FATAL < UNKNOWN
     def get_log_level(level)
-      valid = %w{debug info warn error fatal}
+      valid = %w{trace debug info warn error fatal}
 
       if valid.include?(level)
         l = level
@@ -378,7 +388,7 @@ module Inspec
         l = "info"
       end
 
-      Logger.const_get(l.upcase)
+      Mixlib::Log.const_get(l.upcase)
     end
 
     def pretty_handle_exception(exception)
@@ -389,6 +399,9 @@ module Inspec
       when Inspec::InvalidProfileSignature
         $stderr.puts exception.message
         Inspec::UI.new.exit(:bad_signature)
+      when Inspec::Exceptions::GemDependencyNotFound
+        $stderr.puts exception.message
+        Inspec::UI.new.exit(:gem_dependency_not_found)
       when Inspec::Error
         $stderr.puts exception.message
         exit(1)

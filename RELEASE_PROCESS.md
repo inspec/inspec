@@ -161,8 +161,6 @@ inspec/inspec:main performed the following actions for inspec 5.21.29 (stable) (
 • Notified Slack channels of the artifact_published event
 ```
 
-Among other things, this promotion automatically generates [release notes](https://github.com/inspec/inspec/blob/main/.expeditor/publish-release-notes.sh) and [publishes them](https://github.com/inspec/inspec/blob/main/.expeditor/announce-release.sh) to Discourse.
-
 ### Update chef/homebrew-chef
 
 The release of InSpec will automatically create a PR to bump InSpec in https://github.com/chef/homebrew-chef

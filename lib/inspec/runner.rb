@@ -1,4 +1,6 @@
 # copyright: 2015, Dominik Richter
+# Copyright © 2015-2025 Progress Software Corporation and/or its subsidiaries or affiliates.
+# All Rights Reserved.
 
 require "forwardable" unless defined?(Forwardable)
 require "uri" unless defined?(URI)
@@ -115,7 +117,8 @@ module Inspec
         next unless profile.supports_platform?
 
         write_lockfile(profile) if @create_lockfile
-        profile.locked_dependencies
+        # TODO: InSpec 8: Replace with Profile OnLoad event handling
+        profile.locked_dependencies # Only need to do this once, this recurses down
         profile.load_gem_dependencies
         profile_context = profile.load_libraries
 
@@ -125,6 +128,9 @@ module Inspec
              " on unsupported platform: '#{@backend.platform.name}/#{@backend.platform.release}'."
             next
           end
+          # TODO: InSpec 8: Replace with Profile OnLoad event handling
+          requirement.profile.load_gem_dependencies
+          requirement.profile.load_libraries
           @test_collector.add_profile(requirement.profile)
         end
 

@@ -12,6 +12,9 @@ require "rubygems/uninstaller"
 require "rubygems/remote_fetcher"
 
 require "inspec/plugin/v2/filter"
+require "inspec/plugin/v2/concerns/gem_spec_helper"
+
+require "inspec/plugin/v2/gem_source_manager"
 
 module Inspec::Plugin::V2
   # Handles all actions modifying the user's plugin set:
@@ -23,6 +26,7 @@ module Inspec::Plugin::V2
   class Installer
     include Singleton
     extend Forwardable
+    include Inspec::Plugin::V2::GemSpecHelper
 
     Gem.configuration["verbose"] = false
 
@@ -43,6 +47,10 @@ module Inspec::Plugin::V2
 
     def plugin_version_installed?(name, version)
       list_installed_plugin_gems.detect { |spec| spec.name == name && spec.version == Gem::Version.new(version) }
+    end
+
+    def ensure_installed(name)
+      plugin_installed?(name) || install(name)
     end
 
     # Installs a plugin. Defaults to assuming the plugin provided is a gem, and will try to install
@@ -213,7 +221,10 @@ module Inspec::Plugin::V2
         if opts.key?(:version) && plugin_version_installed?(plugin_name, opts[:version])
           raise InstallError, "#{plugin_name} version #{opts[:version]} is already installed."
         else
-          raise InstallError, "#{plugin_name} is already installed. Use 'inspec plugin update' to change version."
+          # Do not redirect to plugin update when using gem based plugin
+          unless gem_based_plugin?(opts)
+            raise InstallError, "#{plugin_name} is already installed. Use 'inspec plugin update' to change version."
+          end
         end
       end
 
@@ -274,7 +285,16 @@ module Inspec::Plugin::V2
     #===================================================================#
 
     def install_from_path(requested_plugin_name, opts)
-      # Nothing to do here; we will later update the plugins file with the path.
+      return unless gem_based_plugin?(opts)
+
+      local_gem_path = opts[:path]
+      Inspec::Log.debug("Installing #{requested_plugin_name} from path #{local_gem_path}")
+      raise InstallError, "Gem File not found: #{local_gem_path}" unless File.exist?(local_gem_path)
+
+      gem_installer = Gem::Installer.at(local_gem_path, install_dir: gem_path, ignore_dependencies: true, document: [])
+      gem_installer.install
+
+      Inspec::Log.debug("Installed gem from path: #{local_gem_path} to #{gem_path}")
     end
 
     def install_from_gem_file(requested_plugin_name, opts)
@@ -296,18 +316,21 @@ module Inspec::Plugin::V2
       install_gem_to_plugins_dir(plugin_dependency, [requested_local_gem_set])
     end
 
-    def install_from_remote_gems(requested_plugin_name, opts)
+    def install_from_remote_gems(requested_plugin_name, opts, source_manager: GemSourceManager.instance)
       plugin_dependency = Gem::Dependency.new(requested_plugin_name, opts[:version] || "> 0")
+      source_manager.add_chef_rubygems_server # ensure CHEF RUBYGEMS server is added to the source
 
-      # BestSet is rubygems.org API + indexing, APISet is for custom sources
-      sources = if opts[:source]
-                  Gem::Resolver::APISet.new(URI.join(opts[:source] + "/api/v1/dependencies"))
-                else
-                  Gem::Resolver::BestSet.new
-                end
+      # This adds custom gem sources to the memoized `Gem.Sources` for this specific run
+      # Note: This will not make any change to the environment Gem source list and
+      # in fact will consider all of the environment Gem sources and custom gem sources to resolve deps
+      source_manager.add(opts[:source])
+
+      # BestSet is rubygems.org API + indexing by default
+      # `Gem.sources` is injected as a dependency implicitly while BestSet is initialized
+      sources = Gem::Resolver::BestSet.new
 
       begin
-        install_gem_to_plugins_dir(plugin_dependency, [sources], opts[:update_mode])
+        install_gem_to_plugins_dir(plugin_dependency, [sources], opts[:update_mode], opts: opts)
       rescue Gem::RemoteFetcher::FetchError => gem_ex
         # TODO: Give a hint if the host was not resolvable or a 404 occured
         ex = Inspec::Plugin::V2::InstallError.new(gem_ex.message)
@@ -318,13 +341,16 @@ module Inspec::Plugin::V2
 
     def install_gem_to_plugins_dir(new_plugin_dependency, # rubocop: disable Metrics/AbcSize
       extra_request_sets = [],
-      update_mode = false)
+      update_mode = false, opts: {})
 
       # Get a list of all the gems available to us.
       gem_to_force_update = update_mode ? new_plugin_dependency.name : nil
       set_available_for_resolution = build_gem_request_universe(extra_request_sets, gem_to_force_update)
 
       # Solve the dependency (that is, find a way to install the new plugin and anything it needs)
+      # [WARN]: Gem::RequestSet cannot resolve from multiple directories
+      # So all dependent gems will be resolved to the GEM_HOME/Gem.default_dir directory
+      # assuming everything will be installed in the same dir
       request_set = Gem::RequestSet.new(new_plugin_dependency)
 
       begin
@@ -338,21 +364,37 @@ module Inspec::Plugin::V2
 
       # Activate all current plugins before trying to activate the new one
       loader.list_managed_gems.each do |spec|
-        next if spec.name == new_plugin_dependency.name && update_mode
+        # Skip in case of update mode
+        # Skip in case using a gem based plugin
+        next if spec.name == new_plugin_dependency.name && (update_mode || gem_based_plugin?(opts))
 
-        spec.activate
+        # activate the requested gemspec from the Gem::RequestSet
+        spec.activate unless loaded_recent_most_version_of?(spec)
       end
 
       # Make sure we remove any previously loaded gem on update
-      Gem.loaded_specs.delete(new_plugin_dependency.name) if update_mode
+      # Make sure we remove any previously loaded gem when trying to use resource pack gem
+      # Gem based plugin when updated need to deactivate older version of gem
+      Gem.loaded_specs.delete(new_plugin_dependency.name) if update_mode || gem_based_plugin?(opts)
 
       # Test activating the solution. This makes sure we do not try to load two different versions
       # of the same gem on the stack or a malformed dependency.
       begin
         solution.each do |activation_request|
-          unless activation_request.full_spec.activated?
-            activation_request.full_spec.activate
-          end
+          requested_gemspec = activation_request.full_spec
+          next if requested_gemspec.activated?
+
+          # The specs at this point are pointed to GEM_HOME/Gem.default_dir directory
+          # because of the resolved set's assumption that we will install Gems in the same directory
+          # In many cases, RubyGems has already loaded gems from default dir
+          # Hence at this point it is really only a sanity check
+          # And if the requested_gemspec_file has not been downloaded in this default dir do not activate it
+          # Activation will be taken care after the downloads
+          requested_gemspec_file = File.join(requested_gemspec.gem_dir, "#{requested_gemspec.name}.gemspec")
+          next unless File.exist?(requested_gemspec_file) || File.exist?(requested_gemspec.spec_file)
+
+          # activate the requested gemspec from the Gem::RequestSet
+          requested_gemspec.activate unless loaded_recent_most_version_of?(requested_gemspec)
         end
       rescue Gem::LoadError => gem_ex
         ex = Inspec::Plugin::V2::InstallError.new(gem_ex.message)
@@ -375,7 +417,7 @@ module Inspec::Plugin::V2
           File.write(path_inside_source, spec.to_ruby)
         end
       end
-
+      loader.activate_managed_gems_for_plugin(new_plugin_dependency.name)
       # Locate the GemVersion for the new dependency and return it
       solution.detect { |g| g.name == new_plugin_dependency.name }.version
     end
@@ -535,6 +577,11 @@ module Inspec::Plugin::V2
       conf_file.save
 
       conf_file
+    end
+
+    def gem_based_plugin?(opts)
+      # Param passed by gem fetcher while installing a new gem plugin dependency.
+      !!opts[:gem]
     end
   end
 end
