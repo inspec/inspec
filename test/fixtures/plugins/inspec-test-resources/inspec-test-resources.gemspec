@@ -29,6 +29,8 @@ Gem::Specification.new do |spec|
     README.md inspec-test-resources.gemspec Gemfile inspec.yml
   } + Dir.glob(
     "lib/**/*", File::FNM_DOTMATCH
+  ).reject { |f| File.directory?(f) } + Dir.glob(
+    "libraries/**/*", File::FNM_DOTMATCH
   ).reject { |f| File.directory?(f) }
   spec.require_paths = ["lib"]
 
