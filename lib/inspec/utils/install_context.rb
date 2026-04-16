@@ -6,7 +6,6 @@ module Inspec
     def guess_install_context
       # These all work by simple path recognition
       return "chef-workstation" if chef_workstation_install?
-      return "omnibus" if omnibus_install?
       return "chefdk" if chefdk_install?
       return "habitat" if habitat_install?
 
@@ -34,10 +33,6 @@ module Inspec
 
     def habitat_install?
       !!src_root.match(%r{hab/pkgs/chef/inspec/\d+\.\d+\.\d+/\d{14}})
-    end
-
-    def omnibus_install?
-      !!(src_root.start_with?("/opt/inspec") || src_root.start_with?("C:/opscode/inspec"))
     end
 
     def rubygem_install?
