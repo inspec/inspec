@@ -70,6 +70,5 @@ Source code obtained from the Chef GitHub repository is made available under Apa
 
   spec.add_dependency "train-core", "~> 3.16", ">= 3.16.1"
   # Minimum major version 1 is required for Chef licensing telemetry
-
   spec.add_dependency "chef-licensing", ">= 1.2.0"
 end

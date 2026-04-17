@@ -55,7 +55,6 @@ catch {
 finally {
   Write-Host ":habitat: I think I have the version I need to build."
 }
-
 # Set HAB_ORIGIN after Habitat installation
 Write-Host "HAB_ORIGIN set to 'ci' after installation."
 $env:HAB_ORIGIN = 'ci'

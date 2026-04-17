@@ -517,7 +517,6 @@ All tasks should follow this prompt-based workflow:
      - Check **Common File Locations** to understand where different types of code should go
      - Review **Files and Areas to Avoid Modifying** before making changes
 2. **Progress Updates**: After each significant change, provide summary
-
 3. **Prompt**: **Implementation Complete**. Next step: Create unit tests. Other steps remaining: Testing → Committing the code → PR Creation → Update JIRA Ticket. Do you want to continue with creating tests?"
 
 #### Step 3: Testing
@@ -529,7 +528,6 @@ All tasks should follow this prompt-based workflow:
    - Ensure good test coverage
    - Skip the test cases if the change is a documentation change.
 2. **Run Tests**: Execute tests to verify functionality if test cases were added
-
 3. **Prompt**: **Tests Complete**. Next step: Committing the code. Other steps remaining: Committing the code → PR Creation → Update JIRA Ticket. Do you want to continue with committing the code?"
 
 #### Step 4: Committing the code
