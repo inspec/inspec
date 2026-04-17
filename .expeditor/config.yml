@@ -25,12 +25,6 @@ pipelines:
      - EXPIRE_CACHE: 1
      - IGNORE_ARTIFACTORY_RUBY_PROXY: true # Artifactory is throwing 500's when downloading some gems like ffi.
      - BUNDLE_GITHUB__COM: "x-access-token:$GITHUB_TOKEN" # Required to fetch private GitHub gem sources in omnibus/Gemfile
-     # Git 2.32+ env-based config to rewrite GitHub HTTPS URLs with token credentials.
-     # Required on Windows build agents where git has no pre-configured GitHub credentials,
-     # so Bundler can clone private git-sourced gems (e.g. omnibus-private) via HTTPS.
-     - GIT_CONFIG_COUNT: "1"
-     - GIT_CONFIG_KEY_0: "url.https://x-access-token:$GITHUB_TOKEN@github.com/.insteadOf"
-     - GIT_CONFIG_VALUE_0: "https://github.com/"
  - omnibus/adhoc:
     definition: .expeditor/release.omnibus.yml
     env:
@@ -38,12 +32,6 @@ pipelines:
      - EXPIRE_CACHE: 1
      - IGNORE_ARTIFACTORY_RUBY_PROXY: true # Artifactory is throwing 500's when downloading some gems like ffi.
      - BUNDLE_GITHUB__COM: "x-access-token:$GITHUB_TOKEN" # Required to fetch private GitHub gem sources in omnibus/Gemfile
-     # Git 2.32+ env-based config to rewrite GitHub HTTPS URLs with token credentials.
-     # Required on Windows build agents where git has no pre-configured GitHub credentials,
-     # so Bundler can clone private git-sourced gems (e.g. omnibus-private) via HTTPS.
-     - GIT_CONFIG_COUNT: "1"
-     - GIT_CONFIG_KEY_0: "url.https://x-access-token:$GITHUB_TOKEN@github.com/.insteadOf"
-     - GIT_CONFIG_VALUE_0: "https://github.com/"
  - verify:
     description: Pull Request validation tests
     public: true
