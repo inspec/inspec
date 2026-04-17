@@ -69,8 +69,7 @@ module Inspec
 
         suffix += (" (used at " + opts[:used_at_stack_frame].path + ":" + opts[:used_at_stack_frame].lineno.to_s + ")") if opts.key?(:used_at_stack_frame)
 
-        keyword = group.name.to_s == "core_resource_moved_to_rp" ? "CHANGE NOTICE: " : "DEPRECATION: "
-        keyword + prefix + message + suffix
+        "DEPRECATION: " + prefix + message + suffix
       end
 
       def called_from_control?
