@@ -46,7 +46,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (7.2.3)
+    activesupport (7.2.3.1)
       base64
       benchmark (>= 0.3)
       bigdecimal
@@ -55,7 +55,7 @@ GEM
       drb
       i18n (>= 1.6, < 2)
       logger (>= 1.4.2)
-      minitest (>= 5.1)
+      minitest (>= 5.1, < 6)
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
     addressable (2.8.7)
@@ -324,20 +324,18 @@ GEM
       ms_rest_azure (~> 0.12.0)
     base64 (0.3.0)
     bcrypt_pbkdf (1.1.2)
-    bcrypt_pbkdf (1.1.2-arm64-darwin)
-    bcrypt_pbkdf (1.1.2-x64-mingw-ucrt)
-    bcrypt_pbkdf (1.1.2-x86_64-darwin)
     benchmark (0.5.0)
-    bigdecimal (4.0.1)
+    bigdecimal (4.1.1)
     bson (5.2.0)
     builder (3.3.0)
-    byebug (12.0.0)
-    chef-config (18.8.54)
+    byebug (11.1.3)
+    chef-config (19.2.12)
       addressable
-      chef-utils (= 18.8.54)
+      chef-utils (= 19.2.12)
       fuzzyurl
       mixlib-config (>= 2.2.12, < 4.0)
       mixlib-shellout (>= 2.0, < 4.0)
+      racc
       tomlrb (~> 1.2)
     chef-gyoku (1.5.0)
       builder (>= 2.1.2)
@@ -345,7 +343,7 @@ GEM
     chef-telemetry (1.1.1)
       chef-config
       concurrent-ruby (~> 1.0)
-    chef-utils (18.8.54)
+    chef-utils (19.2.12)
       concurrent-ruby
     chef-winrm (2.5.0)
       builder (>= 2.1.2)
@@ -415,7 +413,7 @@ GEM
     ed25519 (1.4.0)
     erubi (1.13.1)
     excon (0.112.0)
-    faraday (1.10.4)
+    faraday (1.10.5)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
@@ -442,11 +440,10 @@ GEM
     faraday-net_http_persistent (1.2.0)
     faraday-patron (1.0.0)
     faraday-rack (1.0.0)
-    faraday-retry (1.0.3)
+    faraday-retry (1.0.4)
     faraday_middleware (1.2.1)
       faraday (~> 1.0)
     ffi (1.16.3)
-    ffi (1.16.3-x64-mingw-ucrt)
     ffi-win32-extensions (1.0.4)
       ffi
     fuzzyurl (0.9.0)
@@ -481,12 +478,12 @@ GEM
     gssapi (1.3.1)
       ffi (>= 1.0.1)
     hana (1.3.7)
-    hashdiff (1.2.1)
+    hashdiff (1.0.1)
     hashie (5.1.0)
       logger
     highline (3.1.2)
       reline
-    http-cookie (1.1.0)
+    http-cookie (1.1.4)
       domain_name (~> 0.5)
     httpclient (2.9.0)
       mutex_m
@@ -498,7 +495,7 @@ GEM
       term-ansicolor (>= 1.2.2)
     io-console (0.8.2)
     jmespath (1.6.2)
-    json (2.18.0)
+    json (2.19.3)
     json_schemer (2.5.0)
       bigdecimal
       hana (~> 1.3)
@@ -508,16 +505,15 @@ GEM
       multi_json
     jwt (2.10.2)
       base64
-    k8s-ruby (0.17.2)
-      base64
+    k8s-ruby (0.16.0)
       dry-configurable
       dry-struct
       dry-types
       excon (~> 0.71)
-      hashdiff (~> 1.0)
+      hashdiff (~> 1.0.0)
       jsonpath (~> 1.1)
-      recursive-open-struct (~> 1.1, >= 1.1.3)
-      yajl-ruby (~> 1.4)
+      recursive-open-struct (~> 1.1.3)
+      yajl-ruby (~> 1.4.0)
       yaml-safe_load_stream3
     license-acceptance (2.1.13)
       pastel (~> 0.7)
@@ -533,6 +529,7 @@ GEM
       rake
     method_source (1.1.0)
     mini_mime (1.1.5)
+    mini_portile2 (2.8.9)
     minitest (5.15.0)
     minitest-sprint (1.3.0)
       path_expander (~> 1.1)
@@ -541,15 +538,15 @@ GEM
       tomlrb
     mixlib-log (3.1.2.1)
       ffi (< 1.17.0)
-    mixlib-shellout (3.3.9)
+    mixlib-shellout (3.4.10)
       chef-utils
-    mixlib-shellout (3.3.9-x64-mingw-ucrt)
+    mixlib-shellout (3.4.10-x64-mingw-ucrt)
       chef-utils
       ffi-win32-extensions (~> 1.0.3)
       win32-process (~> 0.9)
       wmi-lite (~> 1.0)
     mize (0.6.1)
-    mocha (3.0.1)
+    mocha (3.1.0)
       ruby2_keywords (>= 0.0.5)
     mongo (2.21.3)
       base64
@@ -573,55 +570,50 @@ GEM
       timeout
     net-scp (4.1.0)
       net-ssh (>= 2.6.5, < 8.0.0)
-    net-ssh (7.3.0)
-    nokogiri (1.17.1-arm64-darwin)
+    net-ssh (7.3.2)
+    nokogiri (1.17.1)
+      mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.17.1-x64-mingw-ucrt)
-      racc (~> 1.4)
-    nokogiri (1.17.1-x86_64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.17.1-x86_64-linux)
-      racc (~> 1.4)
-    nori (2.7.0)
+    nori (2.7.1)
       bigdecimal
     options (2.3.2)
     os (1.1.4)
     ostruct (0.6.3)
-    parallel (1.27.0)
-    parser (3.3.10.0)
+    parallel (1.28.0)
+    parser (3.3.11.1)
       ast (~> 2.4.1)
       racc
     parslet (2.0.0)
     pastel (0.8.0)
       tty-color (~> 0.5)
     path_expander (1.1.3)
-    prism (1.7.0)
+    prism (1.9.0)
     progress_bar (1.3.4)
       highline (>= 1.6)
       options (~> 2.3.0)
-    pry (0.15.2)
+    pry (0.16.0)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    pry-byebug (3.11.0)
-      byebug (~> 12.0)
-      pry (>= 0.13, < 0.16)
+      reline (>= 0.6.0)
+    pry-byebug (3.8.0)
+      byebug (~> 11.0)
+      pry (~> 0.10)
     public_suffix (6.0.2)
     racc (1.8.1)
     rainbow (3.1.1)
-    rake (13.3.1)
+    rake (13.4.2)
     rb-readline (0.5.5)
     readline (0.0.4)
       reline
-    recursive-open-struct (1.3.1)
-      ostruct
-    regexp_parser (2.11.3)
+    recursive-open-struct (1.1.3)
+    regexp_parser (2.12.0)
     reline (0.6.3)
       io-console (~> 0.5)
     representable (3.2.0)
       declarative (< 0.1.0)
       trailblazer-option (>= 0.1.1, < 0.2.0)
       uber (< 0.2.0)
-    retriable (3.1.2)
+    retriable (3.4.1)
     rexml (3.4.4)
     rspec (3.13.2)
       rspec-core (~> 3.13.0)
@@ -635,10 +627,10 @@ GEM
     rspec-its (2.0.0)
       rspec-core (>= 3.13.0)
       rspec-expectations (>= 3.13.0)
-    rspec-mocks (3.13.7)
+    rspec-mocks (3.13.8)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-support (3.13.6)
+    rspec-support (3.13.7)
     rubocop (1.25.1)
       parallel (~> 1.10)
       parser (>= 3.1.0.0)
@@ -648,9 +640,9 @@ GEM
       rubocop-ast (>= 1.15.1, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
-    rubocop-ast (1.48.0)
+    rubocop-ast (1.49.1)
       parser (>= 3.3.7.2)
-      prism (~> 1.4)
+      prism (~> 1.7)
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
     rubyntlm (0.6.5)
@@ -682,8 +674,8 @@ GEM
       tins (~> 1)
     thor (1.4.0)
     timeliness (0.3.10)
-    timeout (0.6.0)
-    tins (1.51.0)
+    timeout (0.6.1)
+    tins (1.53.0)
       bigdecimal
       mize (~> 0.6)
       readline
@@ -799,8 +791,8 @@ GEM
       net-scp (>= 1.2, < 5.0)
       net-ssh (>= 2.9, < 8.0)
     train-habitat (0.2.22)
-    train-kubernetes (0.1.7)
-      k8s-ruby (~> 0.10)
+    train-kubernetes (0.2.1)
+      k8s-ruby (~> 0.16.0)
       train (~> 3.0)
     train-winrm (0.4.3)
       chef-winrm (>= 2.4.4, < 3.0)
@@ -829,10 +821,9 @@ GEM
       concurrent-ruby (~> 1.0)
     uber (0.1.0)
     unf_ext (0.0.8.2)
-    unf_ext (0.0.8.2-x64-mingw-ucrt)
     unicode-display_width (2.6.0)
     unicode_utils (1.4.0)
-    webmock (3.26.1)
+    webmock (3.26.2)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -845,12 +836,11 @@ GEM
     zeitwerk (2.6.18)
 
 PLATFORMS
-  arm64-darwin-21
-  arm64-darwin-23
-  arm64-darwin-24
+  x64-mingw
   x64-mingw-ucrt
+  x64-mingw32
+  x86-mingw32
   x86_64-darwin-23
-  x86_64-linux
 
 DEPENDENCIES
   appbundler
@@ -884,4 +874,4 @@ DEPENDENCIES
   zeitwerk (~> 2.6.0, < 2.7)
 
 BUNDLED WITH
-   2.3.3
+   2.3.27
