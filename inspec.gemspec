@@ -32,21 +32,17 @@ Source code obtained from the Chef GitHub repository is made available under Apa
 
   spec.add_dependency "inspec-core", "= #{Inspec::VERSION}"
 
-  spec.add_dependency "train", "~> 3.10"
+  spec.add_dependency "train", "~> 3.16", ">= 3.16.1"
   spec.add_dependency "rake"
-
   # progress bar streaming reporter plugin support
   spec.add_dependency "progress_bar", "~> 1.3.3"
 
   # Used for Azure profile until integrated into train
-  spec.add_dependency "faraday_middleware", ">= 0.12.2", "< 1.1"
+  spec.add_dependency "faraday_middleware", "~> 1.2", ">= 1.2.1"
 
   # Train plugins we ship with InSpec
   spec.add_dependency "train-habitat",    "~> 0.1"
   spec.add_dependency "train-aws",        "~> 0.2"
-  spec.add_dependency "train-winrm",      "~> 0.2.17"
-  spec.add_dependency "train-kubernetes", "~> 0.1"
-
-  spec.add_dependency "mongo", "= 2.13.2" # 2.14 introduces a broken symlink in mongo-2.14.0/spec/support/ocsp
-
+  spec.add_dependency "train-winrm",      "~> 0.4.0" # socks5h changes in 0.4.0
+  spec.add_dependency "train-kubernetes", ">= 0.3.1"
 end

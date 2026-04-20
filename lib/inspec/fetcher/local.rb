@@ -10,7 +10,7 @@ module Inspec::Fetcher
       if target.is_a?(String)
         local_path = resolve_from_string(target)
         new(local_path) if local_path
-      elsif target.is_a?(Hash)
+      elsif target.is_a?(Hash) && !target.key?(:gem)
         local_path = resolve_from_hash(target)
         new(local_path, target) if local_path
       end

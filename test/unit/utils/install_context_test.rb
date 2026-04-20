@@ -4,7 +4,7 @@ require "inspec/utils/install_context"
 
 def assert_install_contexts(test_obj, test_expected_to_be_true, also_rubygem)
   should_be_false = %w{chef-workstation chefdk docker
-                     habitat omnibus rubygem source}
+                     habitat rubygem source}
   should_be_false -= [test_expected_to_be_true]
   should_be_false = should_be_false.map { |m| "#{m}_install?".tr("-", "_").to_sym }
   should_be_false -= [:rubygem_install?] if also_rubygem
@@ -80,7 +80,6 @@ describe Inspec::InstallContextHelpers do
       {
         "chef-workstation" => "chef-workstation",
         "chefdk" => "chef-dk",
-        "omnibus" => "inspec",
       }.each do |inst_mode, inst_subdir|
         describe "when it looks like a #{inst_mode} installation" do
           it "should properly detect a #{os_name} #{inst_mode} install" do

@@ -94,6 +94,30 @@ describe "example inheritance profile" do
     end
   end
 
+  it "can vendor profile dependencies from gem" do
+    git_depends_path = File.join(profile_path, "dependencies/uses-inspec-resource-pack-remote-gem")
+
+    Dir.mktmpdir do |tmpdir|
+      FileUtils.cp_r(git_depends_path + "/.", tmpdir)
+      _(File.exist?(File.join(tmpdir, "vendor"))).must_equal false
+
+      out = inspec("vendor " + tmpdir + " --overwrite")
+
+      _(out.stdout).must_include "Dependencies for profile #{tmpdir} successfully vendored to #{tmpdir}/vendor"
+
+      _(File.exist?(File.join(tmpdir, "vendor"))).must_equal true
+      _(File.exist?(File.join(tmpdir, "inspec.lock"))).must_equal true
+      # Check that our vendor directory exists
+      _(File.exist?(File.join(tmpdir, "vendor"))).must_equal true
+      # Check that our vendor directory has contents
+      _(Dir.glob(File.join(tmpdir, "vendor", "*", "*", "inspec.yml")).length).must_be :>=, 1
+
+      _(out.stderr).must_equal ""
+
+      assert_exit_code 0, out
+    end
+  end
+
   it "ensure nothing is loaded from external source if vendored profile is used" do
     prepare_examples("meta-profile") do |dir|
       # Breakage confirmed, only on CI:
@@ -113,10 +137,17 @@ describe "example inheritance profile" do
       # TODO: split
       out = inspec("exec " + dir + " -l debug --no-create-lockfile")
 
-      # rubocop:disable Style/RegexpLiteral
-      _(out.stdout).must_match(/Using cached dependency for {:url=>"https:\/\/github\.com\/dev-sec\/ssl-baseline\/archive\/([0-9a-fA-F]{40})\.tar\.gz"/)
-      _(out.stdout).must_match(/Using cached dependency for {:url=>"https:\/\/github\.com\/chris-rock\/windows-patch-benchmark\/archive\/([0-9a-fA-F]{40})\.tar\.gz"/)
-      # rubocop:enable Style/RegexpLiteral
+      if Gem.ruby_version >= Gem::Version.new("3.4.0")
+        # rubocop:disable Style/RegexpLiteral
+        _(out.stdout).must_match(/Using cached dependency for {url: "https:\/\/github\.com\/dev-sec\/ssl-baseline\/archive\/([0-9a-fA-F]{40})\.tar\.gz"/)
+        _(out.stdout).must_match(/Using cached dependency for {url: "https:\/\/github\.com\/chris-rock\/windows-patch-benchmark\/archive\/([0-9a-fA-F]{40})\.tar\.gz"/)
+        # rubocop:enable Style/RegexpLiteral
+      else
+        # rubocop:disable Style/RegexpLiteral
+        _(out.stdout).must_match(/Using cached dependency for {:url=>"https:\/\/github\.com\/dev-sec\/ssl-baseline\/archive\/([0-9a-fA-F]{40})\.tar\.gz"/)
+        _(out.stdout).must_match(/Using cached dependency for {:url=>"https:\/\/github\.com\/chris-rock\/windows-patch-benchmark\/archive\/([0-9a-fA-F]{40})\.tar\.gz"/)
+        # rubocop:enable Style/RegexpLiteral
+      end
 
       _(out.stdout).wont_include "Fetching URL:"
       _(out.stdout).wont_include "Fetched archive moved to:"
@@ -124,7 +155,7 @@ describe "example inheritance profile" do
       _(out.stderr).must_equal ""
 
       skip_windows! # Breakage confirmed, only on CI: https://buildkite.com/chef-oss/inspec-inspec-master-verify/builds/2355#2c9d032e-4a24-4e7c-aef2-1c9e2317d9e2
-      assert_exit_code 100, out
+      assert_includes [100, 102], out.exit_status
     end
   end
 

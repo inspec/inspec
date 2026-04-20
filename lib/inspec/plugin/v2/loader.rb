@@ -2,6 +2,7 @@ require "inspec/log"
 require "inspec/version"
 require "inspec/plugin/v2/config_file"
 require "inspec/plugin/v2/filter"
+require "inspec/plugin/v2/concerns/gem_spec_helper"
 
 module Inspec::Plugin::V2
   class Loader
@@ -10,6 +11,7 @@ module Inspec::Plugin::V2
     # For {inspec|train}_plugin_name?
     include Inspec::Plugin::V2::FilterPredicates
     extend Inspec::Plugin::V2::FilterPredicates
+    include Inspec::Plugin::V2::GemSpecHelper
 
     def initialize(options = {})
       @options = options
@@ -68,7 +70,9 @@ module Inspec::Plugin::V2
             require plugin_details.entry_point
           else
             load_path = plugin_details.entry_point
-            load_path += ".rb" unless plugin_details.entry_point.end_with?(".rb")
+            next if load_path.end_with?(".gem") # local resource pack's path will have gem path
+
+            load_path += ".rb" unless load_path.end_with?(".rb")
             load load_path
           end
           plugin_details.loaded = true
@@ -157,6 +161,33 @@ module Inspec::Plugin::V2
       self.class.list_managed_gems
     end
 
+    def self.find_gem_directory(gem_name, version = nil)
+      selected_gemspec = find_gemspec_of(gem_name, version)
+      selected_gemspec&.full_gem_path
+    end
+
+    def self.find_gemspec_directory(gem_name, version = nil)
+      selected_gemspec = find_gemspec_of(gem_name, version)
+      selected_gemspec&.loaded_from
+    end
+
+    def self.find_gemspec_of(gem_name, version = nil)
+      version = Gem::Version.new(version) if version && !version.is_a?(Gem::Version)
+
+      list_managed_gems
+        .select { |g| g.name == gem_name }
+        .sort_by(&:version)
+        .yield_self { |gems| version ? gems.find { |g| g.version == version } : gems.last }
+    end
+
+    def find_gemspec_directory(gem_name, version = nil)
+      self.class.find_gemspec_directory(gem_name, version)
+    end
+
+    def find_gem_directory(gem_name, version = nil)
+      self.class.find_gem_directory(gem_name, version)
+    end
+
     # Lists all plugin gems found in the plugin_gem_path.
     # This is simply all gems that begin with train- or inspec-
     # and are not on the exclusion list.
@@ -168,8 +199,6 @@ module Inspec::Plugin::V2
     def list_installed_plugin_gems
       self.class.list_managed_gems
     end
-
-    private
 
     # 'Activating' a gem adds it to the load path, so 'require "gemname"' will work.
     # Given a gem name, this activates the gem and all of its dependencies, respecting
@@ -208,12 +237,14 @@ module Inspec::Plugin::V2
         raise ex
       end
       solution.each do |activation_request|
-        next if activation_request.full_spec.activated?
+        requested_gemspec = activation_request.full_spec
+        next if requested_gemspec.activated?
 
-        activation_request.full_spec.activate
-        # TODO: If we are under Bundler, inform it that we loaded a gem
+        requested_gemspec.activate unless loaded_recent_most_version_of?(requested_gemspec)
       end
     end
+
+    private
 
     def annotate_status_after_loading(plugin_name)
       status = registry[plugin_name]

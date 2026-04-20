@@ -1,4 +1,6 @@
 # Copyright 2015 Dominik Richter
+# Copyright © 2015-2025 Progress Software Corporation and/or its subsidiaries or affiliates.
+# All Rights Reserved.
 
 require "forwardable" unless defined?(Forwardable)
 require "openssl" unless defined?(OpenSSL)
@@ -299,7 +301,14 @@ module Inspec
       # # Pull together waiver
       waived_control_ids = []
       waiver_paths.each do |waiver_path|
-        waiver_content = YAML.load_file(waiver_path)
+        # Ruby 3.1 treats YAML load as a dangerous operation by default, requiring us to declare date and time classes as permitted
+        # It's not a valid option in 3.0.x
+        if Gem.ruby_version >= Gem::Version.new("3.1.0")
+          waiver_content = ::YAML.load_file(waiver_path, permitted_classes: [Date, Time])
+        else
+          waiver_content = YAML.load_file(waiver_path)
+        end
+
         unless waiver_content
           # Note that we will have already issued a detailed warning
           Inspec::Log.error "YAML parsing error in #{waiver_path}"
@@ -389,6 +398,16 @@ module Inspec
       end
       included_tags.compact!
       included_tags
+    end
+
+    # InSpec 7 introduced gem-based resource packs, so some "profiles" are now gem-based
+    # In this case, they are backed by a gem that contains an inspec.yml and a lib/PATH/plugin.rb
+    # which contains activator code which needs to be fired.
+    def activate_plugin_if_gem_based
+      return unless source_reader.is_a?(SourceReaders::GemReader)
+
+      reg = Inspec::Plugin::V2::Registry.instance
+      reg.find_activator(plugin_name: name.to_sym).activate!
     end
 
     def load_libraries

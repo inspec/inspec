@@ -7,6 +7,8 @@ $PSDefaultParameterValues['*:ErrorAction']='Stop'
 $ErrorActionPreference = 'Stop'
 $env:CHEF_LICENSE = 'accept-no-persist'
 $env:HAB_LICENSE = 'accept-no-persist'
+$env:HAB_BLDR_CHANNEL = 'base-2025'
+$env:HAB_REFRESH_CHANNEL = 'base-2025'
 $Plan = 'inspec'
 
 Write-Host "--- system details"
@@ -51,13 +53,11 @@ catch {
   Install-Habitat
 }
 finally {
-  Write-Host ":habicat: I think I have the version I need to build."
+  Write-Host ":habitat: I think I have the version I need to build."
 }
-
 # Set HAB_ORIGIN after Habitat installation
 Write-Host "HAB_ORIGIN set to 'ci' after installation."
 $env:HAB_ORIGIN = 'ci'
-
 
 Write-Host "--- Generating fake origin key"
 hab origin key generate $env:HAB_ORIGIN
@@ -74,15 +74,15 @@ Write-Host "--- Installing $pkg_ident/$pkg_artifact"
 hab pkg install -b $project_root/results/$pkg_artifact
 
 Write-Host "--- Downloading Ruby + DevKit"
-aws s3 cp s3://core-buildkite-cache-chef-prod/rubyinstaller-devkit-2.6.6-1-x64.exe c:/rubyinstaller-devkit-2.6.6-1-x64.exe
+Invoke-WebRequest -Uri "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.1.7-1/rubyinstaller-3.1.7-1-x64.exe" -OutFile "c:/rubyinstaller-devkit-3.1.7-1x64.exe"
 
 Write-Host "--- Installing Ruby + DevKit"
-Start-Process c:\rubyinstaller-devkit-2.6.6-1-x64.exe -ArgumentList '/verysilent /dir=C:\\ruby26' -Wait
+Start-Process c:\rubyinstaller-devkit-3.1.7-1x64.exe -ArgumentList '/verysilent /allusers /dir=C:\\ruby317' -Wait
 
 Write-Host "--- Cleaning up installation"
-Remove-Item c:\rubyinstaller-devkit-2.6.6-1-x64.exe -Force
+Remove-Item c:\rubyinstaller-devkit-3.1.7-1x64.exe -Force
 
-$Env:Path += ";C:\ruby26\bin;C:\hab\bin"
+$Env:Path += ";C:\ruby317\bin;C:\hab\bin"
 
 Write-Host "+++ Testing $Plan"
 

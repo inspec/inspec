@@ -10,6 +10,8 @@ module DeprecatedCoreResourcesList
     mongodb
     mongodb_conf
     mongodb_session
+    opa_api
+    opa_cli
     podman
     podman_container
     podman_image
@@ -17,11 +19,7 @@ module DeprecatedCoreResourcesList
     podman_pod
     podman_volume
     rabbitmq_config
-    ssh_config
-    ssh_key
     sybase_conf
     sybase_session
-    opa_api
-    opa_cli
   }.freeze
 end

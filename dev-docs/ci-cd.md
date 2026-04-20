@@ -18,12 +18,6 @@ You will need to have an account on BuildKite and be a member of both orgs to fu
 
 The [Rakefile](https://github.com/inspec/inspec/blob/main/Rakefile) defines the tests harness to be run. Most of the test scripts come down to executing "rake test" or similar.
 
-### Omnibus
-
-Omnibus is a system for building OS-specific packages of software, including all dependencies including Ruby runtimes. We use Omnibus to make RPMs, DEBs, MSIs, DMGs, and several other OS-specific formats that deploy inspec and its dependencies natively to the OS.
-
-The omnibus configuration for InSpec is stored at https://github.com/inspec/inspec/tree/master/omnibus and the main configuration file is [inspec.rb](https://github.com/inspec/inspec/blob/main/omnibus/config/projects/inspec.rb).
-
 ### Rubygems
 
 InSpec is published as a set of 4 gems - inspec, inspec-core, inspec-bin, and inspec-core-bin. When we release a new version to the public (a process we call "promotion" and typically happens on Wednesdays), we publish to rubygems.org.
@@ -77,16 +71,6 @@ Here are the Expeditor control labels, and the circumstances under which they sh
  * Expeditor: Bump Major Version - Use when a major release is made - rarely used.
  * Expeditor: Skip Version Bump - Use for non-code-change PRs, such as website or CI changes.
 
-#### Build Omnibus Packages
-
-This is controlled by the `trigger_pipeline:omnibus/release` subscription.
-
-The Omnibus build creates operating-system-specific packages for each platform on which we release Chef InSpec. Its [expeditor configuration](https://github.com/inspec/inspec/blob/44fe144732e1e0abb2594957a880c5f1821e7774/.expeditor/config.yml#L133) drives a [Buildkite configuration](https://github.com/inspec/inspec/blob/main/.expeditor/release.omnibus.yml), which lists exactly which platforms to build.
-
-The Omnibus build is generally reliable, if somewhat slow.
-
-When the omnibus build succeeds, omnitruck delivers the packages to various package repos in `unstable` channels for public consumption.  The packages are also delivered to [Artifactory](http://artifactory.chef.co/ui/repos/tree/General/omnibus-unstable-local%2Fcom%2Fgetchef%2Finspec) (VPN required)
-
 #### Chef Habitat Build
 
 The Chef Habitat build creates Habitat .hart packages for Linux and Windows. The [Expeditor configuration](https://github.com/inspec/inspec/blob/44fe144732e1e0abb2594957a880c5f1821e7774/.expeditor/config.yml#L138) drives a [Buildkite configuration](https://github.com/inspec/inspec/blob/main/.expeditor/build.habitat.yml).
@@ -112,9 +96,15 @@ The difference between the gems is as follows:
 
 ### A release is promoted
 
-When expeditor is told to promote a release, using the slack command `/expeditor promote inspec/inspec:master 4.36.4` (for example), Expeditor automatically promotes the Omnibus packages from the unstable channel to the stable channel, publishing them to the various downloads sites. It also creates the `artifact_published:stable` event, which has numerous [actions subscribed](https://github.com/inspec/inspec/blob/8a93f08a13d6bde8f87e447ff4246801bef80f8c/.expeditor/config.yml#L158).
+When a release is promoted, using the slack command `/expeditor promote inspec/inspec:main 7.0.108` (for example), Expeditor fires the `project_promoted` workload. This triggers the following actions:
 
-Some of the more important ones:
+- **`built_in:rollover_changelog`** — Rolls over the CHANGELOG for the next release cycle.
+- **`built_in:publish_rubygems`** — Publishes the `inspec`, `inspec-bin`, `inspec-core`, and `inspec-core-bin` gems to rubygems.org.
+- **`built_in:promote_habitat_packages`** — Promotes the Habitat `.hart` packages from the `base-2025-current` channel to the `base-2025` channel. Note: when a Hab build completes after a PR merge, packages are first promoted from `unstable` to `base-2025-current`; the `project_promoted` step moves them from `base-2025-current` to `base-2025`.
+- **`purge_packages_chef_io_fastly`** — Purges the Fastly CDN cache for the promoted channel so downloads.chef.io reflects the new release immediately.
+- **`built_in:notify_chefio_slack_channels`** — Sends a Slack notification to the relevant Chef.io channels on successful promotion.
+
+Some of the more important downstream effects:
 
 #### Update and publish the docker image
 

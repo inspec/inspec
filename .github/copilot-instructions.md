@@ -33,7 +33,6 @@ inspec/
 │   ├── functional/            # Functional tests
 │   └── fixtures/              # Test fixtures
 ├── inspec-bin/                # CLI binary gem
-├── omnibus/                   # Omnibus packaging
 ├── support/                   # Support files and scripts
 ├── tasks/                     # Rake tasks
 ├── inspec.gemspec            # Main gem specification
@@ -505,7 +504,7 @@ All tasks should follow this prompt-based workflow:
      - **Testing framework**: Follow **Testing Patterns** section (Unit Tests, Functional Tests, Integration Tests)
      - **Licensing features**: Reference **Licensing System** integration patterns
      - **Plugin development**: Check **Plugin system files** and existing plugins in `lib/plugins/`
-     - **Packaging/distribution**: Review **Packaging and Distribution** section for Habitat/Omnibus changes
+     - **Packaging/distribution**: Review **Packaging and Distribution** section for Habitat-based packaging changes
    - **Follow Coding Standards**:
      - Use **Code Style Guidelines** for Ruby version compatibility and string literals
      - Follow **Error Handling Patterns** for InSpec-specific exceptions
@@ -648,6 +647,5 @@ For Jira interactions, use the following MCP server functions:
 - `VERSION` file (managed by release process)
 - `.expeditor/` configuration (CI/CD automation)
 - `habitat/` packaging files (unless specifically required)
-- `omnibus/` packaging (unless specifically required)
 - `Gemfile.lock` (generated file)
 - Any files marked as auto-generated

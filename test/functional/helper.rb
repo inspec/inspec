@@ -1,4 +1,4 @@
-require "helper"
+require_relative "../helper"
 require "train"
 
 ENV["CHEF_LICENSE"] = "accept-no-persist"
@@ -94,10 +94,6 @@ module FunctionalHelper
     stderr.split("\n").reject { |l| l.include? " DEPRECATION: " }.join("\n") + suffix
   end
 
-  def ignore_resource_pack_warning(output)
-    output.split("\n").reject { |l| l.include? " CHANGE NOTICE: " }.join("\n")
-  end
-
   def assert_json_controls_passing(_result = nil) # dummy arg
     # Strategy: assemble an array of tests that failed or skipped, and insist it is empty
     # @json['profiles'][0]['controls'][0]['results'][0]['status']
@@ -149,12 +145,35 @@ module FunctionalHelper
           convert_windows_output(result.stdout)
           # remove the CLIXML header trash in windows
           result.stderr.gsub!("#< CLIXML\n", "")
-          result
+          remove_gem_warnings(result)
         else
           invocation = "#{prefix} #{commandline}"
-          CMD.run_command(invocation)
+          result = CMD.run_command(invocation)
+          remove_gem_warnings(result)
         end
     }
+  end
+
+  def remove_gem_warnings(result)
+    # Gem errors have made the testing suite too sensitive
+    # Excluding: Gem warnings that advise adding gems to our gemspec (Ruby 3.3 upgrade)
+    # List and combine all gem_warning_patterns into a single regex using alternation (|)
+    # Example: /(pattern1|pattern2|pattern3)/
+
+    gem_warning_patterns = /
+      redefining\s+'object_id' |
+      default\s+gems\s+starting\s+from\s+Ruby\s+\d+\.\d+\.\d+ |
+      Gemfile\s+or\s+gemspec\s+to\s+silence\s+this\s+warning
+    /x
+
+    # Filter out matching errors in a single pass
+    filtered_errors = result.stderr.split("\n").reject { |error| error.match(gem_warning_patterns) }
+
+    # Update stderr with the filtered result
+    result.stderr = filtered_errors.join("\n")
+
+    # Return the final result
+    result
   end
 
   def inspec(commandline, prefix = nil)

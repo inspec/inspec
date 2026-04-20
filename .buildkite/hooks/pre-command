@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [[ $BUILDKITE_ORGANIZATION_SLUG = 'chef-canary' ]]; then
+  AWS_REGION='us-west-1'
+elif [[ $BUILDKITE_ORGANIZATION_SLUG = 'chef' ]] || [[ $BUILDKITE_ORGANIZATION_SLUG = 'chef-oss' ]]; then
+  AWS_REGION='us-west-2'
+fi
+
+export HAB_AUTH_TOKEN=$(aws ssm get-parameter --name 'habitat-prod-auth-token' --with-decryption --query Parameter.Value --output text --region ${AWS_REGION})

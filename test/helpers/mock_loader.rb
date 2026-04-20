@@ -112,12 +112,10 @@ class MockLoader
       "/etc/audit/auditd.conf" => mockfile.call("auditd.conf"),
       "/etc/mysql/my.cnf" => mockfile.call("mysql.conf"),
       "/etc/mysql/mysql2.conf" => mockfile.call("mysql2.conf"),
-      "/etc/mongod.conf" => mockfile.call("mongod.conf"),
       "/opt/oracle/product/18c/dbhomeXE/network/admin/listener.ora" => mockfile.call("listener.ora"),
       "C:\\app\\Administrator\\product\\18.0.0\\dbhomeXE\\network\\admin\\listener.ora" => mockfile.call("listener.ora"),
       "/etc/cassandra/cassandra.yaml" => mockfile.call("cassandra.yaml"),
       "C:\\Program Files\\apache-cassandra-3.11.4-bin\\apache-cassandra-3.11.4\\conf\\cassandra.yaml" => mockfile.call("cassandra.yaml"),
-      "/etc/rabbitmq/rabbitmq.config" => mockfile.call("rabbitmq.config"),
       "kitchen.yml" => mockfile.call("kitchen.yml"),
       "example.csv" => mockfile.call("example.csv"),
       "policyfile.lock.json" => mockfile.call("policyfile.lock.json"),
@@ -536,21 +534,6 @@ class MockLoader
       "which zfs" => cmd.call("zfs-which"),
       # which zpool
       "which zpool" => cmd.call("zpool-which"),
-      # docker
-      "4f8e24022ea8b7d3b117041ec32e55d9bf08f11f4065c700e7c1dc606c84fd17" => cmd.call("docker-ps-a"),
-      "b40ed61c006b54f155b28a85dc944dc0352b30222087b47c6279568ec0e59d05" => cmd.call("df-PT"),
-      "docker version --format '{{ json . }}'" => cmd.call("docker-version"),
-      "docker info --format '{{ json . }}'" => cmd.call("docker-info"),
-      "docker inspect 71b5df59442b" => cmd.call("docker-inspec"),
-      "docker inspect trusting_williams" => cmd.call("docker-inspect"), # inspect container to check for mounted volumes
-      "docker inspect fried_water" => cmd.call("docker-inspect-e"), # inspect container to check for mounted volumes
-      # docker images
-      "83c36bfade9375ae1feb91023cd1f7409b786fd992ad4013bf0f2259d33d6406" => cmd.call("docker-images"),
-      "docker inspect ubuntu:latest" => cmd.call("docker-inspect-image"),
-      # docker services
-      %{docker service ls --format '{"ID": {{json .ID}}, "Name": {{json .Name}}, "Mode": {{json .Mode}}, "Replicas": {{json .Replicas}}, "Image": {{json .Image}}, "Ports": {{json .Ports}}}'} => cmd.call("docker-service-ls"),
-      # docker plugins
-      %{docker plugin ls --format '{"id": {{json .ID}}, "name": "{{ with split .Name ":"}}{{index . 0}}{{end}}", "version": "{{ with split .Name ":"}}{{index . 1}}{{end}}", "enabled": {{json .Enabled}} }'} => cmd.call("docker-plugin-ls"),
       # modprobe for kernel_module
       "modprobe --showconfig" => cmd.call("modprobe-config"),
       # get-process cmdlet for processes resource
@@ -655,11 +638,6 @@ class MockLoader
       "\n$body = \n            $Body = $body | ConvertFrom-Json\n            #convert to hashtable\n            $HashTable = @{}\n            foreach ($property in $Body.PSObject.Properties) {\n              $HashTable[$property.Name] = $property.Value\n            }\n            $response = Invoke-WebRequest -Method GET -TimeoutSec 120 'https://www.example.com' -Body $HashTable -UseBasicParsing\n            $response | Select-Object -Property * | ConvertTo-json # We use `Select-Object -Property * ` to get around an odd PowerShell error" => cmd.call("http-windows-remote-head"),
       "\n$body = \n            $Body = $body | ConvertFrom-Json\n            #convert to hashtable\n            $HashTable = @{}\n            foreach ($property in $Body.PSObject.Properties) {\n              $HashTable[$property.Name] = $property.Value\n            }\n            $response = Invoke-WebRequest -Method GET -TimeoutSec 120 -Headers @{ 'X-Test-Header' = 'test/value'; 'foo' = 'bar'} 'https://www.example.com' -Body $HashTable -UseBasicParsing\n            $response | Select-Object -Property * | ConvertTo-json # We use `Select-Object -Property * ` to get around an odd PowerShell error" => cmd.call("http-windows-remote-get-headers"),
       "\n$body = '{ \"a\" : \"1\", \"b\" : \"five\" }'\n            $Body = $body | ConvertFrom-Json\n            #convert to hashtable\n            $HashTable = @{}\n            foreach ($property in $Body.PSObject.Properties) {\n              $HashTable[$property.Name] = $property.Value\n            }\n            $response = Invoke-WebRequest -Method POST -TimeoutSec 120 'https://www.example.com' -Body $HashTable -UseBasicParsing\n            $response | Select-Object -Property * | ConvertTo-json # We use `Select-Object -Property * ` to get around an odd PowerShell error" => cmd.call("http-windows-remote-head"),
-      # elasticsearch resource
-      "curl -H 'Content-Type: application/json' http://localhost:9200/_nodes" => cmd.call("elasticsearch-cluster-nodes-default"),
-      "curl -k -H 'Content-Type: application/json' http://localhost:9200/_nodes" => cmd.call("elasticsearch-cluster-no-ssl"),
-      "curl -H 'Content-Type: application/json'  -u es_admin:password http://localhost:9200/_nodes" => cmd.call("elasticsearch-cluster-auth"),
-      "curl -H 'Content-Type: application/json' http://elasticsearch.mycompany.biz:1234/_nodes" => cmd.call("elasticsearch-cluster-url"),
       # iis_app_pool resource
       "Import-Module WebAdministration\nIf (Test-Path 'IIS:\\AppPools\\DefaultAppPool') {\n  Get-Item 'IIS:\\AppPools\\DefaultAppPool' | Select-Object * | ConvertTo-Json -Compress\n} Else {\n  Write-Host '{}'\n}\n" => cmd.call("iis-default-app-pool"),
 
@@ -691,39 +669,8 @@ class MockLoader
       "sestatus" => cmd.call("sestatus"),
       "semodule -lfull" => cmd.call("semodule-lfull"),
       "semanage boolean -l -n" => cmd.call("semanage-boolean"),
-      "Get-ChildItem -Path \"C:\\Program Files\\MongoDB\\Server\" -Name" => cmd.call("mongodb-version"),
-      "opa eval -i 'input.json' -d 'example.rego' 'data.example.allow'" => cmd.call("opa-result"),
-      "opa eval -i 'input.json' -d 'example.rego' 'data.example.voilation'" => cmd.call("opa-empty-result"),
-      "curl -X POST localhost:8181/v1/data/example/violation -d @v1-data-input.json -H 'Content-Type: application/json'" => cmd.call("opa-api-result"),
-      "curl -X POST localhost:8181/v1/data/example/violation -d @v1-data-input1.json -H 'Content-Type: application/json'" => cmd.call("opa-api-empty-result"),
-
-      # ibmdb2
-      "/opt/ibm/db2/V11.5/bin/db2 attach to db2inst1; /opt/ibm/db2/V11.5/bin/db2 get database manager configuration" => cmd.call("ibmdb2_conf_output"),
-      "/opt/ibm/db2/V11.5/bin/db2 attach to db2inst1; /opt/ibm/db2/V11.5/bin/db2 connect to sample; /opt/ibm/db2/V11.5/bin/db2 select rolename from syscat.roleauth;" => cmd.call("ibmdb2_query_output"),
-      "set-item -path env:DB2CLP -value \"**$$**\"; db2 get database manager configuration" => cmd.call("ibmdb2_conf_output"),
-      "set-item -path env:DB2CLP -value \"**$$**\"; db2 connect to sample; db2 \"select rolename from syscat.roleauth\";" => cmd.call("ibmdb2_query_output"),
-
       # file resource windows inherit
       "(Get-Acl 'C:/ExamlpeFolder').access| Where-Object {$_.IsInherited -eq $true} | measure | % { $_.Count }" => cmd.call("windows_file_inherit_output"),
-
-      # podman
-      %{podman ps -a --no-trunc --size --format '{\"ID\": {{json .ID}}, \"Image\": {{json .Image}}, \"ImageID\": {{json .ImageID}}, \"Command\": {{json .Command}}, \"CreatedAt\": {{json .CreatedAt}}, \"RunningFor\": {{json .RunningFor}}, \"Status\": {{json .Status}}, \"Pod\": {{json .Pod}}, \"Ports\": {{json .Ports}}, \"Size\": {{json .Size}}, \"Names\": {{json .Names}}, \"Networks\": {{json .Networks}}, \"Labels\": {{json .Labels}}, \"Mounts\": {{json .Mounts}}}'} => cmd.call("podman-ps-a"),
-      %{podman images -a --no-trunc --format '{\"ID\": {{json .ID}}, \"Repository\": {{json .Repository}}, \"Tag\": {{json .Tag}}, \"Size\": {{json .Size}}, \"Digest\": {{json .Digest}}, \"CreatedAt\": {{json .CreatedAt}}, \"CreatedSince\": {{json .CreatedSince}}, \"History\": {{json .History}}}'} => cmd.call("podman-images-a"),
-      %{podman network ls --no-trunc --format '{\"ID\": {{json .ID}}, \"Name\": {{json .Name}}, \"Driver\": {{json .Driver}}, \"Labels\": {{json .Labels}}, \"Options\": {{json .Options}}, \"IPAMOptions\": {{json .IPAMOptions}}, \"Created\": {{json .Created}}, \"Internal\": {{json .Internal}}, \"IPv6Enabled\": {{json .IPv6Enabled}}, \"DNSEnabled\": {{json .DNSEnabled}}, \"NetworkInterface\": {{json .NetworkInterface}}, \"Subnets\": {{json .Subnets}}}'} => cmd.call("podman-network-ls"),
-      "podman pod ps --no-trunc --format json" => cmd.call("podman-pod-ps"),
-      "podman info --format json" => cmd.call("podman-info"),
-      "podman version --format json" => cmd.call("podman-version"),
-      "podman volume ls --format json" => cmd.call("podman-volume-ls"),
-      "podman inspect 591270d8d80d --format json" => cmd.call("podman-inspec"),
-      "podman image inspect docker.io/library/busybox:latest --format '{\"id\": {{json .ID}}, \"repo_tags\": {{json .RepoTags}}, \"size\": {{json .Size}}, \"digest\": {{json .Digest}}, \"created_at\": {{json .Created}}, \"version\": {{json .Version}}, \"names_history\": {{json .NamesHistory}}, \"repo_digests\": {{json .RepoDigests}}, \"architecture\": {{json .Architecture}}, \"os\": {{json .Os}}, \"virtual_size\": {{json .VirtualSize}}}'" => cmd.call("podman-inspect-info"),
-      "podman image inspect not-exist:latest --format '{\"id\": {{json .ID}}, \"repo_tags\": {{json .RepoTags}}, \"size\": {{json .Size}}, \"digest\": {{json .Digest}}, \"created_at\": {{json .Created}}, \"version\": {{json .Version}}, \"names_history\": {{json .NamesHistory}}, \"repo_digests\": {{json .RepoDigests}}, \"architecture\": {{json .Architecture}}, \"os\": {{json .Os}}, \"virtual_size\": {{json .VirtualSize}}}'" => cmd_stderr.call("podman-errors"),
-      "podman network inspect minikube --format '{\"id\": {{json .ID}}, \"name\": {{json .Name}}, \"driver\": {{json .Driver}}, \"labels\": {{json .Labels}}, \"options\": {{json .Options}}, \"ipam_options\": {{json .IPAMOptions}}, \"internal\": {{json .Internal}}, \"created\": {{json .Created}}, \"ipv6_enabled\": {{json .IPv6Enabled}}, \"dns_enabled\": {{json .DNSEnabled}}, \"network_interface\": {{json .NetworkInterface}}, \"subnets\": {{json .Subnets}}}'" => cmd.call("podman-network"),
-      "podman network inspect not-exist --format '{\"id\": {{json .ID}}, \"name\": {{json .Name}}, \"driver\": {{json .Driver}}, \"labels\": {{json .Labels}}, \"options\": {{json .Options}}, \"ipam_options\": {{json .IPAMOptions}}, \"internal\": {{json .Internal}}, \"created\": {{json .Created}}, \"ipv6_enabled\": {{json .IPv6Enabled}}, \"dns_enabled\": {{json .DNSEnabled}}, \"network_interface\": {{json .NetworkInterface}}, \"subnets\": {{json .Subnets}}}'" => cmd_stderr.call("podman-errors"),
-      "podman version" => empty.call,
-      "podman volume inspect my_volume --format '{\"name\": {{json .Name}}, \"driver\": {{json .Driver}}, \"mountpoint\": {{json .Mountpoint}}, \"created_at\": {{json .CreatedAt}}, \"labels\": {{json .Labels}}, \"scope\": {{json .Scope}}, \"options\": {{json .Options}}, \"mount_count\": {{json .MountCount}}, \"needs_copy_up\": {{json .NeedsCopyUp}}, \"needs_chown\": {{json .NeedsChown}}}'" => cmd.call("podman-volume-inspect"),
-      "podman volume inspect non_existing_volume --format '{\"name\": {{json .Name}}, \"driver\": {{json .Driver}}, \"mountpoint\": {{json .Mountpoint}}, \"created_at\": {{json .CreatedAt}}, \"labels\": {{json .Labels}}, \"scope\": {{json .Scope}}, \"options\": {{json .Options}}, \"mount_count\": {{json .MountCount}}, \"needs_copy_up\": {{json .NeedsCopyUp}}, \"needs_chown\": {{json .NeedsChown}}}'" => cmd_stderr.call("podman-errors"),
-      "podman pod inspect nginx-frontend --format '{\"id\": {{json .ID}}, \"name\": {{json .Name}}, \"created_at\": {{json .Created}}, \"create_command\": {{json .CreateCommand}}, \"state\": {{json .State}}, \"hostname\": {{json .Hostname}}, \"create_cgroup\": {{json .CreateCgroup}}, \"cgroup_parent\": {{json .CgroupParent}}, \"cgroup_path\": {{json .CgroupPath}}, \"create_infra\": {{json .CreateInfra}}, \"infra_container_id\": {{json .InfraContainerID}}, \"infra_config\": {{json .InfraConfig}}, \"shared_namespaces\": {{json .SharedNamespaces}}, \"num_containers\": {{json .NumContainers}}, \"containers\": {{json .Containers}}}'" => cmd.call("podman-pod-inspect"),
-      "podman pod inspect non_existing_pod --format '{\"id\": {{json .ID}}, \"name\": {{json .Name}}, \"created_at\": {{json .Created}}, \"create_command\": {{json .CreateCommand}}, \"state\": {{json .State}}, \"hostname\": {{json .Hostname}}, \"create_cgroup\": {{json .CreateCgroup}}, \"cgroup_parent\": {{json .CgroupParent}}, \"cgroup_path\": {{json .CgroupPath}}, \"create_infra\": {{json .CreateInfra}}, \"infra_container_id\": {{json .InfraContainerID}}, \"infra_config\": {{json .InfraConfig}}, \"shared_namespaces\": {{json .SharedNamespaces}}, \"num_containers\": {{json .NumContainers}}, \"containers\": {{json .Containers}}}'" => cmd_stderr.call("podman-errors"),
     }
 
     if @platform && (@platform[:name] == "windows" || @platform[:name] == "freebsd")

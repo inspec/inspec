@@ -30,6 +30,7 @@ echo "The value for project_root is: $project_root"
 export HAB_NONINTERACTIVE=true
 export HAB_NOCOLORING=true
 export HAB_STUDIO_SECRET_HAB_NONINTERACTIVE=true
+export HAB_REFRESH_CHANNEL="base-2025"
 
 echo "--- system details"
 uname -a
@@ -41,7 +42,6 @@ curl https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/in
 # Set HAB_ORIGIN after Habitat installation
 echo "--- Setting HAB_ORIGIN to 'ci' after installation"
 export HAB_ORIGIN='ci'
-
 
 echo "--- Generating fake origin key"
 hab origin key generate $HAB_ORIGIN
