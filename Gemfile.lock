@@ -538,7 +538,9 @@ GEM
       rake
     method_source (1.1.0)
     mini_mime (1.1.5)
-    minitest (5.27.0)
+    minitest (6.0.4)
+      drb (~> 2.0)
+      prism (~> 1.5)
     minitest-mock (5.27.0)
     minitest-sprint (1.4.0)
       path_expander (~> 1.1)
