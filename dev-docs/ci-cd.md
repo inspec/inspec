@@ -96,7 +96,7 @@ The difference between the gems is as follows:
 
 ### A release is promoted
 
-When a release is promoted, using the slack command `/expeditor promote inspec/inspec:inspec-7 7.0.108` (for example), Expeditor fires the `project_promoted` workload. This triggers the following actions:
+When a release is promoted, using the slack command `/expeditor promote inspec/inspec:main 7.0.108` (for example), Expeditor fires the `project_promoted` workload. This triggers the following actions:
 
 - **`built_in:rollover_changelog`** — Rolls over the CHANGELOG for the next release cycle.
 - **`built_in:publish_rubygems`** — Publishes the `inspec`, `inspec-bin`, `inspec-core`, and `inspec-core-bin` gems to rubygems.org.
