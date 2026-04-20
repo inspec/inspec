@@ -116,6 +116,15 @@ describe "Inspec::Resources::Package" do
     _(resource.latest?).must_equal true
   end
 
+  it "verify windows package parsing with unexpanded architecture string" do
+    resource = MockLoader.new(:windows_unexpanded).load_resource("package", "Chef Client v12.12.15")
+    pkg = { name: "Chef Client v12.12.15 ", installed: true, version: "12.12.15.1", type: "windows", only_version_no: "12.12.15.1" }
+    _(resource.installed?).must_equal true
+    _(resource.version).must_equal "12.12.15.1"
+    _(resource.info).must_equal pkg
+    _(resource.latest?).must_equal true
+  end
+
   # solaris 10
   it "verify solaris 10 package parsing" do
     resource = MockLoader.new(:solaris10).load_resource("package", "SUNWzfsr")
