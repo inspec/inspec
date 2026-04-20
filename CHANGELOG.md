@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.0.109 -->
-## [v7.0.109](https://github.com/inspec/inspec/tree/v7.0.109) (2026-04-17)
+<!-- latest_release 7.0.110 -->
+## [v7.0.110](https://github.com/inspec/inspec/tree/v7.0.110) (2026-04-20)
 
 #### Merged Pull Requests
-- upgrade adderessable gem to 2.9.0 [#7833](https://github.com/inspec/inspec/pull/7833) ([chandra-progress](https://github.com/chandra-progress))
+- refactor: CHEF-29885 - Remove all Omnibus references from InSpec 7 [#7854](https://github.com/inspec/inspec/pull/7854) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 7.0.107 release
 
 #### Merged Pull Requests
+- refactor: CHEF-29885 - Remove all Omnibus references from InSpec 7 [#7854](https://github.com/inspec/inspec/pull/7854) ([Nik08](https://github.com/Nik08)) <!-- 7.0.110 -->
 - upgrade adderessable gem to 2.9.0 [#7833](https://github.com/inspec/inspec/pull/7833) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.0.109 -->
 - CHEF-20799 FOREPORT Fixes in json reporter (#7799) [#7810](https://github.com/inspec/inspec/pull/7810) ([Nik08](https://github.com/Nik08)) <!-- 7.0.108 -->
 - Update common github actions to use main [#7807](https://github.com/inspec/inspec/pull/7807) ([Nik08](https://github.com/Nik08)) <!-- 7.0.107 -->
