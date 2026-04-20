@@ -426,7 +426,7 @@ module InspecPlugins
                  "at https://github.com/inspec/inspec/issues/new")
         ui.exit Inspec::UI::EXIT_PLUGIN_ERROR
       rescue Inspec::Plugin::V2::InstallError => e
-        # This change is required for Ruby 3.3 upgrade
+        # This change is compatible with various versions of Ruby, including Ruby 3.3
         # Using Inspec::Log::level breaks with error `undefined method nil` in Ruby log library
         Inspec::Log.debug e.backtrace
 

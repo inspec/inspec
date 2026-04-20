@@ -1,0 +1,9 @@
+name: Test LTS-2024 Habitat Package Artifacts on PR
+on: workflow_dispatch
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4

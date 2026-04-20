@@ -19,8 +19,7 @@ having to create a profile or write a test file. See
 [http://pryrepl.org/](http://pryrepl.org/) for an introduction to what pry is and what it can
 do.
 
-See [Explore Chef InSpec resources](https://learn.chef.io/modules/explore-inspec-resources#/)
-on Learn Chef for a hands-on example that uses Chef InSpec shell.
+For a hands-on example that uses Chef InSpec shell, see the Learn Chef tutorial [Test Expectations with Chef InSpec](https://www.chef.io/training/tutorials).
 
 ## Launch the shell
 
@@ -275,4 +274,47 @@ another_input: another_value
 
 ```bash
 inspec shell --input-file=<path>
+```
+
+## Use the InSpec Shell with a SOCKS5 proxy
+
+You can use the InSpec Shell to target Windows nodes using WinRM through a SOCKS5 proxy.
+These connections options can be run from Linux workstations.
+
+To start an InSpec Shell session with a basic SOCKS5 proxy connection:
+
+```bash
+inspec shell -t winrm://<WINDOWS_HOST> --socks-proxy socks5h://<PROXY_HOST>:1080
+```
+
+To start an InSpec Shell session with a SOCKS5 proxy and authentication:
+
+```bash
+inspec shell -t winrm://<WINDOWS_HOST> \
+  --socks-proxy socks5h://<PROXY_HOST>:1080 \
+  --socks-user <PROXY_USERNAME> \
+  --socks-password <PROXY_PASSWORD>
+```
+
+To start an InSpec Shell session with a SOCKS5 proxy using SOCKS and Kerberos authentication:
+
+```bash
+inspec shell -t winrm://<WINDOWS_HOST> \
+  --socks-proxy socks5h://<PROXY_HOST>:1080 \
+  --socks-user <PROXY_USERNAME> \
+  --socks-password <PROXY_PASSWORD> \
+  --kerberos-realm <KERBEROS_REALM> \
+  --kerberos-service HTTP \
+  --winrm_transport kerberos
+```
+
+Once you're connected through the SOCKS proxy, you can interact with Windows resources normally. For example:
+
+```ruby
+inspec> os.family
+=> "windows"
+inspec> file('C:\Windows\System32').exist?
+=> true
+inspec> service('wuauserv').installed?
+=> true
 ```
