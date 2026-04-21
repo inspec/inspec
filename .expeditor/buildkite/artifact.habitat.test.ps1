@@ -99,19 +99,6 @@ Write-Host "--- Building $Plan"
 $project_root = "$(git rev-parse --show-toplevel)"
 Set-Location $project_root
 
-# hab-plan-build.ps1 expects 7z.exe bundled inside hab-studio at bin\7zip\7z.exe.
-# Install core/7zip and populate that path if missing.
-Write-Host "--- Ensuring 7zip is available for hab-plan-build"
-hab pkg install core/7zip
-$studioPath = hab pkg path core/hab-studio
-$sevenZipDir = "$studioPath\bin\7zip"
-$sevenZipSrc = "$(hab pkg path core/7zip)\bin\7z.exe"
-if (-not (Test-Path $sevenZipDir)) { New-Item -ItemType Directory -Force -Path $sevenZipDir | Out-Null }
-if (-not (Test-Path "$sevenZipDir\7z.exe")) {
-  Copy-Item $sevenZipSrc "$sevenZipDir\7z.exe"
-  Write-Host "Copied 7z.exe to $sevenZipDir"
-}
-
 $env:DO_CHECK=$true; hab pkg build .
 
 . $project_root/results/last_build.ps1
