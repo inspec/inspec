@@ -21,10 +21,6 @@ Write-Host "--- Installing the version of Habitat required"
 # Format must match the semver portion of `hab --version` output (e.g. "1.6.652").
 $MinHabVersion = "1.6.652"
 
-[Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor 3072
-Set-ExecutionPolicy Bypass -Scope Process -Force                                                                                  
-iex "& { $(irm https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1) } -Version 1.6.1245"
-
 function Install-Habitat {
   Write-Host "Downloading and installing Habitat..."
 
@@ -77,8 +73,7 @@ if ($null -eq $installedVersion) {
   Write-Host "Habitat not found. Installing..."
   Set-ExecutionPolicy Bypass -Scope Process -Force
   Install-Habitat
-# } elseif ([version]$installedVersion -ge [version]$MinHabVersion) {
-} elseif ($true) {
+} elseif ([version]$installedVersion -ge [version]$MinHabVersion) {
   Write-Host "Habitat $installedVersion satisfies minimum required version $MinHabVersion. Skipping install."
 } else {
   Write-Host "Habitat $installedVersion is below required $MinHabVersion. Upgrading..."
