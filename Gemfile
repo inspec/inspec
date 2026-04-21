@@ -42,7 +42,7 @@ group :test do
   gem "json_schemer"
   gem "m"
   gem "minitest-sprint", "~> 1.0"
-  gem "minitest"
+  gem "minitest", "< 6"
   # Ruby 3.4+ extracts minitest-mock to a separate gem (bundled gem)
   # Adding unconditionally as it's compatible with all Ruby versions
   gem "minitest-mock"
