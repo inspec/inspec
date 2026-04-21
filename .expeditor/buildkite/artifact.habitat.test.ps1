@@ -17,6 +17,10 @@ Get-CimInstance Win32_OperatingSystem | Select-Object $Properties | Format-Table
 
 Write-Host "--- Installing the version of Habitat required"
 
+# Minimum required Habitat version. Bump this when CI needs a newer hab release.
+# Format must match the semver portion of `hab --version` output (e.g. "1.6.652").
+$MinHabVersion = "1.6.652"
+
 function Install-Habitat {
   Write-Host "Downloading and installing Habitat..."
 
@@ -26,10 +30,10 @@ function Install-Habitat {
   $ErrorActionPreference = 'Stop'
 
   # Add Habitat to PATH for current session
-  $habPath = "C:\ProgramData\Habitat"
-  if (Test-Path $habPath) {
-    $env:Path = "$habPath;$env:Path"
-    Write-Host "Added $habPath to PATH"
+  $habExeDir = "C:\ProgramData\Habitat"
+  if (Test-Path $habExeDir) {
+    $env:Path = "$habExeDir;$env:Path"
+    Write-Host "Added $habExeDir to PATH"
   }
 
   # Wait for installation to complete and avoid racing conditions
@@ -44,22 +48,42 @@ function Install-Habitat {
   }
 }
 
-# Ensure Habitat is in PATH before checking
-$habPath = "C:\ProgramData\Habitat"
-if (Test-Path $habPath) {
-  $env:Path = "$habPath;$env:Path"
-}
-
-try {
-  $habVersion = hab --version 2>&1
-  if ($LASTEXITCODE -eq 0) {
-    Write-Host "Habitat is already installed: $habVersion"
-  } else {
-    throw "hab command failed"
+function Get-HabVersion {
+  # Returns the installed hab semver string (e.g. "1.6.652"), or $null if not found.
+  try {
+    $output = hab --version 2>&1
+    if ($LASTEXITCODE -ne 0) { return $null }
+    # Output format: "hab 1.6.652/20230206161841"
+    $versionPart = ($output -split " ")[1] -split "/" | Select-Object -First 1
+    return $versionPart
+  } catch {
+    return $null
   }
 }
-catch {
-  Write-Host "Installing Habitat ...."
+
+# Ensure Habitat is in PATH before checking
+$habExeDir = "C:\ProgramData\Habitat"
+if (Test-Path $habExeDir) {
+  $env:Path = "$habExeDir;$env:Path"
+}
+
+$installedVersion = Get-HabVersion
+
+if ($null -eq $installedVersion) {
+  Write-Host "Habitat not found. Installing..."
+  Set-ExecutionPolicy Bypass -Scope Process -Force
+  Install-Habitat
+} elseif ([version]$installedVersion -ge [version]$MinHabVersion) {
+  Write-Host "Habitat $installedVersion satisfies minimum required version $MinHabVersion. Skipping install."
+} else {
+  Write-Host "Habitat $installedVersion is below required $MinHabVersion. Upgrading..."
+  # Only delete the binary when an upgrade is intentionally needed,
+  # reducing risk of disrupting other parallel CI jobs in the common case.
+  $habExe = "$habExeDir\hab.exe"
+  if (Test-Path $habExe) {
+    Remove-Item $habExe -Force -ErrorAction SilentlyContinue
+    Write-Host "Removed old hab.exe to allow clean upgrade."
+  }
   Set-ExecutionPolicy Bypass -Scope Process -Force
   Install-Habitat
 }
