@@ -47,7 +47,9 @@ group :test do
   # Adding unconditionally as it's compatible with all Ruby versions
   gem "minitest-mock"
   gem "mocha"
-  gem "nokogiri"
+  # nokogiri >= 1.19.1 patches GHSA-wx95-c6cv-8532 but requires Ruby >= 3.2.
+  # Pinning to ~> 1.18.0 until InSpec drops Ruby 3.1 support.
+  gem "nokogiri", "~> 1.18.0"
   gem "pry-byebug"
   gem "pry"
   gem "rake"
