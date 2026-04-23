@@ -377,7 +377,7 @@ module Inspec::Resources
       ]
 
       # add 64 bit search paths
-      if inspec.os.arch == "x86_64"
+      if ["x86_64", "amd64", "%processor_architecture%"].include?(inspec.os.arch.to_s.downcase)
         search_paths << 'HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*'
         search_paths << 'HKCU:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*'
       end
