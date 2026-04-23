@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.1.0 -->
-## [v7.1.0](https://github.com/inspec/inspec/tree/v7.1.0) (2026-04-21)
+<!-- latest_release 7.1.1 -->
+## [v7.1.1](https://github.com/inspec/inspec/tree/v7.1.1) (2026-04-23)
 
 #### Merged Pull Requests
-- Updated gemfile.lock with new train json gem release [#7871](https://github.com/inspec/inspec/pull/7871) ([chandra-progress](https://github.com/chandra-progress))
+- Ugraded faraday gem to 1.10.5 [#7887](https://github.com/inspec/inspec/pull/7887) ([chandra-progress](https://github.com/chandra-progress))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 7.0.107 release
 
 #### Merged Pull Requests
+- Ugraded faraday gem to 1.10.5 [#7887](https://github.com/inspec/inspec/pull/7887) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.1.1 -->
 - Updated gemfile.lock with new train json gem release [#7871](https://github.com/inspec/inspec/pull/7871) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.1.0 -->
 - FOREPORT: CHEF-31763 inspec check AST parser fixes [#7873](https://github.com/inspec/inspec/pull/7873) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.0.112 -->
 - Ch/min hab version check [#7883](https://github.com/inspec/inspec/pull/7883) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.0.111 -->
