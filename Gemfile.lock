@@ -555,7 +555,7 @@ GEM
       win32-process (~> 0.9)
       wmi-lite (~> 1.0)
     mize (0.6.1)
-    mocha (3.0.1)
+    mocha (3.1.0)
       ruby2_keywords (>= 0.0.5)
     ms_rest (0.7.6)
       concurrent-ruby (~> 1.0)
