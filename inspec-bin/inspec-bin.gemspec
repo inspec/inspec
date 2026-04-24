@@ -24,7 +24,7 @@ Source code obtained from the Chef GitHub repository is made available under Apa
   spec.required_ruby_version = ">= 3.1.0"
 
   spec.add_dependency "inspec", "= #{InspecBin::VERSION}"
-  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rake", ">= 12.3.3"
 
   spec.files = %w{README.md LICENSE Gemfile} + Dir.glob("*.gemspec") +
     Dir.glob("{lib,bin}/**/*", File::FNM_DOTMATCH).reject { |f| File.directory?(f) }
