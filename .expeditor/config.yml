@@ -25,7 +25,7 @@ pipelines:
      - EXPIRE_CACHE: 1
      - IGNORE_ARTIFACTORY_RUBY_PROXY: true # Artifactory is throwing 500's when downloading some gems like ffi.
      - BUNDLE_GITHUB__COM: "x-access-token:$GITHUB_TOKEN" # Required to fetch private GitHub gem sources in omnibus/Gemfile
-     - OMNIBUS_BUILDKITE_PLUGIN: cf167a6ebcb22cd5896778c33a500f587add8dc7 # Pin plugin version to fix Windows bundler git auth hang
+     - OMNIBUS_BUILDKITE_PLUGIN_VERSION: cf167a6ebcb22cd5896778c33a500f587add8dc7 # Pin plugin version to fix Windows bundler git auth hang
  - omnibus/adhoc:
     definition: .expeditor/release.omnibus.yml
     env:
@@ -33,7 +33,7 @@ pipelines:
      - EXPIRE_CACHE: 1
      - IGNORE_ARTIFACTORY_RUBY_PROXY: true # Artifactory is throwing 500's when downloading some gems like ffi.
      - BUNDLE_GITHUB__COM: "x-access-token:$GITHUB_TOKEN" # Required to fetch private GitHub gem sources in omnibus/Gemfile
-     - OMNIBUS_BUILDKITE_PLUGIN: cf167a6ebcb22cd5896778c33a500f587add8dc7 # Pin plugin version to fix Windows bundler git auth hang
+     - OMNIBUS_BUILDKITE_PLUGIN_VERSION: cf167a6ebcb22cd5896778c33a500f587add8dc7 # Pin plugin version to fix Windows bundler git auth hang
  - verify:
     description: Pull Request validation tests
     public: true
