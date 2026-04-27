@@ -1,19 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.24.8 -->
-## [v5.24.8](https://github.com/inspec/inspec/tree/v5.24.8) (2026-03-25)
+<!-- latest_release 5.24.9 -->
+## [v5.24.9](https://github.com/inspec/inspec/tree/v5.24.9) (2026-04-27)
 
 #### Merged Pull Requests
-- CHEF-20799 Fixes in json reporter [#7799](https://github.com/inspec/inspec/pull/7799) ([Nik08](https://github.com/Nik08))
-- CHEF-31158 Setup common config to block PR merges if trufflehog fails - inspec-5 [#7804](https://github.com/inspec/inspec/pull/7804) ([Nik08](https://github.com/Nik08))
-- CHEF-32270-Github Action Pipeline for hab pkg promote [#7796](https://github.com/inspec/inspec/pull/7796) ([balasubramanian-s](https://github.com/balasubramanian-s))
-- Pin hab version for CI - Expeditor [#7802](https://github.com/inspec/inspec/pull/7802) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Updated omnibus buildkite plugin version pin [#7891](https://github.com/inspec/inspec/pull/7891) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.24.7 -->
 ### Changes since 5.24.7 release
 
 #### Merged Pull Requests
+- Updated omnibus buildkite plugin version pin [#7891](https://github.com/inspec/inspec/pull/7891) ([Nik08](https://github.com/Nik08)) <!-- 5.24.9 -->
 - CHEF-20799 Fixes in json reporter [#7799](https://github.com/inspec/inspec/pull/7799) ([Nik08](https://github.com/Nik08)) <!-- 5.24.8 -->
 - CHEF-31158 Setup common config to block PR merges if trufflehog fails - inspec-5 [#7804](https://github.com/inspec/inspec/pull/7804) ([Nik08](https://github.com/Nik08)) <!-- 5.24.7 -->
 - CHEF-32270-Github Action Pipeline for hab pkg promote [#7796](https://github.com/inspec/inspec/pull/7796) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.24.7 -->
