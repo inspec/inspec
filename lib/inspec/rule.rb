@@ -55,8 +55,11 @@ module Inspec
         unless @__skip_rule[:result] && @__skip_rule[:type] == :waiver
           instance_eval(&block)
 
-          # Re-apply waivers after instance eval to ensure waivers have
-          # higher precedence than only_if.
+          # Re-apply waivers after instance eval. This is a no-op in practice:
+          # run:false waivers are already handled by the pre-check above (the
+          # unless guard prevents instance_eval from running at all), and
+          # run:true / no-run-key waivers do not set a skip flag. Kept for
+          # defensive correctness in case waiver state changes during eval.
           __apply_waivers
         end
 
