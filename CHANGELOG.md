@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.24.9 -->
-## [v5.24.9](https://github.com/inspec/inspec/tree/v5.24.9) (2026-04-27)
+<!-- latest_release 5.24.10 -->
+## [v5.24.10](https://github.com/inspec/inspec/tree/v5.24.10) (2026-04-28)
 
 #### Merged Pull Requests
-- Updated omnibus buildkite plugin version pin [#7891](https://github.com/inspec/inspec/pull/7891) ([Nik08](https://github.com/Nik08))
+- fix: CHEF-32686 - Pre-check waivers before control block evaluation to avoid eager resource execution [#7832](https://github.com/inspec/inspec/pull/7832) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.24.7 -->
 ### Changes since 5.24.7 release
 
 #### Merged Pull Requests
+- fix: CHEF-32686 - Pre-check waivers before control block evaluation to avoid eager resource execution [#7832](https://github.com/inspec/inspec/pull/7832) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.24.10 -->
 - Updated omnibus buildkite plugin version pin [#7891](https://github.com/inspec/inspec/pull/7891) ([Nik08](https://github.com/Nik08)) <!-- 5.24.9 -->
 - CHEF-20799 Fixes in json reporter [#7799](https://github.com/inspec/inspec/pull/7799) ([Nik08](https://github.com/Nik08)) <!-- 5.24.8 -->
 - CHEF-31158 Setup common config to block PR merges if trufflehog fails - inspec-5 [#7804](https://github.com/inspec/inspec/pull/7804) ([Nik08](https://github.com/Nik08)) <!-- 5.24.7 -->
