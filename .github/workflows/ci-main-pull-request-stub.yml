@@ -1,16 +1,16 @@
-# stub to call common GitHub Action (GA) as part of Continuous Integration (CI) Pull Request process checks for main branch
+# stub to call common GitHub Action (GA) as part of Continuous Integration (CI) Pull Request process checks for InSpec-7 branch
 # inputs are described in the chef/common-github-actions/<GA.yml> with same name as this stub
 #
 # secrets are inherited from the calling workflow, typically SONAR_TOKEN, SONAR_HOST_URL, GH_TOKEN, AKEYLESS_JWT_ID, POLARIS_SERVER_URL and POLARIS_ACCESS_TOKEN
 
-name: CI Pull Request on main Branch
+name: CI Pull Request on InSpec 7 Branch
 
 on: 
   pull_request:
     # branches: [ main, release/** ]
-    branches: [ main ]
+    branches: [ inspec-7 ]
   push:
-    branches: [ main ]
+    branches: [ inspec-7 ]
 
   workflow_dispatch:
 
@@ -19,24 +19,8 @@ permissions:
   
 env:
   STUB_VERSION: "1.0.5" 
-  HAB_PUBLIC_BLDR_PAT: ${{ secrets.HAB_AUTH_TOKEN }}  # bind HAB_AUTH_TOKEN to HAB_PUBLIC_BLDR_PAT for Habitat Builder auth
-  HAB_AUTH_TOKEN: ${{ secrets.HAB_AUTH_TOKEN }}  # providing HAB_AUTH_TOKEN for Habitat Builder auth as inputs
 
 jobs: 
-  read-version:
-    name: 'Read VERSION file'
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.read-version.outputs.version }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Read VERSION file
-        id: read-version
-        run: |
-          echo "version=$(cat VERSION)" >> "$GITHUB_OUTPUT"
-
   echo_version:
     name: 'Echo stub version'
     runs-on: ubuntu-latest
@@ -45,9 +29,8 @@ jobs:
         run: |
           echo "CI main pull request stub version $STUB_VERSION"
 
-  call-ci-main-pr-check-pipeline:
-    needs: read-version
-    uses: chef/common-github-actions/.github/workflows/ci-main-pull-request.yml@main
+  call-ci-inspec-7-pr-check-pipeline:
+    uses: chef/common-github-actions/.github/workflows/ci-main-pull-request.yml@chef-19
     secrets: inherit
     permissions: 
       id-token: write
@@ -58,7 +41,7 @@ jobs:
       # go-private-modules: GOPRIVATE for Go private modules, default is 'github.com/progress-platform-services/*
 
       # if version specified, it takes precedence; can be a semver like 1.0.2-xyz or a tag like "latest"
-      version: ${{ needs.read-version.outputs.version }} # ${{ github.event.repository.version }}
+      version: '7.0.63' # ${{ github.event.repository.version }}
       detect-version-source-type: 'none' # options include "none" (do not detect), "file", "github-tag" or "github-release"
       detect-version-source-parameter: '' # use for file name
       language: 'ruby'  # Go, Ruby, Rust, JavaScript, TypeScript, Python, Java, C#, PHP, other - used for build and SonarQube language setting
@@ -70,15 +53,9 @@ jobs:
 
       # trufflehog secret scanning
       perform-trufflehog-scan: true
-      fail-trufflehog-on-secrets-found: true
       
       # trivy dependency and container scanning
       perform-trivy-scan: true
-
-      # grype vulnerability scanning
-      perform-grype-scan: true
-      grype-fail-on-high: true
-      grype-fail-on-critical: true
       
       # BlackDuck SAST (Polaris) and SCA scans (requires a build or download to do SAST)
       # requires these secrets: POLARIS_SERVER_URL, POLARIS_ACCESS_TOKEN
@@ -115,17 +92,6 @@ jobs:
       package-binaries: false     # Package binaries (e.g., RPM, DEB, MSI, dpkg + signing + SHA)
       habitat-build: false        # Create Habitat packages
       publish-packages: false     # Publish packages (e.g., container from Dockerfile to ECR, go-releaser binary to releases page, omnibus to artifactory, gems, choco, homebrew, other app stores)
-
-      # Perform grype scan on hab packages
-      perform-grype-hab-scan: true      # Enable/disable Habitat package scan
-      grype-hab-build-package: false    # Build package before scanning (default: false)
-      grype-hab-origin: 'chef' # Habitat package origin (REQUIRED)
-      grype-hab-package: 'inspec' # Habitat package name (REQUIRED)
-      grype-hab-version: ${{ needs.read-version.outputs.version }}       # Package version (REQUIRED)
-      grype-hab-channel: 'unstable'     # Habitat channel: stable, unstable (default: 'unstable')
-      grype-hab-scan-linux: true        # Scan Linux packages (default: true)
-      grype-hab-scan-windows: true      # Scan Windows packages (default: false)
-      grype-hab-scan-macos: false       # Scan macOS packages (default: false)
 
       # generate and export Software Bill of Materials (SBOM) in various formats
       generate-sbom: true

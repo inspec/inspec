@@ -17,77 +17,44 @@ Get-CimInstance Win32_OperatingSystem | Select-Object $Properties | Format-Table
 
 Write-Host "--- Installing the version of Habitat required"
 
-# Minimum required Habitat version. Bump this when CI needs a newer hab release.
-# Format must match the semver portion of `hab --version` output (e.g. "1.6.652").
-$MinHabVersion = "1.6.652"
+function Stop-HabProcess {
+  $habProcess = Get-Process hab -ErrorAction SilentlyContinue
+  if ($habProcess) {
+      Write-Host "Stopping hab process..."
+      Stop-Process -Name hab -Force
+  }
+}
 
 function Install-Habitat {
   Write-Host "Downloading and installing Habitat..."
-
-  # Suppress errors from the installer script that might try to remove locked files
-  $ErrorActionPreference = 'Continue'
   Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1'))
-  $ErrorActionPreference = 'Stop'
-
-  # Add Habitat to PATH for current session
-  $habExeDir = "C:\ProgramData\Habitat"
-  if (Test-Path $habExeDir) {
-    $env:Path = "$habExeDir;$env:Path"
-    Write-Host "Added $habExeDir to PATH"
-  }
-
-  # Wait for installation to complete and avoid racing conditions
-  Start-Sleep -Seconds 2
-
-  # Verify installation
-  $habVersion = hab --version 2>&1
-  if ($LASTEXITCODE -eq 0) {
-    Write-Host ":habitat: Installed Habitat version: $habVersion"
-  } else {
-    Write-Host "Warning: Could not verify Habitat installation"
-  }
 }
 
-function Get-HabVersion {
-  # Returns the installed hab semver string (e.g. "1.6.652"), or $null if not found.
-  try {
-    $output = hab --version 2>&1
-    if ($LASTEXITCODE -ne 0) { return $null }
-    # Output format: "hab 1.6.652/20230206161841"
-    $versionPart = ($output -split " ")[1] -split "/" | Select-Object -First 1
-    return $versionPart
-  } catch {
-    return $null
-  }
+try {
+  hab --version
 }
-
-# Ensure Habitat is in PATH before checking
-$habExeDir = "C:\ProgramData\Habitat"
-if (Test-Path $habExeDir) {
-  $env:Path = "$habExeDir;$env:Path"
-}
-
-$installedVersion = Get-HabVersion
-
-if ($null -eq $installedVersion) {
-  Write-Host "Habitat not found. Installing..."
+catch {
   Set-ExecutionPolicy Bypass -Scope Process -Force
-  Install-Habitat
-} elseif ([version]$installedVersion -ge [version]$MinHabVersion) {
-  Write-Host "Habitat $installedVersion satisfies minimum required version $MinHabVersion. Skipping install."
-} else {
-  Write-Host "Habitat $installedVersion is below required $MinHabVersion. Upgrading..."
-  # Only delete the binary when an upgrade is intentionally needed,
-  # reducing risk of disrupting other parallel CI jobs in the common case.
-  $habExe = "$habExeDir\hab.exe"
-  if (Test-Path $habExe) {
-    Remove-Item $habExe -Force -ErrorAction SilentlyContinue
-    Write-Host "Removed old hab.exe to allow clean upgrade."
+
+  Stop-HabProcess
+
+  # Remove the existing hab.exe if it exists and if you have permissions
+  $habPath = "C:\ProgramData\Habitat\hab.exe"
+  if (Test-Path $habPath) {
+      Write-Host "Attempting to remove existing hab.exe..."
+      Remove-Item $habPath -Force -ErrorAction SilentlyContinue
+      if (Test-Path $habPath) {
+          Write-Host "Failed to remove hab.exe, re-running script with elevated permissions."
+          Start-Process powershell -Verb runAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
+          exit
+      }
   }
-  Set-ExecutionPolicy Bypass -Scope Process -Force
+
   Install-Habitat
 }
-
+finally {
+  Write-Host ":habitat: I think I have the version I need to build."
+}
 # Set HAB_ORIGIN after Habitat installation
 Write-Host "HAB_ORIGIN set to 'ci' after installation."
 $env:HAB_ORIGIN = 'ci'
