@@ -114,7 +114,7 @@ function Invoke-Install {
     foreach ($GemName in @("erb", "zlib")) {
         $Gemspecs = Get-ChildItem -Path $DefaultGemspecDir -Filter "${GemName}-*.gemspec" -ErrorAction SilentlyContinue
         foreach ($Gemspec in $Gemspecs) {
-            Write-BuildLine "** Removing vulnerable default ${GemName} gemspec: $($Gemspec.FullName)"
+            Write-BuildLine "** Removing default ${GemName} gemspec: $($Gemspec.FullName)"
             Remove-Item -Path $Gemspec.FullName -Force
         }
     }

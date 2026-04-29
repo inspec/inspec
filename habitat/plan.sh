@@ -89,7 +89,7 @@ do_install() {
   for gem_name in erb zlib; do
     for gemspec in "${default_gemspec_dir}"/${gem_name}-*.gemspec; do
       if [[ -f "$gemspec" ]]; then
-        build_line "Removing vulnerable default ${gem_name} gemspec: $gemspec"
+        build_line "Removing default ${gem_name} gemspec: $gemspec"
         rm -f "$gemspec"
       fi
     done
