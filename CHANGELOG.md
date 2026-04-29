@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.1.4 -->
-## [v7.1.4](https://github.com/inspec/inspec/tree/v7.1.4) (2026-04-29)
+<!-- latest_release 7.1.5 -->
+## [v7.1.5](https://github.com/inspec/inspec/tree/v7.1.5) (2026-04-29)
 
 #### Merged Pull Requests
-- revert: revert PR #7893 and #7871 [#7896](https://github.com/inspec/inspec/pull/7896) ([mohan-progress](https://github.com/mohan-progress))
+- train train-core upgrade [#7897](https://github.com/inspec/inspec/pull/7897) ([mohan-progress](https://github.com/mohan-progress))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 7.0.107 release
 
 #### Merged Pull Requests
+- train train-core upgrade [#7897](https://github.com/inspec/inspec/pull/7897) ([mohan-progress](https://github.com/mohan-progress)) <!-- 7.1.5 -->
 - revert: revert PR #7893 and #7871 [#7896](https://github.com/inspec/inspec/pull/7896) ([mohan-progress](https://github.com/mohan-progress)) <!-- 7.1.4 -->
 - activesupport minimum version to 7.2.3.1 [#7893](https://github.com/inspec/inspec/pull/7893) ([mohan-progress](https://github.com/mohan-progress)) <!-- 7.1.3 -->
 - fix: CHEF-32686 - Pre-check waivers before control block evaluation [#7870](https://github.com/inspec/inspec/pull/7870) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.1.2 -->
