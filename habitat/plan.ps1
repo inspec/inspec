@@ -108,7 +108,7 @@ function Invoke-Install {
     gem install erb --version "4.0.4.1" --no-document
     gem install zlib --version "3.2.3" --no-document
 
-    $DefaultGemspecDir = (& ruby -e 'puts File.join(RbConfig::CONFIG["rubylibprefix"], "gems", RbConfig::CONFIG["ruby_version"], "specifications", "default")').Trim()
+    $DefaultGemspecDir = (& ruby -e "puts File.join(RbConfig::CONFIG['rubylibprefix'], 'gems', RbConfig::CONFIG['ruby_version'], 'specifications', 'default')").Trim()
     foreach ($GemName in @("erb", "zlib")) {
         $Gemspecs = Get-ChildItem -Path $DefaultGemspecDir -Filter "${GemName}-*.gemspec" -ErrorAction SilentlyContinue
         foreach ($Gemspec in $Gemspecs) {
