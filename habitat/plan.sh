@@ -78,25 +78,14 @@ do_install() {
   # for omnibus we also install this as part of the package
   gem install ed25519 bcrypt_pbkdf --no-document
 
+  # Clean up stray Gemfile.lock from lint_roller gem to appease security scanners
+  ruby "$HAB_CACHE_SRC_PATH/$pkg_dirname/scripts/cleanup_lint_roller.rb"
+  ruby "$HAB_CACHE_SRC_PATH/$pkg_dirname/scripts/remove_default_gemspecs.rb"
+
   # Install fixed & upgraded versions of default gems.
   # manually remove the default gemspecs to prevent them from being loaded.
   gem install erb --version "4.0.4.1" --no-document
   gem install zlib --version "3.2.3" --no-document
-  local ruby_version
-  ruby_version="$(ruby -e 'puts RbConfig::CONFIG["ruby_version"]')"
-  local default_gemspec_dir
-  default_gemspec_dir="$(pkg_path_for core/ruby3_4)/lib/ruby/gems/${ruby_version}/specifications/default"
-  for gem_name in erb zlib; do
-    for gemspec in "${default_gemspec_dir}"/${gem_name}-*.gemspec; do
-      if [[ -f "$gemspec" ]]; then
-        build_line "Removing default ${gem_name} gemspec: $gemspec"
-        rm -f "$gemspec"
-      fi
-    done
-  done
-
-  # Clean up stray Gemfile.lock from lint_roller gem to appease security scanners
-  ruby "$HAB_CACHE_SRC_PATH/$pkg_dirname/scripts/cleanup_lint_roller.rb"
 
   # Certain gems (timeliness) are getting installed with world writable files
   # This is removing write bits for group and other.

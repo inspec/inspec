@@ -50,6 +50,7 @@ function Invoke-Build {
 
         Write-BuildLine " ** Cleaning up lint_roller Gemfile.lock"
         ruby .\scripts\cleanup_lint_roller.rb
+        ruby .\scripts\remove_default_gemspecs.rb
 
         If ($lastexitcode -ne 0) { Exit $lastexitcode }
         Write-BuildLine " ** Running the inspec project's 'rake install' to install the path-based gems so they look like any other installed gem."
@@ -107,15 +108,6 @@ function Invoke-Install {
     Write-BuildLine "** Installing fixed & upgraded erb and zlib gems"
     gem install erb --version "4.0.4.1" --no-document
     gem install zlib --version "3.2.3" --no-document
-
-    $DefaultGemspecDir = (& ruby -e "puts File.join(RbConfig::CONFIG['rubylibprefix'], 'gems', RbConfig::CONFIG['ruby_version'], 'specifications', 'default')").Trim()
-    foreach ($GemName in @("erb", "zlib")) {
-        $Gemspecs = Get-ChildItem -Path $DefaultGemspecDir -Filter "${GemName}-*.gemspec" -ErrorAction SilentlyContinue
-        foreach ($Gemspec in $Gemspecs) {
-            Write-BuildLine "** Removing default ${GemName} gemspec: $($Gemspec.FullName)"
-            Remove-Item -Path $Gemspec.FullName -Force
-        }
-    }
 }
 
 function Invoke-After {
