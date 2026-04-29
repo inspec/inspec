@@ -25,7 +25,7 @@ PATH
       mixlib-log (~> 3.0)
       multipart-post (~> 2.0)
       ostruct (>= 0.1, < 0.7)
-      parallel (~> 1.9)
+      parallel (>= 1.9, < 3.0)
       parslet (>= 1.5, < 3.0)
       pry (~> 0.13)
       rspec (>= 3.9, <= 3.14)
@@ -595,7 +595,7 @@ GEM
     options (2.3.2)
     os (1.1.4)
     ostruct (0.6.3)
-    parallel (1.27.0)
+    parallel (1.28.0)
     parser (3.3.10.1)
       ast (~> 2.4.1)
       racc
