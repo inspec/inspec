@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.1.2 -->
-## [v7.1.2](https://github.com/inspec/inspec/tree/v7.1.2) (2026-04-28)
+<!-- latest_release 7.1.3 -->
+## [v7.1.3](https://github.com/inspec/inspec/tree/v7.1.3) (2026-04-29)
 
 #### Merged Pull Requests
-- fix: CHEF-32686 - Pre-check waivers before control block evaluation [#7870](https://github.com/inspec/inspec/pull/7870) ([chandra-progress](https://github.com/chandra-progress))
+- activesupport minimum version to 7.2.3.1 [#7893](https://github.com/inspec/inspec/pull/7893) ([mohan-progress](https://github.com/mohan-progress))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 7.0.107 release
 
 #### Merged Pull Requests
+- activesupport minimum version to 7.2.3.1 [#7893](https://github.com/inspec/inspec/pull/7893) ([mohan-progress](https://github.com/mohan-progress)) <!-- 7.1.3 -->
 - fix: CHEF-32686 - Pre-check waivers before control block evaluation [#7870](https://github.com/inspec/inspec/pull/7870) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.1.2 -->
 - Ugraded faraday gem to 1.10.5 [#7887](https://github.com/inspec/inspec/pull/7887) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.1.1 -->
 - Updated gemfile.lock with new train json gem release [#7871](https://github.com/inspec/inspec/pull/7871) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.1.0 -->
