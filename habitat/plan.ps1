@@ -106,11 +106,9 @@ function Invoke-Install {
     # manually remove the default gemspecs to prevent them from being loaded.
     Write-BuildLine "** Installing fixed & upgraded erb and zlib gems"
     gem install erb --version "4.0.4.1" --no-document
-    gem install zlib --version "1.3.2" --no-document
+    gem install zlib --version "3.2.3" --no-document
 
-    $RubyVersion = (& ruby -e 'puts RbConfig::CONFIG["ruby_version"]').Trim()
-    $RubyPath = (Get-PkgPathFor "core/ruby3_4-plus-devkit")
-    $DefaultGemspecDir = "$RubyPath\lib\ruby\gems\$RubyVersion\specifications\default"
+    $DefaultGemspecDir = (& ruby -e 'puts File.join(RbConfig::CONFIG["rubylibprefix"], "gems", RbConfig::CONFIG["ruby_version"], "specifications", "default")').Trim()
     foreach ($GemName in @("erb", "zlib")) {
         $Gemspecs = Get-ChildItem -Path $DefaultGemspecDir -Filter "${GemName}-*.gemspec" -ErrorAction SilentlyContinue
         foreach ($Gemspec in $Gemspecs) {
