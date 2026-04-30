@@ -50,7 +50,6 @@ function Invoke-Build {
 
         Write-BuildLine " ** Cleaning up lint_roller Gemfile.lock"
         ruby .\scripts\cleanup_lint_roller.rb
-        ruby .\scripts\remove_default_gemspecs.rb
 
         If ($lastexitcode -ne 0) { Exit $lastexitcode }
         Write-BuildLine " ** Running the inspec project's 'rake install' to install the path-based gems so they look like any other installed gem."
@@ -104,7 +103,6 @@ function Invoke-Install {
     }
 
     # Install fixed & upgraded versions of default gems.
-    # manually remove the default gemspecs to prevent them from being loaded.
     Write-BuildLine "** Installing fixed & upgraded erb and zlib gems"
     gem install erb --version "4.0.4.1" --no-document
     gem install zlib --version "3.2.3" --no-document
