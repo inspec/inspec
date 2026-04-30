@@ -7,7 +7,7 @@ $PSDefaultParameterValues['*:ErrorAction']='Stop'
 
 $pkg_name="inspec"
 $pkg_origin="chef"
-$pkg_version=$(Get-Content "$PLAN_CONTEXT/../VERSION")
+$pkg_version=$(Get-Content "$PLAN_CONTEXT/../../VERSION")
 $pkg_revision="1"
 $pkg_description="InSpec is an open-source testing framework for infrastructure
   with a human- and machine-readable language for specifying compliance,
@@ -22,7 +22,7 @@ $pkg_deps=@(
 )
 $pkg_bin_dirs=@("bin"
                 "vendor/bin")
-$project_root= (Resolve-Path "$PLAN_CONTEXT/../").Path
+$project_root= (Resolve-Path "$PLAN_CONTEXT/../../").Path
 
 function Invoke-SetupEnvironment {
     Push-RuntimeEnv -IsPath GEM_PATH "$pkg_prefix/vendor"
@@ -102,10 +102,10 @@ function Invoke-Install {
         Remove-Item $pkg_prefix/.bundle -Recurse -Force
     }
 
-    # Install fixed & upgraded versions of default gems.
+    # Install fixed & upgraded versions of default gems into the package vendor dir.
     Write-BuildLine "** Installing fixed & upgraded erb and zlib gems"
-    gem install erb --version "4.0.4.1" --no-document
-    gem install zlib --version "3.2.3" --no-document
+    gem install erb --version "4.0.4.1" --no-document --install-dir "$pkg_prefix/vendor"
+    gem install zlib --version "3.2.3" --no-document --install-dir "$pkg_prefix/vendor"
 }
 
 function Invoke-After {
@@ -121,8 +121,4 @@ function Invoke-After {
     # Remove the byproducts of compiling gems with extensions
     Get-ChildItem $pkg_prefix/vendor/gems -Include @("gem_make.out", "mkmf.log", "Makefile") -File -Recurse `
         | Remove-Item -Force
-
-    # Remove old default gemspecs so only the upgraded versions are visible to scanners.
-    Write-BuildLine "** Removing old default gemspecs for erb and zlib"
-    ruby .\scripts\remove_default_gemspecs.rb
 }
