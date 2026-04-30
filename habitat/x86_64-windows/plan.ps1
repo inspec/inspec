@@ -7,7 +7,7 @@ $PSDefaultParameterValues['*:ErrorAction']='Stop'
 
 $pkg_name="inspec"
 $pkg_origin="chef"
-$pkg_version=$(Get-Content "$PLAN_CONTEXT/../VERSION")
+$pkg_version=$(Get-Content "$PLAN_CONTEXT/../../VERSION")
 $pkg_revision="1"
 $pkg_description="InSpec is an open-source testing framework for infrastructure
   with a human- and machine-readable language for specifying compliance,
@@ -22,7 +22,7 @@ $pkg_deps=@(
 )
 $pkg_bin_dirs=@("bin"
                 "vendor/bin")
-$project_root= (Resolve-Path "$PLAN_CONTEXT/../").Path
+$project_root= (Resolve-Path "$PLAN_CONTEXT/../../").Path
 
 function Invoke-SetupEnvironment {
     Push-RuntimeEnv -IsPath GEM_PATH "$pkg_prefix/vendor"
