@@ -20,7 +20,7 @@ class ProfileCli < Minitest::Test
     # Command creates only expected files
     base_dir = File.join(@tmpdir, "habitat-profile", "habitat")
     files = %w{
-      plan.sh
+      x86_64-linux/plan.sh
     }
     actual_files = Dir.glob(File.join(base_dir, "**/*"))
     expected_files = files.map { |x| File.join(base_dir, x) }

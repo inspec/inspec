@@ -57,7 +57,7 @@ module InspecPlugins
         path = profile.root_path
         logger.debug("Setting up #{path} for Habitat...")
 
-        plan_file = File.join(path, "habitat", "plan.sh")
+        plan_file = File.join(path, "habitat", "x86_64-linux", "plan.sh")
         logger.info("Generating Habitat plan at #{plan_file}...")
         vars = {
           profile: profile,
