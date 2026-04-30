@@ -121,4 +121,8 @@ function Invoke-After {
     # Remove the byproducts of compiling gems with extensions
     Get-ChildItem $pkg_prefix/vendor/gems -Include @("gem_make.out", "mkmf.log", "Makefile") -File -Recurse `
         | Remove-Item -Force
+
+    # Remove old default gemspecs so only the upgraded versions are visible to scanners.
+    Write-BuildLine "** Removing old default gemspecs for erb and zlib"
+    ruby .\scripts\remove_default_gemspecs.rb
 }
