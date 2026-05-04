@@ -2,7 +2,7 @@ export HAB_BLDR_CHANNEL="base-2025"
 export HAB_REFRESH_CHANNEL="base-2025"
 pkg_name=inspec
 pkg_origin=chef
-pkg_version=$(cat "$PLAN_CONTEXT/../VERSION")
+pkg_version=$(cat "$PLAN_CONTEXT/../../VERSION")
 pkg_description="InSpec is an open-source testing framework for infrastructure
   with a human- and machine-readable language for specifying compliance,
   security and policy requirements."
@@ -37,7 +37,7 @@ do_setup_environment() {
 
 do_unpack() {
   mkdir -pv "$HAB_CACHE_SRC_PATH/$pkg_dirname"
-  cp -RT "$PLAN_CONTEXT"/.. "$HAB_CACHE_SRC_PATH/$pkg_dirname/"
+  cp -RT "$PLAN_CONTEXT"/../.. "$HAB_CACHE_SRC_PATH/$pkg_dirname/"
 }
 
 do_build() {
@@ -67,16 +67,20 @@ do_install() {
   wrap_inspec_bin
 
   # Copy NOTICE.TXT to the package directory
-  if [[ -f "$PLAN_CONTEXT/../NOTICE.TXT" ]]; then
+  if [[ -f "$PLAN_CONTEXT/../../NOTICE.TXT" ]]; then
     build_line "Copying NOTICE.TXT to package directory"
-    cp "$PLAN_CONTEXT/../NOTICE.TXT" "$pkg_prefix/"
+    cp "$PLAN_CONTEXT/../../NOTICE.TXT" "$pkg_prefix/"
   else
-    build_line "Warning: NOTICE.TXT not found at $PLAN_CONTEXT/../NOTICE.TXT"
+    build_line "Warning: NOTICE.TXT not found at $PLAN_CONTEXT/../../NOTICE.TXT"
   fi
 
   # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
   # for omnibus we also install this as part of the package
   gem install ed25519 bcrypt_pbkdf --no-document
+
+  # Install fixed & upgraded versions of default gems.
+  gem install erb --version "4.0.4.1" --no-document
+  gem install zlib --version "3.2.3" --no-document
 
   # Clean up stray Gemfile.lock from lint_roller gem to appease security scanners
   ruby "$HAB_CACHE_SRC_PATH/$pkg_dirname/scripts/cleanup_lint_roller.rb"

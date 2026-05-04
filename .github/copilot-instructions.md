@@ -321,7 +321,7 @@ When adding new transport options:
 ## Packaging and Distribution
 
 ### Habitat Packaging
-`habitat/plan.sh` defines Habitat package build:
+`habitat/x86_64-linux/plan.sh` defines the Linux Habitat package build and `habitat/x86_64-windows/plan.ps1` defines the Windows build:
 
 ```bash
 pkg_name=inspec

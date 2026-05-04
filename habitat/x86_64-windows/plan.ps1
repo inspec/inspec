@@ -7,7 +7,7 @@ $PSDefaultParameterValues['*:ErrorAction']='Stop'
 
 $pkg_name="inspec"
 $pkg_origin="chef"
-$pkg_version=$(Get-Content "$PLAN_CONTEXT/../VERSION")
+$pkg_version=$(Get-Content "$PLAN_CONTEXT/../../VERSION")
 $pkg_revision="1"
 $pkg_description="InSpec is an open-source testing framework for infrastructure
   with a human- and machine-readable language for specifying compliance,
@@ -22,7 +22,7 @@ $pkg_deps=@(
 )
 $pkg_bin_dirs=@("bin"
                 "vendor/bin")
-$project_root= (Resolve-Path "$PLAN_CONTEXT/../").Path
+$project_root= (Resolve-Path "$PLAN_CONTEXT/../../").Path
 
 function Invoke-SetupEnvironment {
     Push-RuntimeEnv -IsPath GEM_PATH "$pkg_prefix/vendor"
@@ -101,6 +101,11 @@ function Invoke-Install {
         # forget about the build bundle config
         Remove-Item $pkg_prefix/.bundle -Recurse -Force
     }
+
+    # Install fixed & upgraded versions of default gems into the package vendor dir.
+    Write-BuildLine "** Installing fixed & upgraded erb and zlib gems"
+    gem install erb --version "4.0.4.1" --no-document --install-dir "$pkg_prefix/vendor"
+    gem install zlib --version "3.2.3" --no-document --install-dir "$pkg_prefix/vendor"
 }
 
 function Invoke-After {
