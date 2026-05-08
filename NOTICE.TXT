@@ -1,5 +1,5 @@
 
-Progress Chef Inspec 7.1.7                                                                            Updated May 2026
+Progress Chef Inspec 7.1                                                                              Updated May 2026
 
 ----------------------------------------------------------------------------------------------------------------------------
 NOTICES REPORT
