@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.1.6 -->
-## [v7.1.6](https://github.com/inspec/inspec/tree/v7.1.6) (2026-05-04)
+<!-- latest_release 7.1.7 -->
+## [v7.1.7](https://github.com/inspec/inspec/tree/v7.1.7) (2026-05-08)
 
 #### Merged Pull Requests
-- Upgrade ERb &amp; ZLIB gem at package level [#7895](https://github.com/inspec/inspec/pull/7895) ([chandra-progress](https://github.com/chandra-progress))
+- Updated NOTICE file for 7.1 release [#7903](https://github.com/inspec/inspec/pull/7903) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 7.0.107 release
 
 #### Merged Pull Requests
+- Updated NOTICE file for 7.1 release [#7903](https://github.com/inspec/inspec/pull/7903) ([Nik08](https://github.com/Nik08)) <!-- 7.1.7 -->
 - Upgrade ERb &amp; ZLIB gem at package level [#7895](https://github.com/inspec/inspec/pull/7895) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.1.6 -->
 - train train-core upgrade [#7897](https://github.com/inspec/inspec/pull/7897) ([mohan-progress](https://github.com/mohan-progress)) <!-- 7.1.5 -->
 - revert: revert PR #7893 and #7871 [#7896](https://github.com/inspec/inspec/pull/7896) ([mohan-progress](https://github.com/mohan-progress)) <!-- 7.1.4 -->
