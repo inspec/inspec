@@ -18,8 +18,9 @@ Enhanced Outcomes adds three new control outcomes to the existing `Pass`, `Fail`
 
 In the first iteration of Enhanced Outcomes, the Error outcome is detected:
 
- * if the message of any test includes the text "Control source error" OR
- * the result of any test includes a backtrace
+ * if there are no test results for the control (empty results array) OR
+ * if the result of any test includes both an exception and a backtrace (and the resource class is not "noop") OR
+ * if the message of any test includes the text "Control source error"
 
 Then the entire control should be marked `Error`.
 
