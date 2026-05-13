@@ -8,7 +8,9 @@ $ErrorActionPreference = 'Stop'
 $env:CHEF_LICENSE = 'accept-no-persist'
 $env:HAB_LICENSE = 'accept-no-persist'
 $Plan = 'inspec'
-$HabitatVersion = if ($env:HAB_VERSION) { $env:HAB_VERSION } else { '1.6.1245' }
+# Minimum required Habitat version. Bump this when CI needs a newer hab release.
+# Format must match the semver portion of `hab --version` output (e.g. "1.6.652").
+$MinHabVersion = "1.6.1245"
 
 Write-Host "--- system details"
 $Properties = 'Caption', 'CSName', 'Version', 'BuildType', 'OSArchitecture'
@@ -61,7 +63,7 @@ catch {
       }
   }
 
-  Install-Habitat -Version $HabitatVersion
+  Install-Habitat -Version $MinHabVersion
 }
 finally {
   Write-Host ":habitat: I think I have the version I need to build."
