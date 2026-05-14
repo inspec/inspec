@@ -121,4 +121,32 @@ function Invoke-After {
     # Remove the byproducts of compiling gems with extensions
     Get-ChildItem $pkg_prefix/vendor/gems -Include @("gem_make.out", "mkmf.log", "Makefile") -File -Recurse `
         | Remove-Item -Force
+
+    # Harden NTFS permissions on .bat files in the bin directory to prevent privilege escalation.
+    # Appbundler generates these files with overly permissive ACLs (Authenticated Users: Modify).
+    # Restrict Authenticated Users to ReadAndExecute only, mirroring the Linux plan's chmod go-w fix.
+    Write-BuildLine "** Hardening file permissions on .bat files to prevent privilege escalation"
+    Get-ChildItem "$pkg_prefix/bin" -Filter "*.bat" | ForEach-Object {
+        $filePath = $_.FullName
+        $acl = Get-Acl $filePath
+
+        # Remove all existing Authenticated Users access rules
+        $acl.Access | Where-Object {
+            $_.IdentityReference.Value -like "*Authenticated Users*"
+        } | ForEach-Object {
+            $acl.RemoveAccessRule($_) | Out-Null
+        }
+
+        # Grant Authenticated Users ReadAndExecute only (no write/modify)
+        $rule = New-Object System.Security.AccessControl.FileSystemAccessRule(
+            "Authenticated Users",
+            [System.Security.AccessControl.FileSystemRights]::ReadAndExecute,
+            [System.Security.AccessControl.InheritanceFlags]::None,
+            [System.Security.AccessControl.PropagationFlags]::None,
+            [System.Security.AccessControl.AccessControlType]::Allow
+        )
+        $acl.AddAccessRule($rule)
+        Set-Acl $filePath $acl
+        Write-BuildLine "  Secured permissions on $($_.Name)"
+    }
 }
