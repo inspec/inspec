@@ -5,10 +5,15 @@ HAB_VERSION="1.6.1245"
 export CHEF_LICENSE="accept-no-persist"
 export HAB_LICENSE="accept-no-persist"
 echo "--- Installing hab ${HAB_VERSION} to override queue default"
-curl -sSLf -o /tmp/hab_install.sh https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.sh
+# curl is not available inside the Habitat studio; install it via hab first
+hab pkg install core/curl --channel stable
+hab pkg exec core/curl curl -sSLf -o /tmp/hab_install.sh https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.sh
 chmod +x /tmp/hab_install.sh
 bash /tmp/hab_install.sh -v "$HAB_VERSION" -t "x86_64-linux"
 rm -f /tmp/hab_install.sh
+# Update HAB_BIN to use the newly installed hab 1.6 so dependency resolution uses it
+export HAB_BIN="/hab/bin/hab"
+echo "--- hab version after install: $(${HAB_BIN} --version)"
 
 pkg_name=inspec
 pkg_origin=chef
