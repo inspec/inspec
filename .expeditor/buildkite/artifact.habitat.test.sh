@@ -73,6 +73,7 @@ fi
 
 echo "--- Building $PLAN"
 cd "$project_root"
+export HAB_BLDR_CHANNEL=stable
 DO_CHECK=true hab pkg build .
 
 echo "--- Sourcing 'results/last_build.sh'"

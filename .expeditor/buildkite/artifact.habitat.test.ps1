@@ -98,6 +98,7 @@ Write-Host "--- Building $Plan"
 $project_root = "$(git rev-parse --show-toplevel)"
 Set-Location $project_root
 
+$env:HAB_BLDR_CHANNEL = "stable"
 $env:DO_CHECK = $true
 hab pkg build .
 
