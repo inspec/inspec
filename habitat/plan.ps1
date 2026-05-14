@@ -3,6 +3,23 @@
 $ErrorActionPreference = "Stop"
 $PSDefaultParameterValues['*:ErrorAction']='Stop'
 
+# Pin hab to 1.6.x to ensure consistent dependency resolution.
+# Build queues run hab 2.0 which resolves from 'base' channel (glibc/2.41),
+# conflicting with ruby31-plus-devkit. Installing 1.6 here overrides the queue default.
+$env:CHEF_LICENSE = 'accept-no-persist'
+$env:HAB_LICENSE = 'accept-no-persist'
+$HabVersion = "1.6.1245"
+Write-Host "--- Installing hab $HabVersion to override queue default"
+$installScriptUrl = 'https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1'
+$installScriptPath = Join-Path $env:TEMP "hab-install-$HabVersion.ps1"
+Invoke-WebRequest -Uri $installScriptUrl -OutFile $installScriptPath
+try {
+    & $installScriptPath -Version $HabVersion
+}
+finally {
+    Remove-Item $installScriptPath -Force -ErrorAction SilentlyContinue
+}
+
 $pkg_name="inspec"
 $pkg_origin="chef"
 $pkg_version=$(Get-Content "$PLAN_CONTEXT/../VERSION")

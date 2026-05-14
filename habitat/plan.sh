@@ -1,3 +1,15 @@
+# Pin hab to 1.6.x to ensure consistent dependency resolution.
+# Build queues run hab 2.0 which resolves from 'base' channel (glibc/2.41),
+# conflicting with core/ruby31 (glibc/2.35). Installing 1.6 here overrides the queue default.
+HAB_VERSION="1.6.1245"
+export CHEF_LICENSE="accept-no-persist"
+export HAB_LICENSE="accept-no-persist"
+echo "--- Installing hab ${HAB_VERSION} to override queue default"
+curl -sSLf -o /tmp/hab_install.sh https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.sh
+chmod +x /tmp/hab_install.sh
+bash /tmp/hab_install.sh -v "$HAB_VERSION" -t "x86_64-linux"
+rm -f /tmp/hab_install.sh
+
 pkg_name=inspec
 pkg_origin=chef
 pkg_version=$(cat "$PLAN_CONTEXT/../VERSION")
