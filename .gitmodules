@@ -1,0 +1,4 @@
+[submodule "omnibus"]
+	path = omnibus
+	url = https://github.com/chef/inspec-5-omnibus-config.git
+	branch = inspec-5
