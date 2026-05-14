@@ -61,4 +61,20 @@ build do
     gem_install_dir = shellout!("#{install_dir}/embedded/bin/gem open rubyzip", env: env).stdout.chomp
     remove_directory "#{gem_install_dir}/test"
   end
+
+  if windows?
+    # Harden NTFS permissions on appbundler-generated .bat files in the bin directory.
+    # By default these files inherit overly permissive ACLs from the parent directory,
+    # allowing any authenticated user to modify them. This breaks inheritance and
+    # removes write access for Authenticated Users, mirroring the Linux chmod go-w fix.
+    block "Harden NTFS permissions on .bat files in bin directory" do
+      Dir.glob("#{install_dir}/bin/*.bat").each do |bat_file|
+        windows_path = bat_file.gsub("/", "\\")
+        # Break ACL inheritance (copies inherited entries, then disables inheritance)
+        shellout!("icacls \"#{windows_path}\" /inheritance:d")
+        # Remove all Authenticated Users access rules
+        shellout!("icacls \"#{windows_path}\" /remove:g \"Authenticated Users\"")
+      end
+    end
+  end
 end
