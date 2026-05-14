@@ -1,20 +1,27 @@
 # Pin hab to 1.6.x to ensure consistent dependency resolution.
-# Build queues run hab 2.0 which resolves from 'base' channel (glibc/2.41),
-# conflicting with core/ruby31 (glibc/2.35). Installing 1.6 here overrides the queue default.
 HAB_VERSION="1.6.1245"
 export CHEF_LICENSE="accept-no-persist"
 export HAB_LICENSE="accept-no-persist"
-echo "--- Installing hab ${HAB_VERSION} to override queue default"
-# curl is not available inside the Habitat studio; install it via hab first
-hab pkg install core/curl --channel stable
-hab pkg exec core/curl curl -sSLf -o /tmp/hab_install.sh https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.sh
-chmod +x /tmp/hab_install.sh
-bash /tmp/hab_install.sh -v "$HAB_VERSION" -t "x86_64-linux"
-rm -f /tmp/hab_install.sh
-# Update HAB_BIN to use the newly installed hab 1.6 so dependency resolution uses it
-export HAB_BIN="/hab/bin/hab"
-echo "--- hab version after install: $(${HAB_BIN} --version)"
-
+# Check current hab version; only install 1.6 if not already on 1.6.x
+CURRENT_HAB_VER=$(hab --version 2>/dev/null | awk '{print $2}' | cut -d'/' -f1 | cut -d'.' -f1,2 || echo "0.0")
+if [[ "${CURRENT_HAB_VER}" == "1.6" ]]; then
+  echo "--- hab ${CURRENT_HAB_VER} already installed, skipping"
+else
+  echo "--- Installing hab ${HAB_VERSION} to override queue default (current: ${CURRENT_HAB_VER})"
+  # Remove existing /bin/hab so 1.6 install can binlink successfully (same as plan.ps1 approach)
+  if [ -f /bin/hab ]; then
+    echo "Removing existing /bin/hab..."
+    rm -f /bin/hab
+  fi
+  # curl is not available inside the Habitat studio; install it via hab first
+  hab pkg install core/curl --channel stable
+  hab pkg exec core/curl curl -sSLf -o /tmp/hab_install.sh https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.sh
+  chmod +x /tmp/hab_install.sh
+  bash /tmp/hab_install.sh -v "$HAB_VERSION" -t "x86_64-linux"
+  rm -f /tmp/hab_install.sh
+  export HAB_BIN="/bin/hab"
+fi
+echo "--- hab version: $(${HAB_BIN:-hab} --version)"
 pkg_name=inspec
 pkg_origin=chef
 pkg_version=$(cat "$PLAN_CONTEXT/../VERSION")

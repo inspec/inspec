@@ -4,8 +4,6 @@ $ErrorActionPreference = "Stop"
 $PSDefaultParameterValues['*:ErrorAction']='Stop'
 
 # Pin hab to 1.6.x to ensure consistent dependency resolution.
-# Build queues run hab 2.0 which resolves from 'base' channel (glibc/2.41),
-# conflicting with ruby31-plus-devkit. Installing 1.6 here overrides the queue default.
 $env:CHEF_LICENSE = 'accept-no-persist'
 $env:HAB_LICENSE = 'accept-no-persist'
 $HabVersion = "1.6.1245"
@@ -35,25 +33,33 @@ function Install-Habitat {
     }
 }
 
-Write-Host "--- Installing hab $HabVersion to override queue default"
-Set-ExecutionPolicy Bypass -Scope Process -Force
+# Check current hab version; only install 1.6 if not already on 1.6.x
+$currentHabVer = $null
+try { $currentHabVer = (hab --version 2>$null) -replace '^hab (\d+\.\d+).*', '$1' } catch {}
 
-Stop-HabProcess
+if ($currentHabVer -like "1.6*") {
+    Write-Host "--- hab $currentHabVer already installed, skipping"
+} else {
+    Write-Host "--- Installing hab $HabVersion to override queue default (current: $currentHabVer)"
+    Set-ExecutionPolicy Bypass -Scope Process -Force
 
-# Remove the existing hab.exe if it exists and if you have permissions
-$habPath = "C:\ProgramData\Habitat\hab.exe"
-if (Test-Path $habPath) {
-    Write-Host "Attempting to remove existing hab.exe..."
-    Remove-Item $habPath -Force -ErrorAction SilentlyContinue
+    Stop-HabProcess
+
+    # Remove the existing hab.exe if it exists and if you have permissions
+    $habPath = "C:\ProgramData\Habitat\hab.exe"
     if (Test-Path $habPath) {
-        Write-Host "Failed to remove hab.exe, re-running script with elevated permissions."
-        Start-Process powershell -Verb runAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
-        exit
+        Write-Host "Attempting to remove existing hab.exe..."
+        Remove-Item $habPath -Force -ErrorAction SilentlyContinue
+        if (Test-Path $habPath) {
+            Write-Host "Failed to remove hab.exe, re-running script with elevated permissions."
+            Start-Process powershell -Verb runAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
+            exit
+        }
     }
-}
 
-Install-Habitat -Version $HabVersion
-Write-Host ":habitat: hab $HabVersion installed."
+    Install-Habitat -Version $HabVersion
+    Write-Host ":habitat: hab $HabVersion installed."
+}
 
 $pkg_name="inspec"
 $pkg_origin="chef"
