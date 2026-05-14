@@ -9,16 +9,51 @@ $PSDefaultParameterValues['*:ErrorAction']='Stop'
 $env:CHEF_LICENSE = 'accept-no-persist'
 $env:HAB_LICENSE = 'accept-no-persist'
 $HabVersion = "1.6.1245"
+
+function Stop-HabProcess {
+  $habProcess = Get-Process hab -ErrorAction SilentlyContinue
+  if ($habProcess) {
+      Write-Host "Stopping hab process..."
+      Stop-Process -Name hab -Force
+  }
+}
+
+function Install-Habitat {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Version
+    )
+    Write-Host "Downloading and installing Habitat version $Version..."
+    $installScriptUrl = 'https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1'
+    $installScriptPath = Join-Path $env:TEMP "hab-install-$Version.ps1"
+    Invoke-WebRequest -Uri $installScriptUrl -OutFile $installScriptPath
+    try {
+        & $installScriptPath -Version $Version
+    }
+    finally {
+        Remove-Item $installScriptPath -Force -ErrorAction SilentlyContinue
+    }
+}
+
 Write-Host "--- Installing hab $HabVersion to override queue default"
-$installScriptUrl = 'https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1'
-$installScriptPath = Join-Path $env:TEMP "hab-install-$HabVersion.ps1"
-Invoke-WebRequest -Uri $installScriptUrl -OutFile $installScriptPath
-try {
-    & $installScriptPath -Version $HabVersion
+Set-ExecutionPolicy Bypass -Scope Process -Force
+
+Stop-HabProcess
+
+# Remove the existing hab.exe if it exists and if you have permissions
+$habPath = "C:\ProgramData\Habitat\hab.exe"
+if (Test-Path $habPath) {
+    Write-Host "Attempting to remove existing hab.exe..."
+    Remove-Item $habPath -Force -ErrorAction SilentlyContinue
+    if (Test-Path $habPath) {
+        Write-Host "Failed to remove hab.exe, re-running script with elevated permissions."
+        Start-Process powershell -Verb runAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
+        exit
+    }
 }
-finally {
-    Remove-Item $installScriptPath -Force -ErrorAction SilentlyContinue
-}
+
+Install-Habitat -Version $HabVersion
+Write-Host ":habitat: hab $HabVersion installed."
 
 $pkg_name="inspec"
 $pkg_origin="chef"
