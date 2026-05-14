@@ -6,6 +6,8 @@ $PSDefaultParameterValues['*:ErrorAction']='Stop'
 # Pin hab to 1.6.x to ensure consistent dependency resolution.
 $env:CHEF_LICENSE = 'accept-no-persist'
 $env:HAB_LICENSE = 'accept-no-persist'
+$env:HAB_BLDR_CHANNEL = "stable"
+$env:HAB_REFRESH_CHANNEL = "stable"
 $HabVersion = "1.6.1245"
 
 function Stop-HabProcess {
@@ -60,6 +62,7 @@ if ($currentHabVer -like "1.6*") {
     Install-Habitat -Version $HabVersion
     Write-Host ":habitat: hab $HabVersion installed."
 }
+Write-Host "hab version: $(hab --version)"
 
 $pkg_name="inspec"
 $pkg_origin="chef"

@@ -2,6 +2,8 @@
 HAB_VERSION="1.6.1245"
 export CHEF_LICENSE="accept-no-persist"
 export HAB_LICENSE="accept-no-persist"
+export HAB_BLDR_CHANNEL="stable"
+export HAB_REFRESH_CHANNEL="stable"
 # Check current hab version; only install 1.6 if not already on 1.6.x
 CURRENT_HAB_VER=$(hab --version 2>/dev/null | awk '{print $2}' | cut -d'/' -f1 | cut -d'.' -f1,2 || echo "0.0")
 if [[ "${CURRENT_HAB_VER}" == "1.6" ]]; then
@@ -21,7 +23,7 @@ else
   rm -f /tmp/hab_install.sh
   export HAB_BIN="/bin/hab"
 fi
-echo "--- hab version: $(${HAB_BIN:-hab} --version)"
+echo "hab version: $(${HAB_BIN:-hab} --version)"
 pkg_name=inspec
 pkg_origin=chef
 pkg_version=$(cat "$PLAN_CONTEXT/../VERSION")
