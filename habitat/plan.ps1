@@ -138,9 +138,13 @@ function Invoke-Install {
 
 function Invoke-After {
     # We don't need the cache of downloaded .gem files ...
-    Remove-Item $pkg_prefix/vendor/cache -Recurse -Force
+    if (Test-Path "$pkg_prefix/vendor/cache") {
+        Remove-Item $pkg_prefix/vendor/cache -Recurse -Force
+    }
     # We don't need the gem docs.
-    Remove-Item $pkg_prefix/vendor/doc -Recurse -Force
+    if (Test-Path "$pkg_prefix/vendor/doc") {
+        Remove-Item $pkg_prefix/vendor/doc -Recurse -Force
+    }
     # We don't need to ship the test suites for every gem dependency,
     # only inspec's for package verification.
     Get-ChildItem $pkg_prefix/vendor/gems -Filter "spec" -Directory -Recurse -Depth 1 `
