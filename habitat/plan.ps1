@@ -149,11 +149,16 @@ function Invoke-After {
         Remove-Item $pkg_prefix/vendor/cache -Recurse -Force
     }
     # We don't need the gem docs.
-    # Use cmd /c rmdir to bypass PowerShell MAX_PATH (260 char) limit on deeply nested rdoc paths.
     if (Test-Path "$pkg_prefix/vendor/doc") {
-        Write-BuildLine "Removing vendor/doc..."
-        $docPath = (Resolve-Path "$pkg_prefix/vendor/doc").Path
-        cmd /c "rmdir /s /q `"$docPath`""
+        Write-BuildLine "Removing vendor/doc (long-path aware)..."
+        try {
+            $docPath = (Resolve-Path "$pkg_prefix/vendor/doc").Path
+            # \\?\ prefix invokes Win32 extended-length path API (up to 32767 chars),
+            [System.IO.Directory]::Delete("\\?\$docPath", $true)
+            Write-BuildLine "vendor/doc removed"
+        } catch {
+            Write-BuildLine "Warning: vendor/doc removal incomplete, continuing: $($_.Exception.Message)"
+        }
     }
     # We don't need to ship the test suites for every gem dependency,
     # only inspec's for package verification.
