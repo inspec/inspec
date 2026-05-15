@@ -97,7 +97,6 @@ else {
 Write-Host "--- Building $Plan"
 $project_root = "$(git rev-parse --show-toplevel)"
 Set-Location $project_root
-
 $env:DO_CHECK = $true
 hab pkg build .
 
