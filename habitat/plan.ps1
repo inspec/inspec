@@ -136,21 +136,32 @@ function Invoke-Install {
     }
 }
 
+# InSpec is a CLI tool, not a service - override to skip service management scripts
+function Invoke-BuildService {
+    Write-BuildLine "InSpec is a CLI tool - skipping service management scripts"
+}
+
 function Invoke-After {
+    Write-BuildLine "Running post-install cleanup..."
     # We don't need the cache of downloaded .gem files ...
     if (Test-Path "$pkg_prefix/vendor/cache") {
+        Write-BuildLine "Removing vendor/cache..."
         Remove-Item $pkg_prefix/vendor/cache -Recurse -Force
     }
     # We don't need the gem docs.
     if (Test-Path "$pkg_prefix/vendor/doc") {
+        Write-BuildLine "Removing vendor/doc..."
         Remove-Item $pkg_prefix/vendor/doc -Recurse -Force
     }
     # We don't need to ship the test suites for every gem dependency,
     # only inspec's for package verification.
+    Write-BuildLine "Removing spec directories from gem dependencies..."
     Get-ChildItem $pkg_prefix/vendor/gems -Filter "spec" -Directory -Recurse -Depth 1 `
         | Where-Object -FilterScript { $_.FullName -notlike "*inspec*" }             `
         | Remove-Item -Recurse -Force
     # Remove the byproducts of compiling gems with extensions
+    Write-BuildLine "Removing gem build byproducts..."
     Get-ChildItem $pkg_prefix/vendor/gems -Include @("gem_make.out", "mkmf.log", "Makefile") -File -Recurse `
         | Remove-Item -Force
+    Write-BuildLine "Post-install cleanup complete."
 }
