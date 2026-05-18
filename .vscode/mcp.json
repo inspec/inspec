@@ -1,8 +1,16 @@
 {
   "servers": {
-    "atlassian-mcp-server": {
-      "url": "https://mcp.atlassian.com/v1/sse",
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "X-MCP-Toolsets": "actions, code_security, copilot, dependabot, git, orgs, pull_requests, repos, users",
+        "X-MCP-Readonly": "true"
+      } 
+    },
+    "jira": {
+      "url": "https://mcp.atlassian.com/v1/mcp",
       "type": "http"
-    }
+    },
   }
 }

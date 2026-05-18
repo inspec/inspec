@@ -1,0 +1,29 @@
+graph TD
+    subgraph CLI Layer
+        A[inspec CLI / Thor] -->|parses opts| B[Inspec::Config]
+    end
+
+    subgraph Core
+        B --> C[Runner]
+        C --> D[Profile Loader]
+        D --> E[Controls & Resources]
+        C --> F[Reporter]
+    end
+
+    subgraph Transport
+        C --> G[Train Backend]
+        G --> H[SSH]
+        G --> I[WinRM]
+        G --> J[Docker]
+        G --> K[Local]
+    end
+
+    subgraph Plugins
+        A --> L[Plugin Registry]
+        L --> M[inspec-compliance]
+        L --> N[inspec-parallel]
+        L --> O[inspec-license]
+    end
+
+    E -->|queries| G
+    F --> P[JSON / CLI / Automate Output]
