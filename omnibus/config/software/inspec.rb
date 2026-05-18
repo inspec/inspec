@@ -64,16 +64,25 @@ build do
 
   if windows?
     # Harden NTFS permissions on appbundler-generated .bat files in the bin directory.
-    # By default these files inherit overly permissive ACLs from the parent directory,
-    # allowing any authenticated user to modify them. This breaks inheritance and
-    # removes write access for Authenticated Users, mirroring the Linux chmod go-w fix.
+    # These files should only be modifiable by NT AUTHORITY\SYSTEM (Windows Installer service).
+    # No user, including Administrators, should be able to modify them.
+    # The MSI installer runs as SYSTEM so upgrades and uninstalls continue to work correctly.
     block "Harden NTFS permissions on .bat files in bin directory" do
       Dir.glob("#{install_dir}/bin/*.bat").each do |bat_file|
         windows_path = bat_file.gsub("/", "\\")
-        # Break ACL inheritance (copies inherited entries, then disables inheritance)
+        # Break ACL inheritance and reset to explicit entries only
         shellout!("icacls \"#{windows_path}\" /inheritance:d")
-        # Remove all Authenticated Users access rules
+        # Remove all existing entries
         shellout!("icacls \"#{windows_path}\" /remove:g \"Authenticated Users\"")
+        shellout!("icacls \"#{windows_path}\" /remove:g \"BUILTIN\\Administrators\"")
+        shellout!("icacls \"#{windows_path}\" /remove:g \"BUILTIN\\Users\"")
+        shellout!("icacls \"#{windows_path}\" /remove:g \"NT AUTHORITY\\SYSTEM\"")
+        shellout!("icacls \"#{windows_path}\" /remove:g \"CREATOR OWNER\"")
+        # SYSTEM gets Full Control (required for MSI install/upgrade/uninstall)
+        shellout!("icacls \"#{windows_path}\" /grant:r \"NT AUTHORITY\\SYSTEM:(F)\"")
+        # Administrators and Users get ReadAndExecute only - no modification allowed
+        shellout!("icacls \"#{windows_path}\" /grant:r \"BUILTIN\\Administrators:(RX)\"")
+        shellout!("icacls \"#{windows_path}\" /grant:r \"BUILTIN\\Users:(RX)\"")
       end
     end
   end
