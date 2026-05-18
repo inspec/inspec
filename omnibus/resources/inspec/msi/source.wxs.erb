@@ -58,15 +58,33 @@
                   Impersonate="no"
                   Return="ignore" />
 
-    <InstallExecuteSequence>
-      <Custom Action="FastUnzip" After="InstallFiles">NOT Installed</Custom>
-      <Custom Action="Cleanup" After="RemoveFiles">REMOVE~="ALL"</Custom>
-    </InstallExecuteSequence>
-
     <UI>
       <ProgressText Action="FastUnzip">!(loc.FileExtractionProgress)</ProgressText>
     </UI>
     <% end %>
+
+    <!--
+      Harden NTFS permissions on the bin directory after installation.
+      Only NT AUTHORITY\SYSTEM (Windows Installer) can modify files.
+      Administrators and Users get ReadAndExecute only.
+      OI+CI flags ensure permissions are inherited by all files in the directory.
+    -->
+    <CustomAction Id="HardenBinPermissions"
+                  Directory="PROJECTLOCATIONBIN"
+                  ExeCommand="cmd.exe /C icacls &quot;[PROJECTLOCATIONBIN]&quot; /inheritance:d /remove:g &quot;Authenticated Users&quot; /remove:g &quot;BUILTIN\Administrators&quot; /remove:g &quot;BUILTIN\Users&quot; /remove:g &quot;CREATOR OWNER&quot; /grant:r &quot;NT AUTHORITY\SYSTEM:(OI)(CI)(F)&quot; /grant:r &quot;BUILTIN\Administrators:(OI)(CI)(RX)&quot; /grant:r &quot;BUILTIN\Users:(OI)(CI)(RX)&quot;"
+                  Execute="deferred"
+                  Impersonate="no"
+                  Return="ignore" />
+
+    <InstallExecuteSequence>
+      <% if fastmsi %>
+      <Custom Action="FastUnzip" After="InstallFiles">NOT Installed</Custom>
+      <Custom Action="Cleanup" After="RemoveFiles">REMOVE~="ALL"</Custom>
+      <Custom Action="HardenBinPermissions" After="FastUnzip">NOT Installed OR REINSTALL</Custom>
+      <% else %>
+      <Custom Action="HardenBinPermissions" After="InstallFiles">NOT Installed OR REINSTALL</Custom>
+      <% end %>
+    </InstallExecuteSequence>
 
     <CustomActionRef Id="WixBroadcastSettingChange" />
     <CustomActionRef Id="WixBroadcastEnvironmentChange" />
