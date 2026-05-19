@@ -172,3 +172,32 @@ describe NginxTransform do
     ]
   end
 end
+
+describe NginxConfig do
+  it "parses a minimal server block into a nested hash" do
+    input = <<~NGINX
+      server {
+        listen 80;
+        server_name example.com;
+        location / {
+          proxy_pass http://backend;
+        }
+      }
+    NGINX
+
+    result = NginxConfig.parse(input)
+    _(result).must_be_kind_of Hash
+    _(result["server"]).must_be_kind_of Array
+    _(result["server"].length).must_equal 1
+
+    server = result["server"][0]
+    _(server["listen"]).must_equal [["80"]]
+    _(server["server_name"]).must_equal [["example.com"]]
+    _(server["location"]).must_be_kind_of Array
+    _(server["location"].length).must_equal 1
+
+    location = server["location"][0]
+    _(location["_"]).must_equal ["/"]
+    _(location["proxy_pass"]).must_equal [["http://backend"]]
+  end
+end
