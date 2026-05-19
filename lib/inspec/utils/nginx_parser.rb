@@ -2,7 +2,7 @@ require "parslet"
 
 class NginxParser < Parslet::Parser
   root :outermost
-  # only designed for rabbitmq config files for now:
+  # Parses Nginx configuration files (directives, blocks, comments).
   rule(:outermost) { filler? >> exp.repeat }
 
   rule(:filler?) { one_filler.repeat }
@@ -67,12 +67,6 @@ end
 class NginxTransform < Parslet::Transform
   Group = Struct.new(:id, :args, :body)
   Exp = Struct.new(:key, :vals)
-
-  def self.assemble_binary(seq)
-    b = ErlangBitstream.new
-    seq.each { |i| b.add(i) }
-    b.value
-  end
 
   rule(section: { identifier: simple(:x) }, args: subtree(:y), expressions: subtree(:z)) { Group.new(x.to_s, y, z) }
   rule(assignment: { identifier: simple(:x), args: subtree(:y) }) { Exp.new(x.to_s, y) }
