@@ -67,11 +67,14 @@
       Harden NTFS permissions on the bin directory after installation.
       Only NT AUTHORITY\SYSTEM (Windows Installer) can modify files.
       Administrators and Users get ReadAndExecute only.
-      OI+CI flags ensure permissions are inherited by all files in the directory.
+      Directory="PROJECTLOCATIONBIN" sets the working directory so "." resolves correctly
+      in the deferred context (property expansion of [PROJECTLOCATIONBIN] does not work
+      in deferred CustomActions). /T applies the ACL recursively to all files in bin\.
+      OI+CI flags ensure new files added later also inherit the restricted permissions.
     -->
     <CustomAction Id="HardenBinPermissions"
                   Directory="PROJECTLOCATIONBIN"
-                  ExeCommand="cmd.exe /C icacls &quot;[PROJECTLOCATIONBIN]&quot; /inheritance:d /remove:g &quot;Authenticated Users&quot; /remove:g &quot;BUILTIN\Administrators&quot; /remove:g &quot;BUILTIN\Users&quot; /remove:g &quot;CREATOR OWNER&quot; /grant:r &quot;NT AUTHORITY\SYSTEM:(OI)(CI)(F)&quot; /grant:r &quot;BUILTIN\Administrators:(OI)(CI)(RX)&quot; /grant:r &quot;BUILTIN\Users:(OI)(CI)(RX)&quot;"
+                  ExeCommand="cmd /C icacls . /inheritance:d /remove &quot;Authenticated Users&quot; /remove &quot;BUILTIN\Administrators&quot; /remove &quot;BUILTIN\Users&quot; /remove &quot;CREATOR OWNER&quot; /grant:r &quot;NT AUTHORITY\SYSTEM:(OI)(CI)(F)&quot; /grant:r &quot;BUILTIN\Administrators:(OI)(CI)(RX)&quot; /grant:r &quot;BUILTIN\Users:(OI)(CI)(RX)&quot; /T"
                   Execute="deferred"
                   Impersonate="no"
                   Return="ignore" />
