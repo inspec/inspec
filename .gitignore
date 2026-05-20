@@ -37,3 +37,40 @@ terraform.tfstate*
 terraform.tfstate.backup
 terraform.tfvars
 test/**/*.lock
+
+# ---- Secret / credential hygiene (added Exercise 8) ----
+# Environment variable files
+.env
+.env.*
+!.env.example
+
+# Private keys and certificates
+*.pem
+*.p12
+*.pfx
+*.key
+*.crt
+*.cer
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+id_dsa
+id_ecdsa
+
+# VPN / tunnel configs
+*.ovpn
+
+# AWS credential files
+.aws/credentials
+.aws/config
+
+# IDE / tool configs that may embed tokens
+mcp.json
+.vscode/settings.json
+
+# Secrets files common in Ruby projects
+config/secrets.yml
+config/database.yml
+config/credentials.yml.enc
+config/master.key
