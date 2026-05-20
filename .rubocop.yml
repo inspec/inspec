@@ -1,4 +1,5 @@
 AllCops:
+  NewCops: enable
   Exclude:
     - 'test/kitchen/**/*'
     - 'test/integration/**/controls/**/*.rb'
@@ -9,3 +10,29 @@ AllCops:
     - 'vendor/bundle/**/*'
 Layout/ArgumentAlignment:
   EnforcedStyle: with_first_argument
+
+# Metrics/MethodLength: methods in impact.rb need nil-guard, timing, range-check,
+# iteration, and logging; 20 lines is a safe, documented increase from default 10.
+Metrics/MethodLength:
+  Max: 20
+
+# Metrics/BlockLength: Minitest describe/it blocks are inherently long; exempt tests.
+Metrics/BlockLength:
+  Exclude:
+    - 'test/**/*'
+
+# Naming/MethodParameterName: log_impact uses short keyword names (op:, status:)
+# that intentionally mirror the structured log schema fields.
+Naming/MethodParameterName:
+  AllowedNames:
+    - op
+
+# Style/ClassAndModuleChildren: compact style (module Inspec::Foo) is used
+# throughout the entire InSpec codebase (160+ files) — do not enforce nested style.
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# Style/MultilineIfModifier: the `unless defined?(X)` guard on a module block
+# in the LoadError fallback is idiomatic Ruby for conditional definition.
+Style/MultilineIfModifier:
+  Enabled: false

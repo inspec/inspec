@@ -118,11 +118,11 @@ describe 'Inspec::Impact' do
     _(DEBUG_LINES.last).must_include '\"status\":\"error\"'
   end
 
-  # is_number?
-  it('int true')   { _(i.is_number?('1')).must_equal true }
-  it('float true') { _(i.is_number?('3.14')).must_equal true }
-  it('chars false'){ _(i.is_number?('abc')).must_equal false }
-  it('nil false')  { _(i.is_number?(nil)).must_equal false }
+  # number?
+  it('int true')   { _(i.number?('1')).must_equal true }
+  it('float true') { _(i.number?('3.14')).must_equal true }
+  it('chars false'){ _(i.number?('abc')).must_equal false }
+  it('nil false')  { _(i.number?(nil)).must_equal false }
 end
 " 2>&1)
 

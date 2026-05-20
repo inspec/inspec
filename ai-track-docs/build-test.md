@@ -103,3 +103,47 @@ end
 ## Fixtures & Mocks
 - Test fixtures: `test/fixtures/`
 - Mock loader: `test/helper.rb` → `MockLoader.new(:platform).load_resource(...)`
+
+---
+
+## Static Analysis (RuboCop)
+
+InSpec uses **RuboCop** for static analysis. Config: `.rubocop.yml`
+
+### How to run locally
+
+```bash
+# Via rbenv (no bundler needed)
+GEM_PATH=/Users/mchhalot/.rbenv/versions/3.4.8/lib/ruby/gems/3.4.0 \
+  /Users/mchhalot/.rbenv/versions/3.4.8/bin/ruby \
+  $(gem contents rubocop | grep '/exe/rubocop$') \
+  lib/inspec/impact.rb test/unit/impact_test.rb --format simple
+
+# Via bundler (full stack)
+bundle exec rubocop lib/inspec/impact.rb
+```
+
+### Current config highlights (`.rubocop.yml`)
+
+| Setting | Value | Reason |
+|---------|-------|--------|
+| `AllCops.NewCops` | `enable` | Opt in to new cops as they land |
+| `Layout/ArgumentAlignment` | `with_first_argument` | Existing project style |
+| `Metrics/BlockLength` | exempt `test/**/*` | Minitest describe blocks are inherently long |
+| `Metrics/MethodLength.Max` | `20` | impact.rb methods need nil-guard + timing + range check + logging |
+| `Style/ClassAndModuleChildren` | disabled | Compact style (`module Inspec::X`) used in 160+ files |
+| `Style/MultilineIfModifier` | disabled | `unless defined?(X)` guard on module stub is idiomatic |
+| `Naming/MethodParameterName.AllowedNames` | `op` | log schema field name |
+
+### Exercise 14 fixes applied
+
+| Finding | Fix |
+|---------|-----|
+| `Lint/Syntax` — endless methods `def f() = val` in rescue stub | Converted to regular `def`/`end` methods |
+| `Style/FrozenStringLiteralComment` in test file | Added `# frozen_string_literal: true` |
+| `Metrics/BlockLength` in test describe blocks | Exempted `test/**/*` in config |
+| `Style/StringLiterals` — double quotes without interpolation | Autocorrected to single quotes (71 occurrences) |
+| `Naming/PredicatePrefix` — `is_number?` | Renamed to `number?` (private method) |
+| `Layout/LineLength` — long error message strings | Extracted to `expected` variable or split across lines |
+| `Style/TrivialAccessors` — manual writer method | Converted `logging_enabled=` to `attr_writer` |
+| `Style/TrailingCommaInHashLiteral` | Autocorrected |
