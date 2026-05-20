@@ -96,6 +96,9 @@ class NginxConfig
   #   - block keys map to arrays of sub-hashes (recursive)
   #   - "_" key holds the block's own arguments (e.g. location path)
   def self.parse(content)
+    raise ArgumentError, "NginxConfig.parse requires a String, got #{content.class}" unless content.is_a?(String)
+    return {} if content.empty?
+
     lex = NginxParser.new.parse(content)
     tree = NginxTransform.new.apply(lex)
     gtree = NginxTransform::Group.new(nil, "", tree)

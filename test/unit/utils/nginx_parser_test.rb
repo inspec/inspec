@@ -200,4 +200,23 @@ describe NginxConfig do
     _(location["_"]).must_equal ["/"]
     _(location["proxy_pass"]).must_equal [["http://backend"]]
   end
+
+  it "returns an empty hash for empty input" do
+    _(NginxConfig.parse("")).must_equal({})
+  end
+
+  it "raises ArgumentError when given nil" do
+    err = _ { NginxConfig.parse(nil) }.must_raise ArgumentError
+    _(err.message).must_match(/requires a String, got NilClass/)
+  end
+
+  it "raises ArgumentError when given a non-string" do
+    err = _ { NginxConfig.parse(123) }.must_raise ArgumentError
+    _(err.message).must_match(/requires a String, got Integer/)
+  end
+
+  it "raises an error for invalid syntax" do
+    err = _ { NginxConfig.parse("server {") }.must_raise RuntimeError
+    _(err.message).must_match(/Failed to parse NginX config/)
+  end
 end
