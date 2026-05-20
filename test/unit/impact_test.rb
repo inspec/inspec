@@ -50,6 +50,19 @@ describe 'Impact' do
       e = _ { impact.impact_from_string(nil) }.must_raise(Inspec::ImpactError)
       _(e.message).must_include 'nil'
     end
+
+    # Resilience: Array input must raise ImpactError, not raw NoMethodError.
+    # Guard: value.is_a?(String) || value.is_a?(Numeric) — added Ex 15.
+    it 'raises ImpactError (not NoMethodError) for Array input' do
+      e = _ { impact.impact_from_string([1, 2]) }.must_raise(Inspec::ImpactError)
+      _(e.message).must_include 'Array'
+    end
+
+    # Resilience: arbitrary Object input must raise ImpactError with type info.
+    it 'raises ImpactError (not NoMethodError) for Object input' do
+      e = _ { impact.impact_from_string(Object.new) }.must_raise(Inspec::ImpactError)
+      _(e.message).must_include 'Object'
+    end
   end
 
   describe 'string from impact method' do
@@ -84,6 +97,19 @@ describe 'Impact' do
     it 'raises ImpactError for nil input' do
       e = _ { impact.string_from_impact(nil) }.must_raise(Inspec::ImpactError)
       _(e.message).must_include 'nil'
+    end
+
+    # Resilience: String "abc".to_f == 0.0 would silently return "none" without
+    # the Numeric type guard added in Ex 15. Must raise ImpactError instead.
+    it 'raises ImpactError (not silent "none") for String input' do
+      e = _ { impact.string_from_impact('abc') }.must_raise(Inspec::ImpactError)
+      _(e.message).must_include 'String'
+    end
+
+    # Resilience: Hash input must raise ImpactError, not raw NoMethodError.
+    it 'raises ImpactError (not NoMethodError) for Hash input' do
+      e = _ { impact.string_from_impact({ score: 0.5 }) }.must_raise(Inspec::ImpactError)
+      _(e.message).must_include 'Hash'
     end
   end
 

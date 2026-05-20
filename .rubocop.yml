@@ -16,6 +16,11 @@ Layout/ArgumentAlignment:
 Metrics/MethodLength:
   Max: 20
 
+# Metrics/AbcSize: impact_from_string has 5 branches (nil/type/numeric/key/happy-path);
+# 18 is the tightest setting that passes without suppressing useful complexity signals.
+Metrics/AbcSize:
+  Max: 18
+
 # Metrics/BlockLength: Minitest describe/it blocks are inherently long; exempt tests.
 Metrics/BlockLength:
   Exclude:

@@ -72,10 +72,12 @@ module Inspec::Impact
   #   string ("0.5"). Numeric strings are passed through unchanged.
   # @return [Float, String] Float score for named severities; the original
   #   string for numeric inputs (caller is responsible for further conversion).
-  # @raise [Inspec::ImpactError] if value is nil or neither numeric nor a known name.
+  # @raise [Inspec::ImpactError] if value is nil, not a String/Numeric, or an
+  #   unknown severity name. Always raises ImpactError — never a raw Ruby error.
   def self.impact_from_string(value)
     raise Inspec::ImpactError, 'Impact value must not be nil.' if value.nil?
 
+    assert_impact_string_type!(value)
     start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 
     # Numeric strings (e.g. "0.7") are passed through as-is for the caller to use directly.
@@ -117,10 +119,12 @@ module Inspec::Impact
   #
   # @param value [Numeric] impact score in the range [0.0, 1.0].
   # @return [String] severity name (e.g. "high").
-  # @raise [Inspec::ImpactError] if value is nil or outside [0.0, 1.0].
+  # @raise [Inspec::ImpactError] if value is nil, not Numeric, or outside [0.0, 1.0].
+  #   Always raises ImpactError — never a raw TypeError or NoMethodError.
   def self.string_from_impact(value)
     raise Inspec::ImpactError, 'Impact score must not be nil.' if value.nil?
 
+    assert_impact_score_type!(value)
     start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
     value = value.to_f
 
@@ -138,6 +142,26 @@ module Inspec::Impact
   end
 
   # --- private helpers -------------------------------------------------------
+
+  # Resilience guard: raises ImpactError if value is not a String or Numeric.
+  # Called at the entry of impact_from_string to map NoMethodError → ImpactError.
+  def self.assert_impact_string_type!(value)
+    return if value.is_a?(String) || value.is_a?(Numeric)
+
+    raise Inspec::ImpactError,
+          "Impact value must be a String or Numeric, got #{value.class}."
+  end
+  private_class_method :assert_impact_string_type!
+
+  # Resilience guard: raises ImpactError if value is not Numeric.
+  # Called at the entry of string_from_impact to prevent "abc".to_f => 0.0 silent coercion.
+  def self.assert_impact_score_type!(value)
+    return if value.is_a?(Numeric)
+
+    raise Inspec::ImpactError,
+          "Impact score must be Numeric, got #{value.class}."
+  end
+  private_class_method :assert_impact_score_type!
 
   # Emits a structured debug log with consistent fields.
   # Fields: op, status, input, result (optional), elapsed_ms.
