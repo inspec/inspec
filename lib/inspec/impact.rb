@@ -29,8 +29,10 @@ module Inspec::Impact
   #   string ("0.5"). Numeric strings are passed through unchanged.
   # @return [Float, String] Float score for named severities; the original
   #   string for numeric inputs (caller is responsible for further conversion).
-  # @raise [Inspec::ImpactError] if value is neither numeric nor a known name.
+  # @raise [Inspec::ImpactError] if value is nil or neither numeric nor a known name.
   def self.impact_from_string(value)
+    raise Inspec::ImpactError, "Impact value must not be nil." if value.nil?
+
     # Numeric strings (e.g. "0.7") are passed through as-is for the caller to use directly.
     return value if is_number?(value)
 
@@ -58,8 +60,10 @@ module Inspec::Impact
   #
   # @param value [Numeric] impact score in the range [0.0, 1.0].
   # @return [String] severity name (e.g. "high").
-  # @raise [Inspec::ImpactError] if value is outside [0.0, 1.0].
+  # @raise [Inspec::ImpactError] if value is nil or outside [0.0, 1.0].
   def self.string_from_impact(value)
+    raise Inspec::ImpactError, "Impact score must not be nil." if value.nil?
+
     value = value.to_f
     raise Inspec::ImpactError, "'#{value}' is not a valid impact score. Valid impact scores: [0.0 - 1.0]." if value < 0 || value > 1
 

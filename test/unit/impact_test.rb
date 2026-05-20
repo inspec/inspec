@@ -41,6 +41,12 @@ describe "Impact" do
     it "accepts uppercase severity names" do
       _(impact.impact_from_string("HIGH")).must_equal 0.7
     end
+
+    # Negative test: nil input must raise ImpactError, not NoMethodError
+    it "raises ImpactError for nil input" do
+      e = _ { impact.impact_from_string(nil) }.must_raise(Inspec::ImpactError)
+      _(e.message).must_include "nil"
+    end
   end
 
   describe "string from impact method" do
@@ -68,6 +74,12 @@ describe "Impact" do
     # Arrange: exact lower boundary 0.0; Act: call string_from_impact; Assert: returns "none"
     it "returns 'none' for the lower boundary score of 0.0" do
       _(impact.string_from_impact(0.0)).must_equal "none"
+    end
+
+    # Negative test: nil must raise ImpactError, not silently return "none"
+    it "raises ImpactError for nil input" do
+      e = _ { impact.string_from_impact(nil) }.must_raise(Inspec::ImpactError)
+      _(e.message).must_include "nil"
     end
   end
 
