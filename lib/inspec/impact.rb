@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "inspec/errors"
 # Load the InSpec logger when running in full stack; fall back to a no-op stub
 # so this module stays testable in isolation (e.g. standalone unit tests).

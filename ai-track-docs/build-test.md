@@ -1,14 +1,40 @@
 # Build & Test Reference
 
-## Prerequisites
+## CI Status
+
+| CI system | Config | Unit tests? |
+|-----------|--------|------------|
+| GitHub Actions | `.github/workflows/ci-main-pull-request-stub.yml` | `unit-tests: false` — delegated to Buildkite |
+| Buildkite | `.buildkite/` (hooks only, no pipeline.yml) | Runs on Chef infra (external) |
+| **Crawl Track GHA** | `.github/workflows/crawl-track-impact.yml` | ✅ Runs on every `learn/crawl/**` push |
+
+> **Note:** The main CI stub delegates to `chef/common-github-actions` with
+> `unit-tests: false`. Full unit tests run on internal Buildkite infra.
+> The crawl-track workflow provides a self-contained alternative for this track.
+
+---
+
+## Local CI Script (Crawl Track)
+
+Runs all impact.rb checks without bundler — works even with rvm/rbenv conflicts:
+
 ```bash
-gem install bundler
-bundle install
+# Full run (tests + lint checks)
+RUBY_BIN=/path/to/ruby bash scripts/crawl-track-test.sh
+
+# Fast run (tests only, skip lint)
+RUBY_BIN=/path/to/ruby bash scripts/crawl-track-test.sh --fast
 ```
 
-> Tip: set `BUNDLE_GITHUB__COM=username:token` to avoid GitHub API rate limits.
+Checks performed:
+1. Ruby version >= 3.0
+2. Inspec::Impact unit tests (standalone Minitest, no bundler)
+3. `# frozen_string_literal: true` present in impact.rb
+4. No bare `rescue` clauses
 
-## Running Tests
+Exit code `0` = all green; `1` = one or more failures.
+
+---
 
 ### All tests (unit + functional)
 ```bash

@@ -1,0 +1,43 @@
+name: Crawl Track — Impact Tests
+
+# Runs the standalone impact.rb test suite on every push/PR to any
+# learn/crawl/** branch. No bundler required — pure Ruby only.
+
+on:
+  push:
+    branches:
+      - "learn/crawl/**"
+  pull_request:
+    branches:
+      - "learn/crawl/**"
+      - main
+  workflow_dispatch:
+
+jobs:
+  impact-tests:
+    name: "impact.rb unit tests (Ruby ${{ matrix.ruby }})"
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ruby: ["3.1", "3.2", "3.3"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: false   # no bundler needed for standalone tests
+
+      - name: Install minitest
+        run: gem install minitest --no-document
+
+      - name: Run crawl-track-test.sh
+        run: |
+          RUBY_BIN=$(which ruby) bash scripts/crawl-track-test.sh
+
+      - name: Annotate on failure
+        if: failure()
+        run: echo "::error file=lib/inspec/impact.rb::crawl-track tests failed — see job log"
