@@ -11,17 +11,19 @@ module Inspec::Impact
   }.freeze
 
   def self.impact_from_string(value)
-    # return if its a number
+    # return if it's a number
     return value if is_number?(value)
-    raise Inspec::ImpactError, "'#{value}' is not a valid impact name. Valid impact names: none, low, medium, high, critical." unless IMPACT_SCORES.key?(value.downcase)
 
-    IMPACT_SCORES[value.downcase]
+    normalized = value.downcase
+    raise Inspec::ImpactError, "'#{value}' is not a valid impact name. Valid impact names: #{IMPACT_SCORES.keys.join(", ")}." unless IMPACT_SCORES.key?(normalized)
+
+    IMPACT_SCORES[normalized]
   end
 
   def self.is_number?(value)
     Float(value)
     true
-  rescue
+  rescue TypeError, ArgumentError
     false
   end
 
