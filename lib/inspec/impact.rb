@@ -1,4 +1,16 @@
 require "inspec/errors"
+# Load the InSpec logger when running in full stack; fall back to a no-op stub
+# so this module stays testable in isolation (e.g. standalone unit tests).
+begin
+  require "inspec/log"
+rescue LoadError
+  module Inspec
+    module Log
+      def self.debug?() = false
+      def self.debug(_msg) = nil
+    end unless defined?(Log)
+  end
+end
 
 # Utilities for converting between CVSS 3.0 severity names and numeric scores.
 #
@@ -33,13 +45,26 @@ module Inspec::Impact
   def self.impact_from_string(value)
     raise Inspec::ImpactError, "Impact value must not be nil." if value.nil?
 
+    t0 = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+
     # Numeric strings (e.g. "0.7") are passed through as-is for the caller to use directly.
-    return value if is_number?(value)
+    if is_number?(value)
+      log_impact(op: "impact_from_string", status: "passthrough", input: value,
+                 elapsed_ms: elapsed_ms_since(t0))
+      return value
+    end
 
     normalized = value.downcase
-    raise Inspec::ImpactError, "'#{value}' is not a valid impact name. Valid impact names: #{IMPACT_SCORES.keys.join(", ")}." unless IMPACT_SCORES.key?(normalized)
+    unless IMPACT_SCORES.key?(normalized)
+      log_impact(op: "impact_from_string", status: "error", input: value,
+                 elapsed_ms: elapsed_ms_since(t0))
+      raise Inspec::ImpactError, "'#{value}' is not a valid impact name. Valid impact names: #{IMPACT_SCORES.keys.join(", ")}."
+    end
 
-    IMPACT_SCORES[normalized]
+    result = IMPACT_SCORES[normalized]
+    log_impact(op: "impact_from_string", status: "ok", input: value, result: result,
+               elapsed_ms: elapsed_ms_since(t0))
+    result
   end
 
   # Returns true if +value+ can be parsed as a Float, false otherwise.
@@ -64,12 +89,51 @@ module Inspec::Impact
   def self.string_from_impact(value)
     raise Inspec::ImpactError, "Impact score must not be nil." if value.nil?
 
+    t0 = Process.clock_gettime(Process::CLOCK_MONOTONIC)
     value = value.to_f
-    raise Inspec::ImpactError, "'#{value}' is not a valid impact score. Valid impact scores: [0.0 - 1.0]." if value < 0 || value > 1
+
+    unless (0..1).cover?(value)
+      log_impact(op: "string_from_impact", status: "error", input: value,
+                 elapsed_ms: elapsed_ms_since(t0))
+      raise Inspec::ImpactError, "'#{value}' is not a valid impact score. Valid impact scores: [0.0 - 1.0]."
+    end
 
     # Iterate in reverse so the highest matching band wins (e.g. 0.9 -> "critical").
-    IMPACT_SCORES.reverse_each do |name, impact|
-      return name if value >= impact
+    name = IMPACT_SCORES.reverse_each.find { |_n, score| value >= score }&.first
+    log_impact(op: "string_from_impact", status: "ok", input: value, result: name,
+               elapsed_ms: elapsed_ms_since(t0))
+    name
+  end
+
+  # --- private helpers -------------------------------------------------------
+
+  # Emits a structured debug log with consistent fields.
+  # Fields: op, status, input, result (optional), elapsed_ms.
+  # Only active when log level is DEBUG; zero overhead otherwise.
+  def self.log_impact(op:, status:, elapsed_ms:, input: nil, result: nil)
+    return unless Inspec::Log.debug?
+
+    entry = { op: op, status: status, elapsed_ms: elapsed_ms }
+    entry[:input]  = input  unless input.nil?
+    entry[:result] = result unless result.nil?
+    # Build JSON without requiring the json gem so this module stays dependency-free.
+    Inspec::Log.debug(entry.map { |k, v| "\"#{k}\":#{json_value(v)}" }.then { |p| "{#{p.join(",")}}" })
+  end
+  private_class_method :log_impact
+
+  # Serialises a scalar value to its JSON representation (string, number, or null).
+  def self.json_value(v)
+    case v
+    when String then "\"#{v}\""
+    when NilClass then "null"
+    else v.to_s
     end
   end
+  private_class_method :json_value
+
+  # Returns milliseconds elapsed since +t0+ (monotonic clock), rounded to 3dp.
+  def self.elapsed_ms_since(t0)
+    ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - t0) * 1000).round(3)
+  end
+  private_class_method :elapsed_ms_since
 end
