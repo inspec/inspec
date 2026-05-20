@@ -83,6 +83,43 @@ describe "Impact" do
     end
   end
 
+  describe "logging_enabled toggle" do
+    # Restore default after each test so other tests are unaffected.
+    def teardown
+      Inspec::Impact.logging_enabled = true
+    end
+
+    # Arrange: default state; Assert: logging is ON by default
+    it "is enabled by default" do
+      _(impact.logging_enabled?).must_equal true
+    end
+
+    # Arrange: toggle OFF; Act: query; Assert: returns false
+    it "can be disabled" do
+      impact.logging_enabled = false
+      _(impact.logging_enabled?).must_equal false
+    end
+
+    # Arrange: toggle OFF; Act: impact_from_string; Assert: correct result (toggle does not affect logic)
+    it "toggle OFF does not affect impact_from_string return value" do
+      impact.logging_enabled = false
+      _(impact.impact_from_string("high")).must_equal 0.7
+    end
+
+    # Arrange: toggle OFF; Act: string_from_impact; Assert: correct result (toggle does not affect logic)
+    it "toggle OFF does not affect string_from_impact return value" do
+      impact.logging_enabled = false
+      _(impact.string_from_impact(0.5)).must_equal "medium"
+    end
+
+    # Arrange: toggle OFF then ON; Assert: re-enables cleanly
+    it "can be re-enabled after being disabled" do
+      impact.logging_enabled = false
+      impact.logging_enabled = true
+      _(impact.logging_enabled?).must_equal true
+    end
+  end
+
   describe "is_number? method" do
     it "returns true for int string" do
       _(impact.is_number?("1")).must_equal true

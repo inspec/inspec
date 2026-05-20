@@ -120,6 +120,57 @@ Follow the same pattern:
 
 ---
 
+## Feature Toggle: `Inspec::Impact.logging_enabled`
+
+As of Exercise 13, impact debug logging has a **module-level kill switch** independent of log level.
+
+### API
+
+```ruby
+Inspec::Impact.logging_enabled?        # => true (default)
+Inspec::Impact.logging_enabled = false # silence all log_impact calls
+Inspec::Impact.logging_enabled = true  # restore
+```
+
+### Behaviour matrix
+
+| `logging_enabled?` | `Inspec::Log.debug?` | `log_impact` emits? |
+|--------------------|----------------------|---------------------|
+| `true` (default)   | `true`               | ✅ yes              |
+| `true` (default)   | `false`              | ❌ no (log-level gate) |
+| `false`            | `true`               | ❌ no (toggle gate — first guard) |
+| `false`            | `false`              | ❌ no               |
+
+### When to use
+
+| Scenario | Setting |
+|----------|---------|
+| Normal operation | leave default (`true`) |
+| Performance-critical tight loop | `false` before loop, restore after |
+| Tests asserting on log output | `true` + log level DEBUG |
+| Tests that must not emit logs | `false` in setup; restore in `teardown` |
+
+### Toggle in tests (teardown pattern)
+
+```ruby
+def teardown
+  Inspec::Impact.logging_enabled = true  # always restore default
+end
+
+it "silent path" do
+  Inspec::Impact.logging_enabled = false
+  # ... test code — no log entries emitted
+end
+```
+
+### Rollback
+
+```bash
+git revert <commit-SHA>  # removes @logging_enabled, accessors, and log_impact guard
+```
+
+---
+
 ## Log Levels Reference
 
 | Level | When to use |

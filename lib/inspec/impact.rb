@@ -26,7 +26,31 @@ end
 #
 # To add a new severity level, insert an entry into IMPACT_SCORES in ascending
 # score order. All methods and error messages update automatically.
+#
+# == Feature toggle: impact logging
+#
+#   Inspec::Impact.logging_enabled = false   # silence debug logs for this module
+#   Inspec::Impact.logging_enabled = true    # restore (default)
+#   Inspec::Impact.logging_enabled?          # query current state
+#
+# The toggle is independent of log level. Use it in tests or performance-sensitive
+# paths to suppress all log_impact calls with zero overhead.
 module Inspec::Impact
+  # Controls whether log_impact emits debug entries. Default: true.
+  @logging_enabled = true
+
+  class << self
+    # @return [Boolean] whether impact debug logging is active.
+    def logging_enabled?
+      @logging_enabled
+    end
+
+    # Enable or disable impact debug logging.
+    # @param value [Boolean]
+    def logging_enabled=(value)
+      @logging_enabled = value
+    end
+  end
   # Maps severity name (String) -> minimum score (Float), in ascending order.
   # Insertion order matters: string_from_impact relies on reverse iteration.
   IMPACT_SCORES = {
@@ -111,8 +135,9 @@ module Inspec::Impact
 
   # Emits a structured debug log with consistent fields.
   # Fields: op, status, input, result (optional), elapsed_ms.
-  # Only active when log level is DEBUG; zero overhead otherwise.
+  # Only active when logging_enabled? is true AND log level is DEBUG.
   def self.log_impact(op:, status:, elapsed_ms:, input: nil, result: nil)
+    return unless logging_enabled?
     return unless Inspec::Log.debug?
 
     entry = { op: op, status: status, elapsed_ms: elapsed_ms }
