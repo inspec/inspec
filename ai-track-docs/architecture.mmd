@@ -1,0 +1,22 @@
+graph TD
+    CLI["lib/inspec/cli.rb\n(Thor CLI)"]
+    BaseCLI["lib/inspec/base_cli.rb\n(Shared options)"]
+    Config["lib/inspec/config.rb\n(Config mgmt)"]
+    Runner["lib/inspec/runner.rb\n(Execution engine)"]
+    Profile["lib/inspec/profile.rb\n(Profile loader)"]
+    Resources["lib/inspec/resources/\n(143 resources)"]
+    Reporters["lib/inspec/reporters/\n(Output formatters)"]
+    Plugins["lib/plugins/\n(Extensibility)"]
+    Train["Train gem\n(Transport layer)"]
+    Targets["Local / SSH / WinRM\n/ Docker / ..."]
+
+    CLI --> BaseCLI
+    CLI --> Config
+    CLI --> Runner
+    Runner --> Profile
+    Runner --> Resources
+    Runner --> Reporters
+    Runner --> Train
+    Profile --> Resources
+    Plugins --> CLI
+    Train --> Targets
