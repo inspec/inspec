@@ -31,6 +31,16 @@ describe "Impact" do
       e = _ { impact.impact_from_string("fake") }.must_raise(Inspec::ImpactError)
       _(e.message).must_match "'fake' is not a valid impact name. Valid impact names: none, low, medium, high, critical."
     end
+
+    # Arrange: numeric string input; Act: call impact_from_string; Assert: passes through as-is (string)
+    it "passes through a numeric string unchanged without lookup" do
+      _(impact.impact_from_string("0.5")).must_equal "0.5"
+    end
+
+    # Arrange: uppercase severity name; Act: call impact_from_string; Assert: case-insensitive match
+    it "accepts uppercase severity names" do
+      _(impact.impact_from_string("HIGH")).must_equal 0.7
+    end
   end
 
   describe "string from impact method" do
@@ -53,6 +63,11 @@ describe "Impact" do
     it "returns an error for a invalid impact score" do
       e = _ { impact.string_from_impact(99) }.must_raise(Inspec::ImpactError)
       _(e.message).must_match "'99.0' is not a valid impact score. Valid impact scores: [0.0 - 1.0]."
+    end
+
+    # Arrange: exact lower boundary 0.0; Act: call string_from_impact; Assert: returns "none"
+    it "returns 'none' for the lower boundary score of 0.0" do
+      _(impact.string_from_impact(0.0)).must_equal "none"
     end
   end
 

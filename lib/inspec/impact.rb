@@ -15,7 +15,7 @@ module Inspec::Impact
     return value if is_number?(value)
     raise Inspec::ImpactError, "'#{value}' is not a valid impact name. Valid impact names: none, low, medium, high, critical." unless IMPACT_SCORES.key?(value.downcase)
 
-    IMPACT_SCORES[value]
+    IMPACT_SCORES[value.downcase]
   end
 
   def self.is_number?(value)

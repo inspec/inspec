@@ -25,6 +25,24 @@ bundle exec ruby -Itest test/unit/<file>_test.rb
 bundle exec ruby -Itest test/unit/resources/bash_test.rb
 ```
 
+### Standalone test (no bundle needed — for pure-Ruby modules like impact.rb)
+```bash
+ruby -e "
+require 'minitest/autorun'
+require_relative 'lib/inspec/errors'
+require_relative 'lib/inspec/impact'
+# ... test code
+"
+```
+
+> **Local env note**: If you have both rbenv and rvm installed, the full bundle test
+> stack may fail due to native extension conflicts (`io-console`). Use the standalone
+> runner above for pure-Ruby modules, or resolve the version manager conflict first:
+> ```bash
+> # Verify which Ruby runs tests successfully:
+> /path/to/rbenv/ruby --version
+> ```
+
 ### Functional tests only
 ```bash
 bundle exec rake test:functional
