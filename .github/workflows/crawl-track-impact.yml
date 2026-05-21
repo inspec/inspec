@@ -1,8 +1,9 @@
-name: Crawl+Walk Track — Tests & Diagram Validation
+name: Crawl+Walk Track — Tests, Coverage & Diagram Validation
 
 # Runs on learn/crawl/** and learn/walk/** branches.
 # Job 1: standalone impact.rb unit tests (no bundler)
-# Job 2: architecture diagram structural validation
+# Job 2: coverage baseline for impact.rb (Walk Ex2+)
+# Job 3: architecture diagram structural validation
 
 on:
   push:
@@ -44,6 +45,36 @@ jobs:
       - name: Annotate on failure
         if: failure()
         run: echo "::error file=lib/inspec/impact.rb::crawl-track tests failed — see job log"
+
+  coverage-baseline:
+    name: "Coverage baseline — impact.rb (Ruby ${{ matrix.ruby }})"
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ruby: ["3.1", "3.2", "3.3"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: false
+
+      - name: Install coverage gems
+        run: gem install minitest simplecov simplecov-json --no-document
+
+      - name: Run coverage script
+        run: ruby scripts/coverage-impact.rb
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-impact-ruby${{ matrix.ruby }}
+          path: coverage/impact/
 
   diagram-validation:
     name: "Architecture diagram validation (Ruby ${{ matrix.ruby }})"

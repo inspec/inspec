@@ -1,5 +1,37 @@
 # Build & Test Reference
 
+## Coverage Baseline — `lib/inspec/impact.rb`
+
+| Metric | Value | Notes |
+|--------|-------|-------|
+| **Line coverage** | **79.71%** | Measured at Walk Ex2 with 25 inline tests |
+| Branch coverage | tracked | Enabled via `enable_coverage :branch` |
+| Legitimate gaps | ~10 lines | `rescue LoadError` stub (never fires when mixlib-log is installed) + debug-log emission path (log level not set to DEBUG in tests) |
+| Threshold | 75% | Script exits non-zero if coverage drops below this |
+
+### Running coverage locally
+
+```bash
+# Standalone — no bundler needed
+GEM_PATH=/path/to/rbenv/gems \
+  GEM_HOME=/path/to/rbenv/gems \
+  /path/to/ruby scripts/coverage-impact.rb
+
+# With full test suite (requires CI_ENABLE_COVERAGE=1)
+CI_ENABLE_COVERAGE=1 bundle exec rake test:unit
+```
+
+Report written to `coverage/impact/coverage.json` and `coverage/impact/index.html`.
+
+### Coverage gaps explained
+
+| Lines | Reason |
+|-------|--------|
+| `rescue LoadError` block (~10 lines) | Only fires when `mixlib-log` is absent; not installed in full-stack env |
+| `Inspec::Log.debug? / debug` calls | Requires `Inspec::Log` log level set to DEBUG; not set in isolated tests |
+
+---
+
 ## CI Status
 
 | CI system | Config | Unit tests? |
