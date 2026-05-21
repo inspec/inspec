@@ -1,0 +1,55 @@
+%%{init: {"theme": "default"}}%%
+graph TD
+    CLI["CLI Layer<br/>inspec-bin / inspec-core-bin<br/>(Thor commands)"]
+
+    subgraph Core["inspec / inspec-core gem"]
+        Runner["Runner<br/>lib/inspec/runner.rb"]
+        Profile["Profile<br/>lib/inspec/profile.rb"]
+        Config["Config<br/>lib/inspec/config.rb"]
+        BaseCLI["BaseCLI<br/>lib/inspec/base_cli.rb"]
+        Controls["Controls & DSL<br/>lib/inspec/dsl.rb"]
+        Resources["Resources<br/>lib/inspec/resources/**"]
+        Reporters["Reporters<br/>lib/inspec/reporters/**"]
+        Formatters["Formatters<br/>lib/inspec/formatters/**"]
+        UI["UI<br/>lib/inspec/ui.rb"]
+    end
+
+    subgraph Plugins["Plugin System (v2)<br/>lib/plugins/"]
+        PluginCompliance["inspec-compliance<br/>(Automate integration)"]
+        PluginParallel["inspec-parallel<br/>(parallel exec)"]
+        PluginOther["... other plugins"]
+    end
+
+    subgraph Transport["Transport Layer (Train)"]
+        TrainLocal["local"]
+        TrainSSH["ssh"]
+        TrainWinRM["winrm"]
+        TrainDocker["docker"]
+        TrainCloud["aws / azure / gcp"]
+    end
+
+    subgraph Fetchers["Fetchers<br/>lib/inspec/fetcher/"]
+        FetchLocal["Local path"]
+        FetchURL["URL / HTTP"]
+        FetchGit["Git / GitHub"]
+        FetchSupermarket["Supermarket"]
+    end
+
+    CLI --> BaseCLI
+    BaseCLI --> Runner
+    Runner --> Config
+    Runner --> Profile
+    Runner --> Reporters
+    Profile --> Controls
+    Profile --> Fetchers
+    Controls --> Resources
+    Resources --> Transport
+    Reporters --> Formatters
+    Reporters --> UI
+    Runner --> Plugins
+    CLI --> Plugins
+
+    style Core fill:#f0f4ff,stroke:#4a6cf7
+    style Plugins fill:#fff8e7,stroke:#f5a623
+    style Transport fill:#f0fff4,stroke:#27ae60
+    style Fetchers fill:#fff0f0,stroke:#e74c3c
