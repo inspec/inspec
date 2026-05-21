@@ -8,6 +8,20 @@ require 'inspec/impact'
 describe 'Impact' do
   let(:impact) { Inspec::Impact }
 
+  # Shared spy helper: temporarily replaces Inspec::Log warn/warn? singleton methods,
+  # captures emitted messages into an array, then restores originals in ensure.
+  # Available to all describe groups in this file.
+  def capture_warns
+    captured = []
+    Inspec::Log.define_singleton_method(:warn?)  { true }
+    Inspec::Log.define_singleton_method(:warn) { |msg| captured << msg }
+    yield
+    captured
+  ensure
+    Inspec::Log.singleton_class.remove_method(:warn?)
+    Inspec::Log.singleton_class.remove_method(:warn)
+  end
+
   describe 'impact from string method' do
     it 'returns the proper impact for none string' do
       _(impact.impact_from_string('none')).must_equal 0.0
@@ -113,6 +127,79 @@ describe 'Impact' do
     end
   end
 
+  describe 'strict_numeric_mode flag (Walk Ex13)' do
+    # Restore default after each test so other tests are unaffected.
+    def teardown
+      Inspec::Impact.strict_numeric_mode = false
+    end
+
+    # --- OFF mode (default) ---
+
+    # Arrange: flag OFF (default); Act: pass numeric string; Assert: passthrough unchanged
+    it 'is OFF by default — numeric strings pass through unchanged' do
+      _(impact.strict_numeric_mode?).must_equal false
+      _(impact.impact_from_string('0.5')).must_equal '0.5'
+    end
+
+    # Arrange: flag OFF; Act: pass Numeric (not string); Assert: passthrough (Numeric always allowed)
+    it 'OFF mode — real Numeric values always pass through (not affected by flag)' do
+      impact.strict_numeric_mode = false
+      _(impact.impact_from_string(0.7)).must_equal 0.7
+    end
+
+    # Arrange: flag OFF; Act: pass named severity; Assert: resolves to Float (unchanged)
+    it 'OFF mode — named severities still resolve correctly' do
+      impact.strict_numeric_mode = false
+      _(impact.impact_from_string('critical')).must_equal 0.9
+    end
+
+    # --- ON mode ---
+
+    # Arrange: flag ON; Act: pass numeric string; Assert: raises ImpactError (strict rejection)
+    it 'ON mode — rejects numeric strings with ImpactError' do
+      impact.strict_numeric_mode = true
+      e = _ { impact.impact_from_string('0.7') }.must_raise(Inspec::ImpactError)
+      _(e.message).must_include 'strict numeric mode'
+      _(e.message).must_include '0.7'
+    end
+
+    # Arrange: flag ON; Act: pass real Numeric (not string); Assert: passes through (only strings blocked)
+    it 'ON mode — real Numeric values are NOT rejected (only String numerics are blocked)' do
+      impact.strict_numeric_mode = true
+      _(impact.impact_from_string(0.7)).must_equal 0.7
+    end
+
+    # Arrange: flag ON; Act: pass named severity; Assert: resolves correctly (flag only affects numeric strings)
+    it 'ON mode — named severities still resolve correctly' do
+      impact.strict_numeric_mode = true
+      _(impact.impact_from_string('high')).must_equal 0.7
+    end
+
+    # Arrange: flag ON; Act: pass nil; Assert: raises ImpactError from assert_type! (not strict mode guard)
+    it 'ON mode — nil still raises ImpactError from assert_type! (not strict mode guard)' do
+      impact.strict_numeric_mode = true
+      e = _ { impact.impact_from_string(nil) }.must_raise(Inspec::ImpactError)
+      _(e.message).must_include 'nil'
+    end
+
+    # --- Lifecycle: toggle ON then OFF ---
+
+    # Arrange: toggle ON then OFF; Assert: numeric strings pass through again after disabling
+    it 'can be toggled OFF after being ON — restores passthrough behaviour' do
+      impact.strict_numeric_mode = true
+      impact.strict_numeric_mode = false
+      _(impact.impact_from_string('0.5')).must_equal '0.5'
+    end
+
+    # Arrange: flag ON; Act: WARN emitted for rejected numeric string
+    it 'ON mode — emits WARN with strict_numeric_rejected reason' do
+      impact.strict_numeric_mode = true
+      warns = capture_warns { _ { impact.impact_from_string('0.5') }.must_raise(Inspec::ImpactError) }
+      _(warns).wont_be_empty
+      _(warns.first).must_include '"strict_numeric_rejected"'
+    end
+  end
+
   describe 'logging_enabled toggle' do
     # Restore default after each test so other tests are unaffected.
     def teardown
@@ -151,18 +238,7 @@ describe 'Impact' do
   end
 
   describe 'observability — WARN hooks (Walk Ex9)' do
-    # Spy helper: temporarily replaces Inspec::Log warn/warn? singleton methods,
-    # captures emitted messages into an array, then restores original methods.
-    def capture_warns
-      captured = []
-      Inspec::Log.define_singleton_method(:warn?)  { true }
-      Inspec::Log.define_singleton_method(:warn) { |msg| captured << msg }
-      yield
-      captured
-    ensure
-      Inspec::Log.singleton_class.remove_method(:warn?)
-      Inspec::Log.singleton_class.remove_method(:warn)
-    end
+    # capture_warns is defined in the outer describe scope (shared helper).
 
     # Ensure toggle is restored after each test in this group.
     def teardown

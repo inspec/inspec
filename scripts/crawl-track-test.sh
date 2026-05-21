@@ -79,7 +79,14 @@ describe 'Inspec::Impact' do
   it('high->0.7')    { _(i.impact_from_string('high')).must_equal 0.7 }
   it('critical->0.9'){ _(i.impact_from_string('critical')).must_equal 0.9 }
   it('HIGH->0.7')    { _(i.impact_from_string('HIGH')).must_equal 0.7 }
-  it('passthrough')  { _(i.impact_from_string('0.5')).must_equal '0.5' }
+  # numeric-string passthrough: OFF by default; raises in strict mode (Ex13 flag)
+  if ENV.fetch('INSPEC_IMPACT_STRICT_NUMERIC', '0') == '1'
+    it('strict: numeric string raises') {
+      _ { i.impact_from_string('0.5') }.must_raise(Inspec::ImpactError)
+    }
+  else
+    it('passthrough') { _(i.impact_from_string('0.5')).must_equal '0.5' }
+  end
 
   # impact_from_string — error paths
   it 'raises on unknown name' do

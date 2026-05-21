@@ -50,9 +50,29 @@ end
 #
 # The toggle is independent of log level. Use it in tests or performance-sensitive
 # paths to suppress all log_impact calls with zero overhead.
+#
+# == Feature flag: strict numeric mode
+#
+# When ON, impact_from_string rejects numeric strings (e.g. "0.7") instead of
+# passing them through, forcing callers to supply a named severity or a real
+# Numeric. This is a non-breaking opt-in; the default is OFF (existing behaviour).
+#
+#   Inspec::Impact.strict_numeric_mode = true    # reject numeric strings
+#   Inspec::Impact.strict_numeric_mode = false   # pass through (default)
+#   Inspec::Impact.strict_numeric_mode?          # query current state
+#
+# Auto-enabled via environment variable:
+#   INSPEC_IMPACT_STRICT_NUMERIC=1 inspec exec ...
+#
+# Lifecycle: OFF by default → teams opt in → default ON in next major → removed.
+# See ai-track-docs/feature-flags.md for the full lifecycle guide.
 module Inspec::Impact
   # Controls whether log_impact emits debug entries. Default: true.
   @logging_enabled = true
+
+  # Controls whether numeric strings are rejected in impact_from_string.
+  # Bootstrapped from INSPEC_IMPACT_STRICT_NUMERIC env var at load time.
+  @strict_numeric_mode = (ENV.fetch('INSPEC_IMPACT_STRICT_NUMERIC', '0') == '1')
 
   class << self
     # @return [Boolean] whether impact debug logging is active.
@@ -63,6 +83,15 @@ module Inspec::Impact
     # Enable or disable impact debug logging.
     # @param value [Boolean]
     attr_writer :logging_enabled
+
+    # @return [Boolean] whether numeric strings raise ImpactError (strict mode).
+    def strict_numeric_mode?
+      @strict_numeric_mode
+    end
+
+    # Enable or disable strict numeric mode.
+    # @param value [Boolean]
+    attr_writer :strict_numeric_mode
   end
   # Maps severity name (String) -> minimum score (Float), in ascending order.
   # Insertion order matters: string_from_impact relies on reverse iteration.
@@ -85,17 +114,22 @@ module Inspec::Impact
   # Converts a severity name or numeric string to a Float impact score.
   #
   # @param value [String, Numeric] severity name ("low", "HIGH") or a numeric
-  #   string ("0.5"). Numeric strings are passed through unchanged.
+  #   string ("0.5"). Numeric strings are passed through unchanged when
+  #   strict_numeric_mode? is false (the default); when strict_numeric_mode? is
+  #   true, numeric strings raise ImpactError — callers must supply a named
+  #   severity or a real Numeric.
   # @return [Float, String] Float score for named severities; the original
-  #   string for numeric inputs (caller is responsible for further conversion).
+  #   string for numeric inputs (when strict mode is OFF).
   # @raise [Inspec::ImpactError] if value is nil, not a String/Numeric, or an
-  #   unknown severity name. Always raises ImpactError — never a raw Ruby error.
+  #   unknown severity name. Also raised for numeric strings when strict mode is ON.
   def self.impact_from_string(value)
     assert_type!(value, label: 'value', allowed: [String, Numeric], description: 'a String or Numeric')
     start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 
-    # Numeric strings (e.g. "0.7") are passed through as-is for the caller to use directly.
     if number?(value)
+      reject_if_strict_numeric!(value, start_time)
+
+      # Numeric strings (e.g. "0.7") are passed through as-is for the caller to use directly.
       log_impact(op: 'impact_from_string', status: 'passthrough', input: value,
                  elapsed_ms: elapsed_ms_since(start_time))
       return value
@@ -165,6 +199,21 @@ module Inspec::Impact
   end
 
   # --- private helpers -------------------------------------------------------
+
+  # Raises ImpactError when strict_numeric_mode? is ON and value is a String.
+  # Real Numeric values are never rejected (they have an unambiguous type).
+  # Extracted from impact_from_string to keep method length within RuboCop limits.
+  def self.reject_if_strict_numeric!(value, start_time)
+    return unless strict_numeric_mode? && value.is_a?(String)
+
+    warn_impact(op: 'impact_from_string', input: value, reason: 'strict_numeric_rejected')
+    log_impact(op: 'impact_from_string', status: 'error', input: value,
+               elapsed_ms: elapsed_ms_since(start_time))
+    raise Inspec::ImpactError,
+          "Numeric string '#{value}' is not accepted in strict numeric mode. " \
+          "Pass a named severity (#{IMPACT_SCORES.keys.join(', ')}) or a Numeric value."
+  end
+  private_class_method :reject_if_strict_numeric!
 
   # Resilience guard: raises ImpactError if +value+ is nil or not one of the
   # permitted types. Keeps nil/type validation in one place across both public methods.
