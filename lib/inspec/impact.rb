@@ -16,6 +16,14 @@ rescue LoadError
       def self.debug(_msg)
         nil
       end
+
+      def self.warn?
+        false
+      end
+
+      def self.warn(_msg)
+        nil
+      end
     end unless defined?(Log)
   end
   # rubocop:enable Style/Documentation
@@ -66,6 +74,14 @@ module Inspec::Impact
     'critical' => 0.9
   }.freeze
 
+  # Exact band-boundary scores (all boundaries except the global minimum 0.0).
+  # A score at one of these values sits exactly on a severity dividing line;
+  # upstream rounding could shift it into the adjacent band. string_from_impact
+  # emits a WARN for these hits so operators can inspect them without enabling
+  # DEBUG mode.
+  BOUNDARY_SCORES = IMPACT_SCORES.values.drop(1).freeze
+  private_constant :BOUNDARY_SCORES
+
   # Converts a severity name or numeric string to a Float impact score.
   #
   # @param value [String, Numeric] severity name ("low", "HIGH") or a numeric
@@ -87,6 +103,7 @@ module Inspec::Impact
 
     normalized = value.downcase
     unless IMPACT_SCORES.key?(normalized)
+      warn_impact(op: 'impact_from_string', input: value, reason: 'invalid_severity_name')
       log_impact(op: 'impact_from_string', status: 'error', input: value,
                  elapsed_ms: elapsed_ms_since(start_time))
       raise Inspec::ImpactError,
@@ -131,6 +148,7 @@ module Inspec::Impact
     value = value.to_f
 
     unless (0..1).cover?(value)
+      warn_impact(op: 'string_from_impact', input: value, reason: 'out_of_range')
       log_impact(op: 'string_from_impact', status: 'error', input: value,
                  elapsed_ms: elapsed_ms_since(start_time))
       raise Inspec::ImpactError, "'#{value}' is not a valid impact score. Valid impact scores: [0.0 - 1.0]."
@@ -138,6 +156,9 @@ module Inspec::Impact
 
     # Iterate in reverse so the highest matching band wins (e.g. 0.9 -> "critical").
     name = IMPACT_SCORES.reverse_each.find { |_n, score| value >= score }&.first
+    if BOUNDARY_SCORES.include?(value)
+      warn_impact(op: 'string_from_impact', input: value, result: name, reason: 'boundary_score')
+    end
     log_impact(op: 'string_from_impact', status: 'ok', input: value, result: name,
                elapsed_ms: elapsed_ms_since(start_time))
     name
@@ -160,6 +181,22 @@ module Inspec::Impact
           "Impact #{label} must be #{description}, got #{value.class}."
   end
   private_class_method :assert_type!
+
+  # Emits a structured WARN log entry visible at normal log levels (not just DEBUG).
+  # Called for error paths (invalid input) and exact boundary-score hits so operators
+  # can see these events without enabling DEBUG mode.
+  #
+  # Fields: op, reason, input (optional), result (optional).
+  # Respects the logging_enabled? toggle — disabled when toggle is OFF.
+  def self.warn_impact(op:, reason:, input: nil, result: nil)
+    return unless logging_enabled?
+
+    entry = { op: op, reason: reason }
+    entry[:input]  = input  unless input.nil?
+    entry[:result] = result unless result.nil?
+    Inspec::Log.warn(entry.map { |key, val| "\"#{key}\":#{json_value(val)}" }.then { |parts| "{#{parts.join(',')}}" })
+  end
+  private_class_method :warn_impact
 
   # Emits a structured debug log with consistent fields.
   # Fields: op, status, input, result (optional), elapsed_ms.

@@ -150,6 +150,70 @@ describe 'Impact' do
     end
   end
 
+  describe 'observability — WARN hooks (Walk Ex9)' do
+    # Spy helper: temporarily replaces Inspec::Log warn/warn? singleton methods,
+    # captures emitted messages into an array, then restores original methods.
+    def capture_warns
+      captured = []
+      Inspec::Log.define_singleton_method(:warn?)  { true }
+      Inspec::Log.define_singleton_method(:warn) { |msg| captured << msg }
+      yield
+      captured
+    ensure
+      Inspec::Log.singleton_class.remove_method(:warn?)
+      Inspec::Log.singleton_class.remove_method(:warn)
+    end
+
+    # Ensure toggle is restored after each test in this group.
+    def teardown
+      Inspec::Impact.logging_enabled = true
+    end
+
+    # --- boundary-score WARN ---
+
+    # Arrange: exact boundary score 0.7 (high band minimum); Act: string_from_impact;
+    # Assert: WARN emitted with reason=boundary_score AND correct name returned.
+    it 'emits WARN with boundary_score reason for exact high boundary 0.7' do
+      warns = capture_warns { _(impact.string_from_impact(0.7)).must_equal 'high' }
+      _(warns).wont_be_empty
+      _(warns.first).must_include '"boundary_score"'
+    end
+
+    # Arrange: mid-band score 0.75 (not on a boundary); Act: string_from_impact;
+    # Assert: no WARN emitted (boundary check skipped for non-boundary values).
+    it 'does NOT emit WARN for mid-band score 0.75' do
+      warns = capture_warns { _(impact.string_from_impact(0.75)).must_equal 'high' }
+      boundary_warns = warns.select { |w| w.include?('boundary_score') }
+      _(boundary_warns).must_be_empty
+    end
+
+    # --- error-path WARN ---
+
+    # Arrange: invalid severity name; Act: impact_from_string raises ImpactError;
+    # Assert: WARN emitted with reason=invalid_severity_name BEFORE the raise.
+    it 'emits WARN with invalid_severity_name reason before raising ImpactError' do
+      warns = capture_warns { _ { impact.impact_from_string('bogus') }.must_raise(Inspec::ImpactError) }
+      _(warns).wont_be_empty
+      _(warns.first).must_include '"invalid_severity_name"'
+    end
+
+    # Arrange: out-of-range score; Act: string_from_impact raises ImpactError;
+    # Assert: WARN emitted with reason=out_of_range.
+    it 'emits WARN with out_of_range reason before raising ImpactError' do
+      warns = capture_warns { _ { impact.string_from_impact(99) }.must_raise(Inspec::ImpactError) }
+      _(warns).wont_be_empty
+      _(warns.first).must_include '"out_of_range"'
+    end
+
+    # Arrange: logging_enabled OFF; Act: string_from_impact at boundary;
+    # Assert: no WARN emitted — toggle suppresses warn_impact too.
+    it 'does NOT emit WARN when logging_enabled is OFF' do
+      impact.logging_enabled = false
+      warns = capture_warns { impact.string_from_impact(0.7) }
+      _(warns).must_be_empty
+    end
+  end
+
   describe 'number? method' do
     it 'returns true for int string' do
       _(impact.number?('1')).must_equal true
