@@ -1,9 +1,10 @@
-name: Crawl+Walk Track — Tests, Coverage & Diagram Validation
+name: Crawl+Walk Track — Tests, Coverage, Contracts & Diagram Validation
 
 # Runs on learn/crawl/** and learn/walk/** branches.
 # Job 1: standalone impact.rb unit tests (no bundler)
 # Job 2: coverage baseline for impact.rb (Walk Ex2+)
-# Job 3: architecture diagram structural validation
+# Job 3: contract tests — golden file + API shape (Walk Ex5+)
+# Job 4: architecture diagram structural validation
 
 on:
   push:
@@ -45,6 +46,35 @@ jobs:
       - name: Annotate on failure
         if: failure()
         run: echo "::error file=lib/inspec/impact.rb::crawl-track tests failed — see job log"
+
+  contract-tests:
+    name: "Contract tests — impact API (Ruby ${{ matrix.ruby }})"
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ruby: ["3.1", "3.2", "3.3"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: false
+
+      - name: Install minitest
+        run: gem install minitest --no-document
+
+      - name: Run contract tests
+        run: ruby -I lib test/contract/impact_contract_test.rb
+
+      - name: Annotate on failure
+        if: failure()
+        run: |
+          echo "::error file=lib/inspec/impact.rb::Contract test failed — IMPACT_SCORES or method shape changed."
+          echo "::notice::If the change is intentional, run: ruby scripts/update-impact-contract.rb"
 
   coverage-baseline:
     name: "Coverage baseline — impact.rb (Ruby ${{ matrix.ruby }})"

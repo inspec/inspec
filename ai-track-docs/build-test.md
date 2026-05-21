@@ -4,7 +4,7 @@
 
 | Metric | Value | Notes |
 |--------|-------|-------|
-| **Line coverage** | **79.71%** | Measured at Walk Ex2 with 25 inline tests |
+| **Line coverage** | **84.75%** | Measured at Walk Ex3 (after refactor) with 25 inline tests |
 | Branch coverage | tracked | Enabled via `enable_coverage :branch` |
 | Legitimate gaps | ~10 lines | `rescue LoadError` stub (never fires when mixlib-log is installed) + debug-log emission path (log level not set to DEBUG in tests) |
 | Threshold | 75% | Script exits non-zero if coverage drops below this |
@@ -29,6 +29,59 @@ Report written to `coverage/impact/coverage.json` and `coverage/impact/index.htm
 |-------|--------|
 | `rescue LoadError` block (~10 lines) | Only fires when `mixlib-log` is absent; not installed in full-stack env |
 | `Inspec::Log.debug? / debug` calls | Requires `Inspec::Log` log level set to DEBUG; not set in isolated tests |
+
+---
+
+## Contract Tests — `Inspec::Impact` API (Walk Ex5+)
+
+Contract tests guard the **public API boundary**: severity name/score mapping,
+method return types, and error types. They answer "Has the interface changed?"
+rather than "Does the logic work?"
+
+| File | Purpose |
+|------|---------|
+| `test/contract/impact_contract_test.rb` | 16 contract tests, 42 assertions |
+| `test/fixtures/impact_scores_golden.json` | Golden file for `IMPACT_SCORES` mapping |
+| `scripts/update-impact-contract.rb` | Regenerates the golden file after intentional changes |
+
+### Running contract tests locally
+
+```bash
+# No bundler needed — uses stdlib json + minitest
+/path/to/ruby -I lib test/contract/impact_contract_test.rb
+```
+
+### What is tested
+
+| Contract | Test |
+|----------|------|
+| `IMPACT_SCORES` names match golden file | `has the same set of severity names` |
+| `IMPACT_SCORES` scores match golden file | `has the same score for every severity name` |
+| No undocumented severity names added | `has no extra severity names` |
+| Scores in ascending order | `scores are in ascending order` |
+| `impact_from_string` returns Float for names | `returns Float for every named severity` |
+| `impact_from_string` returns String for numerics | `returns String (passthrough)` |
+| `string_from_impact` returns String | `returns String for every golden-file score` |
+| Both methods raise `Inspec::ImpactError` | error-path tests |
+| Full round-trip `name → Float → name` | `round-trip contract` |
+
+### How to update the contract (intentional changes only)
+
+```bash
+# 1. Edit IMPACT_SCORES in lib/inspec/impact.rb
+# 2. Regenerate the golden file
+ruby scripts/update-impact-contract.rb
+
+# 3. Review the diff — confirm only expected values changed
+git diff test/fixtures/impact_scores_golden.json
+
+# 4. Commit BOTH files together
+git add lib/inspec/impact.rb test/fixtures/impact_scores_golden.json
+git commit -s -m "feat: update CVSS severity mapping + contract"
+```
+
+> **Never update the golden file without a matching code change.** The golden
+> file is evidence that the change was intentional, not accidental.
 
 ---
 

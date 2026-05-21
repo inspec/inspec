@@ -1,0 +1,29 @@
+{
+  "contract_version": "1.0",
+  "description": "CVSS 3.0 severity name → minimum score mapping for Inspec::Impact. This file is the authoritative contract for the IMPACT_SCORES constant. Any intentional change to names or scores MUST be accompanied by a regeneration of this file (see scripts/update-impact-contract.rb).",
+  "scores": {
+    "none": 0.0,
+    "low": 0.1,
+    "medium": 0.4,
+    "high": 0.7,
+    "critical": 0.9
+  },
+  "method_contracts": {
+    "impact_from_string": {
+      "named_severity_input_type": "String",
+      "named_severity_output_type": "Float",
+      "numeric_string_input_type": "String",
+      "numeric_string_output_type": "String",
+      "nil_raises": "Inspec::ImpactError",
+      "unknown_name_raises": "Inspec::ImpactError",
+      "wrong_type_raises": "Inspec::ImpactError"
+    },
+    "string_from_impact": {
+      "input_type": "Numeric",
+      "output_type": "String",
+      "nil_raises": "Inspec::ImpactError",
+      "out_of_range_raises": "Inspec::ImpactError",
+      "wrong_type_raises": "Inspec::ImpactError"
+    }
+  }
+}
