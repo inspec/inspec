@@ -166,3 +166,81 @@ Also here are some additional pointers to some awesome Chef content:
 - [InSpec Docs](https://docs/chef.io/inspec/)
 - [Learn Chef](https://learn.chef.io/)
 - [Chef Website](https://www.chef.io/)
+
+---
+
+## GHCP Walk Track (Learning Path)
+
+> **Who this is for:** Developers working through the GitHub Copilot (GHCP) Walk
+> track on this repo. If you are here for a regular contribution, the sections
+> above are all you need.
+
+The Walk track builds on the Crawl track and practices **multi-file, plan-first**
+changes. Every exercise follows the same repeatable loop:
+
+### Branching strategy
+
+Branches are chained so each PR diff is small and reviewable in isolation:
+
+```
+main
+ └── learn/walk/mohan-ex0-bootstrap
+     └── learn/walk/mohan-ex1-arch-map
+         └── learn/walk/mohan-ex2-coverage
+             └── learn/walk/mohan-ex3-refactor  ← base for next exercise
+```
+
+- Branch names follow `learn/walk/<author>-ex<N>-<slug>`.
+- Open each PR against the **previous exercise branch** (not `main`).
+- Keep PRs small: one coherent change per exercise.
+
+### Plan-first rule
+
+**Write a plan before generating any diff.** The plan must list:
+- Files to be changed and why
+- Expected behaviour change (or "none — behaviour-preserving")
+- Test strategy
+- Risk level and rollback steps
+
+Include the plan inline in the PR description or link to a session artifact.
+Copilot Chat prompt to generate a plan:
+
+```
+Propose the smallest plan and diffs to meet THIS acceptance; list files,
+risks, and test plan; then show diffs file-by-file.
+```
+
+### PR expectations
+
+Every Walk PR must include all five sections from the PR template
+(`.copilot-track/walk/pr-template.md`):
+
+| Section | What to include |
+|---------|----------------|
+| **Summary** | What changed, why, and which files |
+| **Evidence** | Test command + output snippet; coverage % |
+| **Risk & Rollback** | Risk level; exact revert command or flag to toggle |
+| **Review Focus** | Where the reviewer should look first |
+| **Track** | Level: Walk; exercise number |
+
+### Using Copilot in this track
+
+| Task | Suggested prompt |
+|------|-----------------|
+| Generate a plan | `Propose the smallest plan and diffs to meet THIS acceptance; list files, risks, and test plan; then show diffs file-by-file.` |
+| Write a test | `Create an Arrange-Act-Assert test for <fn> with one valid and one invalid case; deterministic only.` |
+| Draft PR description | `Fill this PR template for Exercise <id> using our changes; include commands, outputs (logs/tests), and a rollback note.` |
+| Improve error handling | `From the last commit(s), propose 1 minimal error-handling improvement + a matching failure test.` |
+
+### Key artefacts
+
+| File | Purpose |
+|------|---------|
+| `ai-track-docs/SYSTEM-OVERVIEW.md` | Architecture node→path map |
+| `ai-track-docs/build-test.md` | How to run tests and coverage locally |
+| `ai-track-docs/onboarding-walk.md` | One-page Copilot onboarding prompt |
+| `ai-track-docs/architecture.mmd` | Mermaid diagram with real file paths |
+| `.copilot-track/walk/pr-template.md` | Walk PR template |
+| `scripts/crawl-track-test.sh` | Local CI (no bundler) |
+| `scripts/coverage-impact.rb` | Standalone coverage runner |
+| `scripts/validate-diagram.rb` | Architecture diagram validator |
