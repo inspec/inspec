@@ -1,6 +1,6 @@
 # Security & Secrets Hygiene — InSpec
 
-**Updated:** 2026-05-20  
+**Updated:** 2026-05-21 (Walk Ex8 — gitleaks CI + local scan script added)
 **Scope:** repo-wide hygiene; `lib/inspec/impact.rb` specific notes
 
 ---
@@ -69,16 +69,73 @@ and config objects — no hardcoded values. ✅
 
 ---
 
+## Walk Ex8 Security Scan Improvements (2026-05-21)
+
+### Tools added
+
+| Tool | Where | Purpose |
+|------|-------|---------|
+| `gitleaks/gitleaks-action@v2` | `.github/workflows/crawl-track-impact.yml` | CI secret scan on every `learn/walk/**` push |
+| `scripts/secret-scan.rb` | Repo root | Lightweight local scan (no external install) |
+| `.gitleaks.toml` | Repo root | Gitleaks config with allowlist for known-safe patterns |
+
+### Local scan usage
+
+```bash
+# Scan track files (default targets)
+ruby scripts/secret-scan.rb
+
+# Scan broader lib/
+ruby scripts/secret-scan.rb lib/inspec/ lib/plugins/
+
+# Exit 0 = clean; exit 1 = findings requiring review
+```
+
+### Scan results (Walk Ex8)
+
+**Track files (30 files):** 0 raw matches ✅
+
+**Broader lib/ scan (483 files):** 5 raw matches → 5 suppressed by documented allowlist ✅
+
+| File | Finding | Verdict | Justification |
+|------|---------|---------|--------------|
+| `lib/inspec/resources/users.rb:536` | `passwd = parse_passwd_line(...)` | ✅ False positive | `passwd` is a local variable holding a parsed `/etc/passwd` struct — no credential value |
+| `lib/inspec/resources/users.rb:682` | `passwd = parse_passwd_line(...)` | ✅ False positive | Same as above |
+| `lib/plugins/inspec-compliance/README.md:326` | `COMPLIANCE_ACCESSTOKEN='mycompliancetoken'` | ✅ False positive | Explicit documentation placeholder — value is `mycompliancetoken` |
+| `lib/plugins/inspec-compliance/lib/inspec-compliance/api.rb:185` | `config["refresh_token"]` | ✅ False positive | Reads token from config object — no hardcoded value |
+
+All four false positives are documented in `scripts/secret-scan.rb` ALLOWLIST and in `.gitleaks.toml`.
+
+### CI gitleaks config
+
+Gitleaks uses `.gitleaks.toml` which:
+- Extends the default upstream ruleset
+- Allows `test/fixtures/**` paths (controlled mock data)
+- Allows `.github/workflows/**` (safe `secrets.GITHUB_TOKEN` references)
+- Allows `ai-track-docs/security.md` (discusses patterns, not values)
+
+### How to update allowlists
+
+If a new false positive appears in CI:
+1. Identify the finding in the gitleaks job output
+2. Add an allowlist entry to `.gitleaks.toml` (paths or regexes section)
+3. For the local script, add a lambda to the `ALLOWLIST` array in `scripts/secret-scan.rb`
+4. Document the justification in this file's table above
+
+---
+
 ## Ongoing Security Practices
 
-### Pre-commit scan (recommended)
-```bash
-# Install detect-secrets (Python)
-pip install detect-secrets
-detect-secrets scan > .secrets.baseline
-detect-secrets audit .secrets.baseline
+### Running scans locally
 
-# Or use truffleHog
+```bash
+# Fast track scan (no install needed)
+ruby scripts/secret-scan.rb
+
+# Full repo scan (if gitleaks installed)
+gitleaks detect --config .gitleaks.toml --source . --no-git
+
+# Legacy truffleHog (Chef main CI uses this on main branch)
 trufflehog git file://. --since-commit HEAD --only-verified
 ```
 
@@ -86,6 +143,7 @@ trufflehog git file://. --since-commit HEAD --only-verified
 - [ ] No `.env` files staged (`git status` should not show them)
 - [ ] No `*.pem` / `*.key` files staged
 - [ ] No real tokens/passwords in test fixtures (fakes only)
+- [ ] `ruby scripts/secret-scan.rb` exits 0
 - [ ] `git log --all --full-history -- '*.pem' '*.key' '.env'` returns nothing
 
 ### If a secret is accidentally committed

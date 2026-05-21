@@ -1,0 +1,59 @@
+# .gitleaks.toml
+# Gitleaks configuration for the InSpec GHCP track branches.
+# Extends the default ruleset with allowlists for known-safe patterns.
+#
+# Docs: https://github.com/gitleaks/gitleaks?tab=readme-ov-file#configuration
+#
+# How to run locally (if gitleaks is installed):
+#   gitleaks detect --config .gitleaks.toml --source . --no-git
+#
+# CI: gitleaks/gitleaks-action runs on every push to learn/walk/** branches.
+
+title = "InSpec GHCP Track — Gitleaks Config"
+
+[extend]
+  # Use the upstream default ruleset as the base
+  useDefault = true
+
+# ── Global allowlist ─────────────────────────────────────────────────────────
+[allowlist]
+  description = "Known-safe patterns in this repo"
+
+  # Files that legitimately reference token/key/secret *names* (not values)
+  paths = [
+    # Security documentation — discusses patterns, not real secrets
+    "ai-track-docs/security.md",
+    # Dependency notes — discusses HAB_AUTH_TOKEN by name only
+    "ai-track-docs/dependencies.md",
+    # Test fixtures — controlled mock data, no live credentials
+    "test/fixtures/cmd/.*",
+    "test/fixtures/.*",
+    # GitHub Actions workflow referencing secrets.GITHUB_TOKEN (safe idiom)
+    ".github/workflows/.*",
+  ]
+
+  # Patterns that are known-safe across the entire codebase
+  regexes = [
+    # InSpec CLI --token / --password *option names* (not values)
+    "option\\s+:token",
+    "option\\s+:password",
+    # CVSS score floats that look numeric but are not keys
+    "0\\.[0-9]+",
+    # Standard GitHub Actions secret reference idiom
+    "\\$\\{\\{\\s*secrets\\.",
+    # RuboCop / Ruby heredoc test strings
+    "must_include",
+  ]
+
+  # Commits known to contain only documentation about secret patterns
+  commits = []
+
+# ── Per-rule overrides ────────────────────────────────────────────────────────
+
+# Suppress the generic "high entropy" rule for YAML/JSON test fixtures
+# (InSpec test fixtures contain base64-ish strings that are mock data)
+[[rules]]
+  id          = "track-high-entropy-allowlist"
+  description = "Allow high-entropy strings in test fixture paths"
+  regex       = "."
+  allowlist.paths = ["test/fixtures/.*\\.json", "test/fixtures/.*\\.yml"]

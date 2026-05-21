@@ -1,11 +1,12 @@
-name: Crawl+Walk Track — Tests, Lint, Coverage, Contracts & Diagram Validation
+name: Crawl+Walk Track — Tests, Lint, Coverage, Contracts, Security & Diagram Validation
 
 # Runs on learn/crawl/** and learn/walk/** branches.
 # Job 1: standalone impact.rb unit tests (no bundler)
 # Job 2: lint — RuboCop 1.86.2 (pinned, Walk Ex7+)
-# Job 3: coverage baseline for impact.rb (Walk Ex2+)
-# Job 4: contract tests — golden file + API shape (Walk Ex5+)
-# Job 5: architecture diagram structural validation
+# Job 3: secret scan — gitleaks (Walk Ex8+)
+# Job 4: coverage baseline for impact.rb (Walk Ex2+)
+# Job 5: contract tests — golden file + API shape (Walk Ex5+)
+# Job 6: architecture diagram structural validation
 #
 # Gem version pins (Walk Ex7):
 #   minitest ~> 6.0  (upgrade from 5.27 used by main bundle; deliberate)
@@ -81,6 +82,29 @@ jobs:
         run: |
           echo "::error file=lib/inspec/impact.rb::Contract test failed — IMPACT_SCORES or method shape changed."
           echo "::notice::If the change is intentional, run: ruby scripts/update-impact-contract.rb"
+
+  secret-scan:
+    name: "Secret scan — gitleaks (Walk Ex8)"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history for gitleaks git-mode scan
+
+      - name: Run gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        with:
+          config-path: .gitleaks.toml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}  # optional — required for org-level scans
+
+      - name: Annotate on failure
+        if: failure()
+        run: |
+          echo "::error::Gitleaks found potential secrets — review the scan output above."
+          echo "::notice::If this is a false positive, add an allowlist entry to .gitleaks.toml"
 
   lint:
     name: "RuboCop lint (1.86.2 pinned, Walk Ex7)"
