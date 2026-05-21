@@ -240,10 +240,7 @@ module Inspec::Impact
   def self.warn_impact(op:, reason:, input: nil, result: nil)
     return unless logging_enabled?
 
-    entry = { op: op, reason: reason }
-    entry[:input]  = input  unless input.nil?
-    entry[:result] = result unless result.nil?
-    Inspec::Log.warn(entry.map { |key, val| "\"#{key}\":#{json_value(val)}" }.then { |parts| "{#{parts.join(',')}}" })
+    Inspec::Log.warn(build_log_entry(op: op, reason: reason, input: input, result: result))
   end
   private_class_method :warn_impact
 
@@ -254,11 +251,9 @@ module Inspec::Impact
     return unless logging_enabled?
     return unless Inspec::Log.debug?
 
-    entry = { op: op, status: status, elapsed_ms: elapsed_ms }
-    entry[:input]  = input  unless input.nil?
-    entry[:result] = result unless result.nil?
     # Build JSON without requiring the json gem so this module stays dependency-free.
-    Inspec::Log.debug(entry.map { |key, val| "\"#{key}\":#{json_value(val)}" }.then { |parts| "{#{parts.join(',')}}" })
+    Inspec::Log.debug(build_log_entry(op: op, status: status, elapsed_ms: elapsed_ms,
+                                      input: input, result: result))
   end
   private_class_method :log_impact
 
@@ -271,6 +266,16 @@ module Inspec::Impact
     end
   end
   private_class_method :json_value
+
+  # Builds a compact JSON string from the provided keyword fields, omitting nil values.
+  # Shared by log_impact and warn_impact to eliminate duplicated serialisation logic.
+  # Using a Hash + compact keeps this free of the json gem.
+  def self.build_log_entry(**fields)
+    fields.compact
+          .map { |key, val| "\"#{key}\":#{json_value(val)}" }
+          .then { |parts| "{#{parts.join(',')}}" }
+  end
+  private_class_method :build_log_entry
 
   # Returns milliseconds elapsed since +start_time+ (monotonic clock), rounded to 3dp.
   def self.elapsed_ms_since(start_time)

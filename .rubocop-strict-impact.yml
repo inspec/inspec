@@ -1,0 +1,66 @@
+# Stricter RuboCop configuration for lib/inspec/impact.rb
+#
+# Purpose (Walk Ex14 — Type Safety / Static Analysis):
+#   Gate the impact module at tighter quality thresholds to catch regressions
+#   before they reach review.  Applied only to the impact.rb path so it has
+#   zero effect on unrelated code.
+#
+# Usage:
+#   bundle exec rubocop --config .rubocop-strict-impact.yml lib/inspec/impact.rb
+#   # or via the CI job: lint-strict-impact
+#
+# Suppressions are declared via AllowedMethods below (not inline rubocop:disable
+# comments in source) so the source code stays clean.  Each suppression is
+# accompanied by a rationale comment.  See also:
+#   ai-track-docs/type-safety.md  — full suppressions table with decision log.
+
+inherit_from: .rubocop.yml
+
+AllCops:
+  Include:
+    - 'lib/inspec/impact.rb'
+  Exclude:
+    - '**/*'  # exclude everything; Include overrides for the one file above
+
+# --- Tighter Metrics --------------------------------------------------------
+# Rationale: impact.rb is a pure-logic module with no framework dependencies.
+# Stricter limits detect complexity growth (new branches, new flags) earlier
+# than the repo-wide .rubocop.yml thresholds.
+
+# Stricter than repo-wide 22; catches methods that grow beyond 3 observable
+# decision phases + 2 guard clauses + their observability calls.
+Metrics/MethodLength:
+  Max: 15
+  AllowedMethods:
+    # impact_from_string: 5 irreducible branches (nil-guard → type-guard →
+    # strict-numeric reject → numeric passthrough → key lookup). Each branch
+    # emits its own observability call. Extracting a lookup sub-helper would
+    # obscure the decision tree without reducing ABC. Approved in Walk Ex14.
+    - impact_from_string
+    # string_from_impact: 3 mandatory guard phases (type, range, boundary) each
+    # with a log/warn call, plus the main reverse-iteration lookup. The
+    # observability calls add lines but cannot be removed without losing
+    # production visibility. Approved in Walk Ex14.
+    - string_from_impact
+
+# Stricter than repo-wide 20; reflects that impact.rb has no UI/framework code
+# that legitimately inflates ABC.
+Metrics/AbcSize:
+  Max: 15
+  AllowedMethods:
+    # Same two methods — see Metrics/MethodLength rationale above.
+    # impact_from_string ABC: ~17.4; string_from_impact ABC: ~16.3.
+    - impact_from_string
+    - string_from_impact
+
+# Tighter than default 7; most helpers in impact.rb have CC ≤ 3.
+# Violations here signal a method is accumulating too many decision paths.
+# No AllowedMethods needed: the build_log_entry extraction in Walk Ex14 reduced
+# log_impact CC from 6 to 3, bringing it within this limit.
+Metrics/CyclomaticComplexity:
+  Max: 5
+
+# Mirrors CyclomaticComplexity limit; perceived complexity should not diverge.
+# build_log_entry extraction also resolved the PerceivedComplexity violation.
+Metrics/PerceivedComplexity:
+  Max: 5
