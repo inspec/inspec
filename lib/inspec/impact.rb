@@ -29,6 +29,27 @@ rescue LoadError
   # rubocop:enable Style/Documentation
 end
 
+# Load retry-with-backoff resilience helper (Walk Ex15).
+# Falls back to a pass-through stub when running in isolation so no additional
+# gem or require chain is needed for standalone unit tests.
+begin
+  require 'inspec/utils/retry_with_backoff'
+rescue LoadError
+  # rubocop:disable Style/Documentation
+  module Inspec
+    module Utils
+      module RetryWithBackoff
+        def self.call(**_opts)
+          yield
+        rescue StandardError
+          nil # swallow — stub has no retry budget
+        end
+      end
+    end unless defined?(Utils)
+  end
+  # rubocop:enable Style/Documentation
+end
+
 # Utilities for converting between CVSS 3.0 severity names and numeric scores.
 #
 # Severity names map to the *lowest* score in that band:
@@ -237,23 +258,35 @@ module Inspec::Impact
   #
   # Fields: op, reason, input (optional), result (optional).
   # Respects the logging_enabled? toggle — disabled when toggle is OFF.
+  # Call site 1: wraps Inspec::Log.warn with retry-backoff (Walk Ex15).
+  # Retries up to 2×, base_delay 0.01 s. Falls back silently so log failures
+  # never surface to callers (impact scoring must never fail due to log issues).
   def self.warn_impact(op:, reason:, input: nil, result: nil)
     return unless logging_enabled?
 
-    Inspec::Log.warn(build_log_entry(op: op, reason: reason, input: input, result: result))
+    entry = build_log_entry(op: op, reason: reason, input: input, result: result)
+    Inspec::Utils::RetryWithBackoff.call(retries: 2, base_delay: 0.01, on: IOError, fallback: nil) do
+      Inspec::Log.warn(entry)
+    end
   end
   private_class_method :warn_impact
 
   # Emits a structured debug log with consistent fields.
   # Fields: op, status, input, result (optional), elapsed_ms.
   # Only active when logging_enabled? is true AND log level is DEBUG.
+  # Call site 2: wraps Inspec::Log.debug with retry-backoff (Walk Ex15).
+  # Retries up to 2×, base_delay 0.01 s. Falls back silently — debug log
+  # failures must not interrupt impact scoring on the hot path.
   def self.log_impact(op:, status:, elapsed_ms:, input: nil, result: nil)
     return unless logging_enabled?
     return unless Inspec::Log.debug?
 
     # Build JSON without requiring the json gem so this module stays dependency-free.
-    Inspec::Log.debug(build_log_entry(op: op, status: status, elapsed_ms: elapsed_ms,
-                                      input: input, result: result))
+    entry = build_log_entry(op: op, status: status, elapsed_ms: elapsed_ms,
+                            input: input, result: result)
+    Inspec::Utils::RetryWithBackoff.call(retries: 2, base_delay: 0.01, on: IOError, fallback: nil) do
+      Inspec::Log.debug(entry)
+    end
   end
   private_class_method :log_impact
 

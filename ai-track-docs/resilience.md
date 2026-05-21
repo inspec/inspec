@@ -105,3 +105,51 @@ Follow this pattern when adding guards to any InSpec module:
 2. Raise `Inspec::ImpactError` (or the relevant module error class) with `got #{value.class}`
 3. Call it immediately after the nil check
 4. Add one test per unexpected type class (Array, Hash, arbitrary Object)
+
+---
+
+## Walk Ex15: Retry-with-Backoff Resilience (Log Call Sites)
+
+Walk Ex15 adds `lib/inspec/utils/retry_with_backoff.rb` and wraps the two
+observability log call sites in impact.rb (`Inspec::Log.warn` and
+`Inspec::Log.debug`) with retry-backoff so transient log backend failures
+never surface to callers of `impact_from_string` / `string_from_impact`.
+
+### Call Sites Wrapped
+
+| Call site | Method | Exception guarded | Retry budget | Fallback |
+|-----------|--------|-------------------|--------------|---------|
+| `Inspec::Log.warn(entry)` | `warn_impact` | `IOError` | 2 retries | `nil` (silent swallow) |
+| `Inspec::Log.debug(entry)` | `log_impact` | `IOError` | 2 retries | `nil` (silent swallow) |
+
+### Tuning Parameters
+
+```ruby
+Inspec::Utils::RetryWithBackoff.call(
+  retries:    2,       # re-attempts after first failure (total = retries + 1)
+  base_delay: 0.01,   # initial sleep in seconds; doubles each retry
+  max_delay:  1.0,    # sleep cap in seconds
+  on:         IOError, # exception class(es) to retry
+  fallback:   nil      # value returned after budget exhausted (:raise to propagate)
+) { Inspec::Log.warn(entry) }
+```
+
+Backoff sequence (base_delay: 0.01): 10 ms → 20 ms → 40 ms → … (capped at 1 s).
+With `retries: 2`, worst-case additional latency = **30 ms** before fallback.
+
+### Rollback
+
+```bash
+# Full rollback — removes helper + wrapping
+git revert <commit-SHA>
+
+# Minimal rollback — revert to simple rescue (no retry overhead)
+# In warn_impact and log_impact, replace:
+Inspec::Utils::RetryWithBackoff.call(retries: 2, ...) { Inspec::Log.warn(entry) }
+# with:
+Inspec::Log.warn(entry)
+rescue IOError
+  nil
+```
+
+See `ai-track-docs/resilience.md` for the full tuning and failure test table.

@@ -303,4 +303,100 @@ describe 'Impact' do
       _(impact.number?('abc')).must_equal false
     end
   end
+
+  # ---------------------------------------------------------------------------
+  # Walk Ex15: Resilience — RetryWithBackoff unit tests + call-site integration
+  # ---------------------------------------------------------------------------
+  describe 'RetryWithBackoff helper (Walk Ex15)' do
+    let(:rbf) { Inspec::Utils::RetryWithBackoff }
+
+    it 'returns block result on first-attempt success' do
+      result = rbf.call { 42 }
+      _(result).must_equal 42
+    end
+
+    it 'retries on matching exception and returns result on subsequent success' do
+      call_count = 0
+      result = rbf.call(retries: 2, base_delay: 0, on: IOError) do
+        call_count += 1
+        raise IOError if call_count < 2
+
+        :success
+      end
+      _(result).must_equal :success
+      _(call_count).must_equal 2
+    end
+
+    it 'returns fallback when retry budget exhausted' do
+      calls = 0
+      result = rbf.call(retries: 2, base_delay: 0, on: IOError, fallback: :degraded) do
+        calls += 1
+        raise IOError
+      end
+      _(result).must_equal :degraded
+      _(calls).must_equal 3 # initial + 2 retries
+    end
+
+    it 're-raises last exception when fallback: :raise' do
+      err = _ {
+        rbf.call(retries: 1, base_delay: 0, on: IOError, fallback: :raise) do
+          raise IOError, 'backend unavailable'
+        end
+      }.must_raise IOError
+      _(err.message).must_equal 'backend unavailable'
+    end
+
+    it 'does not retry on non-matching exception class' do
+      calls = 0
+      _ {
+        rbf.call(retries: 3, base_delay: 0, on: IOError) do
+          calls += 1
+          raise ArgumentError, 'unrelated'
+        end
+      }.must_raise ArgumentError
+      _(calls).must_equal 1 # no retries — wrong exception type
+    end
+  end
+
+  describe 'resilience — warn_impact call site (Walk Ex15)' do
+    # These tests verify that transient IOErrors from Inspec::Log.warn do not
+    # surface to callers; impact scoring must remain correct regardless.
+
+    teardown do
+      Inspec::Log.singleton_class.remove_method(:warn?)  rescue nil
+      Inspec::Log.singleton_class.remove_method(:warn)   rescue nil
+      Inspec::Impact.logging_enabled = true
+    end
+
+    it 'retries warn log on transient IOError and still raises ImpactError' do
+      warn_calls = 0
+      Inspec::Log.define_singleton_method(:warn?) { true }
+      Inspec::Log.define_singleton_method(:warn) do |_msg|
+        warn_calls += 1
+        raise IOError, 'log backend hiccup' if warn_calls == 1
+      end
+
+      # string_from_impact(-0.1) is out of range → calls warn_impact → IOError on 1st try
+      err = _ { Inspec::Impact.string_from_impact(-0.1) }.must_raise Inspec::ImpactError
+      _(err.message).must_include 'not a valid impact score'
+      _(warn_calls).must_equal 2 # first call raised, second succeeded
+    end
+
+    it 'swallows all warn IOErrors after retry budget exhausted — ImpactError still raised' do
+      Inspec::Log.define_singleton_method(:warn?) { true }
+      Inspec::Log.define_singleton_method(:warn) { |_| raise IOError, 'log backend down' }
+
+      # Verify: ImpactError propagates to caller even when warn logging always fails
+      err = _ { Inspec::Impact.string_from_impact(1.5) }.must_raise Inspec::ImpactError
+      _(err.message).must_include 'not a valid impact score'
+    end
+
+    it 'swallows warn IOErrors on invalid name — impact_from_string still raises ImpactError' do
+      Inspec::Log.define_singleton_method(:warn?) { true }
+      Inspec::Log.define_singleton_method(:warn) { |_| raise IOError, 'log backend down' }
+
+      err = _ { Inspec::Impact.impact_from_string('bogus') }.must_raise Inspec::ImpactError
+      _(err.message).must_include 'bogus'
+    end
+  end
 end
