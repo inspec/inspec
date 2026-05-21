@@ -48,22 +48,22 @@ describe 'Inspec::Impact contract' do
       golden['scores'].each do |name, expected_score|
         actual = Inspec::Impact::IMPACT_SCORES[name]
         _(actual).must_equal expected_score,
-          "Score for '#{name}' changed: expected #{expected_score}, got #{actual}. " \
-          'If this is intentional, run: ruby scripts/update-impact-contract.rb'
+                             "Score for '#{name}' changed: expected #{expected_score}, got #{actual}. " \
+                             'If this is intentional, run: ruby scripts/update-impact-contract.rb'
       end
     end
 
     it 'has no extra severity names beyond the golden file' do
       extra = Inspec::Impact::IMPACT_SCORES.keys - golden['scores'].keys
       assert_empty extra,
-        "New severity names added without updating the contract: #{extra.inspect}. " \
-        'Run: ruby scripts/update-impact-contract.rb'
+                   "New severity names added without updating the contract: #{extra.inspect}. " \
+                   'Run: ruby scripts/update-impact-contract.rb'
     end
 
     it 'scores are in ascending order (lowest band first)' do
       scores = Inspec::Impact::IMPACT_SCORES.values
       assert_equal scores.sort, scores,
-        'IMPACT_SCORES must remain in ascending order for string_from_impact to work correctly'
+                   'IMPACT_SCORES must remain in ascending order for string_from_impact to work correctly'
     end
   end
 
@@ -74,7 +74,7 @@ describe 'Inspec::Impact contract' do
       golden['scores'].each_key do |name|
         result = impact.impact_from_string(name)
         assert_kind_of Float, result,
-          "impact_from_string('#{name}') must return Float, got #{result.class}"
+                       "impact_from_string('#{name}') must return Float, got #{result.class}"
       end
     end
 
@@ -107,7 +107,7 @@ describe 'Inspec::Impact contract' do
       golden['scores'].each_value do |score|
         result = impact.string_from_impact(score)
         assert_kind_of String, result,
-          "string_from_impact(#{score}) must return String, got #{result.class}"
+                       "string_from_impact(#{score}) must return String, got #{result.class}"
       end
     end
 
@@ -135,12 +135,12 @@ describe 'Inspec::Impact contract' do
 
   describe 'round-trip contract' do
     it 'impact_from_string → string_from_impact round-trips for all golden names' do
-      golden['scores'].each do |name, score|
-        via_score = impact.impact_from_string(name)   # String -> Float
+      golden['scores'].each_key do |name|
+        via_score = impact.impact_from_string(name) # String -> Float
         back      = impact.string_from_impact(via_score) # Float -> String
         assert_equal name, back,
-          "Round-trip failed for '#{name}': " \
-          "impact_from_string -> #{via_score} -> string_from_impact -> '#{back}'"
+                     "Round-trip failed for '#{name}': " \
+                     "impact_from_string -> #{via_score} -> string_from_impact -> '#{back}'"
       end
     end
   end

@@ -1,8 +1,60 @@
 # Dependency Hygiene Notes — InSpec
 
-**Updated:** 2026-05-20  
-**Scope:** `inspec-core.gemspec`, `inspec.gemspec`, `Gemfile`  
+**Updated:** 2026-05-21 (Walk Ex7 — minitest + RuboCop upgrades)
+**Scope:** `inspec-core.gemspec`, `inspec.gemspec`, `Gemfile`, track CI gems
 **Policy:** document, note risks, propose minimal constraints — no major upgrades.
+
+---
+
+## Walk Ex7 Upgrades (2026-05-21)
+
+### Track CI gems — version pins applied
+
+| Gem | Before | After | Type | Rationale |
+|-----|--------|-------|------|-----------|
+| `minitest` | unversioned (`gem install minitest`) | `~> 6.0` (6.0.6) | **minor** (5→6 formalised) | CI was silently getting 6.0.x; main bundle uses 5.27.0. Pinning prevents uncontrolled future major bumps |
+| `rubocop` | 1.86.1 (local only) | **1.86.2** (CI pinned) | **patch** | 1.86.2 adds `Layout/ArgumentAlignment` improvements; found + fixed 9 offenses in contract test file |
+| `simplecov` | unversioned | `~> 0.22` | stabilise | Already at 0.22.0; pin prevents uncontrolled upgrade |
+
+### RuboCop 1.86.1 → 1.86.2 findings fixed
+
+Running `rubocop 1.86.2` on `test/contract/impact_contract_test.rb` found 9 new offenses (all autocorrected):
+
+| Cop | Count | Fix |
+|-----|-------|-----|
+| `Layout/ArgumentAlignment` | 6 | Aligned multi-line method arguments |
+| `Style/HashEachMethods` | 1 | `each` + unused arg → `each_key` |
+| `Lint/UnusedBlockArgument` | 1 | `score` → `_score` |
+| `Layout/ExtraSpacing` | 1 | Removed extra padding space |
+
+### Rollback instructions
+
+```bash
+# Rollback minitest to main-bundle version (5.x)
+gem install minitest -v '~> 5.27' --no-document
+# Revert CI: change '~> 6.0' back to '~> 5.27' in .github/workflows/crawl-track-impact.yml
+
+# Rollback RuboCop to 1.86.1
+gem install rubocop -v '1.86.1' --no-document
+# Revert CI: change '1.86.2' back to '1.86.1' in .github/workflows/crawl-track-impact.yml
+
+# Rollback contract test autocorrections (if needed)
+git revert <SHA-of-ex7-commit>
+```
+
+### minitest 5 → 6 compatibility notes
+
+Our track tests are compatible with both 5.x and 6.x. Key 6.x changes that affect this repo:
+
+| Area | minitest 5.x | minitest 6.x | Our code |
+|------|-------------|-------------|---------|
+| `assert_empty` | ✅ | ✅ | Used in contract test |
+| `must_raise` | ✅ | ✅ | Used in all test files |
+| `assert_kind_of` | ✅ | ✅ | Used in contract test |
+| `must_equal` | ✅ | ✅ | Used everywhere |
+| Plugin API | `Minitest.extensions` | `Minitest.extensions` | Not used |
+
+No test code changes required for the 5→6 upgrade.
 
 ---
 
