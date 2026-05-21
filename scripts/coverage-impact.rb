@@ -15,7 +15,7 @@
 #   - JSON report written to coverage/impact/coverage.json
 #   - Exits non-zero if coverage < MIN_COVERAGE
 
-MIN_COVERAGE = 75 # percent — alert if impact.rb drops below this baseline (79.71% at Ex15)
+MIN_COVERAGE = 75 # percent — alert if impact.rb drops below this baseline (79.71% at Ex3)
 
 REPO_ROOT  = File.expand_path("..", __dir__)
 SCRIPT_DIR = __dir__
@@ -56,10 +56,10 @@ describe "Inspec::Impact coverage run" do
   it { _(i.impact_from_string("HIGH")).must_equal 0.7 }
   it { _(i.impact_from_string("0.5")).must_equal "0.5" }
 
-  # impact_from_string — error paths
+  # impact_from_string — error paths (via unified assert_type! guard, Ex3)
   it { _ { i.impact_from_string("fake") }.must_raise Inspec::ImpactError }
-  it { _ { i.impact_from_string(nil) }.must_raise Inspec::ImpactError }
-  it { _ { i.impact_from_string([1, 2]) }.must_raise Inspec::ImpactError }
+  it { _ { i.impact_from_string(nil) }.must_raise Inspec::ImpactError }    # nil path
+  it { _ { i.impact_from_string([1, 2]) }.must_raise Inspec::ImpactError } # wrong type
   it { _ { i.impact_from_string(Object.new) }.must_raise Inspec::ImpactError }
 
   # string_from_impact — numeric scores
@@ -69,10 +69,10 @@ describe "Inspec::Impact coverage run" do
   it { _(i.string_from_impact(0.7)).must_equal "high" }
   it { _(i.string_from_impact(1)).must_equal "critical" }
 
-  # string_from_impact — error paths
+  # string_from_impact — error paths (via unified assert_type! guard, Ex3)
   it { _ { i.string_from_impact(99) }.must_raise Inspec::ImpactError }
-  it { _ { i.string_from_impact(nil) }.must_raise Inspec::ImpactError }
-  it { _ { i.string_from_impact("abc") }.must_raise Inspec::ImpactError }
+  it { _ { i.string_from_impact(nil) }.must_raise Inspec::ImpactError }              # nil path
+  it { _ { i.string_from_impact("abc") }.must_raise Inspec::ImpactError }            # wrong type
   it { _ { i.string_from_impact({ score: 0.5 }) }.must_raise Inspec::ImpactError }
 
   # number? predicate
