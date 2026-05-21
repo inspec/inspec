@@ -72,7 +72,7 @@ module Inspec::Resources
     def parse(content)
       require "json" unless defined?(JSON)
       JSON.parse(content)
-    rescue => e
+    rescue StandardError => e
       raise Inspec::Exceptions::ResourceFailed, "Unable to parse JSON: #{e.message}"
     end
 

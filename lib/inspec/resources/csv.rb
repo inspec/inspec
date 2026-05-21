@@ -51,7 +51,7 @@ module Inspec::Resources
       else
         csv.to_a
       end
-    rescue => e
+    rescue StandardError => e
       raise Inspec::Exceptions::ResourceFailed, "Unable to parse CSV: #{e.message}"
     end
 

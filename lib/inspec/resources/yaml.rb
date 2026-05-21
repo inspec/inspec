@@ -26,8 +26,11 @@ module Inspec::Resources
 
     # override file load and parse hash from yaml
     def parse(content)
-      YAML.load(content)
-    rescue => e
+      # safe_load instead of load: YAML.load can deserialize arbitrary Ruby
+      # objects (via !ruby/object tags), creating a remote-code-execution risk
+      # when content originates from an untrusted target node.
+      YAML.safe_load(content)
+    rescue StandardError => e
       raise Inspec::Exceptions::ResourceFailed, "Unable to parse YAML: #{e.message}"
     end
 

@@ -25,7 +25,11 @@ module Inspec::Resources
       if cassandra && cassandra.resource_failed?
         raise cassandra.resource_exception_message
       elsif @conf_path.nil?
-        return skip_resource "Cassandra db conf path is not set"
+        # skip_resource marks the resource as skipped; the explicit return
+        # prevents super(@conf_path) from running with a nil path.
+        # (No return value — void context; return is control-flow only.)
+        skip_resource "Cassandra db conf path is not set"
+        return
       end
 
       super(@conf_path)
@@ -39,8 +43,9 @@ module Inspec::Resources
     private
 
     def parse(content)
-      YAML.load(content)
-    rescue => e
+      # safe_load prevents arbitrary Ruby object deserialization (RCE risk).
+      YAML.safe_load(content)
+    rescue StandardError => e
       raise Inspec::Exceptions::ResourceFailed, "Unable to parse `cassandra.yaml` file: #{e.message}"
     end
 
