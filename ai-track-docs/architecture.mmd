@@ -1,22 +1,92 @@
 graph TD
-    CLI["lib/inspec/cli.rb\n(Thor CLI)"]
-    BaseCLI["lib/inspec/base_cli.rb\n(Shared options)"]
-    Config["lib/inspec/config.rb\n(Config mgmt)"]
-    Runner["lib/inspec/runner.rb\n(Execution engine)"]
-    Profile["lib/inspec/profile.rb\n(Profile loader)"]
-    Resources["lib/inspec/resources/\n(143 resources)"]
-    Reporters["lib/inspec/reporters/\n(Output formatters)"]
-    Plugins["lib/plugins/\n(Extensibility)"]
-    Train["Train gem\n(Transport layer)"]
-    Targets["Local / SSH / WinRM\n/ Docker / ..."]
+  %% ── Entry Points ──────────────────────────────────────────────────────────
+  BIN["inspec-bin/bin/inspec\n(CLI binary entry point)"]
+  CLI["lib/inspec/cli.rb\nInspec::InspecCLI < BaseCLI\n(Thor command definitions)"]
+  BaseCLI["lib/inspec/base_cli.rb\nInspec::BaseCLI\n(Shared option groups)"]
 
-    CLI --> BaseCLI
-    CLI --> Config
-    CLI --> Runner
-    Runner --> Profile
-    Runner --> Resources
-    Runner --> Reporters
-    Runner --> Train
-    Profile --> Resources
-    Plugins --> CLI
-    Train --> Targets
+  %% ── Core Execution ────────────────────────────────────────────────────────
+  Config["lib/inspec/config.rb\nInspec::Config\n(Merges defaults + file + CLI args)"]
+  Runner["lib/inspec/runner.rb\nInspec::Runner\n(Orchestrates profile execution)"]
+  RunnerRSpec["lib/inspec/runner_rspec.rb\nInspec::RunnerRspec\n(RSpec adapter for control eval)"]
+
+  %% ── Profile Layer ─────────────────────────────────────────────────────────
+  Profile["lib/inspec/profile.rb\nInspec::Profile\n(Loads + validates profiles)"]
+  Metadata["lib/inspec/metadata.rb\nInspec::Metadata\n(inspec.yml parser)"]
+  InputRegistry["lib/inspec/input_registry.rb\nInspec::InputRegistry\n(Input/attribute management)"]
+  DSL["lib/inspec/dsl.rb\nInspec::DSL\n(describe/control DSL)"]
+
+  %% ── Resources ─────────────────────────────────────────────────────────────
+  Resources["lib/inspec/resources/\n143 resource implementations\n(file, package, service, user …)"]
+  Impact["lib/inspec/impact.rb\nInspec::Impact\n(CVSS 3.0 severity scoring)"]
+  Errors["lib/inspec/errors.rb\nInspec::ImpactError etc.\n(Public error classes)"]
+
+  %% ── Output Layer ──────────────────────────────────────────────────────────
+  Reporters["lib/inspec/reporters/\nInspec::Reporters\n(cli, json, junit, html2 …)"]
+  Formatters["lib/inspec/formatters/\nInspec::Formatters\n(RSpec formatter adapters)"]
+
+  %% ── Transport ─────────────────────────────────────────────────────────────
+  Backend["lib/inspec/backend.rb\nInspec::Backend\n(Train connection factory)"]
+  Train["train gem\n(Transport abstraction)"]
+  Targets["Local · SSH · WinRM\nDocker · Kubernetes"]
+
+  %% ── Plugin System ─────────────────────────────────────────────────────────
+  Plugins["lib/plugins/\ninspec-compliance, inspec-parallel\ninspec-init, inspec-license …"]
+  PluginMgr["lib/inspec/plugin/\nInspec::Plugin::V2\n(Plugin registry + loader)"]
+
+  %% ── Structural edges ──────────────────────────────────────────────────────
+  BIN --> CLI
+  CLI --> BaseCLI
+  CLI --> Config
+  CLI --> Runner
+  Runner --> Profile
+  Runner --> RunnerRSpec
+  Runner --> Reporters
+  Runner --> Backend
+  Profile --> Metadata
+  Profile --> DSL
+  Profile --> InputRegistry
+  DSL --> Resources
+  Resources --> Impact
+  Impact --> Errors
+  Formatters --> Reporters
+  Backend --> Train
+  Train --> Targets
+  Plugins --> PluginMgr
+  PluginMgr --> CLI
+
+  %% ══════════════════════════════════════════════════════════════════════════
+  %% DATA FLOW 1 — inspec exec my-profile
+  %% BIN → CLI → Config → Runner → Profile → DSL+Resources → Reporters
+  %% ══════════════════════════════════════════════════════════════════════════
+  subgraph Flow1["① exec flow: inspec exec my-profile"]
+    direction LR
+    F1a["BIN\ninspec-bin/bin/inspec"] -->|"load + dispatch"| F1b["CLI\ncli.rb#exec"]
+    F1b -->|"Inspec::Config.new(opts)"| F1c["Config\nconfig.rb"]
+    F1c -->|"Runner.new(config)"| F1d["Runner\nrunner.rb"]
+    F1d -->|"add_target(path)"| F1e["Profile\nprofile.rb"]
+    F1e -->|"eval controls"| F1f["DSL+Resources\ndsl.rb + resources/"]
+    F1f -->|"RSpec results"| F1g["Reporters\nreporters/"]
+  end
+
+  %% ══════════════════════════════════════════════════════════════════════════
+  %% DATA FLOW 2 — Profile load + input resolution
+  %% Profile → Metadata(inspec.yml) → InputRegistry → DSL controls
+  %% ══════════════════════════════════════════════════════════════════════════
+  subgraph Flow2["② profile-load flow: Profile → InputRegistry → DSL"]
+    direction LR
+    F2a["Profile\nprofile.rb\n#load_libraries"] -->|"parse inspec.yml"| F2b["Metadata\nmetadata.rb"]
+    F2b -->|"register inputs"| F2c["InputRegistry\ninput_registry.rb"]
+    F2c -->|"resolve at eval time"| F2d["DSL\ndsl.rb\n#input()"]
+  end
+
+  %% ══════════════════════════════════════════════════════════════════════════
+  %% DATA FLOW 3 — Impact scoring: control impact → severity label
+  %% DSL control block → Impact.impact_from_string → Runner result hash
+  %% ══════════════════════════════════════════════════════════════════════════
+  subgraph Flow3["③ impact-scoring flow: severity name → CVSS float → reporter"]
+    direction LR
+    F3a["DSL control\nimpact 'high'"] -->|"impact_from_string('high')"| F3b["Impact\nimpact.rb\n=> 0.7"]
+    F3b -->|"stored in result"| F3c["RunnerRspec\nrunner_rspec.rb"]
+    F3c -->|"result[:impact]=0.7"| F3d["Reporters\nreporters/\n(json, cli …)"]
+  end
+

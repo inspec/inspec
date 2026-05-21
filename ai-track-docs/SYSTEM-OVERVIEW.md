@@ -41,7 +41,70 @@ Tests use **Minitest** with `describe/it` syntax and `MockLoader` for resource t
 
 ---
 
-## Low-Risk Module Analysis
+## Architecture Node → File Path Map
+
+*(Updated Walk Ex1 — all paths verified on disk)*
+
+| Node | File / Directory | Class / Module | Role |
+|------|-----------------|----------------|------|
+| CLI binary | `inspec-bin/bin/inspec` | — | Executable entry point |
+| InspecCLI | `lib/inspec/cli.rb` | `Inspec::InspecCLI` | Thor command definitions (exec, check, shell…) |
+| BaseCLI | `lib/inspec/base_cli.rb` | `Inspec::BaseCLI` | Shared option groups (target, exec, audit) |
+| Config | `lib/inspec/config.rb` | `Inspec::Config` | Merges defaults + config file + CLI args |
+| Runner | `lib/inspec/runner.rb` | `Inspec::Runner` | Orchestrates profile execution |
+| RunnerRspec | `lib/inspec/runner_rspec.rb` | `Inspec::RunnerRspec` | RSpec adapter for control evaluation |
+| Profile | `lib/inspec/profile.rb` | `Inspec::Profile` | Loads and validates profiles |
+| Metadata | `lib/inspec/metadata.rb` | `Inspec::Metadata` | Parses `inspec.yml` |
+| InputRegistry | `lib/inspec/input_registry.rb` | `Inspec::InputRegistry` | Input/attribute management |
+| DSL | `lib/inspec/dsl.rb` | `Inspec::DSL` | `describe`/`control`/`input` DSL |
+| Resources | `lib/inspec/resources/` | `Inspec::Resources::*` | 143 resource implementations |
+| Impact | `lib/inspec/impact.rb` | `Inspec::Impact` | CVSS 3.0 severity scoring |
+| Errors | `lib/inspec/errors.rb` | `Inspec::ImpactError` etc. | Public exception classes |
+| Reporters | `lib/inspec/reporters/` | `Inspec::Reporters::*` | Result formatters (cli, json, junit…) |
+| Formatters | `lib/inspec/formatters/` | `Inspec::Formatters::*` | RSpec formatter adapters |
+| Backend | `lib/inspec/backend.rb` | `Inspec::Backend` | Train connection factory |
+| Train | *(train gem)* | — | Transport abstraction layer |
+| Plugins | `lib/plugins/` | `Inspec::Plugin::V2::*` | Extensibility (compliance, parallel…) |
+
+## Data Flows
+
+### ① `inspec exec my-profile`
+```
+inspec-bin/bin/inspec
+  → cli.rb#exec          (dispatch command)
+  → config.rb            (Inspec::Config.new(opts))
+  → runner.rb            (Runner.new(config).add_target(path))
+  → profile.rb           (load + eval controls)
+  → dsl.rb + resources/  (describe blocks → RSpec examples)
+  → reporters/           (format + output results)
+```
+
+### ② Profile load + input resolution
+```
+profile.rb#load_libraries
+  → metadata.rb          (parse inspec.yml, extract inputs)
+  → input_registry.rb    (register + store input definitions)
+  → dsl.rb#input()       (resolve values at control eval time)
+```
+
+### ③ Impact scoring: severity name → CVSS float → reporter
+```
+DSL control: impact 'high'
+  → impact.rb#impact_from_string('high')  → 0.7
+  → runner_rspec.rb                        (stored in result hash)
+  → reporters/                             (emitted as result[:impact]=0.7)
+```
+
+## Architecture Diagram
+
+See [`ai-track-docs/architecture.mmd`](architecture.mmd) — validated by `scripts/validate-diagram.rb` in CI.
+
+```bash
+# Run locally
+ruby scripts/validate-diagram.rb
+```
+
+
 
 ### 3 Candidates
 
