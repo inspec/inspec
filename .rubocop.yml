@@ -9,3 +9,47 @@ AllCops:
     - 'vendor/bundle/**/*'
 Layout/ArgumentAlignment:
   EnforcedStyle: with_first_argument
+
+# Test describe/context blocks routinely exceed the default 25-line limit.
+# Excluding test files avoids noise without relaxing limits for production code.
+Metrics/BlockLength:
+  Exclude:
+    - 'test/**/*_test.rb'
+    - 'lib/plugins/*/test/**/*_test.rb'
+
+# The ini resource parse method includes instrumentation (timing + logging)
+# that legitimately pushes past the 10-line default.
+Metrics/MethodLength:
+  Exclude:
+    - 'lib/inspec/resources/ini.rb'
+
+# ---------------------------------------------------------------------------
+# Tighter rules scoped to lib/inspec/resources/
+#
+# These enforce the highest-signal security and correctness cops on the
+# resource layer — the code path most likely to handle untrusted input from
+# remote target nodes. Violations here are treated as errors, not warnings.
+# ---------------------------------------------------------------------------
+
+# YAML.load can deserialize arbitrary Ruby objects via !ruby/object tags,
+# creating a remote-code-execution risk. All resource parse methods must
+# use YAML.safe_load. Enforced as error so CI blocks on regressions.
+Security/YAMLLoad:
+  Enabled: true
+  Severity: error
+
+# Bare `rescue =>` catches SignalException, ScriptError, and other non-
+# StandardError exceptions, masking crashes and signal handling. Resources
+# must rescue StandardError explicitly.
+Style/RescueStandardError:
+  Enabled: true
+  Severity: error
+  Include:
+    - 'lib/inspec/resources/**/*.rb'
+
+# `return <value>` in initialize is always a bug: the return value of
+# initialize is discarded by Ruby; only the newly-allocated object is
+# returned to the caller. Flag as error to catch control-flow misuse.
+Lint/ReturnInVoidContext:
+  Enabled: true
+  Severity: error

@@ -1,5 +1,54 @@
 *.gem
 *.swp
+
+# -----------------------------------------------------------------------
+# Secret / credential file guards
+# Prevents accidental commit of real keys, tokens, and env files.
+# Test-fixture PEM/key files used by x509_certificate and key_rsa resources
+# are explicitly allowed via the negation rules at the end of this block.
+# -----------------------------------------------------------------------
+
+# Environment / dotenv files
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Private keys and certificates (real ones should never be committed)
+*.pem
+*.key
+*.p12
+*.pfx
+*.cer
+*.crt
+id_rsa
+id_rsa.*
+id_dsa
+id_dsa.*
+id_ecdsa
+id_ecdsa.*
+id_ed25519
+id_ed25519.*
+
+# Allow the intentional test-fixture PKI files (expired 2018, self-signed,
+# subject: CN=Inspec Test Certificate — see test/fixtures/files/SECRETS-NOTE.md)
+!test/fixtures/files/*.pem
+!test/fixtures/files/*.key.pem
+
+# Secrets / credentials files
+*.secret
+secrets.yml
+config/secrets.yml
+.netrc
+.aws/credentials
+aws_credentials
+gcp_credentials.json
+
+# Editor / OS noise that may contain local paths or tokens
+.DS_Store
+Thumbs.db
+*.iml
+.idea/workspace.xml
 .attribute.yml
 .bundle
 .delivery/cli.toml
