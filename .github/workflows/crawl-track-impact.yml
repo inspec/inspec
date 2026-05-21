@@ -7,6 +7,8 @@ name: Crawl+Walk Track — Tests, Lint, Coverage, Contracts, Security & Diagram 
 # Job 4: coverage baseline for impact.rb (Walk Ex2+)
 # Job 5: contract tests — golden file + API shape (Walk Ex5+)
 # Job 6: architecture diagram structural validation
+# Job 7: ci-gate-summary — advisory soft gate; posts evidence to job summary (Walk Ex10+)
+#         continue-on-error: true — NEVER blocks PR merges
 #
 # Gem version pins (Walk Ex7):
 #   minitest ~> 6.0  (upgrade from 5.27 used by main bundle; deliberate)
@@ -186,4 +188,115 @@ jobs:
       - name: Annotate on failure
         if: failure()
         run: echo "::error file=ai-track-docs/architecture.mmd::Diagram validation failed — check cited paths or structure"
+
+  # ---------------------------------------------------------------------------
+  # Walk Ex10: Advisory CI soft gate
+  # Waits for all blocking jobs, then re-runs tests + coverage locally and writes
+  # a Markdown evidence table to the GitHub Actions job summary.
+  # continue-on-error: true — this job NEVER blocks PR merges regardless of outcome.
+  # ---------------------------------------------------------------------------
+  ci-gate-summary:
+    name: "CI Gate Summary — advisory (Walk Ex10)"
+    runs-on: ubuntu-latest
+    needs: [impact-tests, contract-tests, lint, coverage-baseline]
+    if: always()       # run even when upstream jobs fail so evidence is always posted
+    continue-on-error: true   # advisory only — never blocks merges
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby 3.3
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: false
+
+      - name: Install test and coverage gems
+        run: |
+          gem install minitest -v '~> 6.0' simplecov -v '~> 0.22' \
+                      simplecov-json --no-document
+
+      - name: Run unit tests — capture summary
+        id: tests
+        continue-on-error: true
+        run: |
+          output=$(RUBY_BIN=$(which ruby) bash scripts/crawl-track-test.sh 2>&1)
+          echo "$output"
+          runs=$(echo "$output" | grep -oE '[0-9]+ runs' | head -1 || true)
+          if echo "$output" | grep -q "All 4 checks passed"; then
+            echo "status=✅ passed" >> "$GITHUB_OUTPUT"
+          else
+            echo "status=❌ failed" >> "$GITHUB_OUTPUT"
+          fi
+          echo "detail=${runs:-unknown}" >> "$GITHUB_OUTPUT"
+
+      - name: Run coverage — capture percentage
+        id: coverage
+        continue-on-error: true
+        run: |
+          set +e
+          output=$(ruby scripts/coverage-impact.rb 2>&1)
+          exit_code=$?
+          set -e
+          echo "$output"
+          pct=$(echo "$output" | grep "impact\.rb line coverage" | grep -oE '[0-9]+\.[0-9]+' | head -1 || true)
+          if [ "$exit_code" -eq 0 ]; then
+            echo "status=✅ above threshold (75%)" >> "$GITHUB_OUTPUT"
+          else
+            echo "status=⚠️ below threshold" >> "$GITHUB_OUTPUT"
+          fi
+          echo "pct=${pct:-N/A}%" >> "$GITHUB_OUTPUT"
+
+      - name: Write job summary (advisory evidence table)
+        if: always()
+        env:
+          TESTS_STATUS:      ${{ steps.tests.outputs.status }}
+          TESTS_DETAIL:      ${{ steps.tests.outputs.detail }}
+          COV_STATUS:        ${{ steps.coverage.outputs.status }}
+          COV_PCT:           ${{ steps.coverage.outputs.pct }}
+          IMPACT_RESULT:     ${{ needs.impact-tests.result }}
+          CONTRACT_RESULT:   ${{ needs.contract-tests.result }}
+          LINT_RESULT:       ${{ needs.lint.result }}
+          COV_BASE_RESULT:   ${{ needs.coverage-baseline.result }}
+        run: |
+          impact_icon="$(   [ "$IMPACT_RESULT"   = "success" ] && echo "✅ passed" || echo "❌ failed" )"
+          contract_icon="$( [ "$CONTRACT_RESULT" = "success" ] && echo "✅ passed" || echo "❌ failed" )"
+          lint_icon="$(     [ "$LINT_RESULT"      = "success" ] && echo "✅ clean"  || echo "❌ offenses" )"
+          cov_base_icon="$( [ "$COV_BASE_RESULT"  = "success" ] && echo "✅ passed" || echo "❌ failed" )"
+          {
+            echo "## 🔍 CI Evidence Summary — advisory gate (Walk Ex10)"
+            echo ""
+            echo "> **Non-blocking**: this job is informational only."
+            echo "> PR merges are **never blocked** by this gate."
+            echo "> See \`ai-track-docs/ci-gating.md\` to harden into a blocking check."
+            echo ""
+            echo "### Blocking job results"
+            echo ""
+            echo "| Job | Result |"
+            echo "|-----|--------|"
+            echo "| impact-tests (Ruby 3.1/3.2/3.3) | ${impact_icon} |"
+            echo "| contract-tests | ${contract_icon} |"
+            echo "| lint (RuboCop 1.86.2) | ${lint_icon} |"
+            echo "| coverage-baseline | ${cov_base_icon} |"
+            echo ""
+            echo "### Soft-gate evidence"
+            echo ""
+            echo "| Check | Status | Detail |"
+            echo "|-------|--------|--------|"
+            echo "| Unit tests | ${TESTS_STATUS:-⚠️ not run} | ${TESTS_DETAIL:-—} |"
+            echo "| Coverage — impact.rb | ${COV_STATUS:-⚠️ not run} | ${COV_PCT:-N/A} |"
+            echo ""
+            echo "### How to harden this gate"
+            echo ""
+            echo "1. Set \`continue-on-error: false\` on the \`ci-gate-summary\` job"
+            echo "2. Set a stricter minimum in \`scripts/coverage-impact.rb\` (\`MIN_COVERAGE\`)"
+            echo "3. Add a branch protection rule requiring \`CI Gate Summary\` to pass"
+            echo ""
+            echo "_Generated: $(date -u '+%Y-%m-%dT%H:%M:%SZ')_"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Advisory notice (never an error)
+        if: always()
+        run: |
+          echo "::notice::CI Gate Summary is advisory — see job summary tab for evidence table."
 
