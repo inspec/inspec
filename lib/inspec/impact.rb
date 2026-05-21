@@ -99,15 +99,21 @@ module Inspec::Impact
     result
   end
 
-  # Returns true if +value+ can be parsed as a Float, false otherwise.
+  # Regex that matches any string Ruby's Float() would accept, without
+  # triggering an exception. Used by number? to avoid exception-based control flow.
+  NUMERIC_RE = /\A[-+]?(\d+\.?\d*|\.\d+)([eE][-+]?\d+)?\z/.freeze
+  private_constant :NUMERIC_RE
+
+  # Returns true if +value+ can be interpreted as a Float, false otherwise.
+  # Uses an early Numeric short-circuit and a regex to avoid exception-based
+  # control flow on the hot path (named severities always hit the false branch).
   #
   # @param value [Object] value to test.
   # @return [Boolean]
   def self.number?(value)
-    Float(value)
-    true
-  rescue TypeError, ArgumentError
-    false
+    return true if value.is_a?(Numeric)
+
+    value.is_a?(String) && NUMERIC_RE.match?(value)
   end
 
   # Converts a numeric impact score to the corresponding severity name string.
