@@ -67,3 +67,6 @@ gem "zeitwerk", "~> 2.6.0", "< 2.7"
 
 # Pinning connection_pool to < 3.0.0 as 3.0.0+ requires Ruby >= 3.2.0
 gem "connection_pool", ">= 2.5", "< 3.0"
+
+# Pin to prevent bundler pulling in public_suffix 7.x (which requires Ruby 3.2) when addressable 2.9.0 is resolved
+gem "public_suffix", ">= 2.0.2", "< 7.0"
