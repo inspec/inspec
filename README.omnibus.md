@@ -8,7 +8,7 @@ The `omnibus/` directory in this repository is a Git submodule that points to a 
 
 If you want to build InSpec packages using Omnibus, substitute the private submodule with the public community configuration:
 
-**[https://github.com/inspec/inspec-omnibus-community-config](https://github.com/inspec/inspec-omnibus-community-config)**
+**[https://github.com/chef/inspec-omnibus-community-config](https://github.com/chef/inspec-omnibus-community-config)**
 
 ### Steps to Use the Community Config
 
@@ -23,7 +23,7 @@ rm -rf .git/modules/omnibus
 2. **Clone the community config in its place**:
 
 ```bash
-git clone https://github.com/inspec/inspec-omnibus-community-config.git omnibus
+git clone https://github.com/chef/inspec-omnibus-community-config.git omnibus
 ```
 
 3. **Install Omnibus dependencies and build**:
@@ -39,7 +39,7 @@ Built packages will be placed in `omnibus/pkg/`.
 ### Notes
 
 - The community config repo targets the same InSpec source but may lag slightly behind the internal build config used for official releases.
-- If you encounter issues with the community config, please open an issue at [inspec/inspec-omnibus-community-config](https://github.com/inspec/inspec-omnibus-community-config/issues).
+- If you encounter issues with the community config, please open an issue at [chef/inspec-omnibus-community-config](https://github.com/chef/inspec-omnibus-community-config/issues).
 - Official release packages are available at [downloads.chef.io](https://www.chef.io/downloads).
 
 ## For Chef Team Members
