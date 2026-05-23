@@ -37,3 +37,22 @@ terraform.tfstate*
 terraform.tfstate.backup
 terraform.tfvars
 test/**/*.lock
+
+# Secret / credential files — never commit these
+.env
+.env.*
+*.env
+.envrc.local
+.secrets
+.credentials
+**/credentials.json
+**/service-account*.json
+**/*secret*.yaml
+!test/fixtures/**
+
+# API / MCP configuration (may accumulate tokens)
+.mcp.json
+
+# IDE and tool-specific local config
+.vscode/settings.json
+.idea/
