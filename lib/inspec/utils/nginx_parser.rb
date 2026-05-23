@@ -1,4 +1,5 @@
 require "parslet"
+require "inspec/log"
 
 # Parslet-based lexer for Nginx configuration syntax.
 # Produces an AST of hashes tagged :assignment and :section.
@@ -97,13 +98,23 @@ class NginxConfig
   #   - "_" key holds the block's own arguments (e.g. location path)
   def self.parse(content)
     raise ArgumentError, "NginxConfig.parse requires a String, got #{content.class}" unless content.is_a?(String)
-    return {} if content.empty?
 
+    if content.empty?
+      Inspec::Log.debug { "nginx_parser: op=parse status=skip reason=empty_input" }
+      return {}
+    end
+
+    start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
     lex = NginxParser.new.parse(content)
     tree = NginxTransform.new.apply(lex)
     gtree = NginxTransform::Group.new(nil, "", tree)
-    read_nginx_group(gtree)
+    result = read_nginx_group(gtree)
+    elapsed = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - start) * 1000).round(2)
+    Inspec::Log.debug { "nginx_parser: op=parse status=ok bytes=#{content.bytesize} elapsed_ms=#{elapsed}" }
+    result
   rescue Parslet::ParseFailed => err
+    elapsed = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - start) * 1000).round(2) if start
+    Inspec::Log.debug { "nginx_parser: op=parse status=error elapsed_ms=#{elapsed} error=#{err.message[0..80]}" }
     raise "Failed to parse NginX config: #{err}"
   end
 
