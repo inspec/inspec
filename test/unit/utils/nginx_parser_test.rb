@@ -249,7 +249,13 @@ describe NginxConfig do
   end
 
   it "raises an error for invalid syntax" do
-    err = _ { NginxConfig.parse("server {") }.must_raise RuntimeError
-    _(err.message).must_match(/Failed to parse NginX config/)
+    err = _ { NginxConfig.parse("server {") }.must_raise Inspec::NginxParseError
+    _(err.message).must_match(/Failed to parse Nginx config/)
+  end
+
+  it "preserves the original parser failure as the cause" do
+    err = _ { NginxConfig.parse("server {") }.must_raise Inspec::NginxParseError
+    _(err.cause).wont_be_nil
+    _(err.cause.class).must_equal Parslet::ParseFailed
   end
 end

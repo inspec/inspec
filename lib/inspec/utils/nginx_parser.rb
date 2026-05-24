@@ -1,5 +1,6 @@
 require "parslet"
 require "inspec/log"
+require "inspec/errors"
 
 # Parslet-based lexer for Nginx configuration syntax.
 # Produces an AST of hashes tagged :assignment and :section.
@@ -119,7 +120,7 @@ class NginxConfig
   rescue Parslet::ParseFailed => err
     elapsed = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - start) * 1000).round(2) if start
     Inspec::Log.debug { "nginx_parser: op=parse status=error elapsed_ms=#{elapsed} error=#{err.message[0..80]}" }
-    raise "Failed to parse NginX config: #{err}"
+    raise Inspec::NginxParseError, "Failed to parse Nginx config"
   end
 
   # Recursively converts a Group struct into a plain Hash.

@@ -220,6 +220,33 @@ rescue Inspec::Error
 end
 ```
 
+### Shared Error Registry Standard
+
+Use `lib/inspec/errors.rb` as the single registry for InSpec-specific exception classes.
+
+**Rules:**
+- Add new reusable/domain errors under `module Inspec` in `lib/inspec/errors.rb`.
+- In implementation files, `require "inspec/errors"` and raise namespaced classes (for example `Inspec::NginxParseError`).
+- Prefer `Inspec::Error` subclasses for framework/domain failures; reserve `ArgumentError` for local argument validation.
+- Do not define ad-hoc top-level `*Error` classes in feature files when the error may be rescued elsewhere.
+- Preserve original exceptions as causes when mapping low-level errors to domain errors.
+
+```ruby
+# Good: mapped domain error from shared registry
+rescue Parslet::ParseFailed
+  raise Inspec::NginxParseError, "Failed to parse Nginx config"
+end
+```
+
+```ruby
+# Avoid: feature-local top-level error class
+class NginxParseError < StandardError; end
+```
+
+**Testing expectation:**
+- Assert the mapped class explicitly (`must_raise Inspec::<ErrorClass>`).
+- If applicable, assert `err.cause` preserves the original low-level exception.
+
 ## Testing Patterns
 
 InSpec uses **Minitest** as its primary testing framework with some **RSpec** integration for specific components.

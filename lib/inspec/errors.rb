@@ -29,4 +29,7 @@ module Inspec
   class FeatureConfigTamperedError < Error; end
 
   class ProfileSignatureRequired < Error; end
+
+  # Nginx parser failures
+  class NginxParseError < Error; end
 end

@@ -102,3 +102,24 @@ unset INSPEC_NGINX_ALLOW_EMPTY_INPUT
 # Strict mode
 export INSPEC_NGINX_ALLOW_EMPTY_INPUT=false
 ```
+
+---
+
+## Resilience: Failure Mapping
+
+`NginxConfig.parse` maps low-level Parslet failures to `Inspec::NginxParseError`.
+
+- This gives callers a stable error class to rescue.
+- The original parser exception is still available via `error.cause`.
+- The error class is defined in the shared registry: `lib/inspec/errors.rb`.
+
+Example:
+
+```ruby
+begin
+  NginxConfig.parse("server {")
+rescue Inspec::NginxParseError => e
+  puts e.message      # Failed to parse Nginx config
+  puts e.cause.class  # Parslet::ParseFailed
+end
+```
