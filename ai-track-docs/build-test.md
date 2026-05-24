@@ -67,6 +67,42 @@ bundle exec rake test:parallel
 bundle exec chefstyle
 ```
 
+Current lint enforcement is already strict and centralized:
+
+- Primary lint runner: `chefstyle` (RuboCop profile)
+- Rake task wiring: `Rakefile` defines `test:lint` via `RuboCop::RakeTask`
+- Task options include: `--display-cop-names --no-color --parallel`
+- Repo config: `.rubocop.yml` with targeted excludes (fixtures/templates/examples/vendor)
+
+### Lint commands to run locally
+
+```bash
+# Preferred (same profile CI uses)
+bundle exec chefstyle
+
+# Equivalent rake task path
+bundle exec rake test:lint
+
+# Inspect RuboCop config resolution
+bundle exec chefstyle --show-cops >/tmp/chefstyle-cops.txt
+```
+
+### Common local lint issue
+
+If you see an error like:
+
+`RuboCop found unknown Ruby version 3.4 in .ruby-version`
+
+it usually means your local `chefstyle` / RuboCop gem set is older than the repo Ruby target.
+Fix by refreshing bundle dependencies in this repo:
+
+```bash
+bundle install
+bundle update chefstyle rubocop
+```
+
+If your environment still cannot run lint due to toolchain mismatch, treat CI lint as source of truth and run unit/resource tests locally.
+
 ---
 
 ## Building Gems
