@@ -83,3 +83,22 @@ bundle exec ruby -Ilib:test test/unit/utils/nginx_parser_test.rb \
 - Parslet errors point to the exact character offset where parsing failed.
 - Keep rules small and composable; name them after the Nginx docs terminology.
 - The `nginx_conf` resource test uses fixture files in `test/fixtures/` — add new fixtures there for complex configs.
+
+---
+
+## Safe Toggle: Empty Input Behavior
+
+`NginxConfig.parse` has a small runtime toggle for empty input handling:
+
+- Default (`INSPEC_NGINX_ALLOW_EMPTY_INPUT` unset or `true`): returns `{}`.
+- OFF (`INSPEC_NGINX_ALLOW_EMPTY_INPUT=false`): raises `ArgumentError`.
+
+Examples:
+
+```bash
+# Default behavior
+unset INSPEC_NGINX_ALLOW_EMPTY_INPUT
+
+# Strict mode
+export INSPEC_NGINX_ALLOW_EMPTY_INPUT=false
+```

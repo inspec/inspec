@@ -174,6 +174,22 @@ describe NginxTransform do
 end
 
 describe NginxConfig do
+  def with_env(name, value)
+    old_value = ENV[name]
+    if value.nil?
+      ENV.delete(name)
+    else
+      ENV[name] = value
+    end
+    yield
+  ensure
+    if old_value.nil?
+      ENV.delete(name)
+    else
+      ENV[name] = old_value
+    end
+  end
+
   it "parses a minimal server block into a nested hash" do
     input = <<~NGINX
       server {
@@ -202,7 +218,24 @@ describe NginxConfig do
   end
 
   it "returns an empty hash for empty input" do
-    _(NginxConfig.parse("")).must_equal({})
+    with_env("INSPEC_NGINX_ALLOW_EMPTY_INPUT", nil) do
+      _(NginxConfig.parse(""))
+        .must_equal({})
+    end
+  end
+
+  it "returns an empty hash for empty input when toggle is ON" do
+    with_env("INSPEC_NGINX_ALLOW_EMPTY_INPUT", "true") do
+      _(NginxConfig.parse(""))
+        .must_equal({})
+    end
+  end
+
+  it "raises ArgumentError for empty input when toggle is OFF" do
+    with_env("INSPEC_NGINX_ALLOW_EMPTY_INPUT", "false") do
+      err = _ { NginxConfig.parse("") }.must_raise ArgumentError
+      _(err.message).must_match(/empty input is disabled/)
+    end
   end
 
   it "raises ArgumentError when given nil" do

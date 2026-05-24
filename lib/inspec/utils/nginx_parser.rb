@@ -100,8 +100,12 @@ class NginxConfig
     raise ArgumentError, "NginxConfig.parse requires a String, got #{content.class}" unless content.is_a?(String)
 
     if content.empty?
-      Inspec::Log.debug { "nginx_parser: op=parse status=skip reason=empty_input" }
-      return {}
+      if allow_empty_input?
+        Inspec::Log.debug { "nginx_parser: op=parse status=skip reason=empty_input" }
+        return {}
+      end
+
+      raise ArgumentError, "NginxConfig.parse received empty input but empty input is disabled"
     end
 
     start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
@@ -127,5 +131,12 @@ class NginxConfig
     conf.each { |x| agg_conf[x.key] += [x.vals] }
     groups.each { |x| agg_conf[x.id] += [read_nginx_group(x)] }
     agg_conf
+  end
+
+  # Toggle for a non-critical behavior. By default, empty input returns {}.
+  # Set INSPEC_NGINX_ALLOW_EMPTY_INPUT to 0/false/no/off to raise instead.
+  def self.allow_empty_input?
+    value = ENV.fetch("INSPEC_NGINX_ALLOW_EMPTY_INPUT", "true")
+    !%w{0 false no off}.include?(value.strip.downcase)
   end
 end
