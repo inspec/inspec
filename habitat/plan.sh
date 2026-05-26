@@ -63,8 +63,9 @@ do_install() {
   # for omnibus we also install this as part of the package
   gem install ed25519 bcrypt_pbkdf --no-document
 
-  # Remove development Gemfile.lock from specific gems that bundle an older rexml version
+  # Remove development Gemfile.lock from specific gems that bundle an older rexml and other gems version
   rm -f "$GEM_HOME/gems/lint_roller-"*/Gemfile.lock
+  rm -f "$(pkg_path_for $ruby_package)/lib/ruby/gems/"*/gems/rbs-*/Gemfile.lock
 
   # Certain gems (timeliness) are getting installed with world writable files
   # This is removing write bits for group and other.
