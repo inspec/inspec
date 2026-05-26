@@ -1,0 +1,28 @@
+#!/bin/sh
+# Runs after package installation to clean up outdated bundled gem files
+# from the Ruby dependency package.
+
+GEM_HOME="{{pkg.path}}/lib"
+
+# Gems whose Gemfile.lock should be removed (not used at runtime)
+for gem in lint_roller rbs; do
+  find "${GEM_HOME}/gems" -path "*/gems/${gem}-*/Gemfile.lock" -delete 2>/dev/null || true
+done
+
+# Clean up old bundled gem versions from the Ruby dependency package.
+# Handles both stable (core/ruby31) and LTS (core/ruby3_1) channels.
+for ruby_pkg in core/ruby31 core/ruby3_1; do
+  ruby_gems_path="$(hab pkg path ${ruby_pkg} 2>/dev/null)/lib/ruby/gems"
+  [ -d "${ruby_gems_path}" ] || continue
+
+  find "${ruby_gems_path}" \
+    -path "*/gems/rbs-*/Gemfile.lock" -delete 2>/dev/null || true
+
+  find "${ruby_gems_path}" \
+    -name "rexml-*.gemspec" ! -name "rexml-3.4.2.gemspec" \
+    -delete 2>/dev/null || true
+
+  find "${ruby_gems_path}" -maxdepth 3 -type d \
+    -name "rexml-*" ! -name "rexml-3.4.2" \
+    -exec rm -rf {} + 2>/dev/null || true
+done
