@@ -42,4 +42,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "mongo", "= 2.21.3" # 2.14 introduces a broken symlink in mongo-2.14.0/spec/support/ocsp
 
+  # Pinned >= 0.2.5 to fix GHSA-j3g3-5qv5-52mj; < 0.6 as 0.6 requires ruby 3.2+
+  spec.add_dependency "net-imap", ">= 0.2.5", "< 0.6"
+
 end
