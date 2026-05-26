@@ -15,41 +15,70 @@ $gemsToUpdate = @{
     "rexml" = "3.4.4"
 }
 
+Write-Host "=== InSpec Install Hook: Cleaning up bundled gems ==="
+
 $searchPaths = @($rubyGemsPath, "$env:pkg_prefix\lib\gems")
 
+# Remove Gemfile.lock from specified gems
 foreach ($gem in $gemfileLockGems) {
+    Write-Host "Removing Gemfile.lock from $gem gems..."
     $searchPaths | ForEach-Object {
         Get-ChildItem $_ -Filter "Gemfile.lock" -Recurse -ErrorAction SilentlyContinue |
             Where-Object { $_.FullName -like "*\gems\$gem-*\Gemfile.lock" } |
-            Remove-Item -Force
+            ForEach-Object {
+                Write-Host "  Removing: $($_.FullName)"
+                Remove-Item $_.FullName -Force -ErrorAction SilentlyContinue
+            }
     }
 }
 
+# Remove old gem versions and install updated ones
 foreach ($entry in $gemsToUpdate.GetEnumerator()) {
     $gemName    = $entry.Key
     $gemVersion = $entry.Value
-
-    # Find all gemspecs for this gem
-    Get-ChildItem "$rubyGemsPath" -Filter "$gemName-*.gemspec" -Recurse -ErrorAction SilentlyContinue | ForEach-Object {
-        # Extract version from filename (e.g., rexml-3.3.9.gemspec -> 3.3.9)
-        $installedVersion = $_.BaseName -replace "^$gemName-", ""
+    
+    Write-Host "Processing $gemName (target version: $gemVersion)..."
+    
+    # Search in both Ruby package gems and InSpec package gems
+    foreach ($searchPath in $searchPaths) {
+        # Find specifications directory
+        $specDir = Get-ChildItem $searchPath -Filter "specifications" -Directory -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1
+        if (-not $specDir) { continue }
         
-        # Compare versions: remove if installed < required
-        if ([version]$installedVersion -lt [version]$gemVersion) {
-            # Remove the gemspec
-            Remove-Item $_.FullName -Force -ErrorAction SilentlyContinue
+        # Find all gemspecs for this gem
+        Get-ChildItem $specDir.FullName -Filter "$gemName-*.gemspec" -ErrorAction SilentlyContinue | ForEach-Object {
+            # Extract version from filename (e.g., rexml-3.3.9.gemspec -> 3.3.9)
+            $installedVersion = $_.BaseName -replace "^$gemName-", ""
             
-            # Remove the gem directory
-            $gemDir = Join-Path (Split-Path (Split-Path $_.DirectoryName)) "gems\$gemName-$installedVersion"
-            if (Test-Path $gemDir) {
-                Remove-Item $gemDir -Recurse -Force -ErrorAction SilentlyContinue
+            # Compare versions: remove if installed < required
+            try {
+                if ([version]$installedVersion -lt [version]$gemVersion) {
+                    Write-Host "  Removing old version: $gemName-$installedVersion"
+                    Remove-Item $_.FullName -Force -ErrorAction SilentlyContinue
+                    
+                    # Also remove the gem directory
+                    $gemDir = Join-Path (Split-Path $specDir.FullName) "gems\$gemName-$installedVersion"
+                    if (Test-Path $gemDir) {
+                        Write-Host "    Removing directory: $gemDir"
+                        Remove-Item $gemDir -Recurse -Force -ErrorAction SilentlyContinue
+                    }
+                } else {
+                    Write-Host "  Keeping version: $gemName-$installedVersion (>= $gemVersion)"
+                }
+            } catch {
+                Write-Host "  Warning: Could not parse version for $gemName-$installedVersion"
             }
         }
     }
-
+    
     # Install the required version if not already present
     $installedGem = gem list $gemName --local --version ">= $gemVersion" | Select-String "^$gemName"
     if (-not $installedGem) {
+        Write-Host "Installing $gemName $gemVersion..."
         gem install $gemName -v $gemVersion --no-document
+    } else {
+        Write-Host "$gemName $gemVersion or newer already installed"
     }
 }
+
+Write-Host "=== Install hook completed ==="
