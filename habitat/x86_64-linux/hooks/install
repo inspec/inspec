@@ -1,6 +1,10 @@
 #!/bin/sh
 # Removes outdated gems bundled with the Ruby Habitat package and installs updated versions.
 
+# Set GEM_HOME and GEM_PATH to install gems into the package directory
+export GEM_HOME="$pkg_prefix/lib"
+export GEM_PATH="$GEM_HOME"
+
 RUBY_GEMS_PATH="$(hab pkg path core/ruby31)/lib/ruby/gems"
 
 # Gems whose Gemfile.lock should be removed (not used at runtime)
