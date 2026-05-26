@@ -8,7 +8,7 @@ $gemfileLockGems = @("lint_roller", "rbs")
 
 # Gems to replace with updated versions: name = version
 $gemsToUpdate = @{
-    "rexml" = "3.4.2"
+    "rexml" = "3.4.4"
 }
 
 $searchPaths = @($rubyGemsPath, "$env:pkg_prefix\lib\gems")

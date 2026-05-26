@@ -7,7 +7,7 @@ RUBY_GEMS_PATH="$(hab pkg path core/ruby31)/lib/ruby/gems"
 GEMFILE_LOCK_GEMS="lint_roller rbs"
 
 # Gems to replace with updated versions: "name:version"
-GEMS_TO_UPDATE="rexml:3.4.2"
+GEMS_TO_UPDATE="rexml:3.4.4"
 
 for gem in $GEMFILE_LOCK_GEMS; do
   find "$pkg_prefix/lib/gems" "$RUBY_GEMS_PATH" \
