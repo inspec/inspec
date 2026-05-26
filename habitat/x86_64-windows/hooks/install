@@ -1,6 +1,7 @@
 # Removes outdated gems bundled with the Ruby Habitat package and installs updated versions.
 
-$rubyGemsPath = "$(hab pkg path chef/ruby31-plus-devkit)\lib\ruby\gems"
+$rubyPkgPath = hab pkg path chef/ruby31-plus-devkit
+$rubyGemsPath = "$rubyPkgPath\lib\ruby\gems"
 
 # Gems whose Gemfile.lock should be removed (not used at runtime)
 $gemfileLockGems = @("lint_roller", "rbs")
@@ -10,7 +11,7 @@ $gemsToUpdate = @{
     "rexml" = "3.4.2"
 }
 
-$searchPaths = @($rubyGemsPath, "$env:HAB_PKG_PATH\lib\gems")
+$searchPaths = @($rubyGemsPath, "$env:pkg_prefix\lib\gems")
 
 foreach ($gem in $gemfileLockGems) {
     $searchPaths | ForEach-Object {

@@ -10,7 +10,7 @@ GEMFILE_LOCK_GEMS="lint_roller rbs"
 GEMS_TO_UPDATE="rexml:3.4.2"
 
 for gem in $GEMFILE_LOCK_GEMS; do
-  find "$HAB_PKG_PATH/lib/gems" "$RUBY_GEMS_PATH" \
+  find "$pkg_prefix/lib/gems" "$RUBY_GEMS_PATH" \
     -path "*/gems/${gem}-*/Gemfile.lock" -delete 2>/dev/null || true
 done
 
