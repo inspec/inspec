@@ -2,7 +2,7 @@ export HAB_BLDR_CHANNEL="stable"
 export HAB_REFRESH_CHANNEL="stable"
 pkg_name=inspec
 pkg_origin=chef
-pkg_version=$(cat "$PLAN_CONTEXT/../VERSION")
+pkg_version=$(cat "$PLAN_CONTEXT/../../VERSION")
 pkg_description="InSpec is an open-source testing framework for infrastructure
   with a human- and machine-readable language for specifying compliance,
   security and policy requirements."
@@ -35,7 +35,7 @@ do_setup_environment() {
 
 do_unpack() {
   mkdir -pv "$HAB_CACHE_SRC_PATH/$pkg_dirname"
-  cp -RT "$PLAN_CONTEXT"/.. "$HAB_CACHE_SRC_PATH/$pkg_dirname/"
+  cp -RT "$PLAN_CONTEXT"/../.. "$HAB_CACHE_SRC_PATH/$pkg_dirname/"
 }
 
 do_build() {
