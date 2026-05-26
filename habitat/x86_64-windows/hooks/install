@@ -23,8 +23,7 @@ $searchPaths = @($rubyGemsPath, "$env:pkg_prefix\lib\gems")
 foreach ($gem in $gemfileLockGems) {
     Write-Host "Removing Gemfile.lock from $gem gems..."
     
-    # InSpec package gems: gems are directly in lib/gems/
-    # Pattern: lib/gems/lint_roller-1.1.0/Gemfile.lock
+    # InSpec package: gems stored directly under lib/gems/
     Get-ChildItem "$env:pkg_prefix\lib\gems" -Filter "Gemfile.lock" -Recurse -ErrorAction SilentlyContinue |
         Where-Object { $_.FullName -like "*\$gem-*\Gemfile.lock" } |
         ForEach-Object {
@@ -32,8 +31,7 @@ foreach ($gem in $gemfileLockGems) {
             Remove-Item $_.FullName -Force -ErrorAction SilentlyContinue
         }
     
-    # Ruby package gems: gems are in nested structure like gems/3.1.0/gems/
-    # Pattern: lib/ruby/gems/3.1.0/gems/lint_roller-1.1.0/Gemfile.lock
+    # Ruby package: gems stored in nested directory structure
     Get-ChildItem $rubyGemsPath -Filter "Gemfile.lock" -Recurse -ErrorAction SilentlyContinue |
         Where-Object { $_.FullName -like "*\gems\$gem-*\Gemfile.lock" } |
         ForEach-Object {

@@ -19,15 +19,13 @@ echo "=== InSpec Install Hook: Cleaning up bundled gems ==="
 for gem in $GEMFILE_LOCK_GEMS; do
   echo "Removing Gemfile.lock from ${gem} gems..."
   
-  # InSpec package gems: gems are directly in lib/gems/
-  # Pattern: lib/gems/lint_roller-1.1.0/Gemfile.lock
+  # InSpec package: gems stored directly under lib/gems/
   find "$pkg_prefix/lib/gems" -type f -path "*/${gem}-*/Gemfile.lock" 2>/dev/null | while read -r lockfile; do
     echo "  Removing: $lockfile"
     rm -f "$lockfile" 2>/dev/null || true
   done
   
-  # Ruby package gems: gems are in nested structure like gems/3.1.0/gems/
-  # Pattern: lib/ruby/gems/3.1.0/gems/lint_roller-1.1.0/Gemfile.lock
+  # Ruby package: gems stored in nested directory structure
   find "$RUBY_GEMS_PATH" -type f -path "*/gems/${gem}-*/Gemfile.lock" 2>/dev/null | while read -r lockfile; do
     echo "  Removing: $lockfile"
     rm -f "$lockfile" 2>/dev/null || true
