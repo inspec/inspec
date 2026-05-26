@@ -18,6 +18,11 @@ fi
 echo "--- add an exception for this directory since detected dubious ownership in repository at /workdir"
 git config --global --add safe.directory /workdir
 
+echo "--- configuring git credentials"
+if [ -n "${GITHUB_TOKEN:-}" ]; then
+  git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
+fi
+
 echo "--- git status for this workdir"
 git status
 

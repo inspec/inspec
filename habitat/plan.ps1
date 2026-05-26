@@ -3,6 +3,8 @@
 $ErrorActionPreference = "Stop"
 $PSDefaultParameterValues['*:ErrorAction']='Stop'
 
+$env:HAB_BLDR_CHANNEL = "stable"
+$env:HAB_REFRESH_CHANNEL = "stable"
 $pkg_name="inspec"
 $pkg_origin="chef"
 $pkg_version=$(Get-Content "$PLAN_CONTEXT/../VERSION")
@@ -79,7 +81,15 @@ function Invoke-After {
     # We don't need the cache of downloaded .gem files ...
     Remove-Item $pkg_prefix/vendor/cache -Recurse -Force
     # We don't need the gem docs.
-    Remove-Item $pkg_prefix/vendor/doc -Recurse -Force
+    if (Test-Path "$pkg_prefix/vendor/doc") {
+        $docPath = (Resolve-Path "$pkg_prefix/vendor/doc").Path
+        # \\?\ prefix invokes Win32 extended-length path API (up to 32767 chars),
+        if (-not $docPath.StartsWith("\\?\")) {
+            $docPath = "\\?\$docPath"
+        }
+        [System.IO.Directory]::Delete($docPath, $true)
+        Write-BuildLine "vendor/doc removed"
+    }
     # We don't need to ship the test suites for every gem dependency,
     # only inspec's for package verification.
     Get-ChildItem $pkg_prefix/vendor/gems -Filter "spec" -Directory -Recurse -Depth 1 `
