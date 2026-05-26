@@ -10,8 +10,8 @@ for gem in lint_roller rbs; do
 done
 
 # Clean up old bundled gem versions from the Ruby dependency package.
-# Handles both stable (core/ruby31) and LTS (core/ruby3_1) channels.
-for ruby_pkg in core/ruby31 core/ruby3_1; do
+# Handles stable (core/ruby31), LTS (core/ruby3_1) and Windows (chef/ruby31-plus-devkit).
+for ruby_pkg in core/ruby31 core/ruby3_1 chef/ruby31-plus-devkit; do
   ruby_gems_path="$(hab pkg path ${ruby_pkg} 2>/dev/null)/lib/ruby/gems"
   [ -d "${ruby_gems_path}" ] || continue
 
