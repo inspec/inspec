@@ -25,13 +25,27 @@ foreach ($entry in $gemsToUpdate.GetEnumerator()) {
     $gemName    = $entry.Key
     $gemVersion = $entry.Value
 
-    Get-ChildItem "$rubyGemsPath" -Filter "$gemName-*.gemspec" -Recurse -ErrorAction SilentlyContinue |
-        Where-Object { $_.Name -ne "$gemName-$gemVersion.gemspec" } |
-        Remove-Item -Force
+    # Find all gemspecs for this gem
+    Get-ChildItem "$rubyGemsPath" -Filter "$gemName-*.gemspec" -Recurse -ErrorAction SilentlyContinue | ForEach-Object {
+        # Extract version from filename (e.g., rexml-3.3.9.gemspec -> 3.3.9)
+        $installedVersion = $_.BaseName -replace "^$gemName-", ""
+        
+        # Compare versions: remove if installed < required
+        if ([version]$installedVersion -lt [version]$gemVersion) {
+            # Remove the gemspec
+            Remove-Item $_.FullName -Force -ErrorAction SilentlyContinue
+            
+            # Remove the gem directory
+            $gemDir = Join-Path (Split-Path (Split-Path $_.DirectoryName)) "gems\$gemName-$installedVersion"
+            if (Test-Path $gemDir) {
+                Remove-Item $gemDir -Recurse -Force -ErrorAction SilentlyContinue
+            }
+        }
+    }
 
-    Get-ChildItem "$rubyGemsPath" -Filter "$gemName-*" -Directory -Recurse -ErrorAction SilentlyContinue |
-        Where-Object { $_.Name -ne "$gemName-$gemVersion" } |
-        Remove-Item -Recurse -Force
-
-    gem install $gemName -v $gemVersion --no-document
+    # Install the required version if not already present
+    $installedGem = gem list $gemName --local --version ">= $gemVersion" | Select-String "^$gemName"
+    if (-not $installedGem) {
+        gem install $gemName -v $gemVersion --no-document
+    }
 }

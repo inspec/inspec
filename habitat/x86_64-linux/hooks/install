@@ -18,13 +18,24 @@ for entry in $GEMS_TO_UPDATE; do
   gem_name="${entry%%:*}"
   gem_version="${entry##*:}"
 
-  find "$RUBY_GEMS_PATH" \
-    -name "${gem_name}-*.gemspec" ! -name "${gem_name}-${gem_version}.gemspec" \
-    -delete 2>/dev/null || true
+  # Find all gemspecs for this gem and check versions
+  find "$RUBY_GEMS_PATH" -name "${gem_name}-*.gemspec" 2>/dev/null | while read -r gemspec; do
+    # Extract version from filename (e.g., rexml-3.3.9.gemspec -> 3.3.9)
+    installed_version=$(basename "$gemspec" .gemspec | sed "s/^${gem_name}-//")
+    
+    # Compare versions: remove if installed < required
+    if [ "$(printf '%s\n' "$gem_version" "$installed_version" | sort -V | head -n1)" != "$gem_version" ]; then
+      # installed_version < gem_version, so remove it
+      rm -f "$gemspec" 2>/dev/null || true
+      
+      # Also remove the gem directory
+      gem_dir="$RUBY_GEMS_PATH/../../gems/${gem_name}-${installed_version}"
+      [ -d "$gem_dir" ] && rm -rf "$gem_dir" 2>/dev/null || true
+    fi
+  done
 
-  find "$RUBY_GEMS_PATH" -maxdepth 3 -type d \
-    -name "${gem_name}-*" ! -name "${gem_name}-${gem_version}" \
-    -exec rm -rf {} + 2>/dev/null || true
-
-  gem install "${gem_name}" -v "${gem_version}" --no-document
+  # Install the required version if not already present
+  if ! gem list -i "^${gem_name}$" -v ">= ${gem_version}" >/dev/null 2>&1; then
+    gem install "${gem_name}" -v "${gem_version}" --no-document
+  fi
 done
