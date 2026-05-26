@@ -17,3 +17,5 @@ steps:
       executor:
         docker:
           image: ruby:3.1.7-bullseye
+          environment:
+            - GITHUB_TOKEN
