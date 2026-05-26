@@ -98,7 +98,4 @@ function Invoke-After {
     # Remove the byproducts of compiling gems with extensions
     Get-ChildItem $pkg_prefix/vendor/gems -Include @("gem_make.out", "mkmf.log", "Makefile") -File -Recurse `
         | Remove-Item -Force
-    # Remove development Gemfile.lock from specific gems that bundle an older rexml version
-    $rubyPkgPath = hab pkg path chef/ruby31-plus-devkit
-    Remove-Item -Path "$rubyPkgPath/lib/ruby/gems/*/gems/rbs-*/Gemfile.lock" -Force -ErrorAction SilentlyContinue
 }
