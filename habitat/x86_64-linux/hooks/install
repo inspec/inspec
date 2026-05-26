@@ -18,8 +18,15 @@ echo "=== InSpec Install Hook: Cleaning up bundled gems ==="
 # Remove Gemfile.lock from specified gems
 for gem in $GEMFILE_LOCK_GEMS; do
   echo "Removing Gemfile.lock from ${gem} gems..."
-  find "$pkg_prefix/lib/gems" "$RUBY_GEMS_PATH" \
-    -path "*/gems/${gem}-*/Gemfile.lock" -delete 2>/dev/null || true
+  
+  # Search in both InSpec package gems and Ruby package gems
+  for search_path in "$pkg_prefix/lib/gems" "$RUBY_GEMS_PATH"; do
+    # Find all Gemfile.lock files for this gem in the gems directory structure
+    find "$search_path" -type f -path "*/gems/${gem}-*/Gemfile.lock" 2>/dev/null | while read -r lockfile; do
+      echo "  Removing: $lockfile"
+      rm -f "$lockfile" 2>/dev/null || true
+    done
+  done
 done
 
 # Remove old gem versions and install updated ones

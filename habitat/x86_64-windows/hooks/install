@@ -22,8 +22,10 @@ $searchPaths = @($rubyGemsPath, "$env:pkg_prefix\lib\gems")
 # Remove Gemfile.lock from specified gems
 foreach ($gem in $gemfileLockGems) {
     Write-Host "Removing Gemfile.lock from $gem gems..."
-    $searchPaths | ForEach-Object {
-        Get-ChildItem $_ -Filter "Gemfile.lock" -Recurse -ErrorAction SilentlyContinue |
+    
+    foreach ($searchPath in $searchPaths) {
+        # Find all Gemfile.lock files for this gem in the gems directory structure
+        Get-ChildItem $searchPath -Filter "Gemfile.lock" -Recurse -ErrorAction SilentlyContinue |
             Where-Object { $_.FullName -like "*\gems\$gem-*\Gemfile.lock" } |
             ForEach-Object {
                 Write-Host "  Removing: $($_.FullName)"
