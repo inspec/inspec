@@ -1,16 +1,8 @@
 #!/bin/sh
 # Removes outdated gems bundled with the Ruby Habitat package and installs updated versions.
 
-# Get the package directory for THIS specific version being installed
-# Habitat SHOULD provide pkg_origin, pkg_name, pkg_version, pkg_release in hook context
-# If not available, fallback to using hab pkg path (which returns latest)
-if [ -n "$pkg_origin" ] && [ -n "$pkg_name" ] && [ -n "$pkg_version" ] && [ -n "$pkg_release" ]; then
-  pkg_prefix="/hab/pkgs/${pkg_origin}/${pkg_name}/${pkg_version}/${pkg_release}"
-  echo "Using package identity variables: $pkg_prefix"
-else
-  pkg_prefix="$(hab pkg path chef/inspec)"
-  echo "WARNING: Package variables not available, using hab pkg path: $pkg_prefix"
-fi
+# Get the package directory using hab pkg path
+pkg_prefix="$(hab pkg path chef/inspec)"
 
 # Set GEM_HOME and GEM_PATH to install gems into the package directory
 export GEM_HOME="$pkg_prefix/lib"
