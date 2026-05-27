@@ -20,14 +20,14 @@ $gemsToUpdate = @{
 
 Write-Host "=== InSpec Install Hook: Cleaning up bundled gems ==="
 
-$searchPaths = @($rubyGemsPath, "$env:pkg_prefix\lib\gems")
+$searchPaths = @($rubyGemsPath, "$pkg_prefix\lib\gems")
 
 # Remove Gemfile.lock from specified gems
 foreach ($gem in $gemfileLockGems) {
     Write-Host "Removing Gemfile.lock from $gem gems..."
     
     # InSpec package: gems stored directly under lib/gems/
-    $inspecGemsPath = "$env:pkg_prefix\lib\gems"
+    $inspecGemsPath = "$pkg_prefix\lib\gems"
     Write-Host "  Searching InSpec gems in: $inspecGemsPath"
     if (Test-Path $inspecGemsPath) {
         Write-Host "  Directory exists, listing $gem-* directories:"
@@ -47,8 +47,8 @@ foreach ($gem in $gemfileLockGems) {
             }
     } else {
         Write-Host "  Directory does not exist: $inspecGemsPath"
-        Write-Host "  Listing contents of $env:pkg_prefix\lib:"
-        Get-ChildItem "$env:pkg_prefix\lib" -ErrorAction SilentlyContinue | ForEach-Object {
+        Write-Host "  Listing contents of $pkg_prefix\lib:"
+        Get-ChildItem "$pkg_prefix\lib" -ErrorAction SilentlyContinue | ForEach-Object {
             Write-Host "    $($_.Name)"
         }
     }
