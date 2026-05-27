@@ -20,12 +20,25 @@ for gem in $GEMFILE_LOCK_GEMS; do
   echo "Removing Gemfile.lock from ${gem} gems..."
   
   # InSpec package: gems stored directly under lib/gems/
-  find "$pkg_prefix/lib/gems" -type d -name "${gem}-*" 2>/dev/null | while read -r gem_dir; do
-    if [ -f "$gem_dir/Gemfile.lock" ]; then
-      echo "  Removing: $gem_dir/Gemfile.lock"
-      rm -f "$gem_dir/Gemfile.lock" 2>/dev/null || true
-    fi
-  done
+  inspec_gems_path="$pkg_prefix/lib/gems"
+  echo "  Searching InSpec gems in: $inspec_gems_path"
+  if [ -d "$inspec_gems_path" ]; then
+    echo "  Directory exists, listing ${gem}-* directories:"
+    find "$inspec_gems_path" -maxdepth 1 -type d -name "${gem}-*" 2>/dev/null
+    find "$inspec_gems_path" -maxdepth 1 -type d -name "${gem}-*" 2>/dev/null | while read -r gem_dir; do
+      echo "  Found gem directory: $gem_dir"
+      if [ -f "$gem_dir/Gemfile.lock" ]; then
+        echo "  Removing: $gem_dir/Gemfile.lock"
+        rm -f "$gem_dir/Gemfile.lock" 2>/dev/null || true
+      else
+        echo "  No Gemfile.lock in: $gem_dir"
+      fi
+    done
+  else
+    echo "  Directory does not exist: $inspec_gems_path"
+    echo "  Listing contents of $pkg_prefix/lib:"
+    ls -la "$pkg_prefix/lib" 2>/dev/null || echo "  lib directory not found"
+  fi
   
   # Ruby package: gems stored in nested directory structure
   find "$RUBY_GEMS_PATH" -type f -path "*/gems/${gem}-*/Gemfile.lock" 2>/dev/null | while read -r lockfile; do
