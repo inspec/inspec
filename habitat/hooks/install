@@ -4,7 +4,6 @@
 # GEM_HOME only, this bundled gem is never loaded at runtime, but grype detects the
 # gemspec file on disk and reports it as vulnerable.
 #
-# CVEs fixed: GHSA-j3g3-5qv5-52mj, GHSA-vcgp-9326-pqcp, GHSA-75xq-5h9v-w6px, GHSA-hm49-wcqc-g2xg
 
 for ruby_pkg in core/ruby31 core/ruby3_1; do
   ruby_path=$(hab pkg path "$ruby_pkg" 2>/dev/null) || continue
