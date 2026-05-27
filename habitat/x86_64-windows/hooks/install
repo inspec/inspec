@@ -1,107 +1,71 @@
 # Removes outdated gems bundled with the Ruby Habitat package and installs updated versions.
 
-# Get the package directory using hab pkg path
-$pkg_prefix = hab pkg path chef/inspec
+$pkg_prefix  = hab pkg path chef/inspec
+$rubyPkgPath = hab pkg path chef/ruby31-plus-devkit
 
 # Set GEM_HOME and GEM_PATH to install gems into the package directory
-$env:GEM_HOME = "$pkg_prefix\lib"
+$env:GEM_HOME = "$pkg_prefix\vendor"
 $env:GEM_PATH = $env:GEM_HOME
 
-$rubyPkgPath = hab pkg path chef/ruby31-plus-devkit
-$rubyGemsPath = "$rubyPkgPath\lib\ruby\gems"
-
-# Gems whose Gemfile.lock should be removed (not used at runtime)
+# Gems whose Gemfile.lock should be removed (not needed at runtime)
 $gemfileLockGems = @("lint_roller", "rbs")
 
-# Gems to replace with updated versions: name = version
+# Gems to replace with updated versions: name = minimum version
 $gemsToUpdate = @{
     "rexml" = "3.4.4"
 }
 
-Write-Host "=== InSpec Install Hook: Cleaning up bundled gems ==="
+# Search both package roots recursively to find gems wherever they are installed
+$searchRoots = @($rubyPkgPath, $pkg_prefix)
 
-$searchPaths = @($rubyGemsPath, "$pkg_prefix\lib\gems")
+Write-Host "=== InSpec Install Hook: Cleaning up bundled gems ==="
 
 # Remove Gemfile.lock from specified gems
 foreach ($gem in $gemfileLockGems) {
-    Write-Host "Removing Gemfile.lock from $gem gems..."
-    
-    # InSpec package: gems stored directly under lib/gems/
-    $inspecGemsPath = "$pkg_prefix\lib\gems"
-    Write-Host "  Searching InSpec gems in: $inspecGemsPath"
-    if (Test-Path $inspecGemsPath) {
-        Write-Host "  Directory exists, listing $gem-* directories:"
-        Get-ChildItem $inspecGemsPath -Directory -Filter "$gem-*" -ErrorAction SilentlyContinue | ForEach-Object {
-            Write-Host "  Found gem directory: $($_.FullName)"
-        }
-        Get-ChildItem $inspecGemsPath -Directory -Filter "$gem-*" -ErrorAction SilentlyContinue |
+    Write-Host "Removing Gemfile.lock files from $gem gems..."
+    $escapedGem = [regex]::Escape($gem)
+
+    foreach ($root in $searchRoots) {
+        Get-ChildItem $root -Recurse -Filter "Gemfile.lock" -ErrorAction SilentlyContinue |
+            Where-Object { $_.DirectoryName -match "\\gems\\$escapedGem-" } |
             ForEach-Object {
-                $lockfile = Join-Path $_.FullName "Gemfile.lock"
-                Write-Host "  Checking for: $lockfile"
-                if (Test-Path $lockfile) {
-                    Write-Host "  Removing: $lockfile"
-                    Remove-Item $lockfile -Force -ErrorAction SilentlyContinue
-                } else {
-                    Write-Host "  No Gemfile.lock in: $($_.FullName)"
-                }
+                Write-Host "  Removing: $($_.FullName)"
+                Remove-Item $_.FullName -Force -ErrorAction SilentlyContinue
             }
-    } else {
-        Write-Host "  Directory does not exist: $inspecGemsPath"
-        Write-Host "  Listing contents of $pkg_prefix\lib:"
-        Get-ChildItem "$pkg_prefix\lib" -ErrorAction SilentlyContinue | ForEach-Object {
-            Write-Host "    $($_.Name)"
-        }
     }
-    
-    # Ruby package: gems stored in nested directory structure
-    Get-ChildItem $rubyGemsPath -Filter "Gemfile.lock" -Recurse -ErrorAction SilentlyContinue |
-        Where-Object { $_.FullName -like "*\gems\$gem-*\Gemfile.lock" } |
-        ForEach-Object {
-            Write-Host "  Removing: $($_.FullName)"
-            Remove-Item $_.FullName -Force -ErrorAction SilentlyContinue
-        }
 }
 
 # Remove old gem versions and install updated ones
 foreach ($entry in $gemsToUpdate.GetEnumerator()) {
-    $gemName    = $entry.Key
-    $gemVersion = $entry.Value
-    
+    $gemName     = $entry.Key
+    $gemVersion  = $entry.Value
+    $escapedName = [regex]::Escape($gemName)
     Write-Host "Processing $gemName (target version: $gemVersion)..."
-    
-    # Search in both Ruby package gems and InSpec package gems
-    foreach ($searchPath in $searchPaths) {
-        # Find specifications directory
-        $specDir = Get-ChildItem $searchPath -Filter "specifications" -Directory -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1
-        if (-not $specDir) { continue }
-        
-        # Find all gemspecs for this gem
-        Get-ChildItem $specDir.FullName -Filter "$gemName-*.gemspec" -ErrorAction SilentlyContinue | ForEach-Object {
-            # Extract version from filename (e.g., rexml-3.3.9.gemspec -> 3.3.9)
-            $installedVersion = $_.BaseName -replace "^$gemName-", ""
-            
-            # Compare versions: remove if installed < required
-            try {
-                if ([version]$installedVersion -lt [version]$gemVersion) {
-                    Write-Host "  Removing old version: $gemName-$installedVersion"
-                    Remove-Item $_.FullName -Force -ErrorAction SilentlyContinue
-                    
-                    # Also remove the gem directory
-                    $gemDir = Join-Path (Split-Path $specDir.FullName) "gems\$gemName-$installedVersion"
-                    if (Test-Path $gemDir) {
-                        Write-Host "    Removing directory: $gemDir"
-                        Remove-Item $gemDir -Recurse -Force -ErrorAction SilentlyContinue
+
+    foreach ($root in $searchRoots) {
+        Get-ChildItem $root -Recurse -Filter "$gemName-*.gemspec" -ErrorAction SilentlyContinue |
+            Where-Object { $_.Directory.Name -eq "specifications" } |
+            ForEach-Object {
+                $installedVersion = $_.BaseName -replace "^$escapedName-", ""
+                try {
+                    if ([version]$installedVersion -lt [version]$gemVersion) {
+                        Write-Host "  Removing old version: $gemName-$installedVersion"
+                        Remove-Item $_.FullName -Force -ErrorAction SilentlyContinue
+
+                        $gemDir = Join-Path (Split-Path $_.Directory.FullName) "gems\$gemName-$installedVersion"
+                        if (Test-Path $gemDir) {
+                            Write-Host "    Removing directory: $gemDir"
+                            Remove-Item $gemDir -Recurse -Force -ErrorAction SilentlyContinue
+                        }
+                    } else {
+                        Write-Host "  Keeping version: $gemName-$installedVersion (>= $gemVersion)"
                     }
-                } else {
-                    Write-Host "  Keeping version: $gemName-$installedVersion (>= $gemVersion)"
+                } catch {
+                    Write-Host "  Warning: Could not parse version for $gemName-$installedVersion"
                 }
-            } catch {
-                Write-Host "  Warning: Could not parse version for $gemName-$installedVersion"
             }
-        }
     }
-    
-    # Install the required version if not already present
+
     $installedGem = gem list $gemName --local --version ">= $gemVersion" | Select-String "^$gemName"
     if (-not $installedGem) {
         Write-Host "Installing $gemName $gemVersion..."

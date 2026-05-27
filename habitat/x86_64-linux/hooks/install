@@ -1,52 +1,35 @@
 #!/bin/sh
 # Removes outdated gems bundled with the Ruby Habitat package and installs updated versions.
 
-# Get the package directory using hab pkg path
 pkg_prefix="$(hab pkg path chef/inspec)"
+ruby_pkg_path="$(hab pkg path core/ruby31)"
 
 # Set GEM_HOME and GEM_PATH to install gems into the package directory
 export GEM_HOME="$pkg_prefix/lib"
 export GEM_PATH="$GEM_HOME"
 
-RUBY_GEMS_PATH="$(hab pkg path core/ruby31)/lib/ruby/gems"
-
-# Gems whose Gemfile.lock should be removed (not used at runtime)
+# Gems whose Gemfile.lock should be removed (not needed at runtime)
 GEMFILE_LOCK_GEMS="lint_roller rbs"
 
 # Gems to replace with updated versions: "name:version"
 GEMS_TO_UPDATE="rexml:3.4.4"
 
+# Search both package roots recursively to find gems wherever they are installed
+SEARCH_ROOTS="$ruby_pkg_path $pkg_prefix"
+
 echo "=== InSpec Install Hook: Cleaning up bundled gems ==="
 
 # Remove Gemfile.lock from specified gems
 for gem in $GEMFILE_LOCK_GEMS; do
-  echo "Removing Gemfile.lock from ${gem} gems..."
-  
-  # InSpec package: gems stored directly under lib/gems/
-  inspec_gems_path="$pkg_prefix/lib/gems"
-  echo "  Searching InSpec gems in: $inspec_gems_path"
-  if [ -d "$inspec_gems_path" ]; then
-    echo "  Directory exists, listing ${gem}-* directories:"
-    find "$inspec_gems_path" -maxdepth 1 -type d -name "${gem}-*" 2>/dev/null
-    find "$inspec_gems_path" -maxdepth 1 -type d -name "${gem}-*" 2>/dev/null | while read -r gem_dir; do
-      echo "  Found gem directory: $gem_dir"
-      if [ -f "$gem_dir/Gemfile.lock" ]; then
-        echo "  Removing: $gem_dir/Gemfile.lock"
-        rm -f "$gem_dir/Gemfile.lock" 2>/dev/null || true
-      else
-        echo "  No Gemfile.lock in: $gem_dir"
-      fi
-    done
-  else
-    echo "  Directory does not exist: $inspec_gems_path"
-    echo "  Listing contents of $pkg_prefix/lib:"
-    ls -la "$pkg_prefix/lib" 2>/dev/null || echo "  lib directory not found"
-  fi
-  
-  # Ruby package: gems stored in nested directory structure
-  find "$RUBY_GEMS_PATH" -type f -path "*/gems/${gem}-*/Gemfile.lock" 2>/dev/null | while read -r lockfile; do
-    echo "  Removing: $lockfile"
-    rm -f "$lockfile" 2>/dev/null || true
+  echo "Removing Gemfile.lock files from ${gem} gems..."
+
+  for root in $SEARCH_ROOTS; do
+    find "$root" -type f -name "Gemfile.lock" 2>/dev/null | \
+      grep "/gems/${gem}-" | \
+      while read -r lockfile; do
+        echo "  Removing: $lockfile"
+        rm -f "$lockfile" 2>/dev/null || true
+      done
   done
 done
 
@@ -54,37 +37,32 @@ done
 for entry in $GEMS_TO_UPDATE; do
   gem_name="${entry%%:*}"
   gem_version="${entry##*:}"
-  
+
   echo "Processing ${gem_name} (target version: ${gem_version})..."
-  
-  # Search in both Ruby package gems and InSpec package gems
-  for search_path in "$RUBY_GEMS_PATH" "$pkg_prefix/lib/gems"; do
-    # Find the specifications directory
-    spec_dir=$(find "$search_path" -type d -name "specifications" -print -quit 2>/dev/null)
-    [ -z "$spec_dir" ] && continue
-    
-    # Find all gemspecs for this gem
-    find "$spec_dir" -name "${gem_name}-*.gemspec" 2>/dev/null | while read -r gemspec; do
-      # Extract version from filename (e.g., rexml-3.3.9.gemspec -> 3.3.9)
-      installed_version=$(basename "$gemspec" .gemspec | sed "s/^${gem_name}-//")
-      
-      # Compare versions: remove if installed < required
-      if [ "$(printf '%s\n' "$gem_version" "$installed_version" | sort -V | head -n1)" != "$gem_version" ]; then
-        echo "  Removing old version: ${gem_name}-${installed_version}"
-        rm -f "$gemspec" 2>/dev/null || true
-        
-        # Also remove the gem directory
-        gem_dir=$(dirname "$spec_dir")/gems/${gem_name}-${installed_version}
-        if [ -d "$gem_dir" ]; then
-          echo "    Removing directory: $gem_dir"
-          rm -rf "$gem_dir" 2>/dev/null || true
+
+  for root in $SEARCH_ROOTS; do
+    find "$root" -type f -name "${gem_name}-*.gemspec" 2>/dev/null | \
+      grep "/specifications/" | \
+      while read -r gemspec; do
+        installed_version=$(basename "$gemspec" .gemspec | sed "s/^${gem_name}-//")
+
+        # Compare versions: remove if installed < required
+        if [ "$(printf '%s\n' "$gem_version" "$installed_version" | sort -V | head -n1)" != "$gem_version" ]; then
+          echo "  Removing old version: ${gem_name}-${installed_version}"
+          rm -f "$gemspec" 2>/dev/null || true
+
+          spec_dir=$(dirname "$gemspec")
+          gem_dir=$(dirname "$spec_dir")/gems/${gem_name}-${installed_version}
+          if [ -d "$gem_dir" ]; then
+            echo "    Removing directory: $gem_dir"
+            rm -rf "$gem_dir" 2>/dev/null || true
+          fi
+        else
+          echo "  Keeping version: ${gem_name}-${installed_version} (>= ${gem_version})"
         fi
-      else
-        echo "  Keeping version: ${gem_name}-${installed_version} (>= ${gem_version})"
-      fi
-    done
+      done
   done
-  
+
   # Install the required version if not already present
   if ! gem list -i "^${gem_name}$" -v ">= ${gem_version}" >/dev/null 2>&1; then
     echo "Installing ${gem_name} ${gem_version}..."
