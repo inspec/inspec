@@ -63,6 +63,12 @@ do_install() {
   # for omnibus we also install this as part of the package
   gem install ed25519 bcrypt_pbkdf --no-document
 
+  # Install patched net-imap into GEM_HOME and remove the vulnerable bundled version
+  # from the core/ruby31 package to resolve CVEs: GHSA-j3g3-5qv5-52mj, GHSA-vcgp-9326-pqcp,
+  # GHSA-75xq-5h9v-w6px, GHSA-hm49-wcqc-g2xg (Ruby 3.1 ships net-imap 0.2.4 as a default gem)
+  gem install net-imap --no-document
+  find "$(pkg_path_for $ruby_package)" -name "net-imap-0.2.4.gemspec" -delete 2>/dev/null || true
+
   # Certain gems (timeliness) are getting installed with world writable files
   # This is removing write bits for group and other.
   find "$GEM_HOME" -xdev -perm -0002 -type f -print 2>/dev/null | xargs -I '{}' chmod go-w '{}'
