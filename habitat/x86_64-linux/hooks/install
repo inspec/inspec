@@ -20,9 +20,11 @@ for gem in $GEMFILE_LOCK_GEMS; do
   echo "Removing Gemfile.lock from ${gem} gems..."
   
   # InSpec package: gems stored directly under lib/gems/
-  find "$pkg_prefix/lib/gems" -type f -path "*/${gem}-*/Gemfile.lock" 2>/dev/null | while read -r lockfile; do
-    echo "  Removing: $lockfile"
-    rm -f "$lockfile" 2>/dev/null || true
+  find "$pkg_prefix/lib/gems" -type d -name "${gem}-*" 2>/dev/null | while read -r gem_dir; do
+    if [ -f "$gem_dir/Gemfile.lock" ]; then
+      echo "  Removing: $gem_dir/Gemfile.lock"
+      rm -f "$gem_dir/Gemfile.lock" 2>/dev/null || true
+    fi
   done
   
   # Ruby package: gems stored in nested directory structure

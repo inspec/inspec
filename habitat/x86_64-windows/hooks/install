@@ -24,11 +24,13 @@ foreach ($gem in $gemfileLockGems) {
     Write-Host "Removing Gemfile.lock from $gem gems..."
     
     # InSpec package: gems stored directly under lib/gems/
-    Get-ChildItem "$env:pkg_prefix\lib\gems" -Filter "Gemfile.lock" -Recurse -ErrorAction SilentlyContinue |
-        Where-Object { $_.FullName -like "*\$gem-*\Gemfile.lock" } |
+    Get-ChildItem "$env:pkg_prefix\lib\gems" -Directory -Filter "$gem-*" -ErrorAction SilentlyContinue |
         ForEach-Object {
-            Write-Host "  Removing: $($_.FullName)"
-            Remove-Item $_.FullName -Force -ErrorAction SilentlyContinue
+            $lockfile = Join-Path $_.FullName "Gemfile.lock"
+            if (Test-Path $lockfile) {
+                Write-Host "  Removing: $lockfile"
+                Remove-Item $lockfile -Force -ErrorAction SilentlyContinue
+            }
         }
     
     # Ruby package: gems stored in nested directory structure
