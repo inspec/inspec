@@ -1,8 +1,7 @@
 # Removes outdated gems bundled with the Ruby Habitat package and installs updated versions.
 
-# Find the InSpec package installation directory
-# The hook runs from the package's hooks directory, so go up one level
-$pkg_prefix = Split-Path -Parent $PSScriptRoot
+# Get the actual package installation directory using hab pkg path
+$pkg_prefix = hab pkg path chef/inspec
 
 # Set GEM_HOME and GEM_PATH to install gems into the package directory
 $env:GEM_HOME = "$pkg_prefix\lib"
