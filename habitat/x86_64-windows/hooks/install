@@ -24,14 +24,31 @@ foreach ($gem in $gemfileLockGems) {
     Write-Host "Removing Gemfile.lock from $gem gems..."
     
     # InSpec package: gems stored directly under lib/gems/
-    Get-ChildItem "$env:pkg_prefix\lib\gems" -Directory -Filter "$gem-*" -ErrorAction SilentlyContinue |
-        ForEach-Object {
-            $lockfile = Join-Path $_.FullName "Gemfile.lock"
-            if (Test-Path $lockfile) {
-                Write-Host "  Removing: $lockfile"
-                Remove-Item $lockfile -Force -ErrorAction SilentlyContinue
-            }
+    $inspecGemsPath = "$env:pkg_prefix\lib\gems"
+    Write-Host "  Searching InSpec gems in: $inspecGemsPath"
+    if (Test-Path $inspecGemsPath) {
+        Write-Host "  Directory exists, listing $gem-* directories:"
+        Get-ChildItem $inspecGemsPath -Directory -Filter "$gem-*" -ErrorAction SilentlyContinue | ForEach-Object {
+            Write-Host "  Found gem directory: $($_.FullName)"
         }
+        Get-ChildItem $inspecGemsPath -Directory -Filter "$gem-*" -ErrorAction SilentlyContinue |
+            ForEach-Object {
+                $lockfile = Join-Path $_.FullName "Gemfile.lock"
+                Write-Host "  Checking for: $lockfile"
+                if (Test-Path $lockfile) {
+                    Write-Host "  Removing: $lockfile"
+                    Remove-Item $lockfile -Force -ErrorAction SilentlyContinue
+                } else {
+                    Write-Host "  No Gemfile.lock in: $($_.FullName)"
+                }
+            }
+    } else {
+        Write-Host "  Directory does not exist: $inspecGemsPath"
+        Write-Host "  Listing contents of $env:pkg_prefix\lib:"
+        Get-ChildItem "$env:pkg_prefix\lib" -ErrorAction SilentlyContinue | ForEach-Object {
+            Write-Host "    $($_.Name)"
+        }
+    }
     
     # Ruby package: gems stored in nested directory structure
     Get-ChildItem $rubyGemsPath -Filter "Gemfile.lock" -Recurse -ErrorAction SilentlyContinue |
