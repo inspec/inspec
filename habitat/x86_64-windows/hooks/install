@@ -1,7 +1,8 @@
 # Removes outdated gems bundled with the Ruby Habitat package and installs updated versions.
 
-# Get the actual package installation directory using hab pkg path
-$pkg_prefix = hab pkg path chef/inspec
+# Get the package directory for THIS specific version being installed
+# Habitat provides pkg_origin, pkg_name, pkg_version, pkg_release in hook context
+$pkg_prefix = "/hab/pkgs/$env:pkg_origin/$env:pkg_name/$env:pkg_version/$env:pkg_release"
 
 # Set GEM_HOME and GEM_PATH to install gems into the package directory
 $env:GEM_HOME = "$pkg_prefix\lib"
