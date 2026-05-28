@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.24.12 -->
-## [v5.24.12](https://github.com/inspec/inspec/tree/v5.24.12) (2026-05-26)
+<!-- latest_release 5.24.13 -->
+## [v5.24.13](https://github.com/inspec/inspec/tree/v5.24.13) (2026-05-28)
 
 #### Merged Pull Requests
-- Ch/channel stable on inspe5 [#7907](https://github.com/inspec/inspec/pull/7907) ([chandra-progress](https://github.com/chandra-progress))
+- feat: Add Habitat install hooks for platform-specific builds to remove old gems (CHEF-34652) [#7923](https://github.com/inspec/inspec/pull/7923) ([chandra-progress](https://github.com/chandra-progress))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.24.7 -->
 ### Changes since 5.24.7 release
 
 #### Merged Pull Requests
+- feat: Add Habitat install hooks for platform-specific builds to remove old gems (CHEF-34652) [#7923](https://github.com/inspec/inspec/pull/7923) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.24.13 -->
 - Ch/channel stable on inspe5 [#7907](https://github.com/inspec/inspec/pull/7907) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.24.12 -->
 - CHEF-30766 Omnibus private submodule [#7827](https://github.com/inspec/inspec/pull/7827) ([Nik08](https://github.com/Nik08)) <!-- 5.24.11 -->
 - fix: CHEF-32686 - Pre-check waivers before control block evaluation to avoid eager resource execution [#7832](https://github.com/inspec/inspec/pull/7832) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.24.10 -->
