@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 3.1.0"
 
   spec.add_dependency "inspec-core", "= #{InspecBin::VERSION}"
-  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rake", ">= 12.3.3"
 
   spec.files = %w{README.md LICENSE Gemfile} + ["inspec-core-bin.gemspec"] +
     Dir.glob("{lib,bin}/**/*", File::FNM_DOTMATCH).reject { |f| File.directory?(f) }

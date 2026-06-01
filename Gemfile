@@ -43,7 +43,7 @@ group :test do
   gem "nokogiri", "< 1.17.2"
   gem "pry-byebug"
   gem "pry"
-  gem "rake"
+  gem "rake", ">= 12.3.3"
   gem "simplecov"
   gem "simplecov_json_formatter"
   gem "webmock"

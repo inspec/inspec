@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "inspec-core", "= #{Inspec::VERSION}"
 
   spec.add_dependency "train", "~> 3.16", ">= 3.16.1"
-  spec.add_dependency "rake"
+  spec.add_dependency "rake", ">= 12.3.3"
 
   # progress bar streaming reporter plugin support
   spec.add_dependency "progress_bar", "~> 1.3.3"
