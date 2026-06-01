@@ -12,7 +12,8 @@ $gemfileLockGems = @("lint_roller", "rbs")
 
 # Gems to replace with updated versions: name = minimum version
 $gemsToUpdate = @{
-    "rexml" = "3.4.4"
+    "rexml"    = "3.4.4"
+    "net-imap" = "0.5.14"
 }
 
 # Search both package roots recursively to find gems wherever they are installed
