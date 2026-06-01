@@ -29,7 +29,6 @@ group :omnibus do
   gem "bcrypt_pbkdf" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
   # pinning at < 0.6, 0.6 requires ruby 3.2+, InSpec5 does not support Ruby 3.2
   gem "net-imap", ">= 0.2.5", "< 0.6"
-  gem "resolv", ">= 0.2.3"
 end
 
 group :test do
