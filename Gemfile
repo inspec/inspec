@@ -18,6 +18,8 @@ gem "ffi", ">= 1.15.5", "< 1.17.0"
 # See https://github.com/knu/ruby-unf_ext/issues/74 https://buildkite.com/chef/inspec-inspec-inspec-5-omnibus-release/builds/22
 gem "unf_ext", "= 0.0.8.2"
 
+gem "resolv", ">= 0.2.3"
+
 # inspec tests depend text output that changed in the 3.10 release
 # but our runtime dep is still 3.9+
 gem "rspec", ">= 3.10"
