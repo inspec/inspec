@@ -18,8 +18,6 @@ gem "ffi", ">= 1.15.5", "< 1.17.0"
 # See https://github.com/knu/ruby-unf_ext/issues/74 https://buildkite.com/chef/inspec-inspec-inspec-5-omnibus-release/builds/22
 gem "unf_ext", "= 0.0.8.2"
 
-gem "resolv", ">= 0.2.3"
-
 # inspec tests depend text output that changed in the 3.10 release
 # but our runtime dep is still 3.9+
 gem "rspec", ">= 3.10"
@@ -31,6 +29,7 @@ group :omnibus do
   gem "bcrypt_pbkdf" # ed25519 ssh key support done here as its a native gem we can't put in the gemspec
   # pinning at < 0.6, 0.6 requires ruby 3.2+, InSpec5 does not support Ruby 3.2
   gem "net-imap", ">= 0.2.5", "< 0.6"
+  gem "resolv", ">= 0.2.3"
 end
 
 group :test do
