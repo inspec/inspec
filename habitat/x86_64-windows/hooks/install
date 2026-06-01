@@ -46,7 +46,12 @@ foreach ($entry in $gemsToUpdate.GetEnumerator()) {
 
     foreach ($root in $searchRoots) {
         Get-ChildItem $root -Recurse -Filter "$gemName-*.gemspec" -ErrorAction SilentlyContinue |
-            Where-Object { $_.Directory.Name -eq "specifications" } |
+            Where-Object {
+                # Match gemspecs in both "specifications/" (regular gems) and
+                # "specifications/default/" (Ruby default/bundled gems)
+                $_.Directory.Name -eq "specifications" -or
+                ($_.Directory.Name -eq "default" -and $_.Directory.Parent.Name -eq "specifications")
+            } |
             ForEach-Object {
                 $installedVersion = $_.BaseName -replace "^$escapedName-", ""
                 try {
@@ -54,7 +59,14 @@ foreach ($entry in $gemsToUpdate.GetEnumerator()) {
                         Write-Host "  Removing old version: $gemName-$installedVersion"
                         Remove-Item $_.FullName -Force -ErrorAction SilentlyContinue
 
-                        $gemDir = Join-Path (Split-Path $_.Directory.FullName) "gems\$gemName-$installedVersion"
+                        # For default gems the spec is one level deeper, so the gem root
+                        # (sibling of "specifications/") differs accordingly.
+                        $gemRoot = if ($_.Directory.Name -eq "default") {
+                            $_.Directory.Parent.Parent.FullName
+                        } else {
+                            $_.Directory.Parent.FullName
+                        }
+                        $gemDir = Join-Path $gemRoot "gems\$gemName-$installedVersion"
                         if (Test-Path $gemDir) {
                             Write-Host "    Removing directory: $gemDir"
                             Remove-Item $gemDir -Recurse -Force -ErrorAction SilentlyContinue
@@ -68,7 +80,14 @@ foreach ($entry in $gemsToUpdate.GetEnumerator()) {
             }
     }
 
-    $installedGem = gem list $gemName --local --version ">= $gemVersion" | Select-String "^$gemName"
+    # Check only our vendor directory — avoids false positives from Ruby default
+    # gems that appear in "gem list --local" but are not actually in our package.
+    $installedGem = Get-ChildItem "$pkg_prefix\vendor\specifications" -Filter "$gemName-*.gemspec" -ErrorAction SilentlyContinue |
+        Where-Object {
+            $ver = $_.BaseName -replace "^$escapedName-", ""
+            try { [version]$ver -ge [version]$gemVersion } catch { $false }
+        } | Select-Object -First 1
+
     if (-not $installedGem) {
         Write-Host "Installing $gemName $gemVersion..."
         gem install $gemName -v $gemVersion --no-document

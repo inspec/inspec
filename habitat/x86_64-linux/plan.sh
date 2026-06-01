@@ -63,6 +63,11 @@ do_install() {
   # for omnibus we also install this as part of the package
   gem install ed25519 bcrypt_pbkdf --no-document
 
+  # Pre-install native gems that require compilation (zlib, erb) at build time
+  # so the install hook (which runs without make/gcc) can skip reinstalling them.
+  gem install zlib -v 3.0.1 --no-document
+  gem install erb -v 4.0.3.1 --no-document
+
   # Certain gems (timeliness) are getting installed with world writable files
   # This is removing write bits for group and other.
   find "$GEM_HOME" -xdev -perm -0002 -type f -print 2>/dev/null | xargs -I '{}' chmod go-w '{}'
