@@ -43,8 +43,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "tty-table",                "~> 0.10"
   spec.add_dependency "tty-prompt",               "~> 0.17"
   spec.add_dependency "tomlrb",                   ">= 1.2", "< 2.1"
-  # Upgraded to ~> 2.9; public_suffix is pinned in Gemfile to < 7.0 to avoid Ruby 3.2+ requirement
   spec.add_dependency "addressable",              "~> 2.9"
+  spec.add_dependency "public_suffix",            ">= 2.0.2", "< 7.0" # public_suffix 7.x requires Ruby 3.2+
   spec.add_dependency "parslet",                  ">= 1.5", "< 3.0" # Pinned < 2.0, see #5389
   spec.add_dependency "semverse",                 "~> 3.0"
   spec.add_dependency "multipart-post",           "~> 2.0"
