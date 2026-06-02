@@ -8,7 +8,7 @@ $env:GEM_HOME = "$pkg_prefix\vendor"
 $env:GEM_PATH = $env:GEM_HOME
 
 # Gems whose Gemfile.lock should be removed (not needed at runtime)
-$gemfileLockGems = @("lint_roller", "rbs")
+$gemfileLockGems = @("lint_roller", "rbs", "os")
 
 # Gems to replace with updated versions: name = minimum version
 $gemsToUpdate = @{
