@@ -66,7 +66,7 @@ module Inspec
     end
 
     def bold(str, opts = { print: true })
-      result = color? ? io.print(ANSI_CODES[:bold] + str.to_s + ANSI_CODES[:reset]) : str.to_s
+      result = color? ? (ANSI_CODES[:bold] + str.to_s + ANSI_CODES[:reset]) : str.to_s
       print_or_return(result, opts[:print])
     end
 
