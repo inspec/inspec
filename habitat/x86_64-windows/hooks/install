@@ -10,7 +10,7 @@ $env:GEM_PATH = $env:GEM_HOME
 # Gems whose Gemfile.lock should be removed (not needed at runtime)
 $gemfileLockGems = @("lint_roller", "rbs")
 
-# Gems to replace with updated versions: name = minimum version
+# Gems to replace with updated versions: name = minimum gem version
 $gemsToUpdate = @{
     "rexml"    = "3.4.4"
     "net-imap" = "0.5.14"
