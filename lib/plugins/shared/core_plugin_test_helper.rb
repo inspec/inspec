@@ -39,7 +39,7 @@ end
 
 # TODO: remove me! There's no need!
 module CorePluginBaseHelper
-  let(:mock_path) { File.join(repo_path, "test", "fixtures", "mock") }
+  let(:mock_path) { File.join(repo_path, "test", "fixtures") }
   let(:core_fixture_plugins_path) { File.join(mock_path, "plugins") }
   let(:core_config_dir_path) { File.join(mock_path, "config_dirs") }
 
