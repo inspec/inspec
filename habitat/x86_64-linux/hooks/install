@@ -9,7 +9,7 @@ export GEM_HOME="$pkg_prefix/lib"
 export GEM_PATH="$GEM_HOME"
 
 # Gems whose Gemfile.lock should be removed (not needed at runtime)
-GEMFILE_LOCK_GEMS="lint_roller rbs"
+GEMFILE_LOCK_GEMS="lint_roller rbs os"
 
 # Gems to replace with updated versions: "name:version"
 GEMS_TO_UPDATE="rexml:3.4.4"
