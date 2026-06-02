@@ -1,9 +1,9 @@
 PATH
   remote: .
   specs:
-    inspec (5.24.13)
+    inspec (5.24.14)
       faraday_middleware (>= 0.12.2, < 1.3)
-      inspec-core (= 5.24.13)
+      inspec-core (= 5.24.14)
       mongo (= 2.21.3)
       progress_bar (~> 1.3.3)
       rake
@@ -12,8 +12,8 @@ PATH
       train-habitat (~> 0.1)
       train-kubernetes (< 0.3.1)
       train-winrm (~> 0.4.0)
-    inspec-core (5.24.13)
-      addressable (< 2.8.8)
+    inspec-core (5.24.14)
+      addressable (~> 2.9)
       chef-telemetry (~> 1.0, >= 1.0.8)
       cookstyle
       faraday (>= 1, < 3)
@@ -26,6 +26,7 @@ PATH
       parallel (~> 1.9)
       parslet (>= 1.5, < 3.0)
       pry (~> 0.13)
+      public_suffix (>= 2.0.2, < 7.0)
       rspec (>= 3.9, <= 3.14)
       rspec-its (>= 1.2, < 3.0)
       rubyzip (>= 1.2.2, < 4.0)
@@ -40,8 +41,8 @@ PATH
 PATH
   remote: inspec-bin
   specs:
-    inspec-bin (5.24.13)
-      inspec (= 5.24.13)
+    inspec-bin (5.24.14)
+      inspec (= 5.24.14)
 
 GEM
   remote: https://rubygems.org/
@@ -58,8 +59,8 @@ GEM
       minitest (>= 5.1)
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
-    addressable (2.8.7)
-      public_suffix (>= 2.0.2, < 7.0)
+    addressable (2.9.0)
+      public_suffix (>= 2.0.2, < 8.0)
     appbundler (0.13.4)
       mixlib-cli (>= 1.4, < 3.0)
       mixlib-shellout (>= 2.0, < 4.0)
@@ -566,7 +567,7 @@ GEM
     multi_json (1.18.0)
     multipart-post (2.4.1)
     mutex_m (0.3.0)
-    net-imap (0.5.13)
+    net-imap (0.5.14)
       date
       net-protocol
     net-protocol (0.2.2)
@@ -682,7 +683,7 @@ GEM
       tins (~> 1)
     thor (1.4.0)
     timeliness (0.3.10)
-    timeout (0.6.0)
+    timeout (0.6.1)
     tins (1.51.0)
       bigdecimal
       mize (~> 0.6)
@@ -869,7 +870,7 @@ DEPENDENCIES
   minitest-sprint (~> 1.3.0, < 1.4.0)
   mocha
   multi_json (~> 1.18.0)
-  net-imap (>= 0.2.5, < 0.6)
+  net-imap (>= 0.5.14, < 0.6)
   nokogiri (< 1.17.2)
   pry
   pry-byebug
@@ -884,4 +885,4 @@ DEPENDENCIES
   zeitwerk (~> 2.6.0, < 2.7)
 
 BUNDLED WITH
-   2.3.3
+   2.5.23

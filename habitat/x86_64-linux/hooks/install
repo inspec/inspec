@@ -12,7 +12,7 @@ export GEM_PATH="$GEM_HOME"
 GEMFILE_LOCK_GEMS="lint_roller rbs"
 
 # Gems to replace with updated versions: "name:version"
-GEMS_TO_UPDATE="rexml:3.4.4 zlib:3.0.1 erb:4.0.3.1"
+GEMS_TO_UPDATE="rexml:3.4.4 net-imap:0.5.14 zlib:3.0.1 erb:4.0.3.1"
 
 # Search both package roots recursively to find gems wherever they are installed
 SEARCH_ROOTS="$ruby_pkg_path $pkg_prefix"
