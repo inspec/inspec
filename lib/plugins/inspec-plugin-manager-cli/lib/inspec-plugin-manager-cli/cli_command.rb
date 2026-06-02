@@ -210,7 +210,22 @@ module InspecPlugins
         plugin_name = plugin_name_parts.join("-")
         check_plugin_name(plugin_name, "installation")
 
-        installer.install(plugin_name, gem_file: gem_file)
+        begin
+          installer.install(plugin_name, gem_file: gem_file)
+        rescue Inspec::Plugin::V2::PluginExcludedError => ex
+          ui.red("Plugin on Exclusion List - #{plugin_name} is listed as an " \
+                 "incompatible gem - refusing to install.\n")
+          ui.plain_line("Rationale: #{ex.details.rationale}")
+          ui.plain_line("Exclusion list location: " +
+                   File.join(Inspec.src_root, "etc", "plugin_filters.json"))
+          ui.plain_line("If you disagree with this determination, please accept " \
+                   "our apologies for the misunderstanding, and open an issue " \
+                   "at https://github.com/inspec/inspec/issues/new")
+          ui.exit Inspec::UI::EXIT_PLUGIN_ERROR
+        rescue Inspec::Plugin::V2::InstallError => ex
+          ui.red("Installation error - #{ex.message} - installation failed.\n")
+          ui.exit Inspec::UI::EXIT_USAGE_ERROR
+        end
 
         ui.bold("#{plugin_name} plugin, version #{version}, installed from " \
                 "local .gem file\n")
@@ -247,7 +262,22 @@ module InspecPlugins
         install_from_path__probe_load(entry_point, plugin_name)
 
         # OK, install it!
-        installer.install(plugin_name, path: entry_point)
+        begin
+          installer.install(plugin_name, path: entry_point)
+        rescue Inspec::Plugin::V2::PluginExcludedError => ex
+          ui.red("Plugin on Exclusion List - #{plugin_name} is listed as an " \
+                 "incompatible gem - refusing to install.\n")
+          ui.plain_line("Rationale: #{ex.details.rationale}")
+          ui.plain_line("Exclusion list location: " +
+                   File.join(Inspec.src_root, "etc", "plugin_filters.json"))
+          ui.plain_line("If you disagree with this determination, please accept " \
+                   "our apologies for the misunderstanding, and open an issue " \
+                   "at https://github.com/inspec/inspec/issues/new")
+          ui.exit Inspec::UI::EXIT_PLUGIN_ERROR
+        rescue Inspec::Plugin::V2::InstallError => ex
+          ui.red("Installation error - #{ex.message} - installation failed.\n")
+          ui.exit Inspec::UI::EXIT_USAGE_ERROR
+        end
 
         ui.bold("#{plugin_name} plugin installed via source path reference, " \
                 "resolved to entry point #{entry_point}\n")
