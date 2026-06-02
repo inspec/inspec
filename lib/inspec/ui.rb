@@ -200,7 +200,6 @@ module Inspec
         end
         code_int = self.class.const_get(code_const)
       end
-      io.flush if io.respond_to?(:flush)
       Kernel.exit(code_int)
     end
 
