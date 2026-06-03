@@ -1,5 +1,5 @@
-export HAB_BLDR_CHANNEL="stable"
-export HAB_REFRESH_CHANNEL="stable"
+export HAB_BLDR_CHANNEL="git2.45-test"  # "stable"
+export HAB_REFRESH_CHANNEL="git2.45-test"  # "stable"
 pkg_name=inspec
 pkg_origin=chef
 pkg_version=$(cat "$PLAN_CONTEXT/../../VERSION")
