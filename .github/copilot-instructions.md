@@ -287,12 +287,8 @@ Habitat plans are organized in platform-specific directories:
 habitat/
 ├── x86_64-linux/
 │   ├── plan.sh              # Linux build plan
-│   └── hooks/
-│       └── install          # Linux install hook
 └── x86_64-windows/
     ├── plan.ps1             # Windows build plan
-    └── hooks/
-        └── install          # Windows install hook
 ```
 
 **Linux plan** (`habitat/x86_64-linux/plan.sh`):
@@ -307,8 +303,6 @@ do_build() {
   gem build inspec-core.gemspec
 }
 ```
-
-**Install hooks**: Both platforms have install hooks that remove default gemspecs (erb, zlib) at deployment time to fix Ruby gem compatibility issues.
 
 **Building**: Run `hab pkg build .` which automatically detects and uses the correct platform-specific plan.
 
