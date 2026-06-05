@@ -66,4 +66,30 @@ describe "Inspec::Resources::Virtualization" do
       end
     end
   end
+
+  describe "container_system?" do
+    def virtualization_resource(system, role)
+      resource = Inspec::Resources::Virtualization.allocate
+      resource.instance_variable_set(:@virtualization_data, Hashie::Mash.new(system: system, role: role))
+      resource
+    end
+
+    it "returns true for detected container guests" do
+      %w{container-other docker kubepods linux-vserver lxc lxc-libvirt openvz podman pouch proot rkt systemd-nspawn wsl}.each do |system|
+        _(virtualization_resource(system, "guest")).must_be :container_system?
+      end
+    end
+
+    it "returns false for detected container hosts" do
+      %w{lxc openvz}.each do |system|
+        _(virtualization_resource(system, "host")).wont_be :container_system?
+      end
+    end
+
+    it "returns false for virtual machine guests and ambiguous LXD guests" do
+      %w{acrn amazon apple bochs bhyve google hyper-v kvm lxd microsoft openstack oracle parallels powervm qemu qnx sre uml vbox virtualbox vm-other vmware xen zvm}.each do |system|
+        _(virtualization_resource(system, "guest")).wont_be :container_system?
+      end
+    end
+  end
 end
