@@ -80,8 +80,8 @@ do_install() {
   gem install ed25519 bcrypt_pbkdf --no-document
 
   # Install fixed & upgraded versions of default gems.
-  gem install erb --version "4.0.4.1" --no-document
-  gem install zlib --version "3.2.3" --no-document
+  # gem install erb --version "4.0.4.1" --no-document
+  # gem install zlib --version "3.2.3" --no-document
 
   # Clean up stray Gemfile.lock from lint_roller gem to appease security scanners
   ruby "$HAB_CACHE_SRC_PATH/$pkg_dirname/scripts/cleanup_lint_roller.rb"
