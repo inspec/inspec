@@ -14,7 +14,7 @@ pkg_deps=(
   core/git
   core/ruby3_4
   core/bash
-  core/zlib
+  # core/zlib
 )
 pkg_build_deps=(
   core/gcc
