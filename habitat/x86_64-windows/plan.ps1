@@ -101,11 +101,6 @@ function Invoke-Install {
         # forget about the build bundle config
         Remove-Item $pkg_prefix/.bundle -Recurse -Force
     }
-
-    # Install fixed & upgraded versions of default gems into the package vendor dir.
-    Write-BuildLine "** Installing fixed & upgraded erb and zlib gems"
-    gem install erb --version "4.0.4.1" --no-document --install-dir "$pkg_prefix/vendor"
-    gem install zlib --version "3.2.3" --no-document --install-dir "$pkg_prefix/vendor"
 }
 
 function Invoke-After {
