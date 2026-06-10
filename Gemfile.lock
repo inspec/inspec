@@ -1,5 +1,7 @@
-PATH
-  remote: ../train-ch-pinning_bigdecimal
+GIT
+  remote: https://github.com/inspec/train.git
+  revision: 818a0863142877ff43c78a9f8b7005cea1579a02
+  branch: ch/pinning_bigdecimal
   specs:
     train (3.16.3)
       activesupport (~> 7.2, >= 7.2.3.1)
