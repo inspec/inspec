@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "inspec-core", "= #{Inspec::VERSION}"
 
-  spec.add_dependency "train", "~> 3.16", ">= 3.16.1"
+  # spec.add_dependency "train", "~> 3.16", ">= 3.16.1" # Commented out for adhoc build - using Gemfile git source (inspec/train#ch/pinning_bigdecimal)
   spec.add_dependency "rake"
 
   # progress bar streaming reporter plugin support

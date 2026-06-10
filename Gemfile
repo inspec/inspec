@@ -2,6 +2,11 @@ source "https://rubygems.org"
 
 gem "inspec", path: "."
 
+# Pointing to train branch for adhoc build testing
+# Ref: https://github.com/inspec/train/pull/833
+gem "train", path: "../train-ch-pinning_bigdecimal"
+gem "train-core", path: "../train-ch-pinning_bigdecimal"
+
 # This dependency is NOT used for normal gem deployment
 # - instead, inspec-bin gemspec-depends on inspec
 #
