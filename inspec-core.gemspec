@@ -55,4 +55,9 @@ Gem::Specification.new do |spec|
   # which was causing a LoadError ('cannot load such file -- ast') for users/applications using 'inspec-core'.
   spec.add_dependency "cookstyle"
   spec.add_dependency "train-core", "~> 3.16", ">= 3.16.1"
+
+  # bigdecimal 4.x changed native extension internals that fail to compile
+  # against the embedded Ruby 3.1 environment. Pin to 3.x until InSpec
+  # upgrades to Ruby 3.2+. Applies to all consumers (gem install + omnibus).
+  spec.add_dependency "bigdecimal", "< 4.0"
 end
