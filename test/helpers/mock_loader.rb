@@ -26,6 +26,9 @@ class MockLoader
     windows: { name: "windows", family: "windows", release: "6.2.9200", arch: "x86_64" },
     windows2016: { name: "windows_server_2016_datacenter", family: "windows", release: "10.0.14393", arch: "x86_64" },
     windows2019: { name: "windows_server_2019_datacenter", family: "windows", release: "10.0.17763", arch: "x86_64" },
+    windows2025: { name: "windows_server_2025_datacenter", family: "windows", release: "10.0.26100", arch: "x86_64" },
+    windows_nil_arch: { name: "windows", family: "windows", release: "10.0.26100", arch: nil },
+    windows_i386: { name: "windows", family: "windows", release: "6.2.9200", arch: "i386" },
     wrlinux: { name: "wrlinux", family: "redhat", release: "7.0(3)I2(2)", arch: "x86_64" },
     solaris11: { name: "solaris", family: "solaris", release: "11", arch: "i386" },
     solaris10: { name: "solaris", family: "solaris", release: "10", arch: "i386" },
@@ -302,6 +305,8 @@ class MockLoader
       "rmsock f0000000000000002 tcpcb" => cmd.call("rmsock-f0002"),
       # packages on windows
       "6785190b3df7291a7622b0b75b0217a9a78bd04690bc978df51ae17ec852a282" => cmd.call("get-item-property-package"),
+      # packages on windows i386 (no WOW6432Node paths — 32-bit Windows)
+      "9b8d347a9771d5bc5aa6b3ee0b9153f037d3008c76884fb22ef28060c088eba6" => cmd.call("get-item-property-package-i386"),
       # service status upstart on ubuntu
       "initctl status ssh" => cmd.call("initctl-status-ssh"),
       # upstart version on ubuntu

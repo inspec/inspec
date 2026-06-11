@@ -376,8 +376,15 @@ module Inspec::Resources
         'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*',
       ]
 
-      # add 64 bit search paths
-      if inspec.os.arch == "x86_64"
+      # Add WOW6432Node paths for 32-bit apps on 64-bit Windows.
+      # Include these unless the system is explicitly 32-bit (i386) — on 32-bit
+      # Windows, WOW6432Node does not exist since all apps register under the
+      # main Uninstall key.
+      # When os.arch is nil (e.g., train falls back to read_cmd_os in a PowerShell
+      # WinRM session where %PROCESSOR_ARCHITECTURE% is not expanded), we still
+      # include the WOW6432Node paths since virtually all modern Windows systems
+      # are 64-bit.
+      unless inspec.os.arch == "i386"
         search_paths << 'HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*'
         search_paths << 'HKCU:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*'
       end
