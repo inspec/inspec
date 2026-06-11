@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.24.16 -->
-## [v5.24.16](https://github.com/inspec/inspec/tree/v5.24.16) (2026-06-11)
+<!-- latest_release 5.24.17 -->
+## [v5.24.17](https://github.com/inspec/inspec/tree/v5.24.17) (2026-06-11)
 
 #### Merged Pull Requests
-- fix: CHEF-33393 - Include WOW6432Node registry paths when os.arch is unknown on Windows [#7935](https://github.com/inspec/inspec/pull/7935) ([Nik08](https://github.com/Nik08))
+- chore: train train-core upgrade for inspec-5 [#7925](https://github.com/inspec/inspec/pull/7925) ([mohan-progress](https://github.com/mohan-progress))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.24.7 -->
 ### Changes since 5.24.7 release
 
 #### Merged Pull Requests
+- chore: train train-core upgrade for inspec-5 [#7925](https://github.com/inspec/inspec/pull/7925) ([mohan-progress](https://github.com/mohan-progress)) <!-- 5.24.17 -->
 - fix: CHEF-33393 - Include WOW6432Node registry paths when os.arch is unknown on Windows [#7935](https://github.com/inspec/inspec/pull/7935) ([Nik08](https://github.com/Nik08)) <!-- 5.24.16 -->
 - Ch/fix verify pipline [#7932](https://github.com/inspec/inspec/pull/7932) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.24.15 -->
 - chore: CHEF-34867 - Upgrade addressable gem from &lt; 2.8.8 to ~&gt; 2.9 [#7920](https://github.com/inspec/inspec/pull/7920) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.24.14 -->
