@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.24.15 -->
-## [v5.24.15](https://github.com/inspec/inspec/tree/v5.24.15) (2026-06-04)
+<!-- latest_release 5.24.16 -->
+## [v5.24.16](https://github.com/inspec/inspec/tree/v5.24.16) (2026-06-11)
 
 #### Merged Pull Requests
-- Ch/fix verify pipline [#7932](https://github.com/inspec/inspec/pull/7932) ([chandra-progress](https://github.com/chandra-progress))
+- fix: CHEF-33393 - Include WOW6432Node registry paths when os.arch is unknown on Windows [#7935](https://github.com/inspec/inspec/pull/7935) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.24.7 -->
 ### Changes since 5.24.7 release
 
 #### Merged Pull Requests
+- fix: CHEF-33393 - Include WOW6432Node registry paths when os.arch is unknown on Windows [#7935](https://github.com/inspec/inspec/pull/7935) ([Nik08](https://github.com/Nik08)) <!-- 5.24.16 -->
 - Ch/fix verify pipline [#7932](https://github.com/inspec/inspec/pull/7932) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.24.15 -->
 - chore: CHEF-34867 - Upgrade addressable gem from &lt; 2.8.8 to ~&gt; 2.9 [#7920](https://github.com/inspec/inspec/pull/7920) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.24.14 -->
 - feat: Add Habitat install hooks for platform-specific builds to remove old gems (CHEF-34652) [#7923](https://github.com/inspec/inspec/pull/7923) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.24.13 -->
