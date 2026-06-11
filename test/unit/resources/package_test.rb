@@ -116,6 +116,25 @@ describe "Inspec::Resources::Package" do
     _(resource.latest?).must_equal true
   end
 
+  # windows with nil arch (e.g., Windows 2025 via WinRM where PROCESSOR_ARCHITECTURE
+  # is not expanded by CMD — train bug workaround)
+  it "verify windows package parsing when os.arch is nil (WOW6432Node still queried)" do
+    resource = MockLoader.new(:windows_nil_arch).load_resource("package", "Chef Client v12.12.15")
+    pkg = { name: "Chef Client v12.12.15 ", installed: true, version: "12.12.15.1", type: "windows", only_version_no: "12.12.15.1" }
+    _(resource.installed?).must_equal true
+    _(resource.version).must_equal "12.12.15.1"
+    _(resource.info).must_equal pkg
+  end
+
+  # windows i386 (32-bit) — WOW6432Node paths must NOT be included
+  it "verify windows package parsing on 32-bit (i386) skips WOW6432Node paths" do
+    resource = MockLoader.new(:windows_i386).load_resource("package", "Chef Client v12.12.15")
+    pkg = { name: "Chef Client v12.12.15 ", installed: true, version: "12.12.15.1", type: "windows", only_version_no: "12.12.15.1" }
+    _(resource.installed?).must_equal true
+    _(resource.version).must_equal "12.12.15.1"
+    _(resource.info).must_equal pkg
+  end
+
   # solaris 10
   it "verify solaris 10 package parsing" do
     resource = MockLoader.new(:solaris10).load_resource("package", "SUNWzfsr")
