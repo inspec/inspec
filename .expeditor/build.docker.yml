@@ -1,3 +1,4 @@
 ---
+env:
+  DOCKER_API_VERSION: "1.44"
 image_registry: chef
-DOCKER_API_VERSION: 1.44
