@@ -583,6 +583,8 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.10-x86_64-linux-gnu)
       racc (~> 1.4)
+    nokogiri (1.18.10-x86_64-linux-musl)
+      racc (~> 1.4)
     nori (2.7.1)
       bigdecimal
     options (2.3.2)
@@ -853,6 +855,8 @@ PLATFORMS
   x64-mingw-ucrt
   x86_64-darwin-23
   x86_64-linux
+  x86_64-linux-gnu
+  x86_64-linux-musl
 
 DEPENDENCIES
   appbundler
