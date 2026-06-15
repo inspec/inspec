@@ -8,6 +8,8 @@
 # For more information on how this file is used, please check out the Chef Expeditor docs:
 #   https://expeditor.chef.io/docs/pipelines/docker/
 
+DOCKER_API_VERSION: 1.44
+
 image=chef:
   image: '{env.IMAGE_REGISTRY}/inspec'
   context: .
