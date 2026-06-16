@@ -7,7 +7,7 @@ module SourceReaders
     priority 20
 
     def self.resolve(target)
-      return new(target) unless target.files.grep(/gemspec/).empty?
+      return new(target) unless target.files.grep(%r{^[^/\\]+\.gemspec$}).empty?
 
       nil
     end
