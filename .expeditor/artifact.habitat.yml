@@ -27,7 +27,7 @@ steps:
       queue: default-privileged-aarch64
     plugins:
       - docker#v3.5.0:
-          image: chefes/omnibus-toolchain-ubuntu-2204:aarch64
+          image: ruby:3.4.2-bullseye
           privileged: true
           propagate-environment: true
           environment:
