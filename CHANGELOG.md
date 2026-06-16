@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.24.18 -->
-## [v5.24.18](https://github.com/inspec/inspec/tree/v5.24.18) (2026-06-15)
+<!-- latest_release 5.24.19 -->
+## [v5.24.19](https://github.com/inspec/inspec/tree/v5.24.19) (2026-06-16)
 
 #### Merged Pull Requests
-- Pin docker api version to use newer version [#7945](https://github.com/inspec/inspec/pull/7945) ([Nik08](https://github.com/Nik08))
+- CHEF-34651 Remove test dependencies during hab build  [#7947](https://github.com/inspec/inspec/pull/7947) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.24.7 -->
 ### Changes since 5.24.7 release
 
 #### Merged Pull Requests
+- CHEF-34651 Remove test dependencies during hab build  [#7947](https://github.com/inspec/inspec/pull/7947) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.24.19 -->
 - Pin docker api version to use newer version [#7945](https://github.com/inspec/inspec/pull/7945) ([Nik08](https://github.com/Nik08)) <!-- 5.24.18 -->
 - chore: train train-core upgrade for inspec-5 [#7925](https://github.com/inspec/inspec/pull/7925) ([mohan-progress](https://github.com/mohan-progress)) <!-- 5.24.17 -->
 - fix: CHEF-33393 - Include WOW6432Node registry paths when os.arch is unknown on Windows [#7935](https://github.com/inspec/inspec/pull/7935) ([Nik08](https://github.com/Nik08)) <!-- 5.24.16 -->
