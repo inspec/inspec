@@ -23,11 +23,13 @@ steps:
   - label: ":linux: Arm64 Validate Habitat Builds of Chef InSpec"
     commands:
       - .expeditor/buildkite/artifact.habitat.test.sh
-    expeditor:
-      executor:
-        docker:
-          image: ruby:3.4.2-bullseye
+    agents:
+      queue: default-privileged-aarch64
+    plugins:
+      - docker#v3.5.0:
+          image: chefes/omnibus-toolchain-ubuntu-2204:aarch64
           privileged: true
+          propagate-environment: true
           environment:
             - HAB_AUTH_TOKEN
             - BUILD_PKG_TARGET: "aarch64-linux"
