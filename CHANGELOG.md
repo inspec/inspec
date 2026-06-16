@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.24.19 -->
-## [v5.24.19](https://github.com/inspec/inspec/tree/v5.24.19) (2026-06-16)
+<!-- latest_release 5.24.20 -->
+## [v5.24.20](https://github.com/inspec/inspec/tree/v5.24.20) (2026-06-16)
 
 #### Merged Pull Requests
-- CHEF-34651 Remove test dependencies during hab build  [#7947](https://github.com/inspec/inspec/pull/7947) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-34651 chore: upgrade nokogiri gem to 1.18.10 [#7946](https://github.com/inspec/inspec/pull/7946) ([chandra-progress](https://github.com/chandra-progress))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.24.7 -->
 ### Changes since 5.24.7 release
 
 #### Merged Pull Requests
+- CHEF-34651 chore: upgrade nokogiri gem to 1.18.10 [#7946](https://github.com/inspec/inspec/pull/7946) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.24.20 -->
 - CHEF-34651 Remove test dependencies during hab build  [#7947](https://github.com/inspec/inspec/pull/7947) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.24.19 -->
 - Pin docker api version to use newer version [#7945](https://github.com/inspec/inspec/pull/7945) ([Nik08](https://github.com/Nik08)) <!-- 5.24.18 -->
 - chore: train train-core upgrade for inspec-5 [#7925](https://github.com/inspec/inspec/pull/7925) ([mohan-progress](https://github.com/mohan-progress)) <!-- 5.24.17 -->
