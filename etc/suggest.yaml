@@ -1,0 +1,16 @@
+---
+
+# Relative to InSpec installation
+working_directory: tmp
+
+sets:
+  chef-compliance:
+    paths:
+      - compliance-profiles/src/inspec/supported/*
+      - compliance-profiles/src/inspec/unsupported/*
+    # exclude:
+    #   - regex1
+    #   - regex2
+    # check:
+    #   disable-checks:
+    #     - trailing-newline

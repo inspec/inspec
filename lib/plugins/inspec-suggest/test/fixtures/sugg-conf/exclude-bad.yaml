@@ -1,0 +1,11 @@
+working_directory: lib/plugins/inspec-suggest/test/fixtures/tmp
+
+sets:
+  test-fixture:
+    paths:
+      - ../src/*
+    exclude:
+      - bad-syntax
+      - no-newline
+      - command-resource
+      - variable-describe
