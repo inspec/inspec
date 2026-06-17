@@ -18,7 +18,6 @@ To use the CLI, this InSpec add-on adds the following commands:
 
     *Options*:
     ```
-      [--overwrite], [--no-overwrite]  # Overwrite existing profile on Server.
       [--owner=OWNER]                  # Owner that should own the profile
       [--legacy], [--no-legacy]        # Enable legacy functionality, activating both legacy export and legacy check.
 
