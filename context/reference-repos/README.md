@@ -1,3 +1,3 @@
-This directory contains clones of repos used by AI code generation agents. Run the prompt in .github/prompts/initialize.prompt.md to populate this directory.
+This directory contains clones of repos used by AI code generation agents.
 
-Add repos to context/reference-repos/repo-list.txt to add repos that the initializer will watch for.
+Add repos to etc/reference-repos.txt to add repos that the initializer will watch for.

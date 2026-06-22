@@ -22,7 +22,7 @@ Make sure `gh auth status` works, and run `gh auth login` if not.
 
 ## 3. Ensure the list of reference repos is checked out
 
-Look for the file `context/reference-repos/repo-list.txt`. Re-read the repo list each time you run — it may have changed. It is a list of GitHub repos to clone. Some of them may be private or internal; you may not have access.
+Look for the file `etc/reference-repos.txt`. Re-read the repo list each time you run — it may have changed. It is a list of GitHub repos to clone. Some of them may be private or internal; you may not have access.
 
 Try to clone each one into `context/reference-repos`. If it has already been cloned, pull it. If it has local changes, inform the user and do nothing.
 
