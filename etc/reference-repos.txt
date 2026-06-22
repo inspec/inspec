@@ -1,1 +1,3 @@
 inspec/train
+inspec/train-winrm
+progress-infra-poc/shared-context
