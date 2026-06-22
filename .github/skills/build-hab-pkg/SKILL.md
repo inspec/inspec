@@ -240,82 +240,10 @@ inspec detect  : ✅ <platform info>
 
 ## Step 9 – Add CI pipeline support for the new platform
 
-Now that the plan is working locally, wire it into the Expeditor CI pipelines so the new platform is built and tested automatically on every merge.
+Now that the plan is working locally, invoke the **`hab-ci-pipeline`** skill to wire `<TARGET>` into the Expeditor CI pipelines so it is built and tested automatically on every merge.
 
-### 9a – Update the artifact test script
+> *"Invoking the `hab-ci-pipeline` skill to configure CI for `<TARGET>`…"*
 
-File: `.expeditor/buildkite/artifact.habitat.test.sh`
-
-This script is the shared test runner used by all Habitat build pipeline steps. Verify it already supports the `BUILD_PKG_TARGET` env var — it should contain a block like:
-
-```bash
-if [ -n "$BUILD_PKG_TARGET" ]; then
-  echo "--- Building for target: $BUILD_PKG_TARGET"
-  DO_CHECK=true hab pkg build "habitat/$BUILD_PKG_TARGET"
-else
-  DO_CHECK=true hab pkg build .
-fi
-```
-
-- If this block **already exists** → report `✔ artifact.habitat.test.sh – already supports BUILD_PKG_TARGET` and skip to Step 9b.
-- If it is **missing** → add it, replacing the bare `DO_CHECK=true hab pkg build .` line.
-
-### 9b – Add a pipeline step to `.expeditor/artifact.habitat.yml`
-
-File: `.expeditor/artifact.habitat.yml`
-
-Add a new Buildkite pipeline step for `<TARGET>`. Use the following templates:
-
-**For `aarch64-linux` targets** (ARM64 Linux, requires an aarch64 agent queue):
-
-```yaml
-  - label: ":linux: Arm64 Validate Habitat Builds of Chef InSpec"
-    commands:
-      - .expeditor/buildkite/artifact.habitat.test.sh
-    agents:
-      queue: default-privileged-aarch64
-    plugins:
-      - docker#v3.5.0:
-          image: ruby:3.4.2-bullseye
-          privileged: true
-          propagate-environment: true
-          environment:
-            - HAB_AUTH_TOKEN
-            - BUILD_PKG_TARGET: "aarch64-linux"
-```
-
-**For `aarch64-darwin` targets** (Apple Silicon macOS):
-
-```yaml
-  - label: ":darwin: Arm64 Validate Habitat Builds of Chef InSpec"
-    commands:
-      - .expeditor/buildkite/artifact.habitat.test.sh
-    agents:
-      queue: default-privileged-aarch64-darwin
-    expeditor:
-      executor:
-        macos:
-          privileged: true
-          environment:
-            - HAB_AUTH_TOKEN
-            - BUILD_PKG_TARGET: "aarch64-darwin"
-```
-
-- Check whether a step for `<TARGET>` already exists in the file.
-- **Already present** → report `✔ artifact.habitat.yml – step for <TARGET> already in place` and stop.
-- **Missing** → append the appropriate step block above after the last existing step.
-
-Report: `✅ artifact.habitat.yml – added pipeline step for <TARGET>`
-
-### 9c – Summary
-
-Print a final summary of pipeline changes:
-
-```
-File                                         Status
-----                                         ------
-.expeditor/buildkite/artifact.habitat.test.sh  ✅ BUILD_PKG_TARGET support confirmed
-.expeditor/artifact.habitat.yml                ✅ pipeline step added for <TARGET>
-```
-
-> *"CI pipeline is now configured to build and test the `<TARGET>` Habitat package on every merge."*
+The `hab-ci-pipeline` skill will:
+1. Update `.expeditor/buildkite/artifact.habitat.test.sh` to support the `BUILD_PKG_TARGET` env var
+2. Add a new Buildkite pipeline step for `<TARGET>` to `.expeditor/artifact.habitat.yml`
