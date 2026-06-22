@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Bump version by making changes in NOTICE file [#7959](https://github.com/inspec/inspec/pull/7959) ([Nik08](https://github.com/Nik08))
 - Updated expeditor config to pick changes in NOTICE file [#7958](https://github.com/inspec/inspec/pull/7958) ([Nik08](https://github.com/Nik08))
 - Updated Notice for new release of InSpec 5 [#7956](https://github.com/inspec/inspec/pull/7956) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
@@ -12,6 +13,7 @@
 ### Changes since 5.24.7 release
 
 #### Merged Pull Requests
+- Bump version by making changes in NOTICE file [#7959](https://github.com/inspec/inspec/pull/7959) ([Nik08](https://github.com/Nik08)) <!-- 5.24.20 -->
 - Updated expeditor config to pick changes in NOTICE file [#7958](https://github.com/inspec/inspec/pull/7958) ([Nik08](https://github.com/Nik08)) <!-- 5.24.20 -->
 - Updated Notice for new release of InSpec 5 [#7956](https://github.com/inspec/inspec/pull/7956) ([Nik08](https://github.com/Nik08)) <!-- 5.24.20 -->
 - CHEF-34651 chore: upgrade nokogiri gem to 1.18.10 [#7946](https://github.com/inspec/inspec/pull/7946) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.24.20 -->
