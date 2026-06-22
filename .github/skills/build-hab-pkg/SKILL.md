@@ -32,14 +32,17 @@ Derive the base plan path from `<TARGET>` using these rules:
 | `<TARGET>` contains | Base plan to source |
 |---------------------|---------------------|
 | `linux`             | `../x86_64-linux/plan.sh` |
-| `darwin`            | `../x86_64-darwin/plan.sh` (if it exists) |
+| `darwin`            | `../x86_64-darwin/plan.sh` |
 | `windows`           | `../x86_64-windows/plan.ps1` |
 
 - Check whether the resolved base plan file exists under `habitat/`.
-- If it **does not exist**, warn the user:
-  > *"⚠️ No base plan found for `<TARGET>` (expected `habitat/<base>`).
-  > Please ensure the base plan exists before continuing."*
-  Then stop.
+- If it **does not exist**, skip the sourcing wrapper approach and **create a full standalone plan directly for `<TARGET>`**:
+  1. Read the most structurally similar existing plan as a reference:
+     - `darwin` or `linux` targets → read `habitat/x86_64-linux/plan.sh`
+     - `windows` targets → read `habitat/x86_64-windows/plan.ps1`
+  2. Create `habitat/<TARGET>/plan.sh` (or `.ps1`) as a **complete, standalone plan** — not a sourcing wrapper — by copying the reference and adapting it for `<TARGET>` (update any arch/platform-specific variables, deps, or comments as needed).
+  3. Report: `✅ Created standalone plan: habitat/<TARGET>/plan.sh`
+  4. Skip Steps 3 and 4 (no wrapper needed) and go directly to **Step 5**.
 
 ---
 
@@ -130,26 +133,43 @@ for the provided platform.
 
 ### 7a – Enter the Habitat Studio
 
+Before running the build, check whether `sudo` requires a password on this machine:
+
 ```bash
-hab studio enter
+sudo -n true 2>/dev/null && echo "SUDO_OK" || echo "SUDO_NEEDS_PASSWORD"
 ```
 
-> On Linux this opens a sandboxed Studio shell. Wait for the `[1][default:/src:0]$`
-> prompt before proceeding.
+- If output is `SUDO_OK` → proceed directly to Step 7b.
+- If output is `SUDO_NEEDS_PASSWORD` → **prompt the user**:
+  > *"The Habitat Studio requires sudo to set up the build environment. Please enter your sudo password:"*
+  
+  Use `ask_user` (freeform, no choices) to collect the password, then run the build using:
+  ```bash
+  echo "<PASSWORD>" | sudo -S hab pkg build habitat/<TARGET> 2>&1
+  ```
+  substituting `<PASSWORD>` with the value provided by the user.
+
+> On Linux this opens a sandboxed Studio shell. On macOS, `hab pkg build` handles the studio setup directly.
 
 ### 7b – Run the build for `<TARGET>`
 
-Inside the Studio, run:
+Run the build with all required env vars set:
 
 ```bash
-DO_CHECK=true build habitat/<TARGET>
+export HAB_ORIGIN=<HAB_ORIGIN>
+export HAB_LICENSE=<HAB_LICENSE>
+export HAB_REFRESH_CHANNEL=<HAB_REFRESH_CHANNEL>
+export HAB_NONINTERACTIVE=true
+export HAB_NOCOLORING=true
+export HAB_AUTH_TOKEN=<HAB_AUTH_TOKEN>
+DO_CHECK=true hab pkg build habitat/<TARGET>
 ```
 
-Where `<TARGET>` is the platform chosen in Step 1 (e.g. `aarch64-linux`).
+Where `<TARGET>` is the platform chosen in Step 1 (e.g. `aarch64-darwin`).
 
-This is equivalent to running `hab pkg build habitat/<TARGET>` and will:
+This will:
 - Compile the gems for the target platform
-- Run the `DO_CHECK` hooks defined in the base plan
+- Run the `DO_CHECK` hooks defined in the plan
 - Produce a `.hart` artifact under `./results/`
 
 ### 7c – Verify the build succeeded
