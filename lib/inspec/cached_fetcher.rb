@@ -44,9 +44,16 @@ module Inspec
         [cache.prefered_entry_for(cache_key), false]
       else
         Inspec::Log.debug "Dependency does not exist in the cache #{target}"
-        fetcher.fetch(cache.base_path_for(fetcher.cache_key))
-        assert_cache_sanity!
-        [fetcher.archive_path, fetcher.writable?]
+        begin
+          fetcher.fetch(cache.base_path_for(fetcher.cache_key))
+          assert_cache_sanity!
+          [fetcher.archive_path, fetcher.writable?]
+        rescue Errno::EACCES, Errno::EPERM => e
+          # Handle Windows permission errors gracefully
+          Inspec::Log.error("Permission error while fetching #{target}: #{e.message}")
+          raise Inspec::FetcherFailure, "Failed to fetch profile due to permission error. " \
+                                        "Error: #{e.message}"
+        end
       end
     end
 
