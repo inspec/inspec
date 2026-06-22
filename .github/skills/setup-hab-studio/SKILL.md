@@ -88,11 +88,11 @@ Check each of the following environment variables. For any that are not set or e
 - If either is not set, automatically set both to `true` without prompting.
 - Set them: `export HAB_NONINTERACTIVE=true && export HAB_NOCOLORING=true`
 
-### `GITHUB_TOKEN`
-- **Optional.** Only needed if accessing private Habitat origins or packages on Builder.
-- Check: `echo $GITHUB_TOKEN`
-- If not set: Ask — *"Do you need to access private packages on Habitat Builder? If yes, please provide your GitHub token (or press Enter to skip)."*
-- If provided, set: `export GITHUB_TOKEN=<value>`
+### `HAB_AUTH_TOKEN`
+- **Required** for authenticating with Habitat Builder to push/pull packages.
+- Check: `echo $HAB_AUTH_TOKEN`
+- If not set: Ask — *"Please provide your Habitat Builder auth token (HAB_AUTH_TOKEN)."*
+- If provided, set: `export HAB_AUTH_TOKEN=<value>`
 
 ## 6. Generate Origin Key if Missing
 
@@ -123,7 +123,7 @@ export HAB_LICENSE="accept-no-persist"
 export HAB_REFRESH_CHANNEL="base-2025"
 export HAB_NONINTERACTIVE=true
 export HAB_NOCOLORING=true
-# export GITHUB_TOKEN="<value>"  # uncomment if needed
+# export HAB_AUTH_TOKEN="<value>"  # uncomment if needed
 ```
 
 5. **Next step** — Remind the user they can now enter the Habitat Studio with:
