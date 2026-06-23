@@ -15,7 +15,7 @@ describe SourceReaders::GemReader do
       files = ["inspec.yml", "controls/test.rb", "vendor/abc123/test.gemspec"]
       mock_provider = Minitest::Mock.new
       mock_provider.expect :files, files
-      
+
       result = reader.resolve(mock_provider)
       _(result).must_be_nil
       mock_provider.verify
@@ -25,7 +25,6 @@ describe SourceReaders::GemReader do
       files = ["inspec.yml", "controls/test.rb"]
       mock_provider = Minitest::Mock.new
       mock_provider.expect :files, files
-      
       result = reader.resolve(mock_provider)
       _(result).must_be_nil
       mock_provider.verify
@@ -36,7 +35,6 @@ describe SourceReaders::GemReader do
       files = ["inspec.yml", "controls/test.rb", "vendor/abc123/test.gemspec"]
       mock_provider = Minitest::Mock.new
       mock_provider.expect :files, files
-      
       # The gem reader should NOT resolve since the only gemspec is in vendor/
       result = reader.resolve(mock_provider)
       _(result).must_be_nil

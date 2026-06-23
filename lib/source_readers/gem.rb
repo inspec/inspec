@@ -11,7 +11,6 @@ module SourceReaders
       # This prevents archived/vendored profiles from being treated as gem profiles
       gemspec_files = target.files.grep(/gemspec/)
       root_gemspec = gemspec_files.reject { |f| f.start_with?("vendor/") }
-      
       return new(target) unless root_gemspec.empty?
 
       nil
