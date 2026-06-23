@@ -1,3 +1,14 @@
+---
+name: hab-ci-pipeline
+description: >
+  Wires a Habitat target platform into the Expeditor CI pipelines so it is
+  built and tested automatically on every merge. Updates
+  .expeditor/buildkite/artifact.habitat.test.sh to support the BUILD_PKG_TARGET
+  env var and adds a new Buildkite pipeline step for the target to
+  .expeditor/artifact.habitat.yml. Use when asked to add CI pipeline support
+  for a new Habitat platform.
+---
+
 # Skill: hab-ci-pipeline
 
 When this skill is invoked, follow these steps in order.
