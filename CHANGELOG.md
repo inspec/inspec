@@ -1,19 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.24.21 -->
-## [v5.24.21](https://github.com/inspec/inspec/tree/v5.24.21) (2026-06-22)
+<!-- latest_release 5.24.22 -->
+## [v5.24.22](https://github.com/inspec/inspec/tree/v5.24.22) (2026-06-23)
 
 #### Merged Pull Requests
-- Updated expeditor config fix for NOTICE [#7960](https://github.com/inspec/inspec/pull/7960) ([Nik08](https://github.com/Nik08))
-- Bump version by making changes in NOTICE file [#7959](https://github.com/inspec/inspec/pull/7959) ([Nik08](https://github.com/Nik08))
-- Updated expeditor config to pick changes in NOTICE file [#7958](https://github.com/inspec/inspec/pull/7958) ([Nik08](https://github.com/Nik08))
-- Updated Notice for new release of InSpec 5 [#7956](https://github.com/inspec/inspec/pull/7956) ([Nik08](https://github.com/Nik08))
+- Remove compliance upload --overwrite CLI argument functionality [#7966](https://github.com/inspec/inspec/pull/7966) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.24.7 -->
 ### Changes since 5.24.7 release
 
 #### Merged Pull Requests
+- Remove compliance upload --overwrite CLI argument functionality [#7966](https://github.com/inspec/inspec/pull/7966) ([Nik08](https://github.com/Nik08)) <!-- 5.24.22 -->
 - Updated expeditor config fix for NOTICE [#7960](https://github.com/inspec/inspec/pull/7960) ([Nik08](https://github.com/Nik08)) <!-- 5.24.21 -->
 - Bump version by making changes in NOTICE file [#7959](https://github.com/inspec/inspec/pull/7959) ([Nik08](https://github.com/Nik08)) <!-- 5.24.20 -->
 - Updated expeditor config to pick changes in NOTICE file [#7958](https://github.com/inspec/inspec/pull/7958) ([Nik08](https://github.com/Nik08)) <!-- 5.24.20 -->
