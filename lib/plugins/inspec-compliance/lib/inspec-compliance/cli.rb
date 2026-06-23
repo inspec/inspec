@@ -170,9 +170,6 @@ module InspecPlugins
         # read profile name from inspec.yml
         profile_name = profile.name
 
-        # read profile version from inspec.yml
-        profile_version = profile.version
-
         # abort if we found an error
         if error_count > 0
           puts "Found #{error_count} error(s)"
