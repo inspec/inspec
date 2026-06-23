@@ -67,7 +67,7 @@ refresh_token = ENV["COMPLIANCE_REFRESHTOKEN"]
   end
 
   # upload a compliance profile
-  describe command("#{inspec_bin} compliance upload #{profile} --overwrite") do
+  describe command("#{inspec_bin} compliance upload #{profile}") do
     its("stdout") { should include "Profile is valid" }
     its("stdout") { should include "Successfully uploaded profile" }
     its("stdout") { should_not include "error(s)" }
