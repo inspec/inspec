@@ -10,6 +10,7 @@ pkg_upstream_url=https://www.inspec.io/
 pkg_maintainer="The Habitat Maintainers <humans@habitat.sh>"
 pkg_license=('Apache-2.0')
 pkg_deps=(
+  core/zlib
   core/coreutils
   core/git
   core/ruby3_4
@@ -18,6 +19,7 @@ pkg_deps=(
 # core/gcc is not available for aarch64-darwin; the macOS Xcode Command Line
 # Tools provide clang (aliased as gcc) for native gem compilation.
 pkg_build_deps=(
+  core/clang
   core/make
   core/readline
   core/sed
@@ -26,14 +28,23 @@ pkg_bin_dirs=(bin)
 
 do_prepare() {
   export HAB_STUDIO_SECRET_NODE_OPTIONS="--dns-result-order=ipv4first"
+  # macOS Studio sandbox blocks access to the real user home directory.
+  # Set HOME to a writable, sandbox-accessible path so that Gem::SpecFetcher
+  # does not call File.stat on /Users/<user> and raise Errno::EPERM.
+  export HOME=/tmp
 }
 
 do_setup_environment() {
   build_line 'Setting GEM_HOME="$pkg_prefix/lib"'
   export GEM_HOME="$pkg_prefix/lib"
 
-  build_line "Setting GEM_PATH=$GEM_HOME:${INSPEC_CONFIG_DIR:-~/.inspec}"
-  export GEM_PATH="$GEM_HOME:${INSPEC_CONFIG_DIR:-~/.inspec}"
+  # Include core/ruby3_4's default gems dir so bundled gems (e.g. racc) are
+  # found when GEM_PATH is explicitly set — setting GEM_PATH suppresses Ruby's
+  # automatic inclusion of Gem.default_dir.
+  local _ruby_default_gems
+  _ruby_default_gems="$(pkg_path_for core/ruby3_4)/lib/ruby/gems/3.4.0"
+  build_line "Setting GEM_PATH=$GEM_HOME:$_ruby_default_gems:${INSPEC_CONFIG_DIR:-~/.inspec}"
+  export GEM_PATH="$GEM_HOME:$_ruby_default_gems:${INSPEC_CONFIG_DIR:-~/.inspec}"
 }
 
 do_unpack() {
@@ -62,7 +73,7 @@ do_install() {
     gem install inspec-*.gem --no-document
   popd
   pushd "$HAB_CACHE_SRC_PATH/$pkg_dirname/inspec-bin"
-    gem install inspec-bin*.gem --no-document
+    gem install "inspec-bin-${pkg_version}.gem" --no-document
   popd
 
   wrap_inspec_bin
@@ -82,15 +93,6 @@ do_install() {
   # Clean up stray Gemfile.lock from lint_roller gem to appease security scanners
   ruby "$HAB_CACHE_SRC_PATH/$pkg_dirname/scripts/cleanup_lint_roller.rb"
 
-  # On macOS, Ruby ships certain gems (e.g. erb, zlib) as "default gems" whose
-  # gemspecs live inside the Ruby stdlib directory.  Those default gemspecs take
-  # precedence over Habitat-installed versions unless removed first.
-  ruby "$HAB_CACHE_SRC_PATH/$pkg_dirname/scripts/remove_default_gemspecs.rb"
-
-  # Install fixed & upgraded versions of the default gems removed above.
-  gem install erb  --version "4.0.4.1" --no-document
-  gem install zlib --version "3.2.3"   --no-document
-
   # Certain gems (timeliness) are getting installed with world writable files
   # This is removing write bits for group and other.
   find "$GEM_HOME" -xdev -perm -0002 -type f -print 2>/dev/null | xargs -I '{}' chmod go-w '{}'
@@ -100,6 +102,9 @@ do_install() {
 wrap_inspec_bin() {
   local bin="$pkg_prefix/bin/$pkg_name"
   local real_bin="$GEM_HOME/gems/inspec-bin-${pkg_version}/bin/inspec"
+  # ruby3_4 default gems dir so bundled gems (e.g. racc) are visible at runtime
+  local ruby_default_gems
+  ruby_default_gems="$(pkg_path_for core/ruby3_4)/lib/ruby/gems/3.4.0"
   build_line "Adding wrapper $bin to $real_bin"
   cat <<EOF > "$bin"
 #!$(pkg_path_for core/bash)/bin/bash
