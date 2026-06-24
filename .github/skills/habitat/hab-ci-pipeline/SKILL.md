@@ -77,7 +77,33 @@ Report: `✅ artifact.habitat.yml – added pipeline step for <TARGET>`
 
 ---
 
-## Step 3 – Summary
+## Step 3 – Update `.bldr.toml`
+
+Read `.bldr.toml` and check whether `<TARGET>` is already listed in `build_targets`.
+
+### Already present
+Report `✔ .bldr.toml – <TARGET> already in build_targets` and skip to Step 4.
+
+### Missing — add the target
+
+Add `"<TARGET>"` to the `build_targets` array under the `[inspec]` section.
+
+**Example** — after adding `aarch64-darwin`:
+
+```toml
+[inspec]
+build_targets = [
+  "x86_64-windows",
+  "x86_64-linux",
+  "aarch64-darwin"
+]
+```
+
+Report: `✅ .bldr.toml – added <TARGET> to build_targets`
+
+---
+
+## Step 4 – Summary
 
 Print a final summary:
 
@@ -87,6 +113,7 @@ Platform : <TARGET>
 File                                   Status
 ----                                   ------
 .expeditor/artifact.habitat.yml        ✅ pipeline step added for <TARGET> (or ✔ already in place)
+.bldr.toml                             ✅ <TARGET> added to build_targets (or ✔ already in place)
 ```
 
-> *"CI pipeline is now configured to build and test `<TARGET>` Habitat packages on every merge. Commit and push this file to include it in your PR."*
+> *"CI pipeline is now configured to build and test `<TARGET>` Habitat packages on every merge. Commit and push these files to include them in your PR."*
