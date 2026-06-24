@@ -1,16 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.24.23 -->
-## [v5.24.23](https://github.com/inspec/inspec/tree/v5.24.23) (2026-06-24)
+<!-- latest_release 5.24.24 -->
+## [v5.24.24](https://github.com/inspec/inspec/tree/v5.24.24) (2026-06-24)
 
 #### Merged Pull Requests
-- Revert &quot;Remove compliance upload --overwrite CLI argument functionality&quot; [#7969](https://github.com/inspec/inspec/pull/7969) ([Nik08](https://github.com/Nik08))
+- feat: CHEF-36276 - Add deprecation warning for --overwrite flag in inspec compliance plugin [#7971](https://github.com/inspec/inspec/pull/7971) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.24.7 -->
 ### Changes since 5.24.7 release
 
 #### Merged Pull Requests
+- feat: CHEF-36276 - Add deprecation warning for --overwrite flag in inspec compliance plugin [#7971](https://github.com/inspec/inspec/pull/7971) ([Nik08](https://github.com/Nik08)) <!-- 5.24.24 -->
 - Revert &quot;Remove compliance upload --overwrite CLI argument functionality&quot; [#7969](https://github.com/inspec/inspec/pull/7969) ([Nik08](https://github.com/Nik08)) <!-- 5.24.23 -->
 - Remove compliance upload --overwrite CLI argument functionality [#7966](https://github.com/inspec/inspec/pull/7966) ([Nik08](https://github.com/Nik08)) <!-- 5.24.22 -->
 - Updated expeditor config fix for NOTICE [#7960](https://github.com/inspec/inspec/pull/7960) ([Nik08](https://github.com/Nik08)) <!-- 5.24.21 -->
