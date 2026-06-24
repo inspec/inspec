@@ -30,7 +30,7 @@ Store the answer as `<TARGET>` (e.g. `aarch64-linux`).
 Read the file and check whether a step for `<TARGET>` already exists (look for `BUILD_PKG_TARGET: "<TARGET>"`).
 
 ### Already present
-Report `✔ artifact.habitat.yml – step for <TARGET> already in place` and skip to Step 4.
+Report `✔ artifact.habitat.yml – step for <TARGET> already in place` and skip to Step 3.
 
 ### Missing — add the step
 
