@@ -2,11 +2,9 @@
 name: hab-ci-pipeline
 description: >
   Wires a Habitat target platform into the Expeditor CI pipelines so it is
-  built and tested automatically on every merge. Updates
-  .expeditor/buildkite/artifact.habitat.test.sh to support the BUILD_PKG_TARGET
-  env var and adds a new Buildkite pipeline step for the target to
-  .expeditor/artifact.habitat.yml. Use when asked to add CI pipeline support
-  for a new Habitat platform.
+  built and tested automatically on every merge. Adds a new Buildkite pipeline
+  step for the target to .expeditor/artifact.habitat.yml. Use when asked to
+  add CI pipeline support for a new Habitat platform.
 ---
 
 # Skill: hab-ci-pipeline
@@ -27,42 +25,7 @@ Store the answer as `<TARGET>` (e.g. `aarch64-linux`).
 
 ---
 
-## Step 2 – Update `.expeditor/buildkite/artifact.habitat.test.sh`
-
-Read the file and check whether it already contains a `BUILD_PKG_TARGET` conditional block:
-
-```bash
-if [ -n "$BUILD_PKG_TARGET" ]; then
-```
-
-### Already present
-Report `✔ artifact.habitat.test.sh – BUILD_PKG_TARGET support already in place` and skip to Step 3.
-
-### Missing
-Find this line:
-
-```bash
-DO_CHECK=true hab pkg build .
-```
-
-Replace it with:
-
-```bash
-if [ -n "$BUILD_PKG_TARGET" ]; then
-  echo "--- Building for target: $BUILD_PKG_TARGET"
-  DO_CHECK=true hab pkg build "habitat/$BUILD_PKG_TARGET"
-else
-  DO_CHECK=true hab pkg build .
-fi
-```
-
-> This allows the same script to build any target platform by setting `BUILD_PKG_TARGET` in the pipeline step environment.
-
-Report: `✅ artifact.habitat.test.sh – added BUILD_PKG_TARGET support`
-
----
-
-## Step 3 – Add a pipeline step to `.expeditor/artifact.habitat.yml`
+## Step 2 – Add a pipeline step to `.expeditor/artifact.habitat.yml`
 
 Read the file and check whether a step for `<TARGET>` already exists (look for `BUILD_PKG_TARGET: "<TARGET>"`).
 
@@ -114,17 +77,16 @@ Report: `✅ artifact.habitat.yml – added pipeline step for <TARGET>`
 
 ---
 
-## Step 4 – Summary
+## Step 3 – Summary
 
 Print a final summary:
 
 ```
 Platform : <TARGET>
 
-File                                                  Status
-----                                                  ------
-.expeditor/buildkite/artifact.habitat.test.sh         ✅ BUILD_PKG_TARGET support added (or ✔ already in place)
-.expeditor/artifact.habitat.yml                       ✅ pipeline step added for <TARGET> (or ✔ already in place)
+File                                   Status
+----                                   ------
+.expeditor/artifact.habitat.yml        ✅ pipeline step added for <TARGET> (or ✔ already in place)
 ```
 
-> *"CI pipeline is now configured to build and test `<TARGET>` Habitat packages on every merge. Commit and push these two files to include them in your PR."*
+> *"CI pipeline is now configured to build and test `<TARGET>` Habitat packages on every merge. Commit and push this file to include it in your PR."*
