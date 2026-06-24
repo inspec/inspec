@@ -265,5 +265,4 @@ Now that the plan is working locally, invoke the **`hab-ci-pipeline`** skill to 
 > *"Invoking the `hab-ci-pipeline` skill to configure CI for `<TARGET>`…"*
 
 The `hab-ci-pipeline` skill will:
-1. Update `.expeditor/buildkite/artifact.habitat.test.sh` to support the `BUILD_PKG_TARGET` env var
-2. Add a new Buildkite pipeline step for `<TARGET>` to `.expeditor/artifact.habitat.yml`
+1. Add a new Buildkite pipeline step for `<TARGET>` to `.expeditor/artifact.habitat.yml`
