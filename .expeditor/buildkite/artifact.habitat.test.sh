@@ -60,7 +60,12 @@ fi
 
 echo "--- Building $PLAN"
 cd "$project_root"
-DO_CHECK=true hab pkg build .
+if [ -n "$BUILD_PKG_TARGET" ]; then
+  echo "--- Building for target: $BUILD_PKG_TARGET"
+  DO_CHECK=true hab pkg build "habitat/$BUILD_PKG_TARGET"
+else
+  DO_CHECK=true hab pkg build .
+fi
 
 echo "--- Sourcing 'results/last_build.sh'"
 if [ -f ./results/last_build.env ]; then
