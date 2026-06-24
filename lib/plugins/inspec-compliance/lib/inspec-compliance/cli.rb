@@ -119,6 +119,8 @@ module InspecPlugins
       end
 
       desc "upload PATH", "uploads a local profile to #{AUTOMATE_PRODUCT_NAME}"
+      option :overwrite, type: :boolean, default: false,
+        desc: "Overwrite existing profile on Server."
       option :owner, type: :string, required: false,
         desc: "Owner that should own the profile"
       option :legacy, type: :boolean, default: false,
@@ -169,6 +171,15 @@ module InspecPlugins
 
         # read profile name from inspec.yml
         profile_name = profile.name
+
+        # read profile version from inspec.yml
+        profile_version = profile.version
+
+        # check that the profile is not uploaded already,
+        # confirm upload to the user (overwrite with --force)
+        if InspecPlugins::Compliance::API.exist?(config, "#{config["owner"]}/#{profile_name}##{profile_version}") && !options["overwrite"]
+          error.call("Profile exists on the server, use --overwrite")
+        end
 
         # abort if we found an error
         if error_count > 0
