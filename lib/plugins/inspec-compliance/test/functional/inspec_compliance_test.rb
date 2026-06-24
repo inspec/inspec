@@ -54,7 +54,7 @@ class ComplianceCli < Minitest::Test
   def test_upload_with_overwrite_shows_deprecation_warning
     out = run_inspec_process("compliance upload /path/to/dir --overwrite")
 
-    assert_includes out.stdout, "DEPRECATION: This command does not work as expected while uploading to Automate. This option will be removed going forward."
+    assert_includes out.stdout, "DEPRECATION: The --overwrite option is deprecated because it does not work with Automate as expected."
 
     assert_exit_code 0, out # TODO: make this error
   end
