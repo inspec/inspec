@@ -20,6 +20,19 @@ steps:
           environment:
             - HAB_AUTH_TOKEN
 
+  - label: ":darwin: Arm64 Validate Habitat Builds of Chef InSpec"
+    commands:
+      - .expeditor/buildkite/artifact.habitat.test.sh
+    agents:
+      queue: default-privileged-aarch64-darwin
+    expeditor:
+      executor:
+        macos:
+          privileged: true
+          environment:
+            - HAB_AUTH_TOKEN
+            - BUILD_PKG_TARGET: "aarch64-darwin"
+
   - label: ":windows: Validate Habitat Builds of Chef InSpec"
     commands:
       - .expeditor/buildkite/artifact.habitat.test.ps1
