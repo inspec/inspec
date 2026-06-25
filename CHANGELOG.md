@@ -1,48 +1,45 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.24.24 -->
-## [v5.24.24](https://github.com/inspec/inspec/tree/v5.24.24) (2026-06-24)
-
-#### Merged Pull Requests
-- feat: CHEF-36276 - Add deprecation warning for --overwrite flag in inspec compliance plugin [#7971](https://github.com/inspec/inspec/pull/7971) ([Nik08](https://github.com/Nik08))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=5.24.7 -->
-### Changes since 5.24.7 release
-
-#### Merged Pull Requests
-- feat: CHEF-36276 - Add deprecation warning for --overwrite flag in inspec compliance plugin [#7971](https://github.com/inspec/inspec/pull/7971) ([Nik08](https://github.com/Nik08)) <!-- 5.24.24 -->
-- Revert &quot;Remove compliance upload --overwrite CLI argument functionality&quot; [#7969](https://github.com/inspec/inspec/pull/7969) ([Nik08](https://github.com/Nik08)) <!-- 5.24.23 -->
-- Remove compliance upload --overwrite CLI argument functionality [#7966](https://github.com/inspec/inspec/pull/7966) ([Nik08](https://github.com/Nik08)) <!-- 5.24.22 -->
-- Updated expeditor config fix for NOTICE [#7960](https://github.com/inspec/inspec/pull/7960) ([Nik08](https://github.com/Nik08)) <!-- 5.24.21 -->
-- Bump version by making changes in NOTICE file [#7959](https://github.com/inspec/inspec/pull/7959) ([Nik08](https://github.com/Nik08)) <!-- 5.24.20 -->
-- Updated expeditor config to pick changes in NOTICE file [#7958](https://github.com/inspec/inspec/pull/7958) ([Nik08](https://github.com/Nik08)) <!-- 5.24.20 -->
-- Updated Notice for new release of InSpec 5 [#7956](https://github.com/inspec/inspec/pull/7956) ([Nik08](https://github.com/Nik08)) <!-- 5.24.20 -->
-- CHEF-34651 chore: upgrade nokogiri gem to 1.18.10 [#7946](https://github.com/inspec/inspec/pull/7946) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.24.20 -->
-- CHEF-34651 Remove test dependencies during hab build  [#7947](https://github.com/inspec/inspec/pull/7947) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.24.19 -->
-- Pin docker api version to use newer version [#7945](https://github.com/inspec/inspec/pull/7945) ([Nik08](https://github.com/Nik08)) <!-- 5.24.18 -->
-- chore: train train-core upgrade for inspec-5 [#7925](https://github.com/inspec/inspec/pull/7925) ([mohan-progress](https://github.com/mohan-progress)) <!-- 5.24.17 -->
-- fix: CHEF-33393 - Include WOW6432Node registry paths when os.arch is unknown on Windows [#7935](https://github.com/inspec/inspec/pull/7935) ([Nik08](https://github.com/Nik08)) <!-- 5.24.16 -->
-- Ch/fix verify pipline [#7932](https://github.com/inspec/inspec/pull/7932) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.24.15 -->
-- chore: CHEF-34867 - Upgrade addressable gem from &lt; 2.8.8 to ~&gt; 2.9 [#7920](https://github.com/inspec/inspec/pull/7920) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.24.14 -->
-- feat: Add Habitat install hooks for platform-specific builds to remove old gems (CHEF-34652) [#7923](https://github.com/inspec/inspec/pull/7923) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.24.13 -->
-- Ch/channel stable on inspe5 [#7907](https://github.com/inspec/inspec/pull/7907) ([chandra-progress](https://github.com/chandra-progress)) <!-- 5.24.12 -->
-- CHEF-30766 Omnibus private submodule [#7827](https://github.com/inspec/inspec/pull/7827) ([Nik08](https://github.com/Nik08)) <!-- 5.24.11 -->
-- fix: CHEF-32686 - Pre-check waivers before control block evaluation to avoid eager resource execution [#7832](https://github.com/inspec/inspec/pull/7832) ([Vasu1105](https://github.com/Vasu1105)) <!-- 5.24.10 -->
-- Updated omnibus buildkite plugin version pin [#7891](https://github.com/inspec/inspec/pull/7891) ([Nik08](https://github.com/Nik08)) <!-- 5.24.9 -->
-- CHEF-20799 Fixes in json reporter [#7799](https://github.com/inspec/inspec/pull/7799) ([Nik08](https://github.com/Nik08)) <!-- 5.24.8 -->
-- CHEF-31158 Setup common config to block PR merges if trufflehog fails - inspec-5 [#7804](https://github.com/inspec/inspec/pull/7804) ([Nik08](https://github.com/Nik08)) <!-- 5.24.7 -->
-- CHEF-32270-Github Action Pipeline for hab pkg promote [#7796](https://github.com/inspec/inspec/pull/7796) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.24.7 -->
-- Pin hab version for CI - Expeditor [#7802](https://github.com/inspec/inspec/pull/7802) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 5.24.7 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v5.24.24](https://github.com/inspec/inspec/tree/v5.24.24) (2026-06-25)
+
+#### Merged Pull Requests
+- Pin hab version for CI - Expeditor [#7802](https://github.com/inspec/inspec/pull/7802) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- CHEF-32270-Github Action Pipeline for hab pkg promote [#7796](https://github.com/inspec/inspec/pull/7796) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- CHEF-31158 Setup common config to block PR merges if trufflehog fails - inspec-5 [#7804](https://github.com/inspec/inspec/pull/7804) ([Nik08](https://github.com/Nik08))
+- CHEF-20799 Fixes in json reporter [#7799](https://github.com/inspec/inspec/pull/7799) ([Nik08](https://github.com/Nik08))
+- Updated omnibus buildkite plugin version pin [#7891](https://github.com/inspec/inspec/pull/7891) ([Nik08](https://github.com/Nik08))
+- fix: CHEF-32686 - Pre-check waivers before control block evaluation to avoid eager resource execution [#7832](https://github.com/inspec/inspec/pull/7832) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-30766 Omnibus private submodule [#7827](https://github.com/inspec/inspec/pull/7827) ([Nik08](https://github.com/Nik08))
+- Ch/channel stable on inspe5 [#7907](https://github.com/inspec/inspec/pull/7907) ([chandra-progress](https://github.com/chandra-progress))
+- feat: Add Habitat install hooks for platform-specific builds to remove old gems (CHEF-34652) [#7923](https://github.com/inspec/inspec/pull/7923) ([chandra-progress](https://github.com/chandra-progress))
+- chore: CHEF-34867 - Upgrade addressable gem from &lt; 2.8.8 to ~&gt; 2.9 [#7920](https://github.com/inspec/inspec/pull/7920) ([chandra-progress](https://github.com/chandra-progress))
+- Ch/fix verify pipline [#7932](https://github.com/inspec/inspec/pull/7932) ([chandra-progress](https://github.com/chandra-progress))
+- fix: CHEF-33393 - Include WOW6432Node registry paths when os.arch is unknown on Windows [#7935](https://github.com/inspec/inspec/pull/7935) ([Nik08](https://github.com/Nik08))
+- chore: train train-core upgrade for inspec-5 [#7925](https://github.com/inspec/inspec/pull/7925) ([mohan-progress](https://github.com/mohan-progress))
+- Pin docker api version to use newer version [#7945](https://github.com/inspec/inspec/pull/7945) ([Nik08](https://github.com/Nik08))
+- CHEF-34651 Remove test dependencies during hab build  [#7947](https://github.com/inspec/inspec/pull/7947) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-34651 chore: upgrade nokogiri gem to 1.18.10 [#7946](https://github.com/inspec/inspec/pull/7946) ([chandra-progress](https://github.com/chandra-progress))
+- Updated Notice for new release of InSpec 5 [#7956](https://github.com/inspec/inspec/pull/7956) ([Nik08](https://github.com/Nik08))
+- Updated expeditor config to pick changes in NOTICE file [#7958](https://github.com/inspec/inspec/pull/7958) ([Nik08](https://github.com/Nik08))
+- Bump version by making changes in NOTICE file [#7959](https://github.com/inspec/inspec/pull/7959) ([Nik08](https://github.com/Nik08))
+- Updated expeditor config fix for NOTICE [#7960](https://github.com/inspec/inspec/pull/7960) ([Nik08](https://github.com/Nik08))
+- Remove compliance upload --overwrite CLI argument functionality [#7966](https://github.com/inspec/inspec/pull/7966) ([Nik08](https://github.com/Nik08))
+- Revert &quot;Remove compliance upload --overwrite CLI argument functionality&quot; [#7969](https://github.com/inspec/inspec/pull/7969) ([Nik08](https://github.com/Nik08))
+- feat: CHEF-36276 - Add deprecation warning for --overwrite flag in inspec compliance plugin [#7971](https://github.com/inspec/inspec/pull/7971) ([Nik08](https://github.com/Nik08))
+<!-- latest_stable_release -->
+
 ## [v5.24.7](https://github.com/inspec/inspec/tree/v5.24.7) (2026-03-02)
 
 #### Merged Pull Requests
 - Add trust_server_certificate option to mssql_session [#7791](https://github.com/inspec/inspec/pull/7791) ([Danyyer](https://github.com/Danyyer))
 - CHEF-27810 AST parser fixes [#7641](https://github.com/inspec/inspec/pull/7641) ([Nik08](https://github.com/Nik08))
-<!-- latest_stable_release -->
 
 ## [v5.24.5](https://github.com/inspec/inspec/tree/v5.24.5) (2026-01-28)
 
