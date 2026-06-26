@@ -78,7 +78,7 @@ When train gem has been updated in the InSpec release, include relevant train ch
 9. If the change is a security fix, it should be included in the release notes.
 10. If the change is in omnibus/ directory should NOT be included in the release notes (omnibus is packaging only).
 11. If it is a NOTICE file change, do not include this in release notes.
-12. If the change is only in habitat/ directory hooks (habitat/*/hooks/) for any platform, it should NOT be included in the release notes.
+12. If the change is only in the habitat/ directory (hooks, build scripts, or any other habitat-only files) and has no end-user facing value, it should NOT be included in the release notes. Only include habitat changes under Packaging if they directly affect how users install or consume InSpec (for example, adding a new platform or distribution channel).
 
 
 ### In case the change is a dependency update of any gem, check these things:
