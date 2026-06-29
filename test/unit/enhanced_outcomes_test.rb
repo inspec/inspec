@@ -78,6 +78,14 @@ describe "Inspec::EnhancedOutcomes" do
       end
     end
 
+    describe "When there are no results" do
+      let(:results) { [] }
+      it "returns status as error" do
+        status = Inspec::EnhancedOutcomes.determine_status(results, nil)
+        _(status).must_equal "error"
+      end
+    end
+
     describe "When results status are none of the above but have a failed test" do
       let(:results) {
         [
