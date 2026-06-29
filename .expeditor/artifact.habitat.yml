@@ -20,6 +20,20 @@ steps:
           environment:
             - HAB_AUTH_TOKEN
 
+  - label: ":linux: Arm64 Validate Habitat Builds of Chef InSpec"
+    commands:
+      - .expeditor/buildkite/artifact.habitat.test.sh
+    agents:
+      queue: default-privileged-aarch64
+    plugins:
+      - docker#v3.5.0:
+          image: ruby:3.4.2-bullseye
+          privileged: true
+          propagate-environment: true
+          environment:
+            - HAB_AUTH_TOKEN
+            - BUILD_PKG_TARGET: "aarch64-linux"
+
   - label: ":windows: Validate Habitat Builds of Chef InSpec"
     commands:
       - .expeditor/buildkite/artifact.habitat.test.ps1
