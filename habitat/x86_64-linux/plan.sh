@@ -1,5 +1,5 @@
-export HAB_BLDR_CHANNEL="unstable"
-export HAB_STUDIO_SECRET_HAB_REFRESH_CHANNEL="unstable"
+export HAB_BLDR_CHANNEL="inspec-7-testing"
+export HAB_STUDIO_SECRET_HAB_REFRESH_CHANNEL="inspec-7-testing"
 export HAB_STUDIO_SECRET_HAB_FALLBACK_CHANNEL="base-2025"
 pkg_name=inspec
 pkg_origin=chef
