@@ -1,5 +1,7 @@
 export HAB_REFRESH_CHANNEL="unstable"
 export HAB_BLDR_CHANNEL="unstable"
+export HAB_STUDIO_SECRET_HAB_REFRESH_CHANNEL="unstable"
+export HAB_STUDIO_SECRET_HAB_FALLBACK_CHANNEL="base-2025"
 pkg_name=inspec
 pkg_origin=chef
 pkg_version=$(cat "$PLAN_CONTEXT/../../VERSION")
