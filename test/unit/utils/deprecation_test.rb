@@ -213,6 +213,38 @@ describe "The Deprecator object" do
     end
   end
 
+  describe "when using the production deprecations.json config" do
+    let(:dpcr) { Inspec::Deprecation::Deprecator.new }
+
+    describe "for docker resource fallbacks" do
+      it "should suggest inspec-docker-resources for bare 'docker' resource" do
+        _(dpcr.match_gem_for_fallback_resource_name("docker")).must_equal "inspec-docker-resources"
+      end
+
+      it "should suggest inspec-docker-resources for 'docker_container' resource" do
+        _(dpcr.match_gem_for_fallback_resource_name("docker_container")).must_equal "inspec-docker-resources"
+      end
+
+      it "should suggest inspec-docker-resources for 'docker_image' resource" do
+        _(dpcr.match_gem_for_fallback_resource_name("docker_image")).must_equal "inspec-docker-resources"
+      end
+    end
+
+    describe "for podman resource fallbacks" do
+      it "should suggest inspec-podman-resources for bare 'podman' resource" do
+        _(dpcr.match_gem_for_fallback_resource_name("podman")).must_equal "inspec-podman-resources"
+      end
+
+      it "should suggest inspec-podman-resources for 'podman_container' resource" do
+        _(dpcr.match_gem_for_fallback_resource_name("podman_container")).must_equal "inspec-podman-resources"
+      end
+
+      it "should suggest inspec-podman-resources for 'podman_volume' resource" do
+        _(dpcr.match_gem_for_fallback_resource_name("podman_volume")).must_equal "inspec-podman-resources"
+      end
+    end
+  end
+
   # TODO: stack analysis
   #  in_control?
   # TODO: anything else here?
