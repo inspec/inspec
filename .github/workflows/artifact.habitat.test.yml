@@ -4,7 +4,7 @@ on: workflow_dispatch
 jobs:
   test-macos-arm:
     name: ":darwin: Arm64 Validate Habitat Builds of Chef InSpec"
-    runs-on: macos-14
+    runs-on: macos-15
     env:
       CHEF_LICENSE: accept-no-persist
       HAB_LICENSE: accept-no-persist
