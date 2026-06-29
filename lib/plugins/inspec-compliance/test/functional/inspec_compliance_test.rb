@@ -48,6 +48,14 @@ class ComplianceCli < Minitest::Test
 
     assert_includes out.stdout, "You need to login first with `inspec compliance login`"
 
+    assert_exit_code 0, out
+  end
+
+  def test_upload_with_overwrite_shows_deprecation_warning
+    out = run_inspec_process("compliance upload /path/to/dir --overwrite")
+
+    assert_includes out.stdout, "DEPRECATION: The --overwrite option is deprecated because it does not work with Automate as expected."
+
     assert_exit_code 0, out # TODO: make this error
   end
 
