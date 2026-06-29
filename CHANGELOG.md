@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.1.9 -->
-## [v7.1.9](https://github.com/inspec/inspec/tree/v7.1.9) (2026-06-29)
+<!-- latest_release 7.1.10 -->
+## [v7.1.10](https://github.com/inspec/inspec/tree/v7.1.10) (2026-06-29)
 
 #### Merged Pull Requests
-- foreport: CHEF-33393 - Include WOW6432Node registry paths when os.arch is unknown [#7942](https://github.com/inspec/inspec/pull/7942) ([Nik08](https://github.com/Nik08))
+- feat: CHEF-34343 - Add aarch64-linux Habitat package support [#7968](https://github.com/inspec/inspec/pull/7968) ([mohan-progress](https://github.com/mohan-progress))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 7.1.7 release
 
 #### Merged Pull Requests
+- feat: CHEF-34343 - Add aarch64-linux Habitat package support [#7968](https://github.com/inspec/inspec/pull/7968) ([mohan-progress](https://github.com/mohan-progress)) <!-- 7.1.10 -->
 - foreport: CHEF-33393 - Include WOW6432Node registry paths when os.arch is unknown [#7942](https://github.com/inspec/inspec/pull/7942) ([Nik08](https://github.com/Nik08)) <!-- 7.1.9 -->
 - FOREPORT: feat: CHEF-36276 - Add deprecation warning for --overwrite flag in inspec compliance plugin [#7974](https://github.com/inspec/inspec/pull/7974) ([Nik08](https://github.com/Nik08)) <!-- 7.1.8 -->
 - Remove install hooks and manual Ruby dependency installation to fix habitat build failure [#7937](https://github.com/inspec/inspec/pull/7937) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.1.7 -->
