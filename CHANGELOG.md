@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 7.1.8 -->
+## [v7.1.8](https://github.com/inspec/inspec/tree/v7.1.8) (2026-06-29)
 
 #### Merged Pull Requests
+- FOREPORT: feat: CHEF-36276 - Add deprecation warning for --overwrite flag in inspec compliance plugin [#7974](https://github.com/inspec/inspec/pull/7974) ([Nik08](https://github.com/Nik08))
 - Remove install hooks and manual Ruby dependency installation to fix habitat build failure [#7937](https://github.com/inspec/inspec/pull/7937) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 7.1.7 release
 
 #### Merged Pull Requests
+- FOREPORT: feat: CHEF-36276 - Add deprecation warning for --overwrite flag in inspec compliance plugin [#7974](https://github.com/inspec/inspec/pull/7974) ([Nik08](https://github.com/Nik08)) <!-- 7.1.8 -->
 - Remove install hooks and manual Ruby dependency installation to fix habitat build failure [#7937](https://github.com/inspec/inspec/pull/7937) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.1.7 -->
 <!-- release_rollup -->
 
