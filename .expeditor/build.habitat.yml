@@ -1,9 +1,5 @@
 ---
 origin: chef
-
-HAB_BLDR_CHANNEL: unstable
-HAB_REFRESH_CHANNEL: unstable
-
 expeditor:
   defaults:
     buildkite:
