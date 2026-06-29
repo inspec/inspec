@@ -2,8 +2,44 @@ name: Test LTS-2024 Habitat Package Artifacts on PR
 on: workflow_dispatch
 
 jobs:
-  build-and-push:
-    runs-on: ubuntu-latest
+  test-macos-arm:
+    name: ":darwin: Arm64 Validate Habitat Builds of Chef InSpec"
+    runs-on: macos-14
+    env:
+      CHEF_LICENSE: accept-no-persist
+      HAB_LICENSE: accept-no-persist
+      HAB_NONINTERACTIVE: "true"
+      HAB_NOCOLORING: "true"
+      HAB_STUDIO_SECRET_HAB_NONINTERACTIVE: "true"
+      HAB_REFRESH_CHANNEL: base-2025
+      BUILD_PKG_TARGET: aarch64-darwin
+      HAB_ORIGIN: ci
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: System details
+        run: uname -a
+
+      - name: Install Habitat
+        run: curl https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.sh | bash
+
+      - name: Generate fake origin key
+        run: hab origin key generate $HAB_ORIGIN
+
+      - name: Build Habitat package
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          DO_CHECK=true hab pkg build .
+
+      - name: Install built package
+        run: |
+          source ./results/last_build.env
+          hab pkg install -b "./results/${pkg_artifact}"
+
+      - name: Run artifact tests
+        run: |
+          source ./results/last_build.env
+          export PATH="$(hab pkg path ci/inspec)/bin:$PATH"
+          cd test/artifact
+          rake
