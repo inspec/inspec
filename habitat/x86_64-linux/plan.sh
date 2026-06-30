@@ -66,6 +66,7 @@ do_install() {
     gem install inspec-bin*.gem --no-document
   popd
 
+  wrap_compiler_bins
   wrap_inspec_bin
 
   # Copy NOTICE.TXT to the package directory
@@ -88,6 +89,40 @@ do_install() {
   find "$GEM_HOME" -xdev -perm -0002 -type f -print 2>/dev/null | xargs -I '{}' chmod go-w '{}'
 }
 
+# Create wrapper scripts for gcc/cc/g++/c++ so that native gem compilation
+# works at runtime. mkmf.rb overrides LD_LIBRARY_PATH when running compile
+# tests (to only include Ruby's lib dir), which prevents Hab's gcc from
+# loading its own shared libraries (libstdc++.so.6, libgcc_s.so.1).
+# A bash wrapper script avoids this problem: it sets LD_LIBRARY_PATH from
+# within the forked process itself, AFTER mkmf's override, so the Hab gcc
+# binary can always find its own shared libraries.
+wrap_compiler_bins() {
+  local gcc_bin_dir="$(pkg_path_for core/gcc)/bin"
+  local gcc_lib="$(pkg_path_for core/gcc)/lib"
+  local gcc_lib64="$(pkg_path_for core/gcc)/lib64"
+  local bash_bin="$(pkg_path_for core/bash)/bin/bash"
+
+  for name in gcc cc g++ c++; do
+    local wrapper="$pkg_prefix/bin/$name"
+    local real_bin
+    case "$name" in
+      cc|gcc)  real_bin="$gcc_bin_dir/gcc" ;;
+      c++|g++) real_bin="$gcc_bin_dir/g++" ;;
+    esac
+
+    build_line "Creating compiler wrapper $wrapper -> $real_bin"
+    cat <<EOF > "$wrapper"
+#!$bash_bin
+# Ensure Hab gcc's own shared libraries (libstdc++, libgcc_s) are available.
+# This is set inside the wrapper so it takes effect even when mkmf.rb
+# overrides the outer LD_LIBRARY_PATH during native extension compilation.
+export LD_LIBRARY_PATH="${gcc_lib}:${gcc_lib64}:\$LD_LIBRARY_PATH"
+exec "$real_bin" "\$@"
+EOF
+    chmod -v 755 "$wrapper"
+  done
+}
+
 # Need to wrap the InSpec binary to ensure paths are correct
 wrap_inspec_bin() {
   local bin="$pkg_prefix/bin/$pkg_name"
@@ -97,13 +132,15 @@ wrap_inspec_bin() {
 #!$(pkg_path_for core/bash)/bin/bash
 set -e
 
-# Set binary path that allows InSpec to use non-Hab pkg binaries
-export PATH="$(pkg_path_for core/gcc)/bin:$(pkg_path_for core/make)/bin:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH"
+# $pkg_prefix/bin contains gcc/cc/g++/c++ wrapper scripts that self-correct
+# LD_LIBRARY_PATH so the Hab-bundled gcc can load its own shared libraries
+# when building native gem extensions (e.g. bson, ed25519). These must come
+# before any system or Hab gcc paths so the wrappers are found first.
+export PATH="$pkg_prefix/bin:$(pkg_path_for core/gcc)/bin:$(pkg_path_for core/make)/bin:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH"
 
-# Explicitly set CC/MAKE so Ruby's mkmf uses the Hab-bundled toolchain
-# (mkmf uses RbConfig::CONFIG['CC'] by default, which is a hardcoded path
-# from Ruby's compile time — setting CC/MAKE overrides that)
-export CC="$(pkg_path_for core/gcc)/bin/gcc"
+# Explicitly set CC/MAKE so mkmf uses the Hab-bundled wrappers even when
+# RbConfig::CONFIG['CC'] points to a different compiler path.
+export CC="$pkg_prefix/bin/gcc"
 export MAKE="$(pkg_path_for core/make)/bin/make"
 
 # Set Ruby paths defined from 'do_setup_environment()'
