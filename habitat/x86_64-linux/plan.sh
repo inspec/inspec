@@ -20,7 +20,7 @@ pkg_deps=(
   core/make
 )
 pkg_build_deps=(
-  core/gcc-base
+  core/gcc
   core/make
   core/readline
   core/sed
