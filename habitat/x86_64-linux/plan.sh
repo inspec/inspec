@@ -14,6 +14,8 @@ pkg_deps=(
   core/git
   core/ruby3_4
   core/bash
+  core/gcc
+  core/make
 )
 pkg_build_deps=(
   core/gcc
@@ -96,7 +98,7 @@ wrap_inspec_bin() {
 set -e
 
 # Set binary path that allows InSpec to use non-Hab pkg binaries
-export PATH="/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH"
+export PATH="$(pkg_path_for core/gcc)/bin:$(pkg_path_for core/make)/bin:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH"
 
 # Set Ruby paths defined from 'do_setup_environment()'
 export GEM_HOME="$GEM_HOME"
