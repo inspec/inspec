@@ -7,7 +7,11 @@ module SourceReaders
     priority 20
 
     def self.resolve(target)
-      return new(target) unless target.files.grep(/gemspec/).empty?
+      # Only match if gemspec is at root level, not in vendor directories
+      # This prevents archived/vendored profiles from being treated as gem profiles
+      gemspec_files = target.files.grep(/gemspec/)
+      root_gemspec = gemspec_files.reject { |f| f.start_with?("vendor/") }
+      return new(target) unless root_gemspec.empty?
 
       nil
     end
