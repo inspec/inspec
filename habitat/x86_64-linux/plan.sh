@@ -16,6 +16,7 @@ pkg_deps=(
   core/bash
   core/gcc-base
   core/gcc-libs
+  core/binutils
   core/make
 )
 pkg_build_deps=(
@@ -103,7 +104,7 @@ set -e
 # already handles its own LD_LIBRARY_PATH and environment setup internally,
 # so it works correctly even when mkmf.rb overrides the outer LD_LIBRARY_PATH
 # during native gem extension compilation (e.g. bson for MongoDB resource pack).
-export PATH="$(pkg_path_for core/gcc-base)/bin:$(pkg_path_for core/make)/bin:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH"
+export PATH="$(pkg_path_for core/gcc-base)/bin:$(pkg_path_for core/binutils)/bin:$(pkg_path_for core/make)/bin:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH"
 
 # Explicitly set CC/MAKE so mkmf uses the Hab-bundled toolchain even when
 # RbConfig::CONFIG['CC'] points to a different compiler path.
