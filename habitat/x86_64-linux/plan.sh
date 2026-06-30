@@ -100,6 +100,12 @@ set -e
 # Set binary path that allows InSpec to use non-Hab pkg binaries
 export PATH="$(pkg_path_for core/gcc)/bin:$(pkg_path_for core/make)/bin:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH"
 
+# Explicitly set CC/MAKE so Ruby's mkmf uses the Hab-bundled toolchain
+# (mkmf uses RbConfig::CONFIG['CC'] by default, which is a hardcoded path
+# from Ruby's compile time — setting CC/MAKE overrides that)
+export CC="$(pkg_path_for core/gcc)/bin/gcc"
+export MAKE="$(pkg_path_for core/make)/bin/make"
+
 # Set Ruby paths defined from 'do_setup_environment()'
 export GEM_HOME="$GEM_HOME"
 export GEM_PATH="$GEM_PATH"
