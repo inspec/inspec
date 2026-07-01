@@ -18,7 +18,7 @@ jobs:
       HAB_ORIGIN: ci
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: System details
         run: uname -a
@@ -26,8 +26,19 @@ jobs:
       - name: Install Habitat
         run: curl https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.sh | bash
 
-      - name: Generate fake origin key
-        run: hab origin key generate $HAB_ORIGIN
+      - name: Generate and import origin key
+        run: |
+          hab origin key generate $HAB_ORIGIN
+          HAB_CI_KEY=$(ls /hab/cache/keys/${HAB_ORIGIN}*.pub 2>/dev/null | head -1 \
+            || ls ~/.hab/cache/keys/${HAB_ORIGIN}*.pub 2>/dev/null | head -1)
+          if [ -f "$HAB_CI_KEY" ]; then
+            hab origin key import < "$HAB_CI_KEY"
+          else
+            echo "Origin key not found in /hab/cache/keys or ~/.hab/cache/keys"
+            ls /hab/cache/keys/ 2>/dev/null || true
+            ls ~/.hab/cache/keys/ 2>/dev/null || true
+            exit 1
+          fi
 
       - name: Build Habitat package
         run: |
