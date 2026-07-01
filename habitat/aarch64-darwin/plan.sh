@@ -14,6 +14,7 @@ pkg_deps=(
   core/git
   core/ruby3_4
   core/bash
+  core/cacerts
 )
 # core/gcc is not available for aarch64-darwin; the macOS Xcode Command Line
 # Tools provide clang (aliased as gcc) for native gem compilation.
@@ -115,10 +116,8 @@ export PATH="/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH
 # Set Ruby paths defined from 'do_setup_environment()'
 export GEM_HOME="$GEM_HOME"
 export GEM_PATH="$GEM_PATH"
-
-# Point Ruby's OpenSSL to the Habitat-packaged CA certificates so that SSL
-# connections succeed in the isolated macOS Habitat environment.
-export SSL_CERT_FILE="$(pkg_path_for core/cacerts)/ssl/cert.pem"
+# SSL certificate verification - point OpenSSL to CA certificates
+export SSL_CERT_FILE="$(pkg_path_for core/cacerts)/ssl/certs/cacert.pem"
 
 exec $(pkg_path_for core/ruby3_4)/bin/ruby $real_bin \$@
 EOF
