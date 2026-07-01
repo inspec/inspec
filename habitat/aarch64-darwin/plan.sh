@@ -116,6 +116,10 @@ export PATH="/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH
 export GEM_HOME="$GEM_HOME"
 export GEM_PATH="$GEM_PATH"
 
+# Point Ruby's OpenSSL to the Habitat-packaged CA certificates so that SSL
+# connections succeed in the isolated macOS Habitat environment.
+export SSL_CERT_FILE="$(pkg_path_for core/cacerts)/ssl/cert.pem"
+
 exec $(pkg_path_for core/ruby3_4)/bin/ruby $real_bin \$@
 EOF
   chmod -v 755 "$bin"
