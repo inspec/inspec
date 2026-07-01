@@ -140,6 +140,10 @@ module InspecPlugins
         desc: "Enable legacy functionality, activating both legacy export and legacy check."
       def upload(path) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
         Inspec.with_feature("inspec-cli-compliance-upload") {
+          if options["overwrite"]
+            Inspec.deprecate(:cli_option_compliance_overwrite, "The --overwrite option is deprecated because it does not work with Automate as expected.")
+          end
+
           config = InspecPlugins::Compliance::Configuration.new
           return unless loggedin(config)
 
