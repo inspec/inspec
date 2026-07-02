@@ -144,7 +144,7 @@
       "gem":"inspec-elasticsearch-resources",
       "message":"The `inspec-elasticsearch-resources` allows testing of elasticsearch using Inspec."
     },
-    "docker.+":{
+    "docker.*":{
       "gem": "inspec-docker-resources",
       "message": "The Inspec docker resources are moved out of InSpec core and will be installed as gem"
     },
@@ -160,7 +160,7 @@
       "gem": "inspec-opa-resources",
       "message": "The Inspec opa resources are moved out of InSpec core and will be installed as gem"
     },
-    "podman.+":{
+    "podman.*":{
       "gem": "inspec-podman-resources",
       "message": "The Inspec podman resources are moved out of InSpec core and will be installed as gem"
     },
