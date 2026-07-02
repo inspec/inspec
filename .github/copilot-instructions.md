@@ -10,6 +10,22 @@ VERY IMPORTANT: If `context/reference-repos/shared-context/chef-global/standards
 
 To get started with AI-driven development, you must initialize the repo with the `initialize` skill. This will set up your environment, clone reference repos, and ensure you have the necessary tools installed. The remainder of this document assumes you have done this.
 
+### Customizing the Shared Context Repository
+
+The shared-context repository is special - it contains critical configuration, standards, and workflows. By default, it clones from `progress-infra-poc/shared-context` on the `main` branch.
+
+To use a different shared-context repository (e.g., your own fork for community contributions), set these environment variables before running the initialize skill:
+
+- `INSPEC_SHARED_CONTEXT_REPO`: GitHub repository path (format: `owner/repo`). Defaults to `progress-infra-poc/shared-context`.
+- `INSPEC_SHARED_CONTEXT_BRANCH`: Branch name to use. Defaults to `main`.
+
+**Example:**
+```bash
+export INSPEC_SHARED_CONTEXT_REPO=your-org/shared-context
+export INSPEC_SHARED_CONTEXT_BRANCH=custom-branch
+gh copilot cli /initialize-repo
+```
+
 For more details about this project and where it fits in to our universe, see:
 - Domain knowledge: `context/reference-repos/shared-context/*/domains`
 

@@ -19,9 +19,19 @@ Install the gh GitHub CLI tool if it is not already installed.
 
 Make sure `gh auth status` works, and run `gh auth login` if not.
 
-## 4. Ensure the list of reference repos is checked out
+## 4. Ensure the shared-context reference repo is checked out
 
-Look for the file `etc/reference-repos.txt`. Re-read the repo list each time you run — it may have changed. It is a list of GitHub repos to clone. Some of them may be private or internal; you may not have access. The list may include branch specifications like @branch.
+The shared-context repo contains critical configuration, standards, and workflows. It can be customized by users via environment variables to allow community contributors to use their own shared-context repositories.
+
+Check for environment variables:
+- `INSPEC_SHARED_CONTEXT_REPO`: The GitHub repo path (defaults to `progress-infra-poc/shared-context`)
+- `INSPEC_SHARED_CONTEXT_BRANCH`: The branch to use (defaults to `main`)
+
+Use these values to clone/update the shared-context repo into `context/reference-repos/shared-context`. If it has already been cloned, pull it. Make sure you are on the specified branch. If it has local changes, inform the user and do nothing.
+
+## 4b. Ensure the list of other reference repos is checked out
+
+Look for the file `etc/reference-repos.txt`. Re-read the repo list each time you run — it may have changed. It is a list of GitHub repos to clone (excluding shared-context, which is handled separately). Some of them may be private or internal; you may not have access. The list may include branch specifications like @branch.
 
 Try to clone each one into `context/reference-repos`. If it has already been cloned, pull it. If a branch has been specified, make sure you are on that branch. If it has local changes, inform the user and do nothing.
 
@@ -46,4 +56,3 @@ Use `rbenv version` to check the currently installed Ruby version. If it does no
 ## 9. Ensure that they have run bundle install
 
 Check for the presence of `Gemfile.lock`. If it does not exist, run `bundle install` to install the dependencies. If it does exist, check if it is up to date with the `Gemfile`. If it is not up to date, run `bundle install` again.
-
