@@ -344,4 +344,114 @@ class PluginLoaderTests < Minitest::Test
     status = reg[registry.first[:name]]
     assert_equal("Test train plugin. Not intended for use as an example.", status.description, "Reads the description of the plugin from local gemspec file.")
   end
+
+  #====================================================================#
+  #            graceful handling of user plugin load failures          #
+  #====================================================================#
+
+  def test_load_all_logs_warn_not_error_for_path_plugin_load_failure
+    ENV["INSPEC_CONFIG_DIR"] = File.join(@config_dir_path, "plugin_error_on_load")
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true, omit_core_plugins: true, omit_sys_plugins: true)
+
+    log_output = with_logger { loader.load_all }
+
+    assert_match(/WARN.*Could not load plugin inspec-divide-by-zero/, log_output)
+    refute_match(/ERROR.*Could not load plugin inspec-divide-by-zero/, log_output)
+  end
+
+  def test_load_all_logs_warn_not_error_for_missing_user_gem
+    ENV["INSPEC_CONFIG_DIR"] = File.join(@config_dir_path, "missing-user-gem")
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true, omit_core_plugins: true, omit_sys_plugins: true)
+
+    log_output = with_logger { loader.load_all }
+
+    assert_match(/WARN.*Could not load plugin inspec-nonexistent-plugin/, log_output)
+    refute_match(/ERROR.*Could not load plugin inspec-nonexistent-plugin/, log_output)
+  end
+
+  def test_exit_on_load_error_does_not_exit_for_user_gem_failure
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true, omit_core_plugins: true,
+                                            omit_user_plugins: true, omit_sys_plugins: true)
+    status = Inspec::Plugin::V2::Status.new
+    status.name = :'inspec-bad-user-gem'
+    status.installation_type = :user_gem
+    status.load_exception = RuntimeError.new("gem not found")
+
+    REG_INST.registry[status.name] = status
+
+    # Should NOT raise SystemExit
+    assert_silent { loader.exit_on_load_error }
+  ensure
+    REG_INST.registry.delete(:'inspec-bad-user-gem')
+  end
+
+  def test_exit_on_load_error_emits_warning_for_user_gem_failure
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true, omit_core_plugins: true,
+                                            omit_user_plugins: true, omit_sys_plugins: true)
+    status = Inspec::Plugin::V2::Status.new
+    status.name = :'inspec-bad-user-gem'
+    status.installation_type = :user_gem
+    status.load_exception = RuntimeError.new("gem not found")
+
+    REG_INST.registry[status.name] = status
+
+    log_output = with_logger { loader.exit_on_load_error }
+
+    assert_match(/WARN.*Could not load plugin inspec-bad-user-gem/, log_output)
+    assert_match(/Continuing InSpec execution without plugin inspec-bad-user-gem/, log_output)
+  ensure
+    REG_INST.registry.delete(:'inspec-bad-user-gem')
+  end
+
+  def test_exit_on_load_error_exits_for_core_plugin_failure
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true, omit_core_plugins: true,
+                                            omit_user_plugins: true, omit_sys_plugins: true)
+    status = Inspec::Plugin::V2::Status.new
+    status.name = :'inspec-broken-core'
+    status.installation_type = :core
+    status.load_exception = RuntimeError.new("core plugin exploded")
+
+    REG_INST.registry[status.name] = status
+
+    assert_raises(SystemExit) { loader.exit_on_load_error }
+  ensure
+    REG_INST.registry.delete(:'inspec-broken-core')
+  end
+
+  def test_exit_on_load_error_exits_for_bundle_plugin_failure
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true, omit_core_plugins: true,
+                                            omit_user_plugins: true, omit_sys_plugins: true)
+    status = Inspec::Plugin::V2::Status.new
+    status.name = :'inspec-broken-bundle'
+    status.installation_type = :bundle
+    status.load_exception = RuntimeError.new("bundle plugin exploded")
+
+    REG_INST.registry[status.name] = status
+
+    assert_raises(SystemExit) { loader.exit_on_load_error }
+  ensure
+    REG_INST.registry.delete(:'inspec-broken-bundle')
+  end
+
+  def test_exit_on_load_error_with_mixed_failures_exits_due_to_inspec_plugin_failure
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true, omit_core_plugins: true,
+                                            omit_user_plugins: true, omit_sys_plugins: true)
+
+    user_status = Inspec::Plugin::V2::Status.new
+    user_status.name = :'inspec-bad-user-gem'
+    user_status.installation_type = :user_gem
+    user_status.load_exception = RuntimeError.new("user gem missing")
+    REG_INST.registry[user_status.name] = user_status
+
+    core_status = Inspec::Plugin::V2::Status.new
+    core_status.name = :'inspec-broken-core'
+    core_status.installation_type = :core
+    core_status.load_exception = RuntimeError.new("core plugin exploded")
+    REG_INST.registry[core_status.name] = core_status
+
+    assert_raises(SystemExit) { loader.exit_on_load_error }
+  ensure
+    REG_INST.registry.delete(:'inspec-bad-user-gem')
+    REG_INST.registry.delete(:'inspec-broken-core')
+  end
 end
