@@ -100,7 +100,10 @@ module Inspec::Plugin::V2
 
       user_plugin_failures.each do |plugin_status|
         Inspec::Log.warn "Could not load plugin #{plugin_status.name}: #{plugin_status.load_exception.message}"
-        Inspec::Log.warn "Continuing InSpec execution without plugin #{plugin_status.name}."
+        # Only say we're continuing if there are no inspec plugin failures that will halt execution
+        unless inspec_plugin_failures.any?
+          Inspec::Log.warn "Continuing InSpec execution without plugin #{plugin_status.name}."
+        end
         if ARGV.include?("--debug")
           Inspec::Log.warn "Exception class: #{plugin_status.load_exception.class.name}"
           Inspec::Log.warn "Trace: #{plugin_status.load_exception.backtrace.join("\n")}"

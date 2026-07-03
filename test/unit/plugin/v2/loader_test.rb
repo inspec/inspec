@@ -454,4 +454,33 @@ class PluginLoaderTests < Minitest::Test
     REG_INST.registry.delete(:'inspec-bad-user-gem')
     REG_INST.registry.delete(:'inspec-broken-core')
   end
+
+  def test_exit_on_load_error_with_mixed_failures_does_not_print_continuing_message
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true, omit_core_plugins: true,
+                                            omit_user_plugins: true, omit_sys_plugins: true)
+
+    user_status = Inspec::Plugin::V2::Status.new
+    user_status.name = :'inspec-bad-user-gem'
+    user_status.installation_type = :user_gem
+    user_status.load_exception = RuntimeError.new("user gem missing")
+    REG_INST.registry[user_status.name] = user_status
+
+    core_status = Inspec::Plugin::V2::Status.new
+    core_status.name = :'inspec-broken-core'
+    core_status.installation_type = :core
+    core_status.load_exception = RuntimeError.new("core plugin exploded")
+    REG_INST.registry[core_status.name] = core_status
+
+    log_output = with_logger do
+      assert_raises(SystemExit) { loader.exit_on_load_error }
+    end
+
+    # User plugin failure is still reported as a warning
+    assert_match(/WARN.*Could not load plugin inspec-bad-user-gem/, log_output)
+    # But "continuing" message must NOT appear since execution is halted by the core failure
+    refute_match(/Continuing InSpec execution/, log_output)
+  ensure
+    REG_INST.registry.delete(:'inspec-bad-user-gem')
+    REG_INST.registry.delete(:'inspec-broken-core')
+  end
 end
