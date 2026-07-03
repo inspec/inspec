@@ -483,4 +483,80 @@ class PluginLoaderTests < Minitest::Test
     REG_INST.registry.delete(:'inspec-bad-user-gem')
     REG_INST.registry.delete(:'inspec-broken-core')
   end
+
+  def test_exit_on_load_error_is_silent_when_no_failures
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true, omit_core_plugins: true,
+                                            omit_user_plugins: true, omit_sys_plugins: true)
+    # Registry is empty — no failures at all
+    assert_silent { loader.exit_on_load_error }
+  end
+
+  def test_exit_on_load_error_exits_for_system_gem_failure
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true, omit_core_plugins: true,
+                                            omit_user_plugins: true, omit_sys_plugins: true)
+    status = Inspec::Plugin::V2::Status.new
+    status.name = :'train-broken-system'
+    status.installation_type = :system_gem
+    status.load_exception = RuntimeError.new("system gem exploded")
+
+    REG_INST.registry[status.name] = status
+
+    assert_raises(SystemExit) { loader.exit_on_load_error }
+  ensure
+    REG_INST.registry.delete(:'train-broken-system')
+  end
+
+  def test_exit_on_load_error_does_not_exit_for_path_plugin_failure
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true, omit_core_plugins: true,
+                                            omit_user_plugins: true, omit_sys_plugins: true)
+    status = Inspec::Plugin::V2::Status.new
+    status.name = :'inspec-bad-path-plugin'
+    status.installation_type = :path
+    status.load_exception = RuntimeError.new("path not found")
+
+    REG_INST.registry[status.name] = status
+
+    assert_silent { loader.exit_on_load_error }
+  ensure
+    REG_INST.registry.delete(:'inspec-bad-path-plugin')
+  end
+
+  def test_exit_on_load_error_emits_continuing_message_for_path_plugin_failure
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true, omit_core_plugins: true,
+                                            omit_user_plugins: true, omit_sys_plugins: true)
+    status = Inspec::Plugin::V2::Status.new
+    status.name = :'inspec-bad-path-plugin'
+    status.installation_type = :path
+    status.load_exception = RuntimeError.new("path not found")
+
+    REG_INST.registry[status.name] = status
+
+    log_output = with_logger { loader.exit_on_load_error }
+
+    assert_match(/WARN.*Could not load plugin inspec-bad-path-plugin/, log_output)
+    assert_match(/Continuing InSpec execution without plugin inspec-bad-path-plugin/, log_output)
+  ensure
+    REG_INST.registry.delete(:'inspec-bad-path-plugin')
+  end
+
+  def test_exit_on_load_error_warns_for_each_user_plugin_when_multiple_fail
+    loader = Inspec::Plugin::V2::Loader.new(omit_bundles: true, omit_core_plugins: true,
+                                            omit_user_plugins: true, omit_sys_plugins: true)
+
+    %i{inspec-bad-gem-one inspec-bad-gem-two}.each do |name|
+      status = Inspec::Plugin::V2::Status.new
+      status.name = name
+      status.installation_type = :user_gem
+      status.load_exception = RuntimeError.new("gem not found")
+      REG_INST.registry[name] = status
+    end
+
+    log_output = with_logger { loader.exit_on_load_error }
+
+    assert_match(/Could not load plugin inspec-bad-gem-one/, log_output)
+    assert_match(/Could not load plugin inspec-bad-gem-two/, log_output)
+  ensure
+    REG_INST.registry.delete(:'inspec-bad-gem-one')
+    REG_INST.registry.delete(:'inspec-bad-gem-two')
+  end
 end
