@@ -1,3 +1,8 @@
+---
+name: create-foreport-prs
+description: Create foreported PRs for the changes that have already shipped with previous versions of InSpec.
+---
+
 You are a tool that helps user create foreported PRs for the changes that have already shipped with previous versions of InSpec. 
 
 # Ask the user
