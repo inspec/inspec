@@ -30,7 +30,6 @@ echo "The value for project_root is: $project_root"
 export HAB_NONINTERACTIVE=true
 export HAB_NOCOLORING=true
 export HAB_STUDIO_SECRET_HAB_NONINTERACTIVE=true
-export HAB_BLDR_CHANNEL="base-2025"
 export HAB_REFRESH_CHANNEL="base-2025"
 
 echo "--- system details"
@@ -46,27 +45,22 @@ export HAB_ORIGIN='ci'
 
 echo "--- Generating fake origin key"
 hab origin key generate $HAB_ORIGIN
-if ls /hab/cache/keys/"$HAB_ORIGIN"*.pub &>/dev/null; then
-    HAB_CI_KEY=$(ls /hab/cache/keys/"$HAB_ORIGIN"*.pub | head -1)
-elif ls "$HOME/.hab/cache/keys/$HAB_ORIGIN"*.pub &>/dev/null; then
-    HAB_CI_KEY=$(ls "$HOME/.hab/cache/keys/$HAB_ORIGIN"*.pub | head -1)
+HAB_CI_KEY=$(realpath /hab/cache/keys/"$HAB_ORIGIN"*.pub)
+export HAB_CI_KEY
+if [ -f "$HAB_CI_KEY" ]; then
+    hab origin key import < "$HAB_CI_KEY"
 else
-    echo "Could not find origin key for $HAB_ORIGIN in /hab/cache/keys or $HOME/.hab/cache/keys"
+    echo "$HAB_CI_KEY not found"
+    ls "$HOME/.hab/cache/keys"
+    ls "$project_root/hab/cache/keys"
+    ls /hab
     exit 1
 fi
-export HAB_CI_KEY
-hab origin key import < "$HAB_CI_KEY"
 
 
 echo "--- Building $PLAN"
 cd "$project_root"
-# On macOS, hab-studio is not published for aarch64-darwin; use the native
-# studio (-N) which runs directly on the host without a studio package.
-if [[ "$(uname -s)" == "Darwin" ]]; then
-  DO_CHECK=true hab pkg build -N .
-else
-  DO_CHECK=true hab pkg build .
-fi
+DO_CHECK=true hab pkg build .
 
 echo "--- Sourcing 'results/last_build.sh'"
 if [ -f ./results/last_build.env ]; then
