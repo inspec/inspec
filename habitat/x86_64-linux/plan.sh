@@ -1,9 +1,3 @@
-# These metadata fields are declared explicitly so that Expeditor can parse
-# this file statically (it uses a regex on raw file contents).
-# They are immediately overridden by the sourced plan below.
-pkg_name=inspec
-pkg_origin=chef
-
 export HAB_BLDR_CHANNEL="base-2025"
 export HAB_REFRESH_CHANNEL="base-2025"
 pkg_name=inspec
