@@ -60,7 +60,13 @@ hab origin key import < "$HAB_CI_KEY"
 
 echo "--- Building $PLAN"
 cd "$project_root"
-DO_CHECK=true hab pkg build .
+# On macOS, hab-studio is not published for aarch64-darwin; use the native
+# studio (-N) which runs directly on the host without a studio package.
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  DO_CHECK=true hab pkg build -N .
+else
+  DO_CHECK=true hab pkg build .
+fi
 
 echo "--- Sourcing 'results/last_build.sh'"
 if [ -f ./results/last_build.env ]; then
