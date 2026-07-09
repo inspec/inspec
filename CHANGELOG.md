@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.1.13 -->
-## [v7.1.13](https://github.com/inspec/inspec/tree/v7.1.13) (2026-07-07)
+<!-- latest_release 7.1.14 -->
+## [v7.1.14](https://github.com/inspec/inspec/tree/v7.1.14) (2026-07-09)
 
 #### Merged Pull Requests
-- Fix build pipeline issue [#7981](https://github.com/inspec/inspec/pull/7981) ([mohan-progress](https://github.com/mohan-progress))
+- chore: Update train and train-core dependencies to &gt;= 3.16.5 [#7980](https://github.com/inspec/inspec/pull/7980) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 7.1.7 release
 
 #### Merged Pull Requests
+- chore: Update train and train-core dependencies to &gt;= 3.16.5 [#7980](https://github.com/inspec/inspec/pull/7980) ([Nik08](https://github.com/Nik08)) <!-- 7.1.14 -->
 - Fix build pipeline issue [#7981](https://github.com/inspec/inspec/pull/7981) ([mohan-progress](https://github.com/mohan-progress)) <!-- 7.1.13 -->
 - fix: CHEF-36278 - Fix Docker/Podman resource fallback with --auto-install-gems [#7976](https://github.com/inspec/inspec/pull/7976) ([Nik08](https://github.com/Nik08)) <!-- 7.1.12 -->
 - fix CHEF-36239 : Prevent GemReader from matching vendored profiles [#7962](https://github.com/inspec/inspec/pull/7962) ([Vasu1105](https://github.com/Vasu1105)) <!-- 7.1.11 -->
