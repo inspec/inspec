@@ -239,12 +239,7 @@ module FunctionalHelper
     if opts[:json] && !run_result.stdout.empty?
       begin
         out = run_result.stdout.split("\n")
-        # Find the first line that looks like JSON (starts with '{' or '[')
-        json_line_index = out.index { |line| line.strip.start_with?("{", "[") }
-        if json_line_index
-          out = out[json_line_index]
-          @deprication_msg = nil
-        elsif out.count > 1
+        if out.count > 1
           @deprication_msg = out[1].include?("The --target-id option is deprecated in InSpec 5") ? out[0] : nil
           out = out[1]
         else
