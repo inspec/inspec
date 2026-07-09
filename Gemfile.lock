@@ -1,17 +1,17 @@
 PATH
   remote: .
   specs:
-    inspec (7.1.4)
+    inspec (7.1.12)
       faraday_middleware (~> 1.2, >= 1.2.1)
-      inspec-core (= 7.1.4)
+      inspec-core (= 7.1.12)
       progress_bar (~> 1.3.3)
       rake (>= 12.3.3)
-      train (~> 3.16, >= 3.16.1)
+      train (~> 3.16, >= 3.16.5)
       train-aws (~> 0.2)
       train-habitat (~> 0.1)
       train-kubernetes (>= 0.3.1)
       train-winrm (~> 0.4.0)
-    inspec-core (7.1.4)
+    inspec-core (7.1.12)
       addressable (~> 2.9)
       chef-licensing (>= 1.2.0)
       chef-telemetry (~> 1.0, >= 1.0.8)
@@ -36,15 +36,15 @@ PATH
       syslog (~> 0.1)
       thor (>= 0.20, < 1.5.0)
       tomlrb (>= 1.3, < 2.1)
-      train-core (~> 3.16, >= 3.16.1)
+      train-core (~> 3.16, >= 3.16.5)
       tty-prompt (~> 0.17)
       tty-table (~> 0.10)
 
 PATH
   remote: inspec-bin
   specs:
-    inspec-bin (7.1.4)
-      inspec (= 7.1.4)
+    inspec-bin (7.1.12)
+      inspec (= 7.1.12)
 
 GEM
   remote: https://rubygems.org/
@@ -375,7 +375,7 @@ GEM
     chefstyle (2.2.3)
       rubocop (= 1.25.1)
     coderay (1.1.3)
-    concurrent-ruby (1.3.6)
+    concurrent-ruby (1.3.7)
     connection_pool (2.5.5)
     cookstyle (7.32.8)
       rubocop (= 1.25.1)
@@ -418,7 +418,7 @@ GEM
       zeitwerk (~> 2.6)
     erubi (1.13.1)
     excon (0.112.0)
-    faraday (1.10.5)
+    faraday (1.10.6)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
@@ -491,11 +491,11 @@ GEM
       logger
     highline (3.1.2)
       reline
-    http-cookie (1.1.0)
+    http-cookie (1.1.6)
       domain_name (~> 0.5)
     httpclient (2.9.0)
       mutex_m
-    i18n (1.14.8)
+    i18n (1.15.2)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
     inifile (3.0.0)
@@ -503,7 +503,7 @@ GEM
       term-ansicolor (>= 1.2.2)
     io-console (0.8.2)
     jmespath (1.6.2)
-    json (2.19.4)
+    json (2.20.0)
     json_schemer (2.5.0)
       bigdecimal
       hana (~> 1.3)
@@ -511,7 +511,7 @@ GEM
       simpleidn (~> 0.2)
     jsonpath (1.1.5)
       multi_json
-    jwt (2.10.2)
+    jwt (2.10.3)
       base64
     k8s-ruby (0.17.2)
       base64
@@ -571,7 +571,7 @@ GEM
     mutex_m (0.3.0)
     net-scp (4.1.0)
       net-ssh (>= 2.6.5, < 8.0.0)
-    net-ssh (7.3.0)
+    net-ssh (7.3.3)
     nokogiri (1.18.10-aarch64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.18.10-aarch64-linux-musl)
@@ -590,8 +590,9 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.10-x86_64-linux-musl)
       racc (~> 1.4)
-    nori (2.7.1)
+    nori (2.9.1)
       bigdecimal
+      stringio
     options (2.3.2)
     os (1.1.4)
     ostruct (0.6.3)
@@ -630,7 +631,7 @@ GEM
       declarative (< 0.1.0)
       trailblazer-option (>= 0.1.1, < 0.2.0)
       uber (< 0.2.0)
-    retriable (3.1.2)
+    retriable (3.8.0)
     rexml (3.4.4)
     rspec (3.13.2)
       rspec-core (~> 3.13.0)
@@ -681,6 +682,7 @@ GEM
     simpleidn (0.2.3)
     socksify (1.8.1)
     sslshake (1.3.1)
+    stringio (3.2.0)
     strings (0.2.1)
       strings-ansi (~> 0.2)
       unicode-display_width (>= 1.5, < 3.0)
@@ -700,13 +702,14 @@ GEM
       sync
     tomlrb (1.3.0)
     trailblazer-option (0.1.2)
-    train (3.16.3)
+    train (3.16.5)
       activesupport (~> 7.2, >= 7.2.3.1)
       azure_graph_rbac (~> 0.16)
       azure_mgmt_key_vault (~> 0.17)
       azure_mgmt_resources (~> 0.15)
       azure_mgmt_security (~> 0.18)
       azure_mgmt_storage (~> 0.18)
+      bigdecimal (< 4)
       docker-api (>= 1.26, < 3.0)
       google-apis-admin_directory_v1 (~> 0.46.0)
       google-apis-cloudkms_v1 (~> 0.41.0)
@@ -718,7 +721,7 @@ GEM
       googleauth (>= 0.16.2, < 1.9.0)
       inifile (~> 3.0)
       ostruct (~> 0.6.0)
-      train-core (= 3.16.3)
+      train-core (= 3.16.5)
       train-winrm (~> 0.4.0)
     train-aws (0.2.44)
       aws-partitions (~> 1.992.0)
@@ -801,7 +804,7 @@ GEM
       aws-sdk-transfer (~> 1.86.0)
       aws-sdk-waf (~> 1.58.0)
       aws-sdk-wafv2 (~> 1.74.0)
-    train-core (3.16.3)
+    train-core (3.16.5)
       addressable (~> 2.5)
       ffi (>= 1.16.0, < 1.18)
       json (>= 2.19.2, < 3.0)
