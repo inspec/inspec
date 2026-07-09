@@ -19,15 +19,18 @@ Install the gh GitHub CLI tool if it is not already installed.
 
 Make sure `gh auth status` works, and run `gh auth login` if not.
 
+## 3b. Setup env.sh
+
+Check for `etc/env.sh`. If it does not exist, create it by copying `etc/env.default.sh`. Make sure it does not contain EDITME values. If so, prompt the user to add correct values. Prompt the user interactively and edit the file with the new correct values. NEVER commit `etc/env.sh` to git.
+
 ## 4. Ensure the shared-context reference repo is checked out
 
 The shared-context repo contains critical configuration, standards, and workflows. It can be customized by users via environment variables to allow community contributors to use their own shared-context repositories.
 
-Check for environment variables:
-- `INSPEC_SHARED_CONTEXT_REPO`: The GitHub repo path (defaults to `progress-infra-poc/shared-context`)
-- `INSPEC_SHARED_CONTEXT_BRANCH`: The branch to use (defaults to `main`)
+Check for the environment variable (from `etc/env.sh` or user exports):
+- `PROGRESS_SHARED_CONTEXT_REPO`: The GitHub repo path with optional branch specification (format: `owner/repo@branch`)
 
-Use these values to clone/update the shared-context repo into `context/reference-repos/shared-context`. If it has already been cloned, pull it. Make sure you are on the specified branch. If it has local changes, inform the user and do nothing.
+Use this value to clone/update the shared-context repo into `context/reference-repos/shared-context`. If it has already been cloned, pull it. Make sure you are on the specified branch. If it has local changes, inform the user and do nothing.
 
 ## 4b. Ensure the list of other reference repos is checked out
 
