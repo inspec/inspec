@@ -1,0 +1,2 @@
+inspec/train
+inspec/train-winrm
