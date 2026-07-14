@@ -45,15 +45,12 @@ export HAB_ORIGIN='ci'
 
 echo "--- Generating fake origin key"
 hab origin key generate $HAB_ORIGIN
-HAB_CI_KEY=$(realpath /hab/cache/keys/"$HAB_ORIGIN"*.pub)
+HAB_CI_KEY=$(ls /hab/cache/keys/"$HAB_ORIGIN"*.pub "$HOME/.hab/cache/keys/$HAB_ORIGIN"*.pub 2>/dev/null | head -1)
 export HAB_CI_KEY
 if [ -f "$HAB_CI_KEY" ]; then
     hab origin key import < "$HAB_CI_KEY"
 else
-    echo "$HAB_CI_KEY not found"
-    ls "$HOME/.hab/cache/keys"
-    ls "$project_root/hab/cache/keys"
-    ls /hab
+    echo "Origin key for $HAB_ORIGIN not found in /hab/cache/keys or $HOME/.hab/cache/keys"
     exit 1
 fi
 
