@@ -79,7 +79,7 @@ echo "+++"
 hab pkg install "${project_root:?is undefined}/results/${pkg_artifact:?is undefined}"
 
 echo "--- Removing world readability from /usr/local/bundle"
-chmod go-w /usr/local/bundle
+[ -d /usr/local/bundle ] && chmod go-w /usr/local/bundle || true
 
 echo "+++ Testing $PLAN"
 
