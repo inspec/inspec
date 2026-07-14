@@ -45,10 +45,13 @@ export HAB_ORIGIN='ci'
 
 echo "--- Generating fake origin key"
 hab origin key generate $HAB_ORIGIN
-HAB_CI_KEY=$(ls /hab/cache/keys/"$HAB_ORIGIN"*.pub 2>/dev/null | head -1)
-if [ -z "$HAB_CI_KEY" ]; then
-    HAB_CI_KEY=$(ls "$HOME/.hab/cache/keys/$HAB_ORIGIN"*.pub 2>/dev/null | head -1)
-fi
+HAB_CI_KEY=""
+for f in /hab/cache/keys/"$HAB_ORIGIN"*.pub "$HOME/.hab/cache/keys/$HAB_ORIGIN"*.pub; do
+    if [ -f "$f" ]; then
+        HAB_CI_KEY="$f"
+        break
+    fi
+done
 export HAB_CI_KEY
 if [ -f "$HAB_CI_KEY" ]; then
     hab origin key import < "$HAB_CI_KEY"
