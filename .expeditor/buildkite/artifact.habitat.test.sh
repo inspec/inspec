@@ -76,7 +76,7 @@ echo "+++ Installing ${pkg_ident:?is undefined}"
 echo "++++"
 echo $project_root
 echo "+++"
-hab pkg install -b "${project_root:?is undefined}/results/${pkg_artifact:?is undefined}"
+hab pkg install "${project_root:?is undefined}/results/${pkg_artifact:?is undefined}"
 
 echo "--- Removing world readability from /usr/local/bundle"
 chmod go-w /usr/local/bundle
