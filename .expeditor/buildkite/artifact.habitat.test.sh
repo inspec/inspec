@@ -45,6 +45,8 @@ export HAB_ORIGIN='ci'
 
 echo "--- Generating fake origin key"
 hab origin key generate $HAB_ORIGIN
+# Use a glob loop instead of `realpath` (GNU-only, unavailable on macOS).
+# Check /hab/cache/keys (Linux) first, then $HOME/.hab/cache/keys (macOS).
 HAB_CI_KEY=""
 for f in /hab/cache/keys/"$HAB_ORIGIN"*.pub "$HOME/.hab/cache/keys/$HAB_ORIGIN"*.pub; do
     if [ -f "$f" ]; then
@@ -76,9 +78,11 @@ echo "+++ Installing ${pkg_ident:?is undefined}"
 echo "++++"
 echo $project_root
 echo "+++"
+# Skip -b (binlink into /usr/local/bin) — requires root on macOS; PATH is set below via hab pkg path.
 hab pkg install "${project_root:?is undefined}/results/${pkg_artifact:?is undefined}"
 
 echo "--- Removing world readability from /usr/local/bundle"
+# /usr/local/bundle only exists in Docker Ruby images (Linux). Skip on macOS.
 [ -d /usr/local/bundle ] && chmod go-w /usr/local/bundle || true
 
 echo "+++ Testing $PLAN"
