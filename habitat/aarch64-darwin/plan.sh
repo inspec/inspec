@@ -63,10 +63,10 @@ do_build() {
 }
 
 do_install() {
-  # export ARTIFACTORY_URL="https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/"
-  # gem sources --add "$ARTIFACTORY_URL"
-  # gem install chef-official-distribution --ignore-dependencies --no-document
-  # gem sources --remove "$ARTIFACTORY_URL"
+  export ARTIFACTORY_URL="https://artifactory-internal.ps.chef.co/artifactory/omnibus-gems-local/"
+  gem sources --add "$ARTIFACTORY_URL"
+  gem install chef-official-distribution --ignore-dependencies --no-document
+  gem sources --remove "$ARTIFACTORY_URL"
 
   # MUST install inspec first because inspec-bin depends on it via gemspec
   pushd "$HAB_CACHE_SRC_PATH/$pkg_dirname/"
