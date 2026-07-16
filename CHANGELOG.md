@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 7.1.16 -->
+## [v7.1.16](https://github.com/inspec/inspec/tree/v7.1.16) (2026-07-16)
 
 #### Merged Pull Requests
+- feat: CHEF-29956 - Add aarch64-darwin Habitat package and CI pipeline support [#7987](https://github.com/inspec/inspec/pull/7987) ([mohan-progress](https://github.com/mohan-progress))
 - Initial effort in AI poc work [#7965](https://github.com/inspec/inspec/pull/7965) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
@@ -38,6 +39,7 @@
 ### Changes since 7.1.7 release
 
 #### Merged Pull Requests
+- feat: CHEF-29956 - Add aarch64-darwin Habitat package and CI pipeline support [#7987](https://github.com/inspec/inspec/pull/7987) ([mohan-progress](https://github.com/mohan-progress)) <!-- 7.1.16 -->
 - Initial effort in AI poc work [#7965](https://github.com/inspec/inspec/pull/7965) ([Nik08](https://github.com/Nik08)) <!-- 7.1.15 -->
 - Bump chef-licensing from 1.4.0 to 1.4.1 [#7983](https://github.com/inspec/inspec/pull/7983) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 7.1.15 -->
 - chore: Update train and train-core dependencies to &gt;= 3.16.5 [#7980](https://github.com/inspec/inspec/pull/7980) ([Nik08](https://github.com/Nik08)) <!-- 7.1.14 -->
