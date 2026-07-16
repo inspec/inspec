@@ -6,4 +6,16 @@ elif [[ $BUILDKITE_ORGANIZATION_SLUG = 'chef' ]] || [[ $BUILDKITE_ORGANIZATION_S
   AWS_REGION='us-west-2'
 fi
 
-export HAB_AUTH_TOKEN=$(aws ssm get-parameter --name 'habitat-prod-auth-token' --with-decryption --query Parameter.Value --output text --region ${AWS_REGION})
+if [[ "$BUILDKITE_LABEL" =~ [Mm]ac[Oo][Ss]|mac_os_x|darwin ]]; then
+  if ! command -v vault-util-init &>/dev/null; then
+    echo "ERROR: vault-util-init not found on macOS worker" >&2
+    exit 1
+  fi
+  export VAULT_ADDR="https://vault.ps.chef.co"
+  export VAULT_TOKEN="${VAULT_TOKEN:-$(cat ~/.vault-token 2>/dev/null || true)}"
+  . vault-util-init
+  HAB_AUTH_TOKEN=$(vault kv get -field auth_token account/static/habitat/chef-ci)
+  export HAB_AUTH_TOKEN
+else
+  export HAB_AUTH_TOKEN=$(aws ssm get-parameter --name 'habitat-prod-auth-token' --with-decryption --query Parameter.Value --output text --region ${AWS_REGION})
+fi
