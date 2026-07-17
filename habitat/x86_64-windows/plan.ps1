@@ -1,7 +1,8 @@
 # https://stackoverflow.com/questions/9948517
 # TODO: Set-StrictMode -Version Latest
-$env:HAB_BLDR_CHANNEL = "base-2025"
-$env:HAB_REFRESH_CHANNEL = "base-2025"
+$env:HAB_BLDR_CHANNEL = "base-20260716"
+$env:HAB_REFRESH_CHANNEL = "base-20260716"
+$env:HAB_FALLBACK_CHANNEL = "base-2025"
 $ErrorActionPreference = "Stop"
 $PSDefaultParameterValues['*:ErrorAction']='Stop'
 
