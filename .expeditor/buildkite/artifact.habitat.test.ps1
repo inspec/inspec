@@ -7,8 +7,9 @@ $PSDefaultParameterValues['*:ErrorAction']='Stop'
 $ErrorActionPreference = 'Stop'
 $env:CHEF_LICENSE = 'accept-no-persist'
 $env:HAB_LICENSE = 'accept-no-persist'
-$env:HAB_BLDR_CHANNEL = 'base-2025'
-$env:HAB_REFRESH_CHANNEL = 'base-2025'
+$env:HAB_BLDR_CHANNEL = 'base-20260716'
+$env:HAB_REFRESH_CHANNEL = 'base-20260716'
+$env:HAB_FALLBACK_CHANNEL = 'base-2025'
 $Plan = 'inspec'
 
 Write-Host "--- system details"
