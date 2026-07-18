@@ -27,6 +27,9 @@ module Inspec::Fetcher
     name "git"
     priority 200
 
+    # Currently only excluding .git directory - change to array in future if more exclusions are needed
+    EXCLUDED_DIRECTORIES = ".git".freeze
+
     def self.resolve(target, opts = {})
       if target.is_a?(String)
         new(target, opts) if target.start_with?("git@") || target.end_with?(".git")
@@ -68,7 +71,7 @@ module Inspec::Fetcher
       else
         Dir.mktmpdir do |working_dir|
           checkout(working_dir)
-          if git_only_or_empty?(working_dir)
+          if no_content_files?(working_dir)
             # If the temporary working directory is empty after checkout,
             # this means the git repository did not contain any files (or the checkout failed).
             # In this case, remove the destination directory to avoid
@@ -84,20 +87,20 @@ module Inspec::Fetcher
             Inspec::Log.debug("Checkout of #{resolved_ref.nil? ? @remote_url : resolved_ref} successful. " \
                                 "Moving checkout to #{destination_path}")
             FileUtils.cp_r(working_dir + "/.", destination_path)
+            remove_excluded_directories(destination_path)
           end
         end
       end
       @repo_directory
     end
 
-    def git_only_or_empty?(dir)
+    def no_content_files?(dir)
       return false unless Dir.exist?(dir)
 
+      # Check if directory has no content files (excluding .git and other excluded directories)
       children = Dir.children(dir)
-      # Return true if:
-      # - directory is completely empty
-      # - or it contains only one entry: '.git'
-      children.empty? || (children - [".git"]).empty?
+      content_files = children.reject { |child| child == EXCLUDED_DIRECTORIES }
+      content_files.empty?
     end
 
     def perform_relative_path_fetch(destination_path, working_dir)
@@ -114,6 +117,7 @@ module Inspec::Fetcher
                                       "within profile in git repo specified by '#{@remote_url}'"
       end
       FileUtils.cp_r("#{working_dir}/#{@relative_path}", destination_path)
+      remove_excluded_directories(destination_path)
     end
 
     def cache_key
@@ -145,6 +149,16 @@ module Inspec::Fetcher
 
     def update_from_opts(opts)
       %i{branch tag ref}.map { |opt_name| update_ivar_from_opt(opt_name, opts) }.any?
+    end
+
+    def remove_excluded_directories(destination_dir)
+      path = File.join(destination_dir, EXCLUDED_DIRECTORIES)
+      begin
+        FileUtils.rm_rf(path)
+      rescue Errno::EACCES, Errno::EPERM => e
+        Inspec::Log.warn("Unable to remove #{EXCLUDED_DIRECTORIES} directory from cache: #{e.message}")
+        Inspec::Log.debug("Cache may contain #{EXCLUDED_DIRECTORIES} directory at #{path}")
+      end
     end
 
     private
