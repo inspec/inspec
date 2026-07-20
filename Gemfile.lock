@@ -376,7 +376,7 @@ GEM
     chefstyle (2.2.3)
       rubocop (= 1.25.1)
     coderay (1.1.3)
-    concurrent-ruby (1.3.7)
+    concurrent-ruby (1.3.8)
     connection_pool (2.5.5)
     cookstyle (7.32.8)
       rubocop (= 1.25.1)
