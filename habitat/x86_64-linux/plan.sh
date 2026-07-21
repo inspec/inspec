@@ -12,7 +12,7 @@ pkg_license=('Apache-2.0')
 pkg_deps=(
   core/coreutils
   core/git
-  core/ruby3_4
+  core/ruby3_4-plus-devkit
   core/bash
 )
 pkg_build_deps=(
@@ -96,13 +96,19 @@ wrap_inspec_bin() {
 set -e
 
 # Set binary path that allows InSpec to use non-Hab pkg binaries
-export PATH="/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH"
+# core/ruby3_4-plus-devkit exports CC, MAKE, RUBY, BINUTILS_BIN via set_runtime_env.
+export PATH="$(dirname "$CC"):$BINUTILS_BIN:$(dirname "$MAKE"):/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH"
+
+# CC, MAKE, RUBY are set via set_runtime_env in core/ruby3_4-plus-devkit
+# and baked in here at build time from the devkit's RUNTIME_ENVIRONMENT.
+export CC="$CC"
+export MAKE="$MAKE"
 
 # Set Ruby paths defined from 'do_setup_environment()'
 export GEM_HOME="$GEM_HOME"
 export GEM_PATH="$GEM_PATH"
 
-exec $(pkg_path_for core/ruby3_4)/bin/ruby $real_bin \$@
+exec $RUBY $real_bin \$@
 EOF
   chmod -v 755 "$bin"
 }
