@@ -14,6 +14,10 @@ pkg_deps=(
   core/git
   core/ruby3_4
   core/bash
+  core/gcc-base
+  core/gcc-libs
+  core/binutils
+  core/make
 )
 pkg_build_deps=(
   core/gcc
@@ -95,8 +99,17 @@ wrap_inspec_bin() {
 #!$(pkg_path_for core/bash)/bin/bash
 set -e
 
-# Set binary path that allows InSpec to use non-Hab pkg binaries
-export PATH="/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH"
+# Set binary path that allows InSpec to use non-Hab pkg binaries.
+# core/gcc-base provides a gcc wrapper script (via hab-cc-wrapper) that
+# already handles its own LD_LIBRARY_PATH and environment setup internally,
+# so it works correctly even when mkmf.rb overrides the outer LD_LIBRARY_PATH
+# during native gem extension compilation (e.g. bson for MongoDB resource pack).
+export PATH="$(pkg_path_for core/gcc-base)/bin:$(pkg_path_for core/binutils)/bin:$(pkg_path_for core/make)/bin:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:\$PATH"
+
+# Explicitly set CC/MAKE so mkmf uses the Hab-bundled toolchain even when
+# RbConfig::CONFIG['CC'] points to a different compiler path.
+export CC="$(pkg_path_for core/gcc-base)/bin/gcc"
+export MAKE="$(pkg_path_for core/make)/bin/make"
 
 # Set Ruby paths defined from 'do_setup_environment()'
 export GEM_HOME="$GEM_HOME"
