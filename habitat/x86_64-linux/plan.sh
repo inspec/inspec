@@ -12,7 +12,7 @@ pkg_license=('Apache-2.0')
 pkg_deps=(
   core/coreutils
   core/git
-  core/ruby3_4-plus-devkit/3.4.8/20260707072056
+  core/ruby3_4-plus-devkit
   core/bash
 )
 pkg_build_deps=(
