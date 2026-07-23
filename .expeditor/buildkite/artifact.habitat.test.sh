@@ -93,3 +93,45 @@ echo "PATH is $PATH"
 
 pushd "$project_root/test/artifact"
 rake
+popd
+
+# ---------------------------------------------------------------------------
+# Export hab tar from the locally-built hart and upload to S3.
+#
+# Exporting from the local results/ hart (not from a channel) means:
+#   - No HAB_AUTH_TOKEN needed for the export step
+#   - The tar is produced on the exact platform/arch the package was built for
+#   - Works on macOS ARM64 agents that have no EC2 IAM role for channel access
+# ---------------------------------------------------------------------------
+echo "--- Exporting hab tar from local build artifact"
+BUILD_PKG_TARGET="${BUILD_PKG_TARGET:-x86_64-linux}"
+arch="${BUILD_PKG_TARGET%%-*}"      # x86_64 | aarch64
+platform="${BUILD_PKG_TARGET##*-}"  # linux  | darwin
+
+cd "$project_root"
+
+# Export from the local hart — no channel download, no auth token required.
+hab pkg export tar "${project_root}/results/${pkg_artifact}" --no-hab-bin
+
+# Locate and rename to the standard inspec-enterprise naming convention.
+original_tar_name=$(find . -maxdepth 1 -name "chef-inspec-*.tar.gz" -type f | head -1 | xargs basename 2>/dev/null || true)
+if [[ -z "$original_tar_name" ]]; then
+  echo "ERROR: could not find chef-inspec-*.tar.gz after export" >&2
+  ls -la ./*.tar.gz 2>/dev/null || true
+  exit 1
+fi
+echo "Exported tarball: $original_tar_name"
+
+# Extract version and timestamp using sed (macOS/BSD-compatible; no grep -P).
+version=$(echo "$original_tar_name" | sed 's/chef-inspec-\([0-9]*\.[0-9]*\.[0-9]*\)-.*/\1/')
+timestamp=$(echo "$original_tar_name" | sed 's/chef-inspec-[0-9]*\.[0-9]*\.[0-9]*-\([0-9]*\)\.tar\.gz/\1/')
+tar_name="inspec-enterprise-${version}-${timestamp}.tar.gz"
+mv "$original_tar_name" "$tar_name"
+echo "Renamed to: $tar_name"
+
+# Upload tarball to S3 at the platform/arch-specific unstable path.
+echo "--- Uploading tar to S3"
+aws s3 cp "$tar_name" \
+  "s3://chef-enterprise-artifacts/software-unstable-local/inspec-enterprise/${version}/${platform}/${arch}/${tar_name}"
+
+echo "--- Tar export and upload complete"

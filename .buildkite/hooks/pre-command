@@ -1,12 +1,13 @@
 #!/bin/bash
 
 if [[ $BUILDKITE_ORGANIZATION_SLUG = 'chef-canary' ]]; then
-  AWS_REGION='us-west-1'
+  export AWS_REGION='us-west-1'
 elif [[ $BUILDKITE_ORGANIZATION_SLUG = 'chef' ]] || [[ $BUILDKITE_ORGANIZATION_SLUG = 'chef-oss' ]]; then
-  AWS_REGION='us-west-2'
+  export AWS_REGION='us-west-2'
 fi
 
-if [[ "$BUILDKITE_LABEL" =~ [Mm]ac[Oo][Ss]|mac_os_x|darwin ]]; then
+if [[ "$BUILDKITE_LABEL" =~ [Mm]ac[Oo][Ss]|mac_os_x|darwin ]] || \
+   [[ "${BUILD_PKG_TARGET:-}" == *-darwin ]]; then
   if ! command -v vault-util-init &>/dev/null; then
     echo "ERROR: vault-util-init not found on macOS worker" >&2
     exit 1
@@ -16,6 +17,22 @@ if [[ "$BUILDKITE_LABEL" =~ [Mm]ac[Oo][Ss]|mac_os_x|darwin ]]; then
   . vault-util-init
   HAB_AUTH_TOKEN=$(vault kv get -field auth_token account/static/habitat/chef-ci)
   export HAB_AUTH_TOKEN
+
+  # macOS ARM64 static hosts have no EC2 IAM role — fetch temporary AWS
+  # credentials from Vault so S3 uploads (tar export) work.
+  echo "Fetching AWS credentials from Vault for macOS ARM64 host..."
+  aws_creds=$(vault read -format=json aws/sts/chef-cd-role 2>/dev/null || \
+              vault kv get -format=json account/static/aws/chef-cd 2>/dev/null || true)
+  if [[ -n "$aws_creds" ]]; then
+    export AWS_ACCESS_KEY_ID
+    export AWS_SECRET_ACCESS_KEY
+    export AWS_SESSION_TOKEN
+    AWS_ACCESS_KEY_ID=$(echo "$aws_creds" | jq -r '.data.access_key // .data.AccessKeyId // empty')
+    AWS_SECRET_ACCESS_KEY=$(echo "$aws_creds" | jq -r '.data.secret_key // .data.SecretAccessKey // empty')
+    AWS_SESSION_TOKEN=$(echo "$aws_creds" | jq -r '.data.security_token // .data.SessionToken // empty')
+  else
+    echo "WARNING: Could not fetch AWS credentials from Vault; S3 uploads may fail." >&2
+  fi
 else
   export HAB_AUTH_TOKEN=$(aws ssm get-parameter --name 'habitat-prod-auth-token' --with-decryption --query Parameter.Value --output text --region ${AWS_REGION})
 fi
