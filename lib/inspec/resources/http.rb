@@ -41,7 +41,7 @@ module Inspec::Resources
       end
 
       # Run locally if InSpec is ran locally and remotely if ran remotely
-      if inspec.local_transport?
+      if inspec.local_transport? || opts.key?(:enable_local_worker)
         @worker = Worker::Local.new(http_method, url, opts)
       else
         @worker = Worker::Remote.new(inspec, http_method, url, opts)
