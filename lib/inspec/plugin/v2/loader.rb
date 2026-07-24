@@ -79,7 +79,11 @@ module Inspec::Plugin::V2
           annotate_status_after_loading(plugin_name)
         rescue ::Exception => ex
           plugin_details.load_exception = ex
-          Inspec::Log.error "Could not load plugin #{plugin_name}: #{ex.message}"
+          if %i{user_gem path}.include?(plugin_details.installation_type)
+            Inspec::Log.warn "Could not load plugin #{plugin_name}: #{ex.message}"
+          else
+            Inspec::Log.error "Could not load plugin #{plugin_name}: #{ex.message}"
+          end
         end
         # rubocop: enable Lint/RescueException
       end
@@ -87,9 +91,28 @@ module Inspec::Plugin::V2
 
     # This should possibly be in either lib/inspec/cli.rb or Registry
     def exit_on_load_error
-      if registry.any_load_failures?
+      inspec_plugin_failures = registry.plugin_statuses.select do |s|
+        s.load_exception && %i{core bundle system_gem}.include?(s.installation_type)
+      end
+      user_plugin_failures = registry.plugin_statuses.select do |s|
+        s.load_exception && %i{user_gem path}.include?(s.installation_type)
+      end
+
+      user_plugin_failures.each do |plugin_status|
+        Inspec::Log.warn "Could not load plugin #{plugin_status.name}: #{plugin_status.load_exception.message}"
+        # Only say we're continuing if there are no inspec plugin failures that will halt execution
+        unless inspec_plugin_failures.any?
+          Inspec::Log.warn "Continuing InSpec execution without plugin #{plugin_status.name}."
+        end
+        if ARGV.include?("--debug")
+          Inspec::Log.warn "Exception class: #{plugin_status.load_exception.class.name}"
+          Inspec::Log.warn "Trace: #{plugin_status.load_exception.backtrace.join("\n")}"
+        end
+      end
+
+      if inspec_plugin_failures.any?
         Inspec::Log.error "Errors were encountered while loading plugins..."
-        registry.plugin_statuses.select(&:load_exception).each do |plugin_status|
+        inspec_plugin_failures.each do |plugin_status|
           Inspec::Log.error "Plugin name: " + plugin_status.name.to_s
           Inspec::Log.error "Error: " + plugin_status.load_exception.message
           if ARGV.include?("--debug")
