@@ -383,7 +383,7 @@ GEM
     crack (1.0.1)
       bigdecimal
       rexml
-    csv (3.3.5)
+    csv (3.3.6)
     declarative (0.0.20)
     diff-lcs (1.6.2)
     docile (1.4.1)
