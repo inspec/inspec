@@ -1,11 +1,5 @@
-# export HAB_BLDR_CHANNEL="base-2025"
-# export HAB_REFRESH_CHANNEL="base-2025"
-
-## For testing purpose
-export HAB_BLDR_CHANNEL="base-20260716"
-export HAB_REFRESH_CHANNEL="base-20260716"
-export HAB_FALLBACK_CHANNEL="base-2025"
-
+export HAB_BLDR_CHANNEL="base-2025"
+export HAB_REFRESH_CHANNEL="base-2025"
 pkg_name=inspec
 pkg_origin=chef
 pkg_version=$(cat "$PLAN_CONTEXT/../../VERSION")
