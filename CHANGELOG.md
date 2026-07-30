@@ -1,9 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release -->
+<!-- latest_release unreleased -->
+## Unreleased
+
+#### Merged Pull Requests
+- InSpec 5: Copilot Skill for release notes [#7963](https://github.com/inspec/inspec/pull/7963) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=5.24.24 -->
+### Changes since 5.24.24 release
+
+#### Merged Pull Requests
+- InSpec 5: Copilot Skill for release notes [#7963](https://github.com/inspec/inspec/pull/7963) ([Nik08](https://github.com/Nik08)) <!-- 5.24.24 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
