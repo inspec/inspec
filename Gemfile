@@ -43,9 +43,7 @@ group :test do
   gem "m"
   gem "minitest-sprint", "~> 1.0"
   gem "minitest"
-  # Ruby 3.4+ extracts minitest-mock to a separate gem (bundled gem)
-  # Adding unconditionally as it's compatible with all Ruby versions
-  gem "minitest-mock"
+  gem "minitest-mock" # Ruby 3.4+ extracts minitest-mock to a separate gem (bundled gem). It's compatible with all Ruby versions.
   gem "mocha"
   gem "nokogiri"
   gem "pry-byebug"
