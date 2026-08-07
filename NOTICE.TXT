@@ -1,89 +1,113 @@
-Progress Chef Inspec 7.1                                                                                    Updated May 2026
+Progress Chef Inspec 7.2                                                                           Updated August 2026
 
-----------------------------------------------------------------------------------------------------------------------------
-NOTICES REPORT
-----------------------------------------------------------------------------------------------------------------------------
+ ----------------------------------------------------------------------------------------------------------------------------
+ NOTICES REPORT
+ ----------------------------------------------------------------------------------------------------------------------------
 
-Portions of the Products include certain open source and commercial third-party components listed below ("Third-Party
-Components"). The authors of the Third-Party Components require Progress Software Corporation ("PSC") to include the
-following notices and additional licensing terms as a condition of PSC's use of such Third-Party Components. You
-acknowledge that the authors of the Third-Party Components have no obligation to provide support to you for the Third-Party
-Components or the Product. You hereby undertake to comply with all licenses related to the applicable Third-Party
-Components. Notwithstanding anything to the contrary, to the extent that any of the terms and conditions of the Progress
-Agreement conflict, vary, or are in addition to the terms and conditions of the aforementioned third-party licenses for these
-technologies, such terms and conditions are offered by PSC alone and not by any other party.
+ Portions of the Products include certain open source and commercial third-party components listed below ("Third-Party
+ Components"). The authors of the Third-Party Components require Progress Software Corporation ("PSC") to include the
+ following notices and additional licensing terms as a condition of PSC's use of such Third-Party Components. You
+ acknowledge that the authors of the Third-Party Components have no obligation to provide support to you for the Third-Party
+ Components or the Product. You hereby undertake to comply with all licenses related to the applicable Third-Party
+ Components. Notwithstanding anything to the contrary, to the extent that any of the terms and conditions of the Progress
+ Agreement conflict, vary, or are in addition to the terms and conditions of the aforementioned third-party licenses for these
+ technologies, such terms and conditions are offered by PSC alone and not by any other party.
 
-----------------------------------------------------------------------------------------------------------------------------
-Report Content
-  - General License Information
-  - Components
-  - License Data and Text
-----------------------------------------------------------------------------------------------------------------------------
+ ----------------------------------------------------------------------------------------------------------------------------
+ Report Content
+   - General License Information
+   - Components
+   - License Data and Text
+ ----------------------------------------------------------------------------------------------------------------------------
 
-General License Information:
+ General License Information:
 
-----------------------------------------------------------------------------------------------------------------------------
+ ----------------------------------------------------------------------------------------------------------------------------
 
-GENERATIVE ARTIFICIAL INTELLIGENCE INTEGRATION
-If the Software documentation specifies integration with some form of generative artificial intelligence (AI), then the Software
-will include a configuration to connect to AI. You acknowledge that a separate license or subscription access to AI governed by
-the terms and conditions of a license agreement from AI licensor will be required for use and access of AI capabilities
-integrated with the Software. You will be responsible to comply with the terms of such license agreement for a valid use of AI.
-You acknowledge and accept that Progress is not a party to the license agreement between You and AI licensor for AI use,
-and as a result Progress does not have any control over AI and its availability, and Progress disclaims any and all liabilities for
-any output, error, damages, loss, etc., or any other result of Your use of AI integrated with the Software.
+  GENERATIVE ARTIFICIAL INTELLIGENCE INTEGRATION
+  If the Software documentation specifies integration with some form of generative artificial intelligence (AI), then the
+  Software will include a configuration to connect to AI. You acknowledge that a separate license or subscription access
+  to AI governed by the terms and conditions of a license agreement from AI licensor will be required for use and access of
+  AI capabilities integrated with the Software. You will be responsible to comply with the terms of such license agreement
+  for a valid use of AI. You acknowledge and accept that Progress is not a party to the license agreement between You
+  and AI licensor for AI use, and as a result Progress does not have any control over AI and its availability, and Progress
+  disclaims any and all liabilities for any output, error, damages, loss, etc., or any other result of Your use of AI
+  integrated with the Software.
 
-----------------------------------------------------------------------------------------------------------------------------
+ ----------------------------------------------------------------------------------------------------------------------------
 
-NOTICE FROM PROGRESS SOFTWARE CORPORATION: Additional notices may be included in the release notes or other
-documentation that accompanies updates  received in connection with support of the Product.
+ NOTICE FROM PROGRESS SOFTWARE CORPORATION: Additional notices may be included in the release notes or other
+ documentation that accompanies updates received in connection with support of the Product.
 
-----------------------------------------------------------------------------------------------------------------------------
+ ----------------------------------------------------------------------------------------------------------------------------
 
-PUBLISH SOURCE REQUIREMENTS
-The Product contains the following third-party technologies licensed to PSC for which User is subject to the terms of a third-
-party license, a copy of which is included herein. PSC will, at Licensee's request, provide a copy of the source code for
-these third-party technologies, including modifications, if any, made by PSC. PSC may charge reasonable shipping and
-handling charges for such distribution. Licensee may also obtain the source code for these third-party technologies through
-http://iue.progress.com/3dpartysoftwares/Pages/default.aspx by following the instructions set forth therein.
+ PUBLISH SOURCE REQUIREMENTS
+ The Product contains the following third-party technologies licensed to PSC for which User is subject to the terms of a third-
+ party license, a copy of which is included herein. PSC will, at Licensee's request, provide a copy of the source code for
+ these third-party technologies, including modifications, if any, made by PSC. PSC may charge reasonable shipping and
+ handling charges for such distribution. Licensee may also obtain the source code for these third-party technologies through
+ http://iue.progress.com/3dpartysoftwares/Pages/default.aspx by following the instructions set forth therein.
 
- Habitat core_acl | 2.3.2
- Habitat core_attr | 2.5.2
- Habitat core_bash | 5.2.37
- Habitat core_cacerts | 5/20/2025
- Habitat core_coreutils | 9.7
- Habitat core_diffutils | 3.11
- Habitat core_gcc-libs | 14.3.0
- Habitat core_gdbm | 1.24
- Habitat core_gettext | 0.24
- Habitat core_git | 2.53
- Habitat core_glibc | 2.41
- Habitat core_gmp | 6.3.0
- Habitat core_grep | 3.11
- Habitat core_gzip | 1.14
- Habitat core_less | 668
- Habitat core_libidn2 | 2.3.3
- Habitat core_libunistring | 1
- Habitat core_linux-headers | 5.19.8
- Habitat core_nss-myhostname | 0.3
- Habitat core_perl | 5.40.1
- Habitat core_readline | 8.2.13
- Habitat core_sed | 4.9
- Habitat core_xz | 5.8.1
- JSON for Ruby | 2.19.4
- public_suffix_service | 0.6.20240107
- sslshake | 1.3.1
- win32-process | 0.10.0
+  Habitat core_acl | 2.3.2
+  Habitat core_attr | 2.5.2
+  Habitat core_bash | 5.2.37
+  Habitat core_binutils | 2.44
+  Habitat core_cacerts | 2025.05.20
+  Habitat core_coreutils | 9.7
+  Habitat core_diffutils | 3.11
+  Habitat core_gcc-base | 14.3.0
+  Habitat core_gcc-libs | 14.3.0
+  Habitat core_gdbm | 1.24
+  Habitat core_gettext | 0.24
+  Habitat core_git | 2.55
+  Habitat core_glibc | 2.41
+  Habitat core_gmp | 6.3.0
+  Habitat core_grep | 3.11
+  Habitat core_gzip | 1.14
+  Habitat core_less | 668
+  Habitat core_libidn2 | 2.3.3
+  Habitat core_libunistring | 1
+  Habitat core_linux-headers | 5.19.8
+  Habitat core_make | 4.4.1
+  Habitat core_nss-myhostname | 0.3
+  Habitat core_perl | 5.40.1
+  Habitat core_readline | 8.2.13
+  Habitat core_sed | 4.9
+  Habitat core_xz | 5.8.3
+  JSON for Ruby | 2.21.2
+  public_suffix_service | 0.6.20240107
+  sslshake | 1.3.1
+  win32-process | 0.10.0
 
-----------------------------------------------------------------------------------------------------------------------------
+ ----------------------------------------------------------------------------------------------------------------------------
 
-Components:
+ LGPL LICENSE REQUIREMENTS
+ The Product contains the following third-party technologies, which are subject to the terms of the GNU Library General
+ Public License Version 2 (LGPL v2), GNU Lesser General Public License Version 2.1 (LGPL v2.1) or GNU Lesser General
+ Public License Version 3 (LGPL v3).  In compliance with such Licenses, PSC provides You with reverse-engineering
+ permission solely to the extent necessary in order to debug modifications made to libraries licensed under the LGPL v2,
+ LGPL v2.1, or LGPL v3 (as identified herein).
+
+  Habitat core_acl | 2.3.2
+  Habitat core_attr | 2.5.2
+  Habitat core_glibc | 2.41
+  Habitat core_gmp | 6.3.0
+  Habitat core_libunistring | 1
+  Habitat core_nss-myhostname | 0.3
+
+ ----------------------------------------------------------------------------------------------------------------------------
+
+Components: 
 
 | -------------------------------------- | ------------------------------------- | ---------------------------------------- |
 |               Component                |                Origin                 |                 License                  |
 | -------------------------------------- | ------------------------------------- | ---------------------------------------- |
+| Chef 19.3.15                           | https://www.chef.io/chef/             | Apache License 2.0                       |
+| chef-licensing 1.4.1                   | https://github.com/chef/chef-licensin | Apache License 2.0                       |
+|                                        |   g                                   |                                          |
 | chefstyle 2.2.3                        | https://github.com/chef/chefstyle     | Apache License 2.0                       |
-| concurrent-ruby 1.3.6                  | http://www.concurrent-ruby.com        | MIT License                              |
+| concurrent-ruby 1.3.8                  | http://www.concurrent-ruby.com        | MIT License                              |
+| excon 1.6.0                            | http://github.com/geemus/excon        | MIT License                              |
 | flori's term-ansicolor 1.11.3          | http://flori.github.com/term-ansicolo | Apache License 2.0                       |
 |                                        |   r                                   |                                          |
 | fuzzyurl 0.9.0                         | https://github.com/gamache/fuzzyurl   | MIT License                              |
@@ -114,23 +138,28 @@ Components:
 |                                        |                                       |   only AND GNU General Public License    |
 |                                        |                                       |   v2.0 only)                             |
 | Habitat core_bash 5.2.37               |                                       | GNU General Public License v3.0 only     |
+| Habitat core_binutils 2.44             |                                       | GNU General Public License v3.0 or later |
 | Habitat core_bzip2 1.0.8               |                                       | Bzip2 License                            |
-| Habitat core_cacerts 2025-05-20        |                                       | Mozilla Public License 2.0               |
+| Habitat core_cacerts 2025.05.20        |                                       | Mozilla Public License 2.0               |
 | Habitat core_coreutils 9.7             |                                       | GNU General Public License v3.0 only     |
-| Habitat core_curl 8.19.0               |                                       | MIT License                              |
+| Habitat core_curl 8.21.0               |                                       | curl License                             |
 | Habitat core_diffutils 3.11            |                                       | GNU General Public License v3.0 or later |
 | Habitat core_expat 2.7.1               |                                       | MIT License                              |
+| Habitat core_gcc-base 14.3.0           |                                       | GNU General Public License v3.0 w/GCC    |
+|                                        |                                       |   Runtime Library exception              |
 | Habitat core_gcc-libs 14.3.0           |                                       | GNU General Public License v3.0 w/GCC    |
 |                                        |                                       |   Runtime Library exception              |
 | Habitat core_gdbm 1.24                 |                                       | GNU General Public License v3.0 or later |
 | Habitat core_gettext 0.24              |                                       | GNU General Public License v3.0 or later |
-| Habitat core_git 2.53                  |                                       | GNU General Public License v2.0 only     |
+| Habitat core_git 2.55                  |                                       | GNU General Public License v2.0 only     |
 | Habitat core_glibc 2.41                |                                       | GNU Lesser General Public License v2.1   |
 |                                        |                                       |   only                                   |
 | Habitat core_gmp 6.3.0                 |                                       | GNU Lesser General Public License v3.0   |
 |                                        |                                       |   only                                   |
 | Habitat core_grep 3.11                 |                                       | GNU General Public License v3.0 only     |
 | Habitat core_gzip 1.14                 |                                       | GNU General Public License v3.0 or later |
+| Habitat core_hab-cc-wrapper 1.0.0      |                                       | PSC Product License                      |
+| Habitat core_hab-ld-wrapper 1.0.0      |                                       | PSC Product License                      |
 | Habitat core_less 668                  |                                       | GNU General Public License v3.0 only     |
 | Habitat core_libcap 2.73               |                                       | BSD 3-clause "New" or "Revised" License  |
 | Habitat core_libffi 3.4.7              |                                       | MIT License                              |
@@ -142,19 +171,21 @@ Components:
 | Habitat core_libyaml 0.2.5             |                                       | MIT License                              |
 | Habitat core_linux-headers 5.19.8      |                                       | GNU General Public License v2.0 with     |
 |                                        |                                       |   Linux Syscall Note                     |
+| Habitat core_make 4.4.1                |                                       | GNU General Public License v3.0 or later |
 | Habitat core_ncurses 6.5               |                                       | MIT License                              |
 | Habitat core_nghttp2 1.65.0            |                                       | MIT License                              |
 | Habitat core_nss-myhostname 0.3        |                                       | GNU Lesser General Public License v2.1   |
 |                                        |                                       |   only                                   |
 | Habitat core_openssh 10.0p1            |                                       | SSH OpenSSH License                      |
-| Habitat core_openssl 3.5.6             |                                       | OpenSSL Combined License                 |
+| Habitat core_openssl 3.5.7             |                                       | Apache License 2.0                       |
 | Habitat core_pcre2 10.42               |                                       | BSD 3-clause "New" or "Revised" License  |
 | Habitat core_perl 5.40.1               |                                       | Artistic License 1.0                     |
 | Habitat core_readline 8.2.13           |                                       | GNU General Public License v3.0 only     |
-| Habitat core_ruby3_4 3.4.8             |                                       | BSD 2-clause "Simplified" License        |
-| Habitat core_ruby3_4-plus-devkit 3.4.8 |                                       | BSD 2-clause "Simplified" License        |
+| Habitat core_ruby3_4 3.4.10            |                                       | BSD 2-clause "Simplified" License        |
+| Habitat core_ruby3_4-plus-devkit       |                                       | BSD 2-clause "Simplified" License        |
+|   3.4.10                               |                                       |                                          |
 | Habitat core_sed 4.9                   |                                       | GNU General Public License v3.0 or later |
-| Habitat core_xz 5.8.1                  |                                       | GNU General Public License v2.0 or later |
+| Habitat core_xz 5.8.3                  |                                       | GNU General Public License v2.0 or later |
 | Habitat core_zlib 1.3.1                |                                       | zlib License                             |
 | Habitat core_zstd 1.5.7                |                                       | BSD 3-clause "New" or "Revised" License  |
 | halostatue/diff-lcs 1.6.2              | https://github.com/halostatue/diff-lc | MIT License                              |
@@ -165,25 +196,24 @@ Components:
 | hashie 5.1.0                           | https://www.rubydoc.info/github/intri | MIT License                              |
 |                                        |   dea/hashie                          |                                          |
 | HighLine 3.1.2                         | http://highline.rubyforge.org         | BSD 2-clause "Simplified" License        |
-| http-cookie 1.1.0                      | https://github.com/sparklemotion/http | MIT License                              |
+| http-cookie 1.1.6                      | https://github.com/sparklemotion/http | MIT License                              |
 |                                        |   -cookie                             |                                          |
 | ice_nine 0.11.2                        | https://github.com/dkubb/ice_nine     | MIT License                              |
 | inquirer 0.2.1                         | https://github.com/arlimus/inquirer.r | Apache License 2.0                       |
 |                                        |   b                                   |                                          |
-| inspec/inspec v7.1.7                   | https://github.com/inspec/inspec      | Apache License 2.0                       |
-| inspec-ruby 7.1.7                      | https://github.com/inspec/inspec      | PSC Product License                      |
+| inspec/inspec v7.1.9                   | http://inspec.io                      | Apache License 2.0                       |
+| inspec-ruby 7.1.7                      | https://github.com/chef/inspec        | Apache License 2.0                       |
 | io-console 0.8.2                       | http://www.ruby-lang.org              | BSD 2-clause "Simplified" License        |
 | jfelchner/ruby-progressbar 1.13.0      | https://github.com/jfelchner/ruby-pro | MIT License                              |
 |                                        |   gressbar                            |                                          |
 | jimweirich's builder 3.3.0             | http://builder.rubyforge.org          | MIT License                              |
-| jmespath rubygems 1.6.2                | http://github.com/trevorrowe/jmespath | Apache License 2.0                       |
-|                                        |   .rb                                 |                                          |
+| jmespath rubygems 1.6.2                | https://github.com/trevorrowe/jmespat | Apache License 2.0                       |
+|                                        |   h.rb                                |                                          |
 | jnunemaker's crack 1.0.1               | http://github.com/jnunemaker/crack    | MIT License                              |
 | joshbuddy's jsonpath 1.1.5             | http://github.com/joshbuddy/jsonpath  | MIT License                              |
-| JSON for Ruby 2.19.4                   | http://json.rubyforge.org/            | Ruby License                             |
+| JSON for Ruby 2.21.2                   | http://json.rubyforge.org/            | Ruby License                             |
 | json_schemer 2.5.0                     | https://github.com/davishmcclurg/json | MIT License                              |
 |                                        |   _schemer                            |                                          |
-| k8s-ruby 0.17.2                        | https://github.com/rdxnet/k8s-ruby    | Apache License 2.0                       |
 | license-acceptance 2.1.13              | https://github.com/tyler-ball         | Apache License 2.0                       |
 | little-plugger 1.1.4                   | http://github.com/TwP/little-plugger  | MIT License                              |
 | lostisland/faraday_middleware 1.2.1    | https://github.com/lostisland/faraday | MIT License                              |
@@ -242,7 +272,7 @@ Components:
 | reline 0.6.3                           | https://github.com/ruby/reline        | BSD 2-clause "Simplified" License        |
 | representable 3.2.0                    | https://github.com/apotonick/represen | MIT License                              |
 |                                        |   table                               |                                          |
-| retriable 3.1.2                        | https://github.com/kamui/retriable    | MIT License                              |
+| retriable 3.8.0                        | https://github.com/kamui/retriable    | MIT License                              |
 | RSpec 3.13.2                           | http://rspec.info/                    | MIT License                              |
 | RSpec 3.13.5                           | http://rspec.info/                    | MIT License                              |
 | RSpec 3.13.6                           | http://rspec.info/                    | MIT License                              |
@@ -255,21 +285,20 @@ Components:
 | ruby2_keywords 0.0.5                   | https://www.ruby-rang.org/            | BSD 2-clause "Simplified" License        |
 | ruby/benchmark 0.5.0                   | https://github.com/ruby/benchmark     | BSD 2-clause "Simplified" License        |
 | rubychan's coderay 1.1.3               | http://coderay.rubychan.de            | MIT License                              |
-| ruby csv 3.3.5                         | http://rubygems.org                   | BSD 2-clause "Simplified" License        |
 | ruby/drb 2.2.3                         | https://github.com/ruby/drb           | BSD 2-clause "Simplified" License        |
-| ruby-i18n 1.14.8                       | https://github.com/ruby-i18n/i18n     | MIT License                              |
-| ruby-jwt 2.10.2                        | https://github.com/progrium/ruby-jwt  | MIT License                              |
+| ruby-i18n 1.15.2                       | https://github.com/ruby-i18n/i18n     | MIT License                              |
+| ruby-jwt 2.10.3                        | https://github.com/progrium/ruby-jwt  | MIT License                              |
 | ruby/logger 1.7.0                      | https://github.com/ruby/logger        | BSD 2-clause "Simplified" License        |
-| ruby-net-ssh 7.3.0                     | http://net-ssh.github.com/net-ssh     | MIT License                              |
+| ruby-net-ssh 7.3.3                     | http://net-ssh.github.com/net-ssh     | MIT License                              |
 | rubyntlm 0.6.5                         | https://github.com/winrb/rubyntlm     | MIT License                              |
-| Ruby on Rails 7.2.3.1                  | http://www.rubyonrails.org            | MIT License                              |
+| Ruby on Rails 7.2.3.2                  | http://www.rubyonrails.org            | MIT License                              |
 | Ruby Public Suffix 6.0.2               | http://www.simonecarletti.com/blog/20 | MIT License                              |
 |                                        |   10/06/public-suffix-list-library-fo |                                          |
 |                                        |   r-ruby/                             |                                          |
 | ruby/rexml 3.4.4                       | https://github.com/ruby/rexml         | BSD 2-clause "Simplified" License        |
 | RubyZip 2.4.1                          | http://sourceforge.net/projects/rubyz | BSD 2-clause "Simplified" License        |
 |                                        |   ip                                  |                                          |
-| savonrb/nori 2.7.1                     | https://github.com/savonrb/nori       | MIT License                              |
+| savonrb/nori 2.9.1                     | https://github.com/savonrb/nori       | MIT License                              |
 | securerandom 0.4.1                     | https://github.com/ruby/securerandom  | BSD 2-clause "Simplified" License        |
 | semverse 3.0.2                         | https://github.com/berkshelf/semverse | Apache License 2.0                       |
 | sickill's rainbow 3.1.1                | http://sickill.net                    | MIT License                              |
@@ -283,19 +312,20 @@ Components:
 | simpleidn 0.2.3                        | https://github.com/mmriis/simpleidn   | MIT License                              |
 | socksify-ruby 1.8.1                    | http://socksify.rubyforge.org/        | BSD 2-clause "Simplified" License        |
 | sslshake 1.3.1                         | https://github.com/arlimus/sslshake   | Mozilla Public License 2.0               |
+| stringio 3.2.0                         | https://github.com/ruby/stringio      | BSD 2-clause "Simplified" License        |
 | strings 0.2.1                          | https://rubygems.org/gems/strings     | MIT License                              |
 | strings-ansi 0.2.0                     | https://github.com/piotrmurach/string | MIT License                              |
 |                                        |   s                                   |                                          |
 | sync v0.5.0                            | http://github.com/chrismccord/sync    | MIT License                              |
-| technoweenie's faraday 1.10.5          | http://github.com/technoweenie/farada | MIT License                              |
+| technoweenie's faraday 1.10.6          | http://github.com/technoweenie/farada | MIT License                              |
 |                                        |   y                                   |                                          |
 | Thor 1.4.0                             | https://yehudakatz.com/               | MIT License                              |
 | tins 1.51.1                            | https://github.com/flori/tins         | MIT License                              |
-| tomlrb 1.3.0                           | https://github.com/fbernier/tomlrb    | MIT License                              |
+| tomlrb 2.0.4                           | https://github.com/fbernier/tomlrb    | MIT License                              |
 | trailblazer-option 0.1.2               | https://trailblazer.to/               | MIT License                              |
-| train 3.16.3                           | http://github.com/ddnexus/train       | Apache License 2.0                       |
+| train 3.16.5                           | http://github.com/ddnexus/train       | Apache License 2.0                       |
 | train-aws 0.2.44                       | https://github.com/inspec/train-aws   | Apache License 2.0                       |
-| train-core 3.16.3                      | https://github.com/chef/train/        | Apache License 2.0                       |
+| train-core 3.16.5                      | https://github.com/chef/train/        | Apache License 2.0                       |
 | train-habitat 0.2.22                   | https://github.com/inspec/train-habit | Apache License 2.0                       |
 |                                        |   at                                  |                                          |
 | train-kubernetes 0.3.1                 | https://github.com/bgeesaman/train-ku | Apache License 2.0                       |
@@ -336,7 +366,7 @@ License Data and Text:
 -------------------------------------------------------------------------------------------------------------------------
 
 Apache License 2.0
-(chefstyle 2.2.3, flori's term-ansicolor 1.11.3, google-api-ruby-client 0.11.3, google-api-ruby-client 0.30.0, google-api-ruby-client 0.35.0, google-api-ruby-client 0.41.0, google-api-ruby-client 0.46.0, google-api-ruby-client 0.50.0, google-api-ruby-client 0.51.0, google-api-ruby-client 0.83.0, googleauth 1.8.1, inquirer 0.2.1, inspec/inspec v7.1.7, jmespath rubygems 1.6.2, k8s-ruby 0.17.2, license-acceptance 2.1.13, mixlib-shellout 3.4.10, semverse 3.0.2, Signet 0.21.0, train 3.16.3, train-aws 0.2.44, train-core 3.16.3, train-habitat 0.2.22, train-kubernetes 0.3.1, train-winrm 0.4.3, wmi-lite 1.0.7, yaml-safe_load_stream3 0.1.2)
+(Chef 19.3.15, chef-licensing 1.4.1, chefstyle 2.2.3, flori's term-ansicolor 1.11.3, google-api-ruby-client 0.11.3, google-api-ruby-client 0.30.0, google-api-ruby-client 0.35.0, google-api-ruby-client 0.41.0, google-api-ruby-client 0.46.0, google-api-ruby-client 0.50.0, google-api-ruby-client 0.51.0, google-api-ruby-client 0.83.0, googleauth 1.8.1, Habitat core_openssl 3.5.7, inquirer 0.2.1, inspec-ruby 7.1.7, inspec/inspec v7.1.9, jmespath rubygems 1.6.2, license-acceptance 2.1.13, mixlib-shellout 3.4.10, semverse 3.0.2, Signet 0.21.0, train 3.16.5, train-aws 0.2.44, train-core 3.16.5, train-habitat 0.2.22, train-kubernetes 0.3.1, train-winrm 0.4.3, wmi-lite 1.0.7, yaml-safe_load_stream3 0.1.2)
 
 Apache License
 Version 2.0, January 2004
@@ -806,7 +836,7 @@ THE USE OF THE PACKAGE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ---
 
 BSD 2-clause "Simplified" License
-(Habitat core_ruby3_4 3.4.8, Habitat core_ruby3_4-plus-devkit 3.4.8, HighLine 3.1.2, io-console 0.8.2, mutex_m 0.3.0, nahi's httpclient 2.9.0, ostruct 0.6.3, pstore 0.1.4, public_suffix_service 0.6.20240107, racc 1.8.1, readline 0.0.4, reline 0.6.3, ruby csv 3.3.5, ruby/benchmark 0.5.0, ruby/drb 2.2.3, ruby/logger 1.7.0, ruby/rexml 3.4.4, ruby2_keywords 0.0.5, RubyZip 2.4.1, securerandom 0.4.1, socksify-ruby 1.8.1)
+(Habitat core_ruby3_4 3.4.10, Habitat core_ruby3_4-plus-devkit 3.4.10, HighLine 3.1.2, io-console 0.8.2, mutex_m 0.3.0, nahi's httpclient 2.9.0, ostruct 0.6.3, pstore 0.1.4, public_suffix_service 0.6.20240107, racc 1.8.1, readline 0.0.4, reline 0.6.3, ruby/benchmark 0.5.0, ruby/drb 2.2.3, ruby/logger 1.7.0, ruby/rexml 3.4.4, ruby2_keywords 0.0.5, RubyZip 2.4.1, securerandom 0.4.1, socksify-ruby 1.8.1, stringio 3.2.0)
 
 BSD Two Clause License
 ======================
@@ -923,7 +953,7 @@ TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 ---
 
 GNU General Public License v2.0 only
-(Habitat core_acl 2.3.2, Habitat core_attr 2.5.2, Habitat core_git 2.53)
+(Habitat core_acl 2.3.2, Habitat core_attr 2.5.2, Habitat core_git 2.55)
 
 The GNU General Public License (GPL)
 ====================================
@@ -1190,7 +1220,7 @@ END OF TERMS AND CONDITIONS
 ---
 
 GNU General Public License v2.0 or later
-(Habitat core_xz 5.8.1)
+(Habitat core_xz 5.8.3)
 
 The GNU General Public License (GPL)
 ====================================
@@ -2434,7 +2464,7 @@ this License. But first, please read
 ---
 
 GNU General Public License v3.0 or later
-(Habitat core_diffutils 3.11, Habitat core_gdbm 1.24, Habitat core_gettext 0.24, Habitat core_gzip 1.14, Habitat core_libidn2 2.3.3, Habitat core_sed 4.9)
+(Habitat core_binutils 2.44, Habitat core_diffutils 3.11, Habitat core_gdbm 1.24, Habitat core_gettext 0.24, Habitat core_gzip 1.14, Habitat core_libidn2 2.3.3, Habitat core_make 4.4.1, Habitat core_sed 4.9)
 
 GNU GENERAL PUBLIC LICENSE
 ==========================
@@ -3063,7 +3093,7 @@ this License. But first, please read
 ---
 
 GNU General Public License v3.0 w/GCC Runtime Library exception
-(Habitat core_gcc-libs 14.3.0)
+(Habitat core_gcc-base 14.3.0, Habitat core_gcc-libs 14.3.0)
 
 GCC RUNTIME LIBRARY EXCEPTION
 =============================
@@ -5792,7 +5822,7 @@ this License. But first, please read
 ---
 
 MIT License
-(concurrent-ruby 1.3.6, fuzzyurl 0.9.0, grosser's parallel 1.27.0, gssapi 1.3.1, Habitat core_curl 8.19.0, Habitat core_expat 2.7.1, Habitat core_libffi 3.4.7, Habitat core_libpsl 0.21.1, Habitat core_libyaml 0.2.5, Habitat core_ncurses 6.5, Habitat core_nghttp2 1.65.0, halostatue/diff-lcs 1.6.2, hana 1.3.7, hashdiff 1.2.1, hashie 5.1.0, http-cookie 1.1.0, ice_nine 0.11.2, jfelchner/ruby-progressbar 1.13.0, jimweirich's builder 3.3.0, jnunemaker's crack 1.0.1, joshbuddy's jsonpath 1.1.5, json_schemer 2.5.0, little-plugger 1.1.4, lostisland/faraday_middleware 1.2.1, m 1.7.0, method_source 1.1.0, mini_mime 1.1.5, minitest 5.27.0, minitest-mock 5.27.0, minitest-sprint 1.4.0, mize 0.6.1, mocha 3.0.1, ms_rest 0.7.6, ms_rest_azure 0.12.0, multi_json 1.19.1, mwunsch's prism 1.9.0, net-scp 4.1.0, nicksieger's multipart-post 2.4.1, nokogiri 1.18.10, parser 3.3.10.1, Parslet 2.0.0, pastel 0.8.0, path_expander 1.1.3, Pry REPL 0.16.0, pry-byebug 3.8.0, Rake 13.3.1, rdp's os 1.1.4, recursive-open-struct 1.3.1, regexp_parser 2.11.3, representable 3.2.0, retriable 3.1.2, RSpec 3.13.2, RSpec 3.13.5, RSpec 3.13.6, RSpec 3.13.7, rspec-its 2.0.0, rspec-support 3.13.7, rubocop 1.25.1, rubocop-ast 1.49.0, Ruby on Rails 7.2.3.1, Ruby Public Suffix 6.0.2, ruby-i18n 1.14.8, ruby-jwt 2.10.2, ruby-net-ssh 7.3.0, rubychan's coderay 1.1.3, rubyntlm 0.6.5, savonrb/nori 2.7.1, sickill's rainbow 3.1.1, simplecov 0.22.0, simplecov-html 0.13.2, simplecov_json_formatter 0.1.4, simpleidn 0.2.3, strings 0.2.1, strings-ansi 0.2.0, sync v0.5.0, technoweenie's faraday 1.10.5, Thor 1.4.0, tins 1.51.1, tomlrb 1.3.0, trailblazer-option 0.1.2, tty 0.23.1, tty 0.6.0, tty-command v0.7.0, tty-command v0.9.0, tty-cursor 0.7.1, tty-screen 0.8.2, tty-spinner 0.9.3, tty-table 0.12.0, TwP's inifile 3.0.0, TwP's logging 2.4.0, TZInfo 2.0.6, uber 0.1.0, unicode-display_width 2.6.0, webmock 3.26.1, wisper v2.0.1, yajl-ruby 1.4.3, zeitwerk 2.6.18)
+(concurrent-ruby 1.3.8, excon 1.6.0, fuzzyurl 0.9.0, grosser's parallel 1.27.0, gssapi 1.3.1, Habitat core_expat 2.7.1, Habitat core_libffi 3.4.7, Habitat core_libpsl 0.21.1, Habitat core_libyaml 0.2.5, Habitat core_ncurses 6.5, Habitat core_nghttp2 1.65.0, halostatue/diff-lcs 1.6.2, hana 1.3.7, hashdiff 1.2.1, hashie 5.1.0, http-cookie 1.1.6, ice_nine 0.11.2, jfelchner/ruby-progressbar 1.13.0, jimweirich's builder 3.3.0, jnunemaker's crack 1.0.1, joshbuddy's jsonpath 1.1.5, json_schemer 2.5.0, little-plugger 1.1.4, lostisland/faraday_middleware 1.2.1, m 1.7.0, method_source 1.1.0, mini_mime 1.1.5, minitest 5.27.0, minitest-mock 5.27.0, minitest-sprint 1.4.0, mize 0.6.1, mocha 3.0.1, ms_rest 0.7.6, ms_rest_azure 0.12.0, multi_json 1.19.1, mwunsch's prism 1.9.0, net-scp 4.1.0, nicksieger's multipart-post 2.4.1, nokogiri 1.18.10, parser 3.3.10.1, Parslet 2.0.0, pastel 0.8.0, path_expander 1.1.3, Pry REPL 0.16.0, pry-byebug 3.8.0, Rake 13.3.1, rdp's os 1.1.4, recursive-open-struct 1.3.1, regexp_parser 2.11.3, representable 3.2.0, retriable 3.8.0, RSpec 3.13.2, RSpec 3.13.5, RSpec 3.13.6, RSpec 3.13.7, rspec-its 2.0.0, rspec-support 3.13.7, rubocop 1.25.1, rubocop-ast 1.49.0, Ruby on Rails 7.2.3.2, Ruby Public Suffix 6.0.2, ruby-i18n 1.15.2, ruby-jwt 2.10.3, ruby-net-ssh 7.3.3, rubychan's coderay 1.1.3, rubyntlm 0.6.5, savonrb/nori 2.9.1, sickill's rainbow 3.1.1, simplecov 0.22.0, simplecov-html 0.13.2, simplecov_json_formatter 0.1.4, simpleidn 0.2.3, strings 0.2.1, strings-ansi 0.2.0, sync v0.5.0, technoweenie's faraday 1.10.6, Thor 1.4.0, tins 1.51.1, tomlrb 2.0.4, trailblazer-option 0.1.2, tty 0.23.1, tty 0.6.0, tty-command v0.7.0, tty-command v0.9.0, tty-cursor 0.7.1, tty-screen 0.8.2, tty-spinner 0.9.3, tty-table 0.12.0, TwP's inifile 3.0.0, TwP's logging 2.4.0, TZInfo 2.0.6, uber 0.1.0, unicode-display_width 2.6.0, webmock 3.26.1, wisper v2.0.1, yajl-ruby 1.4.3, zeitwerk 2.6.18)
 
 The MIT License
 ===============
@@ -5819,7 +5849,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ---
 
 Mozilla Public License 2.0
-(Habitat core_cacerts 2025-05-20, public_suffix_service 0.6.20240107, sslshake 1.3.1)
+(Habitat core_cacerts 2025.05.20, public_suffix_service 0.6.20240107, sslshake 1.3.1)
 
 Mozilla Public License
 Version 2.0
@@ -6204,146 +6234,15 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
 
 ---
 
-OpenSSL Combined License
-(Habitat core_openssl 3.5.6)
-
-LICENSE ISSUES
-==============
-
-The OpenSSL toolkit stays under a dual license, i.e. both the conditions of the
-OpenSSL License and the original SSLeay license apply to the toolkit. See below
-for the actual license texts. Actually both licenses are BSD-style Open Source
-licenses. In case of any license issues related to OpenSSL please contact
-openssl-core@openssl.org.
-
-OpenSSL License
-===============
-
----------------
-
-====================================================================
-Copyright (c) 1998-2008 The OpenSSL Project. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
-  1. Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-
-  2.  Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
-
-  3. All advertising materials mentioning features or use of this software must
-    display the following acknowledgment:
-
-      "This product includes software developed by the OpenSSL Project for use in
-      the OpenSSL Toolkit. (http://www.openssl.org/)"
-
-  4. The names "OpenSSL Toolkit" and "OpenSSL Project" must not be used to
-    endorse or promote products derived from this software without prior written
-    permission. For written permission, please contact openssl-core@openssl.org.
-
-  5. Products derived from this software may not be called "OpenSSL" nor may
-    "OpenSSL" appear in their names without prior written permission of the
-    OpenSSL Project.
-
-  6.  Redistributions of any form whatsoever must retain the following
-    acknowledgment:
-
-      "This product includes software developed by the OpenSSL Project for use in
-      the OpenSSL Toolkit (http://www.openssl.org/)"
-
-THIS SOFTWARE IS PROVIDED BY THE OpenSSL PROJECT "AS IS" AND ANY EXPRESSED OR
-IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
-SHALL THE OpenSSL PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
-OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
-THE POSSIBILITY OF SUCH DAMAGE.
-====================================================================
-
-This product includes cryptographic software written by Eric Young
-(eay@cryptsoft.com). This product includes software written by Tim Hudson
-(tjh@cryptsoft.com).
-
- 
-
-Original SSLeay License
-=======================
-
------------------------
-
-Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
-All rights reserved.
-
-This package is an SSL implementation written by Eric Young (eay@cryptsoft.com).
-The implementation was written so as to conform with Netscapes SSL.
-
-This library is free for commercial and non-commercial use as long as the
-following conditions are aheared to. The following conditions apply to all code
-found in this distribution, be it the RC4, RSA, lhash, DES, etc., code; not just
-the SSL code. The SSL documentation included with this distribution is covered by
-the same copyright terms except that the holder is Tim Hudson
-(tjh@cryptsoft.com). Copyright remains Eric Young's, and as such any Copyright
-notices in the code are not to be removed.
-If this package is used in a product, Eric Young should be given attribution as
-the author of the parts of the library used.
-This can be in the form of a textual message at program startup or in
-documentation (online or textual) provided with the package.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
-  1. Redistributions of source code must retain the copyright notice, this list
-    of conditions and the following disclaimer.
-
-  2.  Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
-
-  3. All advertising materials mentioning features or use of this software must
-    display the following acknowledgement:
-
-      "This product includes cryptographic software written by Eric Young
-      (eay@cryptsoft.com)"
-
-    The word 'cryptographic' can be left out if the rouines from the library
-    being used are not cryptographic related :-).
-
-  4.  If you include any Windows specific code (or a derivative thereof) from the
-    apps directory (application code) you must include an acknowledgement: "This
-    product includes software written by Tim Hudson (tjh@cryptsoft.com)"
-
-THIS SOFTWARE IS PROVIDED BY ERIC YOUNG "AS IS" AND ANY EXPRESS OR IMPLIED
-WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
-SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
-BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
-IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-SUCH DAMAGE.
-
-The licence and distribution terms for any publically available version or
-derivative of this code cannot be changed. i.e. this code cannot simply be copied
-and put under another distribution licence [including the GNU Public Licence.]
-
----
-
 PSC Product License
-(inspec-ruby 7.1.7, mixlib-config 3.0.27, mixlib-log 3.2.3)
+(Habitat core_hab-cc-wrapper 1.0.0, Habitat core_hab-ld-wrapper 1.0.0, mixlib-config 3.0.27, mixlib-log 3.2.3)
 
 See Progress License
 
 ---
 
 Ruby License
-(JSON for Ruby 2.19.4)
+(JSON for Ruby 2.21.2)
 
 Ruby is copyrighted free software by Yukihiro Matsumoto . You can redistribute it
 and/or modify it under either the terms of the 2-clause BSDL (see the file BSDL),
@@ -6488,6 +6387,34 @@ TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
 RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A FAILURE OF
 THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS), EVEN IF SUCH HOLDER OR OTHER
 PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+---
+
+curl License
+(Habitat core_curl 8.21.0)
+
+Curl License
+============
+
+Copyright (c) 1996 - 2015, Daniel Stenberg, <daniel@haxx.se>.
+
+All rights reserved.
+
+Permission to use, copy, modify, and distribute this software for any purpose
+with or without fee is hereby granted, provided that the above copyright notice
+and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
+OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Except as contained in this notice, the name of a copyright holder shall not be
+used in advertising or otherwise to promote the sale, use or other dealings in
+this Software without prior written authorization of the copyright holder.
 
 ---
 
