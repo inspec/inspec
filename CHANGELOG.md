@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- Update omnibus submodule for progress key thumbprint [#8000](https://github.com/inspec/inspec/pull/8000) ([muthuja](https://github.com/muthuja))
 - InSpec 5: Copilot Skill for release notes [#7963](https://github.com/inspec/inspec/pull/7963) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
@@ -11,6 +12,7 @@
 ### Changes since 5.24.24 release
 
 #### Merged Pull Requests
+- Update omnibus submodule for progress key thumbprint [#8000](https://github.com/inspec/inspec/pull/8000) ([muthuja](https://github.com/muthuja)) <!-- 5.24.24 -->
 - InSpec 5: Copilot Skill for release notes [#7963](https://github.com/inspec/inspec/pull/7963) ([Nik08](https://github.com/Nik08)) <!-- 5.24.24 -->
 <!-- release_rollup -->
 
