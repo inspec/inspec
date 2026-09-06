@@ -1,0 +1,9 @@
+{
+  "plugins_config_version" : "1.0.0",
+  "plugins": [
+    {
+      "name": "inspec-nonexistent-plugin",
+      "version": "= 0.1.0"
+    }
+  ]
+}

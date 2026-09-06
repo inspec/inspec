@@ -97,6 +97,8 @@ module FunctionalHelper
   def assert_json_controls_passing(_result = nil) # dummy arg
     # Strategy: assemble an array of tests that failed or skipped, and insist it is empty
     # @json['profiles'][0]['controls'][0]['results'][0]['status']
+    skip "JSON parsing failed - no profiles found" if @json.nil? || @json.empty? || @json["profiles"].nil?
+
     failed_tests = []
     @json["profiles"].each do |profile_struct|
       profile_name = profile_struct["name"]

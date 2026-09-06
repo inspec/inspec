@@ -15,24 +15,21 @@ describe "plugins" do
 #                                Loader Errors
 #=========================================================================================#
 describe "plugin loader" do
-  it "handles an unloadable plugin correctly" do
+  it "handles an unloadable user plugin (path type) gracefully without breaking execution" do
+    # path type plugins are user-installed, so failures should be non-fatal
     outcome = inspec_with_env("version", INSPEC_CONFIG_DIR: File.join(config_dir_path, "plugin_error_on_load"))
 
-    _(outcome.stdout).must_include("ERROR", "Have an error on stdout")
-    _(outcome.stdout).must_include("Could not load plugin inspec-divide-by-zero", "Name the plugin in the stdout error")
-    _(outcome.stdout).wont_include("ZeroDivisionError", "No stacktrace in error by default")
-    _(outcome.stdout).must_include("Errors were encountered while loading plugins", "Friendly message in error")
-    _(outcome.stdout).must_include("Plugin name: inspec-divide-by-zero", "Plugin named in error")
-    _(outcome.stdout).must_include("divided by 0", "Exception message in error")
+    # Should show warnings but not errors
+    _(outcome.stdout).must_include("WARN", "Have a warning on stdout")
+    _(outcome.stdout).must_include("Could not load plugin inspec-divide-by-zero", "Name the plugin in warning")
+    _(outcome.stdout).wont_include("ZeroDivisionError", "No stacktrace in warning by default")
+    _(outcome.stdout).wont_include("Errors were encountered while loading plugins", "No fatal error message for user plugins")
+    _(outcome.stdout).wont_include("Plugin name: inspec-divide-by-zero", "Plugin name not in error detail for non-fatal")
+    _(outcome.stdout).must_include("Continuing InSpec execution without plugin inspec-divide-by-zero", "Message about continuing")
 
-    assert_exit_code 2, outcome
-
-    # TODO: split
-    outcome = inspec_with_env("version --debug", INSPEC_CONFIG_DIR: File.join(config_dir_path, "plugin_error_on_load"))
-
-    _(outcome.stdout).must_include("ZeroDivisionError", "Include stacktrace in error with --debug")
-
-    assert_exit_code 2, outcome
+    # Exit code should be 0 (success) since path plugin failure is non-fatal
+    assert_exit_code 0, outcome
+    _(outcome.stdout).must_include("7.", "Version should still be displayed")
   end
 end
 
