@@ -8,6 +8,15 @@
 .kitchen.local.yml
 .librarian
 .terraform/
+**/.*-attributes.yml
+test/integration/db/mysql_terraform/.terraform/
+test/integration/db/mysql_terraform/terraform.tfstate*
+test/integration/db/mysql_terraform/terraform.tfstate.backup
+test/integration/db/mysql_terraform/*.plan
+test/integration/db/mongodb_terraform/.terraform/
+test/integration/db/mongodb_terraform/terraform.tfstate*
+test/integration/db/mongodb_terraform/terraform.tfstate.backup
+test/integration/db/mongodb_terraform/*.plan
 /.direnv
 /.envrc
 /.ruby-gemset
