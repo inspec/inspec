@@ -165,17 +165,21 @@ module Inspec::Resources
     end
 
     def parse_csv_result(stdout)
-      output = stdout.split("oracle_query_string")[-1]
-      # comma_query_sub replaces the csv delimiter "," in the output.
-      # Handles CSV parsing of data like this (DROP,3) etc
+      output = stdout.split("oracle_query_string")[-1].to_s.sub(/\r/, "").strip
+      return [] if output.empty?
 
-      output = output.sub(/\r/, "").strip.gsub(",", "comma_query_sub")
+      # sqlplus (SET MARKUP CSV / quoted output) and sqlcl (set sqlformat csv)
+      # both emit standard RFC 4180 CSV: a header row followed by data rows, with
+      # embedded commas/quotes/newlines quoted per the spec. Parse it directly so
+      # every column is addressable and commas inside quoted fields are preserved.
       converter = ->(header) { header.downcase }
-      CSV.parse(output, headers: true, header_converters: converter).map do |row|
-        next if row.entries.flatten.empty?
+      CSV.parse(output, headers: true, header_converters: converter).filter_map do |row|
+        hash = row.to_h
+        # Drop only truly empty parsed rows (no columns); keep rows whose values
+        # are nil/empty so callers can still index by row position.
+        next if hash.empty?
 
-        revised_row = row.entries.flatten.map { |entry| entry&.gsub("comma_query_sub", ",") }
-        Hashie::Mash.new([revised_row].to_h)
+        Hashie::Mash.new(hash)
       end
     end
 

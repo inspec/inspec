@@ -75,6 +75,29 @@ describe "Inspec::Resources::OracledbSession" do
     _(resource.resource_id).must_equal "localhost-1527-OSUSER"
   end
 
+  it "sqlplus Linux with a multi-column result" do
+    resource = quick_resource(:oracledb_session, :linux, user: "USER", password: "password", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "/bin/sqlplus") do |cmd|
+      cmd.strip!
+      case cmd
+      when "echo 'oracle_query_string';/bin/sqlplus -S USER/password@localhost:1527/ORCL <<'EOC'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT profile, resource_name, limit, comments FROM dba_profiles;\nEXIT\nEOC" then
+        stdout_file "test/fixtures/cmd/oracle-multicolumn-result"
+      else
+        raise cmd.inspect
+      end
+    end
+
+    _(resource.resource_skipped?).must_equal false
+    query = resource.query("SELECT profile, resource_name, limit, comments FROM dba_profiles;")
+    _(query.size).must_equal 2
+    # Every column must be addressable (regression: previously all returned nil).
+    _(query.column("profile")).must_equal %w{DEFAULT DEFAULT}
+    _(query.column("resource_name")).must_equal %w{PASSWORD_LOCK_TIME INACTIVE_ACCOUNT_TIME}
+    _(query.column("limit")).must_equal %w{UNLIMITED 365}
+    # A comma inside a quoted field must be preserved, not treated as a delimiter.
+    _(query.column("comments")).must_equal ["locked, until reset", "set by DBA"]
+    _(query.row(1).column("limit").value).must_equal "365"
+  end
+
   it "sqlplus Windows" do
     resource = quick_resource(:oracledb_session, :windows, user: "USER", password: "password", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "C:/sqlplus.exe") do |cmd|
       cmd.strip!
