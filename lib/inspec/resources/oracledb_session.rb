@@ -66,7 +66,7 @@ module Inspec::Resources
       raise Inspec::Exceptions::ResourceFailed, "#{resource_exception_message}" if resource_failed?
 
       if @sqlcl_bin && inspec.command(@sqlcl_bin).exist?
-        @bin = @sqlcl_bin
+        @bin = "#{@sqlcl_bin} -s"
         format_options = "set sqlformat csv\nSET FEEDBACK OFF"
       else
         @bin = "#{@sqlplus_bin} -S"
