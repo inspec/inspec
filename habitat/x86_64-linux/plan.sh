@@ -1,3 +1,6 @@
+# Capture the caller-supplied channel (e.g. from CI) before it gets forced to
+# "stable" below, so the Ruby package selection still reflects the intended channel.
+pkg_channel="${HAB_BLDR_CHANNEL:-stable}"
 export HAB_BLDR_CHANNEL="stable"
 export HAB_REFRESH_CHANNEL="stable"
 pkg_name=inspec
@@ -9,7 +12,7 @@ pkg_description="InSpec is an open-source testing framework for infrastructure
 pkg_upstream_url=https://www.inspec.io/
 pkg_maintainer="The Habitat Maintainers <humans@habitat.sh>"
 pkg_license=('Apache-2.0')
-ruby_package=$([ "$HAB_BLDR_CHANNEL" == "LTS-2024" ] && echo core/ruby3_1 || echo core/ruby31)
+ruby_package=$([ "$pkg_channel" == "LTS-2024" ] && echo core/ruby3_1 || echo core/ruby31)
 echo "Using Ruby package: $ruby_package"
 pkg_deps=(
   core/coreutils
