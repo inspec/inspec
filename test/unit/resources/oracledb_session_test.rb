@@ -128,6 +128,26 @@ describe "Inspec::Resources::OracledbSession" do
     _(query.row(0).column("value").value).must_equal "ORCL"
   end
 
+  it "sqlcl Linux with a multi-column result using the silent flag" do
+    resource = quick_resource(:oracledb_session, :linux, user: "USER", password: "password", host: "localhost", service: "ORCL", port: 1527, sqlcl_bin: "/bin/sqlcl") do |cmd|
+      cmd.strip!
+      case cmd
+      when "/bin/sqlcl" then
+        FakeExistCheck.new(true)
+      when "echo 'oracle_query_string';/bin/sqlcl -s USER/password@localhost:1527/ORCL <<'EOC'\nset sqlformat csv\nSET FEEDBACK OFF\nSELECT profile, resource_name, limit, comments FROM dba_profiles;\nEXIT\nEOC" then
+        stdout_file "test/fixtures/cmd/oracle-multicolumn-result"
+      else
+        raise cmd.inspect
+      end
+    end
+
+    _(resource.resource_skipped?).must_equal false
+    query = resource.query("SELECT profile, resource_name, limit, comments FROM dba_profiles;")
+    _(query.size).must_equal 2
+    _(query.column("profile")).must_equal %w{DEFAULT DEFAULT}
+    _(query.column("comments")).must_equal ["locked, until reset", "set by DBA"]
+  end
+
   it "sqlplus Windows" do
     resource = quick_resource(:oracledb_session, :windows, user: "USER", password: "password", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "C:/sqlplus.exe") do |cmd|
       cmd.strip!
