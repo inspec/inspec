@@ -1,7 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release -->
+<!-- latest_release 7.2.2 -->
+## [v7.2.2](https://github.com/inspec/inspec/tree/v7.2.2) (2026-09-22)
+
+#### Merged Pull Requests
+- Sean sype simmons/nm/update hab channel 202609 fixes (#8011) [#8012](https://github.com/inspec/inspec/pull/8012) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -30,7 +34,11 @@
 #### Merged Pull Requests
 - Bump omnibus-software from `4b08f0b` to `3268356` in /omnibus [#6587](https://github.com/inspec/inspec/pull/6587) ([dependabot[bot]](https://github.com/dependabot[bot]))
 
-<!-- release_rollup -->
+<!-- release_rollup since=7.2.1 -->
+### Changes since 7.2.1 release
+
+#### Merged Pull Requests
+- Sean sype simmons/nm/update hab channel 202609 fixes (#8011) [#8012](https://github.com/inspec/inspec/pull/8012) ([Nik08](https://github.com/Nik08)) <!-- 7.2.2 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
