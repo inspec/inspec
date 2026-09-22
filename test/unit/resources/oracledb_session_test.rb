@@ -148,6 +148,26 @@ describe "Inspec::Resources::OracledbSession" do
     _(query.column("comments")).must_equal ["locked, until reset", "set by DBA"]
   end
 
+  it "falls back to sqlplus with SET MARKUP CSV ON when the sqlcl binary does not exist" do
+    resource = quick_resource(:oracledb_session, :linux, user: "USER", password: "password", host: "localhost", service: "ORCL", port: 1527, sqlcl_bin: "/bin/sqlcl", sqlplus_bin: "/bin/sqlplus") do |cmd|
+      cmd.strip!
+      case cmd
+      when "/bin/sqlcl" then
+        # sqlcl binary is not present on this host.
+        FakeExistCheck.new(false)
+      when "echo 'oracle_query_string';/bin/sqlplus -S USER/password@localhost:1527/ORCL <<'EOC'\nSET MARKUP CSV ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nEOC" then
+        stdout_file "test/fixtures/cmd/oracle-result"
+      else
+        raise cmd.inspect
+      end
+    end
+
+    _(resource.resource_skipped?).must_equal false
+    query = resource.query("SELECT NAME AS VALUE FROM v$database;")
+    _(query.size).must_equal 1
+    _(query.row(0).column("value").value).must_equal "ORCL"
+  end
+
   it "sqlplus Windows" do
     resource = quick_resource(:oracledb_session, :windows, user: "USER", password: "password", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "C:/sqlplus.exe") do |cmd|
       cmd.strip!
