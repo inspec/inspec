@@ -2,6 +2,14 @@ require "helper"
 require "inspec/resource"
 require "inspec/resources/oracledb_session"
 
+# Minimal stand-in for the result of `inspec.command(@sqlcl_bin).exist?`,
+# used to simulate the sqlcl binary presence/absence check in query().
+FakeExistCheck = Struct.new(:present) do
+  def exist?
+    present
+  end
+end
+
 describe "Inspec::Resources::OracledbSession" do
   it "sqlplus Linux" do
     resource = quick_resource(:oracledb_session, :linux, user: "USER", password: "password", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "/bin/sqlplus") do |cmd|
@@ -96,6 +104,28 @@ describe "Inspec::Resources::OracledbSession" do
     # A comma inside a quoted field must be preserved, not treated as a delimiter.
     _(query.column("comments")).must_equal ["locked, until reset", "set by DBA"]
     _(query.row(1).column("limit").value).must_equal "365"
+  end
+
+  it "sqlcl Linux uses the -s silent flag" do
+    resource = quick_resource(:oracledb_session, :linux, user: "USER", password: "password", host: "localhost", service: "ORCL", port: 1527, sqlcl_bin: "/bin/sqlcl") do |cmd|
+      cmd.strip!
+      case cmd
+      when "/bin/sqlcl" then
+        # First call in query() checks whether the sqlcl binary exists.
+        FakeExistCheck.new(true)
+      when "echo 'oracle_query_string';/bin/sqlcl -s USER/password@localhost:1527/ORCL <<'EOC'\nset sqlformat csv\nSET FEEDBACK OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nEOC" then
+        # Regression: silent flag must be present so sqlcl doesn't print a
+        # banner ahead of the CSV output, which previously broke parsing.
+        stdout_file "test/fixtures/cmd/oracle-result"
+      else
+        raise cmd.inspect
+      end
+    end
+
+    _(resource.resource_skipped?).must_equal false
+    query = resource.query("SELECT NAME AS VALUE FROM v$database;")
+    _(query.size).must_equal 1
+    _(query.row(0).column("value").value).must_equal "ORCL"
   end
 
   it "sqlplus Windows" do
