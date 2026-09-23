@@ -59,7 +59,7 @@ module Inspec
                               os: safe_platform_field(train_platform, :name) || "unknown",
                               version: safe_platform_field(train_platform, :release) || "unknown",
                               architecture: safe_platform_field(train_platform, :arch) || "unknown",
-                              id: safe_platform_field(train_platform, :uuid),
+                              id: hash_to_uuid(safe_platform_field(train_platform, :uuid)),
                             },
 
                             runtime: Inspec::VERSION,
@@ -131,6 +131,38 @@ module Inspec
         return nil unless platform.respond_to?(field)
 
         platform.send(field)
+      end
+
+      # Train's platform.uuid can return a raw 64-char hex identifier (e.g. a Docker
+      # container ID from /proc/self/mountinfo) instead of a proper UUID when running
+      # inside a container. Normalize such values into a valid RFC 4122 (v5-like) UUID
+      # so downstream consumers can always rely on the UUID format. Values that are
+      # already a valid UUID, or that don't match a 64-char hex string, are returned as-is.
+      def hash_to_uuid(value)
+        return nil if value.nil?
+
+        value_str = value.to_s
+        return nil if value_str.empty?
+
+        uuid_format = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/i
+        return value_str if value_str =~ uuid_format
+
+        hex_64_format = /^[0-9a-fA-F]{64}$/i
+        return value_str unless value_str =~ hex_64_format
+
+        bytes = value_str[0, 32].scan(/.{2}/).map { |byte| byte.to_i(16) }
+
+        time_low        = bytes[0..3].inject(0)   { |a, b| (a << 8) | b }
+        time_mid        = bytes[4..5].inject(0)   { |a, b| (a << 8) | b }
+        time_hi_version = bytes[6..7].inject(0)   { |a, b| (a << 8) | b }
+        clock_seq       = bytes[8..9].inject(0)   { |a, b| (a << 8) | b }
+        node            = bytes[10..15].inject(0) { |a, b| (a << 8) | b }
+
+        # Set version (5) and variant (RFC 4122) bits per the UUID spec
+        time_hi_version = (time_hi_version & 0x0FFF) | (5 << 12)
+        clock_seq       = (clock_seq & 0x3FFF) | 0x8000
+
+        format("%08x-%04x-%04x-%04x-%012x", time_low, time_mid, time_hi_version, clock_seq, node)
       end
 
       def note_per_run_features(opts)
