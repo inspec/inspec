@@ -32,13 +32,6 @@ describe "Telemetry" do
   let(:chef_license_key) { "free-42727540-ddc8-4d4b-0000-80662e03cd73-0000" }
 
   before do
-    # ChefLicensing.check_software_entitlement! (invoked by Runner#run) resolves its
-    # license key independently via ChefLicensing::LicenseKeyFetcher.fetch, which reads
-    # from the local license cache/env rather than the ChefLicensing::Context set below.
-    # Stub it so the entitlement check always uses the same key our WebMock stubs expect,
-    # regardless of what license (if any) happens to be cached on the machine running the tests.
-    ChefLicensing::LicenseKeyFetcher.stubs(:fetch).returns([chef_license_key])
-
     stub_request(:get, "#{ChefLicensing::Config.license_server_url}/v1/listLicenses")
       .to_return(
         body: {
