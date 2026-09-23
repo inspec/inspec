@@ -32,6 +32,13 @@ describe "Telemetry" do
   let(:chef_license_key) { "free-42727540-ddc8-4d4b-0000-80662e03cd73-0000" }
 
   before do
+    # ChefLicensing.check_software_entitlement! (invoked by Runner#run) resolves its
+    # license key independently via ChefLicensing::LicenseKeyFetcher.fetch, which reads
+    # from the local license cache/env rather than the ChefLicensing::Context set below.
+    # Stub it so the entitlement check always uses the same key our WebMock stubs expect,
+    # regardless of what license (if any) happens to be cached on the machine running the tests.
+    ChefLicensing::LicenseKeyFetcher.stubs(:fetch).returns([chef_license_key])
+
     stub_request(:get, "#{ChefLicensing::Config.license_server_url}/v1/listLicenses")
       .to_return(
         body: {
@@ -62,6 +69,10 @@ describe "Telemetry" do
         body: valid_client_api_data ,
         headers: { content_type: "application/json" }
       )
+
+    # In CI environments (especially bookworm), the platform.uuid may be generated differently.
+    # Mock the platform UUID to ensure the telemetry test works consistently across all environments.
+    Train::Platforms::Platform.any_instance.stubs(:uuid).returns("550e8400-e29b-41d4-a716-446655440000")
   end
 
   describe "when it runs with a nested profile" do
