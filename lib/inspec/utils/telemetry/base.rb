@@ -59,7 +59,7 @@ module Inspec
                               os: safe_platform_field(train_platform, :name) || "unknown",
                               version: safe_platform_field(train_platform, :release) || "unknown",
                               architecture: safe_platform_field(train_platform, :arch) || "unknown",
-                              id: safe_platform_field(train_platform, :uuid),
+                              id: hash_to_uuid(safe_platform_field(train_platform, :uuid)),
                             },
 
                             runtime: Inspec::VERSION,
@@ -131,6 +131,47 @@ module Inspec
         return nil unless platform.respond_to?(field)
 
         platform.send(field)
+      end
+
+      # Convert a SHA256 hash (or other hex string) to UUID format.
+      # If the input is already a valid UUID, return as-is.
+      # If it's a 64-char hex string (SHA256), convert to UUID by:
+      #   - Taking the first 32 chars and reformatting as UUID
+      #   - Setting version 5 and variant bits per RFC 4122
+      def hash_to_uuid(value)
+        return nil if value.nil?
+        
+        # Convert to string if not already
+        value_str = value.to_s
+        return nil if value_str.empty?
+
+        # If already a valid UUID format, return as-is
+        return value_str if value_str =~ /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/i
+
+        # If it's a 64-char hex string (SHA256 hash), convert to UUID
+        if value_str =~ /^[0-9a-fA-F]{64}$/i
+          hex = value_str[0..31]  # Take first 32 chars (128 bits)
+          ary = hex.scan(/.{1,2}/).map { |x| x.to_i(16) }
+          
+          # Convert bytes to 5 integers for UUID format and set version/variant bits
+          ary_int = [
+            ary[0..3].inject { |a, b| (a << 8) | b },
+            ary[4..5].inject { |a, b| (a << 8) | b },
+            ary[6..7].inject { |a, b| (a << 8) | b },
+            ary[8..9].inject { |a, b| (a << 8) | b },
+            ary[10..15].inject { |a, b| (a << 8) | b }
+          ]
+          
+          # Set version to 5 (name-based, SHA-1)
+          ary_int[2] = (ary_int[2] & 0x0FFF) | (5 << 12)
+          # Set variant to RFC 4122
+          ary_int[3] = (ary_int[3] & 0x3FFF) | 0x8000
+          
+          "%08x-%04x-%04x-%04x-%04x%08x" % ary_int
+        else
+          # Return as-is if neither UUID nor SHA256 format
+          value_str
+        end
       end
 
       def note_per_run_features(opts)

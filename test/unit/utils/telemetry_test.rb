@@ -69,10 +69,6 @@ describe "Telemetry" do
         body: valid_client_api_data ,
         headers: { content_type: "application/json" }
       )
-
-    # In CI environments (especially bookworm), the platform.uuid may be generated differently.
-    # Mock the platform UUID to ensure the telemetry test works consistently across all environments.
-    Train::Platforms::Platform.any_instance.stubs(:uuid).returns("550e8400-e29b-41d4-a716-446655440000")
   end
 
   describe "when it runs with a nested profile" do
