@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.2.2 -->
-## [v7.2.2](https://github.com/inspec/inspec/tree/v7.2.2) (2026-09-22)
+<!-- latest_release 7.3.0 -->
+## [v7.3.0](https://github.com/inspec/inspec/tree/v7.3.0) (2026-09-23)
 
 #### Merged Pull Requests
-- Sean sype simmons/nm/update hab channel 202609 fixes (#8011) [#8012](https://github.com/inspec/inspec/pull/8012) ([Nik08](https://github.com/Nik08))
+- CHEF-38440 -: Update Debian base image from bullseye to bookworm in CI pipelines [#8014](https://github.com/inspec/inspec/pull/8014) ([chandra-progress](https://github.com/chandra-progress))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 7.2.1 release
 
 #### Merged Pull Requests
+- CHEF-38440 -: Update Debian base image from bullseye to bookworm in CI pipelines [#8014](https://github.com/inspec/inspec/pull/8014) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.3.0 -->
 - Sean sype simmons/nm/update hab channel 202609 fixes (#8011) [#8012](https://github.com/inspec/inspec/pull/8012) ([Nik08](https://github.com/Nik08)) <!-- 7.2.2 -->
 <!-- release_rollup -->
 
