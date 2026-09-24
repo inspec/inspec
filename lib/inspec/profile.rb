@@ -559,7 +559,9 @@ module Inspec
         @info_from_parse[:inputs] = inputs_hash.values.map(&:to_hash)
       end
 
-      @info_from_parse[:sha256] = sha256
+      # Skip expensive SHA256 calculation in check mode to improve performance
+      # SHA256 requires loading all dependencies recursively which is very slow
+      @info_from_parse[:sha256] = @check_mode ? "check-mode-sha256-skipped" : sha256
 
       # Populate :status and :status_message
       if supports_platform?
