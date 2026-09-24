@@ -2,12 +2,20 @@ require "helper"
 require "inspec/resource"
 require "inspec/resources/oracledb_session"
 
+# Minimal stand-in for the result of `inspec.command(@sqlcl_bin).exist?`,
+# used to simulate the sqlcl binary presence/absence check in query().
+FakeExistCheck = Struct.new(:present) do
+  def exist?
+    present
+  end
+end
+
 describe "Inspec::Resources::OracledbSession" do
   it "sqlplus Linux" do
     resource = quick_resource(:oracledb_session, :linux, user: "USER", password: "password", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "/bin/sqlplus") do |cmd|
       cmd.strip!
       case cmd
-      when "echo 'oracle_query_string';/bin/sqlplus -S USER/password@localhost:1527/ORCL <<'EOC'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nEOC" then
+      when "echo 'oracle_query_string';/bin/sqlplus -S USER/password@localhost:1527/ORCL <<'EOC'\nSET MARKUP CSV ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nEOC" then
         stdout_file "test/fixtures/cmd/oracle-result"
       else
         raise cmd.inspect
@@ -25,7 +33,7 @@ describe "Inspec::Resources::OracledbSession" do
     resource = quick_resource(:oracledb_session, :linux, as_os_user: "OSUSER", as_db_role: "DBA", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "/bin/sqlplus") do |cmd|
       cmd.strip!
       case cmd
-      when "su - OSUSER -c \"echo 'oracle_query_string'; env ORACLE_SID=ORCL /bin/sqlplus -S / as DBA <<'EOC'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v\\$database;\nEXIT\nEOC\"" then
+      when "su - OSUSER -c \"echo 'oracle_query_string'; env ORACLE_SID=ORCL /bin/sqlplus -S / as DBA <<'EOC'\nSET MARKUP CSV ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v\\$database;\nEXIT\nEOC\"" then
         stdout_file "test/fixtures/cmd/oracle-result"
       else
         raise cmd.inspect
@@ -43,7 +51,7 @@ describe "Inspec::Resources::OracledbSession" do
     resource = quick_resource(:oracledb_session, :linux, as_os_user: "OSUSER", as_db_role: "DBA", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "/bin/sqlplus") do |cmd|
       cmd.strip!
       case cmd
-      when "su - OSUSER -c \"echo 'oracle_query_string'; env ORACLE_SID=ORCL /bin/sqlplus -S / as DBA <<'EOC'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v\\$database;\nEXIT\nEOC\"" then
+      when "su - OSUSER -c \"echo 'oracle_query_string'; env ORACLE_SID=ORCL /bin/sqlplus -S / as DBA <<'EOC'\nSET MARKUP CSV ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v\\$database;\nEXIT\nEOC\"" then
         stdout_file "test/fixtures/cmd/oracle-nil-result"
       else
         raise cmd.inspect
@@ -61,7 +69,7 @@ describe "Inspec::Resources::OracledbSession" do
     resource = quick_resource(:oracledb_session, :linux, as_os_user: "OSUSER", as_db_role: "DBA", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "/bin/sqlplus") do |cmd|
       cmd.strip!
       case cmd
-      when "su - OSUSER -c \"echo 'oracle_query_string'; env ORACLE_SID=ORCL /bin/sqlplus -S / as DBA <<'EOC'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v\\$database;\nEXIT\nEOC\"" then
+      when "su - OSUSER -c \"echo 'oracle_query_string'; env ORACLE_SID=ORCL /bin/sqlplus -S / as DBA <<'EOC'\nSET MARKUP CSV ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v\\$database;\nEXIT\nEOC\"" then
         stdout_file "test/fixtures/cmd/oracle-empty-result"
       else
         raise cmd.inspect
@@ -79,7 +87,7 @@ describe "Inspec::Resources::OracledbSession" do
     resource = quick_resource(:oracledb_session, :linux, user: "USER", password: "password", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "/bin/sqlplus") do |cmd|
       cmd.strip!
       case cmd
-      when "echo 'oracle_query_string';/bin/sqlplus -S USER/password@localhost:1527/ORCL <<'EOC'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT profile, resource_name, limit, comments FROM dba_profiles;\nEXIT\nEOC" then
+      when "echo 'oracle_query_string';/bin/sqlplus -S USER/password@localhost:1527/ORCL <<'EOC'\nSET MARKUP CSV ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT profile, resource_name, limit, comments FROM dba_profiles;\nEXIT\nEOC" then
         stdout_file "test/fixtures/cmd/oracle-multicolumn-result"
       else
         raise cmd.inspect
@@ -98,11 +106,73 @@ describe "Inspec::Resources::OracledbSession" do
     _(query.row(1).column("limit").value).must_equal "365"
   end
 
+  it "sqlcl Linux uses the -s silent flag" do
+    resource = quick_resource(:oracledb_session, :linux, user: "USER", password: "password", host: "localhost", service: "ORCL", port: 1527, sqlcl_bin: "/bin/sqlcl") do |cmd|
+      cmd.strip!
+      case cmd
+      when "/bin/sqlcl" then
+        # First call in query() checks whether the sqlcl binary exists.
+        FakeExistCheck.new(true)
+      when "echo 'oracle_query_string';/bin/sqlcl -s USER/password@localhost:1527/ORCL <<'EOC'\nset sqlformat csv\nSET FEEDBACK OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nEOC" then
+        # Regression: silent flag must be present so sqlcl doesn't print a
+        # banner ahead of the CSV output, which previously broke parsing.
+        stdout_file "test/fixtures/cmd/oracle-result"
+      else
+        raise cmd.inspect
+      end
+    end
+
+    _(resource.resource_skipped?).must_equal false
+    query = resource.query("SELECT NAME AS VALUE FROM v$database;")
+    _(query.size).must_equal 1
+    _(query.row(0).column("value").value).must_equal "ORCL"
+  end
+
+  it "sqlcl Linux with a multi-column result using the silent flag" do
+    resource = quick_resource(:oracledb_session, :linux, user: "USER", password: "password", host: "localhost", service: "ORCL", port: 1527, sqlcl_bin: "/bin/sqlcl") do |cmd|
+      cmd.strip!
+      case cmd
+      when "/bin/sqlcl" then
+        FakeExistCheck.new(true)
+      when "echo 'oracle_query_string';/bin/sqlcl -s USER/password@localhost:1527/ORCL <<'EOC'\nset sqlformat csv\nSET FEEDBACK OFF\nSELECT profile, resource_name, limit, comments FROM dba_profiles;\nEXIT\nEOC" then
+        stdout_file "test/fixtures/cmd/oracle-multicolumn-result"
+      else
+        raise cmd.inspect
+      end
+    end
+
+    _(resource.resource_skipped?).must_equal false
+    query = resource.query("SELECT profile, resource_name, limit, comments FROM dba_profiles;")
+    _(query.size).must_equal 2
+    _(query.column("profile")).must_equal %w{DEFAULT DEFAULT}
+    _(query.column("comments")).must_equal ["locked, until reset", "set by DBA"]
+  end
+
+  it "falls back to sqlplus with SET MARKUP CSV ON when the sqlcl binary does not exist" do
+    resource = quick_resource(:oracledb_session, :linux, user: "USER", password: "password", host: "localhost", service: "ORCL", port: 1527, sqlcl_bin: "/bin/sqlcl", sqlplus_bin: "/bin/sqlplus") do |cmd|
+      cmd.strip!
+      case cmd
+      when "/bin/sqlcl" then
+        # sqlcl binary is not present on this host.
+        FakeExistCheck.new(false)
+      when "echo 'oracle_query_string';/bin/sqlplus -S USER/password@localhost:1527/ORCL <<'EOC'\nSET MARKUP CSV ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nEOC" then
+        stdout_file "test/fixtures/cmd/oracle-result"
+      else
+        raise cmd.inspect
+      end
+    end
+
+    _(resource.resource_skipped?).must_equal false
+    query = resource.query("SELECT NAME AS VALUE FROM v$database;")
+    _(query.size).must_equal 1
+    _(query.row(0).column("value").value).must_equal "ORCL"
+  end
+
   it "sqlplus Windows" do
     resource = quick_resource(:oracledb_session, :windows, user: "USER", password: "password", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "C:/sqlplus.exe") do |cmd|
       cmd.strip!
       case cmd
-      when "@'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\n'@ | C:/sqlplus.exe -S USER/password@localhost:1527/ORCL" then
+      when "@'\nSET MARKUP CSV ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\n'@ | C:/sqlplus.exe -S USER/password@localhost:1527/ORCL" then
         stdout_file "test/fixtures/cmd/oracle-result"
       else
         raise cmd.inspect
@@ -116,11 +186,34 @@ describe "Inspec::Resources::OracledbSession" do
     _(resource.resource_id).must_equal "localhost-1527-USER"
   end
 
+  it "sqlplus Windows with a multi-column result" do
+    resource = quick_resource(:oracledb_session, :windows, user: "USER", password: "password", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "C:/sqlplus.exe") do |cmd|
+      cmd.strip!
+      case cmd
+      when "@'\nSET MARKUP CSV ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT profile, resource_name, limit, comments FROM dba_profiles;\nEXIT\n'@ | C:/sqlplus.exe -S USER/password@localhost:1527/ORCL" then
+        stdout_file "test/fixtures/cmd/oracle-multicolumn-result"
+      else
+        raise cmd.inspect
+      end
+    end
+
+    _(resource.resource_skipped?).must_equal false
+    query = resource.query("SELECT profile, resource_name, limit, comments FROM dba_profiles;")
+    _(query.size).must_equal 2
+    # Every column must be addressable (regression: previously all returned nil).
+    _(query.column("profile")).must_equal %w{DEFAULT DEFAULT}
+    _(query.column("resource_name")).must_equal %w{PASSWORD_LOCK_TIME INACTIVE_ACCOUNT_TIME}
+    _(query.column("limit")).must_equal %w{UNLIMITED 365}
+    # A comma inside a quoted field must be preserved, not treated as a delimiter.
+    _(query.column("comments")).must_equal ["locked, until reset", "set by DBA"]
+    _(query.row(1).column("limit").value).must_equal "365"
+  end
+
   it "sqlplus Windows with null in query output" do
     resource = quick_resource(:oracledb_session, :windows, user: "USER", password: "password", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "C:/sqlplus.exe") do |cmd|
       cmd.strip!
       case cmd
-      when "@'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\n'@ | C:/sqlplus.exe -S USER/password@localhost:1527/ORCL" then
+      when "@'\nSET MARKUP CSV ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\n'@ | C:/sqlplus.exe -S USER/password@localhost:1527/ORCL" then
         stdout_file "test/fixtures/cmd/oracle-nil-result"
       else
         raise cmd.inspect
@@ -138,7 +231,7 @@ describe "Inspec::Resources::OracledbSession" do
     resource = quick_resource(:oracledb_session, :windows, user: "USER", password: "password", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "C:/sqlplus.exe") do |cmd|
       cmd.strip!
       case cmd
-      when "@'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\n'@ | C:/sqlplus.exe -S USER/password@localhost:1527/ORCL" then
+      when "@'\nSET MARKUP CSV ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\n'@ | C:/sqlplus.exe -S USER/password@localhost:1527/ORCL" then
         stdout_file "test/fixtures/cmd/oracle-empty-result"
       else
         raise cmd.inspect
@@ -192,7 +285,7 @@ describe "Inspec::Resources::OracledbSession" do
     resource = quick_resource(:oracledb_session, :linux, user: "USER", password: "wrongpassword", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "/bin/sqlplus") do |cmd|
       cmd.strip!
       case cmd
-      when "echo 'oracle_query_string';/bin/sqlplus -S USER/wrongpassword@localhost:1527/ORCL <<'EOC'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nEOC" then
+      when "echo 'oracle_query_string';/bin/sqlplus -S USER/wrongpassword@localhost:1527/ORCL <<'EOC'\nSET MARKUP CSV ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nEOC" then
         stdout_file "test/fixtures/cmd/oracle-error"
       else
         raise cmd.inspect
@@ -207,7 +300,7 @@ describe "Inspec::Resources::OracledbSession" do
     resource = quick_resource(:oracledb_session, :windows, user: "USER", password: "wrongpassword", host: "localhost", service: "ORCL", port: 1527, sqlplus_bin: "C:/sqlplus.exe") do |cmd|
       cmd.strip!
       case cmd
-      when "@'\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\n'@ | C:/sqlplus.exe -S USER/wrongpassword@localhost:1527/ORCL" then
+      when "@'\nSET MARKUP CSV ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\n'@ | C:/sqlplus.exe -S USER/wrongpassword@localhost:1527/ORCL" then
         stdout_file "test/fixtures/cmd/oracle-error"
       else
         raise cmd.inspect
@@ -224,7 +317,7 @@ describe "Inspec::Resources::OracledbSession" do
     resource = quick_resource(:oracledb_session, :linux, user: "USER", password: "password", tns_alias: "XEPDB1_TCPS", sqlplus_bin: "/bin/sqlplus") do |cmd|
       cmd.strip!
       case cmd
-      when "echo 'oracle_query_string';/bin/sqlplus -S -s /nolog <<'INSPECSQL'\nconnect USER/password@XEPDB1_TCPS\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nINSPECSQL" then
+      when "echo 'oracle_query_string';/bin/sqlplus -S -s /nolog <<'INSPECSQL'\nconnect USER/password@XEPDB1_TCPS\nSET MARKUP CSV ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nINSPECSQL" then
         stdout_file "test/fixtures/cmd/oracle-result"
       else
         raise cmd.inspect
@@ -242,7 +335,7 @@ describe "Inspec::Resources::OracledbSession" do
     resource = quick_resource(:oracledb_session, :linux, user: "USER", password: "password", tns_alias: "XEPDB1_TCPS", as_db_role: "SYSDBA", sqlplus_bin: "/bin/sqlplus") do |cmd|
       cmd.strip!
       case cmd
-      when "echo 'oracle_query_string';/bin/sqlplus -S -s /nolog <<'INSPECSQL'\nconnect USER/password@XEPDB1_TCPS as SYSDBA\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nINSPECSQL" then
+      when "echo 'oracle_query_string';/bin/sqlplus -S -s /nolog <<'INSPECSQL'\nconnect USER/password@XEPDB1_TCPS as SYSDBA\nSET MARKUP CSV ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF\nSELECT NAME AS VALUE FROM v$database;\nEXIT\nINSPECSQL" then
         stdout_file "test/fixtures/cmd/oracle-result"
       else
         raise cmd.inspect

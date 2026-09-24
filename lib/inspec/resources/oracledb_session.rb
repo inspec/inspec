@@ -66,11 +66,11 @@ module Inspec::Resources
       raise Inspec::Exceptions::ResourceFailed, "#{resource_exception_message}" if resource_failed?
 
       if @sqlcl_bin && inspec.command(@sqlcl_bin).exist?
-        @bin = @sqlcl_bin
+        @bin = "#{@sqlcl_bin} -s"
         format_options = "set sqlformat csv\nSET FEEDBACK OFF"
       else
         @bin = "#{@sqlplus_bin} -S"
-        format_options = "SET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF"
+        format_options = "SET MARKUP CSV ON\nSET PAGESIZE 32000\nSET FEEDBACK OFF\nSET UNDERLINE OFF"
       end
 
       command = command_builder(format_options, sql)
