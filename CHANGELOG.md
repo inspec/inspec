@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.3.0 -->
-## [v7.3.0](https://github.com/inspec/inspec/tree/v7.3.0) (2026-09-23)
+<!-- latest_release 7.3.1 -->
+## [v7.3.1](https://github.com/inspec/inspec/tree/v7.3.1) (2026-09-24)
 
 #### Merged Pull Requests
-- CHEF-38440 -: Update Debian base image from bullseye to bookworm in CI pipelines [#8014](https://github.com/inspec/inspec/pull/8014) ([chandra-progress](https://github.com/chandra-progress))
+- CHEF-38510 : Fix Oracle DB session output parsing for sqlcl and sqlplus [#8010](https://github.com/inspec/inspec/pull/8010) ([imdadnitm](https://github.com/imdadnitm))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 7.2.1 release
 
 #### Merged Pull Requests
+- CHEF-38510 : Fix Oracle DB session output parsing for sqlcl and sqlplus [#8010](https://github.com/inspec/inspec/pull/8010) ([imdadnitm](https://github.com/imdadnitm)) <!-- 7.3.1 -->
 - CHEF-38440 -: Update Debian base image from bullseye to bookworm in CI pipelines [#8014](https://github.com/inspec/inspec/pull/8014) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.3.0 -->
 - Sean sype simmons/nm/update hab channel 202609 fixes (#8011) [#8012](https://github.com/inspec/inspec/pull/8012) ([Nik08](https://github.com/Nik08)) <!-- 7.2.2 -->
 <!-- release_rollup -->
