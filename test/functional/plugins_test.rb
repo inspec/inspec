@@ -16,7 +16,7 @@ describe "plugins" do
 #=========================================================================================#
 describe "plugin loader" do
   it "handles an unloadable plugin correctly" do
-    outcome = inspec_with_env("version", INSPEC_CONFIG_DIR: File.join(config_dir_path, "plugin_error_on_load"))
+    outcome = inspec_with_env("detect", INSPEC_CONFIG_DIR: File.join(config_dir_path, "plugin_error_on_load"))
 
     _(outcome.stdout).must_include("ERROR", "Have an error on stdout")
     _(outcome.stdout).must_include("Could not load plugin inspec-divide-by-zero", "Name the plugin in the stdout error")
@@ -28,7 +28,7 @@ describe "plugin loader" do
     assert_exit_code 2, outcome
 
     # TODO: split
-    outcome = inspec_with_env("version --debug", INSPEC_CONFIG_DIR: File.join(config_dir_path, "plugin_error_on_load"))
+    outcome = inspec_with_env("detect --debug", INSPEC_CONFIG_DIR: File.join(config_dir_path, "plugin_error_on_load"))
 
     _(outcome.stdout).must_include("ZeroDivisionError", "Include stacktrace in error with --debug")
 
