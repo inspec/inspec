@@ -5,6 +5,14 @@ require "inspec/resources/firewalld"
 describe "Inspec::Resources::FirewallD" do
   cent_resource = MockLoader.new(:centos7).load_resource("firewalld")
 
+  # Command double emulating `firewall-cmd` invoked under sudo: the real command
+  # succeeds (exit 0) but sudo writes its password banner to stderr.
+  FakeFirewalldCommand = Struct.new(:stdout, :stderr, :exit_status) do
+    def exist?
+      true
+    end
+  end
+
   it "verify firewalld detects a zone" do
     _(cent_resource.has_zone?("public")).must_equal true
     _(cent_resource.has_zone?("zonenotinfirewalld")).must_equal false
@@ -107,5 +115,26 @@ describe "Inspec::Resources::FirewallD" do
 
   it "verify firewalld detects a whether or not a rule is enabled in a zone exluding rule text" do
     _(cent_resource.has_rule_enabled?("family=ipv4 source address=192.168.0.14 accept", "public")).must_equal true
+  end
+
+  # Regression for https://github.com/inspec/inspec/issues/3302 -- when a scan is
+  # run with `--sudo --sudo-password`, sudo writes `[sudo] password for <user>:`
+  # to stderr while firewall-cmd still exits 0. The guard must key off exit
+  # status, not stderr emptiness, otherwise the banner poisons every result.
+  it "ignores sudo stderr noise when the command exits 0" do
+    resource = MockLoader.new(:centos7).load_resource("firewalld")
+    sudo_noise = FakeFirewalldCommand.new("running\n", "[sudo] password for user: \n", 0)
+    resource.inspec.define_singleton_method(:command) { |_cmd| sudo_noise }
+
+    _(resource.running?).must_equal true
+    _(resource.send(:firewalld_command, "--state")).must_equal "running"
+  end
+
+  it "still reports an error when the command exits non-zero" do
+    resource = MockLoader.new(:centos7).load_resource("firewalld")
+    failure = FakeFirewalldCommand.new("", "FirewallD is not running\n", 252)
+    resource.inspec.define_singleton_method(:command) { |_cmd| failure }
+
+    _(resource.send(:firewalld_command, "--state")).must_match(/\AError on command/)
   end
 end
