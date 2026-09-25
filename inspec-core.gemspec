@@ -44,7 +44,7 @@ Source code obtained from the Chef GitHub repository is made available under Apa
   spec.add_dependency "hashie",                   ">= 3.4", "< 6.0"
   spec.add_dependency "mixlib-log",               "~> 3.0"
   spec.add_dependency "sslshake",                 "~> 1.2"
-  spec.add_dependency "parallel",                 "~> 1.9"
+  spec.add_dependency "parallel",                 ">= 1.9", "< 3.0"
   spec.add_dependency "faraday",                  ">= 1", "< 3"
   spec.add_dependency "faraday-follow_redirects", "~> 0.3"
   spec.add_dependency "tty-table",                "~> 0.10"
