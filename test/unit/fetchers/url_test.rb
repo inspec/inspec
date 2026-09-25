@@ -64,12 +64,12 @@ describe Inspec::Fetcher::Url do
       _(Inspec::Fetcher::Url.resolve(__FILE__)).must_be_nil
     end
 
-    %w{https://github.com/chef/inspec
-       https://github.com/chef/inspec.git
-       https://www.github.com/chef/inspec.git
-       http://github.com/chef/inspec
-       http://github.com/chef/inspec.git
-       http://www.github.com/chef/inspec.git}.each do |github|
+    %w{https://github\.com/chef/inspec
+       https://github\.com/chef/inspec\.git
+       https://www\.github\.com/chef/inspec\.git
+       http://github\.com/chef/inspec
+       http://github\.com/chef/inspec\.git
+       http://www\.github\.com/chef/inspec\.git}.each do |github|
          it "resolves a github url #{github}" do
            expect_git_remote_head_main(github)
            res = Inspec::Fetcher::Url.resolve(github)
