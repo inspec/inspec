@@ -1,0 +1,2 @@
+# export WORKSPACE=`whoami`
+# export ATTRIBUTES_FILE=.$WORKSPACE-attributes.yml
