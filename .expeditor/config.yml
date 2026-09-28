@@ -80,6 +80,7 @@ changelog:
 artifact_channels:
   - base-2025-current
   - base-2025
+  - base
 
 subscriptions:
   - workload: pull_request_merged:{{github_repo}}:{{release_branch}}:*
@@ -144,6 +145,12 @@ subscriptions:
      - purge_packages_chef_io_fastly:{{target_channel}}/inspec/latest:
         post_commit: true
      - built_in:notify_chefio_slack_channels
+
+# Habitat 2.0+ uses 'base' as the default channel for chef-origin packages.
+# Promote inspec packages to 'base' once they land in base-2025-current so they stay discoverable.
+  - workload: hab_package_published:base-2025-current:inspec/*
+    actions:
+     - bash:.expeditor/scripts/promote-to-base.sh
 
   - workload: pull_request_opened:{{github_repo}}:{{release_branch}}:*
     actions:
