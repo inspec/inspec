@@ -147,8 +147,8 @@ subscriptions:
      - built_in:notify_chefio_slack_channels
 
 # Habitat 2.0+ uses 'base' as the default channel for chef-origin packages.
-# Promote inspec packages to 'base' once they land in base-2025-current so they stay discoverable.
-  - workload: hab_package_published:base-2025-current:inspec/*
+# Promote inspec packages to 'base' once they land in base-2025 so they stay discoverable.
+  - workload: hab_package_published:base-2025:inspec/*
     actions:
      - bash:.expeditor/scripts/promote-to-base.sh
 
