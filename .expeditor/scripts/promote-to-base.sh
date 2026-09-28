@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-echo "--- Promoting Habitat package from base-2025 to base"
+echo "--- Promoting Habitat package from base-2025-current to base"
 
 # Expeditor provides these environment variables automatically
 echo "Package Origin: ${EXPEDITOR_PKG_ORIGIN}"
