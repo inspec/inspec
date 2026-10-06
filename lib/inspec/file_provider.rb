@@ -171,7 +171,15 @@ module Inspec
           # extracted files do not conflict.
           FileUtils.remove_entry(final_path) if File.exist?(final_path)
 
-          archive.extract(file, final_path)
+          # rubyzip 3.x no longer creates missing intermediate directories by
+          # default, so do it ourselves.
+          FileUtils.mkdir_p(File.dirname(final_path))
+
+          # Passing an absolute entry_path alongside the default
+          # destination_directory ('.') makes rubyzip 3.x join them into a
+          # mangled, CWD-relative path. Pass destination_directory explicitly
+          # instead, and let the entry's own (relative) name resolve against it.
+          archive.extract(file, destination_directory: destination_path)
         end
       end
     end
