@@ -5,7 +5,7 @@ require "pathname" unless defined?(Pathname)
 module Inspec::Archive
   class ZipArchiveGenerator
     def archive(base_dir, files, archive)
-      Zip::File.open(archive, Zip::File::CREATE) do |zipfile|
+      Zip::File.open(archive, create: true) do |zipfile|
         files.each do |input_filename|
           zipfile.add(input_filename, Pathname.new(base_dir).join(input_filename))
         end
