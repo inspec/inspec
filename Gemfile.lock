@@ -1,9 +1,9 @@
 PATH
   remote: .
   specs:
-    inspec (7.1.17)
+    inspec (7.3.2)
       faraday_middleware (~> 1.2, >= 1.2.1)
-      inspec-core (= 7.1.17)
+      inspec-core (= 7.3.2)
       progress_bar (~> 1.3.3)
       rake (>= 12.3.3)
       train (~> 3.16, >= 3.16.5)
@@ -11,7 +11,7 @@ PATH
       train-habitat (~> 0.1)
       train-kubernetes (>= 0.3.1)
       train-winrm (~> 0.4.0)
-    inspec-core (7.1.17)
+    inspec-core (7.3.2)
       addressable (~> 2.9)
       chef-licensing (>= 1.2.0)
       chef-telemetry (~> 1.0, >= 1.0.8)
@@ -43,8 +43,8 @@ PATH
 PATH
   remote: inspec-bin
   specs:
-    inspec-bin (7.1.17)
-      inspec (= 7.1.17)
+    inspec-bin (7.3.2)
+      inspec (= 7.3.2)
 
 GEM
   remote: https://rubygems.org/
@@ -366,13 +366,13 @@ GEM
       chef-winrm (>= 2.3.11)
       chef-winrm-fs (>= 1.3.7)
       erubi (~> 1.8)
-    chef-winrm-fs (1.4.2)
+    chef-winrm-fs (1.4.4)
       benchmark (~> 0.5.0)
       chef-winrm (~> 2.4)
       csv (~> 3.3)
       erubi (>= 1.7)
       logging (>= 1.6.1, < 3.0)
-      rubyzip (~> 2.0)
+      rubyzip (~> 3.4)
     chefstyle (2.2.3)
       rubocop (= 1.25.1)
     coderay (1.1.3)
@@ -667,7 +667,7 @@ GEM
     ruby2_keywords (0.0.5)
     rubyntlm (0.6.5)
       base64
-    rubyzip (2.4.1)
+    rubyzip (3.7.0)
     securerandom (0.4.1)
     semverse (3.0.2)
     signet (0.21.0)
