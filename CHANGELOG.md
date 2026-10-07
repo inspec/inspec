@@ -1,12 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.3.2 -->
-## [v7.3.2](https://github.com/inspec/inspec/tree/v7.3.2) (2026-10-05)
+<!-- latest_release 7.3.3 -->
+## [v7.3.3](https://github.com/inspec/inspec/tree/v7.3.3) (2026-10-07)
 
 #### Merged Pull Requests
-- Updated NOTICE.txt for InSpec 7.3.x [#8021](https://github.com/inspec/inspec/pull/8021) ([Nik08](https://github.com/Nik08))
-- ci: CHEF-38590 - Automate hab package promotion to base channel [#8019](https://github.com/inspec/inspec/pull/8019) ([chandra-progress](https://github.com/chandra-progress))
+- Update Rubyzip dependency [#8024](https://github.com/inspec/inspec/pull/8024) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -39,6 +38,7 @@
 ### Changes since 7.2.1 release
 
 #### Merged Pull Requests
+- Update Rubyzip dependency [#8024](https://github.com/inspec/inspec/pull/8024) ([Nik08](https://github.com/Nik08)) <!-- 7.3.3 -->
 - Updated NOTICE.txt for InSpec 7.3.x [#8021](https://github.com/inspec/inspec/pull/8021) ([Nik08](https://github.com/Nik08)) <!-- 7.3.2 -->
 - ci: CHEF-38590 - Automate hab package promotion to base channel [#8019](https://github.com/inspec/inspec/pull/8019) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.3.1 -->
 - CHEF-38510 : Fix Oracle DB session output parsing for sqlcl and sqlplus [#8010](https://github.com/inspec/inspec/pull/8010) ([imdadnitm](https://github.com/imdadnitm)) <!-- 7.3.1 -->
