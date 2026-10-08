@@ -347,7 +347,10 @@ module Inspec::Resources
 
       # possible paths where authorized_keys are stored
       # inspec.command is used over inspec.file because inspec.file requires absolute path
-      %w{~/.ssh/authorized_keys ~/.ssh/authorized_keys2}.each do |path|
+      auth_paths = ["~#{@username}/.ssh/authorized_keys", "~#{@username}/.ssh/authorized_keys2"]
+      auth_paths.unshift("#{home}/.ssh/authorized_keys", "#{home}/.ssh/authorized_keys2") unless home.nil? || home.empty?
+
+      auth_paths.each do |path|
         if inspec.command("#{bin} #{path}").exit_status == 0
           auth_path = path
           break
