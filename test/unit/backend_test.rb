@@ -65,6 +65,77 @@ describe "Backend" do # rubocop:disable Metrics/BlockLength
         _(err.message).must_equal "Transport error, can't connect to 'mock' backend: "
       end
     end
+
+    describe "when Train.create raises Train::PluginLoadError" do
+      let(:plugin_load_error) do
+        Train::PluginLoadError.new("Can't find train plugin mock. Please install it first.")
+      end
+
+      it "auto-installs the premium gem and retries, succeeding on the second attempt" do
+        attempts = 0
+        installer = Minitest::Mock.new
+        installer.expect :install_and_activate, true, ["train-mock-premium"]
+
+        Train.stub(:create, proc { |*|
+          attempts += 1
+          raise plugin_load_error if attempts == 1
+
+          Train::Plugins.registry["mock"].new
+        }) do
+          Inspec::Plugin::V2::TrainPluginInstaller.stub :new, installer do
+            _(backend.is_a?(Inspec::Backend)).must_equal true
+          end
+        end
+
+        _(attempts).must_equal 2
+        installer.verify
+      end
+
+      it "falls back to the non-premium gem when the premium install fails, then retries" do
+        attempts = 0
+        installer = Minitest::Mock.new
+        installer.expect :install_and_activate, false, ["train-mock-premium"]
+        installer.expect :install_and_activate, true, ["train-mock"]
+
+        Train.stub(:create, proc { |*|
+          attempts += 1
+          raise plugin_load_error if attempts == 1
+
+          Train::Plugins.registry["mock"].new
+        }) do
+          Inspec::Plugin::V2::TrainPluginInstaller.stub :new, installer do
+            _(backend.is_a?(Inspec::Backend)).must_equal true
+          end
+        end
+
+        _(attempts).must_equal 2
+        installer.verify
+      end
+
+      it "raises the original Train::PluginLoadError if the retried attempt still fails" do
+        installer = Minitest::Mock.new
+        installer.expect :install_and_activate, false, ["train-mock-premium"]
+        installer.expect :install_and_activate, false, ["train-mock"]
+
+        Train.stub(:create, proc { raise plugin_load_error }) do
+          Inspec::Plugin::V2::TrainPluginInstaller.stub :new, installer do
+            err = _ { backend }.must_raise Train::PluginLoadError
+            _(err.message).must_equal "Can't find train plugin mock. Please install it first."
+          end
+        end
+
+        installer.verify
+      end
+
+      it "does not attempt an install when Train.create succeeds on the first try" do
+        installer_class_used = false
+        Inspec::Plugin::V2::TrainPluginInstaller.stub(:new, proc { installer_class_used = true }) do
+          _(backend.is_a?(Inspec::Backend)).must_equal true
+        end
+
+        _(installer_class_used).must_equal false
+      end
+    end
   end
 
   describe "version" do

@@ -7,6 +7,7 @@ require "inspec/config"
 require "inspec/version"
 require "inspec/resource"
 require "inspec/dsl" # for method_missing_resource
+require "inspec/plugin/v2/train_plugin_installer"
 
 module Inspec
   class Backend
@@ -32,7 +33,7 @@ module Inspec
     def self.create(config) # rubocop:disable Metrics/AbcSize
       train_credentials = config.unpack_train_credentials
       transport_name = Train.validate_backend(train_credentials)
-      transport = Train.create(transport_name, train_credentials)
+      transport = create_transport(transport_name, train_credentials)
       if transport.nil?
         raise "Can't find transport backend '#{transport_name}'."
       end
@@ -66,6 +67,39 @@ module Inspec
     rescue Errno::ENOENT => e
       raise "#{e.message}"
     end
+
+    # Creates the train transport, retrying once after attempting to auto-install the
+    # transport's plugin gem if train raises Train::PluginLoadError (that is, the premium gem,
+    # train core transport, and non-premium gem could not be found/required).
+    #
+    # @param [String] transport_name name of the transport, e.g. "aws"
+    # @param [Hash] train_credentials unpacked train credentials/options
+    # @param [Integer] tries number of Train.create attempts made so far
+    # @return [Train::Transport] the transport plugin
+    def self.create_transport(transport_name, train_credentials, tries = 0)
+      Train.create(transport_name, train_credentials)
+    rescue Train::PluginLoadError => e
+      raise e if tries >= 1
+
+      auto_install_train_plugin(transport_name)
+      create_transport(transport_name, train_credentials, tries + 1)
+    end
+    private_class_method :create_transport
+
+    # Attempts to auto-install the missing train transport plugin gem: first the premium gem
+    # (train-{transport_name}-premium), then, if that install fails, the non-premium gem
+    # (train-{transport_name}).
+    #
+    # @param [String] transport_name name of the transport, e.g. "aws"
+    def self.auto_install_train_plugin(transport_name)
+      installer = Inspec::Plugin::V2::TrainPluginInstaller.new
+      premium_gem_name = "train-#{transport_name}-premium"
+      non_premium_gem_name = "train-#{transport_name}"
+
+      installer.install_and_activate(premium_gem_name) ||
+        installer.install_and_activate(non_premium_gem_name)
+    end
+    private_class_method :auto_install_train_plugin
 
     def initialize(backend)
       self.backend = backend
