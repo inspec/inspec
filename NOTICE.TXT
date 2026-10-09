@@ -113,7 +113,7 @@ Components:
 | chef-licensing 1.4.1                   | https://github.com/chef/chef-licensin | Apache License 2.0                       |
 |                                        |   g                                   |                                          |
 | chefstyle 2.2.3                        | https://github.com/chef/chefstyle     | Apache License 2.0                       |
-| chef-winrm-fs 1.4.4                    |                                       | Apache License 2.0                       |
+| chef-winrm-fs 1.4.4                    | http://github.com/WinRb/winrm-fs      | Apache License 2.0                       |
 | concurrent-ruby 1.3.8                  | http://www.concurrent-ruby.com        | MIT License                              |
 | dry-struct 1.8.1                       | https://github.com/dry-rb/dry-struct  | MIT License                              |
 | excon 1.6.0                            | http://github.com/geemus/excon        | MIT License                              |
@@ -225,7 +225,7 @@ Components:
 | JSON for Ruby 2.21.2                   | http://json.rubyforge.org/            | Ruby License                             |
 | json_schemer 2.5.0                     | https://github.com/davishmcclurg/json | MIT License                              |
 |                                        |   _schemer                            |                                          |
-| k8s-ruby 0.18.0                        | https://github.com/inspec/k8s-ruby    | Apache License 2.0                       |
+| k8s-ruby 0.18.0                        | https://github.com/k8s-ruby/k8s-ruby  | Apache License 2.0                       |
 | license-acceptance 2.1.13              | https://github.com/tyler-ball         | Apache License 2.0                       |
 | little-plugger 1.1.4                   | http://github.com/TwP/little-plugger  | MIT License                              |
 | lostisland/faraday_middleware 1.2.1    | https://github.com/lostisland/faraday | MIT License                              |
