@@ -26,7 +26,14 @@ function Install-Habitat {
 
   # Suppress errors from the installer script that might try to remove locked files
   $ErrorActionPreference = 'Continue'
-  Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1'))
+  # install.ps1 (unlike install.sh) defaults its own download channel to
+  # $env:HAB_BLDR_CHANNEL when no -Channel is given. We set HAB_BLDR_CHANNEL to
+  # 'base-2025' above for the later `hab pkg build` step, but packages.chef.io
+  # (used by this installer for x86_64-windows) only mirrors the 'stable'
+  # channel's hab zip, so letting it inherit 'base-2025' 404s. Force 'stable'
+  # here, independent of HAB_BLDR_CHANNEL, by wrapping the downloaded script in
+  # a scriptblock so the -Channel parameter binds correctly.
+  Invoke-Expression "& { $((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/habitat-sh/habitat/main/components/hab/install.ps1')) } -Channel 'stable'"
   $ErrorActionPreference = 'Stop'
 
   # Add Habitat to PATH for current session
