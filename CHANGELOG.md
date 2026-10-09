@@ -1,11 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.3.4 -->
-## [v7.3.4](https://github.com/inspec/inspec/tree/v7.3.4) (2026-10-09)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- Update new notice 7.3.x [#8027](https://github.com/inspec/inspec/pull/8027) ([Nik08](https://github.com/Nik08))
+- fix: Resolve 404 when installing Habitat in Windows CI job [#8028](https://github.com/inspec/inspec/pull/8028) ([chandra-progress](https://github.com/chandra-progress))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -38,6 +38,7 @@
 ### Changes since 7.2.1 release
 
 #### Merged Pull Requests
+- fix: Resolve 404 when installing Habitat in Windows CI job [#8028](https://github.com/inspec/inspec/pull/8028) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.3.4 -->
 - Update new notice 7.3.x [#8027](https://github.com/inspec/inspec/pull/8027) ([Nik08](https://github.com/Nik08)) <!-- 7.3.4 -->
 - Update Rubyzip dependency [#8024](https://github.com/inspec/inspec/pull/8024) ([Nik08](https://github.com/Nik08)) <!-- 7.3.3 -->
 - Updated NOTICE.txt for InSpec 7.3.x [#8021](https://github.com/inspec/inspec/pull/8021) ([Nik08](https://github.com/Nik08)) <!-- 7.3.2 -->
