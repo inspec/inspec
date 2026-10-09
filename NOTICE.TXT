@@ -115,7 +115,7 @@ Components:
 | chefstyle 2.2.3                        | https://github.com/chef/chefstyle     | Apache License 2.0                       |
 | chef-winrm-fs 1.4.4                    |                                       | Apache License 2.0                       |
 | concurrent-ruby 1.3.8                  | http://www.concurrent-ruby.com        | MIT License                              |
-| dry-struct 1.8.1                       |                                       | MIT License                              |
+| dry-struct 1.8.1                       | https://github.com/dry-rb/dry-struct  | MIT License                              |
 | excon 1.6.0                            | http://github.com/geemus/excon        | MIT License                              |
 | flori's term-ansicolor 1.11.3          | http://flori.github.com/term-ansicolo | Apache License 2.0                       |
 |                                        |   r                                   |                                          |
@@ -225,7 +225,7 @@ Components:
 | JSON for Ruby 2.21.2                   | http://json.rubyforge.org/            | Ruby License                             |
 | json_schemer 2.5.0                     | https://github.com/davishmcclurg/json | MIT License                              |
 |                                        |   _schemer                            |                                          |
-| k8s-ruby 0.18.0                        |                                       | Apache License 2.0                       |
+| k8s-ruby 0.18.0                        | https://github.com/inspec/k8s-ruby    | Apache License 2.0                       |
 | license-acceptance 2.1.13              | https://github.com/tyler-ball         | Apache License 2.0                       |
 | little-plugger 1.1.4                   | http://github.com/TwP/little-plugger  | MIT License                              |
 | lostisland/faraday_middleware 1.2.1    | https://github.com/lostisland/faraday | MIT License                              |
@@ -297,7 +297,7 @@ Components:
 | ruby2_keywords 0.0.5                   | https://www.ruby-rang.org/            | BSD 2-clause "Simplified" License        |
 | rubybenchmark 0.5.0                    | https://github.com/ruby/benchmark     | BSD 2-clause "Simplified" License        |
 | rubychan's coderay 1.1.3               | http://coderay.rubychan.de            | MIT License                              |
-| ruby csv 3.3.6                         |                                       | BSD 2-clause "Simplified" License        |
+| ruby csv 3.3.6                         | https://github.com/ruby/csv           | BSD 2-clause "Simplified" License        |
 | ruby/drb 2.2.3                         | https://github.com/ruby/drb           | BSD 2-clause "Simplified" License        |
 | ruby-i18n 1.15.2                       | https://github.com/ruby-i18n/i18n     | MIT License                              |
 | ruby-jwt 2.10.3                        | https://github.com/progrium/ruby-jwt  | MIT License                              |
@@ -330,7 +330,7 @@ Components:
 | strings-ansi 0.2.0                     | https://github.com/piotrmurach/string | MIT License                              |
 |                                        |   s                                   |                                          |
 | sync v0.5.0                            | http://github.com/chrismccord/sync    | MIT License                              |
-| syslog 0.4.0                           |                                       | BSD 2-clause "Simplified" License        |
+| syslog 0.4.0                           | https://github.com/ruby/syslog        | BSD 2-clause "Simplified" License        |
 | technoweenie's faraday 1.10.6          | http://github.com/technoweenie/farada | MIT License                              |
 |                                        |   y                                   |                                          |
 | Thor 1.4.0                             | https://yehudakatz.com/               | MIT License                              |
