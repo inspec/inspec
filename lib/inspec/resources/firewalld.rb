@@ -212,7 +212,7 @@ module Inspec::Resources
     def firewalld_command(command)
       command = "firewall-cmd #{command}"
       result = inspec.command(command)
-      if result.stderr != ""
+      unless result.exit_status == 0
         return "Error on command #{command}: #{result.stderr}"
       end
 
