@@ -108,7 +108,6 @@ module Inspec
         false
       end
     end
-    private_class_method :auto_install_train_plugin
 
     def initialize(backend)
       self.backend = backend
