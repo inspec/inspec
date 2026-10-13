@@ -34,21 +34,24 @@
 #### Merged Pull Requests
 - Bump omnibus-software from `4b08f0b` to `3268356` in /omnibus [#6587](https://github.com/inspec/inspec/pull/6587) ([dependabot[bot]](https://github.com/dependabot[bot]))
 
-<!-- release_rollup since=7.2.1 -->
-### Changes since 7.2.1 release
-
-#### Merged Pull Requests
-- fix: Resolve 404 when installing Habitat in Windows CI job [#8028](https://github.com/inspec/inspec/pull/8028) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.3.4 -->
-- Update new notice 7.3.x [#8027](https://github.com/inspec/inspec/pull/8027) ([Nik08](https://github.com/Nik08)) <!-- 7.3.4 -->
-- Update Rubyzip dependency [#8024](https://github.com/inspec/inspec/pull/8024) ([Nik08](https://github.com/Nik08)) <!-- 7.3.3 -->
-- Updated NOTICE.txt for InSpec 7.3.x [#8021](https://github.com/inspec/inspec/pull/8021) ([Nik08](https://github.com/Nik08)) <!-- 7.3.2 -->
-- ci: CHEF-38590 - Automate hab package promotion to base channel [#8019](https://github.com/inspec/inspec/pull/8019) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.3.1 -->
-- CHEF-38510 : Fix Oracle DB session output parsing for sqlcl and sqlplus [#8010](https://github.com/inspec/inspec/pull/8010) ([imdadnitm](https://github.com/imdadnitm)) <!-- 7.3.1 -->
-- CHEF-38440 -: Update Debian base image from bullseye to bookworm in CI pipelines [#8014](https://github.com/inspec/inspec/pull/8014) ([chandra-progress](https://github.com/chandra-progress)) <!-- 7.3.0 -->
-- Sean sype simmons/nm/update hab channel 202609 fixes (#8011) [#8012](https://github.com/inspec/inspec/pull/8012) ([Nik08](https://github.com/Nik08)) <!-- 7.2.2 -->
+<!-- release_rollup since=7.3.4 -->
+### Changes since 7.3.4 release
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v7.3.4](https://github.com/inspec/inspec/tree/v7.3.4) (2026-10-13)
+
+#### Merged Pull Requests
+- Sean sype simmons/nm/update hab channel 202609 fixes (#8011) [#8012](https://github.com/inspec/inspec/pull/8012) ([Nik08](https://github.com/Nik08))
+- CHEF-38440 -: Update Debian base image from bullseye to bookworm in CI pipelines [#8014](https://github.com/inspec/inspec/pull/8014) ([chandra-progress](https://github.com/chandra-progress))
+- CHEF-38510 : Fix Oracle DB session output parsing for sqlcl and sqlplus [#8010](https://github.com/inspec/inspec/pull/8010) ([imdadnitm](https://github.com/imdadnitm))
+- ci: CHEF-38590 - Automate hab package promotion to base channel [#8019](https://github.com/inspec/inspec/pull/8019) ([chandra-progress](https://github.com/chandra-progress))
+- Updated NOTICE.txt for InSpec 7.3.x [#8021](https://github.com/inspec/inspec/pull/8021) ([Nik08](https://github.com/Nik08))
+- Update Rubyzip dependency [#8024](https://github.com/inspec/inspec/pull/8024) ([Nik08](https://github.com/Nik08))
+- Update new notice 7.3.x [#8027](https://github.com/inspec/inspec/pull/8027) ([Nik08](https://github.com/Nik08))
+- fix: Resolve 404 when installing Habitat in Windows CI job [#8028](https://github.com/inspec/inspec/pull/8028) ([chandra-progress](https://github.com/chandra-progress))
+<!-- latest_stable_release -->
+
 ## [v7.2.1](https://github.com/inspec/inspec/tree/v7.2.1) (2026-09-02)
 
 #### Merged Pull Requests
@@ -67,7 +70,6 @@
 - InSpec 7: CHEF-34794 Copilot Skill for release notes [#7964](https://github.com/inspec/inspec/pull/7964) ([Nik08](https://github.com/Nik08))
 - CHEF-37474 - Updated Gemfile.lock with train-kubernetes [#7995](https://github.com/inspec/inspec/pull/7995) ([Nik08](https://github.com/Nik08))
 - Updated NOTICE.txt for InSpec version 7.2 [#7996](https://github.com/inspec/inspec/pull/7996) ([Nik08](https://github.com/Nik08))
-<!-- latest_stable_release -->
 
 ## [v7.1.7](https://github.com/inspec/inspec/tree/v7.1.7) (2026-05-11)
 
