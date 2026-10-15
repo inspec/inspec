@@ -172,9 +172,18 @@ module Inspec
       @final_options.select { |option, _value| AUDIT_LOG_OPTIONS.include?(option) }
     end
 
-    def _utc_merge_transport_options(credentials, transport_name)
+    def _utc_merge_transport_options(credentials, transport_name, tries = 0)
       # Ask Train for the names of the transport options
-      transport_options = Train.options(transport_name).keys.map(&:to_s)
+      begin
+        transport_options = Train.options(transport_name).keys.map(&:to_s)
+      rescue Train::PluginLoadError => e
+        raise e if tries >= 1
+
+        Inspec::Log.debug "Train plugin '#{transport_name}' could not be loaded (#{e.message}); " \
+          "attempting to auto-install it"
+        Inspec::Backend.auto_install_train_plugin(transport_name)
+        return _utc_merge_transport_options(credentials, transport_name, tries + 1)
+      end
 
       # If there are any options with those (unprefixed) names, merge them in.
       # e.g., 'host'
