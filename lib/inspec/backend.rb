@@ -78,7 +78,7 @@ module Inspec
     # @return [Train::Transport] the transport plugin
     def self.create_transport(transport_name, train_credentials, tries = 0)
       Train.create(transport_name, train_credentials)
-    rescue Train::PluginLoadError => e
+    rescue Train::PluginLoadError, LoadError => e
       raise e if tries >= 1
 
       Inspec::Log.debug "Train plugin '#{transport_name}' could not be loaded (#{e.message}); " \
@@ -88,25 +88,15 @@ module Inspec
     end
     private_class_method :create_transport
 
-    # Attempts to auto-install the missing train transport plugin gem: first the premium gem
-    # (train-{transport_name}-premium), then, if that install fails, the non-premium gem
-    # (train-{transport_name}).
+    # Attempts to auto-install the missing train transport plugin gem (train-{transport_name}).
+    # Premium transports are selected by name, e.g. "vmware-premium" installs "train-vmware-premium".
     #
-    # @param [String] transport_name name of the transport, e.g. "aws"
+    # @param [String] transport_name name of the transport, e.g. "vmware-premium"
     def self.auto_install_train_plugin(transport_name)
-      installer = Inspec::Plugin::V2::TrainPluginInstaller.new
-      premium_gem_name = "train-#{transport_name}-premium"
-      non_premium_gem_name = "train-#{transport_name}"
-
-      if installer.install_and_activate(premium_gem_name)
-        true
-      elsif installer.install_and_activate(non_premium_gem_name)
-        true
-      else
-        Inspec::Log.debug "Could not auto-install either '#{premium_gem_name}' or " \
-          "'#{non_premium_gem_name}'"
-        false
-      end
+      gem_name = "train-#{transport_name}"
+      installed = Inspec::Plugin::V2::TrainPluginInstaller.new.install_and_activate(gem_name)
+      Inspec::Log.debug "Could not auto-install '#{gem_name}'" unless installed
+      installed ? true : false
     end
 
     def initialize(backend)

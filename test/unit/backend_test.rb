@@ -71,30 +71,9 @@ describe "Backend" do # rubocop:disable Metrics/BlockLength
         Train::PluginLoadError.new("Can't find train plugin mock. Please install it first.")
       end
 
-      it "auto-installs the premium gem and retries, succeeding on the second attempt" do
+      it "auto-installs the train-{transport} gem and retries, succeeding on the second attempt" do
         attempts = 0
         installer = Minitest::Mock.new
-        installer.expect :install_and_activate, true, ["train-mock-premium"]
-
-        Train.stub(:create, proc { |*|
-          attempts += 1
-          raise plugin_load_error if attempts == 1
-
-          Train::Plugins.registry["mock"].new
-        }) do
-          Inspec::Plugin::V2::TrainPluginInstaller.stub :new, installer do
-            _(backend.is_a?(Inspec::Backend)).must_equal true
-          end
-        end
-
-        _(attempts).must_equal 2
-        installer.verify
-      end
-
-      it "falls back to the non-premium gem when the premium install fails, then retries" do
-        attempts = 0
-        installer = Minitest::Mock.new
-        installer.expect :install_and_activate, false, ["train-mock-premium"]
         installer.expect :install_and_activate, true, ["train-mock"]
 
         Train.stub(:create, proc { |*|
@@ -114,7 +93,6 @@ describe "Backend" do # rubocop:disable Metrics/BlockLength
 
       it "raises the original Train::PluginLoadError if the retried attempt still fails" do
         installer = Minitest::Mock.new
-        installer.expect :install_and_activate, false, ["train-mock-premium"]
         installer.expect :install_and_activate, false, ["train-mock"]
 
         Train.stub(:create, proc { raise plugin_load_error }) do
