@@ -328,6 +328,42 @@ describe "Inspec::Config" do
     end
   end
   # ========================================================================== #
+  #                  Auto-installing missing Train plugins
+  # ========================================================================== #
+  describe "when the transport's train plugin is not installed" do
+    let(:cfg) { Inspec::Config.new({ backend: "mock", target: "foo://bar", foo_baz: "qux" }, nil) }
+    let(:creds) { {} }
+    let(:load_error) { Train::PluginLoadError.new("cannot load foo") }
+
+    it "auto-installs the plugin and retries once" do
+      Train.stubs(:options).with("foo").raises(load_error).then.returns({ baz: {} })
+      Inspec::Backend.expects(:auto_install_train_plugin).with("foo").once
+
+      cfg.send(:_utc_merge_transport_options, creds, "foo")
+
+      _(creds["baz"]).must_equal "qux"
+    end
+
+    it "re-raises when the transport still cannot be loaded after the install" do
+      Train.stubs(:options).with("foo").raises(load_error)
+      Inspec::Backend.expects(:auto_install_train_plugin).with("foo").once
+
+      assert_raises(Train::PluginLoadError) do
+        cfg.send(:_utc_merge_transport_options, creds, "foo")
+      end
+    end
+
+    it "does not attempt an install when the transport loads" do
+      Train.stubs(:options).with("foo").returns({ baz: {} })
+      Inspec::Backend.expects(:auto_install_train_plugin).never
+
+      cfg.send(:_utc_merge_transport_options, creds, "foo")
+
+      _(creds["baz"]).must_equal "qux"
+    end
+  end
+
+  # ========================================================================== #
   #                           Fetching Credentials
   # ========================================================================== #
   describe "when fetching creds" do
