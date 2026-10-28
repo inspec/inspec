@@ -15,7 +15,7 @@ steps:
     expeditor:
       executor:
         docker:
-          image: ruby:3.1.7-bullseye
+          image: ruby:3.1.7-bookworm
           environment:
             - GITHUB_TOKEN
 
@@ -25,7 +25,7 @@ steps:
     expeditor:
       executor:
         docker:
-          image: ruby:3.1.7-bullseye
+          image: ruby:3.1.7-bookworm
           environment:
             - GITHUB_TOKEN
 
@@ -35,7 +35,7 @@ steps:
     expeditor:
       executor:
         docker:
-          image: ruby:3.1.7-bullseye
+          image: ruby:3.1.7-bookworm
           environment:
             - GITHUB_TOKEN
 
