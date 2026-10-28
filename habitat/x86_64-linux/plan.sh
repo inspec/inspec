@@ -63,6 +63,11 @@ do_install() {
   # for omnibus we also install this as part of the package
   gem install ed25519 bcrypt_pbkdf --no-document
 
+  # Ruby ships racc as a default gem; a second racc in GEM_HOME makes RubyGems print
+  # "Unresolved or ambiguous specs" on every inspec invocation. The default gem cannot be
+  # uninstalled and satisfies the "~> 1.4" requirement, so remove the extra copy.
+  gem uninstall racc --all --executables --force --ignore-dependencies || true
+
   # Certain gems (timeliness) are getting installed with world writable files
   # This is removing write bits for group and other.
   find "$GEM_HOME" -xdev -perm -0002 -type f -print 2>/dev/null | xargs -I '{}' chmod go-w '{}'
