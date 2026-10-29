@@ -67,6 +67,7 @@ do_install() {
   # "Unresolved or ambiguous specs" on every inspec invocation. The default gem cannot be
   # uninstalled and satisfies the "~> 1.4" requirement, so remove the extra copy.
   gem uninstall racc --all --executables --force --ignore-dependencies || true
+  gem list racc --installed > /dev/null || exit_with "racc is missing after removing the duplicate gem" 1
 
   # Certain gems (timeliness) are getting installed with world writable files
   # This is removing write bits for group and other.
