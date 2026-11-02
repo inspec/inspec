@@ -1,9 +1,10 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 5.24.25 -->
+## [v5.24.25](https://github.com/inspec/inspec/tree/v5.24.25) (2026-11-02)
 
 #### Merged Pull Requests
+- CHEF-37766: Fix waiver YAML loading on Ruby &lt; 3.1 (unknown keyword: :permitted_classes) [#8031](https://github.com/inspec/inspec/pull/8031) ([mohan-progress](https://github.com/mohan-progress))
 - fix: set Habitat channel env vars on expeditor pipelines [#8018](https://github.com/inspec/inspec/pull/8018) ([Nik08](https://github.com/Nik08))
 - Update omnibus submodule for progress key thumbprint [#8000](https://github.com/inspec/inspec/pull/8000) ([muthuja](https://github.com/muthuja))
 - InSpec 5: Copilot Skill for release notes [#7963](https://github.com/inspec/inspec/pull/7963) ([Nik08](https://github.com/Nik08))
@@ -13,6 +14,7 @@
 ### Changes since 5.24.24 release
 
 #### Merged Pull Requests
+- CHEF-37766: Fix waiver YAML loading on Ruby &lt; 3.1 (unknown keyword: :permitted_classes) [#8031](https://github.com/inspec/inspec/pull/8031) ([mohan-progress](https://github.com/mohan-progress)) <!-- 5.24.25 -->
 - fix: set Habitat channel env vars on expeditor pipelines [#8018](https://github.com/inspec/inspec/pull/8018) ([Nik08](https://github.com/Nik08)) <!-- 5.24.24 -->
 - Update omnibus submodule for progress key thumbprint [#8000](https://github.com/inspec/inspec/pull/8000) ([muthuja](https://github.com/muthuja)) <!-- 5.24.24 -->
 - InSpec 5: Copilot Skill for release notes [#7963](https://github.com/inspec/inspec/pull/7963) ([Nik08](https://github.com/Nik08)) <!-- 5.24.24 -->
