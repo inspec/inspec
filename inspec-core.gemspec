@@ -42,7 +42,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "faraday-follow_redirects", "~> 0.3"
   spec.add_dependency "tty-table",                "~> 0.10"
   spec.add_dependency "tty-prompt",               "~> 0.17"
-  spec.add_dependency "tomlrb",                   ">= 1.2", "< 2.1"
+  spec.add_dependency "tomlrb",                   ">= 1.2", "<= 2.0.4" # 2.0.5+ adds a racc runtime dependency that duplicates Ruby's default racc in Habitat builds
   spec.add_dependency "addressable",              "~> 2.9"
   spec.add_dependency "public_suffix",            ">= 2.0.2", "< 7.0" # public_suffix 7.x requires Ruby 3.2+
   spec.add_dependency "parslet",                  ">= 1.5", "< 3.0" # Pinned < 2.0, see #5389
