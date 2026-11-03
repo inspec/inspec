@@ -33,7 +33,7 @@ PATH
       semverse (~> 3.0)
       sslshake (~> 1.2)
       thor (>= 0.20, < 1.5.0)
-      tomlrb (>= 1.2, <= 2.0.4)
+      tomlrb (>= 1.2, < 2.1)
       train-core (~> 3.16, >= 3.16.1)
       tty-prompt (~> 0.17)
       tty-table (~> 0.10)
@@ -325,6 +325,9 @@ GEM
       ms_rest_azure (~> 0.12.0)
     base64 (0.3.0)
     bcrypt_pbkdf (1.1.2)
+    bcrypt_pbkdf (1.1.2-arm64-darwin)
+    bcrypt_pbkdf (1.1.2-x64-mingw-ucrt)
+    bcrypt_pbkdf (1.1.2-x86_64-darwin)
     benchmark (0.5.0)
     bigdecimal (3.3.1)
     bson (5.2.0)
@@ -444,6 +447,7 @@ GEM
     faraday_middleware (1.2.1)
       faraday (~> 1.0)
     ffi (1.16.3)
+    ffi (1.16.3-x64-mingw-ucrt)
     ffi-win32-extensions (1.0.4)
       ffi
     fuzzyurl (0.9.0)
@@ -827,6 +831,7 @@ GEM
       concurrent-ruby (~> 1.0)
     uber (0.1.0)
     unf_ext (0.0.8.2)
+    unf_ext (0.0.8.2-x64-mingw-ucrt)
     unicode-display_width (2.6.0)
     unicode_utils (1.4.0)
     webmock (3.26.1)
@@ -845,7 +850,6 @@ PLATFORMS
   arm64-darwin-21
   arm64-darwin-23
   arm64-darwin-24
-  arm64-darwin-25
   x64-mingw-ucrt
   x86_64-darwin-23
   x86_64-linux
