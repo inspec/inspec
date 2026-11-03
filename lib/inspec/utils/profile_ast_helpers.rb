@@ -305,8 +305,9 @@ module Inspec
             begin_block = block_node.children[2]
             control_node = block_node.children[0]
 
-            # TODO - This assumes the control ID is always a plain string, which we know it is often not!
-            control_id = control_node.children[2].value
+            # Dynamic IDs (variables, method calls) can't be resolved statically, so we fall back to their source text.
+            id_node = control_node.children[2]
+            control_id = id_node.str_type? || id_node.dstr_type? || id_node.sym_type? ? id_node.value.to_s : id_node.source
             # TODO - BUG - this keeps seeing the same nodes over and over againa, and so repeating control IDs. We are ignoring duplicate control IDs, which is incorrect.
             return if seen_control_ids[control_id]
 
