@@ -46,8 +46,9 @@ module Inspec
         if (allowed_commands & ARGV.map(&:downcase)).empty? && !ARGV.empty?
           license_keys = ChefLicensing.fetch_and_persist
 
-          # Only if EULA acceptance or license key args are present. And licenses are successfully persisted, do clean exit.
-          if ARGV.select { |arg| !(arg.include? "--chef-license") }.empty? && !(license_keys.nil? || license_keys.empty?)
+          # Only if EULA acceptance or license key args are present, and licenses are successfully persisted
+          # (a non-empty list of keys, or true when licensing is optional), do clean exit. nil/empty means nothing persisted.
+          if ARGV.select { |arg| !(arg.include? "--chef-license") }.empty? && (license_keys == true || (license_keys.is_a?(Array) && !license_keys.empty?))
             Inspec::UI.new.exit
           end
         end
