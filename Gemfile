@@ -40,6 +40,8 @@ group :test do
   gem "minitest-sprint", "~> 1.3.0" , "< 1.4.0"
   gem "minitest", "5.15.0"
   gem "mocha"
+  # CVE-2026-79770 remains unresolved: the fix in Nokogiri 1.19.3 requires Ruby >= 3.2.
+  # Keep Ruby 3.1 support until the test dependency or supported Ruby version can change.
   gem "nokogiri", "~> 1.18.10"
   gem "pry-byebug"
   gem "pry"
