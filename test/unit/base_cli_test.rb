@@ -6,6 +6,44 @@ require "thor"
 describe "BaseCLI" do
   let(:cli) { Inspec::BaseCLI.new }
 
+  describe "fetch_and_persist_license" do
+    def fetch_license_with_result(result, should_exit:, args: ["--chef-license=accept"])
+      original_argv = ARGV.dup
+      ARGV.replace(args)
+
+      ui = Minitest::Mock.new
+      ui.expect(:exit, nil) if should_exit
+
+      ChefLicensing.stub(:fetch_and_persist, result) do
+        Inspec::UI.stub(:new, ui) do
+          Inspec::BaseCLI.fetch_and_persist_license
+        end
+      end
+
+      ui.verify
+    ensure
+      ARGV.replace(original_argv)
+    end
+
+    it "exits when licensing is optional" do
+      fetch_license_with_result(true, should_exit: true)
+    end
+
+    it "exits when license keys are persisted" do
+      fetch_license_with_result(["license-key"], should_exit: true)
+    end
+
+    it "does not exit when no license keys are persisted" do
+      [nil, []].each do |result|
+        fetch_license_with_result(result, should_exit: false)
+      end
+    end
+
+    it "does not exit when command arguments accompany license acceptance" do
+      fetch_license_with_result(true, should_exit: false, args: ["--chef-license=accept", "--target=localhost"])
+    end
+  end
+
   describe "formats the platfrom information" do
     it "verify platform formatting" do
       hash = { name: "test-os", families: "aws, cloud", release: "aws-sdk-v1" }
