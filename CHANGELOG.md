@@ -1,10 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 7.3.5 -->
+## [v7.3.5](https://github.com/inspec/inspec/tree/v7.3.5) (2026-11-10)
 
 #### Merged Pull Requests
+- Fix license_keys handling in base CLI when licensing is optional [#8030](https://github.com/inspec/inspec/pull/8030) ([Nik08](https://github.com/Nik08))
 - fix: Resolve 404 when installing Habitat in Windows CI job [#8028](https://github.com/inspec/inspec/pull/8028) ([chandra-progress](https://github.com/chandra-progress))
 <!-- latest_release -->
 
@@ -36,6 +37,9 @@
 
 <!-- release_rollup since=7.3.4 -->
 ### Changes since 7.3.4 release
+
+#### Merged Pull Requests
+- Fix license_keys handling in base CLI when licensing is optional [#8030](https://github.com/inspec/inspec/pull/8030) ([Nik08](https://github.com/Nik08)) <!-- 7.3.5 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
