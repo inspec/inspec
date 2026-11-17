@@ -36,7 +36,7 @@ jobs:
     steps:
       - name: Download Linux Build Metadata
         if: inputs.platform == 'both' || inputs.platform == 'linux'
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85 # v4.1.3
         with:
           name: habitat-build-metadata-linux
           path: metadata-linux
@@ -45,7 +45,7 @@ jobs:
 
       - name: Download Windows Build Metadata
         if: inputs.platform == 'both' || inputs.platform == 'windows'
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85 # v4.1.3
         with:
           name: habitat-build-metadata-windows
           path: metadata-windows
