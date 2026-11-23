@@ -37,6 +37,12 @@ module Inspec
         fetch_and_persist_license
       end
 
+      # Skip plugin loading for following quick commands which does not do any heavy lifting.
+      quick_commands = %w{schema env clear_cache version}
+      unless quick_commands.any? { |cmd| cmd == given_args[0] }
+        require "inspec/utils/plugin_loading"
+      end
+
       super(given_args, config)
     end
 
