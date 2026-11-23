@@ -85,6 +85,14 @@ The `ports` property is used in conjunction with the where class to display the 
       its('ports') { should cmp ["80/tcp", "443/tcp"] }
     end
 
+### forward_ports
+
+Use the `forward_ports` property in conjunction with the `where` class to display the forward ports used by an active zone.
+
+    describe firewalld.where { zone == 'public' } do
+      its('forward_ports') { should cmp ["port=80:proto=tcp:toport=88"] }
+    end
+
 ### protocols
 
 The `protocols` property is used in conjunction with the where class to display the protocols used by an active zone.
