@@ -9,8 +9,6 @@ gem "inspec", path: "."
 # in it in order to package the executable. Hence the odd backwards dependency.
 gem "inspec-bin", path: "./inspec-bin"
 
-
-
 gem "ffi", ">= 1.17.0", "< 1.18.0"
 
 # We have a build issue 2023-11-13 with unf_ext 0.0.9 so we are pinning to 0.0.8.2
