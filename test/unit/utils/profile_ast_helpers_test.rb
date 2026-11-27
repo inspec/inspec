@@ -234,4 +234,41 @@ describe Inspec::Profile::AstHelper::ControlIDCollector do
     _(memo[:controls].length).must_equal 1
     _(memo[:controls].first[:checks]).must_equal []
   end
+
+  it "does not crash on a bare variable control ID and uses its source text" do
+    code = <<~RUBY
+      instances = ['a', 'b']
+      instances.each do |instance|
+        control instance do
+          impact 1.0
+        end
+      end
+    RUBY
+
+    process_controls(code)
+
+    _(memo[:controls].map { |c| c[:id] }).must_equal ["instance"]
+  end
+
+  it "does not crash on a method-call control ID and uses its source text" do
+    code = <<~RUBY
+      control foo.bar do
+      end
+    RUBY
+
+    process_controls(code)
+
+    _(memo[:controls].map { |c| c[:id] }).must_equal ["foo.bar"]
+  end
+
+  it "keeps the interpolated string source for a dynamic string control ID" do
+    code = <<~'RUBY'
+      control "web-#{instance}" do
+      end
+    RUBY
+
+    process_controls(code)
+
+    _(memo[:controls].map { |c| c[:id] }).must_equal ['web-#{instance}']
+  end
 end
