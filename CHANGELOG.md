@@ -1,17 +1,17 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
-<!-- latest_release 5.24.26 -->
-## [v5.24.26](https://github.com/inspec/inspec/tree/v5.24.26) (2026-11-03)
+<!-- latest_release 5.24.27 -->
+## [v5.24.27](https://github.com/inspec/inspec/tree/v5.24.27) (2026-11-27)
 
 #### Merged Pull Requests
-- CHEF-44155 Cap tomlrb at &lt;= 2.0.4 to fix duplicate racc in Habitat package [#8033](https://github.com/inspec/inspec/pull/8033) ([mohan-progress](https://github.com/mohan-progress))
-- CHEF-44155 CI: use ruby:3.1.7-bookworm image in inspec-5 Buildkite pipelines [#8032](https://github.com/inspec/inspec/pull/8032) ([mohan-progress](https://github.com/mohan-progress))
+- Grype Scan High severity issues [#8037](https://github.com/inspec/inspec/pull/8037) ([johnmccrae](https://github.com/johnmccrae))
 <!-- latest_release -->
 
 <!-- release_rollup since=5.24.24 -->
 ### Changes since 5.24.24 release
 
 #### Merged Pull Requests
+- Grype Scan High severity issues [#8037](https://github.com/inspec/inspec/pull/8037) ([johnmccrae](https://github.com/johnmccrae)) <!-- 5.24.27 -->
 - CHEF-44155 Cap tomlrb at &lt;= 2.0.4 to fix duplicate racc in Habitat package [#8033](https://github.com/inspec/inspec/pull/8033) ([mohan-progress](https://github.com/mohan-progress)) <!-- 5.24.26 -->
 - CHEF-44155 CI: use ruby:3.1.7-bookworm image in inspec-5 Buildkite pipelines [#8032](https://github.com/inspec/inspec/pull/8032) ([mohan-progress](https://github.com/mohan-progress)) <!-- 5.24.25 -->
 - CHEF-37766: Fix waiver YAML loading on Ruby &lt; 3.1 (unknown keyword: :permitted_classes) [#8031](https://github.com/inspec/inspec/pull/8031) ([mohan-progress](https://github.com/mohan-progress)) <!-- 5.24.25 -->
