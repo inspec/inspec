@@ -3,8 +3,6 @@
 $ErrorActionPreference = "Stop"
 $PSDefaultParameterValues['*:ErrorAction']='Stop'
 
-$env:HAB_BLDR_CHANNEL = "stable"
-$env:HAB_REFRESH_CHANNEL = "stable"
 $pkg_name="inspec"
 $pkg_origin="chef"
 $pkg_version=$(Get-Content "$PLAN_CONTEXT/../../VERSION")
