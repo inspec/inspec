@@ -1,12 +1,11 @@
 # Change Log
 <!-- usage documentation: http://expeditor-docs.es.chef.io/configuration/changelog/ -->
 
-<!-- latest_release 7.3.5 -->
-## [v7.3.5](https://github.com/inspec/inspec/tree/v7.3.5) (2026-11-10)
+<!-- latest_release 7.3.6 -->
+## [v7.3.6](https://github.com/inspec/inspec/tree/v7.3.6) (2026-11-27)
 
 #### Merged Pull Requests
-- Fix license_keys handling in base CLI when licensing is optional [#8030](https://github.com/inspec/inspec/pull/8030) ([Nik08](https://github.com/Nik08))
-- fix: Resolve 404 when installing Habitat in Windows CI job [#8028](https://github.com/inspec/inspec/pull/8028) ([chandra-progress](https://github.com/chandra-progress))
+- fix: CHEF-37565 - Handle dynamic control IDs in AST parser [#8034](https://github.com/inspec/inspec/pull/8034) ([mohan-progress](https://github.com/mohan-progress))
 <!-- latest_release -->
 
 ## [v6.4.48](https://github.com/inspec/inspec/tree/v6.4.48) (2023-08-22)
@@ -39,6 +38,7 @@
 ### Changes since 7.3.4 release
 
 #### Merged Pull Requests
+- fix: CHEF-37565 - Handle dynamic control IDs in AST parser [#8034](https://github.com/inspec/inspec/pull/8034) ([mohan-progress](https://github.com/mohan-progress)) <!-- 7.3.6 -->
 - Fix license_keys handling in base CLI when licensing is optional [#8030](https://github.com/inspec/inspec/pull/8030) ([Nik08](https://github.com/Nik08)) <!-- 7.3.5 -->
 <!-- release_rollup -->
 
