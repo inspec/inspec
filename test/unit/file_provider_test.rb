@@ -1,5 +1,6 @@
 require "helper"
 require "inspec/file_provider" # TODO: split
+require "tmpdir"
 
 describe Inspec::MockProvider do
   let(:subject) { Inspec::MockProvider.new(target) }
@@ -76,6 +77,30 @@ end
 
 describe Inspec::ZipProvider do
   let(:subject) { Inspec::ZipProvider.new(target) }
+
+  describe "#extract" do
+    it "does not overwrite files outside the destination directory" do
+      Dir.mktmpdir("zip-provider-test", Dir.pwd) do |tmpdir|
+        archive_path = File.join(tmpdir, "profile.zip")
+        destination_path = File.join(tmpdir, "extract")
+        outside_path = File.join(tmpdir, "extract-evil")
+        outside_file = File.join(outside_path, "existing.txt")
+        FileUtils.mkdir_p(outside_path)
+        File.write(outside_file, "original")
+
+        Zip::File.open(archive_path, create: true) do |archive|
+          archive.get_output_stream("../extract-evil/existing.txt") { |io| io.write("malicious") }
+          archive.mkdir("profile")
+          archive.get_output_stream("profile/inspec.yml") { |io| io.write("name: safe") }
+        end
+
+        Inspec::ZipProvider.new(archive_path).extract(destination_path)
+
+        _(File.read(outside_file)).must_equal "original"
+        _(File.read(File.join(destination_path, "profile", "inspec.yml"))).must_equal "name: safe"
+      end
+    end
+  end
 
   describe "applied to a tar archive" do
     let(:target) { MockLoader.profile_zip("complete-profile") }

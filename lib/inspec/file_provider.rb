@@ -120,13 +120,10 @@ module Inspec
 
       Zip::File.open(@path) do |archive|
         archive.each do |file|
-          final_path = File.join(destination_path, file.name)
-
-          # This removes the top level directory (and any other files) to ensure
-          # extracted files do not conflict.
-          FileUtils.remove_entry(final_path) if File.exist?(final_path)
-
-          archive.extract(file, final_path)
+          archive.extract(file, file.name, destination_directory: destination_path) do |_entry, path|
+            FileUtils.remove_entry(path)
+            true
+          end
         end
       end
     end
